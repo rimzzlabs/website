@@ -1,17 +1,13 @@
-// import useNavMobile from '@/hooks/useNavMobile'
 import useTheme from '@/hooks/useTheme'
 import { routes } from '@/utils/constant'
 import clsx from 'clsx'
-// import { AnimatePresence, m, Variants } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-// import { BiMenu, BiX } from 'react-icons/bi'
 import NextLink from './NextLink'
 import Toggler from './Toggler'
 
 const Header = () => {
   const { changeTheme, icon } = useTheme()
-  // const { isOpen, handleClick } = useNavMobile()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -27,21 +23,12 @@ const Header = () => {
     }
   }, [changeTheme])
 
-  const { asPath } = useRouter()
+  const { asPath, pathname } = useRouter()
 
-  // const navbarTransition: Variants = {
-  //   hidden: { opacity: 0, y: 25 },
-  //   enter: {
-  //     opacity: 1,
-  //     y: 0,
-  //     transition: { duration: 0.25, ease: 'easeInOut' }
-  //   },
-  //   exit: {
-  //     opacity: 0,
-  //     y: 50,
-  //     transition: { duration: 0.25, ease: 'easeInOut' }
-  //   }
-  // }
+  if (pathname === '/404') {
+    return null
+  }
+
   return (
     <div
       className={clsx(
@@ -74,44 +61,7 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* <AnimatePresence>
-          {isOpen && (
-            <m.div
-              initial='hidden'
-              animate='enter'
-              exit='exit'
-              variants={navbarTransition}
-              className='absolute md:hidden right-4 sm:right-6 top-14 w-8/12 sm:w-1/2 rounded overflow-hidden'>
-              <nav
-                className={clsx(
-                  'flex flex-col',
-                  'w-full h-32 rounded border',
-                  'border-gray-300 dark:border-dark-700',
-                  'bg-white dark:bg-dark-900'
-                )}>
-                {routes.map((route, idx) => (
-                  <NextLink
-                    className={clsx(
-                      'flex items-center text-xs sm:text-sm',
-                      'pl-3 sm:pl-5 w-full h-full',
-                      'hover:bg-primary-400 hover:text-white'
-                    )}
-                    href={route.path}
-                    onClick={handleClick}
-                    key={idx + route.path}>
-                    {route.name}
-                  </NextLink>
-                ))}
-              </nav>
-            </m.div>
-          )}
-        </AnimatePresence> */}
-
         <div className='flex flex-row-reverse md:flex-row items-center'>
-          {/* <Toggler className='md:hidden' onClick={handleClick}>
-            <span className='sr-only'>Open Navbar</span>
-            {!isOpen ? <BiMenu /> : <BiX />}
-          </Toggler> */}
           <Toggler onClick={changeTheme}>
             <span className='sr-only'>Toggle Dark Mode</span>
             {icon}
