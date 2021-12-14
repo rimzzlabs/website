@@ -1,4 +1,9 @@
-import { HTTPGetType, ProjectType } from '@/types/customType'
+import {
+  HTTPGetType,
+  MetaStrapiType,
+  ProjectType,
+  SingleProjectType
+} from '@/types/customType'
 import Axios from 'axios'
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL
@@ -23,7 +28,10 @@ export const doGet: HTTPGetType = async (path) => {
   } catch (error) {
     return {
       isError: true,
-      data: {} as ProjectType
+      data: {
+        data: [] as SingleProjectType[],
+        meta: {} as MetaStrapiType
+      }
     }
   }
 }
