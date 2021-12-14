@@ -8,8 +8,6 @@ type NextLinkProps = {
   passHref?: boolean
   prefetch?: boolean
   unstyled?: boolean
-  target?: '_blank' | '_self' | '_parent' | '_top'
-  rel?: 'noopener noreferrer'
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 }
 
@@ -22,14 +20,17 @@ const NextLink = ({
   ...props
 }: NextLinkProps) => {
   const unstyledLink =
-    unstyled &&
-    clsx(
-      'relative max-w-max z-1',
-      'after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:z-[-1]',
-      'after:transition-all after:duration-200',
-      'after:bg-primary-400 dark:after:bg-rose-500',
-      'hover:after:h-2.5'
-    )
+    (unstyled &&
+      clsx(
+        'relative max-w-max z-1',
+        'after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:z-[-1]',
+        'after:transition-all after:duration-200',
+        'after:bg-primary-400 dark:after:bg-rose-500',
+        'hover:after:h-2.5'
+      )) ||
+    ''
+
+  const receivedClassName = `${props.className || ''} ${unstyledLink || ''}`
 
   if (href.startsWith('/')) {
     return (
@@ -38,10 +39,21 @@ const NextLink = ({
       </Link>
     )
   }
+
+  if (href.startsWith('#')) {
+    return (
+      <a href={href} className={receivedClassName} {...props}>
+        {children}
+      </a>
+    )
+  }
+
   return (
     <a
       href={href}
-      className={`${props.className || ''} ${unstyledLink || ''}`}
+      className={receivedClassName}
+      target='_blank'
+      rel='noopener noreferrer'
       {...props}>
       {children}
     </a>
