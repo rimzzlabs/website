@@ -19,7 +19,9 @@ export const getStaticProps = async () => {
   if (data.isError)
     return {
       props: {
-        projects: {} as ProjectType
+        projects: {
+          data: []
+        }
       }
     }
 
