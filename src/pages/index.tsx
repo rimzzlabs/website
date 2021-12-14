@@ -55,11 +55,7 @@ const IndexPage = ({ projects: { data } }: IndexPageProps) => {
           <p className='max-w-3xl md:text-lg 2xl:text-xl'>
             I am a Student of Management Informatics at AMIK Serang and I&apos;m
             a Frontend Web Developer who love to work with JavaScript and{' '}
-            <NextLink
-              target='_blank'
-              rel='noopener noreferrer'
-              href='https://github.com/enaqx/awesome-react'
-              unstyled>
+            <NextLink href='https://github.com/enaqx/awesome-react' unstyled>
               React Ecosystem
             </NextLink>
             .
