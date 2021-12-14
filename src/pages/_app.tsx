@@ -16,8 +16,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
   const additionMetaTags = [
     {
       name: 'viewport',
-      content:
-        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+      content: 'width=device-width, initial-scale=1.0'
     },
     {
       name: 'apple-mobile-web-app-capable',
@@ -29,11 +28,11 @@ const App = ({ Component, pageProps, router }: AppProps) => {
     },
     {
       name: 'apple-mobile-web-app-title',
-      content: 'RizkiCitra'
+      content: 'Rizki Maulana Citra'
     },
     {
       name: 'application-name',
-      content: 'RizkiCitra'
+      content: 'Rizki Maulana Citra'
     }
   ]
   return (
