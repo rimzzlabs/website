@@ -42,15 +42,18 @@ export const links = [
 export const metaPages = {
   home: {
     title: 'Home',
-    description: 'Home page description',
-    image: 'https://example.com/image.jpg',
-    url: 'https://example.com/'
+    description: `I am a Student of Management Informatics at AMIK Serang and I'm a Frontend Web Developer who love to work with.`,
+    image:
+      'https://ik.imagekit.io/mlnzyx/screenshot-site_Tj2pg8xYTe4.png?updatedAt=1639472680463',
+    url: 'https://rizkicitra.my.id'
   },
   article: {
     title: 'Article',
-    description: 'Article page description',
-    image: 'https://example.com/image.jpg',
-    url: 'https://example.com/'
+    description:
+      'In this page you can see my article, I often to write about my daily life and about my hobbies.',
+    image:
+      'https://ik.imagekit.io/mlnzyx/screenshot-site_Tj2pg8xYTe4.png?updatedAt=1639472680463',
+    url: 'https://rizkicitra.my.id/article'
   }
 }
 
