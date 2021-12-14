@@ -136,17 +136,16 @@ const IndexPage = ({ projects: { data } }: IndexPageProps) => {
           <ul
             className={clsx(
               'grid sm:grid-cols-2 md:grid-cols-3 place-content-center flex-[1_1_auto]',
-              'gap-4 gap-y-6 md:gap-6 md:gap-y-8'
+              'gap-4 gap-y-6 md:gap-6 md:gap-y-8 mt-2 md:mt-4'
             )}>
             {data.length > 0 && (
               <>
                 {data
                   .filter((item) => item.attributes.featured)
                   .map((item) => (
-                    <ProjectCard
-                      {...item}
-                      key={item.id + item.attributes.title}
-                    />
+                    <li key={item.id + item.attributes.title}>
+                      <ProjectCard {...item} />
+                    </li>
                   ))}
               </>
             )}
