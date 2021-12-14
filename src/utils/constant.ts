@@ -42,7 +42,7 @@ export const links = [
 export const metaPages = {
   home: {
     title: 'Home',
-    description: `I am a Student of Management Informatics at AMIK Serang and I'm a Frontend Web Developer who love to work with.`,
+    description: `I am a Student of Informatics Management at AMIK Serang and I'm a Frontend Web Developer who love to work with.`,
     image:
       'https://ik.imagekit.io/mlnzyx/screenshot-site_Tj2pg8xYTe4.png?updatedAt=1639472680463',
     url: 'https://rizkicitra.my.id'
