@@ -15,6 +15,7 @@ const Footer = forwardRef<HTMLDivElement>((props, ref) => {
             key={idx + prop.name}
             className='text-[1.35em] hover:text-primary-500 transition'>
             <prop.Icon />
+            <span className='sr-only'>{`Connect with Rizki on ${prop.name}`}</span>
           </NextLink>
         ))}
       </div>
