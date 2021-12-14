@@ -37,7 +37,7 @@ const ProjectCard = ({
             <NextLink
               target='_blank'
               rel='noopener noreferrer'
-              href={url.github}>
+              href={`https://github.com/rizkimcitra${url.github}`}>
               <span className='sr-only'>{githubtxt}</span>
               <IoLogoGithub
                 title={githubtxt}
