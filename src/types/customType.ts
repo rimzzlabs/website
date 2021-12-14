@@ -1,4 +1,4 @@
-type MetaStrapiType = {
+export type MetaStrapiType = {
   pagination: {
     page: number
     pageSize: number
