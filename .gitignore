@@ -37,4 +37,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-temp-assets
+temp
