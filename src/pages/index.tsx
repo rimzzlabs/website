@@ -53,7 +53,7 @@ const IndexPage = ({ projects: { data } }: IndexPageProps) => {
             Rizki Maulana Citra
           </h1>
           <p className='max-w-3xl md:text-lg 2xl:text-xl'>
-            I am a Student of Management Informatics at AMIK Serang and I&apos;m
+            I am a Student of Informatics Management at AMIK Serang and I&apos;m
             a Frontend Web Developer who love to work with JavaScript and{' '}
             <NextLink href='https://github.com/enaqx/awesome-react' unstyled>
               React Ecosystem
