@@ -34,20 +34,14 @@ const ProjectCard = ({
             {description.slice(0, 97)}...
           </p>
           <div className='flex items-center space-x-2 md:space-x-4'>
-            <NextLink
-              target='_blank'
-              rel='noopener noreferrer'
-              href={`https://github.com/rizkimcitra${url.github}`}>
+            <NextLink href={`https://github.com/rizkimcitra${url.github}`}>
               <span className='sr-only'>{githubtxt}</span>
               <IoLogoGithub
                 title={githubtxt}
                 className='text-[1.25em] transition hover:text-primary-500'
               />
             </NextLink>
-            <NextLink
-              target='_blank'
-              rel='noopener noreferrer'
-              href={url.preview}>
+            <NextLink href={url.preview}>
               <span className='sr-only'>{previewtxt}</span>
               <IoGlobe
                 title={previewtxt}
