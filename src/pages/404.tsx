@@ -1,7 +1,6 @@
 import FullPage from '@/components/FullPage'
 import NextImage from '@/components/NextImage'
 import NextLink from '@/components/NextLink'
-import svg from '../../temp/svg/owl.svg'
 import clsx from 'clsx'
 import type { NextPage } from 'next'
 
@@ -11,7 +10,7 @@ const NotFoundPage: NextPage = () => {
       <FullPage className='flex items-center p-0'>
         <div className='flex flex-col items-center justify-center w-full'>
           <figure className='w-40 md:w-80 aspect-square overh'>
-            <NextImage src={svg} alt='owl illustration' />
+            <NextImage src={'/svg/owl.svg'} alt='owl illustration' />
           </figure>
           <section className='text-center'>
             <h1 className='mb-4 md:mb-8'>Page Not Found</h1>
