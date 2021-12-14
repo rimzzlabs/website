@@ -1,0 +1,67 @@
+{
+  "name": "rizkicitra",
+  "version": "1.0.0",
+  "private": true,
+  "description": "My Personal Website, build with React, Next.js, Strapi and Tailwind CSS",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --fix",
+    "postinstall": "husky install",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "format": "prettier --config ./.prettierrc.json -w ./src/**/*.{tsx,ts}"
+  },
+  "dependencies": {
+    "@badrap/bar-of-progress": "^0.1.2",
+    "@tailwindcss/typography": "^0.4.1",
+    "axios": "^0.24.0",
+    "clsx": "^1.1.1",
+    "framer-motion": "^5.3.0",
+    "mdx-prism": "^0.3.4",
+    "next": "12.0.2",
+    "next-mdx-remote": "^3.0.8",
+    "next-pwa": "^5.4.0",
+    "next-seo": "^4.28.1",
+    "next-themes": "^0.0.15",
+    "next-translate": "^1.2.0",
+    "preact": "^10.5.15",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-intersection-observer": "^8.32.2",
+    "react-markdown": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.6",
+    "@types/react": "17.0.34",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "autoprefixer": "^10.4.0",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.2",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.0.2",
+    "postcss": "^8.3.11",
+    "prettier": "^2.4.1",
+    "tailwindcss": "^3.0.1",
+    "typescript": "^4.4.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rizkimcitra/rizkicitra.git"
+  },
+  "author": "Rizki Maulana Citra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rizkimcitra/rizkicitra/issues"
+  },
+  "homepage": "https://github.com/rizkimcitra/rizkicitra#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Readex Pro';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('/fonts/readex-pro.ttf') format('truetype');
+  }
+  h1 {
+    @apply text-2xl font-bold md:text-4xl text-typo-700 dark:text-typo-200;
+  }
+
+  h2 {
+    @apply text-xl font-bold md:text-3xl text-typo-700 dark:text-typo-200;
+  }
+
+  h3 {
+    @apply text-lg font-bold md:text-2xl text-typo-700 dark:text-typo-200;
+  }
+
+  h2 p:not(:last-child),
+  h3 p:not(:last-child) {
+    @apply mb-2 md:mb-3 2xl:mb-4;
+  }
+
+  h4 {
+    @apply text-base font-bold md:text-lg text-typo-700 dark:text-typo-200;
+  }
+
+  body {
+    @apply font-primary text-sm md:text-base overflow-x-hidden antialiased bg-[#fdfdfd] dark:bg-dark-900 text-typo-600 dark:text-typo-300;
+  }
+
+  ul.list-disc > li:not(:last-child) {
+    @apply mb-1.5 md:mb-3;
+  }
+}
+
+@layer utilities {
+  .layout {
+    @apply w-[90%] lg:w-full max-w-5xl mx-auto;
+  }
+
+  .animated-underline {
+    @apply relative after:w-2 after:h-0.5 after:bg-primary-500 dark:after:bg-rose-400;
+    @apply after:absolute after:-bottom-0.5 after:left-0;
+    @apply after:transition-all after:duration-300 after:ease-in-out;
+    @apply hover:after:w-full;
+    @apply border-b border-dotted dark:border-dark-700;
+  }
+}
