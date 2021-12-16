@@ -1,18 +1,13 @@
 import clsx from 'clsx'
 import Link from 'next/link'
+import type { NextLinkProps } from '@/types/customType'
 
-type NextLinkProps = {
-  href: string
-  children: React.ReactNode
-  className?: string
-  passHref?: boolean
-  prefetch?: boolean
-  unstyled?: boolean
-  onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
-}
-
-//  NextLink component that accept some props, return a Link component with those props
-// return conditionally new tab or not
+/**
+ * @description this custom NextLink is used to have a nice custom and reusable Link, it has 3 diferrent type of anchor tag:
+ * 1. if href string start with `/` it will return an anchor tag wrapped by nextjs `<Link />` component
+ * 2. if href string start with `#` it will have a regular anchor tag
+ * 3. if none above condition were met, this will return an anchor tag that contains property of `target="_blank"` and `rel="noopener noreferrer"`
+ */
 const NextLink = ({
   href,
   children,
