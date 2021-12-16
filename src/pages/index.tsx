@@ -14,10 +14,12 @@ import { useRef } from 'react'
 import { doGet } from '@/libs/doFetch'
 import { IoLogoGithub } from 'react-icons/io5'
 import type { ProjectType } from '@/types/customType'
+import type { GetStaticProps } from 'next'
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
-    props: await doGet('/project?sort=id:DESC')
+    props: await doGet('/project?sort=id:DESC'),
+    revalidate: 15
   }
 }
 
