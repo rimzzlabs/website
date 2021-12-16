@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import Footer from '@/components/Footer'
+import Meta from '@/components/atoms/Meta'
 import NextLink from '@/components/NextLink'
 import NextImage from '@/components/NextImage'
 import HobbyCard from '@/components/cards/HobbyCard'
@@ -13,7 +14,6 @@ import { useRef } from 'react'
 import { doGet } from '@/libs/doFetch'
 import { IoLogoGithub } from 'react-icons/io5'
 import type { ProjectType } from '@/types/customType'
-import Meta from '@/components/atoms/Meta'
 
 export const getStaticProps = async () => {
   return {
