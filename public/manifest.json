@@ -1,12 +1,12 @@
 {
-  "theme_color": "#4a90e2",
-  "background_color": "#4a90e2",
+  "theme_color": "#3b82f6",
+  "background_color": "#b6d2ff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
   "name": "Rizki Maulana Citra",
-  "short_name": "Rizkicitra",
-  "description": "Rizki Maulana Citra, Frontend Web Developer.",
+  "short_name": "RizkiCitra",
+  "description": "I am a Student of Informatics Management at AMIK Serang and I'm a Frontend Web Developer who love to work with JavaScript and React Ecosystem.",
   "icons": [
     {
       "src": "/icon-192x192.png",
