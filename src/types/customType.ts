@@ -1,3 +1,7 @@
+/**
+ * @description the `MetaStrapiType` is new for me, so I have no idea what this data used for,
+ * but I thought this would be used for pagination
+ */
 export type MetaStrapiType = {
   pagination: {
     page: number
@@ -7,6 +11,10 @@ export type MetaStrapiType = {
   }
 }
 
+/**
+ * @description this type refer to a Projects, which then will be used by a Component named `ProjectCard.tsx` in `src/components/cards/ProjectCard.tsx` and in `src/pages/index.tsx` for props
+ * @todo please note this can be customize with your own **content-type** in strapi be sure to check which components that using this type
+ */
 export type SingleProjectType = {
   id: number
   attributes: {
@@ -25,20 +33,40 @@ export type SingleProjectType = {
   }
 }
 
+/**
+ * @description this simply used for data fetching, as if you make a HTTP Request to your strapi app, you would get an object of data like this
+ */
 export type ProjectType = {
   data: Array<SingleProjectType>
   meta: MetaStrapiType
 }
 
-// function type
 /**
- * Async Arrow Function Promise that return an oject of data
- * {
- * isError: boolean
- * data: projectType
- * }
+ * @description techincal type are being used on `src/utils/constant.ts`, used to define what type of data are in there
+ */
+export type TechincalType = {
+  title: string
+  Icon: Array<string> | string
+  description: Array<string> | string
+}
+
+/**
+ * @description a type that refer to meta props, this would be used by component <Meta> on `src/components/atoms/Meta.tsx`
+ */
+export type MetaType = {
+  title: string
+  description: string
+  imageURL?: string
+  imageALT?: string
+  url?: string
+}
+
+// function type
+
+/**
+ * @description HTTPGetType is simply a function type that would be used by a module in `src/libs/doFetch.ts` for data fetching purpose
  */
 export type HTTPGetType = (path: string) => Promise<{
   isError: boolean
-  data: ProjectType
+  result: ProjectType
 }>
