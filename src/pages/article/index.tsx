@@ -1,20 +1,20 @@
-import Footer from '@/components/Footer'
-import FullPage from '@/components/FullPage'
-import NextLink from '@/components/NextLink'
-import PageMeta from '@/components/PageMeta'
-import { metaPages } from '@/utils/constant'
 import clsx from 'clsx'
+import Footer from '@/components/Footer'
+import Meta from '@/components/atoms/Meta'
+import NextLink from '@/components/NextLink'
+import FullPage from '@/components/wrapper/FullPage'
+import { metaPages } from '@/utils/constant'
 
 const IndexBlogPage = () => {
   return (
     <>
-      <PageMeta {...metaPages.article} />
+      <Meta {...metaPages.article} />
       <FullPage className='flex items-center justify-center'>
         <section>
           <p className='text-5xl md:text-7xl 2xl:text-9xl mb-2 md:mb-4 text-center'>
             👀
           </p>
-          <h1 className='text-center mb-2 md:mb-4'>Coming Soon</h1>
+          <h1 className='header-color text-center mb-2 md:mb-4'>Coming Soon</h1>
           <div className='flex items-center justify-center w-full'>
             <NextLink
               href='/'

@@ -29,10 +29,6 @@ const App = ({ Component, pageProps, router }: AppProps) => {
     {
       name: 'apple-mobile-web-app-title',
       content: 'Rizki Maulana Citra'
-    },
-    {
-      name: 'application-name',
-      content: 'Rizki Maulana Citra'
     }
   ]
   return (
