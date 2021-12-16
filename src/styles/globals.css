@@ -10,6 +10,9 @@
     font-display: swap;
     src: url('/fonts/readex-pro.ttf') format('truetype');
   }
+  ::selection {
+    @apply text-dark-800 bg-sky-300 dark:bg-rose-500 dark:text-dark-200;
+  }
   h1 {
     @apply text-2xl font-bold md:text-4xl text-typo-700 dark:text-typo-200;
   }
@@ -19,16 +22,21 @@
   }
 
   h3 {
-    @apply text-lg font-bold md:text-2xl text-typo-700 dark:text-typo-200;
-  }
-
-  h2 p:not(:last-child),
-  h3 p:not(:last-child) {
-    @apply mb-2 md:mb-3 2xl:mb-4;
+    @apply text-lg font-bold md:text-xl text-typo-700 dark:text-typo-200;
   }
 
   h4 {
     @apply text-base font-bold md:text-lg text-typo-700 dark:text-typo-200;
+  }
+
+  h2 ~ p:not(:last-child),
+  h3 ~ p:not(:last-child) {
+    @apply mb-2 md:mb-3 2xl:mb-4;
+  }
+
+  h2 + p,
+  h3 + p {
+    @apply mt-2 md:mt-4 2xl:mt-5;
   }
 
   body {
@@ -51,5 +59,14 @@
     @apply after:transition-all after:duration-300 after:ease-in-out;
     @apply hover:after:w-full;
     @apply border-b border-dotted dark:border-dark-700;
+  }
+
+  h1.header-color,
+  h2.header-color,
+  h3.header-color,
+  h4.header-color {
+    @apply text-transparent dark:text-transparent bg-gradient-to-r bg-clip-text max-w-max
+      from-indigo-500 via-primary-400 to-sky-400
+      dark:from-red-500 dark:via-rose-400 dark:to-purple-400;
   }
 }
