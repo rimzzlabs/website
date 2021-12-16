@@ -61,7 +61,7 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className='flex flex-row-reverse md:flex-row items-center'>
+        <div className='flex space-x-2 items-center'>
           <Toggler onClick={changeTheme}>
             <span className='sr-only'>Toggle Dark Mode</span>
             {icon}
