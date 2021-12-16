@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer'
 const useAnimateView = () => {
   const { inView, ref } = useInView({
     triggerOnce: true,
-    rootMargin: '-100px 0px'
+    rootMargin: '-200px 0px'
   })
   const controls = useAnimation()
 
