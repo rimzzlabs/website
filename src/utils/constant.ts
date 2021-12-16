@@ -54,7 +54,7 @@ export const links = [
 export const metaPages = {
   home: {
     title: 'Home',
-    description: `sI am a 18 Y.O flexible guy who loves to learn new things, I like to read article about science and technology. I couldn't help with the science tho, because I have no idea how it works, but I still love to read and learn a bit about it.`,
+    description: `I am a 18 Y.O flexible guy who loves to learn new things, I like to read article about science and technology. I couldn't help with the science tho, because I have no idea how it works, but I still love to read and learn a bit about it.`,
     image:
       'https://ik.imagekit.io/mlnzyx/personal_web-og/homepage_8O1cNMK7I.png?updatedAt=1639665256919',
     url: 'https://rizkicitra.my.id'
