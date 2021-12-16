@@ -61,6 +61,20 @@ export type MetaType = {
   url?: string
 }
 
+/**
+ * @description NextLinkProps would be used by `<NextLink />` component, see the component at `src/components/NextLink.tsx`
+ * it is an object that contains href, children, _these two are required_, classsName, passHref, prefetch, and unstyled
+ */
+export type NextLinkProps = {
+  href: string
+  children: React.ReactNode
+  className?: string
+  passHref?: boolean
+  prefetch?: boolean
+  unstyled?: boolean
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+}
+
 // function type
 
 /**
