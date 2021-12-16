@@ -13,6 +13,7 @@ module.exports = {
       },
       colors: {
         primary: {
+          low: '#f2f8ff',
           400: colors.blue[400],
           500: colors.blue[500],
           600: colors.blue[600]
