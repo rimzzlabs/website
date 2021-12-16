@@ -23,12 +23,12 @@ export const doGet: HTTPGetType = async (path) => {
     const data: ProjectType = res.data
     return {
       isError: false,
-      data
+      result: data
     }
   } catch (error) {
     return {
       isError: true,
-      data: {
+      result: {
         data: [] as SingleProjectType[],
         meta: {} as MetaStrapiType
       }
