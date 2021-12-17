@@ -1,14 +1,5 @@
 import Image from 'next/image'
-
-type NextImageProps = {
-  src: string
-  alt: string
-  className?: string
-  width?: number
-  height?: number
-  layoutFill?: boolean
-  fit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
-}
+import type { NextImageProps } from '@/types/customType'
 
 const NextImage = ({
   src,

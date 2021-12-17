@@ -107,6 +107,20 @@ export type AnimeContainerType = {
   delay?: number
 }
 
+/**
+ * @description this type refer to a component that will be used by `src/components/NextImage.tsx`
+ * usd to dipsplay an optimized Image component
+ */
+export type NextImageProps = {
+  src: string
+  alt: string
+  className?: string
+  width?: number
+  height?: number
+  layoutFill?: boolean
+  fit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+}
+
 // function type
 
 /**
