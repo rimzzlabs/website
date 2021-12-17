@@ -95,7 +95,6 @@ const IndexPage = ({ result }: IndexPageProps) => {
             <AnimeContainer
               className='list-none grid grid-cols-2 xs:grid-cols-4 gap-2 md:gap-4'
               delay={0.5}
-              stagger
               list>
               {hobies.map((item, idx) => (
                 <HobbyCard key={idx + item.title} {...item} />
