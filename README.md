@@ -4,6 +4,15 @@
 
 My Personal Website, built with React, Next.js, TailwindCSS, and Strapi for headlessCMS
 
-## Can I use this app for my own?
+**Additional libs that I am using**
+
+- Next-Seo
+- Next-Themes
+- Next-PWA
+- Framer Motion
+
+### Can I use this app for my own?
 
 If you are interested with this, you can also use this app for you personal website, before you clone this website, please make sure you've installed [Node.js](https://nodejs.org) on your machine, it comes and installing Node.js runtime and [npm](https://npmjs.com) _(Stands for Node Package Manager)_.
+
+### more description soon..
