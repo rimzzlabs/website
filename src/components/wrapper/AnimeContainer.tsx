@@ -1,14 +1,8 @@
-import { Variants, m } from 'framer-motion'
 import * as React from 'react'
 import useAnimateView from '@/hooks/useAnimateView'
+import { Variants, m } from 'framer-motion'
+import type { AnimeContainerType } from '@/types/customType'
 
-export type AnimeContainerType = {
-  children: React.ReactNode
-  stagger?: boolean
-  list?: boolean
-  className?: string
-  delay?: number
-}
 /**
  * @description AnimeContainer simply wraps the children with a wrapper that you want to animate when entering a viewpoert
  * @param children React Node, this component is just simple wrapper, you should wrap your component inside this component
