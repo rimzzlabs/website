@@ -4,6 +4,10 @@ import type { MetaType } from '@/types/customType'
 /**
  * @description this component return a NextSeo props that has dynamic value depends on the props given
  * it has TITLE_TEMPLATE and SITE_NAME constant, customize to match your own
+ * @param {String} title - the title of the page, this props is required
+ * @param {String} description - the description of the page, this props is required
+ * @param {String} url - the url of the page, this props is required
+ * @param {String} image - the image of the page, this props is required
  */
 const Meta = ({ title, description, imageURL, imageALT, url }: MetaType) => {
   const TITLE_TEMPLATE = 'Rizki Maulana Citra | Frontend Web Developer'
