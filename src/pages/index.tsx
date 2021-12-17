@@ -109,6 +109,7 @@ const IndexPage = ({ result }: IndexPageProps) => {
                 alt='Rizki Maulana Citra'
                 width={244}
                 height={244}
+                className='rounded'
               />
             </div>
           </figure>
