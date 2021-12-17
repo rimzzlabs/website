@@ -99,7 +99,7 @@ export type TogglerProps = {
 /**
  * @description AnimeConainerType refer to a component that will be used by `src/components/atoms/AnimeContainer.tsx`
  */
-export type AnimeContainerType = {
+export type AnimeContainerProps = {
   children: React.ReactNode
   stagger?: boolean
   list?: boolean

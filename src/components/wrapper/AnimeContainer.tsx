@@ -1,7 +1,7 @@
 import * as React from 'react'
 import useAnimateView from '@/hooks/useAnimateView'
 import { Variants, m } from 'framer-motion'
-import type { AnimeContainerType } from '@/types/customType'
+import type { AnimeContainerProps } from '@/types/customType'
 
 /**
  * @description AnimeContainer simply wraps the children with a wrapper that you want to animate when entering a viewpoert
@@ -18,7 +18,7 @@ const AnimeContainer = ({
   list = false,
   delay = 0.25,
   className = ''
-}: AnimeContainerType) => {
+}: AnimeContainerProps) => {
   const { ref, controls } = useAnimateView()
 
   const variants: Variants = {
