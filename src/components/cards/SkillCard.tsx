@@ -1,6 +1,12 @@
 import type { TechincalType } from '@/types/customType'
 import TechIcon from '../atoms/Icon'
 
+/**
+ * @description SkillCard is a component that displays a skill card, being used in the `src/pages/index.tsx`
+ * @param title string, title of the skill
+ * @param description string, description of the skill
+ * @param icon string[] or string, this icon then would be used as type of Icon that would be used by TechIconProps,
+ */
 const SkillCard = ({ title, Icon, description }: TechincalType) => {
   return (
     <div className='p-4 md:p-6 rounded bg-primary-low dark:bg-dark-800'>
