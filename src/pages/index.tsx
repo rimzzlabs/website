@@ -164,10 +164,10 @@ const IndexPage = ({ result }: IndexPageProps) => {
               <>
                 {result.data
                   .filter((item) => item.attributes.featured)
-                  .map((item) => (
+                  .map((prop) => (
                     <ProjectCard
-                      {...item}
-                      key={item.id + item.attributes.title}
+                      {...prop}
+                      key={prop.id + prop.attributes.title}
                     />
                   ))}
                 <div
