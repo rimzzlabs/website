@@ -105,7 +105,7 @@ const IndexPage = ({ result }: IndexPageProps) => {
           <figure className='flex items-center justify-center'>
             <div className='md:self-start scale-75 sm:scale-100'>
               <NextImage
-                src='/rizki.webp'
+                src='https://ik.imagekit.io/mlnzyx/personal_web-og/rizki_n-T6Lnn7f.webp?updatedAt=1639726869965'
                 alt='Rizki Maulana Citra'
                 width={244}
                 height={244}
