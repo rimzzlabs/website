@@ -96,6 +96,17 @@ export type TogglerProps = {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
+/**
+ * @description AnimeConainerType refer to a component that will be used by `src/components/atoms/AnimeContainer.tsx`
+ */
+export type AnimeContainerType = {
+  children: React.ReactNode
+  stagger?: boolean
+  list?: boolean
+  className?: string
+  delay?: number
+}
+
 // function type
 
 /**
