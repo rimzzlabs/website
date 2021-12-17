@@ -11,33 +11,26 @@ import type { NextLinkProps } from '@/types/customType'
 const NextLink = ({
   href,
   children,
+  className = '',
   unstyled = false,
   ...props
 }: NextLinkProps) => {
-  const unstyledLink =
-    (unstyled &&
-      clsx(
-        'relative max-w-max z-1',
-        'after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:z-[-1]',
-        'after:transition-all after:duration-200',
-        'after:bg-primary-400 dark:after:bg-rose-500',
-        'hover:after:h-2.5'
-      )) ||
-    ''
-
-  const receivedClassName = `${props.className || ''} ${unstyledLink || ''}`
-
+  const unstyledClass = unstyled
+    ? 'underline decoration-primary-500 dark:decoration-rose-500 underline-offset-1'
+    : ''
   if (href.startsWith('/')) {
     return (
       <Link href={href} scroll={false}>
-        <a {...props}>{children}</a>
+        <a className={clsx(className, unstyledClass)} {...props}>
+          {children}
+        </a>
       </Link>
     )
   }
 
   if (href.startsWith('#')) {
     return (
-      <a href={href} className={receivedClassName} {...props}>
+      <a href={href} className={clsx(className, unstyledClass)} {...props}>
         {children}
       </a>
     )
@@ -46,7 +39,7 @@ const NextLink = ({
   return (
     <a
       href={href}
-      className={receivedClassName}
+      className={clsx(className, unstyledClass)}
       target='_blank'
       rel='noopener noreferrer'
       {...props}>

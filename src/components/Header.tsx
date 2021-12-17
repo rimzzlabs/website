@@ -6,6 +6,10 @@ import { useEffect } from 'react'
 import NextLink from './NextLink'
 import Toggler from './Toggler'
 
+/**
+ * @description this Header element used to render the header of the website, the header is a navbar with a toggler button of dark mode
+ * @returns JSX.Element
+ */
 const Header = () => {
   const { changeTheme, icon } = useTheme()
 
@@ -23,7 +27,7 @@ const Header = () => {
     }
   }, [changeTheme])
 
-  const { asPath, pathname } = useRouter()
+  const { pathname } = useRouter()
 
   if (pathname === '/404') {
     return null
@@ -51,11 +55,13 @@ const Header = () => {
           {routes.map((route, idx) => (
             <NextLink
               href={route.path}
+              key={idx + route.path}
               className={clsx(
-                'relative z-[1] before:absolute before:left-0 before:bottom-0 before:w-full before:z-[-1] before:transition-all before:duration-150 hover:before:h-1 before:bg-primary-500 dark:before:bg-rose-500 hover:before:bg-primary-500 dark:hover:before:bg-rose-500',
-                asPath === route.path ? 'before:h-1' : 'before:h-0'
-              )}
-              key={idx + route.path}>
+                'relative z-[1] after:absolute after:w-full',
+                'after:left-0 after:bottom-0 after:z-[-1] after:transition-all duration-300',
+                'after:bg-primary-500 dark:after:bg-rose-500',
+                pathname === route.path ? 'after:h-1' : 'after:h-0'
+              )}>
               {route.name}
             </NextLink>
           ))}
