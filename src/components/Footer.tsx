@@ -2,6 +2,12 @@ import { links } from '@/utils/constant'
 import { forwardRef } from 'react'
 import NextLink from './NextLink'
 
+/**
+ * @description Footer is a component that used to render the footer of the website, it returns a JSX element.
+ * wrapped with a forwardRef component from react, please dont't make change to any forwardRef as it's being
+ * used by React to handle forwarding the refs on `src/pages/index.tsx`
+ *
+ */
 const Footer = forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <footer
