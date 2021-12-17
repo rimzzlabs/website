@@ -75,6 +75,15 @@ export type NextLinkProps = {
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 }
 
+/**
+ * @description TogglerProps will be used by Toggler componetn on `src/components/Toggler.tsx`, thsi type will refer to the props that Toggler component will accept
+ */
+export type TogglerProps = {
+  children: React.ReactNode
+  className?: string
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
+
 // function type
 
 /**

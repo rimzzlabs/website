@@ -1,11 +1,14 @@
 import clsx from 'clsx'
+import type { TogglerProps } from '@/types/customType'
 
-type TogglerProps = {
-  children: React.ReactNode
-  className?: string
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-}
-
+/**
+ * @description this component is used to toggle something, the children are up to you, the className is optional
+ * this comopnent is just a button
+ * @param {TogglerProps} children React Node
+ * @param {TogglerProps} onClick a function that will be called when the button is clicked, or an event handler if you prefer
+ * @param {TogglerProps} className a className that will be added to the button
+ * @returns
+ */
 const Toggler = ({ children, onClick, className = '' }: TogglerProps) => {
   return (
     <button
