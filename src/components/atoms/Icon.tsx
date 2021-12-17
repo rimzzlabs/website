@@ -6,6 +6,12 @@ export type IconType = {
   className?: string
 }
 
+/**
+ * @description custom Icon that will return an Icon component from `react-icons`
+ * this component used to render the icon depends on the type of the icon
+ * @param {string} type: type of the icon, this filed is required
+ * @param {string} className: className of the icon, it is optional
+ */
 const Icon = ({ type, className = '' }: IconType) => {
   switch (type) {
     case 'markdown':
