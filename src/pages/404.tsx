@@ -15,7 +15,11 @@ const NotFoundPage: NextPage = () => {
         />
         <div className='flex flex-col items-center justify-center w-full'>
           <figure className='relative w-40 md:w-80 aspect-square'>
-            <NextImage src={'/svg/owl.svg'} alt='owl illustration' layoutFill />
+            <NextImage
+              src='https://ik.imagekit.io/mlnzyx/personal_web-og/owl_5B5tgmCZR.svg?updatedAt=1639726592605'
+              alt='owl illustration'
+              layoutFill
+            />
           </figure>
           <section className='text-center'>
             <h1 className='header-color mb-4 md:mb-8'>Page Not Found</h1>
