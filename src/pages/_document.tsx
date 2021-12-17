@@ -5,6 +5,7 @@ export default class CustomDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
+          <meta name='theme-color' content='#171717' />
           <link rel='shortcut icon' href='/favicon.svg' type='svg/x-icon' />
           <link rel='manifest' href='/manifest.json' />
         </Head>
