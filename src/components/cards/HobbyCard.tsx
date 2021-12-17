@@ -1,12 +1,8 @@
 import clsx from 'clsx'
 import Icon from '../atoms/Icon'
+import type { HobbyCardProps } from '@/types/customType'
 
-type HobbiesCardProps = {
-  icon: string
-  title: string
-}
-
-const HobbiesCard = (props: HobbiesCardProps) => {
+const HobbyCard = ({ icon, title }: HobbyCardProps) => {
   return (
     <li
       className={clsx(
@@ -15,11 +11,11 @@ const HobbiesCard = (props: HobbiesCardProps) => {
       )}>
       <Icon
         className='text-[1.25em] md:text-[1.5em] text-primary-500 dark:text-rose-500'
-        type={props.icon}
+        type={icon}
       />
-      <p className='text-typo-600 dark:text-typo-400'>{props.title}</p>
+      <p className='text-typo-600 dark:text-typo-400'>{title}</p>
     </li>
   )
 }
 
-export default HobbiesCard
+export default HobbyCard

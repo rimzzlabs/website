@@ -121,6 +121,16 @@ export type NextImageProps = {
   fit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
 }
 
+/**
+ * @description HoobbyCardProps refer to the props of the HobbyCard component in `src/components/cards` contains the following props:
+ * @param icon an icon to be used in the card
+ * @param title string, title of the skill
+ */
+export type HobbyCardProps = {
+  icon: string
+  title: string
+}
+
 // function type
 
 /**
