@@ -12,6 +12,18 @@ export type MetaStrapiType = {
 }
 
 /**
+ * @description regular type used for a component that only accepts 2 props
+ * @example
+ * ```ts
+ * const Component = ({children, className = ''}) => <Component className={className} />
+ * ```
+ */
+export type RegularComponent = {
+  children: React.ReactNode
+  className?: string
+}
+
+/**
  * @description this type refer to a Projects, which then will be used by a Component named `ProjectCard.tsx` in `src/components/cards/ProjectCard.tsx` and in `src/pages/index.tsx` for props
  * @todo please note this can be customize with your own **content-type** in strapi be sure to check which components that using this type
  */
