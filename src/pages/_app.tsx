@@ -1,43 +1,40 @@
-import { LazyMotion, domAnimation, AnimatePresence, m } from 'framer-motion'
-import { pageTransition } from '@/libs/animation'
+import '@/styles/globals.css'
+import Router from 'next/router'
+import Header from '@/components/Header'
 import { ThemeProvider } from 'next-themes'
 import { progress } from '@/libs/progress'
 import { AppProps } from 'next/app'
-import Router from 'next/router'
-import '@/styles/globals.css'
 import { NextSeo } from 'next-seo'
-import Header from '@/components/Header'
+import { metaPages } from '@/utils/constant'
+import {
+  LazyMotion,
+  domAnimation,
+  AnimatePresence,
+  m,
+  Variants
+} from 'framer-motion'
 
 Router.events.on('routeChangeStart', progress.start)
 Router.events.on('routeChangeComplete', progress.finish)
 Router.events.on('routeChangeError', progress.finish)
 
 const App = ({ Component, pageProps, router }: AppProps) => {
-  const additionMetaTags = [
-    {
-      name: 'google-site-verification',
-      content: 'ZAtKFv5Wiq0SUprsLWeNudQ-DYSHSOmyXq7yzSbllX0'
+  const v: Variants = {
+    hidden: { opacity: 0, y: 50 },
+    enter: {
+      opacity: 1,
+      y: 0,
+      transition: { ease: 'easeInOut', duration: 0.5 }
     },
-    {
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0'
-    },
-    {
-      name: 'apple-mobile-web-app-capable',
-      content: 'yes'
-    },
-    {
-      name: 'apple-mobile-web-app-status-bar-style',
-      content: 'white'
-    },
-    {
-      name: 'apple-mobile-web-app-title',
-      content: 'Rizki Maulana Citra'
+    exit: {
+      opacity: 0,
+      y: 50,
+      transition: { ease: 'easeInOut', duration: 0.5 }
     }
-  ]
+  }
   return (
     <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
-      <NextSeo additionalMetaTags={additionMetaTags} />
+      <NextSeo additionalMetaTags={metaPages.additional} />
       <LazyMotion features={domAnimation}>
         <Header />
         <AnimatePresence
@@ -50,7 +47,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
             initial='hidden'
             animate='enter'
             exit='exit'
-            variants={pageTransition}>
+            variants={v}>
             <Component {...pageProps} />
           </m.div>
         </AnimatePresence>

@@ -68,7 +68,29 @@ export const metaPages = {
       'https://ik.imagekit.io/mlnzyx/personal_web-og/homepage_8O1cNMK7I.png?updatedAt=1639665256919',
     imageALT: 'Rizki Maulana Citra Article page',
     url: 'https://rizkicitra.my.id/article'
-  }
+  },
+  additional: [
+    {
+      name: 'google-site-verification',
+      content: 'ZAtKFv5Wiq0SUprsLWeNudQ-DYSHSOmyXq7yzSbllX0'
+    },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1.0'
+    },
+    {
+      name: 'apple-mobile-web-app-capable',
+      content: 'yes'
+    },
+    {
+      name: 'apple-mobile-web-app-status-bar-style',
+      content: 'white'
+    },
+    {
+      name: 'apple-mobile-web-app-title',
+      content: 'Rizki Maulana Citra'
+    }
+  ]
 }
 
 /**
