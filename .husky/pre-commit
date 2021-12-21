@@ -4,7 +4,7 @@
 echo '🏗️👷 Styling your project before committing'
 
 # Check ESLint Standards
-npm run lint ||
+yarn lint ||
 (
     echo '🙈👷🔨❌ Yoo, your code looks disgusting. Check linter 🙈👷🔨❌
           Run npm run lint, add changes and try commit again.';
