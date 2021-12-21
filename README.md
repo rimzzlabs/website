@@ -9,6 +9,6 @@ My Personal Website, built with React, Next.js, TailwindCSS, and Strapi for head
 - Next-Seo
 - Next-Themes
 - Next-PWA
-- Framer Mot
+- Framer Motion
 
 ### more description soon..
