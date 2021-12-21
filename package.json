@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "next lint",
     "lint:fix": "next lint --fix",
     "postinstall": "husky install",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
