@@ -63,10 +63,6 @@ export const metaPages = {
   },
   additional: [
     {
-      name: 'google-site-verification',
-      content: 'ZAtKFv5Wiq0SUprsLWeNudQ-DYSHSOmyXq7yzSbllX0'
-    },
-    {
       name: 'viewport',
       content: 'width=device-width, initial-scale=1.0'
     },
