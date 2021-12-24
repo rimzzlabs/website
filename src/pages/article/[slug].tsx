@@ -38,8 +38,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return { ...item, estRead }
   })[0]
 
-  console.log(article)
-
   const mdxSource = await serialize(article.attributes.content, {
     mdxOptions: {
       rehypePlugins: [mdxPrism]
