@@ -38,6 +38,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return { ...item, estRead }
   })[0]
 
+  console.log(article)
+
   const mdxSource = await serialize(article.attributes.content, {
     mdxOptions: {
       rehypePlugins: [mdxPrism]
@@ -59,7 +61,7 @@ type ArticlePageProps = {
 }
 
 export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
-  const { title, image, publishedAt, author, description } = data.attributes
+  const { title, image, publishedAt, author, description } = data?.attributes
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -110,10 +112,10 @@ export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
         >
           <h1 className='header-color text-3xl md:text-4xl mb-2 md:mb-4'>{title}</h1>
           <div className='flex items-center justify-between'>
-            <span>
+            <span className='max-w-[16rem] sm:max-w-full text-xs md:text-sm'>
               Ditulis oleh {author} pada {formatDate(publishedAt)}
             </span>
-            <span>{data.estRead.text}</span>
+            <span className='text-xs md:text-sm'>{data.estRead.text}</span>
           </div>
         </section>
         <section>
