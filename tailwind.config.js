@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Readex Pro', ...fontFamily.sans]
+        primary: ['Readex Pro', ...fontFamily.sans],
+        inter: ['Inter', ...fontFamily.sans]
       },
       colors: {
         primary: {
@@ -27,6 +28,6 @@ module.exports = {
     extend: {
       // typography: ['dark']
     }
-  }
-  // plugins: [require('@tailwindcss/typography')]
+  },
+  plugins: [require('@tailwindcss/typography')]
 }
