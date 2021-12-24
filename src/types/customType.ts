@@ -46,10 +46,46 @@ export type SingleProjectType = {
 }
 
 /**
+ * @description a type refer to an article, this type refer to only single article
+ * being used on src/components/cards
+ */
+export type SingleArticleType = {
+  id: number
+  attributes: {
+    title: string
+    author: string
+    description: string
+    content: string
+    slug: string
+    labels: Array<string>
+    featured: boolean
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
+    image: {
+      src: string
+      author: string
+      url: string
+    }
+  }
+  estRead: {
+    minutes: number
+    text: string
+    time: number
+    words: number
+  }
+}
+
+/**
  * @description this simply used for data fetching, as if you make a HTTP Request to your strapi app, you would get an object of data like this
  */
-export type ProjectType = {
+export type ProjectProps = {
   data: Array<SingleProjectType>
+  meta: MetaStrapiType
+}
+
+export type ArticleProps = {
+  data: Array<SingleArticleType>
   meta: MetaStrapiType
 }
 
@@ -84,7 +120,8 @@ export type NextLinkProps = {
   passHref?: boolean
   prefetch?: boolean
   unstyled?: boolean
-  onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+  smooth?: boolean
+  onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void
 }
 
 /**
@@ -131,12 +168,13 @@ export type HobbyCardProps = {
   title: string
 }
 
+export type HttpResponse<T> = {
+  result: T
+}
+
 // function type
 
 /**
  * @description HTTPGetType is simply a function type that would be used by a module in `src/libs/doFetch.ts` for data fetching purpose
  */
-export type HTTPGetType = (path: string) => Promise<{
-  isError: boolean
-  result: ProjectType
-}>
+export type HTTPGet = <T>(path: string) => Promise<HttpResponse<T>>

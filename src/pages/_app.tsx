@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import '@/styles/prism.css'
 import Router from 'next/router'
 import Header from '@/components/Header'
 import { ThemeProvider } from 'next-themes'
@@ -6,13 +7,7 @@ import { progress } from '@/libs/progress'
 import { AppProps } from 'next/app'
 import { NextSeo } from 'next-seo'
 import { metaPages } from '@/utils/constant'
-import {
-  LazyMotion,
-  domAnimation,
-  AnimatePresence,
-  m,
-  Variants
-} from 'framer-motion'
+import { LazyMotion, domAnimation, AnimatePresence, m, Variants } from 'framer-motion'
 
 Router.events.on('routeChangeStart', progress.start)
 Router.events.on('routeChangeComplete', progress.finish)
@@ -35,19 +30,19 @@ const App = ({ Component, pageProps, router }: AppProps) => {
   return (
     <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
       <NextSeo additionalMetaTags={metaPages.additional} />
+
       <LazyMotion features={domAnimation}>
         <Header />
-        <AnimatePresence
-          initial
-          exitBeforeEnter
-          onExitComplete={() => window.scrollTo(0, 0)}>
+        <AnimatePresence initial exitBeforeEnter onExitComplete={() => window.scrollTo(0, 0)}>
           <m.div
+            id='skip-nav'
             key={router.route.concat('1')}
             className='layout'
             initial='hidden'
             animate='enter'
             exit='exit'
-            variants={v}>
+            variants={v}
+          >
             <Component {...pageProps} />
           </m.div>
         </AnimatePresence>

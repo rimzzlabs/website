@@ -34,23 +34,21 @@ const Header = () => {
   }
 
   return (
-    <div
-      className={clsx(
-        'fixed top-0 left-0 w-full z-[99]',
-        'dark:bg-dark-900/80 backdrop-blur-md'
-      )}>
-      <div
+    <div className={clsx('fixed top-0 left-0 w-full z-[99]', 'bg-white/80 dark:bg-dark-900/80 backdrop-blur-md')}>
+      <NextLink
+        href='#skip-nav'
         className={clsx(
-          'w-full h-2 bg-gradient-to-r',
-          'from-rose-500 via-indigo-500 to-primary-500'
+          'flex items-center justify-center',
+          ' py-2 px-4 rounded max-w-max fixed left-4 top-4 transition-all duration-200 z-[999]',
+          '-translate-y-96 focus-visible:translate-y-0',
+          'bg-primary-low text-primary-600 dark:bg-rose-100 dark:text-rose-700'
         )}
-      />
+      >
+        Skip To Content
+      </NextLink>
+      <div className={clsx('w-full h-2 bg-gradient-to-r', 'from-rose-500 via-indigo-500 to-primary-500')} />
 
-      <header
-        className={clsx(
-          'layout h-12 md:h-16',
-          'flex items-center md:space-x-0 justify-between'
-        )}>
+      <header className={clsx('layout h-12 md:h-16', 'flex items-center md:space-x-0 justify-between')}>
         <nav className={clsx('flex items-center space-x-4 2xl:space-x-5')}>
           {routes.map((route, idx) => (
             <NextLink
@@ -60,8 +58,9 @@ const Header = () => {
                 'relative z-[1] after:absolute after:w-full',
                 'after:left-0 after:bottom-0 after:z-[-1] after:transition-all duration-300',
                 'after:bg-primary-500 dark:after:bg-rose-500',
-                pathname === route.path ? 'after:h-1' : 'after:h-0'
-              )}>
+                pathname === route.path || pathname === route.path + '/[slug]' ? 'after:h-1' : 'after:h-0'
+              )}
+            >
               {route.name}
             </NextLink>
           ))}

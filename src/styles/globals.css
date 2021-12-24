@@ -54,7 +54,7 @@
   }
 
   .animated-underline {
-    @apply relative after:w-2 after:h-0.5 after:bg-primary-500 dark:after:bg-rose-400;
+    @apply relative after:w-0 after:h-0.5 after:bg-primary-500 dark:after:bg-rose-500;
     @apply after:absolute after:-bottom-0.5 after:left-0;
     @apply after:transition-all after:duration-300 after:ease-in-out;
     @apply hover:after:w-full;
@@ -64,7 +64,8 @@
   h1.header-color,
   h2.header-color,
   h3.header-color,
-  h4.header-color {
+  h4.header-color,
+  h1.header-color {
     @apply text-transparent dark:text-transparent bg-gradient-to-r bg-clip-text max-w-max
       from-indigo-500 via-primary-400 to-sky-400
       dark:from-red-500 dark:via-rose-400 dark:to-purple-400;

@@ -1,5 +1,5 @@
-import { IoMail, IoLogoGithub, IoLogoLinkedin, IoLogoFacebook } from 'react-icons/io5';
-import { TechincalType } from '@/types/customType';
+import { IoMail, IoLogoGithub, IoLogoLinkedin, IoLogoFacebook } from 'react-icons/io5'
+import { TechincalType } from '@/types/customType'
 
 /**
  * @description Routes, defines the routes of the pages, if you add a new route the page would also updated
@@ -13,7 +13,7 @@ export const routes = [
     path: '/article',
     name: 'Article'
   }
-];
+]
 
 /**
  * @description links mean your social media, and this would be used in the `Footer` component, look up to the `src/components/Footer.tsx`.
@@ -40,7 +40,7 @@ export const links = [
     url: 'https://www.facebook.com/rizkimcitraa',
     Icon: IoLogoFacebook
   }
-];
+]
 
 /**
  * @description an object of object, this is the meta data of each page, currently just for mockup purpose.
@@ -63,10 +63,6 @@ export const metaPages = {
   },
   additional: [
     {
-      name: 'google-site-verification',
-      content: 'ZAtKFv5Wiq0SUprsLWeNudQ-DYSHSOmyXq7yzSbllX0'
-    },
-    {
       name: 'viewport',
       content: 'width=device-width, initial-scale=1.0'
     },
@@ -83,7 +79,7 @@ export const metaPages = {
       content: 'Rizki Maulana Citra'
     }
   ]
-};
+}
 
 /**
  * @description This is a constant for the type of Technical Skills, all those skills are stored here,
@@ -123,7 +119,7 @@ export const TechincalSkill: Array<TechincalType> = [
       `I started learning Node.js and Express.js in October 2021, but Backend environment doesn't seem as easy as I thought, I need to be more enthusiastic, and until now, I'm learning Node.js fundamentals`
     ]
   }
-];
+]
 
 /**
  * @description list of hobies, you can add your own or even modify this, such as adding description or whatever you want
@@ -146,4 +142,4 @@ export const hobies = [
     title: 'Playing Games',
     icon: 'gamepad'
   }
-];
+]
