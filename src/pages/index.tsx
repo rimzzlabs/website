@@ -13,21 +13,24 @@ import { hobies, metaPages, TechincalSkill } from '@/utils/constant'
 import { useRef } from 'react'
 import { doGet } from '@/libs/doFetch'
 import { IoLogoGithub, IoMail } from 'react-icons/io5'
-import type { ProjectType } from '@/types/customType'
+import type { ProjectProps, SingleProjectType } from '@/types/customType'
 import type { GetStaticProps } from 'next'
 
 export const getStaticProps: GetStaticProps = async () => {
+  const response = await doGet<ProjectProps>('/project?sort=id:DESC')
   return {
-    props: await doGet('/project?sort=id:DESC'),
+    props: {
+      data: response.result?.data
+    },
     revalidate: 15
   }
 }
 
 type IndexPageProps = {
-  result: ProjectType
+  data: Array<SingleProjectType>
 }
 
-const IndexPage = ({ result }: IndexPageProps) => {
+const IndexPage = ({ data }: IndexPageProps) => {
   const footerRef = useRef<HTMLDivElement>(null)
   const scrollToRef = useSmoothScroll(footerRef)
 
@@ -135,9 +138,9 @@ const IndexPage = ({ result }: IndexPageProps) => {
               'gap-4 gap-y-6 md:gap-6 md:gap-y-8 mt-2 md:mt-4'
             )}
           >
-            {result.data && result.data.length > 0 && (
+            {data && data.length > 0 ? (
               <>
-                {result.data
+                {data
                   .filter((item) => item.attributes.featured)
                   .map((prop) => (
                     <ProjectCard {...prop} key={prop.id + prop.attributes.title} />
@@ -159,7 +162,7 @@ const IndexPage = ({ result }: IndexPageProps) => {
                   </NextLink>
                 </div>
               </>
-            )}
+            ) : null}
           </AnimeContainer>
         </AnimeContainer>
       </div>
@@ -182,7 +185,7 @@ const IndexPage = ({ result }: IndexPageProps) => {
             href='mailto:rmaulana.citra@gmail.com'
             className={clsx(
               'flex items-center h-8 md:h-10 max-w-max',
-              'px-2 md:px-4 rounded transition-all space-x-2 md:space-x-3 bg-gradient-to-r',
+              'px-2 md:px-6 rounded transition-all space-x-2 md:space-x-3 bg-gradient-to-r',
               'from-purple-500 via-primary-500 to-sky-500 text-white',
               'dark:from-red-500 dark:via-rose-500 dark:to-primary-500',
               'hover:opacity-75 active:opacity-100 active:grayscale'
