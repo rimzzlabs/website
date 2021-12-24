@@ -89,6 +89,7 @@ export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
         description={description}
         imageURL={image.src}
         imageALT={`Image from unsplash - ${image.url}`}
+        url={`https://rizkicitra.my.id/article/${data.attributes.slug}`}
       />
       <div>
         <div className='pt-20'>
