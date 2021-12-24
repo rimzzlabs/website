@@ -1,35 +1,67 @@
-import clsx from 'clsx'
 import Footer from '@/components/Footer'
 import Meta from '@/components/atoms/Meta'
-import NextLink from '@/components/NextLink'
-import FullPage from '@/components/wrapper/FullPage'
 import { metaPages } from '@/utils/constant'
+import clsx from 'clsx'
+import AnimeContainer from '@/components/wrapper/AnimeContainer'
+import { GetStaticProps } from 'next'
+import { doGet } from '@/libs/doFetch'
+import ArticleCard from '@/components/cards/ArticleCard'
+import { ArticleProps, SingleArticleType } from '@/types/customType'
+import readingTime from 'reading-time'
 
-const IndexBlogPage = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await doGet<ArticleProps>('/article?sort=id:DESC')
+
+  const articles = response.result.data.map((item) => {
+    const estRead = readingTime(item.attributes.content)
+    return { ...item, estRead }
+  })
+
+  return {
+    props: {
+      data: articles
+    },
+    revalidate: 15
+  }
+}
+
+type IndexArticlePageProps = {
+  data: Array<SingleArticleType>
+  articles: Array<SingleArticleType>
+}
+
+const IndexArticlePage = ({ data }: IndexArticlePageProps) => {
   return (
     <>
       <Meta {...metaPages.article} />
-      <FullPage className='flex items-center justify-center'>
-        <section>
-          <p className='text-5xl md:text-7xl 2xl:text-9xl mb-2 md:mb-4 text-center'>
-            👀
+
+      <AnimeContainer className='py-20 min-h-screen flex flex-col'>
+        <section className='-scroll-mt-80'>
+          <h1 className='header-color mb-2 md:mb-4'>My Articles</h1>
+          <p className='max-w-3xl'>
+            Articles covering Information Technology, Web Development as well as Social Life based on my personal view.
           </p>
-          <h1 className='header-color text-center mb-2 md:mb-4'>Coming Soon</h1>
-          <div className='flex items-center justify-center w-full'>
-            <NextLink
-              href='/'
-              className={clsx(
-                'bg-blue-100 dark:bg-dark-700 text-primary-600 dark:text-rose-400 p-2 md:p-3',
-                'rounded animated-underline border-b border-dotted border-dark-900 dark:border-dark-200'
-              )}>
-              Back to Home
-            </NextLink>
-          </div>
         </section>
-      </FullPage>
+
+        <section>
+          <AnimeContainer
+            list
+            delay={0.4}
+            className={clsx('grid sm:grid-cols-2', 'w-full flex-[1_1_auto] gap-4 md:gap-8 mt-4 md:mt-8')}
+          >
+            {data && data.length > 0
+              ? data.map((data, idx) => (
+                  <li key={idx} className='min-h-[8rem]'>
+                    <ArticleCard {...data} />
+                  </li>
+                ))
+              : null}
+          </AnimeContainer>
+        </section>
+      </AnimeContainer>
       <Footer />
     </>
   )
 }
 
-export default IndexBlogPage
+export default IndexArticlePage

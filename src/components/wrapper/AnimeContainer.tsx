@@ -40,24 +40,14 @@ const AnimeContainer = ({
 
   if (list) {
     return (
-      <m.ul
-        initial='hidden'
-        ref={ref}
-        animate={controls}
-        variants={variants}
-        className={className}>
+      <m.ul initial="hidden" ref={ref} animate={controls} variants={variants} className={className}>
         {children}
       </m.ul>
     )
   }
 
   return (
-    <m.div
-      initial='hidden'
-      ref={ref}
-      animate={controls}
-      variants={variants}
-      className={className}>
+    <m.div initial="hidden" ref={ref} animate={controls} variants={variants} className={className}>
       {children}
     </m.div>
   )
