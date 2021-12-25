@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       mdxSource,
       data: article
     },
-    revalidate: 15
+    revalidate: 1
   }
 }
 
