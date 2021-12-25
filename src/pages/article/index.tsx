@@ -37,25 +37,26 @@ const IndexArticlePage = ({ data }: IndexArticlePageProps) => {
 
       <AnimeContainer className='py-20 min-h-screen flex flex-col'>
         <section className='-scroll-mt-80'>
-          <h1 className='header-color mb-2 md:mb-4'>My Articles</h1>
-          <p className='max-w-3xl'>
-            Articles covering Information Technology, Web Development as well as Social Life based on my personal view.
+          <h1 className='header-color mb-2 md:mb-4'>Articles</h1>
+          <p className='max-w-3xl xl:text-lg'>
+            I talk about anything that interest me, but currently at this time, I can only cover Web Development,
+            Internet, as well as Social Life based on my personal view.
           </p>
         </section>
 
         <section>
+          <h2 className='sr-only'>List of My Articles</h2>
           <AnimeContainer
             list
             delay={0.4}
             className={clsx('grid sm:grid-cols-2', 'w-full flex-[1_1_auto] gap-4 md:gap-8 mt-4 md:mt-8')}
           >
-            {data && data.length > 0
-              ? data.map((data, idx) => (
-                  <li key={idx} className='min-h-[8rem]'>
-                    <ArticleCard {...data} />
-                  </li>
-                ))
-              : null}
+            {data.length > 0 &&
+              data.map((data, idx) => (
+                <li key={idx} className='min-h-[8rem]'>
+                  <ArticleCard {...data} />
+                </li>
+              ))}
           </AnimeContainer>
         </section>
       </AnimeContainer>
