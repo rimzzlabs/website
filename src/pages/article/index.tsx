@@ -27,7 +27,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
 type IndexArticlePageProps = {
   data: Array<SingleArticleType>
-  articles: Array<SingleArticleType>
 }
 
 const IndexArticlePage = ({ data }: IndexArticlePageProps) => {
