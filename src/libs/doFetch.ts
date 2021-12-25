@@ -24,7 +24,10 @@ export const doGet: HTTPGet = async <T>(path: string) => {
     }
   } catch (error) {
     return {
-      result: [] as unknown as T
+      result: {
+        data: [],
+        meta: {}
+      } as unknown as T
     }
   }
 }
