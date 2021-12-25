@@ -61,11 +61,7 @@
     @apply border-b border-dotted dark:border-dark-700;
   }
 
-  h1.header-color,
-  h2.header-color,
-  h3.header-color,
-  h4.header-color,
-  h1.header-color {
+  :is(h1, h2, h3, h4, h5, h6).header-color {
     @apply text-transparent dark:text-transparent bg-gradient-to-r bg-clip-text max-w-max
       from-indigo-500 via-primary-400 to-sky-400
       dark:from-red-500 dark:via-rose-400 dark:to-purple-400;
