@@ -9,7 +9,7 @@ My Personal Website, built with React, Next.js, TailwindCSS, and Strapi for head
 - Framer Motion
 
 **TO DO**
-- [ ] Syntax Highlighting
+- [X] Syntax Highlighting
 - [ ] internalization with next-translate
 - [ ] Next Authentication
 - [ ] Guest Book
