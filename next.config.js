@@ -21,7 +21,6 @@ module.exports = withPwa({
   pwa: {
     runtimeCaching,
     dest: 'public',
-    buildExcludes: [/middleware-manifest.json$/],
     register: true,
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development'
