@@ -57,7 +57,7 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
             Hello, I&apos;m Rizki <span className='font-normal'>👋</span>
           </h1>
           <p className='max-w-3xl md:text-lg 2xl:text-xl'>
-            A student at AMIK Serang and a Software Developer with a strong Frontend Web Development skill, focus on
+            A student at AMIK Serang and a Software Developer with a strong Frontend Web Development skill, focused on
             User Interactivity and User Experience.
           </p>
           <p className='max-w-3xl md:text-lg 2xl:text-xl mt-2 md:mt-3'>

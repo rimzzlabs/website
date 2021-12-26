@@ -40,8 +40,8 @@ const IndexArticlePage = ({ data }: IndexArticlePageProps) => {
         <section className='-scroll-mt-80'>
           <h1 className='header-color mb-2 md:mb-4'>Articles</h1>
           <p className='max-w-3xl xl:text-lg'>
-            I talk about anything that interest me, but currently at this time, I can only cover Web Development,
-            Internet, as well as Social Life based on my personal view.
+            I talk about anything that interest me, Web Development, Internet, as well as Social Life based on my
+            personal view.
           </p>
         </section>
 
