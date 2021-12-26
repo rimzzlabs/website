@@ -2,6 +2,10 @@ import { useTheme as useAccent } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { BiMoon, BiSun } from 'react-icons/bi'
 
+/**
+ * useTheme, used to switch between light and dark theme, checkout `src/components/Header.tsx`
+ * to see how this hooks being used
+ */
 const useTheme = () => {
   const { theme, setTheme, systemTheme } = useAccent()
   const [mounted, setMounted] = useState(true)

@@ -1,18 +1,16 @@
+import { confType } from '@/types/customType'
+
 import { RefObject } from 'react'
 
-export type confType = {
-  block?: 'start' | 'nearest' | 'end' | 'center'
-  inline?: 'start' | 'nearest' | 'end' | 'center'
-}
-
 /**
- * @description smooth scrol on click!
+ * smooth scrol on click!
  * this custom hooks used to scoll trough targetted element smoothly
  * the function accept one parameters
  * ref: refered element that would be targetted
  * @example
  * // ref has value like this
  * ref = {current: element }
+ *
  * @description
  * so to scroll through that element, you should acces it's `current` key inside of the object
  * if the ref valid, then return a function to scroll throught that element,

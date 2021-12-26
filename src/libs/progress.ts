@@ -1,7 +1,7 @@
 import ProgressBar from '@badrap/bar-of-progress'
 
 /**
- * @description intialize progressbar from `@badrap/bar-of-progress` and
+ *  intialize progress bar from `@badrap/bar-of-progress` and
  * set configuration of className, delay and size of the progressbar
  */
 export const progress = new ProgressBar({

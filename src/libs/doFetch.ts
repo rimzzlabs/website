@@ -14,7 +14,7 @@ const axios = Axios.create({
 
 /**
  * a function that returns a promise that resolves to the data of projects or articles or even specific data depends on the endpoint passed
- * @param path path of the endpoint, `e.g. /projects or /articls`
+ * @param path path of the endpoint, `e.g. /projects or /articles`
  */
 export const doGet: HTTPGet = async <T>(path: string) => {
   if (!path) throw new Error('path is not defined')

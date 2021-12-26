@@ -168,6 +168,15 @@ export type HobbyCardProps = {
   title: string
 }
 
+/**
+ * config for smooth scroll, see `src/hooks/useSmoothScroll.tsx` file
+ * of how this type being used
+ */
+export type confType = {
+  block?: 'start' | 'nearest' | 'end' | 'center'
+  inline?: 'start' | 'nearest' | 'end' | 'center'
+}
+
 export type HttpResponse<T> = {
   result: T
 }
