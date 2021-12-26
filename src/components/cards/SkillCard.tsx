@@ -12,7 +12,7 @@ import clsx from 'clsx'
  */
 const SkillCard = ({ title, Icon, description }: TechincalType) => {
   return (
-    <div className={clsx('p-2 md:p-4 rounded', 'border border-color transition-all duration-200')}>
+    <div className={clsx('p-3.5 md:p-6 rounded', 'border border-color transition-all duration-200')}>
       <div className='flex items-center space-x-2 md:space-x-3 mb-1 md:mb-2'>
         {Array.isArray(Icon) ? (
           Icon.map((type, idx) => <TechIcon key={idx + type} type={type} className='text-[1.25em] md:text-[1.75em]' />)
