@@ -100,8 +100,8 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
           </p>
           <p className='max-w-3xl 2xl:text-lg mt-2 md:mt-4'>
             I am an 18 year old who is passionate about Computer Science and Web Development, I&apos;m so excited about
-            future Web Technology, and anyway, I love to learn new things and coffee sometimes can help my problem when
-            debugging.
+            future Web Technology, love to learn new things and JavaScript. fun fact: coffee sometimes can help me solve
+            my problem when debugging.
           </p>
           <h3 className='header-color'>Hobbies</h3>
           <p className='max-w-2xl '>
