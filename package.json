@@ -4,9 +4,10 @@
   "private": true,
   "description": "My Personal Website, build with React, Next.js, Strapi and Tailwind CSS",
   "scripts": {
-    "dev": "next dev",
+    "dev": "yarn clean && next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5000",
+    "clean": "rm -rf ./.next",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "postinstall": "husky install",
@@ -33,6 +34,7 @@
     "reading-time": "^1.5.0"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
     "@types/node": "16.11.6",
     "@types/react": "17.0.34",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
