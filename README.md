@@ -1,10 +1,18 @@
 My Personal Website, built with React, Next.js, TailwindCSS, and Strapi for headlessCMS
 
-**Additional libs that I am using**
+**Additional Libs**
 
-- Next-Seo
+- Next-SEO
 - Next-Themes
 - Next-PWA
+- Next-MDX-Remote && mdxPrism
 - Framer Motion
 
-### more description soon..
+**TO DO**
+- [ ] Syntax Highlighting
+- [ ] internalization with next-translate
+- [ ] Next Authentication
+- [ ] Guest Book
+- [ ] Comments with GitHub
+
+**More Description Soon...**
