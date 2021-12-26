@@ -18,10 +18,8 @@ const ProjectCard = ({ attributes: { title, description, url } }: SingleProjectT
     <div
       className={clsx(
         'flex flex-col items-center justify-center',
-        'w-full min-h-[8rem] overflow-hidden',
-        'border rounded transition-all duration-75',
-        'bg-white dark:bg-dark-900 border-dark-300 dark:border-dark-700',
-        'dark:hover:border-dark-600'
+        'w-full min-h-[8rem] rounded overflow-hidden',
+        'border border-color transition-all duration-200'
       )}
     >
       <article className='w-full h-full p-2 md:p-4'>
