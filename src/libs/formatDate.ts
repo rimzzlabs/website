@@ -1,9 +1,9 @@
 export const formatDate = (date: string) => {
   const dateObject = new Date(date)
 
-  return dateObject.toLocaleDateString('id-ID', {
+  return dateObject.toLocaleDateString(['id-ID', 'en-EN'], {
     year: 'numeric',
-    month: 'short',
+    month: 'long',
     day: 'numeric'
   })
 }
