@@ -1,7 +1,9 @@
 import type { SingleProjectType } from '@/types/customType'
-import clsx from 'clsx'
+
 import NextImage from '../NextImage'
 import NextLink from '../NextLink'
+
+import clsx from 'clsx'
 import { IoGlobe, IoLogoGithub } from 'react-icons/io5'
 
 /**

@@ -1,13 +1,16 @@
 import '@/styles/globals.css'
 import '@/styles/prism.css'
-import Router from 'next/router'
+
 import Header from '@/components/Header'
-import { ThemeProvider } from 'next-themes'
+
 import { progress } from '@/libs/progress'
-import { AppProps } from 'next/app'
-import { NextSeo } from 'next-seo'
 import { metaPages } from '@/utils/constant'
-import { LazyMotion, domAnimation, AnimatePresence, m, Variants } from 'framer-motion'
+
+import { AnimatePresence, LazyMotion, Variants, domAnimation, m } from 'framer-motion'
+import { NextSeo } from 'next-seo'
+import { ThemeProvider } from 'next-themes'
+import { AppProps } from 'next/app'
+import Router from 'next/router'
 
 Router.events.on('routeChangeStart', progress.start)
 Router.events.on('routeChangeComplete', progress.finish)

@@ -1,5 +1,6 @@
-import clsx from 'clsx'
 import type { TogglerProps } from '@/types/customType'
+
+import clsx from 'clsx'
 
 /**
  * @description this component is used to toggle something, the children are up to you, the className is optional
@@ -19,7 +20,8 @@ const Toggler = ({ children, onClick, className = '' }: TogglerProps) => {
         'border-dark-300 dark:border-dark-700 bg-white dark:bg-dark-900',
         'hover:bg-dark-100 dark:hover:bg-dark-700',
         className
-      )}>
+      )}
+    >
       {children}
     </button>
   )

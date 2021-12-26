@@ -1,5 +1,6 @@
-import { IoMail, IoLogoGithub, IoLogoLinkedin, IoLogoFacebook } from 'react-icons/io5'
 import { TechincalType } from '@/types/customType'
+
+import { IoLogoFacebook, IoLogoGithub, IoLogoLinkedin, IoMail } from 'react-icons/io5'
 
 /**
  * @description Routes, defines the routes of the pages, if you add a new route the page would also updated

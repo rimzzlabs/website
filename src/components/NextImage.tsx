@@ -1,5 +1,6 @@
-import Image from 'next/image'
 import type { NextImageProps } from '@/types/customType'
+
+import Image from 'next/image'
 
 const NextImage = ({
   src,

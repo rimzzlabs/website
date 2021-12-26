@@ -1,12 +1,14 @@
 import Footer from '@/components/Footer'
 import Meta from '@/components/atoms/Meta'
-import { metaPages } from '@/utils/constant'
-import clsx from 'clsx'
-import AnimeContainer from '@/components/wrapper/AnimeContainer'
-import { GetStaticProps } from 'next'
-import { doGet } from '@/libs/doFetch'
 import ArticleCard from '@/components/cards/ArticleCard'
+import AnimeContainer from '@/components/wrapper/AnimeContainer'
+
+import { doGet } from '@/libs/doFetch'
 import { ArticleProps, SingleArticleType } from '@/types/customType'
+import { metaPages } from '@/utils/constant'
+
+import clsx from 'clsx'
+import { GetStaticProps } from 'next'
 import readingTime from 'reading-time'
 
 export const getStaticProps: GetStaticProps = async () => {

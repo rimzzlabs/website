@@ -1,6 +1,7 @@
+import type { NextLinkProps } from '@/types/customType'
+
 import clsx from 'clsx'
 import Link from 'next/link'
-import type { NextLinkProps } from '@/types/customType'
 
 /**
  * @description this custom NextLink is used to have a nice custom and reusable Link, it has 3 diferrent type of anchor tag:

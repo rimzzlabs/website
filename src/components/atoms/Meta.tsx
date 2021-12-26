@@ -1,5 +1,6 @@
-import { NextSeo } from 'next-seo'
 import type { MetaType } from '@/types/customType'
+
+import { NextSeo } from 'next-seo'
 
 /**
  * @description this component return a NextSeo props that has dynamic value depends on the props given

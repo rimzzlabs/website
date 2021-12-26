@@ -1,14 +1,16 @@
 import Footer from '@/components/Footer'
+import NextImage from '@/components/NextImage'
+import Meta from '@/components/atoms/Meta'
+
 import { doGet } from '@/libs/doFetch'
+import formatDate from '@/libs/formatDate'
+import type { ArticleProps, SingleArticleType } from '@/types/customType'
+
+import clsx from 'clsx'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { ParsedUrlQuery } from 'querystring'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
-import NextImage from '@/components/NextImage'
-import clsx from 'clsx'
-import { ArticleProps, SingleArticleType } from '@/types/customType'
-import Meta from '@/components/atoms/Meta'
-import formatDate from '@/libs/formatDate'
+import { ParsedUrlQuery } from 'querystring'
 import { useEffect } from 'react'
 import readingTime from 'reading-time'
 

@@ -1,8 +1,10 @@
 import type { SingleArticleType } from '@/types/customType'
-import clsx from 'clsx'
-import Label from '../atoms/Label'
+
 import NextImage from '../NextImage'
 import NextLink from '../NextLink'
+import Label from '../atoms/Label'
+
+import clsx from 'clsx'
 
 const ArticleCard = ({ attributes, estRead }: SingleArticleType) => {
   const linkToPost = `/article/${attributes.slug}`

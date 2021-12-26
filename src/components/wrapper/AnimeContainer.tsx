@@ -1,7 +1,8 @@
-import * as React from 'react'
 import useAnimateView from '@/hooks/useAnimateView'
-import { Variants, m } from 'framer-motion'
 import type { AnimeContainerProps } from '@/types/customType'
+
+import { Variants, m } from 'framer-motion'
+import * as React from 'react'
 
 /**
  * @description AnimeContainer simply wraps the children with a wrapper that you want to animate when entering a viewpoert
@@ -40,14 +41,14 @@ const AnimeContainer = ({
 
   if (list) {
     return (
-      <m.ul initial="hidden" ref={ref} animate={controls} variants={variants} className={className}>
+      <m.ul initial='hidden' ref={ref} animate={controls} variants={variants} className={className}>
         {children}
       </m.ul>
     )
   }
 
   return (
-    <m.div initial="hidden" ref={ref} animate={controls} variants={variants} className={className}>
+    <m.div initial='hidden' ref={ref} animate={controls} variants={variants} className={className}>
       {children}
     </m.div>
   )
