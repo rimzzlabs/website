@@ -137,7 +137,7 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
             Environment, which are HTML, CSS and JavaScript, and Now my main Programming Language is TypeScript followed
             by JavaScript.
           </p>
-          <AnimeContainer delay={0.5} className='grid md:grid-cols-2 flex-[1_1_auto] gap-2 md:gap-4'>
+          <AnimeContainer delay={0.5} className={clsx('grid md:grid-cols-2 flex-[1_1_auto]', 'gap-4 gap-y-6 md:gap-6 md:gap-y-8 mt-2 md:mt-4')}>
             {TechincalSkill.map((data, idx) => (
               <SkillCard key={idx + data.title} {...data} />
             ))}
