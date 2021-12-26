@@ -1,5 +1,10 @@
 import { RefObject } from 'react'
 
+export type confType = {
+  block?: 'start' | 'nearest' | 'end' | 'center'
+  inline?: 'start' | 'nearest' | 'end' | 'center'
+}
+
 /**
  * @description smooth scrol on click!
  * this custom hooks used to scoll trough targetted element smoothly
@@ -13,14 +18,14 @@ import { RefObject } from 'react'
  * if the ref valid, then return a function to scroll throught that element,
  * the function returned act like an eventListener
  */
-const useSmoothScroll = (ref: RefObject<HTMLDivElement>) => {
+const useSmoothScroll = (ref: RefObject<HTMLDivElement>, opt = {} as confType) => {
   if (!ref) throw new Error('a reference of element should be provided')
   const scrollToRef = () => {
     if (ref.current) {
       ref.current.scrollIntoView({
         behavior: 'smooth',
-        block: 'center',
-        inline: 'center'
+        block: opt.block ?? 'center',
+        inline: opt.inline ?? 'center'
       })
     }
   }
