@@ -4,10 +4,10 @@
   "private": true,
   "description": "My Personal Website, build with React, Next.js, Strapi and Tailwind CSS",
   "scripts": {
-    "dev": "yarn clean && next dev",
+    "dev": "yarn cache-clean && next dev",
     "build": "next build",
     "start": "next start -p 5000",
-    "clean": "rm -rf ./.next",
+    "cache-clean": "rm -rf ./.next",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "postinstall": "husky install",

@@ -73,6 +73,6 @@
   :is(h1, h2, h3, h4, h5, h6).header-color {
     @apply text-transparent dark:text-transparent bg-gradient-to-r bg-clip-text max-w-max
       from-violet-500 to-sky-500
-      dark:from-rose-500 dark:to-indigo-500;
+      dark:from-red-500 dark:to-rose-500;
   }
 }
