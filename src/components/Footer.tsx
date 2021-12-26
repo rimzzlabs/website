@@ -14,10 +14,14 @@ const Footer = forwardRef<HTMLDivElement>((props, ref) => {
   return (
     <footer ref={ref} className='py-8 md:py-16 pb-8 border-t border-dark-300 dark:border-dark-600'>
       <h3 className='text-center'>Let&apos;s Connect!</h3>
-      <div className='flex items-center justify-center my-2 md:my-4 mb-3 md:mb-6 space-x-2 md:space-x-3 xl:space-x-4'>
+      <div className='flex items-center justify-center my-2 md:my-4 mb-3 md:mb-6 space-x-1 md:space-x-2'>
         {links.map((prop, idx) => (
-          <NextLink href={prop.url} key={idx + prop.name} className='text-[1.35em] hover:text-primary-500 transition'>
-            <prop.Icon />
+          <NextLink
+            href={prop.url}
+            key={idx + prop.name}
+            className='p-1 md:p-2 hover:text-primary-500 dark:hover:text-rose-500'
+          >
+            <prop.Icon className='text-[1.5em] md:text-[1.75em]' />
             <span className='sr-only'>{`Connect with Rizki on ${prop.name}`}</span>
           </NextLink>
         ))}
