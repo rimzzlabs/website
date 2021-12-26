@@ -44,28 +44,39 @@ type IndexPageProps = {
 
 const IndexPage = ({ projects, articles }: IndexPageProps) => {
   const footerRef = useRef<HTMLDivElement>(null)
+  const aboutRef = useRef<HTMLDivElement>(null)
   const scrollToRef = useSmoothScroll(footerRef)
+  const scrollToAbout = useSmoothScroll(aboutRef)
 
   return (
     <>
-      <FullPage className='flex items-center'>
+      <FullPage className='relative flex items-center'>
         <Meta {...metaPages.home} />
         <section>
-          <p className='font-bold text-2xl md:text-5xl text-typo-700 dark:text-typo-200'>
-            <span className='font-normal select-none animate-pulse'>👋</span>
-            Hello, I am
-          </p>
-          <h1 className='xl:text-6xl 2xl:text-7xl my-2 md:my-4'>Rizki Maulana Citra</h1>
+          <h1 className='xl:text-6xl 2xl:text-7xl my-2 md:my-4'>
+            Hello, I&apos;m Rizki <span className='font-normal'>👋</span>
+          </h1>
           <p className='max-w-3xl md:text-lg 2xl:text-xl'>
-            A student at AMIK Serang and a Frontend Web Developer who enjoys working with JavaScript and the{' '}
-            <NextLink href='https://github.com/enaqx/awesome-react' unstyled>
-              React ecosystem
-            </NextLink>
-            .
+            A student at AMIK Serang and a Software Developer with a strong Frontend Web Development skill, focus on
+            User Interactivity and User Experience.
           </p>
           <p className='max-w-3xl md:text-lg 2xl:text-xl mt-2 md:mt-3'>
-            I&apos;m passionate about Web Development and always looking for new challenges and experiences, please do{' '}
-            <NextLink onClick={scrollToRef} href='#contact' unstyled>
+            I&apos;m passionate about Web Development and always looking for new challenges and experiences,{' '}
+            <NextLink
+              onClick={scrollToAbout}
+              className='animated-underline text-primary-500 dark:text-rose-500'
+              href=''
+              smooth
+            >
+              know me
+            </NextLink>{' '}
+            or please do{' '}
+            <NextLink
+              onClick={scrollToRef}
+              className='animated-underline text-primary-500 dark:text-rose-500'
+              href=''
+              smooth
+            >
               contact me
             </NextLink>{' '}
             if you have any questions.
@@ -74,21 +85,23 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
       </FullPage>
 
       <AnimeContainer className={clsx('flex flex-col-reverse w-full py-20 md:py-40', 'md:flex-row md:justify-between')}>
-        <section className='w-full md:pr-4 lg:pr-0'>
+        <section ref={aboutRef} className='w-full md:pr-4 lg:pr-0'>
           <h2 className='header-color'>About Me</h2>
           <p className='max-w-3xl 2xl:text-lg'>
             My name is Rizki Maulana Citra, I was born in Pandeglang Banten. If you don&apos;t know Banten, you may have
             heard of{' '}
-            <NextLink href='https://en.wikipedia.org/wiki/Ujung_Kulon_National_Park' unstyled>
+            <NextLink
+              href='https://en.wikipedia.org/wiki/Ujung_Kulon_National_Park'
+              className='animated-underline text-primary-500 dark:text-rose-500'
+            >
               Ujung Kulon National Park
             </NextLink>
             .
           </p>
           <p className='max-w-3xl 2xl:text-lg mt-2 md:mt-4'>
-            I am an 18 year old who is passionate about Science and technology. Even though I don&apos;t really
-            understand how science works, I still enjoy reading articles and scientific journals. I am a person who
-            likes to learn new things, specific things cannot limit me in seeking knowledge, but what I mean here is
-            more emphasized in the field of technology.
+            I am an 18 year old who is passionate about Computer Science and Web Development, I&apos;m so excited about
+            future Web Technology, and anyway, I love to learn new things and coffee sometimes can help my problem when
+            debugging.
           </p>
           <h3 className='header-color'>Hobbies</h3>
           <p className='max-w-2xl '>
@@ -136,8 +149,8 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
         <section>
           <h2 className='mb-2 md:mb-4 header-color'>Article</h2>
           <p className='max-w-3xl 2xl:text-lg mt-2 md:mt-4'>
-            I&apos;m not a good writer, but sometimes I write to share my knowledge or even express my personal opinion,
-            I cover some topic about Web Development, Internet and Social life based on my personal view.
+            I talk about anything that interest me, Web Development, Internet, as well as Social Life based on my
+            personal view.
           </p>
           <AnimeContainer
             list
@@ -200,8 +213,8 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
       <section className='py-20 -scroll-mt-96'>
         <h2 className='mb-2 md:mb-4 header-color'>Contact</h2>
         <p className='max-w-3xl 2xl:text-lg mt-2 md:mt-4'>
-          If you have any questions and want to contact me, please contact me via email, social media is where I learn
-          and share.
+          Hello, if you interested to talk with me, I am available at any time, please do reach me at one of my social
+          media below, or you can click the button below to send me an email, thank you.
         </p>
         <NextLink
           href='mailto:rmaulana.citra@gmail.com'
