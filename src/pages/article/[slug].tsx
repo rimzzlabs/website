@@ -35,11 +35,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params as customParams
   const res = await doGet<ArticleProps>(`/article?filters[slug][$eq]=${slug}`)
 
+  /** clone the data, and loop through with map function
+   * lets use reading time to predict how long it takes to read selected article
+   * then assigne it to object as a new prop
+   */
   const article = res.result.data.map((item) => {
     const estRead = readingTime(item.attributes.content)
     return { ...item, estRead }
   })[0]
 
+  /**
+   * serialize content from the cms using next-mdx-remote
+   * and also use mdxPrism for rehype plugin for syntax highlighting
+   */
   const mdxSource = await serialize(article.attributes.content, {
     mdxOptions: {
       rehypePlugins: [mdxPrism]
@@ -75,7 +83,9 @@ export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
 
           element.setAttribute('class', anchorClassName)
 
+          // let's check if the href value does not start with the string of #
           if (!href?.startsWith('#')) {
+            // if it is then let's assing attribute target of _blank and rel of noopener noreferrer
             element.setAttribute('target', '_blank')
             element.setAttribute('rel', 'noopener noreferrer')
           }
