@@ -6,5 +6,8 @@
   "jsxSingleQuote": true,
   "trailingComma": "none",
   "arrowParens": "always",
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "importOrder": ["^@/styles/(.*)$", "^@/components(.*)$", "^@/(.*)$", "^[./]", "^"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
