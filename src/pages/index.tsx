@@ -9,14 +9,12 @@ import SkillCard from '@/components/cards/SkillCard'
 import AnimeContainer from '@/components/wrapper/AnimeContainer'
 import FullPage from '@/components/wrapper/FullPage'
 
-import useSmoothScroll from '@/hooks/useSmoothScroll'
 import { doGet } from '@/libs/doFetch'
 import type { ArticleProps, ProjectProps, SingleArticleType, SingleProjectType } from '@/types/customType'
 import { TechincalSkill, hobies, metaPages } from '@/utils/constant'
 
 import clsx from 'clsx'
 import type { GetStaticProps } from 'next'
-import { useRef } from 'react'
 import { IoLogoGithub, IoMail } from 'react-icons/io5'
 import readingTime from 'reading-time'
 
@@ -43,11 +41,6 @@ type IndexPageProps = {
 }
 
 const IndexPage = ({ projects, articles }: IndexPageProps) => {
-  const footerRef = useRef<HTMLDivElement>(null)
-  const aboutRef = useRef<HTMLDivElement>(null)
-  const scrollToRef = useSmoothScroll(footerRef)
-  const scrollToAbout = useSmoothScroll(aboutRef)
-
   return (
     <>
       <FullPage className='relative flex items-center'>
@@ -60,32 +53,11 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
             A student at AMIK Serang and a Software Developer with a strong Frontend Web Development skill, focused on
             User Interactivity and User Experience.
           </p>
-          <p className='max-w-3xl md:text-lg 2xl:text-xl mt-2 md:mt-3'>
-            I&apos;m passionate about Web Development and always looking for new challenges and experiences,{' '}
-            <NextLink
-              onClick={scrollToAbout}
-              className='animated-underline text-primary-500 dark:text-rose-500'
-              href=''
-              smooth
-            >
-              know me
-            </NextLink>{' '}
-            or please do{' '}
-            <NextLink
-              onClick={scrollToRef}
-              className='animated-underline text-primary-500 dark:text-rose-500'
-              href=''
-              smooth
-            >
-              contact me
-            </NextLink>{' '}
-            if you have any questions.
-          </p>
         </section>
       </FullPage>
 
       <AnimeContainer className={clsx('flex flex-col-reverse w-full py-20 md:py-40', 'md:flex-row md:justify-between')}>
-        <section ref={aboutRef} className='w-full md:pr-4 lg:pr-0'>
+        <section className='w-full md:pr-4 lg:pr-0'>
           <h2 className='header-color'>About Me</h2>
           <p className='max-w-3xl 2xl:text-lg'>
             My name is Rizki Maulana Citra, I was born in Pandeglang Banten. If you don&apos;t know Banten, you may have
@@ -137,7 +109,10 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
             Environment, which are HTML, CSS and JavaScript, and Now my main Programming Language is TypeScript followed
             by JavaScript.
           </p>
-          <AnimeContainer delay={0.5} className={clsx('grid md:grid-cols-2 flex-[1_1_auto]', 'gap-4 gap-y-6 md:gap-6 md:gap-y-8 mt-8 md:mt-10')}>
+          <AnimeContainer
+            delay={0.5}
+            className={clsx('grid md:grid-cols-2 flex-[1_1_auto]', 'gap-4 gap-y-6 md:gap-6 md:gap-y-8 mt-8 md:mt-10')}
+          >
             {TechincalSkill.map((data, idx) => (
               <SkillCard key={idx + data.title} {...data} />
             ))}
@@ -230,7 +205,7 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
           <span>Email me</span>
         </NextLink>
       </section>
-      <Footer ref={footerRef} />
+      <Footer />
     </>
   )
 }
