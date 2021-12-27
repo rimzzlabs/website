@@ -5,14 +5,20 @@ import { NextSeo } from 'next-seo'
 /**
  * @description this component return a NextSeo props that has dynamic value depends on the props given
  * it has TITLE_TEMPLATE and SITE_NAME constant, customize to match your own
- * @param {String} title - the title of the page, this props is required
- * @param {String} description - the description of the page, this props is required
- * @param {String} url - the url of the page, this props is required
- * @param {String} image - the image of the page, this props is required
+ * @param title - the title of the page, this props is required
+ * @param description - the description of the page, this props is required
+ * @param url - the url of the page, this props is required
+ * @param image - the image of the page, this props is required
+ * @param keywords - the keywords of the page, this props is not required
  */
-const Meta = ({ title, description, imageURL, imageALT, url }: MetaType) => {
+const Meta = ({ title, description, imageURL, imageALT, url, keywords }: MetaType) => {
   const TITLE_TEMPLATE = 'Rizki Maulana Citra | Frontend Web Developer'
   const SITE_NAME = 'Rizki Maulana Citra'
+  let defaultKeywords = `Rizki, Rizki Maulana Citra, Rizki Citra, Rizkicitra, rizkicitra, rizkimcitra Frontend Developer, Frontend Web Developer, `
+  if (keywords) {
+    defaultKeywords += keywords
+  }
+
   return (
     <NextSeo
       title={title}
@@ -37,6 +43,12 @@ const Meta = ({ title, description, imageURL, imageALT, url }: MetaType) => {
         cardType: 'summary_large_image',
         handle: '@rizkimcitra'
       }}
+      additionalMetaTags={[
+        {
+          name: 'keywords',
+          content: defaultKeywords
+        }
+      ]}
     />
   )
 }

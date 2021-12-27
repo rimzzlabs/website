@@ -107,6 +107,7 @@ export type MetaType = {
   imageURL?: string
   imageALT?: string
   url?: string
+  keywords?: string
 }
 
 /**
