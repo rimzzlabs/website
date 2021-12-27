@@ -79,7 +79,7 @@ export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
         anchors.forEach((element) => {
           const href = element.getAttribute('href')
           const anchorClassName =
-            'text-primary-500 dark:text-rose-400 animated-underline border-dark-900 dark:border-dark-100'
+            'text-primary-500 dark:text-rose-500 animated-underline border-dark-900 dark:border-dark-100'
 
           element.setAttribute('class', anchorClassName)
 
@@ -102,6 +102,7 @@ export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
         imageURL={image.src}
         imageALT={`Image from unsplash - ${image.url}`}
         url={`https://rizkicitra.my.id/article/${data.attributes.slug}`}
+        keywords='blog, blogs, rizkicitra, article, tech article'
       />
       <div>
         <div className='pt-20'>
@@ -115,12 +116,7 @@ export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
             />
           </figure>
         </div>
-        <section
-          className={clsx(
-            'font-inter py-2 md:py-4 mb-2 md:mb-8',
-            'border-b-2 border-dashed border-dark-300 dark:border-dark-700'
-          )}
-        >
+        <section className='font-inter py-2 md:py-4 mb-2 md:mb-8'>
           <h1 className='header-color text-3xl md:text-4xl mb-2 md:mb-4'>{title}</h1>
           <div className='flex items-center justify-between'>
             <span className='max-w-[16rem] sm:max-w-full text-xs md:text-sm'>
@@ -129,12 +125,12 @@ export const ArticlePage = ({ mdxSource, data }: ArticlePageProps) => {
             <span className='text-xs md:text-sm'>{data.estRead.text}</span>
           </div>
         </section>
-        <section>
+        <section className='border-t md:border-t-2 border-dashed border-dark-400 dark:border-dark-600'>
           <article
             className={clsx(
-              'prose prose-sm md:prose-base font-inter dark:prose-invert pb-20',
+              'prose prose-sm md:prose-base font-inter dark:prose-invert py-20',
               'prose-img:rounded prose-img:w-full prose-img:aspect-video prose-img:object-cover',
-              'prose-a:no-underline prose-headings:header-color',
+              'prose-a:no-underline',
               'prose-headings:text-typo-800'
             )}
           >
