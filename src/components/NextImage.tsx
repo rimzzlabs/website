@@ -20,7 +20,7 @@ const NextImage = ({
         height={height}
         loading='lazy'
         placeholder='blur'
-        blurDataURL='/loader.webp'
+        blurDataURL='/blur.svg'
         className={className}
       />
     )
@@ -33,7 +33,7 @@ const NextImage = ({
       objectFit={fit}
       loading='lazy'
       placeholder='blur'
-      blurDataURL='/loader.webp'
+      blurDataURL='/blur.svg'
       className={className}
     />
   )
