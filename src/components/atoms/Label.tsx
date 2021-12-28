@@ -25,6 +25,7 @@ const Label = ({ type }: LabelProps) => {
     case 'Javascript':
     case 'JavaScript':
       classNames = 'text-yellow-800 bg-yellow-100'
+      break
 
     case 'devlife':
     case 'DevLife':
