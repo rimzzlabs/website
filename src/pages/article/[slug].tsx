@@ -1,7 +1,3 @@
-import Footer from '@/components/Footer'
-import NextImage from '@/components/NextImage'
-import Meta from '@/components/atoms/Meta'
-
 import { doGet } from '@/libs/doFetch'
 import formatDate from '@/libs/formatDate'
 import type { ArticleProps, SingleArticleType } from '@/types/customType'
@@ -10,9 +6,14 @@ import clsx from 'clsx'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
+import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
 import { useEffect } from 'react'
 import readingTime from 'reading-time'
+
+const Footer = dynamic(() => import('@/components/Footer'))
+const NextImage = dynamic(() => import('@/components/NextImage'))
+const Meta = dynamic(() => import('@/components/atoms/Meta'))
 
 interface customParams extends ParsedUrlQuery {
   slug: string

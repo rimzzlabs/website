@@ -1,10 +1,11 @@
 import type { SingleProjectType } from '@/types/customType'
 
-import NextImage from '../NextImage'
-import NextLink from '../NextLink'
-
 import clsx from 'clsx'
+import dynamic from 'next/dynamic'
 import { IoGlobe, IoLogoGithub } from 'react-icons/io5'
+
+const NextImage = dynamic(() => import('../NextImage'))
+const NextLink = dynamic(() => import('../NextLink'))
 
 /**
  * @description a card used for displaying a Card UI of Project, this component accept one props which is an object

@@ -1,6 +1,8 @@
 import { links } from '@/utils/constant'
 
-import NextLink from './NextLink'
+import Dynamic from 'next/dynamic'
+
+const NextLink = Dynamic(() => import('./NextLink'))
 
 /**
  *  Footer is a component that used to render the footer of the website, it returns a JSX element.

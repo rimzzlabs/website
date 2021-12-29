@@ -1,12 +1,13 @@
 import useTheme from '@/hooks/useTheme'
 import { routes } from '@/utils/constant'
 
-import NextLink from './NextLink'
-import Toggler from './Toggler'
-
 import clsx from 'clsx'
+import Dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+
+const NextLink = Dynamic(() => import('./NextLink'))
+const Toggler = Dynamic(() => import('./Toggler'))
 
 /**
  * @description this Header element used to render the header of the website, the header is a navbar with a toggler button of dark mode

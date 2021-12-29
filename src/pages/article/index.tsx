@@ -1,15 +1,16 @@
-import Footer from '@/components/Footer'
-import Meta from '@/components/atoms/Meta'
-import ArticleCard from '@/components/cards/ArticleCard'
-import AnimeContainer from '@/components/wrapper/AnimeContainer'
-
 import { doGet } from '@/libs/doFetch'
 import { ArticleProps, SingleArticleType } from '@/types/customType'
 import { metaPages } from '@/utils/constant'
 
 import clsx from 'clsx'
 import { GetStaticProps } from 'next'
+import dynamic from 'next/dynamic'
 import readingTime from 'reading-time'
+
+const Footer = dynamic(() => import('@/components/Footer'))
+const Meta = dynamic(() => import('@/components/atoms/Meta'))
+const ArticleCard = dynamic(() => import('@/components/cards/ArticleCard'))
+const AnimeContainer = dynamic(() => import('@/components/wrapper/AnimeContainer'))
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await doGet<ArticleProps>('/article?sort=id:DESC')

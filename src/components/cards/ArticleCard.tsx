@@ -1,9 +1,10 @@
 import type { SingleArticleType } from '@/types/customType'
 
-import NextLink from '../NextLink'
-import Label from '../atoms/Label'
-
 import clsx from 'clsx'
+import Dynamic from 'next/dynamic'
+
+const NextLink = Dynamic(() => import('../NextLink'))
+const Label = Dynamic(() => import('../atoms/Label'))
 
 const ArticleCard = ({ attributes, estRead }: SingleArticleType) => {
   const linkToPost = `/article/${attributes.slug}`

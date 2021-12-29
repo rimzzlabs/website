@@ -1,22 +1,23 @@
-import Footer from '@/components/Footer'
-import NextImage from '@/components/NextImage'
-import NextLink from '@/components/NextLink'
-import Meta from '@/components/atoms/Meta'
-import ArticleCard from '@/components/cards/ArticleCard'
-import HobbyCard from '@/components/cards/HobbyCard'
-import ProjectCard from '@/components/cards/ProjectCard'
-import SkillCard from '@/components/cards/SkillCard'
-import AnimeContainer from '@/components/wrapper/AnimeContainer'
-import FullPage from '@/components/wrapper/FullPage'
-
 import { doGet } from '@/libs/doFetch'
 import type { ArticleProps, ProjectProps, SingleArticleType, SingleProjectType } from '@/types/customType'
 import { TechincalSkill, hobies, metaPages } from '@/utils/constant'
 
 import clsx from 'clsx'
 import type { GetStaticProps } from 'next'
+import dynamic from 'next/dynamic'
 import { IoLogoGithub, IoMail } from 'react-icons/io5'
 import readingTime from 'reading-time'
+
+const Footer = dynamic(() => import('@/components/Footer'))
+const NextImage = dynamic(() => import('@/components/NextImage'))
+const NextLink = dynamic(() => import('@/components/NextLink'))
+const Meta = dynamic(() => import('@/components/atoms/Meta'))
+const ArticleCard = dynamic(() => import('@/components/cards/ArticleCard'))
+const HobbyCard = dynamic(() => import('@/components/cards/HobbyCard'))
+const ProjectCard = dynamic(() => import('@/components/cards/ProjectCard'))
+const SkillCard = dynamic(() => import('@/components/cards/SkillCard'))
+const AnimeContainer = dynamic(() => import('@/components/wrapper/AnimeContainer'))
+const FullPage = dynamic(() => import('@/components/wrapper/FullPage'))
 
 export const getStaticProps: GetStaticProps = async () => {
   const projectsRes = await doGet<ProjectProps>('/project?sort=id:DESC')

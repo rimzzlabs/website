@@ -1,8 +1,9 @@
 import type { HobbyCardProps } from '@/types/customType'
 
-import Icon from '../atoms/Icon'
-
 import clsx from 'clsx'
+import dynamic from 'next/dynamic'
+
+const Icon = dynamic(() => import('../atoms/Icon'))
 
 const HobbyCard = ({ icon, title }: HobbyCardProps) => {
   return (

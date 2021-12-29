@@ -1,8 +1,9 @@
 import type { TechincalType } from '@/types/customType'
 
-import TechIcon from '../atoms/Icon'
-
 import clsx from 'clsx'
+import dynamic from 'next/dynamic'
+
+const TechIcon = dynamic(() => import('../atoms/Icon'))
 
 /**
  * @description SkillCard is a component that displays a skill card, being used in the `src/pages/index.tsx`
