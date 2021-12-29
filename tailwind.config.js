@@ -9,8 +9,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Readex Pro', ...fontFamily.sans],
-        inter: ['Inter', ...fontFamily.sans]
+        primary: ['Inter', ...fontFamily.sans]
       },
       colors: {
         primary: {
