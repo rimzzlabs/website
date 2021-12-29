@@ -11,7 +11,7 @@
     src: url('/fonts/readex-pro.ttf') format('truetype');
   }
   ::selection {
-    @apply text-dark-800 bg-sky-300 dark:bg-rose-500 dark:text-dark-200;
+    @apply text-dark-800 bg-sky-300 dark:bg-primary-500 dark:text-dark-200;
   }
   h1 {
     @apply text-2xl font-bold md:text-4xl text-typo-700 dark:text-typo-200;
@@ -48,7 +48,7 @@
   }
 
   :is(a, button):is(:focus-visible) {
-    @apply outline-none ring ring-offset-2 dark:ring-offset-dark-900 ring-primary-500 dark:ring-rose-500
+    @apply outline-none ring ring-offset-2 dark:ring-offset-dark-900 ring-primary-500
     transition-all duration-200;
   }
 }
@@ -59,7 +59,7 @@
   }
 
   .animated-underline {
-    @apply relative after:w-0 after:h-0.5 after:bg-primary-500 dark:after:bg-rose-500;
+    @apply relative after:w-0 after:h-0.5 after:bg-primary-500;
     @apply after:absolute after:-bottom-0.5 after:left-0;
     @apply after:transition-all after:duration-300 after:ease-in-out;
     @apply hover:after:w-full;
@@ -67,12 +67,11 @@
   }
 
   .border-color {
-    @apply border-dark-300 hover:border-primary-500 dark:border-dark-700 dark:hover:border-rose-500;
+    @apply border-dark-300 dark:border-dark-700;
   }
 
   :is(h1, h2, h3, h4, h5, h6).header-color {
     @apply text-transparent dark:text-transparent bg-gradient-to-r bg-clip-text max-w-max
-      from-violet-500 to-sky-500
-      dark:from-red-500 dark:to-rose-500;
+      from-primary-500 to-primary-400;
   }
 }
