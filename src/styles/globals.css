@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
   ::selection {
     @apply text-dark-800 bg-sky-300 dark:bg-primary-500 dark:text-dark-200;
   }
