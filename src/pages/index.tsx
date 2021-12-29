@@ -64,7 +64,7 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
             heard of{' '}
             <NextLink
               href='https://en.wikipedia.org/wiki/Ujung_Kulon_National_Park'
-              className='animated-underline text-primary-500 dark:text-rose-500'
+              className='animated-underline text-primary-500 dark:text-primary-400'
             >
               Ujung Kulon National Park
             </NextLink>
@@ -196,9 +196,8 @@ const IndexPage = ({ projects, articles }: IndexPageProps) => {
           className={clsx(
             'flex items-center h-8 md:h-10 max-w-max',
             'px-2 md:px-6 rounded transition-all space-x-2 md:space-x-3 bg-gradient-to-r',
-            'from-purple-500 via-primary-500 to-sky-500 text-white',
-            'dark:from-red-500 dark:via-rose-500 dark:to-primary-500',
-            'hover:opacity-75 active:opacity-100 active:grayscale'
+            'from-primary-600 to-primary-500 text-white',
+            'active:grayscale'
           )}
         >
           <IoMail />
