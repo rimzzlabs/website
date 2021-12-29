@@ -43,7 +43,7 @@ const Header = () => {
           'flex items-center justify-center',
           ' py-2 px-4 rounded max-w-max fixed left-4 top-4 transition-all duration-200 z-[999]',
           '-translate-y-96 focus-visible:translate-y-0',
-          'bg-primary-low text-primary-600 dark:bg-rose-100 dark:text-rose-700'
+          'bg-primary-low text-primary-600'
         )}
       >
         Skip To Content
