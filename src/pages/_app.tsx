@@ -3,18 +3,12 @@ import '@/styles/prism.css'
 
 import Header from '@/components/Header'
 
-import { progress } from '@/libs/progress'
 import { metaPages } from '@/utils/constant'
 
 import { AnimatePresence, LazyMotion, Variants, domAnimation, m } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import { ThemeProvider } from 'next-themes'
 import { AppProps } from 'next/app'
-import Router from 'next/router'
-
-Router.events.on('routeChangeStart', progress.start)
-Router.events.on('routeChangeComplete', progress.finish)
-Router.events.on('routeChangeError', progress.finish)
 
 const App = ({ Component, pageProps, router }: AppProps) => {
   const v: Variants = {

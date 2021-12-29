@@ -48,7 +48,7 @@ const Header = () => {
       >
         Skip To Content
       </NextLink>
-      <div className={clsx('w-full h-2 bg-gradient-to-r', 'from-rose-500 via-indigo-500 to-primary-500')} />
+      <div className={clsx('w-full h-2 bg-gradient-to-r', 'from-primary-500 to-fuchsia-500')} />
 
       <header className={clsx('layout h-12 md:h-16', 'flex items-center md:space-x-0 justify-between')}>
         <nav className={clsx('flex items-center space-x-4 2xl:space-x-5')}>
@@ -59,7 +59,7 @@ const Header = () => {
               className={clsx(
                 'relative z-[1] after:absolute after:w-full',
                 'after:left-0 after:bottom-0 after:z-[-1] after:transition-all duration-300',
-                'after:bg-primary-500 dark:after:bg-rose-500',
+                'after:bg-primary-500',
                 pathname === route.path || pathname === route.path + '/[slug]' ? 'after:h-1' : 'after:h-0'
               )}
             >
