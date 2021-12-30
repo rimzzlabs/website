@@ -16,11 +16,7 @@ const Footer = () => {
       <h3 className='text-center'>Let&apos;s Connect!</h3>
       <div className='flex items-center justify-center my-2 md:my-4 mb-3 md:mb-6 space-x-1 md:space-x-2'>
         {links.map((prop, idx) => (
-          <NextLink
-            href={prop.url}
-            key={idx + prop.name}
-            className='p-1 md:p-2 hover:text-primary-500 dark:hover:text-rose-500'
-          >
+          <NextLink href={prop.url} key={idx + prop.name} className='p-1 md:p-2 hover:text-primary-500'>
             <prop.Icon className='text-[1.5em] md:text-[1.75em]' />
             <span className='sr-only'>{`Connect with Rizki on ${prop.name}`}</span>
           </NextLink>
