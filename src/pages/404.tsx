@@ -6,6 +6,12 @@ import FullPage from '@/components/wrapper/FullPage'
 import clsx from 'clsx'
 import type { NextPage } from 'next'
 
+/**
+Used to display an UI of 404, if the
+Visitor of the web visit unavailable page,
+Try go to http://localhost:3000/unavail
+You will see this page being used
+*/
 const NotFoundPage: NextPage = () => {
   return (
     <>
