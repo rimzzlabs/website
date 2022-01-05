@@ -10,7 +10,6 @@ My Personal Website, built with React, Next.js, TailwindCSS, and Strapi for head
 
 **TO DO**
 - [X] Syntax Highlighting
-- [ ] internalization with next-translate
 - [ ] Next Authentication
 - [ ] Guest Book
 - [ ] Comments with GitHub
