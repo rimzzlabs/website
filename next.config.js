@@ -8,6 +8,7 @@ module.exports = withPwa({
     domains: ['ik.imagekit.io', 'images.unsplash.com']
   },
   reactStrictMode: true,
+  // replace react with preact if on production
   webpack(config, { dev, isServer }) {
     if (!dev && !isServer) {
       Object.assign(config.resolve.alias, {
