@@ -9,17 +9,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Inter', ...fontFamily.sans]
+        primary: ['"Inter"', ...fontFamily.sans]
       },
       colors: {
-        primary: {
-          low: '#f2f8ff',
-          400: colors.blue[400],
-          500: colors.blue[500],
-          600: colors.blue[600]
-        },
-        dark: colors.neutral,
-        typo: colors.neutral
+        primary: colors.blue,
+        theme: colors.zinc
       }
     }
   },

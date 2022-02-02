@@ -3,70 +3,33 @@
 @tailwind utilities;
 
 @layer base {
-  ::selection {
-    @apply text-dark-800 bg-sky-300 dark:bg-primary-500 dark:text-dark-200;
-  }
   h1 {
-    @apply text-2xl font-bold md:text-4xl text-typo-700 dark:text-typo-200;
+    @apply font-bold text-2xl md:text-4xl;
+  }
+
+  h1.title {
+    @apply font-bold text-4xl md:text-6xl;
   }
 
   h2 {
-    @apply text-xl font-bold md:text-3xl text-typo-700 dark:text-typo-200;
+    @apply font-bold text-xl md:text-3xl;
   }
 
   h3 {
-    @apply text-lg font-bold md:text-xl text-typo-700 dark:text-typo-200;
+    @apply font-bold text-lg md:text-xl;
   }
 
   h4 {
-    @apply text-base font-bold md:text-lg text-typo-700 dark:text-typo-200;
-  }
-
-  h2 ~ p:not(:last-child),
-  h3 ~ p:not(:last-child) {
-    @apply mb-2 md:mb-3 2xl:mb-4;
-  }
-
-  h2 + p,
-  h3 + p {
-    @apply mt-2 md:mt-4 2xl:mt-5;
+    @apply font-bold text-base md:text-lg;
   }
 
   body {
-    @apply font-primary text-sm md:text-base overflow-x-hidden antialiased bg-[#fdfdfd] dark:bg-dark-900 text-typo-600 dark:text-typo-300;
-  }
-
-  ul.list-disc > li:not(:last-child) {
-    @apply mb-1.5 md:mb-3;
-  }
-
-  :is(a, button):is(:focus-visible) {
-    @apply outline-none ring ring-offset-2 dark:ring-offset-dark-900 ring-primary-500
-    transition-all duration-200;
+    @apply font-primary text-base antialiased text-theme-700 dark:text-theme-200 bg-theme-50 dark:bg-theme-900;
   }
 }
 
 @layer utilities {
   .layout {
-    @apply w-[90%] lg:w-full max-w-5xl mx-auto;
-  }
-
-  .animated-underline {
-    @apply relative after:w-0 after:h-0.5 after:bg-primary-500;
-    @apply after:absolute after:-bottom-0.5 after:left-0;
-    @apply after:transition-all after:duration-300 after:ease-in-out;
-    @apply hover:after:w-full;
-    @apply border-b border-dotted border-dark-900 dark:border-dark-500;
-  }
-
-  .border-color {
-    @apply border-dark-300 dark:border-dark-700;
-  }
-
-  :is(h1, h2, h3, h4, h5, h6).header-color {
-    @apply text-transparent dark:text-transparent bg-gradient-to-r bg-clip-text max-w-max
-      from-primary-500 to-sky-500;
+    @apply w-11/12 md:w-full max-w-3xl mx-auto;
   }
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
