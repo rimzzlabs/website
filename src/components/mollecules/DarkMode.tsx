@@ -1,10 +1,9 @@
 import useTheme from '@/hooks/useTheme'
 
 import Button from '../atoms/Button'
-import Moon from '../atoms/icons/Moon'
-import Sun from '../atoms/icons/Sun'
 
 import clsx from 'clsx'
+import { HiMoon, HiSun } from 'react-icons/hi'
 
 const DarkMode: React.FC = () => {
   const { theme, mounted, changeTheme } = useTheme()
@@ -21,7 +20,7 @@ const DarkMode: React.FC = () => {
       )}
       onClick={changeTheme}
     >
-      {theme === 'light' ? <Moon /> : <Sun />}
+      {theme === 'light' ? <HiMoon /> : <HiSun />}
     </Button>
   )
 }
