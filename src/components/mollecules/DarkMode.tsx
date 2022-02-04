@@ -13,10 +13,10 @@ const DarkMode: React.FC = () => {
   return (
     <Button
       className={clsx(
-        'h-10',
+        'h-10 md:text-lg',
         'aspect-square rounded',
-        'bg-primary-100 text-primary-900',
-        'dark:bg-theme-900 dark:text-primary-400'
+        'bg-primary-100 text-primary-700',
+        'dark:bg-theme-800 dark:text-primary-400'
       )}
       onClick={changeTheme}
     >
