@@ -1,3 +1,4 @@
+import DarkMode from '../mollecules/DarkMode'
 import Nav from '../mollecules/Nav'
 
 import clsx from 'clsx'
@@ -7,6 +8,7 @@ const Header = () => (
     <div className={clsx('h-2 w-full', 'bg-gradient-to-r', 'from-primary-500 to-ternary-500')} />
     <header className={clsx('layout h-full', 'flex items-center justify-between')}>
       <Nav />
+      <DarkMode />
     </header>
   </div>
 )
