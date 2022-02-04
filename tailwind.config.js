@@ -13,6 +13,7 @@ module.exports = {
       },
       colors: {
         primary: colors.blue,
+        ternary: colors.violet,
         theme: colors.zinc
       }
     }
