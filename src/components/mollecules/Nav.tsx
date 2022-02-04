@@ -2,16 +2,27 @@ import { routes } from '@/libs/constant'
 
 import clsx from 'clsx'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 /**
  * A Nav componet that renders a list of links to the routes defined in the `src/libs/constant.ts`
  */
 const Nav: React.FC = () => {
+  const { pathname } = useRouter()
   return (
-    <nav className={clsx('flex items-center space-x-2 md:space-x-3')}>
+    <nav className={clsx('flex items-center space-x-1 md:space-x-1.5')}>
       {routes.map((route) => (
         <Link key={route.name} href={route.path}>
-          {route.name}
+          <a
+            className={clsx(
+              'inline-flex items-center justify-center',
+              'py-1 md:py-1.5 px-3 md:px-3.5 rounded',
+              'hover:bg-theme-800',
+              route.path === pathname && 'text-theme-100'
+            )}
+          >
+            {route.name}
+          </a>
         </Link>
       ))}
     </nav>
