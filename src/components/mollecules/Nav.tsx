@@ -17,8 +17,8 @@ const Nav: React.FC = () => {
             className={clsx(
               'inline-flex items-center justify-center',
               'py-1 md:py-1.5 px-3 md:px-3.5 rounded',
-              'hover:bg-theme-800',
-              route.path === pathname && 'text-theme-100'
+              'hover:bg-theme-300 dark:hover:bg-theme-800 text-theme-600 dark:text-theme-700',
+              route.path === pathname && 'text-theme-800 dark:text-theme-100'
             )}
           >
             {route.name}
