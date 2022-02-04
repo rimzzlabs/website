@@ -9,7 +9,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
       <Header />
-      <div className='layout'>
+      <div className='layout mt-16 md:mt-24'>
         <Component {...pageProps} />
       </div>
     </ThemeProvider>
