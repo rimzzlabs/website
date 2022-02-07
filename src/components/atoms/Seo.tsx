@@ -5,7 +5,7 @@ import { NextSeo, NextSeoProps } from 'next-seo'
  * @returns A Next.js component.
  */
 const Seo: React.FC<NextSeoProps> = ({ ...props }) => {
-  const TITLE_TEMPLATE = '%s | RizkiCitra'
+  const TITLE_TEMPLATE = '%s | Student and Frontend Developer from Indonesia'
   return <NextSeo {...props} title={props.title} titleTemplate={TITLE_TEMPLATE} />
 }
 
