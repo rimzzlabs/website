@@ -4,7 +4,7 @@
   "private": true,
   "description": "My Personal Website, build with React, Next.js, Strapi and Tailwind CSS",
   "scripts": {
-    "dev": "yarn cache-clean && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start -p 5000",
     "cache-clean": "rm -rf ./.next",

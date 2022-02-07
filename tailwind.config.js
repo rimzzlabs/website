@@ -13,15 +13,11 @@ module.exports = {
       },
       colors: {
         primary: colors.blue,
-        ternary: colors.violet,
+        ternary: colors.teal,
         theme: colors.zinc
       }
     }
   },
-  variants: {
-    extend: {
-      // typography: ['dark']
-    }
-  },
+  variants: {},
   plugins: [require('@tailwindcss/typography')]
 }
