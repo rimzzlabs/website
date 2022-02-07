@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 const useTheme = () => {
   const { theme, setTheme, systemTheme } = useNextTheme(),
-    [mounted, setMounted] = useState<boolean>(true),
+    [mounted, setMounted] = useState<boolean>(false),
     currentTheme = theme === 'system' ? systemTheme : theme
 
   const changeTheme = () => {
@@ -15,7 +15,7 @@ const useTheme = () => {
   }
 
   useEffect(() => {
-    setMounted(false)
+    setMounted(true)
   }, [])
 
   return {
