@@ -4,18 +4,20 @@ import clsx from 'clsx'
 import { NextPage } from 'next'
 import { NextSeoProps } from 'next-seo'
 
-interface PageLayoutProps extends NextSeoProps {
+interface LayoutProps extends NextSeoProps {
   title: string
   className?: string
 }
 
-const PageLayout: NextPage<PageLayoutProps> = ({ children, ...props }) => {
+const Layout: NextPage<LayoutProps> = ({ children, ...props }) => {
   return (
     <>
       <Seo {...props} />
-      <main className={clsx(props.className)}>{children}</main>
+      <main id='skip' className={clsx('mt-24 md:mt-36')}>
+        {children}
+      </main>
     </>
   )
 }
 
-export default PageLayout
+export default Layout
