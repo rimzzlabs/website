@@ -1,7 +1,10 @@
 import { useAnimation } from 'framer-motion'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-
+/**
+this useAnimateView hooks used to animate an element
+when in a viewport
+*/
 const useAnimateView = () => {
   const { inView, ref } = useInView({
     triggerOnce: true,
