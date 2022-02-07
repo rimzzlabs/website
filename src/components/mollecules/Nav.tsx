@@ -1,7 +1,8 @@
-import { routes } from '@/libs/constant'
+import { Link } from '@/components/atoms/Link'
+
+import APP_ROUTE from '@/libs/constants/route'
 
 import clsx from 'clsx'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 /**
@@ -9,20 +10,21 @@ import { useRouter } from 'next/router'
  */
 const Nav: React.FC = () => {
   const { pathname } = useRouter()
+
   return (
-    <nav className={clsx('flex items-center space-x-1 md:space-x-1.5')}>
-      {routes.map((route) => (
-        <Link key={route.name} href={route.path}>
-          <a
-            className={clsx(
-              'inline-flex items-center justify-center',
-              'py-1 md:py-1.5 px-3 md:px-3.5 rounded',
-              'hover:bg-theme-300 dark:hover:bg-theme-800 text-theme-600 dark:text-theme-700',
-              route.path === pathname && 'text-theme-800 dark:text-theme-100'
-            )}
-          >
-            {route.name}
-          </a>
+    <nav className={clsx('flex items-center -mx-3 md:-mx-3.5')}>
+      {APP_ROUTE.map((route) => (
+        <Link
+          key={route.name}
+          href={route.path}
+          className={clsx(
+            'inline-flex text-sm md:text-base items-center justify-center',
+            'py-1 md:py-1.5 px-3 md:px-3.5 rounded',
+            'hover:bg-theme-300 dark:hover:bg-theme-800',
+            route.path === pathname ? 'text-primary-500 dark:text-primary-400' : 'text-theme-700 dark:text-theme-300'
+          )}
+        >
+          {route.name}
         </Link>
       ))}
     </nav>
