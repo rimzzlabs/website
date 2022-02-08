@@ -84,7 +84,7 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
           </p>
           <p className='max-w-prose mb-2 md:mb-4'>
             Howdy👋, I&apos;m Rizki Maulana Citra, a Frontend Developer who loves to code, music, and drink coffee to
-            fullfill his energy, talks about React, Next.js, JavaScript and CSS
+            fullfill my energy, talks about React, Next.js, JavaScript and CSS
           </p>
         </section>
       </div>

@@ -1,4 +1,5 @@
 import ArticleCard from '@/components/mollecules/ArticleCard'
+import Hero from '@/components/mollecules/Hero'
 import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
 
@@ -32,13 +33,11 @@ export const getStaticProps: GetStaticProps = async () => {
 const ArticlePage: NextPage<{ articles: Array<ArticleHeadProps> }> = ({ articles = [] }) => {
   return (
     <Layout title='Article'>
-      <section className='mb-2 md:mb-4'>
-        <h1 className='mb-2 md:mb-4'>Article</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente laudantium enim perspiciatis similique
-          consequuntur ab. Nostrum repellat id ad harum aut unde dolor laboriosam, dolorum odio tempore.
-        </p>
-      </section>
+      <Hero
+        title='Article'
+        description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente laudantium enim perspiciatis similique consequuntur ab. Nostrum repellat id ad harum aut unde dolor laboriosam, dolorum odio tempore.'
+        className='mb-2 md:mb-4'
+      />
 
       <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'pt-10 flex-1 gap-4 md:gap-5')}>
         {articles.length > 0 && articles.map((data, index) => <ArticleCard key={data.title + index} {...data} />)}

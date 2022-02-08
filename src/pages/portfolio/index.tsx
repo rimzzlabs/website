@@ -1,4 +1,5 @@
 import Button from '@/components/atoms/Button'
+import Hero from '@/components/mollecules/Hero'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
@@ -37,13 +38,11 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ portfolios = [] }) => {
 
   return (
     <Layout title='Project'>
-      <section>
-        <h1 className='mb-2 md:mb-4'>Portfolio</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima blanditiis veritatis, unde earum ea vero
-          distinctio suscipit doloremque laborum molestiae qui ducimus eaque.
-        </p>
-      </section>
+      <Hero
+        title='Portfolio'
+        description='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem maxime temporibus, est id beatae ex ipsam odio pariatur blanditiis excepturi et dolor delectus sequi quis non tempore!'
+      />
+
       <div className='py-10'>
         <div className={clsx('flex items-stretch', 'h-10 md:h-12', 'rounded space-x-1 md:space-x-2')}>
           <input
