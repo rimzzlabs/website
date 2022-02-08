@@ -13,9 +13,7 @@ const Layout: NextPage<LayoutProps> = ({ children, ...props }) => {
   return (
     <>
       <Seo {...props} />
-      <main id='skip' className={clsx('mt-24 md:mt-36')}>
-        {children}
-      </main>
+      <main className={clsx('mt-24 md:mt-36')}>{children}</main>
     </>
   )
 }
