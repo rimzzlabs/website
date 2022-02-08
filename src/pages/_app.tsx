@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import '@/styles/prism.css'
 
+import Skip from '@/components/atoms/Skip'
 import Header from '@/components/organism/Header'
 
 import variants, { withExit } from '@/libs/animation/variants'
@@ -15,9 +16,11 @@ const App = ({ Component, pageProps, router }: AppProps) => {
   return (
     <ThemeProvider attribute='class' storageKey='theme' enableSystem>
       <LazyMotion features={domAnimation}>
+        <Skip />
         <Header />
         <AnimatePresence initial={false} onExitComplete={() => window.scrollTo(0, 0)} exitBeforeEnter>
           <m.div
+            id='skip-content'
             key={router.route.concat('1')}
             variants={v}
             initial='hidden'
