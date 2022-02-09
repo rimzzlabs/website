@@ -1,17 +1,3 @@
-My Personal Website, built with React, Next.js, TailwindCSS, and Strapi for headlessCMS
+# <p align="center">❗redesigning the entire website❗</p>
 
-**Additional Libs**
-
-- Next-SEO
-- Next-Themes
-- Next-PWA
-- Next-MDX-Remote && mdxPrism
-- Framer Motion
-
-**TO DO**
-- [X] Syntax Highlighting
-- [ ] Next Authentication
-- [ ] Guest Book
-- [ ] Comments with GitHub
-
-**More Description Soon...**
+see the progress on [this branch](https://github.com/rizkimcitra/rizkicitra/tree/revision).
