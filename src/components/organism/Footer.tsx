@@ -1,17 +1,18 @@
 import APP_ROUTE from '@/libs/constants/route'
 import SOCIAL from '@/libs/constants/social'
 
-import { Link } from '../atoms/Link'
+import Link from '../atoms/Link'
 import DarkMode from '../mollecules/DarkMode'
 
 import clsx from 'clsx'
 
 const Footer: React.FC = () => {
   const className = clsx(
-    'text-sm md:text-base',
-    'text-theme-600 hover:text-theme-900',
-    'dark:text-theme-400 dark:hover:text-primary-100'
+    'text-sm md:text-base md:max-w-max',
+    'text-theme-500 hover:text-primary-500',
+    'dark:text-theme-400 dark:hover:text-primary-400'
   )
+  const date = new Date().getFullYear()
 
   return (
     <footer className={clsx('border-t py-4 md:py-12 mt-10 md:mt-20', 'border-theme-300 dark:border-theme-700')}>
@@ -34,8 +35,25 @@ const Footer: React.FC = () => {
           ))}
         </div>
       </div>
-      <p className={clsx('text-center text-sm text-theme-700 dark:text-theme-400')}>
-        &copy; Rizki M Citra Under MIT License
+      <p className={clsx('text-sm mb-2 md:mb-4 text-theme-500 dark:text-theme-400')}>
+        &copy; 2021 - {date} Under{' '}
+        <Link
+          className='hover:underline decoration-2 decoration-primary-500 dark:decoration-primary-400'
+          href='https://github.com/rizkimcitra/rizkicitra/blob/main/LICENSE'
+          newTab
+        >
+          MIT License
+        </Link>{' '}
+      </p>
+      <p className='text-sm text-theme-500 dark:text-theme-400'>
+        Made with &#128153; by{' '}
+        <Link
+          className='hover:underline decoration-2 decoration-primary-500 dark:decoration-primary-400'
+          href='https://github.com/rizkimcitra'
+          newTab
+        >
+          Rizki M Citra
+        </Link>
       </p>
     </footer>
   )
