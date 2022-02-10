@@ -1,4 +1,3 @@
-import Button from '@/components/atoms/Button'
 import Hero from '@/components/mollecules/Hero'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Footer from '@/components/organism/Footer'
@@ -11,7 +10,6 @@ import { getPortfolio } from '@/libs/mdx'
 import clsx from 'clsx'
 import { NextPage } from 'next'
 import React, { useState } from 'react'
-import { HiSearch } from 'react-icons/hi'
 
 export const getStaticProps = async () => {
   const res = await getPortfolio()
@@ -34,35 +32,32 @@ interface ProjectPageProps {
 const ProjectPage: NextPage<ProjectPageProps> = ({ portfolios = [] }) => {
   const [searchVal, setSearchVal] = useState<string>('')
 
+  const meta = {
+    title: 'Portfolio',
+    templateTitle: 'Rizki Maulana Citra, Student and Frontend Developer',
+    description:
+      "Collection's of stuff I've been worked on, some of them are just for fun, but some of them are for practice purpose"
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchVal(e.target.value)
 
   return (
-    <Layout title='Project'>
-      <Hero
-        title='Portfolio'
-        description='Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem maxime temporibus, est id beatae ex ipsam odio pariatur blanditiis excepturi et dolor delectus sequi quis non tempore!'
-      />
+    <Layout {...meta}>
+      <Hero {...meta} />
 
       <div className='py-10'>
-        <div className={clsx('flex items-stretch', 'h-10 md:h-12', 'rounded space-x-1 md:space-x-2')}>
+        <div className={clsx('flex items-stretch', 'h-10')}>
           <input
             className={clsx(
-              'w-full px-4',
+              'w-full px-4 text-sm',
               'outline-none bg-transparent rounded',
               'bg-theme-50 border border-theme-300 dark:border-transparent text-theme-700 dark:bg-theme-800 dark:text-theme-200'
             )}
+            placeholder='Search portfolios'
             type='text'
             value={searchVal}
             onChange={handleChange}
           />
-          <Button
-            className={clsx(
-              'w-10 md:w-12 rounded',
-              'bg-primary-200 text-primary-700 dark:bg-theme-800 dark:text-theme-200'
-            )}
-          >
-            <HiSearch />
-          </Button>
         </div>
       </div>
       <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-1 gap-4 md:gap-5')}>

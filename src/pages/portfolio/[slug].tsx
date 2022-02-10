@@ -1,6 +1,6 @@
+import MDXComponents from '@/components/MDXComponents'
 import IconFinder from '@/components/atoms/IconFinder'
 import Image from '@/components/atoms/Image'
-import { Link } from '@/components/atoms/Link'
 import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
 
@@ -13,10 +13,6 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import { ParsedUrlQuery } from 'querystring'
-
-const Component = {
-  Link
-}
 
 interface slugProp extends ParsedUrlQuery {
   slug: string
@@ -63,6 +59,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
     <Layout
       title={frontMatter.title}
       description={frontMatter.summary}
+      templateTitle={frontMatter.summary}
       openGraph={{
         article: {
           authors: ['Rizki Maulana Citra'],
@@ -77,18 +74,24 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
         }
       ]}
     >
-      <article className={clsx('prose md:prose-base', 'dark:prose-invert')}>
+      <article
+        className={clsx(
+          'prose md:prose-base',
+          'dark:prose-invert',
+          'prose-code:font-extralight prose-code:text-theme-200'
+        )}
+      >
         <header
           className={clsx(
             'flex flex-col md:flex-row items-center justify-between',
             'border-b border-theme-300 dark:border-theme-800'
           )}
         >
-          <section>
+          <section className='w-full'>
             <h1 style={{ margin: 0 }}>{frontMatter.title}</h1>
             <p>{frontMatter.summary}</p>
           </section>
-          <p className='text-sm self-end md:text-base'>{dateFormat(frontMatter.date)}</p>
+          <p className='w-full text-sm md:text-right self-end md:text-base'>{dateFormat(frontMatter.date)}</p>
         </header>
         <div className='flex items-center space-x-2 md:space-x-3 pt-6'>
           {frontMatter.stack.length > 0 &&
@@ -98,9 +101,9 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
         </div>
         <main>
           <figure className='relative w-full aspect-video'>
-            <Image className='rounded' src={frontMatter.image} alt={frontMatter.title} />
+            <Image className='rounded' src={frontMatter.image} alt={frontMatter.title} priority />
           </figure>
-          <MDXRemote {...mdxSource} components={Component} lazy />
+          <MDXRemote {...mdxSource} components={MDXComponents} lazy />
         </main>
       </article>
       <Footer />
