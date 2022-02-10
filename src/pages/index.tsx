@@ -1,5 +1,4 @@
 import Image from '@/components/atoms/Image'
-import ArticleCard from '@/components/mollecules/ArticleCard'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Footer from '@/components/organism/Footer'
 import Section from '@/components/organism/Section'
@@ -8,7 +7,7 @@ import Layout from '@/components/templates/Layout'
 import { ArticleHeadProps } from '@/data/articles/articleType'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
-import { getArticle, getPortfolio } from '@/libs/mdx'
+import { getPortfolio } from '@/libs/mdx'
 
 import clsx from 'clsx'
 import { NextPage } from 'next'
@@ -19,7 +18,7 @@ interface HomePageProps {
 }
 
 export const getStaticProps = async () => {
-  const [portfolioRes, articleRes] = await Promise.all([getPortfolio(), getArticle()])
+  const portfolioRes = await getPortfolio()
 
   const portfolios = portfolioRes
     .filter((data) => data.featured)
@@ -30,23 +29,14 @@ export const getStaticProps = async () => {
       return { ...data, date }
     })
 
-  const articles = articleRes
-    .filter((data) => data.featured)
-    .sort((a, b) => (new Date(a.publishedAt) < new Date(b.publishedAt) ? 1 : -1))
-    .map((data) => {
-      const publishedAt = dateFormat(data.publishedAt)
-      return { ...data, publishedAt }
-    })
-
   return {
     props: {
-      portfolios,
-      articles
+      portfolios
     }
   }
 }
 
-const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) => {
+const HomePage: NextPage<HomePageProps> = ({ portfolios = [] }) => {
   const meta = {
     title: 'Rizki Maulana Citra',
     description: 'Frontend Developer, Student and Remote Worker'
@@ -62,6 +52,7 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
       >
         <figure className={clsx('flex items-center md:justify-end self-start', 'w-full md:w-2/6', 'mb-4 md:mb-0')}>
           <Image
+            priority
             width={144}
             height={144}
             layout='intrinsic'
@@ -96,16 +87,6 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
         link={{
           children: 'All portfolios',
           to: '/portfolio'
-        }}
-      />
-
-      <Section
-        title='Featured Article'
-        Component={ArticleCard}
-        data={articles}
-        link={{
-          children: 'See more articles',
-          to: '/article'
         }}
       />
 
