@@ -8,8 +8,6 @@ stack: ['Vite', 'Tailwindcss']
 link: { github: 'https://github.com/rizkimcitra/genpass', live: 'https://genapas.vercel.app/' }
 ---
 
-import { Link } from '@/components/atoms/Link'
-
 Genpass is a password generator, aside from it's simple UI, the functionality is focused to help me generate a random string, it can either be only number or string, or even can be mixed.
 
 Tech stack:
@@ -17,9 +15,87 @@ Tech stack:
 - Vite
 - Tailwindcss
 
-## Is This Useful?
+## How To Create it
 
-Yes, but I think this is for practice purpose though, but another use case is to practice about DOM manipulation and string manipulation.
+How about create this as a practice to sharpen a bit of our logic? this is only a small project, that you can actually built in only 1 Hour, and there's a lot of project to build out there.
+
+But if you insist, and interested to build this while you're on a free time, then let's grab a coffee and boot up your machine.
+
+### Installing Node.JS
+
+But first thing first, let us install Node.js on our _machine_ go to <Link href="https://nodejs.org" newTab>Node.js Official Website</Link>, downlaod and install the node.js on your _machine_.
+
+After installation done, open your fav IDE, anything are okay, such as _Atom_, _Sublime Text_ or _Vim_, but mine are <Link href="https://code.visualstudio.com" newTab>Visual Studio Code</Link>.
+
+### Initialize Vite
+
+After opened your IDE, open your terminal and type the following command:
+
+```bash
+npm init vite@latest
+```
+
+You will be see this first prompt:
+
+<Image
+  layout='intrinsic'
+  src='/static/vite-init.png'
+  alt='vite init project'
+  loading='lazy'
+  width={512}
+  height={80}
+  className=''
+/>
+
+Follow the prompt ahead, and choose vanilla javascript for the starter, vite will generate a folder structure for you as a starter.
+
+### Using Tailwind CSS
+
+The next step is to install all the dependency needed to build our app, the dependencies we're using are:
+
+- tailwindcss
+- autoprefixer
+- postcss
+
+including vite itself, run the following command on your terminal:
+
+```bash
+npm install -D tailwindcss autoprefixer postcss
+```
+
+This will download all the packages needed, but actually we're not even installing any dependencies, this project only install all the packages as a **devDependencies** which mean all the packages used only on development.
+
+The `&&` command will run the next line command, which is:
+
+```bash
+npx tailwindcss init -p
+```
+
+And it will soon initialize tailwindcss config file, creating 2 files: `postcss.config.js` and `tailwind.config.js`, you don't have to know about `postcss.config.js` file, but let's look up to the `tailwind.config.js` file.
+
+This file used to configure our tailwindcss, like theme, spacing or screen size, the given default config from tailwindcss are:
+
+```js
+module.exports = {
+  content: [],
+  theme: {
+    extend: {}
+  },
+  plugins: []
+}
+```
+
+Change the above code, add array of string in the content property to match to our folder structure, which would be like this:
+
+```js
+module.exports = {
+  content: ['./**/*.html', 'src/**/*.{js,ts}'],
+  theme: {
+    extend: {}
+  },
+  plugins: []
+}
+```
 
 ## Live Site and GitHub repository
 
