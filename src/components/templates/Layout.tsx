@@ -1,10 +1,9 @@
-import Seo from '@/components/atoms/Seo'
+import Seo, { SeoProp } from '@/components/atoms/Seo'
 
 import clsx from 'clsx'
 import { NextPage } from 'next'
-import { NextSeoProps } from 'next-seo'
 
-interface LayoutProps extends NextSeoProps {
+interface LayoutProps extends SeoProp {
   title: string
   className?: string
 }
