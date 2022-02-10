@@ -1,4 +1,4 @@
-import { Link } from '@/components/atoms/Link'
+import Link from '@/components/atoms/Link'
 
 import { ArticleHeadProps } from '@/data/articles/articleType'
 

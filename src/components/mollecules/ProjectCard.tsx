@@ -1,4 +1,4 @@
-import { Link } from '@/components/atoms/Link'
+import Link from '@/components/atoms/Link'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 
