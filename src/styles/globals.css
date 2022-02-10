@@ -7,41 +7,41 @@
     @apply bg-primary-200 text-theme-900 dark:bg-primary-400 dark:text-white;
   }
   h1 {
-    @apply font-bold text-3xl md:text-4xl text-theme-800 dark:text-theme-100;
+    @apply text-3xl font-bold text-theme-800 dark:text-theme-100 md:text-4xl;
   }
 
   h2 {
-    @apply font-bold text-2xl md:text-3xl text-theme-800 dark:text-theme-100;
+    @apply text-2xl font-bold text-theme-800 dark:text-theme-100 md:text-3xl;
   }
 
   h3 {
-    @apply font-bold text-xl md:text-2xl text-theme-800 dark:text-theme-100;
+    @apply text-xl font-bold text-theme-800 dark:text-theme-100 md:text-2xl;
   }
 
   h4 {
-    @apply font-bold text-lg md:text-xl text-theme-800 dark:text-theme-100;
+    @apply text-lg font-bold text-theme-800 dark:text-theme-100 md:text-xl;
   }
 
   body {
-    @apply font-primary antialiased text-theme-700 dark:text-theme-200 bg-theme-50 dark:bg-theme-900;
+    @apply bg-theme-50 font-primary text-theme-700 antialiased dark:bg-theme-900 dark:text-theme-200;
   }
 
   :is(a, button) {
     @apply outline-none;
   }
 
-  :is(input, a, button):focus-visible {
-    @apply outline-none transition-all ring ring-offset-1
-    ring-offset-theme-50 dark:ring-offset-theme-900 ring-primary-500 dark:ring-primary-400;
+  :is(input, a, button) {
+    @apply outline-none ring-primary-500 ring-offset-1 ring-offset-theme-50
+    transition-all focus-visible:ring dark:ring-primary-400 dark:ring-offset-theme-900;
   }
 
   .accessible {
-    @apply hover:ring transition-all duration-150 ring-primary-400 dark:ring-theme-600;
+    @apply ring-primary-400 transition-all duration-150 hover:ring dark:ring-theme-600;
   }
 }
 
 @layer utilities {
   .layout {
-    @apply w-[86%] md:w-full max-w-2xl mx-auto;
+    @apply mx-auto w-[86%] max-w-2xl md:w-full;
   }
 }
