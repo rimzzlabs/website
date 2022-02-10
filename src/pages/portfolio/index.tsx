@@ -36,7 +36,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ portfolios = [] }) => {
     title: 'Portfolio',
     templateTitle: 'Rizki Maulana Citra, Student and Frontend Developer',
     description:
-      "Collection's of stuff I've been worked on, some of them are just for fun, but some of them are for practice purpose"
+      "List of my personal portfolio, proven that I've created something with my knowledge and experience, and like any other people, I will grow my skill and combine it with experience i have."
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchVal(e.target.value)
