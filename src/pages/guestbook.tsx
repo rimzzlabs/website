@@ -1,5 +1,6 @@
 import Link from '@/components/atoms/Link'
 import Hero from '@/components/mollecules/Hero'
+import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
 
 import { NextPage } from 'next'
@@ -26,6 +27,7 @@ const GuestBookPage: NextPage = () => {
           Site.
         </p>
       </Hero>
+      <Footer />
     </Layout>
   )
 }
