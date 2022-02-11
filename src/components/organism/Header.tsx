@@ -1,3 +1,5 @@
+import useWindowScroll from '@/hooks/useWindowScroll'
+
 import Nav from '../mollecules/Nav'
 
 import clsx from 'clsx'
@@ -5,6 +7,7 @@ import { useRouter } from 'next/router'
 
 const Header = () => {
   const { pathname } = useRouter()
+  const scrollPos = useWindowScroll()
 
   const isError = pathname === '/_error' || pathname === '/404'
 
@@ -12,7 +15,13 @@ const Header = () => {
 
   return (
     <div
-      className={clsx('fixed inset-0', 'h-16 md:h-20', 'backdrop-blur-md z-50', 'bg-theme-50/80 dark:bg-theme-900/80')}
+      className={clsx(
+        'fixed inset-0',
+        'h-16 md:h-20',
+        'backdrop-blur-md border-b transition z-10',
+        'bg-theme-50/80 dark:bg-theme-900/80',
+        scrollPos > 80 ? 'border-theme-200 dark:border-theme-800' : 'border-transparent'
+      )}
     >
       <div className={clsx('h-2 w-full', 'bg-gradient-to-r', 'from-primary-500 to-ternary-500')} />
       <header className={clsx('layout h-full pb-2', 'flex items-center justify-between')}>
