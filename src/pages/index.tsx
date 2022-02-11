@@ -52,7 +52,6 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [] }) => {
       >
         <figure className={clsx('flex items-center md:justify-end self-start', 'w-full md:w-2/6', 'mb-4 md:mb-0')}>
           <Image
-            priority
             width={144}
             height={144}
             layout='intrinsic'
