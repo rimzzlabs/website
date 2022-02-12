@@ -39,7 +39,8 @@ export const getStaticProps = async () => {
 const HomePage: NextPage<HomePageProps> = ({ portfolios = [] }) => {
   const meta = {
     title: 'Rizki Maulana Citra',
-    description: 'Frontend Developer, Student and Remote Worker'
+    description:
+      "Howdy👋, I'm Rizki Maulana Citra JavaScript enthusiast, who loves to code, music and coffe, talks about React, Next.js, JavaScript and CSS"
   }
   return (
     <Layout {...meta}>
@@ -70,11 +71,11 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [] }) => {
               'from-primary-500 to-ternary-500'
             )}
           >
-            Frontend Developer
+            Student &amp; Frontend Developer
           </p>
           <p className='max-w-prose mb-2 md:mb-4'>
-            Howdy👋, I&apos;m Rizki Maulana Citra, a Frontend Developer who loves to code, music, and drink coffee to
-            fullfill my energy, talks about React, Next.js, JavaScript and CSS
+            Howdy👋, I&apos;m Rizki Maulana Citra JavaScript enthusiast, an intovert who loves to code, music and coffe,
+            talks about React, Next.js, JavaScript and CSS
           </p>
         </section>
       </div>
