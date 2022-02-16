@@ -10,7 +10,7 @@ const visible: Variant = {
   opacity: 1
 }
 
-const variants = (): Variants => ({
+const variants = () => ({
   hidden,
   visible: {
     ...visible,
