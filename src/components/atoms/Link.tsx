@@ -8,7 +8,7 @@ export type LinkProps = {
 } & NextLinkProps
 
 const Link: React.FC<LinkProps> = ({ href, children, ...rest }) => {
-  const className = 'text-theme-600 hover:text-theme-900 dark:text-theme-500 dark:hover:text-primary-100'
+  const className = 'text-theme-500 hover:text-theme-900 dark:text-theme-400 dark:hover:text-primary-100'
 
   if (rest.newTab) {
     return (
