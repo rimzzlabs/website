@@ -2,20 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 echo '🏗️👷 Styling your project before committing👷‍♂️🏗️'
-
-echo '🔍Type checking your code with TypeScript🔍'
-
-# Type check
-yarn type-check ||
-(
-    echo '🔨❌ Yoo, you have a problem in your code. Check type defintition 🔨❌
-          please validate your type and try commit again.';
-    false;
-)
-
-echo 'type-check: OK'
-
-echo '🔍Linting your code with ESLint🔍'
+echo 'please be patient, this may take a while...'
 
 # Check ESLint Standards
 yarn lint ||
