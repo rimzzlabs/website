@@ -24,7 +24,6 @@
     "gray-matter": "^4.0.3",
     "mdx-prism": "^0.3.4",
     "next": "^12.0.7",
-    "next-auth": "^4.2.1",
     "next-mdx-remote": "^3.0.8",
     "next-pwa": "^5.4.4",
     "next-seo": "^4.28.1",
