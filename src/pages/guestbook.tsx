@@ -11,7 +11,7 @@ const GuestBookPage: NextPage = () => {
     title: 'Guestbook',
     templateTitle: 'Rizki Maulana Citra, Student and Frontend Developer',
     description:
-      "You can leave a comment, say something about me, a joke, or even cheer ourselve, and please be nice to other's with what you are typed here 😉"
+      "You can leave a comment, a joke, or even cheer ourselve, and please be nice to other's with what you are typed here 😉"
   }
 
   return (
@@ -20,7 +20,7 @@ const GuestBookPage: NextPage = () => {
         <p className='mt-2 md:mt-4'>
           This guestbook page inspired from{' '}
           <Link
-            className='hover:underline decoration-2 decoration-primary-500 dark:decoration-primary-400'
+            className='underline decoration-2 decoration-primary-500 dark:decoration-primary-400'
             href='https://leerob.io'
             newTab
           >
@@ -41,7 +41,7 @@ const GuestBookPage: NextPage = () => {
           className={clsx(
             'inline-flex items-center justify-center',
             'py-1 md:py-1.5 px-8 rounded',
-            'bg-primary-500 dark:bg-primary-400'
+            'bg-primary-500 dark:bg-primary-400 text-white'
           )}
         >
           Sign
