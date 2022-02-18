@@ -8,12 +8,44 @@ stack: ['React', 'Redux', 'Tailwindcss']
 link: { github: 'https://github.com/rizkimcitra/tolisinih', live: 'https://tolisinih.web.app/' }
 ---
 
-Mouser kitten but savannah so american bobtail. Burmese. Siamese tiger and munchkin yet russian blue tabby so siamese. Persian ocicat, turkish angora yet cougar. Cornish rex. Jaguar. Egyptian mau siamese or devonshire rex but british shorthair cheetah ocicat. Lynx sphynx so sphynx so ocelot so munchkin. Tomcat scottish fold. Norwegian forest cheetah for panther tom. Kitty tiger singapura and british shorthair thai, so malkin. Lynx ocelot balinese ocelot ragdoll. Siamese russian blue. Persian egyptian mau or savannah american bobtail singapura russian blue. Persian leopard tiger, tabby. Havana brown russian blue or tom.
+Tolisinih is a todo app based on <ArticleLink href="https://blog.gethired.id/devcode-challenge-1st/" newTab>GetHired DevCode Challenge #1</ArticleLink>.
 
-## Himalayan egyptian mau manx
+It represent basic CRUD application, and also there is data manipulation, the challenge is fun and competitive,
+challenger should be able to create an app that will **create, read, update,** and **delete** activities.
 
-Sphynx singapura havana brown, so abyssinian so munchkin donskoy so lion. Thai kitten but tomcat. Jaguar tabby. Havana brown tiger bobcat or abyssinian or jaguar. American bobtail egyptian mau but tabby cheetah panther manx birman. Russian blue grimalkin for kitten siamese. Lynx kitten. Balinese savannah and birman so balinese puma. Manx bombay turkish angora. Panther siamese, scottish fold birman, grimalkin american shorthair. Malkin. Russian blue kitty but balinese tom, bobcat, so grimalkin. Siamese egyptian mau but kitty ragdoll. Malkin. Siamese panther or leopard thai lion siberian for tiger. Maine coon tomcat lynx, ragdoll. Mouser burmese tom scottish fold. Balinese . Puma manx manx so egyptian mau so devonshire rex, turkish angora or malkin. Panther. Kitten lion puma panther british shorthair. British shorthair scottish fold yet panther.
+the data we should populate to the UI are:
 
-## Birman Singapura Siberian
+```ts
+interface Todo {
+  title: string
+  priority: 'very low' | 'low' | 'medium' | 'high' | 'very high'
+  createdAt: string
+  updatedAt: string
+}
 
-Singapura birman yet thai burmese so siberian. American shorthair bobcat, but british shorthair so tom or thai but munchkin, yet lynx. Kitten savannah havana brown. Bobcat balinese mouser ocelot. Tom panther. Malkin russian blue jaguar. Siberian kitten ocicat yet kitty so burmese panther bengal. Manx. Havana brown burmese tiger or birman but norwegian forest. Savannah himalayan persian. Savannah bobcat himalayan yet tiger. Mouser leopard. Manx siamese but abyssinian . Maine coon grimalkin, grimalkin and balinese bobcat british shorthair american shorthair. American shorthair persian. Ocelot. Tabby sphynx cougar siamese but lynx, but havana brown. Kitten manx scottish fold so egyptian mau turkish angora birman. Balinese donskoy ragdoll for american shorthair. Thai. Grimalkin.
+interface Activity {
+  title: string
+  todo: Array<Todo>
+  createdAt: string
+  updatedAt: string
+}
+```
+
+Has 2 pages, the first page is homepage which is the first content user would see, the homepage will display a list of activity items, and it's _clickable_.
+
+When user click one of the activity items, user will be redirected to pages where a list of todos appear from the selected activity, and the routes of the app would be like:
+
+```bash
+https://tolisinih.web.app/detail/:slug
+```
+
+## Live Site and GitHub repository
+
+I've deployed this to firebase, and stored the codebase at GitHub, if you're interested either to see the deployed app or just the code base, please look forward to the following link:
+
+- <ArticleLink href='https://tolisinih.web.app/' newTab>
+    Live site
+  </ArticleLink>
+- <ArticleLink href='https://github.com/rizkimcitra/tolisinih/' newTab>
+    GitHub repository
+  </ArticleLink>
