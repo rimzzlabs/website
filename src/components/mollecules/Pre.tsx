@@ -1,5 +1,6 @@
 import clsx from 'clsx'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { HiCheckCircle, HiOutlineClipboardCopy } from 'react-icons/hi'
 
 interface CustomCodeProps {
   className: string
@@ -8,6 +9,7 @@ interface CustomCodeProps {
 const CustomCode: React.FC<CustomCodeProps> = (prop) => {
   const preEl = useRef<HTMLPreElement>(null)
   const language = prop.className.slice(9).toUpperCase()
+  const [isCopied, setIsCopied] = useState(false)
 
   const handleCopy = () => {
     if ('navigator' in window) {
@@ -16,15 +18,24 @@ const CustomCode: React.FC<CustomCodeProps> = (prop) => {
         const clipboard = navigator.clipboard
 
         clipboard.writeText(text)
+        setIsCopied(true)
       }
     }
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isCopied) setIsCopied(false)
+    }, 1500)
+
+    return () => clearTimeout(timer)
+  }, [isCopied])
   return (
     <div className='relative'>
       <div
         className={clsx(
           'flex items-center justify-between',
-          'absolute inset-x-0 h-10 px-4 md:px-8',
+          'absolute inset-x-0 h-10 pl-2 pr-4',
           'rounded-t-lg top-0 left-0'
         )}
       >
@@ -39,7 +50,7 @@ const CustomCode: React.FC<CustomCodeProps> = (prop) => {
         </div>
         <button
           onClick={handleCopy}
-          title='copy'
+          title={isCopied ? 'copied to clipboard!' : 'copy code'}
           className={clsx(
             'p-1.5 md:p-2 mt-4 rounded border',
             'outline-none transition-all hover:ring',
@@ -48,15 +59,8 @@ const CustomCode: React.FC<CustomCodeProps> = (prop) => {
           )}
         >
           <span className='sr-only'>Copy Code</span>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-5 w-5 text-white'
-            viewBox='0 0 20 20'
-            fill='currentColor'
-          >
-            <path d='M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z' />
-            <path d='M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z' />
-          </svg>
+          {!isCopied && <HiOutlineClipboardCopy />}
+          {isCopied && <HiCheckCircle className='text-emerald-500' />}
         </button>
       </div>
       <pre
