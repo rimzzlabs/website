@@ -1,4 +1,5 @@
 import MDXComponents from '@/components/MDXComponents'
+import ArticleLink from '@/components/atoms/ArticleLink'
 import IconFinder from '@/components/atoms/IconFinder'
 import Image from '@/components/atoms/Image'
 import Footer from '@/components/organism/Footer'
@@ -104,6 +105,33 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
             <Image className='rounded' src={frontMatter.image} alt={frontMatter.title} priority />
           </figure>
           <MDXRemote {...mdxSource} components={MDXComponents} lazy />
+          <div>
+            <h2>Live Site and GitHub Repository</h2>
+            <p>
+              If you are interested either to see the source code or just the deployed app, please look forward to the
+              following links:
+            </p>
+            {frontMatter.link && (
+              <ul>
+                {frontMatter.link.github ? (
+                  <li>
+                    <ArticleLink href={frontMatter.link.github} newTab>
+                      GitHub repository
+                    </ArticleLink>
+                  </li>
+                ) : (
+                  <li>Link Unavailable</li>
+                )}
+                {frontMatter.link.live && (
+                  <li>
+                    <ArticleLink href={frontMatter.link.live} newTab>
+                      Live site
+                    </ArticleLink>
+                  </li>
+                )}
+              </ul>
+            )}
+          </div>
         </main>
       </article>
       <Footer />
