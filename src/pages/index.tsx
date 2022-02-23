@@ -39,6 +39,7 @@ export const getStaticProps = async () => {
 const HomePage: NextPage<HomePageProps> = ({ portfolios = [] }) => {
   const meta = {
     title: 'Rizki Maulana Citra',
+    templateTitle: 'Student and Frontend Developer',
     description:
       "Howdy👋, I'm Rizki Maulana Citra JavaScript enthusiast, who loves to code, music and coffe, talks about React, Next.js, JavaScript and CSS"
   }
