@@ -1,5 +1,14 @@
 import clsx from 'clsx'
-import { SiCodesandbox, SiFirebase, SiReact, SiRedux, SiTailwindcss, SiVite } from 'react-icons/si'
+import {
+  SiCodesandbox,
+  SiFirebase,
+  SiJavascript,
+  SiReact,
+  SiRedux,
+  SiSass,
+  SiTailwindcss,
+  SiVite
+} from 'react-icons/si'
 
 const IconFinder: React.FC<{ type: string; className?: string }> = ({ type, className }) => {
   switch (type) {
@@ -18,6 +27,16 @@ const IconFinder: React.FC<{ type: string; className?: string }> = ({ type, clas
     case 'Tailwindcss':
     case 'TailwindCSS':
       return <SiTailwindcss className={clsx('text-teal-500', className)} />
+
+    case 'SASS':
+    case 'Sass':
+    case 'SCSS':
+    case 'Scss':
+      return <SiSass className={clsx('text-pink-500 dark:text-pink-400', className)} />
+
+    case 'Javascript':
+    case 'javascript':
+      return <SiJavascript className={clsx('text-yellow-500', className)} />
 
     default:
       return <SiCodesandbox />
