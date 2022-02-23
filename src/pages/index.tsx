@@ -1,4 +1,5 @@
 import Image from '@/components/atoms/Image'
+import ArticleCard from '@/components/mollecules/ArticleCard'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Footer from '@/components/organism/Footer'
 import Section from '@/components/organism/Section'
@@ -7,7 +8,7 @@ import Layout from '@/components/templates/Layout'
 import { ArticleHeadProps } from '@/data/articles/articleType'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
-import { getPortfolio } from '@/libs/mdx'
+import { getArticle, getPortfolio } from '@/libs/mdx'
 
 import clsx from 'clsx'
 import { NextPage } from 'next'
@@ -18,10 +19,11 @@ interface HomePageProps {
 }
 
 export const getStaticProps = async () => {
-  const portfolioRes = await getPortfolio()
+  const [resOne, resTwo] = await Promise.all([getPortfolio(), getArticle()])
 
-  const portfolios = portfolioRes
+  const portfolios = resOne
     .filter((data) => data.featured)
+    .slice()
     .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
     .map((data) => {
       const date = dateFormat(data.date)
@@ -29,14 +31,24 @@ export const getStaticProps = async () => {
       return { ...data, date }
     })
 
+  const articles = resTwo
+    .filter((data) => data.featured)
+    .slice()
+    .sort((a, b) => (new Date(a.publishedAt) < new Date(b.publishedAt) ? 1 : -1))
+    .map((data) => {
+      const date = dateFormat(data.publishedAt)
+      return { ...data, publishedAt: date }
+    })
+
   return {
     props: {
-      portfolios
+      portfolios,
+      articles
     }
   }
 }
 
-const HomePage: NextPage<HomePageProps> = ({ portfolios = [] }) => {
+const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) => {
   const meta = {
     title: 'Rizki Maulana Citra',
     templateTitle: 'Student and Frontend Developer',
@@ -88,6 +100,17 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [] }) => {
         link={{
           children: 'All portfolios',
           to: '/portfolio'
+        }}
+        gridCols='grid-cols-1 md:grid-cols-2'
+      />
+
+      <Section
+        title='Featured Article'
+        Component={ArticleCard}
+        data={articles}
+        link={{
+          children: 'Read all article',
+          to: '/article'
         }}
       />
 
