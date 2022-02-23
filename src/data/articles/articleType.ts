@@ -1,5 +1,6 @@
 export interface ArticleHeadProps {
   title: string
+  image: string
   featured: boolean
   author: string
   author_pfp: string
