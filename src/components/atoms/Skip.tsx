@@ -1,10 +1,8 @@
-import Link from '@/components/atoms/Link'
-
 import clsx from 'clsx'
 
 const Skip: React.FC = () => {
   return (
-    <Link
+    <a
       className={clsx(
         'accessible',
         'absolute left-[20%] top-4',
@@ -17,7 +15,7 @@ const Skip: React.FC = () => {
       href='#skip-content'
     >
       Skip to content
-    </Link>
+    </a>
   )
 }
 
