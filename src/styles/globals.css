@@ -39,7 +39,7 @@
     @apply outline-none;
   }
 
-  :is(input, a, button) {
+  :is(a, button) {
     @apply outline-none ring-primary-500 ring-offset-1 ring-offset-theme-50
     transition-all focus-visible:ring dark:ring-primary-400 dark:ring-offset-theme-900;
   }
