@@ -101,7 +101,7 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
 
         <main>
           {frontMatter.image && <BlogImage src={frontMatter.image} alt='Photo From Unsplsh' />}
-          <MDXRemote {...mdxSource} components={MDXComponents} />
+          <MDXRemote {...mdxSource} components={MDXComponents} lazy />
         </main>
       </article>
       <Footer />
