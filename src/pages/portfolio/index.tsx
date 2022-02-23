@@ -5,11 +5,11 @@ import Layout from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
+import { getPortfolio } from '@/libs/mdx'
 
-import axios from 'axios'
 import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { HiOutlineSearch } from 'react-icons/hi'
 
 const meta = {
@@ -19,13 +19,17 @@ const meta = {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await axios.get<{ data: Array<PortfolioHeadProps> }>('http://localhost:3000/api/portfolio')
+  const res = await getPortfolio()
 
   const portfolios =
-    data.data.map((data) => {
-      const date = dateFormat(data.date)
-      return { ...data, date }
-    }) ?? []
+    res
+      .slice()
+      .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
+      .map((data) => {
+        const date = dateFormat(data.date)
+
+        return { ...data, date }
+      }) ?? []
 
   return {
     props: {
