@@ -11,13 +11,14 @@ export interface SectionProps<DataProp = {}> {
     children: React.ReactNode
   }
   data: Array<DataProp>
+  gridCols?: string
 }
 
-const Section = <DataProp,>({ title, link, data, Component }: SectionProps<DataProp>) => {
+const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionProps<DataProp>) => {
   return (
     <section className='py-10'>
       <h2 className='mb-2 md:mb-4'>{title}</h2>
-      <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-auto gap-4 md:gap-5 mb-2 md:mb-4')}>
+      <div className={clsx('grid', 'flex-auto gap-4 md:gap-5 mb-2 md:mb-4', gridCols)}>
         {data.length > 0 && data.map((data, index) => <Component key={index} {...data} />)}
       </div>
       <Link href={link.to ?? '/'}>{link.children ?? 'Go somewhere'} &rarr;</Link>
