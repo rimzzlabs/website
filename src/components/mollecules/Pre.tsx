@@ -2,11 +2,11 @@ import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { HiCheckCircle, HiOutlineClipboardCopy } from 'react-icons/hi'
 
-interface CustomCodeProps {
+interface CustomPreProps {
   className: string
 }
 
-const CustomCode: React.FC<CustomCodeProps> = (prop) => {
+const CustomPre: React.FC<CustomPreProps> = (prop) => {
   const preEl = useRef<HTMLPreElement>(null)
   const language = prop.className.slice(9).toUpperCase()
   const [isCopied, setIsCopied] = useState(false)
@@ -54,6 +54,7 @@ const CustomCode: React.FC<CustomCodeProps> = (prop) => {
           className={clsx(
             'p-1.5 md:p-2 mt-4 rounded border',
             'outline-none transition-all hover:ring',
+            'text-theme-100 dark:text-theme-200',
             'ring-primary-500 dark:ring-primary-400 border-slate-600 ',
             'ring-offset-white dark:ring-offset-primary-300'
           )}
@@ -76,4 +77,4 @@ const CustomCode: React.FC<CustomCodeProps> = (prop) => {
   )
 }
 
-export default CustomCode
+export default CustomPre
