@@ -12,7 +12,10 @@ import clsx from 'clsx'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
+import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
+
+const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
 interface articleSlug extends ParsedUrlQuery {
   slug: string
@@ -60,21 +63,21 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
   return (
     <Layout
       title={frontMatter.title}
+      openGraph={{
+        title: date + ' - ' + frontMatter.title
+      }}
       templateTitle='Article'
       description={frontMatter.summary}
       additionalMetaTags={[
-        {
-          name: 'keywords',
-          content: 'bruh, foo, bar, bizz'
-        },
         {
           name: 'Author',
           content: frontMatter.author
         }
       ]}
     >
+      <BackToTop />
       <article className='prose dark:prose-invert max-w-2xl'>
-        <header>
+        <header className='mb-10 md:mb-20'>
           <section className={clsx('border-b', 'border-theme-300 dark:border-theme-700')}>
             <h1>{frontMatter.title}</h1>
           </section>
@@ -94,7 +97,7 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
                 </figure>
                 <span>{frontMatter.author}</span>
               </div>
-              <span role='date'>{date}</span>
+              <span>{date}</span>
             </div>
           </div>
         </header>
