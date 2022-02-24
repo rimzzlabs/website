@@ -1,0 +1,98 @@
+---
+title: 'Useful React Hooks That May Save Your Time'
+featured: true
+author: 'Rizki M Citra'
+author_pfp: '/static/profile.webp'
+publishedAt: '02/27/2022'
+image: 'https://images.unsplash.com/photo-1572979124117-a72dfcb4014d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80'
+summary: 'Hooks let you use state and other React features without writing a class. You can also build your own Hooks to share reusable stateful logic between components.'
+topics: ['react']
+---
+
+Hooks was introduced in React version 16.8, React team said:
+
+> Hooks let you use state and other React features without writing a class. You can also **build your own Hooks** to share reusable stateful logic between components.
+
+And then how do we build our own Hooks? let's build some of useful hooks that will do useful job for us.
+
+## useWindowPosition
+
+A Custom hooks that will run an listen to an event when scrolling, returning the window position of _Y axis_ and _X axis_
+
+```tsx
+import { useEffect, useState } from 'react'
+
+export interface Position {
+  y: number
+  x: number
+}
+
+const useWindowPosition = (): [Position['y'], Position['x']] => {
+  const initialState: Position = {
+    y: 0,
+    x: 0
+  }
+  const [position, setPosition] = useState<Position>(initialState)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const listener = () => {
+        setPosition((prevState) => {
+          return {
+            ...prevState,
+            y: window.scrollY,
+            x: window.scrollX
+          }
+        })
+      }
+
+      window.addEventListener('scroll', listener)
+
+      return () => window.removeEventListener('scroll', listener)
+    }
+  }, [])
+
+  return [position.y, position.x]
+}
+
+export default useWindowPosition
+```
+
+## useQuery
+
+Get a query parameters from the URL.
+
+```tsx
+import { useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
+
+const useQuery = () => {
+  const { search } = useLocation()
+  return useMemo(() => new URLSearchParams(search), [search])
+}
+
+export default useQuery
+```
+
+very simple hooks right? this hooks will help us get the value of the given **parameter**, example usage:
+
+```ts
+import useQuery from '@/hooks/useQuery'
+import { useEffect, useState } from 'react'
+
+const App: React.FC () => {
+	const query = useQuery()
+	const [name, setName] = useState<string>('')
+
+	useEffect(() => {
+		const name = query.get('name') ?? 'unkown name'
+		setName(name)
+	}, [])
+
+	return <h1>Hello {name}!</h1>
+}
+
+export default App
+```
+
+When you call the `get()` function, it will return the value of the given parameter, if the parameter is not found, it will return `null` instead, so be careful and always use `null coalescing` for code safety purpose.
