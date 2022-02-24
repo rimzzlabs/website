@@ -23,8 +23,8 @@ const BackToTop: React.FC = () => {
           onClick={handleClick}
           className={clsx(
             'accessible',
-            'fixed md:bottom-12 md:right-12',
-            'bottom-8 right-7',
+            'fixed md:bottom-[12vh] lg:right-[8vw]',
+            'bottom-[6vh] right-[6vw]',
             'md:bottom-24 right-24',
             'inline-flex items-center justify-center',
             'w-10 md:w-12 h-10 md:h-12 z-10',
