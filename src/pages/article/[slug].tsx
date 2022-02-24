@@ -54,7 +54,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     props: {
       frontMatter: res.data,
       mdxSource
-    }
+    },
+    revalidate: 60
   }
 }
 
