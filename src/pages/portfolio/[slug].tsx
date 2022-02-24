@@ -13,7 +13,10 @@ import clsx from 'clsx'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
+import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
+
+const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
 interface slugProp extends ParsedUrlQuery {
   slug: string
@@ -62,19 +65,16 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
       description={frontMatter.summary}
       templateTitle={frontMatter.summary}
       openGraph={{
+        title: `${dateFormat(frontMatter.date)} - ${frontMatter.title}`,
         article: {
           authors: ['Rizki Maulana Citra'],
           tags: frontMatter.stack,
           publishedTime: dateFormat(frontMatter.date)
         }
       }}
-      additionalMetaTags={[
-        {
-          name: 'keywords',
-          content: `${frontMatter.stack[0]}, ${frontMatter.stack[1]}`
-        }
-      ]}
     >
+      <BackToTop />
+
       <article
         className={clsx(
           'prose md:prose-base',
