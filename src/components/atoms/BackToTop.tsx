@@ -26,8 +26,8 @@ const BackToTop: React.FC = () => {
             'fixed md:bottom-[12vh] lg:right-[8vw]',
             'bottom-[6vh] right-[6vw]',
             'inline-flex items-center justify-center',
-            'w-10 md:w-12 h-10 md:h-12 z-10',
-            'rounded-md md:text-lg',
+            'h-10 aspect-square z-10',
+            'rounded-xl md:text-lg',
             'text-primary-700 dark:text-primary-400',
             'bg-primary-100 dark:bg-theme-800'
           )}
