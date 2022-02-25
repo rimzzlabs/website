@@ -14,6 +14,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
+import readingTime from 'reading-time'
 
 const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
@@ -52,7 +53,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: {
-      frontMatter: res.data,
+      frontMatter: {
+        ...res.data,
+        content: res.content
+      },
       mdxSource
     },
     revalidate: 60
@@ -61,6 +65,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) => {
   const date = dateFormat(frontMatter.publishedAt)
+  const estRead = readingTime(frontMatter.content)
   return (
     <Layout
       title={frontMatter.title}
@@ -81,25 +86,30 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
         <header className='mb-10 md:mb-20'>
           <section className={clsx('border-b', 'border-theme-300 dark:border-theme-700')}>
             <h1>{frontMatter.title}</h1>
-          </section>
-          <div className='flex flex-col md:flex-row'>
-            <div className={clsx('flex flex-col', 'items-start', 'w-full text-sm')}>
-              <div className={clsx('flex items-center', 'space-x-4')}>
-                <figure>
-                  <Image
-                    src={frontMatter.author_pfp}
-                    alt={frontMatter.author}
-                    className={clsx('rounded-full')}
-                    width={28}
-                    height={28}
-                    layout='intrinsic'
-                    priority
-                  />
-                </figure>
-                <span>{frontMatter.author}</span>
-              </div>
-              <span>{date}</span>
+            <p>{frontMatter.summary}</p>
+
+            <div className={clsx('flex justify-end', 'w-full text-sm pb-4')}>
+              <time>{estRead.text}</time>
             </div>
+          </section>
+          <div className={clsx('flex flex-col items-start py-4 md:py-8', 'w-full text-sm')}>
+            <div className={clsx('flex items-center', 'mb-2 md:mb-4 space-x-4')}>
+              <figure className='m-0'>
+                <Image
+                  src={frontMatter.author_pfp}
+                  alt={frontMatter.author}
+                  className={clsx('rounded-full')}
+                  width={28}
+                  height={28}
+                  layout='intrinsic'
+                  priority
+                />
+              </figure>
+              <span>{frontMatter.author}</span>
+            </div>
+            <span>
+              Published on <time>{date}</time>
+            </span>
           </div>
         </header>
 
