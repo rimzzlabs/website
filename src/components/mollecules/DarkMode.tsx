@@ -1,25 +1,9 @@
-import Button from '@/components/atoms/Button'
-
 import useTheme from '@/hooks/useTheme'
-import variants from '@/libs/animation/variants'
+
+import Button from '../atoms/Button'
 
 import clsx from 'clsx'
-import { AnimatePresence, Variants, m } from 'framer-motion'
 import { HiMoon, HiSun } from 'react-icons/hi'
-
-const v = ((): Variants => ({
-  ...variants(),
-  exit: {
-    y: -30,
-    opacity: 1
-  }
-}))()
-
-const MotionComponent: React.FC = ({ children }) => (
-  <m.span variants={v} initial='hidden' animate='visible' exit='exit'>
-    {children}
-  </m.span>
-)
 
 const DarkMode: React.FC = () => {
   const { theme, mounted, changeTheme } = useTheme()
@@ -28,24 +12,17 @@ const DarkMode: React.FC = () => {
 
   return (
     <Button
-      onClick={changeTheme}
       className={clsx(
-        'accessible',
-        'w-10 md:w-12 aspect-square rounded overflow-hidden',
-        'bg-primary-100 dark:bg-theme-700'
+        'accessible relative',
+        'h-8 md:h-12 md:text-xl',
+        'aspect-square rounded',
+        'bg-primary-100 text-primary-700',
+        'dark:bg-theme-800 dark:text-primary-400'
       )}
+      onClick={changeTheme}
     >
-      <AnimatePresence exitBeforeEnter>
-        {theme === 'dark' ? (
-          <MotionComponent key={0}>
-            <HiMoon className='md:text-lg text-yellow-400' />
-          </MotionComponent>
-        ) : (
-          <MotionComponent key={1}>
-            <HiSun className='md:text-lg text-primary-700' />
-          </MotionComponent>
-        )}
-      </AnimatePresence>
+      {theme === 'light' ? <HiMoon /> : <HiSun />}
+      <span className='sr-only'>Switch Theme</span>
     </Button>
   )
 }
