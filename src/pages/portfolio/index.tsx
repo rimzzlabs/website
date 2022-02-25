@@ -1,3 +1,4 @@
+import Card from '@/components/atoms/Card'
 import Hero from '@/components/mollecules/Hero'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Footer from '@/components/organism/Footer'
@@ -79,7 +80,9 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ portfolios = [] }) => {
       {portfolios.length > 0 && filteredPortfolios.length > 0 ? (
         <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-1 gap-4 md:gap-5')}>
           {filteredPortfolios.map((data, index) => (
-            <ProjectCard key={data.title + index} {...data} />
+            <Card key={data.title + index}>
+              <ProjectCard {...data} />
+            </Card>
           ))}
         </div>
       ) : null}

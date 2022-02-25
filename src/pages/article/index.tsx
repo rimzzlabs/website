@@ -1,3 +1,4 @@
+import Card from '@/components/atoms/Card'
 import ArticleCard from '@/components/mollecules/ArticleCard'
 import Hero from '@/components/mollecules/Hero'
 import Footer from '@/components/organism/Footer'
@@ -42,7 +43,12 @@ const ArticlePage: NextPage<{ articles: Array<ArticleHeadProps> }> = ({ articles
       <Hero {...meta} />
 
       <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'pt-10 flex-1 gap-4 md:gap-5')}>
-        {articles.length > 0 && articles.map((data, index) => <ArticleCard key={data.title + index} {...data} />)}
+        {articles.length > 0 &&
+          articles.map((data, index) => (
+            <Card key={data.title + index}>
+              <ArticleCard {...data} />
+            </Card>
+          ))}
       </div>
       <Footer />
     </Layout>
