@@ -15,6 +15,12 @@ export default class CustomDocument extends Document {
             href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
             rel='stylesheet'
           />
+          <script
+            async
+            defer
+            data-website-id='6daf05f5-92d2-430f-9cdd-1801014260da'
+            src='https://rizkicitra-analytics.vercel.app/umami.js'
+          />
         </Head>
         <body>
           <Main />
