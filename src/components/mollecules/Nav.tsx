@@ -18,7 +18,7 @@ const Nav: React.FC = () => {
           key={route.name}
           href={route.path}
           className={clsx(
-            'inline-flex text-sm md:text-base items-center justify-center',
+            'relative inline-flex text-sm md:text-base items-center justify-center',
             'py-1 md:py-1.5 px-3 md:px-3.5 rounded transition-all',
             'hover:bg-primary-100 dark:hover:bg-theme-800',
             route.path === pathname ? 'text-primary-500 dark:text-primary-400' : 'text-theme-700 dark:text-theme-300'
