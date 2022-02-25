@@ -97,12 +97,11 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
                 <Image
                   src={frontMatter.author_pfp}
                   alt={frontMatter.author}
-                  width={28}
-                  height={28}
-                  placeholder='blur'
-                  blurDataURL='/blur.svg'
+                  width={30}
+                  height={30}
                   className={clsx('rounded-full')}
                   layout='intrinsic'
+                  priority
                 />
               </figure>
               <span>{frontMatter.author}</span>
