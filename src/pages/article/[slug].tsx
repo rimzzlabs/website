@@ -1,6 +1,5 @@
 import MDXComponents from '@/components/MDXComponents'
 import Image from '@/components/atoms/Image'
-import BlogImage from '@/components/mollecules/BlogImage'
 import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
 
@@ -92,17 +91,18 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
               <time>{estRead.text}</time>
             </div>
           </section>
-          <div className={clsx('flex flex-col items-start py-4 md:py-8', 'w-full text-sm')}>
+          <div className={clsx('flex flex-col items-start py-8', 'w-full text-sm')}>
             <div className={clsx('flex items-center', 'mb-2 md:mb-4 space-x-4')}>
               <figure className='m-0'>
                 <Image
                   src={frontMatter.author_pfp}
                   alt={frontMatter.author}
-                  className={clsx('rounded-full')}
                   width={28}
                   height={28}
+                  placeholder='blur'
+                  blurDataURL='/blur.svg'
+                  className={clsx('rounded-full')}
                   layout='intrinsic'
-                  priority
                 />
               </figure>
               <span>{frontMatter.author}</span>
@@ -114,7 +114,6 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
         </header>
 
         <main>
-          {frontMatter.image && <BlogImage src={frontMatter.image} alt='Photo From Unsplsh' />}
           <MDXRemote {...mdxSource} components={MDXComponents} lazy />
         </main>
       </article>
