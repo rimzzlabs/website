@@ -10,7 +10,7 @@ import readingTime from 'reading-time'
 const ArticleCard: React.FC<ArticleHeadProps> = ({ title, slug, topics, content }) => {
   const estRead = readingTime(content)
   return (
-    <div className={clsx('flex flex-col relative p-4 md:p-5', 'border rounded border-theme-300 dark:border-theme-700')}>
+    <div className={clsx('relative flex flex-col p-3 h-full', 'bg-theme-50 dark:bg-theme-900')}>
       <h3 className='mb-2 md:mb-4'>{title}</h3>
       <div className={clsx('flex items-center justify-between mt-auto w-full')}>
         {topics.length > 0 && (
