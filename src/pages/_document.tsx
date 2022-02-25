@@ -18,6 +18,7 @@ export default class CustomDocument extends Document {
           <script
             async
             defer
+            data-do-not-track='true'
             data-domains='rizkicitra-git-revision-rizkimcitra.vercel.app'
             data-website-id='6daf05f5-92d2-430f-9cdd-1801014260da'
             src='https://rizkicitra-analytics.vercel.app/umami.js'
