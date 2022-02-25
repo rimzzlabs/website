@@ -61,10 +61,10 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
         className={clsx(
           'flex flex-col pb-10 md:pb-20',
           'md:flex-row-reverse md:justify-between md:items-center',
-          'space-y-4 md:space-y-0'
+          'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
         )}
       >
-        <figure className={clsx('flex items-center md:justify-end self-start', 'w-full md:w-2/6', 'mb-4 md:mb-0')}>
+        <figure className={clsx('flex items-center md:justify-end self-start', 'mb-4 md:mb-0')}>
           <Image
             width={144}
             height={144}
@@ -72,6 +72,9 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
             alt='Rizki Maulana Citra'
             className='rounded-full'
             src='/static/profile.webp'
+            loading='lazy'
+            placeholder='blur'
+            blurDataURL='/blur.svg'
           />
         </figure>
         <section>
