@@ -122,12 +122,14 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
                 ) : (
                   <li>Link Unavailable</li>
                 )}
-                {frontMatter.link.live && (
+                {frontMatter.link.live ? (
                   <li>
                     <ArticleLink href={frontMatter.link.live} newTab>
                       Live site
                     </ArticleLink>
                   </li>
+                ) : (
+                  <li>Link Unavailable</li>
                 )}
               </ul>
             )}
