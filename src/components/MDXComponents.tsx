@@ -1,4 +1,5 @@
 import ArticleLink from '@/components/atoms/ArticleLink'
+import CustomImage from '@/components/atoms/CustomImage'
 import Image from '@/components/atoms/Image'
 import Link from '@/components/atoms/Link'
 import Blockquote from '@/components/mollecules/Blockquote'
@@ -13,7 +14,8 @@ const MDXComponents = {
   ArticleLink,
   pre: CustomPre,
   inlineCode: CustomCode,
-  blockquote: Blockquote
+  blockquote: Blockquote,
+  img: CustomImage
 }
 
 export default MDXComponents
