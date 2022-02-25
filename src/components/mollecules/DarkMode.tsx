@@ -14,14 +14,13 @@ const DarkMode: React.FC = () => {
     <Button
       className={clsx(
         'accessible relative',
-        'h-8 md:h-12 md:text-xl',
-        'aspect-square rounded',
-        'bg-primary-100 text-primary-700',
-        'dark:bg-theme-800 dark:text-primary-400'
+        'h-10 md:text-xl',
+        'aspect-square rounded-xl',
+        'bg-primary-100 dark:bg-theme-800'
       )}
       onClick={changeTheme}
     >
-      {theme === 'light' ? <HiMoon /> : <HiSun />}
+      {theme === 'light' ? <HiMoon className='text-primary-700' /> : <HiSun className='text-yellow-400' />}
       <span className='sr-only'>Switch Theme</span>
     </Button>
   )
