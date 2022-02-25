@@ -8,7 +8,7 @@ import clsx from 'clsx'
 
 const ProjectCard = ({ title, summary, slug, stack }: PortfolioHeadProps) => {
   return (
-    <div className={clsx('flex flex-col relative p-4 md:p-6', 'border rounded border-theme-300 dark:border-theme-700')}>
+    <div className={clsx('flex flex-col relative p-4 md:p-5', 'border rounded border-theme-300 dark:border-theme-700')}>
       <h3>{title}</h3>
       <p className={'my-3 md:my-4'}>{summary}</p>
       <div className={clsx('flex items-center mt-auto space-x-1 md:space-x-2')}>
