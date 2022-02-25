@@ -78,11 +78,12 @@ export const getArticle = async (): Promise<Array<ArticleHeadProps>> => {
     const fullpath = path.join(`${ARTICLE_PATH}/articles`, p)
     const fileContent = fs.readFileSync(fullpath, 'utf8')
 
-    const { data } = matter(fileContent)
+    const { data, content } = matter(fileContent)
 
     return {
       ...(data as ArticleHeadProps),
-      slug: p.replace('.mdx', '')
+      slug: p.replace('.mdx', ''),
+      content
     }
   })
 }
