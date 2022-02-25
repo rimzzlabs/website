@@ -53,7 +53,7 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
     title: 'Rizki Maulana Citra',
     templateTitle: 'Student and Frontend Developer',
     description:
-      "Howdy👋, I'm Rizki Maulana Citra JavaScript enthusiast, who loves to code, music and coffe, talks about React, Next.js, JavaScript and CSS"
+      "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffe, talks about React, Next.js, JavaScript, CSS and Web Development related topics."
   }
   return (
     <Layout {...meta}>
@@ -89,10 +89,7 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
           >
             Student &amp; Frontend Developer
           </p>
-          <p className='max-w-prose mb-2 md:mb-4'>
-            Howdy👋, I&apos;m Rizki Maulana Citra JavaScript enthusiast, an intovert who loves to code, music and coffe,
-            talks about React, Next.js, JavaScript and CSS
-          </p>
+          <p className='max-w-prose mb-2 md:mb-4'>{meta.description}</p>
         </section>
       </div>
 
