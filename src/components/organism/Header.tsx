@@ -18,8 +18,8 @@ const Header = () => {
       className={clsx(
         'fixed inset-0',
         'h-16 md:h-20',
-        'backdrop-blur-md border-b transition z-10',
-        'bg-theme-50/80 dark:bg-theme-900/80',
+        'backdrop-blur border-b transition z-10',
+        'bg-theme-50/90 dark:bg-theme-900/90',
         scrollPos > 68 ? 'border-theme-200 dark:border-theme-700' : 'border-transparent'
       )}
     >
