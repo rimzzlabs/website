@@ -8,7 +8,7 @@ import Layout from '@/components/templates/Layout'
 import { ArticleHeadProps } from '@/data/articles/articleType'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
-import { getArticle, getPortfolio } from '@/libs/mdx'
+import { getArticle, getPortfolio } from '@/libs/helpers'
 
 import clsx from 'clsx'
 import { NextPage } from 'next'

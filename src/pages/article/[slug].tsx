@@ -5,7 +5,7 @@ import Layout from '@/components/templates/Layout'
 
 import { ArticleHeadProps } from '@/data/articles/articleType'
 import dateFormat from '@/libs/dateFormat'
-import { getArticle, getArticleBySlug } from '@/libs/mdx'
+import { getArticle, getArticleBySlug } from '@/libs/helpers'
 
 import clsx from 'clsx'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'

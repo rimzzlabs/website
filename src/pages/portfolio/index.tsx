@@ -1,17 +1,17 @@
 import Card from '@/components/atoms/Card'
 import Hero from '@/components/mollecules/Hero'
 import ProjectCard from '@/components/mollecules/ProjectCard'
+import Searchbar from '@/components/mollecules/Searchbar'
 import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
-import { getPortfolio } from '@/libs/mdx'
+import { getPortfolio } from '@/libs/helpers'
 
 import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
 import { useState } from 'react'
-import { HiOutlineSearch } from 'react-icons/hi'
 
 const meta = {
   title: 'Portfolio',
@@ -57,25 +57,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ portfolios = [] }) => {
   return (
     <Layout {...meta}>
       <Hero {...meta} />
-      <div
-        className={clsx(
-          'w-full my-10 md:my-16 rounded transition-all',
-          'bg-transparent border border-theme-300',
-          'dark:border-transparent dark:bg-theme-800',
-          'focus-within:ring ring-primary-500 dark:ring-primary-400'
-        )}
-      >
-        <div className='flex items-center'>
-          <HiOutlineSearch className='w-12' />
-          <input
-            onChange={handleChange}
-            value={query}
-            type='text'
-            placeholder='Search...'
-            className={clsx('w-full h-12 text-sm', 'bg-transparent outline-none')}
-          />
-        </div>
-      </div>
+      <Searchbar onChange={handleChange} value={query} />
 
       {portfolios.length > 0 && filteredPortfolios.length > 0 ? (
         <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-1 gap-4 md:gap-5')}>

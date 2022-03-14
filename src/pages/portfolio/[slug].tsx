@@ -1,13 +1,13 @@
 import MDXComponents from '@/components/MDXComponents'
-import ArticleLink from '@/components/atoms/ArticleLink'
 import IconFinder from '@/components/atoms/IconFinder'
 import Image from '@/components/atoms/Image'
+import UnderlineLink from '@/components/atoms/UnderlineLink'
 import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
-import { getPortfolio, getPortfolioBySlug } from '@/libs/mdx'
+import { getPortfolio, getPortfolioBySlug } from '@/libs/helpers'
 
 import clsx from 'clsx'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
@@ -115,18 +115,18 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
               <ul>
                 {frontMatter.link.github ? (
                   <li>
-                    <ArticleLink href={frontMatter.link.github} newTab>
+                    <UnderlineLink href={frontMatter.link.github} newTab>
                       GitHub repository
-                    </ArticleLink>
+                    </UnderlineLink>
                   </li>
                 ) : (
                   <li>Link Unavailable</li>
                 )}
                 {frontMatter.link.live ? (
                   <li>
-                    <ArticleLink href={frontMatter.link.live} newTab>
+                    <UnderlineLink href={frontMatter.link.live} newTab>
                       Live site
-                    </ArticleLink>
+                    </UnderlineLink>
                   </li>
                 ) : (
                   <li>Link Unavailable</li>
