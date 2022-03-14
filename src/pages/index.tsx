@@ -53,7 +53,7 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
     title: 'Rizki Maulana Citra',
     templateTitle: 'Student and Frontend Developer',
     description:
-      "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffe, talks about React, Next.js, JavaScript, CSS and Web Development related topics."
+      "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, JavaScript, CSS and Web Development related topics."
   }
   return (
     <Layout {...meta}>
