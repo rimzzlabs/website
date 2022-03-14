@@ -1,45 +1,32 @@
 import '@/styles/globals.css'
 import '@/styles/prism.css'
 
-import { metaPages } from '@/utils/constant'
+import Skip from '@/components/atoms/Skip'
+import Header from '@/components/organism/Header'
+
+import variants, { withExit } from '@/libs/animation/variants'
 
 import { AnimatePresence, LazyMotion, Variants, domAnimation, m } from 'framer-motion'
-import { NextSeo } from 'next-seo'
 import { ThemeProvider } from 'next-themes'
 import { AppProps } from 'next/app'
-import Dynamic from 'next/dynamic'
 
-const Header = Dynamic(() => import('@/components/Header'), { ssr: false })
+const v: Variants = withExit(variants)
 
 const App = ({ Component, pageProps, router }: AppProps) => {
-  const v: Variants = {
-    hidden: { opacity: 0, y: 50 },
-    enter: {
-      opacity: 1,
-      y: 0,
-      transition: { ease: 'easeInOut', duration: 0.5 }
-    },
-    exit: {
-      opacity: 0,
-      y: 50,
-      transition: { ease: 'easeInOut', duration: 0.5 }
-    }
-  }
   return (
-    <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
-      <NextSeo additionalMetaTags={metaPages.additional} />
-
+    <ThemeProvider attribute='class' storageKey='theme' enableSystem>
       <LazyMotion features={domAnimation}>
+        <Skip />
         <Header />
-        <AnimatePresence initial exitBeforeEnter onExitComplete={() => window.scrollTo(0, 0)}>
+        <AnimatePresence initial={false} onExitComplete={() => window.scrollTo(0, 0)} exitBeforeEnter>
           <m.div
-            id='skip-nav'
+            id='skip-content'
             key={router.route.concat('1')}
-            className='layout'
-            initial='hidden'
-            animate='enter'
-            exit='exit'
             variants={v}
+            initial='hidden'
+            animate='visible'
+            exit='exit'
+            className='layout'
           >
             <Component {...pageProps} />
           </m.div>

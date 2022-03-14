@@ -3,70 +3,51 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/inter-var-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC,
+      U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
   ::selection {
-    @apply text-dark-800 bg-sky-300 dark:bg-primary-500 dark:text-dark-200;
+    @apply bg-primary-200 text-theme-900 dark:bg-primary-400 dark:text-white;
   }
   h1 {
-    @apply text-2xl font-bold md:text-4xl text-typo-700 dark:text-typo-200;
+    @apply text-3xl font-bold text-theme-800 dark:text-theme-100 md:text-4xl;
   }
 
   h2 {
-    @apply text-xl font-bold md:text-3xl text-typo-700 dark:text-typo-200;
+    @apply text-2xl font-bold text-theme-800 dark:text-theme-100 md:text-3xl;
   }
 
   h3 {
-    @apply text-lg font-bold md:text-xl text-typo-700 dark:text-typo-200;
+    @apply text-xl font-bold text-theme-800 dark:text-theme-100 md:text-2xl;
   }
 
   h4 {
-    @apply text-base font-bold md:text-lg text-typo-700 dark:text-typo-200;
-  }
-
-  h2 ~ p:not(:last-child),
-  h3 ~ p:not(:last-child) {
-    @apply mb-2 md:mb-3 2xl:mb-4;
-  }
-
-  h2 + p,
-  h3 + p {
-    @apply mt-2 md:mt-4 2xl:mt-5;
+    @apply text-lg font-bold text-theme-800 dark:text-theme-100 md:text-xl;
   }
 
   body {
-    @apply font-primary text-sm md:text-base overflow-x-hidden antialiased bg-[#fdfdfd] dark:bg-dark-900 text-typo-600 dark:text-typo-300;
+    @apply bg-theme-50 font-primary text-theme-700 antialiased dark:bg-theme-900 dark:text-theme-200;
   }
 
-  ul.list-disc > li:not(:last-child) {
-    @apply mb-1.5 md:mb-3;
+  :is(a, button) {
+    @apply outline-none;
   }
 
-  :is(a, button):is(:focus-visible) {
-    @apply outline-none ring ring-offset-2 dark:ring-offset-dark-900 ring-primary-500
-    transition-all duration-200;
+  :is(a, button) {
+    @apply outline-none ring-primary-500 ring-offset-1 ring-offset-theme-50
+    transition-all focus-visible:ring dark:ring-primary-400 dark:ring-offset-theme-900;
   }
-}
 
-@layer utilities {
+  .accessible {
+    @apply ring-primary-400 transition-all duration-150 hover:ring dark:ring-theme-600;
+  }
   .layout {
-    @apply w-[90%] lg:w-full max-w-5xl mx-auto;
-  }
-
-  .animated-underline {
-    @apply relative after:w-0 after:h-0.5 after:bg-primary-500;
-    @apply after:absolute after:-bottom-0.5 after:left-0;
-    @apply after:transition-all after:duration-300 after:ease-in-out;
-    @apply hover:after:w-full;
-    @apply border-b border-dotted border-dark-900 dark:border-dark-500;
-  }
-
-  .border-color {
-    @apply border-dark-300 dark:border-dark-700;
-  }
-
-  :is(h1, h2, h3, h4, h5, h6).header-color {
-    @apply text-transparent dark:text-transparent bg-gradient-to-r bg-clip-text max-w-max
-      from-primary-500 to-sky-500;
+    @apply mx-auto w-[86%] max-w-2xl md:w-full;
   }
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');

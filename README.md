@@ -1,3 +1,3 @@
-# <p align="center">❗redesigning the entire website❗</p>
+# <p align="center">RizkiCitra✨</p>
 
-see the progress on [this branch](https://github.com/rizkimcitra/rizkicitra/tree/revision) or click the **_preview_** button on the right side (pc) or at the botttom(phone) to see the live preview.
+<p align="center">My personal website, build with Next.js, MDX, Framer Motion and Tailwind CSS</p>

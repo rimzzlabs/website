@@ -1,70 +1,82 @@
-import { doGet } from '@/libs/doFetch'
-import { ArticleProps, SingleArticleType } from '@/types/customType'
-import { metaPages } from '@/utils/constant'
+import Card from '@/components/atoms/Card'
+import ArticleCard from '@/components/mollecules/ArticleCard'
+import Hero from '@/components/mollecules/Hero'
+import Searchbar from '@/components/mollecules/Searchbar'
+import Footer from '@/components/organism/Footer'
+import Layout from '@/components/templates/Layout'
+
+import { ArticleHeadProps } from '@/data/articles/articleType'
+import dateFormat from '@/libs/dateFormat'
+import { getArticle } from '@/libs/helpers'
 
 import clsx from 'clsx'
-import { GetStaticProps } from 'next'
-import dynamic from 'next/dynamic'
-import readingTime from 'reading-time'
+import { GetStaticProps, NextPage } from 'next'
+import React, { useState } from 'react'
 
-const Footer = dynamic(() => import('@/components/Footer'))
-const Meta = dynamic(() => import('@/components/atoms/Meta'))
-const ArticleCard = dynamic(() => import('@/components/cards/ArticleCard'))
-const AnimeContainer = dynamic(() => import('@/components/wrapper/AnimeContainer'))
+const meta = {
+  title: 'Article',
+  description:
+    'I write articles once in a while, talks about JavaScript, CSS, and React Ecosystem and Web Development related topics, I have no high quality article like what you expect, but somehow I like to share my knowledge and experience throught writing.'
+}
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await doGet<ArticleProps>('/article?sort=id:DESC')
+  const res = await getArticle()
 
-  const articles = response.result.data.map((item) => {
-    const estRead = readingTime(item.attributes.content)
-    return { ...item, estRead }
-  })
+  const articles = res
+    .sort((a, b) => (new Date(a.publishedAt) < new Date(b.publishedAt) ? 1 : -1))
+    .map((data) => {
+      const publishedAt = dateFormat(data.publishedAt)
+      return {
+        ...data,
+        publishedAt
+      }
+    })
 
   return {
     props: {
-      data: articles
-    },
-    revalidate: 1
+      articles
+    }
   }
 }
 
-type IndexArticlePageProps = {
-  data: Array<SingleArticleType>
-}
+const ArticlePage: NextPage<{ articles: Array<ArticleHeadProps> }> = ({ articles = [] }) => {
+  const [query, setQuery] = useState<string>('')
 
-const IndexArticlePage = ({ data }: IndexArticlePageProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)
+
+  const filteredArticles = articles.filter((data) => {
+    return (
+      data.topics.includes(query.toLowerCase()) ||
+      data.title.toLowerCase().includes(query.toLowerCase()) ||
+      data.summary.toLowerCase().includes(query.toLowerCase())
+    )
+  })
+
   return (
-    <>
-      <Meta {...metaPages.article} />
+    <Layout {...meta}>
+      <Hero {...meta} />
 
-      <AnimeContainer className='py-20 min-h-screen flex flex-col'>
-        <section className='-scroll-mt-80'>
-          <h1 className='header-color mb-2 md:mb-4'>Articles</h1>
-          <p className='max-w-3xl xl:text-lg'>
-            I talk about anything that interest me, Web Development, Internet, as well as Social Life based on my
-            personal view.
-          </p>
-        </section>
+      <Searchbar onChange={handleChange} value={query} />
 
-        <section>
-          <h2 className='sr-only'>List of My Articles</h2>
-          <AnimeContainer
-            list
-            delay={0.4}
-            className={clsx('grid sm:grid-cols-2', 'w-full flex-[1_1_auto] gap-4 md:gap-8 mt-4 md:mt-8')}
-          >
-            {data.length > 0 &&
-              data.map((data, idx) => (
-                <li key={idx} className='min-h-[8rem]'>
-                  <ArticleCard {...data} />
-                </li>
-              ))}
-          </AnimeContainer>
-        </section>
-      </AnimeContainer>
+      {articles.length > 0 && filteredArticles.length > 0 ? (
+        <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-1 gap-4 md:gap-5')}>
+          {filteredArticles.map((data, index) => (
+            <Card key={data.title + index}>
+              <ArticleCard {...data} />
+            </Card>
+          ))}
+        </div>
+      ) : null}
+
+      {filteredArticles.length === 0 && (
+        <div className='text-center'>
+          <p>Couldn&apos;t find it, try something else 😐..</p>
+        </div>
+      )}
+
       <Footer />
-    </>
+    </Layout>
   )
 }
 
-export default IndexArticlePage
+export default ArticlePage
