@@ -15,6 +15,11 @@ const Label: React.FC<LabelProps> = (props) => {
         </div>
       )
 
+    case 'react':
+      return (
+        <div className={clsx(baseClass, 'text-sky-700 bg-sky-100 dark:text-sky-100 dark:bg-sky-900')}>{props.type}</div>
+      )
+
     default:
       return (
         <div className={clsx(baseClass, 'text-neutral-700 dark:text-neutral-200 bg-neutral-100 dark:bg-neutral-800')}>
