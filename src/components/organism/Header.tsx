@@ -20,7 +20,7 @@ const Header = () => {
         'h-16 md:h-20',
         'backdrop-blur border-b transition z-10',
         'bg-theme-50/90 dark:bg-theme-900/90',
-        scrollPos > 68 ? 'border-theme-200 dark:border-theme-700' : 'border-transparent'
+        scrollPos > 68 ? 'border-theme-300 dark:border-theme-700' : 'border-transparent'
       )}
     >
       <div className={clsx('h-2 w-full', 'bg-gradient-to-r', 'from-primary-500 to-ternary-500')} />

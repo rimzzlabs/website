@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
       <p className={clsx('text-sm mb-2 md:mb-4 text-theme-500 dark:text-theme-400')}>
         &copy; 2021 - {date} Under{' '}
         <Link
-          className='hover:underline decoration-2 decoration-primary-500 dark:decoration-primary-400'
+          className={clsx('hover:text-primary-500 dark:hover:text-primary-400')}
           href='https://github.com/rizkimcitra/rizkicitra/blob/main/LICENSE'
           newTab
         >
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
       <p className='text-sm text-theme-500 dark:text-theme-400'>
         Made with &#128153; by{' '}
         <Link
-          className='hover:underline decoration-2 decoration-primary-500 dark:decoration-primary-400'
+          className={clsx('hover:text-primary-500 dark:hover:text-primary-400')}
           href='https://github.com/rizkimcitra'
           newTab
         >
