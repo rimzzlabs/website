@@ -2,7 +2,7 @@ import Link, { LinkProps } from '@/components/atoms/Link'
 
 import clsx from 'clsx'
 
-const ArticleLink: React.FC<LinkProps> = ({ children, href, ...props }) => {
+const UnderlineLink: React.FC<LinkProps> = ({ children, href, ...props }) => {
   return (
     <Link
       {...props}
@@ -22,4 +22,4 @@ const ArticleLink: React.FC<LinkProps> = ({ children, href, ...props }) => {
   )
 }
 
-export default ArticleLink
+export default UnderlineLink
