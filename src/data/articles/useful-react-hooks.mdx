@@ -110,7 +110,7 @@ When you call the `get()` function, it will return the value of the given parame
 
 ## useViewAnimate
 
-If you work with animation, and are comfortable with <ArticleLink href="https://framer.com/motion/" newTab>Framer Motion</ArticleLink> you can use this hook to animate element when it is in viewport.
+If you work with animation, and are comfortable with <UnderlineLink href="https://framer.com/motion/" newTab>Framer Motion</UnderlineLink> you can use this hook to animate element when it is in viewport.
 
 ```tsx
 const useViewAnimate = () => {
@@ -213,3 +213,58 @@ const App: React.FC = () => {
   )
 }
 ```
+
+## useMediaQuery
+
+Let say we want to display some random UI only when the screen is bigger than 600px, we can use this hook to check if the screen is bigger than 600px.
+
+```tsx
+import { useEffect, useState } from 'react'
+
+const useMediaQuery = (query: string) => {
+  const isMatch = (query: string) => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia(query).matches
+    }
+    return false
+  }
+
+  const [matches, setMatches] = useState(isMatch(query))
+  const handleChange = () => setMatches(isMatch(query))
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query)
+    mediaQuery.addEventListener('change', handleChange)
+
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [query])
+
+  return matches
+}
+
+export default useMediaQuery
+```
+
+Let see how we can use this hooks, the hooks will return a boolean value, and it's required to pass the media query to the hook, example:
+
+```tsx
+import useMediaQuery from '@/hooks/useMediaQuery'
+
+const App: React.FC = () => {
+  const matches = useMediaQuery('(min-width: 600px)')
+
+  return (
+    <div className='container'>
+      {matches ? (
+        <p>I will show if screen size are equal or bigger than 600px otherwise hidden</p>
+      ) : (
+        <p>I will show if screen size are equal or smaller than 600px otherwise hidden</p>
+      )}
+    </div>
+  )
+}
+```
+
+## Closing
+
+That's all folks, there are actually a lot of hooks out there, and you can build your own hooks too, I hope this is helpful for you, see you next time!
