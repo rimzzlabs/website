@@ -69,13 +69,33 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
     <Layout
       title={frontMatter.title}
       openGraph={{
-        title: date + ' - ' + frontMatter.title
+        title: date + ' - ' + frontMatter.title,
+        article: {
+          authors: [frontMatter.author],
+          publishedTime: frontMatter.publishedAt as string,
+          tags: frontMatter.topics
+        },
+        images: [
+          {
+            width: 1200,
+            height: 650,
+            url: `https://og-image.vercel.app/${frontMatter.title}.png?theme=dark&md=1&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-white-logo.svg&width=1200&height=650`,
+            alt: frontMatter.title
+          }
+        ]
       }}
-      templateTitle='Article'
+      twitter={{
+        cardType: 'summary_large_image'
+      }}
+      templateTitle="Rizkis' Article"
       description={frontMatter.summary}
       additionalMetaTags={[
         {
-          name: 'Author',
+          name: 'author',
+          content: frontMatter.author
+        },
+        {
+          name: 'publisher',
           content: frontMatter.author
         }
       ]}
@@ -96,6 +116,7 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
               <figure className='m-0'>
                 <Image
                   src={frontMatter.author_pfp}
+                  title={frontMatter.author}
                   alt={frontMatter.author}
                   width={30}
                   height={30}
