@@ -30,7 +30,7 @@ const NotFoundPage: NextPage = () => {
           variants={v}
           className='relative mx-auto mb-2 md:mb-4 w-full md:w-1/2 aspect-square'
         >
-          <Image src='/static/404.webp' alt='illustration' objectFit='contain' priority />
+          <Image src='/static/404.webp' alt='illustration' objectFit='contain' quality={60} loading='lazy' />
         </motion.figure>
 
         <motion.section initial='hidden' animate='visible' variants={v} className='text-center'>
