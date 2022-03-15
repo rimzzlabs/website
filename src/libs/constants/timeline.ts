@@ -28,13 +28,13 @@ export const timeline: Array<Timeline> = [
     start_date: new Date(2021, 11, 24),
     end_date: null,
     description:
-      'I work as a Jr. Frontend Developer at skyshi digital, slicing design website to react component, collaborate with my colleague to build an application based on Next.js App, and also foo bar buzz bizz, lorem hello'
+      'I work as a Jr. Frontend Developer at skyshi digital, slicing design website to react component, collaborate with my colleague to build an application based on Next.js App.'
   },
   {
     title: 'Assitant Computer Lab',
     place: 'AMIK Serang',
     start_date: new Date(2021, 10, 1),
     end_date: null,
-    description: `I started my job as an Assistant Lab at my College, there I usually helping my colleague to deal with computers in the lab, and I often to create education contents for my College and then posted it on my College's social media account`
+    description: `I started my job as an Assistant Lab at my College, I usually helping my colleague to deal with computers in the lab, and I often to create education contents for my College and posted it on my College's social media account`
   }
 ]
