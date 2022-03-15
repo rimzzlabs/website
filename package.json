@@ -12,7 +12,6 @@
     "lint:fix": "next lint --fix",
     "postinstall": "husky install",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
-    "format": "prettier --config ./.prettierrc.js -w ./src/**/*.{tsx,ts}",
     "postbuild": "next-sitemap --config next-sitemap.js"
   },
   "dependencies": {
@@ -59,10 +58,10 @@
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --config ./.prettierrc.js --write"
     ],
     "**/*.{css,scss,md,html,json}": [
-      "prettier --write"
+      "prettier --config ./.prettierrc.js --write"
     ]
   },
   "repository": {
