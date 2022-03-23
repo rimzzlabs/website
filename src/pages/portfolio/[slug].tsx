@@ -1,6 +1,6 @@
 import MDXComponents from '@/components/MDXComponents'
+import CustomImage from '@/components/atoms/CustomImage'
 import IconFinder from '@/components/atoms/IconFinder'
-import Image from '@/components/atoms/Image'
 import UnderlineLink from '@/components/atoms/UnderlineLink'
 import Footer from '@/components/organism/Footer'
 import Layout from '@/components/templates/Layout'
@@ -102,7 +102,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
         </div>
         <main>
           <figure className='relative w-full aspect-video'>
-            <Image className='rounded' src={frontMatter.image} alt={frontMatter.title} priority />
+            <CustomImage src={frontMatter.image} alt={frontMatter.title} title={frontMatter.title} />
           </figure>
           <MDXRemote {...mdxSource} components={MDXComponents} lazy />
           <div>
