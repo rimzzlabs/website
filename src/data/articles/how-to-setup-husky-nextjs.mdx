@@ -116,6 +116,16 @@ It will create a new folder at the root of directory which is `/.husky`, open it
   |- /husky.sh
 ```
 
+Create a new scripts inside `package.json` file, so it will run everytime the project started to install all the dependencies.
+
+```json
+// other configs
+"scripts": {
+  "postinstall": "husky install",
+}
+// other configs
+```
+
 ## Setup Lint Staged
 
 Next we need to install Lint Staged, and then we need to setup Lint Staged, so we can run lint before commit, and it's very easy to do, just execute the following command in the terminal to install lint staged:
@@ -180,9 +190,9 @@ commitizen init cz-conventional-changelog --yarn --dev --exact
 
 The above command does three things for you:
 
-Installs the `cz-conventional-changelog adapter`
-Saves it to `package.json`'s dependencies or devDependencies
-Adds the config.commitizen key to the root of your package.json file as shown here:
+- Installs the `cz-conventional-changelog adapter`
+- Saves it to `package.json`'s dependencies or devDependencies
+- Adds the config.commitizen key to the root of your package.json file as shown here:
 
 ```json
 ...
