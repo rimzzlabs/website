@@ -1,10 +1,11 @@
-import Hero from '@/components/mollecules/Hero'
+import Image from '@/components/atoms/Image'
 import Footer from '@/components/organism/Footer'
 import TimelineList from '@/components/organism/TimelineList'
 import Layout from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
 
+import clsx from 'clsx'
 import { NextPage } from 'next'
 
 const meta = {
@@ -16,9 +17,41 @@ const meta = {
 const About: NextPage = () => {
   return (
     <Layout {...meta}>
-      <Hero {...meta}>
-        <p className='mt-2 md:mt-4'>Well you&apos;ve seen that line before on the Home Page</p>
-      </Hero>
+      <div
+        className={clsx(
+          'flex flex-col pb-10 md:pb-20',
+          'md:flex-row-reverse md:justify-between md:items-center',
+          'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
+        )}
+      >
+        <figure className={clsx('flex items-center justify-center md:justify-end', 'mb-4 md:mb-0')}>
+          <Image
+            width={225}
+            height={225}
+            layout='intrinsic'
+            alt='Rizki Maulana Citra'
+            className='rounded-full'
+            src='https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958'
+            loading='lazy'
+            placeholder='blur'
+            blurDataURL='/blur.svg'
+          />
+        </figure>
+        <section>
+          <h1>About</h1>
+          <h2
+            className={clsx(
+              'max-w-max my-3 md:my-4',
+              'font-bold text-transparent dark:text-transparent',
+              'bg-clip-text bg-gradient-to-r',
+              'from-primary-500 to-ternary-500'
+            )}
+          >
+            Rizki Maulana Citra
+          </h2>
+          <p className='max-w-prose'>{meta.description}</p>
+        </section>
+      </div>
 
       <section className='pt-10 md:pt-20'>
         <h2 className='mb-4'>Timeline</h2>

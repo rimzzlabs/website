@@ -66,14 +66,15 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
       >
         <figure className={clsx('flex items-center md:justify-end self-start', 'mb-4 md:mb-0')}>
           <Image
-            width={144}
-            height={144}
+            width={225}
+            height={225}
             layout='intrinsic'
             alt='Rizki Maulana Citra'
             className='rounded-full'
             src='/static/profile.webp'
             loading='lazy'
             placeholder='blur'
+            quality={60}
             blurDataURL='/blur.svg'
           />
         </figure>
