@@ -1,6 +1,6 @@
-import useWindowScroll from '@/hooks/useWindowScroll'
+import Nav from '@/components/mollecules/Nav'
 
-import Nav from '../mollecules/Nav'
+import useWindowScroll from '@/hooks/useWindowScroll'
 
 import clsx from 'clsx'
 import { useRouter } from 'next/router'
