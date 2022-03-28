@@ -1,6 +1,8 @@
-import MDXComponents from '@/components/MDXComponents'
+import Card from '@/components/atoms/Card'
 import Image from '@/components/atoms/Image'
+import ArticleCard from '@/components/mollecules/ArticleCard'
 import Footer from '@/components/organism/Footer'
+import MDXComponents from '@/components/organism/MDXComponents'
 import Layout from '@/components/templates/Layout'
 
 import { ArticleHeadProps } from '@/data/articles/articleType'
@@ -24,6 +26,7 @@ interface articleSlug extends ParsedUrlQuery {
 interface ArticleProps {
   mdxSource: MDXRemoteSerializeResult
   frontMatter: ArticleHeadProps
+  related: ArticleHeadProps[]
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -41,7 +44,14 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const mdxPrism = require('mdx-prism')
 
   const { slug } = ctx.params as articleSlug
+  const articles = await getArticle()
   const res = await getArticleBySlug(slug)
+  const related = articles
+    .filter((item) => {
+      const data = res.data as ArticleHeadProps
+      return data.topics.map((topic) => item.topics.includes(topic)).includes(true) && res.data.title !== item.title
+    })
+    .slice(0, 3)
 
   const mdxSource = await serialize(res.content, {
     scope: res.data,
@@ -56,15 +66,17 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         ...res.data,
         content: res.content
       },
-      mdxSource
+      mdxSource,
+      related
     },
     revalidate: 60
   }
 }
 
-const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) => {
+const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, related }) => {
   const date = dateFormat(frontMatter.publishedAt)
   const estRead = readingTime(frontMatter.content)
+
   return (
     <Layout
       title={frontMatter.title}
@@ -101,42 +113,58 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource }) =
       ]}
     >
       <BackToTop />
-      <article className='prose dark:prose-invert max-w-2xl'>
-        <header className='mb-10 md:mb-20'>
-          <section className={clsx('border-b', 'border-theme-300 dark:border-theme-700')}>
-            <h1>{frontMatter.title}</h1>
-            <p>{frontMatter.summary}</p>
+      <main>
+        <article className='prose dark:prose-invert max-w-2xl'>
+          <header className='mb-10 md:mb-20'>
+            <section className={clsx('border-b', 'border-theme-300 dark:border-theme-700')}>
+              <h1>{frontMatter.title}</h1>
+              <p>{frontMatter.summary}</p>
 
-            <div className={clsx('flex justify-end', 'w-full text-sm pb-4')}>
-              <time>{estRead.text}</time>
+              <div className={clsx('flex justify-end', 'w-full text-sm pb-4')}>
+                <time>{estRead.text}</time>
+              </div>
+            </section>
+            <div className={clsx('flex flex-col items-start py-8', 'w-full text-sm')}>
+              <div className={clsx('flex items-center', 'mb-2 md:mb-4 space-x-4')}>
+                <figure className='m-0'>
+                  <Image
+                    src={frontMatter.author_pfp}
+                    title={frontMatter.author}
+                    alt={frontMatter.author}
+                    width={30}
+                    height={30}
+                    className={clsx('rounded-full')}
+                    layout='intrinsic'
+                    priority
+                  />
+                </figure>
+                <span>{frontMatter.author}</span>
+              </div>
+              <span>
+                Published on <time>{date}</time>
+              </span>
+            </div>
+          </header>
+
+          <section>
+            <MDXRemote {...mdxSource} components={MDXComponents} lazy />
+          </section>
+        </article>
+
+        {related.length > 0 && (
+          <section className='my-10 md:my-20'>
+            <h2 className='mb-4'>Related</h2>
+            <p className='mb-6'>Other articles you might want to read</p>
+            <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-auto gap-4 md:gap-6')}>
+              {related.map((data, index) => (
+                <Card key={data.title + index}>
+                  <ArticleCard ogLink {...data} />
+                </Card>
+              ))}
             </div>
           </section>
-          <div className={clsx('flex flex-col items-start py-8', 'w-full text-sm')}>
-            <div className={clsx('flex items-center', 'mb-2 md:mb-4 space-x-4')}>
-              <figure className='m-0'>
-                <Image
-                  src={frontMatter.author_pfp}
-                  title={frontMatter.author}
-                  alt={frontMatter.author}
-                  width={30}
-                  height={30}
-                  className={clsx('rounded-full')}
-                  layout='intrinsic'
-                  priority
-                />
-              </figure>
-              <span>{frontMatter.author}</span>
-            </div>
-            <span>
-              Published on <time>{date}</time>
-            </span>
-          </div>
-        </header>
-
-        <main>
-          <MDXRemote {...mdxSource} components={MDXComponents} lazy />
-        </main>
-      </article>
+        )}
+      </main>
       <Footer />
     </Layout>
   )

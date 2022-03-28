@@ -1,8 +1,8 @@
-import MDXComponents from '@/components/MDXComponents'
-import CustomImage from '@/components/atoms/CustomImage'
 import IconFinder from '@/components/atoms/IconFinder'
-import UnderlineLink from '@/components/atoms/UnderlineLink'
 import Footer from '@/components/organism/Footer'
+import MDXComponents from '@/components/organism/MDXComponents'
+import ContentImage from '@/components/organism/MDXComponents/ContentImage'
+import ContentLink from '@/components/organism/MDXComponents/ContentLink'
 import Layout from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
@@ -102,7 +102,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
         </div>
         <main>
           <figure className='relative w-full aspect-video'>
-            <CustomImage src={frontMatter.image} alt={frontMatter.title} title={frontMatter.title} />
+            <ContentImage src={frontMatter.image} alt={frontMatter.title} title={frontMatter.title} />
           </figure>
           <MDXRemote {...mdxSource} components={MDXComponents} lazy />
           <div>
@@ -115,18 +115,14 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
               <ul>
                 {frontMatter.link.github ? (
                   <li>
-                    <UnderlineLink href={frontMatter.link.github} newTab>
-                      GitHub repository
-                    </UnderlineLink>
+                    <ContentLink href={frontMatter.link.github}>GitHub repository</ContentLink>
                   </li>
                 ) : (
                   <li>Link Unavailable</li>
                 )}
                 {frontMatter.link.live ? (
                   <li>
-                    <UnderlineLink href={frontMatter.link.live} newTab>
-                      Live site
-                    </UnderlineLink>
+                    <ContentLink href={frontMatter.link.live}>Live site</ContentLink>
                   </li>
                 ) : (
                   <li>Link Unavailable</li>
