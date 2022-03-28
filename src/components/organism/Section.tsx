@@ -3,11 +3,12 @@ import Link from '@/components/atoms/Link'
 import Card from '../atoms/Card'
 
 import clsx from 'clsx'
+import React from 'react'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export interface SectionProps<DataProp = {}> {
+export interface SectionProps<DataProp> {
   title: string
-  Component: React.FunctionComponent<DataProp>
+  Component: React.FC<DataProp>
   link: {
     to: string
     children: React.ReactNode
@@ -24,7 +25,7 @@ const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionP
         {data.length > 0 &&
           data.map((data, index) => (
             <Card key={index}>
-              <Component {...data} />
+              <Component {...data}>{null}</Component>
             </Card>
           ))}
       </div>
