@@ -3,10 +3,13 @@
  * @param {string | Date} date - The date to format.
  * @returns The date in the format of Month Day, Year.
  */
-const dateFormat = (date: string | Date) => {
-  const fmt = new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'medium'
-  })
+const dateFormat = (date: string | Date, config?: Intl.DateTimeFormatOptions) => {
+  const fmt = new Intl.DateTimeFormat(
+    'en-US',
+    config ?? {
+      dateStyle: 'medium'
+    }
+  )
   if (typeof date === 'string') {
     return fmt.format(new Date(date))
   }
