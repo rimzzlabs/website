@@ -11,7 +11,7 @@ import { NextPage } from 'next'
 const meta = {
   title: 'About Me',
   description:
-    "I'm Rizki Maulana Citra, a guy who loves to code, music and coffe, talks about React, Next.js, JavaScript, CSS and Web Development related topics."
+    "I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics."
 }
 
 const About: NextPage = () => {
@@ -55,7 +55,12 @@ const About: NextPage = () => {
       </div>
 
       <section className='pt-10 md:pt-20'>
-        <h2 className='mb-4'>Timeline</h2>
+        <h2 className='mb-2'>Timeline</h2>
+        <p className='mb-4'>
+          The biggest enemy of all time is called <em>time</em>, every human was afraid of this, no one know when they
+          die, no one know what&apos;s <em>exactly</em> going to happen tomorrow, but that is the truth, I keep moving
+          forward, living in my own life, so why not take a look at my little timeline below.
+        </p>
         <TimelineList timeline={timeline} />
       </section>
 
