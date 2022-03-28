@@ -80,6 +80,8 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
   return (
     <Layout
       title={frontMatter.title}
+      templateTitle="Rizkis' Article"
+      description={frontMatter.summary}
       openGraph={{
         title: date + ' - ' + frontMatter.title,
         article: {
@@ -99,8 +101,6 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
       twitter={{
         cardType: 'summary_large_image'
       }}
-      templateTitle="Rizkis' Article"
-      description={frontMatter.summary}
       additionalMetaTags={[
         {
           name: 'author',
@@ -109,6 +109,10 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
         {
           name: 'publisher',
           content: frontMatter.author
+        },
+        {
+          name: 'keywords',
+          content: frontMatter.topics.join(',')
         }
       ]}
     >
@@ -133,9 +137,12 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
                     alt={frontMatter.author}
                     width={30}
                     height={30}
-                    className={clsx('rounded-full')}
+                    quality={100}
+                    loading='lazy'
                     layout='intrinsic'
-                    priority
+                    placeholder='blur'
+                    blurDataURL='/blur.svg'
+                    className={clsx('rounded-full')}
                   />
                 </figure>
                 <span>{frontMatter.author}</span>
@@ -153,8 +160,8 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
 
         {related.length > 0 && (
           <section className='my-10 md:my-20'>
-            <h2 className='mb-4'>Related</h2>
-            <p className='mb-6'>Other articles you might want to read</p>
+            <h2 className='mb-2'>Related</h2>
+            <p className='mb-4'>Other articles you might want to read</p>
             <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-auto gap-4 md:gap-6')}>
               {related.map((data, index) => (
                 <Card key={data.title + index}>
