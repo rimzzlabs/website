@@ -24,18 +24,19 @@ const About: NextPage = () => {
           'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
         )}
       >
-        <figure className={clsx('flex items-center justify-center md:justify-end', 'mb-4 md:mb-0')}>
-          <Image
-            width={225}
-            height={225}
-            layout='intrinsic'
-            alt='Rizki Maulana Citra'
-            className='rounded-full'
-            src='https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958'
-            loading='lazy'
-            placeholder='blur'
-            blurDataURL='/blur.svg'
-          />
+        <figure className={clsx('flex items-center md:justify-end', 'mb-4 md:mb-0')}>
+          <div className='relative w-24 md:w-40 h-24 md:h-40'>
+            <Image
+              layout='fill'
+              alt='Rizki Maulana Citra'
+              className='rounded-full'
+              src='https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958'
+              loading='lazy'
+              placeholder='blur'
+              quality={100}
+              blurDataURL='/blur.svg'
+            />
+          </div>
         </figure>
         <section>
           <h1>About</h1>
