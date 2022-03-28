@@ -16,7 +16,7 @@ import React, { useState } from 'react'
 const meta = {
   title: 'Article',
   description:
-    'I write articles once in a while, talks about JavaScript, CSS, and React Ecosystem and Web Development related topics, I have no high quality article like what you expect, but somehow I like to share my knowledge and experience throught writing.'
+    'I write article once in a while, talks about React, Next.JS, CSS and Web Development related topics, although I have no high quality article like what you expect, but I like to share my knowledge and experience throught writing.'
 }
 
 export const getStaticProps: GetStaticProps = async () => {

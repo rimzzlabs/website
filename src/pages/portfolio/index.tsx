@@ -16,7 +16,7 @@ import { useState } from 'react'
 const meta = {
   title: 'Portfolio',
   description:
-    "List of my personal portfolio, proven that I've created something with my knowledge and experience, and like any other people, I will grow my skill and combine it with experience i have."
+    "List of my personal portfolio, proven that I've created something with my knowledge and experience, and like any other people, I will grow my skill and combine it with experience I have."
 }
 
 export const getStaticProps: GetStaticProps = async () => {
