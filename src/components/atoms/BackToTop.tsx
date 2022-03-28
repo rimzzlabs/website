@@ -2,14 +2,14 @@ import useWindowScroll from '@/hooks/useWindowScroll'
 import variants, { withExit } from '@/libs/animation/variants'
 
 import clsx from 'clsx'
-import { AnimatePresence, Variants, m } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { HiOutlineArrowUp } from 'react-icons/hi'
 
 const BackToTop: React.FC = () => {
   const yAxis = useWindowScroll()
   const handleClick = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
-  const v: Variants = withExit(variants)
+  const v = withExit(variants)
 
   return (
     <AnimatePresence exitBeforeEnter>
@@ -26,7 +26,7 @@ const BackToTop: React.FC = () => {
             'fixed md:bottom-[12vh] lg:right-[8vw]',
             'bottom-[6vh] right-[6vw]',
             'inline-flex items-center justify-center',
-            'h-10 aspect-square z-10',
+            'h-10 w-10 z-10',
             'rounded-xl md:text-lg',
             'text-primary-700 dark:text-primary-400',
             'bg-primary-100 dark:bg-theme-800'
