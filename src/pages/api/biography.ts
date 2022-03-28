@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 const biography = {
   name: 'Rizki Maulana Citra',
   born: 'Pandeglang, XX - XX - 2003',
-  age: 19,
+  age: 18,
   status: 'Alive',
   occupant: 'Serang - Banten, Indonesia'
 }
