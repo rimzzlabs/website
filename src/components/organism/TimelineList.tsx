@@ -18,7 +18,7 @@ const TimelineList: React.FC<TimelineListProps> = ({ timeline }) => (
           className={clsx(
             'relative w-full pl-4',
             'before:absolute before:left-0 before:top-2 last:before:top-[unset]',
-            'before:h-full before:w-0.5',
+            'before:h-full before:w-px',
             'last:pb-0 pb-4 md:pb-6 before:bg-theme-300 dark:before:bg-transparent',
             'dark:before:bg-gradient-to-b dark:before:from-primary-500 dark:before:to-ternary-500'
           )}
@@ -34,8 +34,8 @@ const TimelineList: React.FC<TimelineListProps> = ({ timeline }) => (
           <p>{data.description}</p>
           <div
             className={clsx(
-              'w-3 md:w-4 aspect-square rounded-full',
-              'absolute -left-[0.3rem] md:-left-[0.38rem] top-2',
+              'w-3 h-3 rounded-full',
+              'absolute -left-[0.35rem] top-2',
               'bg-theme-700 dark:bg-transparent',
               'dark:bg-gradient-to-b dark:from-primary-500 dark:to-ternary-500'
             )}
