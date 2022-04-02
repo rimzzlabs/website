@@ -9,4 +9,5 @@ export interface ArticleHeadProps {
   publishedAt: string | Date
   slug: string
   topics: Array<string>
+  keywords: Array<string>
 }
