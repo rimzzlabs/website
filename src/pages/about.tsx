@@ -1,17 +1,39 @@
 import Image from '@/components/atoms/Image'
 import Footer from '@/components/organism/Footer'
 import TimelineList from '@/components/organism/TimelineList'
-import Layout from '@/components/templates/Layout'
+import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
 
 import clsx from 'clsx'
 import { NextPage } from 'next'
 
-const meta = {
+const meta: LayoutProps = {
   title: 'About Me',
   description:
-    "I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics."
+    "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
+  openGraph: {
+    images: [
+      {
+        url: 'https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958',
+        alt: 'Rizki Maulana Citra',
+        height: 600,
+        width: 1200,
+        type: 'image/webp'
+      }
+    ]
+  },
+  additionalMetaTags: [
+    {
+      name: 'keywords',
+      content:
+        'about rizkicitra, about Rizki Citra, about rizkicitra, about rizkimcitra, about Rizki M Citra, about Rizki, about Maulana, Citra, Citra Dev, Citra, Rizki Maulana Citra, Rizki Maulana, Rizki Github, rizki github, Rizki GitHub, Rizki Nextjs, Personal Website, Frontend, Frontend Dev, Frontend Developer, Developer, Indonesia, Rizki Citra Developer, Rizki Citra Dev, Rizki Dev, Rizki Maulana Citra, rmaulana citra, developer from indonesia, personal website, blog, talks about react, talks about react and nextjs, web development related topics, developer, AMIK Serang'
+    },
+    {
+      name: 'author',
+      content: 'Rizki Maulana Citra'
+    }
+  ]
 }
 
 const About: NextPage = () => {
@@ -27,6 +49,7 @@ const About: NextPage = () => {
         <figure className={clsx('flex items-center md:justify-end', 'mb-4 md:mb-0')}>
           <div className='relative w-24 md:w-40 h-24 md:h-40'>
             <Image
+              title='Rizki Maulana Citra'
               layout='fill'
               alt='Rizki Maulana Citra'
               className='rounded-full'

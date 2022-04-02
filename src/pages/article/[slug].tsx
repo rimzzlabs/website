@@ -107,10 +107,6 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
           content: frontMatter.author
         },
         {
-          name: 'publisher',
-          content: frontMatter.author
-        },
-        {
           name: 'keywords',
           content: frontMatter.topics.join(',')
         }
@@ -140,8 +136,6 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
                     quality={100}
                     loading='lazy'
                     layout='intrinsic'
-                    placeholder='blur'
-                    blurDataURL='/blur.svg'
                     className={clsx('rounded-full')}
                   />
                 </figure>

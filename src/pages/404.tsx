@@ -19,7 +19,7 @@ You will see this page being used
 const NotFoundPage: NextPage = () => {
   return (
     <main className={clsx('w-full min-h-screen', 'flex items-center justify-center')}>
-      <Seo title='404 Page Not Found' />
+      <Seo title='404 Page Not Found' description='The page you are looking for are not found' />
       <div>
         <motion.figure
           whileTap={{

@@ -3,7 +3,7 @@ import ArticleCard from '@/components/mollecules/ArticleCard'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Footer from '@/components/organism/Footer'
 import Section from '@/components/organism/Section'
-import Layout from '@/components/templates/Layout'
+import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { ArticleHeadProps } from '@/data/articles/articleType'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
@@ -49,11 +49,36 @@ export const getStaticProps = async () => {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) => {
-  const meta = {
-    title: 'Rizki Maulana Citra',
+  const meta: LayoutProps = {
+    title: 'Rizki M Citra',
     templateTitle: 'Student and Frontend Developer',
     description:
-      "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics."
+      "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
+    openGraph: {
+      images: [
+        {
+          url: 'https://ik.imagekit.io/mlnzyx/attachment/profile_NEVpiY6EF.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648893977282',
+          alt: 'Rizki Maulana Citra',
+          height: 600,
+          width: 1200,
+          type: 'image/webp'
+        }
+      ],
+      site_name: 'Rizki Maulana Citra',
+      url: 'https://rizkicitra.dev',
+      type: 'website'
+    },
+    additionalMetaTags: [
+      {
+        name: 'keywords',
+        content:
+          'rizkicitra, Rizki Citra, rizkicitra, rizkimcitra, Rizki M Citra, Rizki, Maulana, Citra, Citra Dev, Citra, Rizki Maulana Citra, Rizki Maulana, Rizki Github, rizki github, Rizki GitHub, Rizki Nextjs, Personal Website, Frontend, Frontend Dev, Frontend Developer, Developer, Indonesia, Rizki Citra Developer, Rizki Citra Dev, Rizki Dev, Rizki Maulana Citra, rmaulana citra, developer from indonesia, personal website, blog, talks about react, talks about react and nextjs, web development related topics, developer, AMIK Serang'
+      },
+      {
+        name: 'author',
+        content: 'Rizki Maulana Citra'
+      }
+    ]
   }
   return (
     <Layout {...meta}>
@@ -67,10 +92,11 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
         <figure className={clsx('flex items-center md:justify-end self-start', 'mb-4 md:mb-0')}>
           <div className='relative w-24 md:w-40 h-24 md:h-40'>
             <Image
+              title='Rizki Maulana Citra'
               layout='fill'
               alt='Rizki Maulana Citra'
               className='rounded-full'
-              src='/static/profile.webp'
+              src='https://ik.imagekit.io/mlnzyx/attachment/profile_NEVpiY6EF.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648893977282'
               loading='lazy'
               placeholder='blur'
               quality={70}

@@ -3,7 +3,7 @@ import ArticleCard from '@/components/mollecules/ArticleCard'
 import Hero from '@/components/mollecules/Hero'
 import Searchbar from '@/components/mollecules/Searchbar'
 import Footer from '@/components/organism/Footer'
-import Layout from '@/components/templates/Layout'
+import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { ArticleHeadProps } from '@/data/articles/articleType'
 import dateFormat from '@/libs/dateFormat'
@@ -13,10 +13,24 @@ import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
 import React, { useState } from 'react'
 
-const meta = {
+const meta: LayoutProps = {
   title: 'Article',
   description:
-    'I write article once in a while, talks about React, Next.JS, CSS and Web Development related topics, although I have no high quality article like what you expect, but I like to share my knowledge and experience throught writing.'
+    'I write article once in a while, talks about React, Next.JS, CSS and Web Development related topics, although I have no high quality article like what you expect, but I like to share my knowledge and experience throught writing article.',
+  openGraph: {
+    type: 'blog'
+  },
+  additionalMetaTags: [
+    {
+      name: 'keywords',
+      content:
+        "article, react, next.js, css, web development, technology, technical blog, blog, Rizki Blog, Rizki M Citra, Rizki Maulana Citra, Rizki Maulana Citra Blog, Rizki Maulana Citra Blog, rizkimcitra's blog, rizkimcitra's article, article, web development related, tailwindcss, tech article, < 10 min read, read article, read blog, rizki blog, rizki citra's blog, citra dev, citra blog"
+    },
+    {
+      name: 'author',
+      content: 'Rizki Maulana Citra'
+    }
+  ]
 }
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -54,7 +68,7 @@ const ArticlePage: NextPage<{ articles: Array<ArticleHeadProps> }> = ({ articles
 
   return (
     <Layout {...meta}>
-      <Hero {...meta} />
+      <Hero title={meta.title} description={meta.description as string} />
 
       <Searchbar onChange={handleChange} value={query} />
 

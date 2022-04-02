@@ -3,7 +3,7 @@ import Hero from '@/components/mollecules/Hero'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Searchbar from '@/components/mollecules/Searchbar'
 import Footer from '@/components/organism/Footer'
-import Layout from '@/components/templates/Layout'
+import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
@@ -13,15 +13,32 @@ import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
 import { useState } from 'react'
 
-const meta = {
+const meta: LayoutProps = {
   title: 'Portfolio',
   description:
-    "List of my personal portfolio, proven that I've created something with my knowledge and experience, and like any other people, I will grow my skill and combine it with experience I have."
+    "List of my personal portfolio, proven that I've created something with my knowledge and experience, and like any other people, I will grow my skill and combine it with experience I have.",
+  openGraph: {
+    type: 'website'
+  },
+  additionalMetaTags: [
+    {
+      name: 'keywords',
+      content:
+        "rizki, maulana, cira, rizkimcitra, rizki m citra, rizkicitra, rizki citra, rizki's portfolio, portfolio, projects, personal portfolio, rizki maulana citra's personal portfolio, rizki maulana citra, personal portfolio"
+    },
+
+    {
+      name: 'author',
+      content: 'Rizki Maulana Citra'
+    }
+  ]
 }
 
 export const getStaticProps: GetStaticProps = async () => {
   const res = await getPortfolio()
 
+  // I don't want to mutate the data directly, so clone first with slice function and then sorted it out, map
+  // the data, to add a new property inside the data
   const portfolios =
     res
       .slice()
@@ -56,7 +73,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ portfolios = [] }) => {
 
   return (
     <Layout {...meta}>
-      <Hero {...meta} />
+      <Hero title={meta.title} description={meta.description as string} />
       <Searchbar onChange={handleChange} value={query} />
 
       {portfolios.length > 0 && filteredPortfolios.length > 0 ? (
