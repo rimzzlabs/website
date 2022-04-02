@@ -6,9 +6,9 @@
   "start_url": "/",
   "author": "Rizki Maulana Citra",
   "name": "Rizki Maulana Citra",
-  "app_name": "Rizki Citra Personal Web",
+  "app_name": "Rizki Citra Personal Web App",
   "short_name": "Rizki Citra",
-  "description": "I am a Student of Informatics Management at AMIK Serang and I'm a Frontend Web Developer who love to work with JavaScript and React Ecosystem.",
+  "description": "I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
   "icons": [
     {
       "src": "/icon-192x192.png",
