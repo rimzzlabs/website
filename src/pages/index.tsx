@@ -73,7 +73,7 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
               src='/static/profile.webp'
               loading='lazy'
               placeholder='blur'
-              quality={100}
+              quality={70}
               blurDataURL='/blur.svg'
             />
           </div>

@@ -33,7 +33,7 @@ const About: NextPage = () => {
               src='https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958'
               loading='lazy'
               placeholder='blur'
-              quality={100}
+              quality={70}
               blurDataURL='/blur.svg'
             />
           </div>
