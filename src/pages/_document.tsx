@@ -15,7 +15,7 @@ export default class CustomDocument extends Document {
               defer
               data-do-not-track='true'
               data-website-id='6daf05f5-92d2-430f-9cdd-1801014260da'
-              src='https://rizkicitra-analytics.vercel.app/umami.js'
+              src='https://umami.rizkicitra.dev/umami.js'
             />
           )}
         </Head>
