@@ -5,7 +5,7 @@ import ContentImage from '@/components/organism/MDXComponents/ContentImage'
 import ContentLink from '@/components/organism/MDXComponents/ContentLink'
 import Layout from '@/components/templates/Layout'
 
-import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
+import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import dateFormat from '@/libs/dateFormat'
 import { getPortfolio, getPortfolioBySlug } from '@/libs/helpers'
 

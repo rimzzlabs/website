@@ -1,6 +1,6 @@
 import Link from '@/components/atoms/Link'
 
-import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
+import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 
 import IconFinder from '../atoms/IconFinder'
 

@@ -5,7 +5,7 @@ import Searchbar from '@/components/mollecules/Searchbar'
 import Footer from '@/components/organism/Footer'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
-import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
+import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import dateFormat from '@/libs/dateFormat'
 import { getPortfolio } from '@/libs/helpers'
 

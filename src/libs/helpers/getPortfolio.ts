@@ -1,4 +1,4 @@
-import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
+import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import getFullPath, { ARTICLE_PATH } from '@/libs/helpers/getFullPath'
 
 import fs from 'fs'
