@@ -23,7 +23,6 @@ export const getStaticProps = async () => {
 
   const portfolios = resOne
     .filter((data) => data.featured)
-    .slice()
     .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
     .map((data) => {
       const date = dateFormat(data.date)
@@ -50,7 +49,7 @@ export const getStaticProps = async () => {
 
 const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) => {
   const meta: LayoutProps = {
-    title: 'Rizki M Citra',
+    title: 'Rizki Maulana Citra',
     templateTitle: 'Student and Frontend Developer',
     description:
       "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
@@ -65,8 +64,7 @@ const HomePage: NextPage<HomePageProps> = ({ portfolios = [], articles = [] }) =
         }
       ],
       site_name: 'Rizki Maulana Citra',
-      url: 'https://rizkicitra.dev',
-      type: 'website'
+      url: 'https://rizkicitra.dev'
     },
     additionalMetaTags: [
       {
