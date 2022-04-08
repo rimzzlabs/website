@@ -42,6 +42,6 @@ export const timeline: Array<Timeline> = [
     place: 'Skyshi Digital Indonesia',
     start_date: new Date(2022, 4, 1),
     end_date: null,
-    description: `As previously I work as an intern, now I'm officially a Frontend Developer at Skyshi Digital Indonesia, I'm working on a project that is based on React.js, and Vue.js, slicing and integrating data from server to the client and optimize app as possible.`
+    description: `As I'm previously work as an intern, now I'm officially a Frontend Developer at Skyshi Digital Indonesia, I'm working on a project that is based on React.js, and Vue.js, slicing and integrating data from server to the client and optimize app as possible.`
   }
 ]

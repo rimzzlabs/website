@@ -1,6 +1,6 @@
-import useTheme from '@/hooks/useTheme'
+import Button from '@/components/atoms/Button'
 
-import Button from '../atoms/Button'
+import useTheme from '@/hooks/useTheme'
 
 import clsx from 'clsx'
 import { HiMoon, HiSun } from 'react-icons/hi'
