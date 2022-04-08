@@ -121,21 +121,20 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
               <p>{frontMatter.summary}</p>
 
               <div className={clsx('flex justify-end', 'w-full text-sm pb-4')}>
-                <time>{estRead.text}</time>
+                <span>{estRead.text}</span>
               </div>
             </section>
             <div className={clsx('flex flex-col items-start py-8', 'w-full text-sm')}>
               <div className={clsx('flex items-center', 'mb-2 md:mb-4 space-x-4')}>
-                <figure className='m-0'>
+                <figure className='relative m-0 w-8 md:w-10 h-8 md:h-10'>
                   <Image
                     src={frontMatter.author_pfp}
                     title={frontMatter.author}
                     alt={frontMatter.author}
-                    width={30}
-                    height={30}
-                    quality={100}
                     loading='lazy'
-                    layout='intrinsic'
+                    placeholder='blur'
+                    blurDataURL='/blur.svg'
+                    layout='fill'
                     className={clsx('rounded-full')}
                   />
                 </figure>
