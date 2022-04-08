@@ -1,4 +1,4 @@
-import { ArticleHeadProps } from '@/data/articles/articleType'
+import { ArticleHeadProps } from '@/data/articles/article.type'
 import getFullPath, { ARTICLE_PATH } from '@/libs/helpers/getFullPath'
 
 import fs from 'fs'

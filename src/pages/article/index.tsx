@@ -5,7 +5,7 @@ import Searchbar from '@/components/mollecules/Searchbar'
 import Footer from '@/components/organism/Footer'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
-import { ArticleHeadProps } from '@/data/articles/articleType'
+import { ArticleHeadProps } from '@/data/articles/article.type'
 import dateFormat from '@/libs/dateFormat'
 import { getArticle } from '@/libs/helpers'
 

@@ -1,7 +1,7 @@
 import Label from '@/components/atoms/Label'
 import Link from '@/components/atoms/Link'
 
-import { ArticleHeadProps } from '@/data/articles/articleType'
+import { ArticleHeadProps } from '@/data/articles/article.type'
 
 import clsx from 'clsx'
 import NextLink from 'next/link'

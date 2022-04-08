@@ -5,7 +5,7 @@ import Footer from '@/components/organism/Footer'
 import MDXComponents from '@/components/organism/MDXComponents'
 import Layout from '@/components/templates/Layout'
 
-import { ArticleHeadProps } from '@/data/articles/articleType'
+import { ArticleHeadProps } from '@/data/articles/article.type'
 import dateFormat from '@/libs/dateFormat'
 import { getArticle, getArticleBySlug } from '@/libs/helpers'
 

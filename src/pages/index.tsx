@@ -5,7 +5,7 @@ import Footer from '@/components/organism/Footer'
 import Section from '@/components/organism/Section'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
-import { ArticleHeadProps } from '@/data/articles/articleType'
+import { ArticleHeadProps } from '@/data/articles/article.type'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolioType'
 import dateFormat from '@/libs/dateFormat'
 import { getArticle, getPortfolio } from '@/libs/helpers'
