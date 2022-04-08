@@ -108,7 +108,7 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
         },
         {
           name: 'keywords',
-          content: frontMatter.topics.join(',')
+          content: [...frontMatter.topics, ...frontMatter.keywords].join(',')
         }
       ]}
     >
