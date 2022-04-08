@@ -1,6 +1,6 @@
 import Image from '@/components/atoms/Image'
 import Footer from '@/components/organism/Footer'
-import TimelineList from '@/components/organism/TimelineList'
+import Timeline from '@/components/organism/Timeline'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
@@ -84,7 +84,7 @@ const About: NextPage = () => {
           die, no one know what&apos;s <em>exactly</em> going to happen tomorrow, but that is the truth, I keep moving
           forward, living in my own life, so why not take a look at my little timeline below.
         </p>
-        <TimelineList timeline={timeline} />
+        <Timeline timeline={timeline} />
       </section>
 
       <section className='pt-10 md:pt-20'>
