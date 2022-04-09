@@ -1,7 +1,7 @@
 import { Variant, Variants } from 'framer-motion'
 
 const hidden: Variant = {
-  y: 25,
+  y: 15,
   opacity: 0
 }
 
@@ -10,12 +10,13 @@ const visible: Variant = {
   opacity: 1
 }
 
-const variants = () => ({
+const variants = (): Variants => ({
   hidden,
   visible: {
     ...visible,
     transition: {
-      type: 'tween'
+      type: 'tween',
+      duration: 0.25
     }
   }
 })
@@ -28,7 +29,8 @@ export const withExit = (func: () => Variants): Variants => {
     exit: {
       ...hidden,
       transition: {
-        type: 'tween'
+        type: 'tween',
+        duration: 0.25
       }
     }
   }
