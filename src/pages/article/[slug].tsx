@@ -46,12 +46,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { slug } = ctx.params as articleSlug
   const articles = await getArticle()
   const res = await getArticleBySlug(slug)
-  const related = articles
-    .filter((item) => {
-      const data = res.data as ArticleHeadProps
-      return data.topics.map((topic) => item.topics.includes(topic)).includes(true) && res.data.title !== item.title
-    })
-    .slice(0, 3)
+
+  const related = articles.filter((article) => res.data.related.includes(article.slug))
 
   const mdxSource = await serialize(res.content, {
     scope: res.data,
@@ -73,7 +69,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 }
 
-const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, related }) => {
+const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, related = [] }) => {
   const date = dateFormat(frontMatter.publishedAt)
   const estRead = readingTime(frontMatter.content)
 

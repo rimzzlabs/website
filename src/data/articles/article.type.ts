@@ -10,4 +10,5 @@ export interface ArticleHeadProps {
   slug: string
   topics: Array<string>
   keywords: Array<string>
+  related: Array<string>
 }
