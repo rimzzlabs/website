@@ -1,15 +1,14 @@
-import Image from '@/components/atoms/Image'
+import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
 import Footer from '@/components/organism/Footer'
 import Timeline from '@/components/organism/Timeline'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
 
-import clsx from 'clsx'
 import { NextPage } from 'next'
 
 const meta: LayoutProps = {
-  title: 'About Me',
+  title: 'About Rizki Maulana Citra',
   description:
     "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
   openGraph: {
@@ -39,43 +38,15 @@ const meta: LayoutProps = {
 const About: NextPage = () => {
   return (
     <Layout {...meta}>
-      <div
-        className={clsx(
-          'flex flex-col pb-10 md:pb-20',
-          'md:flex-row-reverse md:justify-between md:items-center',
-          'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
-        )}
-      >
-        <figure className={clsx('flex items-center md:justify-end', 'mb-4 md:mb-0')}>
-          <div className='relative w-24 md:w-40 h-24 md:h-40'>
-            <Image
-              title='Rizki Maulana Citra'
-              layout='fill'
-              alt='Rizki Maulana Citra'
-              className='rounded-full'
-              src='https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958'
-              loading='lazy'
-              placeholder='blur'
-              quality={70}
-              blurDataURL='/blur.svg'
-            />
-          </div>
-        </figure>
-        <section>
-          <h1>About</h1>
-          <h2
-            className={clsx(
-              'max-w-max my-3 md:my-4',
-              'font-bold text-transparent dark:text-transparent',
-              'bg-clip-text bg-gradient-to-r',
-              'from-primary-500 to-ternary-500'
-            )}
-          >
-            Rizki Maulana Citra
-          </h2>
-          <p className='max-w-prose'>{meta.description}</p>
-        </section>
-      </div>
+      <HeroWithPhoto
+        title='About'
+        subtitle='Rizki Maulana Citra'
+        description={meta.description as string}
+        img={{
+          src: meta.openGraph?.images ? meta.openGraph.images[0].url : '',
+          alt_title: 'Rizki Maulana Citra'
+        }}
+      />
 
       <section className='pt-10 md:pt-20'>
         <h2 className='mb-2'>Timeline</h2>
