@@ -25,7 +25,7 @@ export const timeline: Array<Timeline> = [
   {
     title: 'Intern Frontend Developer',
     place: 'Skyshi Digital Indonesia',
-    start_date: new Date(2021, 11, 24),
+    start_date: new Date(2022, 0, 24),
     end_date: new Date(2022, 3, 31),
     description:
       'I work as a Jr. Frontend Developer at skyshi digital, slicing design website to react component, collaborate with my colleague to build an application based on Next.js App.'
@@ -40,7 +40,7 @@ export const timeline: Array<Timeline> = [
   {
     title: 'Frontend Developer',
     place: 'Skyshi Digital Indonesia',
-    start_date: new Date(2022, 4, 1),
+    start_date: new Date(2022, 3, 1),
     end_date: null,
     description: `As I'm previously work as an intern, now I'm officially a Frontend Developer at Skyshi Digital Indonesia, I'm working on a project that is based on React.js, and Vue.js, slicing and integrating data from server to the client and optimize app as possible.`
   }
