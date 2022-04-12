@@ -63,7 +63,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxS
     <Layout
       title={frontMatter.title}
       description={frontMatter.summary}
-      templateTitle={frontMatter.summary}
+      templateTitle={`${frontMatter.summary} | rizkicitra.dev`}
       openGraph={{
         title: `${dateFormat(frontMatter.date)} - ${frontMatter.title}`,
         article: {

@@ -76,7 +76,7 @@ const ArticleDetailPage: NextPage<ArticleProps> = ({ frontMatter, mdxSource, rel
   return (
     <Layout
       title={frontMatter.title}
-      templateTitle="Rizkis' Article"
+      templateTitle='rizkicitra.dev'
       description={frontMatter.summary}
       openGraph={{
         title: date + ' - ' + frontMatter.title,

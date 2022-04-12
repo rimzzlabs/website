@@ -8,7 +8,7 @@ import { timeline } from '@/libs/constants/timeline'
 import { NextPage } from 'next'
 
 const meta: LayoutProps = {
-  title: 'About Rizki Maulana Citra',
+  title: 'About',
   description:
     "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
   openGraph: {
