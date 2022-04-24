@@ -1,0 +1,53 @@
+---
+title: 'How To Setup Web Analytics With Umami'
+summary: 'Umami is an open source alternative to Google Analytics, it will track your website activities such as page views and visitors.'
+featured: false
+author_name: 'Rizki M Citra'
+author_image: 'https://ik.imagekit.io/mlnzyx/attachment/profile_NEVpiY6EF.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648893977282'
+published: '04/25/2022'
+topics: ['nextjs', 'analytics']
+keywords: []
+related: []
+thumbnail: '/static/analytics-umami.png'
+---
+
+## Introduction
+
+After deploying website to the internet, we were happy because finally the world can now accessed it.
+
+Analytics are a good way to track our websites' traffic, such as page views and visitors.
+
+Take one example, we have a blog that shows about technology blog, every people that visits website got tracked, where they came from **e.g: Indonesia** and what web browser they used, **e.g: chrome**.
+
+When it comes to analytics, you might think about **Google Analytics**, it's a a web analytics service offered by Google that tracks and reports website traffic, but you also tired of being tracked by big company? _just kiding_.
+
+Then [Umami](https://umami.is) may be the right choice, Umami is a simple, fast, privacy-focused alternative to Google Analytics, let's see how we can use this platform as our web analytics.
+
+### Prerequisite
+
+Before we continue, we need to prepare the tech stack we need, as from umamis' official website, here's what we need:
+
+- A server with Node.js 12 or newer - we are going to use [vercel](https://vercel.com)
+- A database (MySQL or Postgresql) - we are going to use [supabase](https://supabase.com)
+
+## Using Supabase
+
+Before getting to Umami itself, let's create a database on supabase.
+
+Supabase is an open source alternative to Firebase, a collection of tools that helps developers build projects more quickly by automatically handling a whole lot of the behind-the-scenes work and wiring.
+
+### Create Supabase Account
+
+Go to supabase official website, create an account, or login if you already have one, create a new project.
+
+Fill in the forms fields based on your personal preferences, and then select the closest region to your area in the form field.
+
+### Configuring Schema
+
+Next up you need to configure the database schema on the supabase project, copy and paste [this code](https://github.com/mikecao/umami/blob/master/sql/schema.postgresql.sql, 'PostgreSQL Schema') on your supabase project on **SQL Editor**.
+
+The code simply run and create tables and wire up your database schema.
+
+### Environtment Variables
+
+After you've created a database, go to your projects' setting, and see for postgre query string:
