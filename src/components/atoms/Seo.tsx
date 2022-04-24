@@ -1,14 +1,17 @@
 import { NextSeo, NextSeoProps } from 'next-seo'
 
-export interface SeoProp extends NextSeoProps {
-  templateTitle?: string
+export interface CustomSeoProps extends NextSeoProps {
+  template?: string
 }
+
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
+
 /**
  * It takes a NextSeoProps object and returns a `NextSeo components`
  * @returns A Next.js component.
  */
-const Seo: React.FC<SeoProp> = ({ ...props }) => {
-  const TITLE_TEMPLATE = `%s — ${props.templateTitle ?? 'Rizki Maulana Citra | rizkicitra.dev'}`
+const Seo: React.FC<CustomSeoProps> = ({ ...props }) => {
+  const TITLE_TEMPLATE = `%s — ${props.template ?? SITE_NAME}`
   return <NextSeo {...props} title={props.title} titleTemplate={TITLE_TEMPLATE} />
 }
 

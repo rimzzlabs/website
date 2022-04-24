@@ -7,7 +7,14 @@ import dateFormat from '@/libs/dateFormat'
 import clsx from 'clsx'
 import { useRef } from 'react'
 
-const SingleTimeline: React.FunctionComponent<Timeline> = ({ title, place, start_date, end_date, description }) => {
+const SingleTimeline: React.FunctionComponent<Timeline> = ({
+  title,
+  place,
+  start_date,
+  end_date,
+  description,
+  type
+}) => {
   const start_date_str = dateFormat(start_date.toISOString())
   const end_date_str = end_date ? dateFormat(end_date.toISOString()) : 'now'
 
@@ -32,7 +39,7 @@ const SingleTimeline: React.FunctionComponent<Timeline> = ({ title, place, start
         'dark:before:bg-gradient-to-b dark:before:from-primary-500 dark:before:to-ternary-500'
       )}
     >
-      <TimelineHeader ref={chevronRef} onClick={handleClick} place={place as string} title={title} />
+      <TimelineHeader ref={chevronRef} onClick={handleClick} place={place} title={title} type={type} />
       <TimelineBody ref={bodyRef} description={description} start_date={start_date_str} end_date={end_date_str} />
 
       <div

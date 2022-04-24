@@ -1,80 +1,83 @@
+import Button from '@/components/atoms/Button'
+
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
-import { HiCheckCircle, HiOutlineClipboardCopy } from 'react-icons/hi'
+import { HiCheck, HiClipboardCopy } from 'react-icons/hi'
 
-interface CustomPreProps {
-  className: string
+interface PreProps {
+  children: React.ReactNode
+  className?: string
 }
 
-const CustomPre: React.FC<CustomPreProps> = (prop) => {
-  const preEl = useRef<HTMLPreElement>(null)
-  const language = prop.className.slice(9).toUpperCase()
-  const [isCopied, setIsCopied] = useState(false)
+const Pre: React.FunctionComponent<PreProps> = ({ children, className }) => {
+  const [isCopied, setIsCopied] = useState<boolean>(false)
+  const preRef = useRef<HTMLPreElement>(null)
 
-  const handleCopy = () => {
-    if ('navigator' in window) {
-      if (preEl.current && preEl.current.children) {
-        const text = preEl.current.children[0].textContent ?? ''
-        const clipboard = navigator.clipboard
-
-        clipboard.writeText(text)
-        setIsCopied(true)
-      }
+  const copyToClipboard = async () => {
+    if (preRef.current && !isCopied) {
+      await navigator.clipboard.writeText(preRef.current.textContent as string)
+      setIsCopied(true)
     }
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isCopied) setIsCopied(false)
-    }, 1500)
+    const timer = setTimeout(() => setIsCopied(false), 1500)
 
     return () => clearTimeout(timer)
   }, [isCopied])
+
   return (
     <div className='relative'>
       <div
         className={clsx(
-          'flex items-center justify-between',
-          'absolute inset-x-0 h-10 pl-2 pr-4',
-          'rounded-t-lg top-0 left-0'
+          'absolute left-0 right-12',
+          'h-11 rounded-tl rounded-br',
+          'font-semibold text-sm',
+          'bg-slate-700 dark:bg-slate-800 text-main-1.5'
         )}
       >
         <div
           className={clsx(
-            'font-medium',
-            'border-x border-b rounded-b px-4 pb-2',
-            'text-primary-500 dark:text-primary-400 border-primary-500 dark:border-primary-400 select-none'
+            'inline-flex items-center justify-start',
+            'px-4 md:px-8 h-full rounded-tl',
+            'text-theme-100 bg-primary-600'
           )}
         >
-          {language}
+          {className?.replace('language-', '').toUpperCase()}
         </div>
-        <button
-          onClick={handleCopy}
-          title={isCopied ? 'copied to clipboard!' : 'copy code'}
+      </div>
+
+      <div
+        className={clsx(
+          'absolute top-0 right-0',
+          'flex items-center justify-center',
+          'w-11 h-11 rounded-tr rounded-bl',
+          'bg-slate-700 dark:bg-slate-800'
+        )}
+      >
+        <Button
+          onClick={copyToClipboard}
           className={clsx(
-            'p-1.5 md:p-2 mt-4 rounded border',
-            'outline-none transition-all hover:ring',
-            'text-theme-100 dark:text-theme-200',
-            'ring-primary-500 dark:ring-primary-400 border-slate-600 ',
-            'ring-offset-white dark:ring-offset-primary-300'
+            'group relative',
+            'w-8 h-8 rounded-lg transition-all duration-200',
+            'ring-primary-400',
+            'ring-offset-primary-400',
+            'hover:ring'
           )}
         >
-          <span className='sr-only'>Copy Code</span>
-          {!isCopied && <HiOutlineClipboardCopy />}
-          {isCopied && <HiCheckCircle className='text-emerald-500' />}
-        </button>
+          {isCopied ? (
+            <HiCheck className='w-4 h-4 text-emerald-500' />
+          ) : (
+            <HiClipboardCopy className='w-4 h-4 text-theme-100' />
+          )}
+          <span className='sr-only'>Copy to clipboard</span>
+        </Button>
       </div>
-      <pre
-        ref={preEl}
-        style={{
-          paddingTop: '3rem'
-        }}
-        className={clsx(prop.className)}
-      >
-        {prop.children}
+      <pre ref={preRef} style={{ paddingTop: '3.5rem' }} className={className}>
+        {children}
       </pre>
     </div>
   )
 }
 
-export default CustomPre
+export default Pre

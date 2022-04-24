@@ -2,41 +2,56 @@ import clsx from 'clsx'
 import {
   SiCodesandbox,
   SiFirebase,
+  SiFramer,
   SiJavascript,
+  SiMarkdown,
+  SiNextdotjs,
   SiReact,
   SiRedux,
   SiSass,
   SiTailwindcss,
+  SiTypescript,
   SiVite
 } from 'react-icons/si'
 
-const IconFinder: React.FC<{ type: string; className?: string }> = ({ type, className }) => {
-  switch (type) {
-    case 'React':
-      return <SiReact className={clsx('text-sky-500', className)} />
+const IconFinder: React.FC<{ type: string }> = ({ type }) => {
+  const check = type.toLowerCase()
+  switch (check) {
+    case 'react':
+      return <SiReact className={clsx('text-sky-500')} />
 
-    case 'Vite':
-      return <SiVite className={clsx('text-fuchsia-500', className)} />
+    case 'next.js':
+    case 'nextjs':
+      return <SiNextdotjs className={clsx('text-theme-800 dark:text-theme-200')} />
 
-    case 'Redux':
-      return <SiRedux className={clsx('text-violet-500', className)} />
+    case 'vite':
+      return <SiVite className={clsx('text-fuchsia-500')} />
 
-    case 'Firebase':
-      return <SiFirebase className={clsx('text-amber-500', className)} />
+    case 'redux':
+      return <SiRedux className={clsx('text-violet-500')} />
 
-    case 'Tailwindcss':
-    case 'TailwindCSS':
-      return <SiTailwindcss className={clsx('text-teal-500', className)} />
+    case 'firebase':
+      return <SiFirebase className={clsx('text-amber-500')} />
 
-    case 'SASS':
-    case 'Sass':
-    case 'SCSS':
-    case 'Scss':
-      return <SiSass className={clsx('text-pink-500 dark:text-pink-400', className)} />
+    case 'tailwindcss':
+    case 'tailwind css':
+      return <SiTailwindcss className={clsx('text-teal-500')} />
 
-    case 'Javascript':
+    case 'sass':
+    case 'scss':
+      return <SiSass className={clsx('text-pink-500 dark:text-pink-400')} />
+
+    case 'framer motion':
+      return <SiFramer className={clsx('text-theme-800 dark:text-theme-200')} />
+
     case 'javascript':
-      return <SiJavascript className={clsx('text-yellow-500', className)} />
+      return <SiJavascript className={clsx('text-yellow-500')} />
+
+    case 'typescript':
+      return <SiTypescript className={clsx('text-blue-600')} />
+
+    case 'markdown':
+      return <SiMarkdown className={clsx('text-theme-800 dark:text-theme-200')} />
 
     default:
       return <SiCodesandbox />

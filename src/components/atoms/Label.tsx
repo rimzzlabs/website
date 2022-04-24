@@ -7,7 +7,8 @@ interface LabelProps {
 
 const Label: React.FC<LabelProps> = (props) => {
   const baseClass = 'inline-flex items-center justify-center py-1 px-1.5 rounded text-xs md:text-sm'
-  switch (props.type) {
+  const type = props.type.toLowerCase()
+  switch (type) {
     case 'devlife':
       return (
         <div className={clsx(baseClass, 'text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800')}>

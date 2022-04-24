@@ -11,7 +11,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ onChange, value }) => {
   return (
     <div
       className={clsx(
-        'w-full my-10 md:my-16 transition-all',
+        'w-full my-8 md:my-16 transition-all',
         'bg-transparent border border-theme-900',
         'dark:border-transparent dark:bg-theme-800',
         'focus-within:ring-1 ring-theme-900 dark:ring-primary-400'

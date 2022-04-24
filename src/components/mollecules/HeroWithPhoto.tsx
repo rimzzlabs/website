@@ -1,4 +1,6 @@
-import Image from '@/components/atoms/Image'
+import useMediaQuery from '@/hooks/useMediaQuery'
+
+import CustomImage from '../atoms/CustomImage'
 
 import clsx from 'clsx'
 
@@ -13,6 +15,7 @@ export interface HeroWithPhotoProps {
 }
 
 const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({ title, subtitle, description, img }) => {
+  const mdscreen = useMediaQuery('(min-width: 768px)')
   return (
     <div
       className={clsx(
@@ -22,25 +25,20 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({ title, sub
       )}
     >
       <figure className={clsx('flex items-center md:justify-end self-start', 'mb-4 md:mb-0')}>
-        <div className='relative w-20 md:w-36 h-20 md:h-36'>
-          <Image
-            title={img.alt_title}
-            layout='fill'
-            alt={img.alt_title}
-            className='rounded-full'
-            src={img.src}
-            loading='lazy'
-            placeholder='blur'
-            quality={70}
-            blurDataURL='/blur.svg'
-          />
-        </div>
+        <CustomImage
+          src={img.src}
+          alt={img.alt_title}
+          width={mdscreen ? 168 : 96}
+          height={mdscreen ? 168 : 96}
+          display='intrinsic'
+          className='rounded-full'
+        />
       </figure>
       <section>
         <h1>{title}</h1>
         <p
           className={clsx(
-            'max-w-max my-3 md:my-4',
+            'max-w-max mt-2 mb-4',
             'text-transparent font-bold text-xl md:text-2xl',
             'bg-clip-text bg-gradient-to-r',
             'from-primary-500 to-ternary-500'

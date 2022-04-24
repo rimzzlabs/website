@@ -1,4 +1,4 @@
-import Link from '@/components/atoms/Link'
+import UnstyledLink from '@/components/atoms/UnstyledLink'
 
 import APP_ROUTE from '@/libs/constants/route'
 
@@ -14,7 +14,7 @@ const Nav: React.FC = () => {
   return (
     <nav className={clsx('flex items-center -mx-3 md:-mx-3.5')}>
       {APP_ROUTE.map((route) => (
-        <Link
+        <UnstyledLink
           key={route.name}
           href={route.path}
           className={clsx(
@@ -25,7 +25,7 @@ const Nav: React.FC = () => {
           )}
         >
           {route.name}
-        </Link>
+        </UnstyledLink>
       ))}
     </nav>
   )

@@ -1,7 +1,8 @@
+import UnderlineLink from '@/components/mollecules/UnderlineLink'
+
 import Blockquote from './Blockquote'
 import Code from './Code'
 import ContentImage from './ContentImage'
-import ContentLink from './ContentLink'
 import CustomPre from './Pre'
 
 const MDXComponents = {
@@ -9,7 +10,7 @@ const MDXComponents = {
   img: ContentImage,
   inlineCode: Code,
   blockquote: Blockquote,
-  a: ContentLink
+  a: UnderlineLink
 }
 
 export default MDXComponents

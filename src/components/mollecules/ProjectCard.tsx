@@ -1,8 +1,7 @@
-import Link from '@/components/atoms/Link'
+import IconFinder from '@/components/atoms/IconFinder'
+import UnstyledLink from '@/components/atoms/UnstyledLink'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
-
-import IconFinder from '../atoms/IconFinder'
 
 import clsx from 'clsx'
 
@@ -15,9 +14,9 @@ const ProjectCard = ({ title, summary, slug, stack }: PortfolioHeadProps) => {
         {stack.length > 0 && stack.map((item, index) => <IconFinder type={item} key={item + index} />)}
       </div>
 
-      <Link href={`/portfolio/${slug}`} className={clsx('absolute inset-0 rounded')}>
+      <UnstyledLink href={`/portfolio/${slug}`} className={clsx('absolute inset-0 rounded')}>
         <span className='sr-only'>Read Article about project {title}</span>
-      </Link>
+      </UnstyledLink>
     </div>
   )
 }

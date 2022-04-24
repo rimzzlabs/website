@@ -9,7 +9,6 @@ interface TimelineListProps {
 const TimelineList: React.FC<TimelineListProps> = ({ timeline }) => (
   <ul className='pl-2'>
     {timeline
-      .slice()
       .sort((a, b) => (new Date(a.start_date) < new Date(b.start_date) ? 1 : -1))
       .map((data: Timeline, idx: number) => (
         <SingleTimeline {...data} key={data.title + idx} />

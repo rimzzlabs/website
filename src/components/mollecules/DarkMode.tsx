@@ -13,7 +13,7 @@ const DarkMode: React.FC = () => {
   return (
     <Button
       title='change theme'
-      className={clsx('accessible relative', 'h-10 w-10 md:text-xl', 'rounded-xl', 'bg-primary-100 dark:bg-theme-800')}
+      className={clsx('accessible relative', 'h-10 w-10 text-lg', 'rounded-lg', 'bg-primary-100 dark:bg-theme-800')}
       onClick={changeTheme}
     >
       {theme === 'light' ? <HiMoon className='text-primary-700' /> : <HiSun className='text-yellow-400' />}

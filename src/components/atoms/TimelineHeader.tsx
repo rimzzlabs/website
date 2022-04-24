@@ -1,14 +1,17 @@
+import { Timeline } from '@/libs/constants/timeline'
+
 import clsx from 'clsx'
 import { forwardRef } from 'react'
-import { HiChevronDown } from 'react-icons/hi'
+import { HiAcademicCap, HiChevronDown, HiDesktopComputer } from 'react-icons/hi'
 
 interface TimelineHeaderProps {
   onClick: () => void
   title: string
   place: string
+  type: Timeline['type']
 }
 
-const TimelineHeader = forwardRef<HTMLDivElement, TimelineHeaderProps>(({ onClick, title, place }, ref) => {
+const TimelineHeader = forwardRef<HTMLDivElement, TimelineHeaderProps>(({ onClick, title, place, type }, ref) => {
   return (
     <div
       title='click to expand'
@@ -17,7 +20,10 @@ const TimelineHeader = forwardRef<HTMLDivElement, TimelineHeaderProps>(({ onClic
     >
       <div>
         <h3>{title}</h3>
-        {place && <p className='mt-2 mb-4 text-sm'>{place}</p>}
+        <div className='flex items-center mt-2 mb-4 text-sm'>
+          {type === 'edu' ? <HiAcademicCap /> : <HiDesktopComputer />}
+          <p className='ml-1'>— {place}</p>
+        </div>
       </div>
       <div className='mt-2' ref={ref}>
         <HiChevronDown className='text-lg' />
