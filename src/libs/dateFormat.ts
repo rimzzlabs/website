@@ -3,18 +3,10 @@
  * @param {string | Date} date - The date to format.
  * @returns The date in the format of Month Day, Year.
  */
-const dateFormat = (date: string | Date, config?: Intl.DateTimeFormatOptions) => {
-  const fmt = new Intl.DateTimeFormat(
-    'en-US',
-    config ?? {
-      dateStyle: 'medium'
-    }
-  )
-  if (typeof date === 'string') {
-    return fmt.format(new Date(date))
-  }
-
-  return fmt.format(date)
+const dateFormat = (date: string, locales?: string | string[], config?: Intl.DateTimeFormatOptions) => {
+  return new Intl.DateTimeFormat(locales ?? 'en-GB', config ?? { dateStyle: 'full' }).format(new Date(date))
 }
+
+export const dateStringToISO = (date: string) => new Date(date).toISOString()
 
 export default dateFormat
