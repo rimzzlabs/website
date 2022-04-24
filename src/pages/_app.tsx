@@ -1,5 +1,4 @@
 import '@/styles/globals.css'
-import '@/styles/prism.css'
 
 import Skip from '@/components/atoms/Skip'
 import Header from '@/components/organism/Header'
@@ -21,7 +20,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
         <AnimatePresence initial={false} onExitComplete={() => window.scrollTo(0, 0)} exitBeforeEnter>
           <m.div
             id='skip-content'
-            key={router.route.concat('1')}
+            key={router.route.concat(router.pathname)}
             variants={v}
             initial='hidden'
             animate='visible'

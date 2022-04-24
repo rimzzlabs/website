@@ -1,30 +1,106 @@
+import CustomImage from '@/components/atoms/CustomImage'
 import IconFinder from '@/components/atoms/IconFinder'
+import UnderlineLink from '@/components/mollecules/UnderlineLink'
 import Footer from '@/components/organism/Footer'
 import MDXComponents from '@/components/organism/MDXComponents'
-import ContentImage from '@/components/organism/MDXComponents/ContentImage'
-import ContentLink from '@/components/organism/MDXComponents/ContentLink'
 import Layout from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
-import dateFormat from '@/libs/dateFormat'
-import { getPortfolio, getPortfolioBySlug } from '@/libs/helpers'
+import getPortfolio, { getPortfolioBySlug } from '@/helpers/getPortfolio'
+import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
+import { getMetaData } from '@/libs/metaData'
 
 import clsx from 'clsx'
+import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import dynamic from 'next/dynamic'
+import 'prism-themes/themes/prism-night-owl.css'
 import { ParsedUrlQuery } from 'querystring'
+import { HiGlobeAlt } from 'react-icons/hi'
+import { SiGithub } from 'react-icons/si'
 
 const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
-interface slugProp extends ParsedUrlQuery {
-  slug: string
+interface ProjectDetailPageProps {
+  header: PortfolioHeadProps
+  mdxSource: MDXRemoteSerializeResult
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await getPortfolio()
-  const paths = res.map(({ slug }) => ({ params: { slug } }))
+const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource }) => {
+  const metaData = getMetaData({
+    title: header.title,
+    description: header.summary,
+    og_image: header.image,
+    og_image_alt: header.title,
+    keywords: header.stack,
+    slug: '/portfolio/' + header.slug
+  })
+
+  return (
+    <Layout {...(metaData as LayoutProps)}>
+      <BackToTop />
+
+      <article className={clsx('flex flex-col', 'gap-8')}>
+        <section className={clsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
+          <h1 className={clsx('max-w-prose text-3xl md:text-5xl')}>{header.title}</h1>
+          <p className={clsx('w-full my-8')}>{header.summary}</p>
+          <div className='flex items-center gap-4'>
+            <UnderlineLink
+              href={header.link.github}
+              className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'
+            >
+              <SiGithub className='text-lg md:text-xl text-theme-800 dark:text-theme-200' />
+              <span className='text-sm md:text-base'>Repository</span>
+            </UnderlineLink>
+            <UnderlineLink href={header.link.live} className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'>
+              <HiGlobeAlt className='text-lg md:text-xl text-theme-800 dark:text-theme-200' />
+              <span className='text-sm md:text-base'>Live Demo</span>
+            </UnderlineLink>
+          </div>
+        </section>
+
+        <section className={clsx('flex flex-col gap-4', 'md:flex-row md:items-center md:justify-between')}>
+          <div className={clsx('flex items-center gap-3', 'w-full')}>
+            {header.stack.map((s) => (
+              <span className='text-2xl' key={s}>
+                <IconFinder type={s} />
+              </span>
+            ))}
+          </div>
+
+          <div className={clsx('w-full md:text-right')}>
+            <time className='text-sm md:text-base' dateTime={dateStringToISO(header.date)}>
+              {dateFormat(header.date, undefined, { dateStyle: 'medium' })}
+            </time>
+          </div>
+        </section>
+
+        <figure className='relative w-full h-56 md:h-96'>
+          <CustomImage
+            quality={100}
+            className='rounded-lg'
+            display='responsive'
+            objectFit='cover'
+            alt={header.title}
+            src={header.image}
+          />
+        </figure>
+
+        <section className='prose dark:prose-invert md:prose-lg'>
+          <MDXRemote {...mdxSource} components={MDXComponents} />
+        </section>
+      </article>
+      <Footer />
+    </Layout>
+  )
+}
+
+export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
+  const portfolio = await getPortfolio()
+
+  const paths = portfolio.map((p) => ({ params: { slug: p.slug } }))
 
   return {
     paths,
@@ -32,109 +108,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const mdxPrism = require('mdx-prism')
+export const getStaticProps: GetStaticProps<ProjectDetailPageProps> = async (ctx) => {
+  const mdxPrism = await require('mdx-prism')
+  const { slug } = ctx.params as ParsedUrlQuery & { slug: string }
 
-  const { slug } = ctx.params as slugProp
+  const res = await getPortfolioBySlug(slug)
 
-  const res = await getPortfolioBySlug(`/${slug}`)
-
-  const mdxSource = await serialize(res.content, {
-    mdxOptions: {
-      rehypePlugins: [mdxPrism]
-    }
-  })
+  const mdxSource = await serialize(res.content, { mdxOptions: { rehypePlugins: [mdxPrism] } })
 
   return {
     props: {
-      mdxSource,
-      frontMatter: res.data as PortfolioHeadProps
+      header: res.header,
+      mdxSource
     }
   }
-}
-
-interface ProjectDetailPageProps {
-  mdxSource: MDXRemoteSerializeResult
-  frontMatter: PortfolioHeadProps
-}
-const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ frontMatter, mdxSource }) => {
-  return (
-    <Layout
-      title={frontMatter.title}
-      description={frontMatter.summary}
-      templateTitle={`${frontMatter.summary} | rizkicitra.dev`}
-      openGraph={{
-        title: `${dateFormat(frontMatter.date)} - ${frontMatter.title}`,
-        article: {
-          authors: ['Rizki Maulana Citra'],
-          tags: frontMatter.stack,
-          publishedTime: dateFormat(frontMatter.date)
-        }
-      }}
-    >
-      <BackToTop />
-
-      <article
-        className={clsx(
-          'prose md:prose-base',
-          'dark:prose-invert',
-          'prose-code:font-extralight prose-code:text-theme-200'
-        )}
-      >
-        <header
-          className={clsx(
-            'flex flex-col md:flex-row items-center justify-between',
-            'border-b border-theme-300 dark:border-theme-800'
-          )}
-        >
-          <section className='w-full'>
-            <h1 style={{ margin: 0 }}>{frontMatter.title}</h1>
-            <p>{frontMatter.summary}</p>
-          </section>
-          <p className='w-full text-sm md:text-right self-end md:text-base'>{dateFormat(frontMatter.date)}</p>
-        </header>
-        <div className='flex items-center space-x-2 md:space-x-3 pt-6'>
-          {frontMatter.stack.length > 0 &&
-            frontMatter.stack.map((data, index) => (
-              <IconFinder className='text-xl md:text-2xl' key={data + index} type={data} />
-            ))}
-        </div>
-        <main>
-          <figure className='relative w-full aspect-video'>
-            <ContentImage src={frontMatter.image} alt={frontMatter.title} title={frontMatter.title} />
-          </figure>
-          <MDXRemote {...mdxSource} components={MDXComponents} lazy />
-          <div>
-            <h2>Live Site and GitHub Repository</h2>
-            <p>
-              If you are interested either to see the source code or just the deployed app, please look forward to the
-              following links:
-            </p>
-            {frontMatter.link && (
-              <ul>
-                {frontMatter.link.github ? (
-                  <li>
-                    <ContentLink href={frontMatter.link.github}>GitHub repository</ContentLink>
-                  </li>
-                ) : (
-                  <li>Link Unavailable</li>
-                )}
-                {frontMatter.link.live ? (
-                  <li>
-                    <ContentLink href={frontMatter.link.live}>Live site</ContentLink>
-                  </li>
-                ) : (
-                  <li>Link Unavailable</li>
-                )}
-              </ul>
-            )}
-          </div>
-        </main>
-      </article>
-      <Footer />
-    </Layout>
-  )
 }
 
 export default ProjectDetailPage

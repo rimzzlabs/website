@@ -6,94 +6,87 @@ import Footer from '@/components/organism/Footer'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
-import dateFormat from '@/libs/dateFormat'
-import { getPortfolio } from '@/libs/helpers'
+import getPortfolio from '@/helpers/getPortfolio'
+import useSesarch from '@/hooks/useSearch'
+import { getMetaData } from '@/libs/metaData'
+import { sortProject } from '@/libs/sortProject'
 
 import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
-import { useState } from 'react'
-
-const meta: LayoutProps = {
-  title: 'Portfolio',
-  description:
-    "List of my personal portfolio, proven that I've created something with my knowledge and experience, and like any other people, I will grow my skill and combine it with experience I have.",
-  openGraph: {
-    type: 'website'
-  },
-  additionalMetaTags: [
-    {
-      name: 'keywords',
-      content:
-        "rizki, maulana, cira, rizkimcitra, rizki m citra, rizkicitra, rizki citra, rizki's portfolio, portfolio, projects, personal portfolio, rizki maulana citra's personal portfolio, rizki maulana citra, personal portfolio"
-    },
-
-    {
-      name: 'author',
-      content: 'Rizki Maulana Citra'
-    }
-  ]
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await getPortfolio()
-
-  // I don't want to mutate the data directly, so clone first with slice function and then sorted it out, map
-  // the data, to add a new property inside the data
-  const portfolios =
-    res
-      .slice()
-      .sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
-      .map((data) => {
-        const date = dateFormat(data.date)
-
-        return { ...data, date }
-      }) ?? []
-
-  return {
-    props: {
-      portfolios
-    },
-    revalidate: 60
-  }
-}
 
 interface ProjectPageProps {
-  portfolios: Array<PortfolioHeadProps>
+  projects: Array<PortfolioHeadProps>
 }
 
-const ProjectPage: NextPage<ProjectPageProps> = ({ portfolios = [] }) => {
-  const [query, setQuery] = useState('')
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)
+const meta = getMetaData({
+  title: 'Portfolio',
+  description: `Ppersonal portfolio, proven that I've created something with my knowledge and experience, I will grow my skill and combine it with experience I have.`,
+  keywords: [
+    'Rizki Maulana Citra portfolio',
+    'Rizki M Citra portfolio',
+    'Rizkicitra porfolio',
+    'Rizki Citra portfolio',
+    'rizkicitra.dev'
+  ],
+  og_image: `https://og-image.vercel.app/**Portfolio%20%E2%80%94%20Rizki%20M%20Citra**%3Cbr%20%20%2F%3EProof%20Of%20Work.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-bw-logo.svg`,
+  og_image_alt: 'Portfolio — Rizki M Citra',
+  slug: '/portfolio',
+  type: 'website'
+})
 
-  const filteredPortfolios = portfolios.filter(
-    (data) =>
-      data.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()) ||
-      data.summary.toLocaleLowerCase().includes(query.toLocaleLowerCase())
-  )
+const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
+  const { query, handleChange, filteredData } = useSesarch<ProjectPageProps['projects']>(projects, 'portfolio')
 
   return (
-    <Layout {...meta}>
-      <Hero title={meta.title} description={meta.description as string} />
+    <Layout {...(meta as LayoutProps)}>
+      <Hero title={meta.title as string} description={meta.description as string} />
       <Searchbar onChange={handleChange} value={query} />
+      <div className='flex flex-col gap-8'>
+        {query.length === 0 && projects.length > 0 ? (
+          <section>
+            <h2 className='mb-4'>Personal Portfolio</h2>
+            <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
+              {projects.map((p) => (
+                <Card key={p.title}>
+                  <ProjectCard {...p} />
+                </Card>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
-      {portfolios.length > 0 && filteredPortfolios.length > 0 ? (
-        <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'flex-1 gap-4 md:gap-5')}>
-          {filteredPortfolios.map((data, index) => (
-            <Card key={data.title + index}>
-              <ProjectCard {...data} />
-            </Card>
-          ))}
-        </div>
-      ) : null}
-
-      {filteredPortfolios.length === 0 && (
-        <div className='w-full text-center'>
-          <p>😞Oops, could not found what you are looking for....</p>
-        </div>
-      )}
+        {query.length > 0 && (
+          <section>
+            <h2 className='mb-4'>Search Portfolio</h2>
+            {filteredData.length > 0 ? (
+              <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
+                {filteredData.map((p) => (
+                  <Card key={p.title}>
+                    <ProjectCard {...p} />
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <p>No portfolio found, try a lil different?</p>
+            )}
+          </section>
+        )}
+      </div>
       <Footer />
     </Layout>
   )
+}
+
+export const getStaticProps: GetStaticProps<ProjectPageProps> = async () => {
+  const response = await getPortfolio()
+
+  const projects = response.sort(sortProject)
+
+  return {
+    props: {
+      projects
+    }
+  }
 }
 
 export default ProjectPage

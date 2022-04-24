@@ -4,42 +4,26 @@ import Timeline from '@/components/organism/Timeline'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
+import { getMetaData } from '@/libs/metaData'
 
 import { NextPage } from 'next'
 
-const meta: LayoutProps = {
+const meta = getMetaData({
   title: 'About',
-  description:
-    "Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
-  openGraph: {
-    images: [
-      {
-        url: 'https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958',
-        alt: 'Rizki Maulana Citra',
-        height: 600,
-        width: 1200,
-        type: 'image/webp'
-      }
-    ]
-  },
-  additionalMetaTags: [
-    {
-      name: 'keywords',
-      content:
-        'about rizkicitra, about Rizki Citra, about rizkicitra, about rizkimcitra, about Rizki M Citra, about Rizki, about Maulana, Citra, Citra Dev, Citra, Rizki Maulana Citra, Rizki Maulana, Rizki Github, rizki github, Rizki GitHub, Rizki Nextjs, Personal Website, Frontend, Frontend Dev, Frontend Developer, Developer, Indonesia, Rizki Citra Developer, Rizki Citra Dev, Rizki Dev, Rizki Maulana Citra, rmaulana citra, developer from indonesia, personal website, blog, talks about react, talks about react and nextjs, web development related topics, developer, AMIK Serang'
-    },
-    {
-      name: 'author',
-      content: 'Rizki Maulana Citra'
-    }
-  ]
-}
+  description: `Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, CSS and Web Development related topics.`,
+  keywords: ['About Rizki Maulana Citra', 'About Rizki M Citra', 'About Rizkicitra', 'About Rizki Citra'],
+  og_image:
+    'https://ik.imagekit.io/mlnzyx/attachment/meme_U5LXkzUTB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648452351958',
+  og_image_alt: 'Rizki Maulana Citra',
+  slug: '/about',
+  type: 'website'
+})
 
 const About: NextPage = () => {
   return (
-    <Layout {...meta}>
+    <Layout {...(meta as LayoutProps)}>
       <HeroWithPhoto
-        title='About'
+        title={meta.title as string}
         subtitle='Rizki Maulana Citra'
         description={meta.description as string}
         img={{

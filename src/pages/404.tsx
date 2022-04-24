@@ -1,7 +1,8 @@
-import Image from '@/components/atoms/Image'
-import Link from '@/components/atoms/Link'
-import Seo from '@/components/atoms/Seo'
+import CustomImage from '@/components/atoms/CustomImage'
+import UnderlineLink from '@/components/mollecules/UnderlineLink'
+import Layout from '@/components/templates/Layout'
 
+import useMediaQuery from '@/hooks/useMediaQuery'
 import variants from '@/libs/animation/variants'
 
 import clsx from 'clsx'
@@ -17,42 +18,32 @@ Try go to http://localhost:3000/unavail
 You will see this page being used
 */
 const NotFoundPage: NextPage = () => {
+  const mdscreen = useMediaQuery('(min-width: 768px)')
+
   return (
-    <main className={clsx('w-full min-h-screen', 'flex items-center justify-center')}>
-      <Seo title='404 Page Not Found' description='The page you are looking for are not found' />
-      <div>
-        <motion.figure
-          whileTap={{
-            scale: 0.98
-          }}
-          initial='hidden'
-          animate='visible'
-          variants={v}
-          className='relative mx-auto mb-2 md:mb-4 w-full md:w-1/2 aspect-square'
-        >
-          <Image src='/static/404.webp' alt='illustration' objectFit='contain' quality={60} loading='lazy' />
-        </motion.figure>
+    <Layout
+      title='404'
+      description='The page you are looking for are not found, please contact Rizki if you encounter any problem'
+      template='Page Not Found'
+    >
+      <div className={clsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen', '-mt-36')}>
+        <CustomImage
+          display='intrinsic'
+          src='/static/404.webp'
+          alt='illustration'
+          objectFit='contain'
+          quality={60}
+          width={mdscreen ? 256 : 144}
+          height={mdscreen ? 256 : 144}
+        />
 
         <motion.section initial='hidden' animate='visible' variants={v} className='text-center'>
-          <h1 className='text-center'>404 Not Found</h1>
-          <p className='my-2 md:my-4'>The page you are looking for are not found, consider go back home instead?</p>
-          <Link
-            href='/'
-            className={clsx(
-              'accessible',
-              'relative py-1 hover:ring-0 ring-primary-500',
-              'border-b border-dotted border-theme-500 dark:border-theme-500',
-              'after:absolute after:bottom-0 after:left-0',
-              'after:w-0 after:h-0.5 after:transition-all',
-              'after:bg-gradient-to-r after:from-primary-500 after:to-ternary-500',
-              'hover:after:w-full'
-            )}
-          >
-            Go back to home
-          </Link>
+          <h1 className='text-center'>404 - Not Found</h1>
+          <p className='my-2 md:my-4'>The page you are looking for are not found</p>
+          <UnderlineLink href='/'>Back to home</UnderlineLink>
         </motion.section>
       </div>
-    </main>
+    </Layout>
   )
 }
 

@@ -3,11 +3,12 @@ import Document, { Head, Html, Main, NextScript } from 'next/document'
 export default class CustomDocument extends Document {
   render() {
     return (
-      <Html lang='en'>
+      <Html lang='en-US'>
         <Head>
           <meta name='theme-color' content='#18181b' />
           <link rel='apple-touch-icon' sizes='180x180' href='/icon-192.png' />
           <link rel='shortcut icon' href='/favicon.svg' type='svg/x-icon' />
+          <link rel='icon' href='/favicon.svg' type='svg/x-icon' />
           <link rel='manifest' href='/manifest.json' />
           {process.env.NODE_ENV === 'production' && (
             <script
