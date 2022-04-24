@@ -18,6 +18,11 @@ const useTheme = () => {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    if (currentTheme) setTheme(currentTheme)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTheme])
+
   return {
     mounted,
     changeTheme,
