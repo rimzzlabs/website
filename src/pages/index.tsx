@@ -10,7 +10,7 @@ import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import { getBlog } from '@/helpers/getBlog'
 import getPortfolio from '@/helpers/getPortfolio'
 import { getMetaData } from '@/libs/metaData'
-import { sortProject } from '@/libs/sortProject'
+import { getNewestPortfolio } from '@/libs/sortPortfolio'
 import { getNewestBlog } from '@/libs/sortblog'
 
 import { GetStaticProps, NextPage } from 'next'
@@ -81,7 +81,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
     .map((r) => ({ est_read: readingTime(r.content).text, ...r.header }))
     .sort(getNewestBlog)
 
-  const portfolios = response.filter((r) => r.featured).sort(sortProject)
+  const portfolios = response.filter((r) => r.featured).sort(getNewestPortfolio)
 
   return {
     props: {

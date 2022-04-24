@@ -9,7 +9,7 @@ import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import getPortfolio from '@/helpers/getPortfolio'
 import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
-import { sortProject } from '@/libs/sortProject'
+import { getNewestPortfolio } from '@/libs/sortPortfolio'
 
 import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
@@ -80,7 +80,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
 export const getStaticProps: GetStaticProps<ProjectPageProps> = async () => {
   const response = await getPortfolio()
 
-  const projects = response.sort(sortProject)
+  const projects = response.sort(getNewestPortfolio)
 
   return {
     props: {
