@@ -1,14 +1,16 @@
 export interface Timeline {
   title: string
   description: string
-  place: string | null
+  place: string
   start_date: Date
   end_date: Date | null
+  type?: 'edu' | 'work'
 }
 
 export const timeline: Array<Timeline> = [
   {
     title: 'High School',
+    type: 'edu',
     place: 'SMK Negeri 8 Pandeglang',
     start_date: new Date(2018, 5, 14),
     end_date: new Date(2021, 4, 28),
@@ -17,6 +19,7 @@ export const timeline: Array<Timeline> = [
   },
   {
     title: 'College',
+    type: 'edu',
     place: 'AMIK Serang',
     start_date: new Date(2021, 9, 16),
     end_date: null,
@@ -24,6 +27,7 @@ export const timeline: Array<Timeline> = [
   },
   {
     title: 'Intern Frontend Developer',
+    type: 'work',
     place: 'Skyshi Digital Indonesia',
     start_date: new Date(2022, 0, 1),
     end_date: new Date(2022, 2, 31),
@@ -32,6 +36,7 @@ export const timeline: Array<Timeline> = [
   },
   {
     title: 'Assitant Computer Lab',
+    type: 'work',
     place: 'AMIK Serang',
     start_date: new Date(2021, 10, 1),
     end_date: null,
@@ -39,6 +44,7 @@ export const timeline: Array<Timeline> = [
   },
   {
     title: 'Frontend Developer',
+    type: 'work',
     place: 'Skyshi Digital Indonesia',
     start_date: new Date(2022, 3, 1),
     end_date: null,

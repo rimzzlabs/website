@@ -8,8 +8,8 @@ const APP_ROUTE = [
     name: 'Portfolio'
   },
   {
-    path: '/article',
-    name: 'Article'
+    path: '/blog',
+    name: 'Blog'
   },
   {
     path: '/about',
