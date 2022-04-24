@@ -5,7 +5,7 @@ const runtimeCaching = require('next-pwa/cache')
 /** @type {import('next').NextConfig} */
 module.exports = withPwa({
   images: {
-    domains: ['ik.imagekit.io', 'images.unsplash.com']
+    domains: ['ik.imagekit.io', 'images.unsplash.com', 'og-image.vercel.app']
   },
   reactStrictMode: true,
   // replace react with preact if on production
