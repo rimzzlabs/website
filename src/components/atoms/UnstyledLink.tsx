@@ -12,7 +12,7 @@ export interface UnstyledLinkProps extends LinkProps {
 const UnstyledLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, children, ...props }) => {
   if (href.startsWith('http')) {
     return (
-      <a className={clsx(props.className)} href={href} rel='noopener noreferrer' target='_blank' {...props}>
+      <a className={clsx(props.className)} href={href} rel='noopener noreferrer' target='_blank' title={props.title}>
         {children}
       </a>
     )
