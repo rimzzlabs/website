@@ -20,7 +20,7 @@ const DrawerToggler = () => {
       <Button
         aria-label='toggle-drawer'
         id='toggle-drawer'
-        className={clsx('accesible', 'w-10 h-10 rounded-lg text-lg')}
+        className={clsx('accesible', 'md:hidden', 'w-10 h-10 rounded-lg text-lg')}
         onClick={changeState}
       >
         <AnimatePresence exitBeforeEnter>

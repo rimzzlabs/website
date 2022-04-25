@@ -29,7 +29,7 @@ const Header = () => {
       <div className={clsx('h-2 w-full', 'bg-gradient-to-r', 'from-primary-500 to-ternary-500')} />
       <div className={clsx('layout h-full pb-2', 'flex items-center justify-between')}>
         {mdscreen && <Nav />}
-        {!mdscreen && <DrawerToggler />}
+        <DrawerToggler />
         <DarkMode />
       </div>
     </header>
