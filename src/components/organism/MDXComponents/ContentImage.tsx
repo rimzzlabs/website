@@ -1,5 +1,7 @@
 import CustomImage from '@/components/atoms/CustomImage'
 
+import { twclsx } from '@/libs/twclsx'
+
 import { useEffect, useState } from 'react'
 import Lightbox from 'react-image-lightbox'
 import 'react-image-lightbox/style.css'
@@ -10,7 +12,7 @@ interface ContentImageProps {
   title: string
 }
 
-const ContentImage: React.FC<ContentImageProps> = ({ src, alt, ...props }) => {
+const ContentImage: React.FunctionComponent<ContentImageProps> = ({ src, alt, ...props }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const ContentImage: React.FC<ContentImageProps> = ({ src, alt, ...props }) => {
         alt={alt}
         width={672}
         height={400}
-        className='rounded-lg cursor-pointer'
+        className={twclsx('rounded-lg', 'cursor-pointer')}
         objectFit='cover'
       />
 

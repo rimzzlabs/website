@@ -1,8 +1,7 @@
 import Card from '@/components/atoms/Card'
 import UnstyledLink from '@/components/atoms/UnstyledLink'
 
-import clsx from 'clsx'
-import React from 'react'
+import { twclsx } from '@/libs/twclsx'
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export interface SectionProps<DataProp> {
@@ -18,9 +17,9 @@ export interface SectionProps<DataProp> {
 
 const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionProps<DataProp>) => {
   return (
-    <section className='py-10'>
+    <section className={twclsx('py-10')}>
       <h2>{title}</h2>
-      <div className={clsx('grid', 'flex-auto gap-4 md:gap-5 my-6', gridCols)}>
+      <div className={twclsx('grid', 'gap-4 md:gap-5 my-6', 'flex-auto', gridCols)}>
         {data.length > 0 &&
           data.map((data, index) => (
             <Card key={index}>
@@ -29,7 +28,7 @@ const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionP
           ))}
       </div>
       <UnstyledLink
-        className={clsx('block md:inline-flex', 'hover:text-primary-600 dark:hover:text-primary-500')}
+        className={twclsx('block md:inline-flex', 'hover:text-primary-600 dark:hover:text-primary-500')}
         href={link.to}
       >
         {link.children} &rarr;

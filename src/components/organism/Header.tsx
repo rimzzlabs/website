@@ -4,8 +4,8 @@ import Nav from '@/components/mollecules/Nav'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
 import useWindowScroll from '@/hooks/useWindowScroll'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { useRouter } from 'next/router'
 
 const Header = () => {
@@ -19,17 +19,20 @@ const Header = () => {
 
   return (
     <header
-      className={clsx(
+      className={twclsx(
         'fixed inset-0',
         'h-20 border-b transition z-10',
         'bg-theme-50 dark:bg-theme-900',
         scrollPos > 68 ? 'border-theme-300 dark:border-theme-700' : 'border-transparent'
       )}
     >
-      <div className={clsx('h-2 w-full', 'bg-gradient-to-r', 'from-primary-500 to-ternary-500')} />
-      <div className={clsx('layout h-full pb-2', 'flex items-center justify-between')}>
+      <div className={twclsx('h-2 w-full', 'bg-gradient-to-r', 'from-primary-500 to-ternary-500')} />
+
+      <div className={twclsx('layout h-full pb-2', 'flex items-center justify-between')}>
         {mdscreen && <Nav />}
+
         <DrawerToggler />
+
         <DarkMode />
       </div>
     </header>

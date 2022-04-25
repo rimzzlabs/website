@@ -1,7 +1,7 @@
 import useWindowScroll from '@/hooks/useWindowScroll'
 import variants, { withExit } from '@/libs/animation/variants'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { AnimatePresence, m } from 'framer-motion'
 import { HiOutlineArrowUp } from 'react-icons/hi'
 
@@ -21,7 +21,7 @@ const BackToTop: React.FC = () => {
           animate='visible'
           exit='exit'
           onClick={handleClick}
-          className={clsx(
+          className={twclsx(
             'accessible',
             'fixed md:bottom-[12vh] lg:right-[8vw]',
             'bottom-[6vh] right-[6vw]',
@@ -32,7 +32,7 @@ const BackToTop: React.FC = () => {
             'bg-primary-100 dark:bg-theme-800'
           )}
         >
-          <span className='sr-only'>Back To Top</span>
+          <span className={twclsx('sr-only')}>Back To Top</span>
           <HiOutlineArrowUp />
         </m.button>
       ) : null}

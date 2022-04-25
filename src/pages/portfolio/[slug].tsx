@@ -9,8 +9,8 @@ import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import getPortfolio, { getPortfolioBySlug } from '@/helpers/getPortfolio'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaData } from '@/libs/metaData'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -42,47 +42,49 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
     <Layout {...(metaData as LayoutProps)}>
       <BackToTop />
 
-      <article className={clsx('flex flex-col', 'gap-8')}>
-        <section className={clsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
-          <h1 className={clsx('max-w-prose text-3xl md:text-5xl')}>{header.title}</h1>
-          <p className={clsx('w-full my-8')}>{header.summary}</p>
-          <div className='flex items-center gap-4'>
+      <article className={twclsx('flex flex-col', 'gap-8')}>
+        <section className={twclsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
+          <h1 className={twclsx('max-w-prose text-3xl md:text-5xl')}>{header.title}</h1>
+          <p className={twclsx('w-full my-8')}>{header.summary}</p>
+
+          <div className={twclsx('flex items-center', 'gap-4')}>
             <UnderlineLink
               href={header.link.github}
-              className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'
+              className={twclsx('max-w-max', 'gap-2 py-1', 'text-theme-700 dark:text-theme-200')}
             >
-              <SiGithub className='text-lg md:text-xl text-theme-800 dark:text-theme-200' />
-              <span className='text-sm md:text-base'>Repository</span>
+              <SiGithub className={twclsx('text-lg md:text-xl', 'text-theme-800 dark:text-theme-200')} />
+              <span className={twclsx('text-sm md:text-base')}>Repository</span>
             </UnderlineLink>
+
             <UnderlineLink href={header.link.live} className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'>
-              <HiGlobeAlt className='text-lg md:text-xl text-theme-800 dark:text-theme-200' />
-              <span className='text-sm md:text-base'>Live Demo</span>
+              <HiGlobeAlt className={twclsx('text-lg md:text-xl', 'text-theme-800 dark:text-theme-200')} />
+              <span className={twclsx('text-sm md:text-base')}>Live Demo</span>
             </UnderlineLink>
           </div>
         </section>
 
-        <section className={clsx('flex flex-col gap-4', 'md:flex-row md:items-center md:justify-between')}>
-          <div className={clsx('flex items-center gap-3', 'w-full')}>
+        <section className={twclsx('flex flex-col gap-4', 'md:flex-row md:items-center md:justify-between')}>
+          <div className={twclsx('flex items-center gap-3', 'w-full')}>
             {header.stack.map((s) => (
-              <span className='text-2xl' key={s}>
+              <span className={twclsx('text-2xl')} key={s}>
                 <IconFinder type={s} />
               </span>
             ))}
           </div>
 
-          <div className={clsx('flex items-center justify-start', 'w-full gap-2', 'md:text-right md:justify-end')}>
-            <HiOutlineCalendar className='text-lg' />
-            <time className='text-sm md:text-base' dateTime={dateStringToISO(header.date)}>
+          <div className={twclsx('flex items-center justify-start', 'w-full gap-2', 'md:text-right md:justify-end')}>
+            <HiOutlineCalendar className={twclsx('text-lg')} />
+            <time className={twclsx('text-sm md:text-base')} dateTime={dateStringToISO(header.date)}>
               {dateFormat(header.date, undefined, { dateStyle: 'medium' })}
             </time>
           </div>
         </section>
 
-        <figure className={clsx('relative', 'w-full', 'h-56 md:h-96', 'my-4')}>
+        <figure className={twclsx('relative', 'w-full', 'h-56 md:h-96', 'my-4')}>
           <ContentImage title={header.title} alt={header.title} src={header.image} />
         </figure>
 
-        <section className='prose dark:prose-invert md:prose-lg'>
+        <section className={twclsx('prose', 'dark:prose-invert', 'md:prose-lg')}>
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
 

@@ -9,8 +9,8 @@ import getPortfolio from '@/helpers/getPortfolio'
 import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
 
 interface ProjectPageProps {
@@ -40,11 +40,13 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
     <Layout {...(meta as LayoutProps)}>
       <Hero title={meta.title as string} description={meta.description as string} />
       <Searchbar onChange={handleChange} value={query} />
-      <div className='flex flex-col gap-8'>
+
+      <div className={twclsx('flex flex-col gap-8')}>
         {query.length === 0 && projects.length > 0 ? (
           <section>
-            <h2 className='mb-4'>Personal Portfolio</h2>
-            <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
+            <h2 className={twclsx('mb-4')}>Personal Portfolio</h2>
+
+            <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
               {projects.map((p) => (
                 <Card key={p.title}>
                   <ProjectCard {...p} />
@@ -56,9 +58,9 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
 
         {query.length > 0 && (
           <section>
-            <h2 className='mb-4'>Search Portfolio</h2>
+            <h2 className={twclsx('mb-4')}>Search Portfolio</h2>
             {filteredData.length > 0 ? (
-              <div className={clsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
+              <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
                 {filteredData.map((p) => (
                   <Card key={p.title}>
                     <ProjectCard {...p} />

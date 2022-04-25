@@ -1,3 +1,5 @@
+import { twclsx } from '@/libs/twclsx'
+
 import { forwardRef } from 'react'
 
 interface TimelineBodyProps {
@@ -8,8 +10,8 @@ interface TimelineBodyProps {
 
 const TimelineBody = forwardRef<HTMLDivElement, TimelineBodyProps>(({ description, end_date, start_date }, ref) => {
   return (
-    <div className='transition-all duration-300 max-h-0 overflow-hidden' ref={ref}>
-      <p className='my-2 text-sm'>
+    <div className={twclsx('max-h-0', 'overflow-hidden', 'transition-all duration-300')} ref={ref}>
+      <p className={twclsx('my-2', 'text-sm')}>
         {start_date} - {end_date}
       </p>
 

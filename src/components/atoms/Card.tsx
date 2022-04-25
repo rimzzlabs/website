@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
 
 interface CardProps {
   children: React.ReactNode
@@ -7,7 +7,7 @@ interface CardProps {
 const Card = (props: CardProps): JSX.Element => {
   return (
     <section
-      className={clsx(
+      className={twclsx(
         'relative p-0.5 transition-transform',
         'active:scale-[0.98]',
         'bg-black dark:bg-transparent',

@@ -2,8 +2,8 @@ import UnstyledLink from '@/components/atoms/UnstyledLink'
 
 import useDrawer from '@/hooks/useDrawer'
 import APP_ROUTE from '@/libs/constants/route'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { Variants, m } from 'framer-motion'
 import { useRouter } from 'next/router'
 
@@ -33,14 +33,14 @@ const Drawer = () => {
   return (
     <aside
       aria-labelledby='toggle-drawer'
-      className={clsx(
+      className={twclsx(
         'fixed left-0 bottom-0 top-20 z-40',
         'w-screen h-screen backdrop-blur',
         'bg-theme-50 dark:bg-theme-900',
         'md:hidden'
       )}
     >
-      <nav className='layout flex flex-col'>
+      <nav className={twclsx('layout', 'flex flex-col')}>
         <m.ul variants={container} initial='hidden' animate='visible'>
           {APP_ROUTE.map((prop, id) => (
             <m.li key={id} variants={item}>
@@ -48,7 +48,7 @@ const Drawer = () => {
                 key={id}
                 href={prop.path}
                 onClick={changeState}
-                className={clsx(
+                className={twclsx(
                   'inline-flex text-left w-full',
                   'py-4 border-b font-medium',
                   pathname === prop.path

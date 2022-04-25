@@ -1,9 +1,9 @@
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
 
-const Code: React.FC = (props) => {
+const Code: React.FunctionComponent = (props) => {
   return (
     <code
-      className={clsx(
+      className={twclsx(
         'py-1 px-1.5 font-normal rounded border',
         'bg-transparent text-theme-700 dark:text-theme-200',
         'border-theme-300 dark:border-theme-700'

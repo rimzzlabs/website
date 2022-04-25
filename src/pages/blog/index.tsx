@@ -9,8 +9,8 @@ import { getBlog } from '@/helpers/getBlog'
 import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { getNewestBlog } from '@/libs/sortBlog'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
 
@@ -39,10 +39,10 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
       <Searchbar onChange={handleChange} value={query} />
 
       {allBlogs.length > 0 && query.length === 0 ? (
-        <div className='flex flex-col gap-24'>
+        <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
-            <h2 className='mb-4'>Featured Post</h2>
-            <div className={clsx('grid grid-cols-1 md:grid-cols-2 gap-4', 'flex-auto')}>
+            <h2 className={twclsx('mb-4')}>Featured Post</h2>
+            <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
               {allBlogs
                 .filter((b) => b.featured)
                 .map((b) => (
@@ -54,8 +54,8 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
           </section>
 
           <section>
-            <h2 className='mb-4'>All Post</h2>
-            <div className={clsx('grid grid-cols-1 gap-4', 'flex-auto')}>
+            <h2 className={twclsx('mb-4')}>All Post</h2>
+            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
               {allBlogs.map((b, id) => (
                 <Card key={b.title.slice(0, 7) + id}>
                   <BlogCard {...b} />
@@ -68,9 +68,9 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
       {query.length > 0 && (
         <section>
-          <h2 className='mb-4'>Search Post</h2>
+          <h2 className={twclsx('mb-4')}>Search Post</h2>
           {filteredData.length > 0 ? (
-            <div className={clsx('grid grid-cols-1 gap-4', 'flex-auto')}>
+            <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
               {filteredData.map((b, id) => (
                 <Card key={b.title.slice(0, 7) + id}>
                   <BlogCard {...b} />

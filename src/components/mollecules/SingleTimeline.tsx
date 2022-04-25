@@ -3,8 +3,8 @@ import TimelineHeader from '@/components/atoms/TimelineHeader'
 
 import { Timeline } from '@/libs/constants/timeline'
 import dateFormat from '@/libs/dateFormat'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { useRef } from 'react'
 
 const SingleTimeline: React.FunctionComponent<Timeline> = ({
@@ -31,7 +31,7 @@ const SingleTimeline: React.FunctionComponent<Timeline> = ({
 
   return (
     <li
-      className={clsx(
+      className={twclsx(
         'relative w-full pl-4',
         'before:absolute before:left-0 before:top-2 last:before:top-[unset]',
         'before:h-full before:w-px',
@@ -43,7 +43,7 @@ const SingleTimeline: React.FunctionComponent<Timeline> = ({
       <TimelineBody ref={bodyRef} description={description} start_date={start_date_str} end_date={end_date_str} />
 
       <div
-        className={clsx(
+        className={twclsx(
           'w-3 h-3 rounded-full',
           'absolute -left-[0.35rem] top-2',
           'bg-theme-700 dark:bg-transparent',

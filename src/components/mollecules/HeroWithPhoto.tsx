@@ -1,8 +1,7 @@
 import useMediaQuery from '@/hooks/useMediaQuery'
+import { twclsx } from '@/libs/twclsx'
 
 import CustomImage from '../atoms/CustomImage'
-
-import clsx from 'clsx'
 
 export interface HeroWithPhotoProps {
   title: string
@@ -25,13 +24,13 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
   const mdscreen = useMediaQuery('(min-width: 768px)')
   return (
     <div
-      className={clsx(
+      className={twclsx(
         'flex flex-col pb-10 md:pb-20',
         'md:flex-row-reverse md:justify-between md:items-center',
         'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
       )}
     >
-      <figure className={clsx('flex items-center md:justify-end self-start md:w-1/2', 'mb-4 md:mb-0')}>
+      <figure className={twclsx('flex items-center md:justify-end self-start md:w-1/2', 'mb-4 md:mb-0')}>
         <CustomImage
           src={img.src}
           alt={img.alt_title}
@@ -44,7 +43,7 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
       <section>
         <h1>{title}</h1>
         <p
-          className={clsx(
+          className={twclsx(
             'max-w-max mt-2 mb-4',
             'text-transparent font-bold text-xl md:text-2xl',
             'bg-clip-text bg-gradient-to-r',
@@ -53,7 +52,7 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
         >
           {subtitle}
         </p>
-        <p className='max-w-prose mb-2 md:mb-4'>{description}</p>
+        <p className={twclsx('max-w-prose', 'mb-2 md:mb-4')}>{description}</p>
         {children}
       </section>
     </div>

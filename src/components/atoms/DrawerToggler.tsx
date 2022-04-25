@@ -2,8 +2,8 @@ import Button from '@/components/atoms/Button'
 import Drawer from '@/components/organism/Drawer'
 
 import useDrawer from '@/hooks/useDrawer'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { AnimatePresence, Variants, m } from 'framer-motion'
 import { HiMenuAlt4, HiX } from 'react-icons/hi'
 
@@ -20,7 +20,7 @@ const DrawerToggler = () => {
       <Button
         aria-label='toggle-drawer'
         id='toggle-drawer'
-        className={clsx('accesible', 'md:hidden', 'w-10 h-10 rounded-lg text-lg')}
+        className={twclsx('accesible', 'md:hidden', 'w-10 h-10 rounded-lg text-lg')}
         onClick={changeState}
       >
         <AnimatePresence exitBeforeEnter>

@@ -4,6 +4,7 @@ import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
 import { getMetaData } from '@/libs/metaData'
+import { twclsx } from '@/libs/twclsx'
 
 import { NextPage } from 'next'
 
@@ -30,8 +31,8 @@ const About: NextPage = () => {
           alt_title: 'Rizki Maulana Citra'
         }}
       >
-        <div className='prose dark:prose-invert'>
-          <p className='text-theme-700 dark:text-theme-200'>
+        <div className={twclsx('prose dark:prose-invert')}>
+          <p className={twclsx('text-theme-700 dark:text-theme-200')}>
             I choose Information Technology as my main prospect career path, therefore I&apos;m facing many obstacles
             and it was quite challenging.
           </p>
@@ -43,24 +44,24 @@ const About: NextPage = () => {
                 }
               `}
             </style>
-            <p className='text-theme-700 dark:text-theme-200'>
-              I change during the course of a day. I wake and I’m one person, and when I go to sleep I know for certain
-              I’m somebody else.
+            <p className={twclsx('text-theme-700 dark:text-theme-200')}>
+              I change during the course of a day. I wake and I&apos;m one person, and when I go to sleep I know for
+              certain I&apos;m somebody else.
             </p>
           </blockquote>
         </div>
       </HeroWithPhoto>
 
-      <section className='pt-10 md:pt-20'>
-        <h2 className='mb-2'>Timeline</h2>
-        <p className='mb-4 max-w-prose'>
+      <section className={twclsx('pt-10 md:pt-20')}>
+        <h2 className={twclsx('mb-2')}>Timeline</h2>
+        <p className={twclsx('max-w-prose mb-4')}>
           Take a look at my timeline below, it consists of my career path, formal education and more.
         </p>
         <Timeline timeline={timeline} />
       </section>
 
-      <section className='pt-10 md:pt-20'>
-        <h2 className='mb-4'>Contact</h2>
+      <section className={twclsx('pt-10 md:pt-20')}>
+        <h2 className={twclsx('mb-4')}>Contact</h2>
         <p>
           Hi there, if you want to make a new friendship, bring your idea to reality, or just want to know more about
           me, please contact me on one of my social media account.

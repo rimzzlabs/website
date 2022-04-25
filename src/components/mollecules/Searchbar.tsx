@@ -1,4 +1,5 @@
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
+
 import { memo } from 'react'
 import { HiOutlineSearch } from 'react-icons/hi'
 
@@ -10,7 +11,7 @@ interface SearchbarProps {
 const Searchbar: React.FC<SearchbarProps> = ({ onChange, value }) => {
   return (
     <div
-      className={clsx(
+      className={twclsx(
         'w-full my-8 md:my-16 transition-all',
         'bg-transparent border border-theme-900',
         'dark:border-transparent dark:bg-theme-800',
@@ -24,7 +25,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ onChange, value }) => {
           value={value}
           type='text'
           placeholder='Search...'
-          className={clsx(
+          className={twclsx(
             'w-full h-12 text-sm md:text-base',
             'bg-transparent outline-none caret-black dark:caret-primary-400',
             'placeholder:text-theme-800'

@@ -1,6 +1,6 @@
 import { Timeline } from '@/libs/constants/timeline'
+import { twclsx } from '@/libs/twclsx'
 
-import clsx from 'clsx'
 import { forwardRef } from 'react'
 import { HiAcademicCap, HiChevronDown, HiDesktopComputer } from 'react-icons/hi'
 
@@ -15,18 +15,18 @@ const TimelineHeader = forwardRef<HTMLDivElement, TimelineHeaderProps>(({ onClic
   return (
     <div
       title='click to expand'
-      className={clsx('flex items-start justify-between', 'md:cursor-pointer')}
+      className={twclsx('flex items-start justify-between', 'md:cursor-pointer')}
       onClick={onClick}
     >
       <div>
         <h3>{title}</h3>
-        <div className='flex items-center mt-2 mb-4 text-sm'>
+        <div className={twclsx('flex items-center', 'mt-2 mb-4', 'text-sm')}>
           {type === 'edu' ? <HiAcademicCap /> : <HiDesktopComputer />}
-          <p className='ml-1'>— {place}</p>
+          <p className={twclsx('ml-1')}>— {place}</p>
         </div>
       </div>
-      <div className='mt-2' ref={ref}>
-        <HiChevronDown className='text-lg' />
+      <div className={twclsx('mt-2')} ref={ref}>
+        <HiChevronDown className={twclsx('text-lg')} />
       </div>
     </div>
   )

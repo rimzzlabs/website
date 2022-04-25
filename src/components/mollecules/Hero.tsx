@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
 
 export interface HeroProps {
   title: string
@@ -8,10 +8,10 @@ export interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ title, description, ...props }) => (
-  <section className={clsx(props.className)}>
-    <h1 className='mb-2 md:mb-4'>{title}</h1>
+  <section className={twclsx(props.className)}>
+    <h1 className={twclsx('mb-2 md:mb-4')}>{title}</h1>
     <p>{description}</p>
-    {props.children ?? null}
+    {props.children}
   </section>
 )
 

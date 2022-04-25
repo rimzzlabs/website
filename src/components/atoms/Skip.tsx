@@ -1,9 +1,9 @@
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
 
 const Skip: React.FC = () => {
   return (
     <a
-      className={clsx(
+      className={twclsx(
         'accessible',
         'absolute left-[20%] top-4',
         'inline-flex items-center justify-center',

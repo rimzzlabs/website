@@ -1,7 +1,8 @@
 import Seo, { CustomSeoProps } from '@/components/atoms/Seo'
 import Footer from '@/components/organism/Footer'
 
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
+
 import { NextPage } from 'next'
 
 export interface LayoutProps extends CustomSeoProps {
@@ -12,7 +13,7 @@ const Layout: NextPage<LayoutProps> = ({ children, ...props }) => {
   return (
     <>
       <Seo {...props} />
-      <main className={clsx('mt-36 scroll-mt-36')}>{children}</main>
+      <main className={twclsx('mt-36 scroll-mt-36')}>{children}</main>
       <Footer />
     </>
   )
