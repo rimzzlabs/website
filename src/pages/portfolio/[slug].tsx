@@ -78,7 +78,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
           </div>
         </section>
 
-        <figure className='relative w-full h-56 md:h-96'>
+        <figure className={clsx('relative', 'w-full', 'h-56 md:h-96', 'my-4')}>
           <ContentImage title={header.title} alt={header.title} src={header.image} />
         </figure>
 

@@ -35,7 +35,7 @@ const ContentImage: React.FC<ContentImageProps> = ({ src, alt, ...props }) => {
         alt={alt}
         width={672}
         height={400}
-        className='rounded cursor-pointer'
+        className='rounded-lg cursor-pointer'
         objectFit='cover'
       />
 

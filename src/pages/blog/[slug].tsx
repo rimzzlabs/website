@@ -85,7 +85,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         </section>
 
         {header.thumbnail && (
-          <figure className={clsx('relative', 'w-full', 'h-56 md:h-96', 'mb-10')}>
+          <figure className={clsx('relative', 'w-full', 'h-56 md:h-96', 'my-4')}>
             <ContentImage alt={header.title} src={header.thumbnail} title={header.title} />
           </figure>
         )}
