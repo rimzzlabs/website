@@ -49,12 +49,12 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
           <div className={clsx('flex flex-col', 'gap-4', 'md:flex-row md:items-center md:justify-between')}>
             <div className={clsx('flex items-center', 'gap-4')}>
               <div className={clsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
-                <HiOutlineClock />
+                <HiOutlineClock className={clsx('text-lg')} />
                 <p>{header.est_read}</p>
               </div>
               {header.views && (
                 <div className='flex items-center gap-2 text-sm md:text-base'>
-                  <HiOutlineEye />
+                  <HiOutlineEye className={clsx('text-lg')} />
                   <p>{header.views} Views</p>
                 </div>
               )}
