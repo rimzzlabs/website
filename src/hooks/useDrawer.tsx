@@ -17,11 +17,15 @@ const useDrawer = (): DrawerReturn => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (isOpen && !mdscreen) {
-        document.documentElement.classList.add('overflow-y-hidden')
+      if (!mdscreen) {
+        if (isOpen) {
+          document.documentElement.classList.add('overflow-y-hidden')
+        } else {
+          document.documentElement.classList.remove('overflow-y-hidden')
+        }
       }
 
-      if (isOpen && mdscreen) {
+      if (mdscreen) {
         setIsOpen(false)
         document.documentElement.classList.remove('overflow-y-hidden')
       }
