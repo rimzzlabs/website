@@ -1,11 +1,11 @@
 import UnstyledLink, { UnstyledLinkProps } from '@/components/atoms/UnstyledLink'
 
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
 
 const UnderlineLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, children, className, ...props }) => {
   return (
     <UnstyledLink
-      className={clsx(
+      className={twclsx(
         'relative inline-flex items-center',
         'border-b border-dashed no-underline',
         'border-theme-900 dark:border-theme-200',

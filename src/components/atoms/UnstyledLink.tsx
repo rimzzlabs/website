@@ -1,4 +1,5 @@
-import clsx from 'clsx'
+import { twclsx } from '@/libs/twclsx'
+
 import NextLink, { LinkProps } from 'next/link'
 
 export interface UnstyledLinkProps extends LinkProps {
@@ -12,7 +13,7 @@ export interface UnstyledLinkProps extends LinkProps {
 const UnstyledLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, children, ...props }) => {
   if (href.startsWith('http')) {
     return (
-      <a className={clsx(props.className)} href={href} rel='noopener noreferrer' target='_blank' title={props.title}>
+      <a className={twclsx(props.className)} href={href} rel='noopener noreferrer' target='_blank' title={props.title}>
         {children}
       </a>
     )
@@ -20,7 +21,7 @@ const UnstyledLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, childr
 
   return (
     <NextLink href={href} scroll={false} {...props}>
-      <a title={props.title ?? ''} onClick={props.onClick} className={clsx(props.className)}>
+      <a title={props.title ?? ''} onClick={props.onClick} className={twclsx(props.className)}>
         {children}
       </a>
     </NextLink>
