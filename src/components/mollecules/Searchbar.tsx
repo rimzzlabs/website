@@ -8,7 +8,7 @@ interface SearchbarProps {
   value: string
 }
 
-const Searchbar: React.FC<SearchbarProps> = ({ onChange, value }) => {
+const Searchbar: React.FunctionComponent<SearchbarProps> = ({ onChange, value }) => {
   return (
     <div
       className={twclsx(

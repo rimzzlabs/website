@@ -5,7 +5,7 @@ import { twclsx } from '@/libs/twclsx'
 import { AnimatePresence, m } from 'framer-motion'
 import { HiOutlineArrowUp } from 'react-icons/hi'
 
-const BackToTop: React.FC = () => {
+const BackToTop: React.FunctionComponent = () => {
   const yAxis = useWindowScroll()
   const handleClick = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 

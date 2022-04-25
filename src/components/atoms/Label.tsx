@@ -5,7 +5,7 @@ interface LabelProps {
   onClick?: () => void | (() => Promise<void>)
 }
 
-const Label: React.FC<LabelProps> = (props) => {
+const Label: React.FunctionComponent<LabelProps> = (props) => {
   const baseClass = 'inline-flex items-center justify-center py-1 px-1.5 rounded text-xs md:text-sm'
   const type = props.type.toLowerCase()
   switch (type) {

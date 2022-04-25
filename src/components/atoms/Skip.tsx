@@ -1,6 +1,6 @@
 import { twclsx } from '@/libs/twclsx'
 
-const Skip: React.FC = () => {
+const Skip: React.FunctionComponent = () => {
   return (
     <a
       className={twclsx(

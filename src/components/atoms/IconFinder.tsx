@@ -15,7 +15,7 @@ import {
   SiVite
 } from 'react-icons/si'
 
-const IconFinder: React.FC<{ type: string }> = ({ type }) => {
+const IconFinder: React.FunctionComponent<{ type: string }> = ({ type }) => {
   const check = type.toLowerCase()
   switch (check) {
     case 'react':

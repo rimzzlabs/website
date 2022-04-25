@@ -7,7 +7,7 @@ export interface HeroProps {
   className?: string
 }
 
-const Hero: React.FC<HeroProps> = ({ title, description, ...props }) => (
+const Hero: React.FunctionComponent<HeroProps> = ({ title, description, ...props }) => (
   <section className={twclsx(props.className)}>
     <h1 className={twclsx('mb-2 md:mb-4')}>{title}</h1>
     <p>{description}</p>

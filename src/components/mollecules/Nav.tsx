@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 /**
  * A Nav componet that renders a list of links to the routes defined in the `src/libs/constant.ts`
  */
-const Nav: React.FC = () => {
+const Nav: React.FunctionComponent = () => {
   const { pathname } = useRouter()
 
   return (

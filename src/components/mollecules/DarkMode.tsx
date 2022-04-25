@@ -5,7 +5,7 @@ import { twclsx } from '@/libs/twclsx'
 
 import { HiMoon, HiSun } from 'react-icons/hi'
 
-const DarkMode: React.FC = () => {
+const DarkMode: React.FunctionComponent = () => {
   const { theme, mounted, changeTheme } = useTheme()
 
   if (!mounted) return null

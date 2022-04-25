@@ -6,7 +6,7 @@ import { twclsx } from '@/libs/twclsx'
 // eslint-disable-next-line @typescript-eslint/ban-types
 export interface SectionProps<DataProp> {
   title: string
-  Component: React.FC<DataProp>
+  Component: React.FunctionComponent<DataProp>
   link: {
     to: string
     children: React.ReactNode

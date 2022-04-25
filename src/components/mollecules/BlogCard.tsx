@@ -8,7 +8,7 @@ interface BlogCardProps extends Blogs {
   views?: number
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({ title, topics, ...props }) => {
+const BlogCard: React.FunctionComponent<BlogCardProps> = ({ title, topics, ...props }) => {
   return (
     <div className={twclsx('relative flex flex-col p-3 h-full', 'bg-theme-50 dark:bg-theme-900')}>
       <h3 className={twclsx('mb-2 md:mb-4')}>{title}</h3>
