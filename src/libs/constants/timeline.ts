@@ -4,14 +4,14 @@ export interface Timeline {
   place: string
   start_date: Date
   end_date: Date | null
-  type?: 'edu' | 'work'
+  type: 'edu' | 'work'
 }
 
 export const timeline: Array<Timeline> = [
   {
     title: 'High School',
     type: 'edu',
-    place: 'SMK Negeri 8 Pandeglang',
+    place: 'Vocational High School 8 Pandeglang',
     start_date: new Date(2018, 5, 14),
     end_date: new Date(2021, 4, 28),
     description:
@@ -48,6 +48,6 @@ export const timeline: Array<Timeline> = [
     place: 'Skyshi Digital Indonesia',
     start_date: new Date(2022, 3, 1),
     end_date: null,
-    description: `As I'm previously work as an intern, now I'm officially a Frontend Developer at Skyshi Digital Indonesia, I'm working on a project that is based on React.js, and Vue.js, slicing and integrating data from server to the client and optimize app as possible.`
+    description: `As I'm previously work as an internship, now I'm officially a Frontend Developer at Skyshi Digital Indonesia, I'm working on a project that is based on React.js, and Vue.js, slicing design to code, manipulating data from the server to serve the optimized output to the client.`
   }
 ]

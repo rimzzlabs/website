@@ -13,7 +13,7 @@ const SOCIAL = [
   },
   {
     title: 'Email',
-    href: 'mailto: rmaulana.citra@gmail.com?subject=say somethin to me...'
+    href: 'mailto: rmaulana.citra@gmail.com?subject='
   }
 ]
 
