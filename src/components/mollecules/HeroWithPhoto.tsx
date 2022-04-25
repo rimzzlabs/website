@@ -12,9 +12,16 @@ export interface HeroWithPhotoProps {
     src: string
     alt_title: string
   }
+  children?: React.ReactNode
 }
 
-const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({ title, subtitle, description, img }) => {
+const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
+  title,
+  subtitle,
+  description,
+  img,
+  children
+}) => {
   const mdscreen = useMediaQuery('(min-width: 768px)')
   return (
     <div
@@ -24,7 +31,7 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({ title, sub
         'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
       )}
     >
-      <figure className={clsx('flex items-center md:justify-end self-start', 'mb-4 md:mb-0')}>
+      <figure className={clsx('flex items-center md:justify-end self-start md:w-1/2', 'mb-4 md:mb-0')}>
         <CustomImage
           src={img.src}
           alt={img.alt_title}
@@ -47,6 +54,7 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({ title, sub
           {subtitle}
         </p>
         <p className='max-w-prose mb-2 md:mb-4'>{description}</p>
+        {children}
       </section>
     </div>
   )
