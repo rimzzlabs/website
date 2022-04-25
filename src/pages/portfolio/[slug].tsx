@@ -18,7 +18,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import dynamic from 'next/dynamic'
 import 'prism-themes/themes/prism-night-owl.css'
 import { ParsedUrlQuery } from 'querystring'
-import { HiGlobeAlt } from 'react-icons/hi'
+import { HiGlobeAlt, HiOutlineCalendar } from 'react-icons/hi'
 import { SiGithub } from 'react-icons/si'
 
 const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
@@ -70,7 +70,8 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
             ))}
           </div>
 
-          <div className={clsx('w-full md:text-right')}>
+          <div className={clsx('flex items-center justify-start', 'w-full gap-2', 'md:text-right md:justify-end')}>
+            <HiOutlineCalendar className='text-lg' />
             <time className='text-sm md:text-base' dateTime={dateStringToISO(header.date)}>
               {dateFormat(header.date, undefined, { dateStyle: 'medium' })}
             </time>
