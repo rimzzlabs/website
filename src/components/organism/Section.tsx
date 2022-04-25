@@ -20,7 +20,7 @@ const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionP
   return (
     <section className='py-10'>
       <h2>{title}</h2>
-      <div className={clsx('grid', 'flex-auto gap-4 md:gap-5 my-4', gridCols)}>
+      <div className={clsx('grid', 'flex-auto gap-4 md:gap-5 my-6', gridCols)}>
         {data.length > 0 &&
           data.map((data, index) => (
             <Card key={index}>
@@ -32,7 +32,7 @@ const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionP
         className={clsx('block md:inline-flex', 'hover:text-primary-600 dark:hover:text-primary-500')}
         href={link.to}
       >
-        {link.children}
+        {link.children} &rarr;
       </UnstyledLink>
     </section>
   )
