@@ -15,8 +15,8 @@ const SingleTimeline: React.FunctionComponent<Timeline> = ({
   description,
   type
 }) => {
-  const start_date_str = dateFormat(start_date.toISOString())
-  const end_date_str = end_date ? dateFormat(end_date.toISOString()) : 'now'
+  const start_date_str = dateFormat(start_date.toISOString(), undefined, { dateStyle: 'medium' })
+  const end_date_str = end_date ? dateFormat(end_date.toISOString(), undefined, { dateStyle: 'medium' }) : 'on going'
 
   const bodyRef = useRef<HTMLDivElement>(null)
   const chevronRef = useRef<HTMLDivElement>(null)
