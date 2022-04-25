@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
       <div className='flex mb-8 md:mb-12'>
         <div className={clsx('flex flex-col', 'w-full', 'space-y-4')}>
           {APP_ROUTE.map((route) => (
-            <UnstyledLink className={className} href={route.path} key={route.path}>
+            <UnstyledLink title={route.name} className={className} href={route.path} key={route.path}>
               {route.name}
             </UnstyledLink>
           ))}
@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
 
         <div className={clsx('flex flex-col', 'w-full', 'space-y-4')}>
           {SOCIAL.map((route) => (
-            <UnstyledLink className={className} href={route.href} key={route.href}>
+            <UnstyledLink title={route.title} className={className} href={route.href} key={route.href}>
               {route.title}
             </UnstyledLink>
           ))}
@@ -38,6 +38,7 @@ const Footer: React.FC = () => {
       <p className='text-sm font-medium mb-2 text-theme-500 dark:text-theme-400'>
         Made with &#128150; by{' '}
         <UnstyledLink
+          title='Rizki Maulana Citras Github Profile'
           className={clsx(
             'text-primary-600 hover:text-primary-500',
             'dark:text-primary-400 dark:hover:text-primary-300'
