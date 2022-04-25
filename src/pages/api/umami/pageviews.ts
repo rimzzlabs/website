@@ -10,6 +10,16 @@ interface HandlerResponse {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse<HandlerResponse>) => {
+  const requestMethod = req.method as 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'OPTIONS'
+
+  if (requestMethod !== 'GET') {
+    return res.status(400).send({
+      data: null,
+      status: false,
+      message: 'Error, could not handle your request, this route only accept GET request'
+    })
+  }
+
   const slug = req.query.slug as string
   if (!slug) {
     return res.status(400).send({
