@@ -28,7 +28,10 @@ const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionP
             </Card>
           ))}
       </div>
-      <UnstyledLink className={clsx('block')} href={link.to}>
+      <UnstyledLink
+        className={clsx('block md:inline-flex', 'hover:text-primary-600 dark:hover:text-primary-500')}
+        href={link.to}
+      >
         {link.children}
       </UnstyledLink>
     </section>
