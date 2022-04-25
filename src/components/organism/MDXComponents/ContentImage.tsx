@@ -1,4 +1,4 @@
-import Image from '@/components/atoms/Image'
+import CustomImage from '@/components/atoms/CustomImage'
 
 import { useEffect, useState } from 'react'
 import Lightbox from 'react-image-lightbox'
@@ -27,19 +27,16 @@ const ContentImage: React.FC<ContentImageProps> = ({ src, alt, ...props }) => {
 
   return (
     <>
-      <Image
+      <CustomImage
         {...props}
+        display='intrinsic'
         onClick={() => setIsOpen(true)}
         src={src}
         alt={alt}
-        layout='intrinsic'
         width={672}
         height={400}
         className='rounded cursor-pointer'
         objectFit='cover'
-        loading='lazy'
-        placeholder='blur'
-        blurDataURL='/blur.svg'
       />
 
       {isOpen && (
