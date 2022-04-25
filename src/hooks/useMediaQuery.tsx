@@ -1,7 +1,4 @@
-import * as atom from '@/stores'
-
-import { useAtom } from 'jotai'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 /**
  *
@@ -21,7 +18,7 @@ const useMediaQuery = (query: string) => {
     return false
   }
 
-  const [matches, setMatches] = useAtom(atom.atomMediaQuery)
+  const [matches, setMatches] = useState(false)
 
   // calllback for media query's event listener
   const handleChange = () => setMatches(isMatch(query))
