@@ -2,7 +2,6 @@ import Card from '@/components/atoms/Card'
 import Hero from '@/components/mollecules/Hero'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Searchbar from '@/components/mollecules/Searchbar'
-import Footer from '@/components/organism/Footer'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
@@ -72,7 +71,6 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
           </section>
         )}
       </div>
-      <Footer />
     </Layout>
   )
 }

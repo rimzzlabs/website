@@ -1,7 +1,6 @@
 import BlogCard from '@/components/mollecules/BlogCard'
 import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
 import ProjectCard from '@/components/mollecules/ProjectCard'
-import Footer from '@/components/organism/Footer'
 import Section from '@/components/organism/Section'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
@@ -10,8 +9,8 @@ import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import { getBlog } from '@/helpers/getBlog'
 import getPortfolio from '@/helpers/getPortfolio'
 import { getMetaData } from '@/libs/metaData'
+import { getNewestBlog } from '@/libs/sortBlog'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
-import { getNewestBlog } from '@/libs/sortblog'
 
 import { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
@@ -67,7 +66,6 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
           children: 'See all portfolio'
         }}
       />
-      <Footer />
     </Layout>
   )
 }

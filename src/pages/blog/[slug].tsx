@@ -1,6 +1,6 @@
 import CustomImage from '@/components/atoms/CustomImage'
-import Footer from '@/components/organism/Footer'
 import MDXComponents from '@/components/organism/MDXComponents'
+import ContentImage from '@/components/organism/MDXComponents/ContentImage'
 import Layout from '@/components/templates/Layout'
 
 import { Blogs } from '@/data/blog/blog.type'
@@ -16,8 +16,9 @@ import { serialize } from 'next-mdx-remote/serialize'
 import dynamic from 'next/dynamic'
 import 'prism-themes/themes/prism-night-owl.css'
 import { ParsedUrlQuery } from 'querystring'
-import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
+import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 import readingTime from 'reading-time'
+import rehypeSlug from 'rehype-slug'
 
 const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
@@ -39,30 +40,39 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   return (
     <Layout {...(metaData as LayoutProps)}>
       <BackToTop />
-      <article className='flex flex-col gap-8'>
+      <article className={clsx('flex flex-col', 'gap-8')}>
         <section className={clsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
-          <h1 className='max-w-prose text-3xl md:text-5xl'>{header.title}</h1>
+          <h1 className={clsx('max-w-prose', 'text-3xl md:text-5xl')}>{header.title}</h1>
           <p className='my-8'>{header.summary}</p>
-          <div className='flex items-center gap-4'>
-            <div className='flex items-center gap-2 text-sm md:text-base'>
-              <HiOutlineClock />
-              <p>{header.est_read}</p>
-            </div>
-            {header.views && (
-              <div className='flex items-center gap-2 text-sm md:text-base'>
-                <HiOutlineEye />
-                <p>{header.views} Views</p>
+
+          <div className={clsx('flex flex-col', 'gap-4', 'md:flex-row md:items-center md:justify-between')}>
+            <div className={clsx('flex items-center', 'gap-4')}>
+              <div className={clsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
+                <HiOutlineClock />
+                <p>{header.est_read}</p>
               </div>
-            )}
+              {header.views && (
+                <div className='flex items-center gap-2 text-sm md:text-base'>
+                  <HiOutlineEye />
+                  <p>{header.views} Views</p>
+                </div>
+              )}
+            </div>
+            <div className={clsx('flex items-center', 'gap-2')}>
+              <HiOutlineCalendar className={clsx('text-lg')} />
+              <time className={clsx('text-sm md:text-base')} dateTime={dateStringToISO(header.published)}>
+                {dateFormat(header.published)}
+              </time>
+            </div>
           </div>
         </section>
 
-        <section className='flex flex-col gap-4 mb-24'>
-          <div className='flex flex-col gap-4'>
-            <div className='flex items-center gap-4'>
+        <section className={clsx('flex flex-col', 'gap-4')}>
+          <div className={clsx('flex flex-col', 'gap-4')}>
+            <div className={clsx('flex items-center', 'gap-4')}>
               <CustomImage
                 display='intrinsic'
-                className='rounded-full'
+                className={clsx('rounded-full')}
                 src={header.author_image}
                 width={32}
                 height={32}
@@ -71,30 +81,18 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
               <p>{header.author_name}</p>
             </div>
           </div>
-
-          <p>
-            Published on <time dateTime={dateStringToISO(header.published)}>{dateFormat(header.published)}</time>.
-          </p>
         </section>
 
         {header.thumbnail && (
-          <figure className='relative w-full h-56 md:h-96'>
-            <CustomImage
-              quality={100}
-              className='rounded-lg'
-              display='responsive'
-              objectFit='cover'
-              alt={header.title}
-              src={header.thumbnail}
-            />
+          <figure className={clsx('relative', 'w-full', 'h-56 md:h-96', 'mb-10')}>
+            <ContentImage alt={header.title} src={header.thumbnail} title={header.title} />
           </figure>
         )}
 
-        <section className='prose dark:prose-invert md:prose-lg'>
+        <section className={clsx('prose dark:prose-invert', 'md:prose-lg', 'prose-headings:scroll-mt-24')}>
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
       </article>
-      <Footer />
     </Layout>
   )
 }
@@ -112,13 +110,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
   const mdxPrism = await require('mdx-prism')
+
   const { slug } = ctx.params as slug
 
   const res = await getBlogBySlug(slug)
   const est_read = readingTime(res.content).text
 
   const mdxSource = await serialize(res.content, {
-    mdxOptions: { rehypePlugins: [mdxPrism] }
+    mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
   })
 
   return {

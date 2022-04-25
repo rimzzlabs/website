@@ -2,14 +2,13 @@ import Card from '@/components/atoms/Card'
 import BlogCard from '@/components/mollecules/BlogCard'
 import Hero from '@/components/mollecules/Hero'
 import Searchbar from '@/components/mollecules/Searchbar'
-import Footer from '@/components/organism/Footer'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { Blogs } from '@/data/blog/blog.type'
 import { getBlog } from '@/helpers/getBlog'
 import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
-import { getNewestBlog } from '@/libs/sortblog'
+import { getNewestBlog } from '@/libs/sortBlog'
 
 import clsx from 'clsx'
 import { GetStaticProps, NextPage } from 'next'
@@ -21,7 +20,7 @@ interface BlogPageProps {
 
 const meta = getMetaData({
   title: 'Blog',
-  description: `I write blog post once in a while, talks about React, Next.JS, CSS and Web Development related topics, I like to share my knowledge and experience throught writing blog post.`,
+  description: `I write blog once in a while, talks about React, CSS and Web Development related topics, I like to share my knowledge and experience throught writing blog.`,
   keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
   og_image:
     'https://og-image.vercel.app/**Blog%20%E2%80%94%20Rizki%20M%20Citra**%3Cbr%20%2F%3ETalks%20about%20Frontend%20Development%20Related%20Topics.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-bw-logo.svg',
@@ -83,8 +82,6 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
           )}
         </section>
       )}
-
-      <Footer />
     </Layout>
   )
 }

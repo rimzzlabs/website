@@ -1,8 +1,7 @@
-import CustomImage from '@/components/atoms/CustomImage'
 import IconFinder from '@/components/atoms/IconFinder'
 import UnderlineLink from '@/components/mollecules/UnderlineLink'
-import Footer from '@/components/organism/Footer'
 import MDXComponents from '@/components/organism/MDXComponents'
+import ContentImage from '@/components/organism/MDXComponents/ContentImage'
 import Layout from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
@@ -78,21 +77,21 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
         </section>
 
         <figure className='relative w-full h-56 md:h-96'>
-          <CustomImage
-            quality={100}
-            className='rounded-lg'
-            display='responsive'
-            objectFit='cover'
-            alt={header.title}
-            src={header.image}
-          />
+          <ContentImage title={header.title} alt={header.title} src={header.image} />
         </figure>
 
         <section className='prose dark:prose-invert md:prose-lg'>
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
+
+        <section className={clsx('flex items-center gap-8')}>
+          <UnderlineLink
+            href={`https://github.com/rizkimcitra/rizkicitra/edit/main/src/data/portfolio/${header.slug}.mdx`}
+          >
+            Edit this on GitHub
+          </UnderlineLink>
+        </section>
       </article>
-      <Footer />
     </Layout>
   )
 }
