@@ -5,7 +5,7 @@ featured: false
 author_name: 'Rizki M Citra'
 author_image: 'https://ik.imagekit.io/mlnzyx/attachment/profile_NEVpiY6EF.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648893977282'
 published: '04/25/2022'
-topics: ['nextjs', 'analytics']
+topics: ['umami', 'web analytics']
 keywords: []
 related: []
 thumbnail: '/static/analytics-umami.png'
@@ -21,16 +21,16 @@ Take one example, we have a blog that shows about technology blog, every people 
 
 When it comes to analytics, you might think about **Google Analytics**, it's a a web analytics service offered by Google that tracks and reports website traffic, but you also tired of being tracked by big company? _just kiding_.
 
-Then [Umami](https://umami.is) may be the right choice, Umami is a simple, fast, privacy-focused alternative to Google Analytics, let's see how we can use this platform as our web analytics.
+Then [Umami](https://umami.is 'umami official website') may be the right choice, Umami is a simple, fast, privacy-focused alternative to Google Analytics, let's see how we can use this platform as our web analytics.
 
 ### Prerequisite
 
 Before we continue, we need to prepare the tech stack we need, as from umamis' official website, here's what we need:
 
-- A server with Node.js 12 or newer - we are going to use [vercel](https://vercel.com)
-- A database (MySQL or Postgresql) - we are going to use [supabase](https://supabase.com)
+- A server with Node.js 12 or newer - we are going to use [vercel](https://vercel.com 'vercel official website')
+- A database (MySQL or Postgresql) - we are going to use [supabase](https://supabase.com 'supabase official website')
 
-## Using Supabase
+## Setting Up Supabase
 
 Before getting to Umami itself, let's create a database on supabase.
 
@@ -44,10 +44,41 @@ Fill in the forms fields based on your personal preferences, and then select the
 
 ### Configuring Schema
 
-Next up you need to configure the database schema on the supabase project, copy and paste [this code](https://github.com/mikecao/umami/blob/master/sql/schema.postgresql.sql, 'PostgreSQL Schema') on your supabase project on **SQL Editor**.
+Next up you need to configure the database schema on the supabase project, copy and paste [this code](https://github.com/mikecao/umami/blob/master/sql/schema.postgresql.sql 'PostgreSQL Schema') on your supabase project on **SQL Editor**.
 
 The code simply run and create tables and wire up your database schema.
 
-### Environtment Variables
+## Installing Umami
 
-After you've created a database, go to your projects' setting, and see for postgre query string:
+Meow to be let in walk on a keyboard eat half my food and ask for more. You call this cat food. Play time.
+
+Taco cat backwards spells taco cat poop in litter box, scratch the walls, for wake up wander around the house making large amounts of noise jump on top of your human's bed and fall asleep again.
+
+### Setup And Deployment
+
+Bird bird bird bird bird bird human why take bird out i could have eaten that play riveting piece on synthesizer keyboard pelt around the house and up and down stairs chasing phantoms or destroy the blinds so make it to the carpet before i vomit mmmmmm for snuggles up to shoulders or knees and purrs you to sleep murr i hate humans they are so annoying.
+
+1. Fork [this repository](https://github.com/mikecao/umami 'umami repository').
+2. Create an account on [vercel](https://vercel.com, 'vercel official website').
+3. From the dashboard, click the **New Project** button to create a new project, and click **import git repository**, select the forked umami repository.
+4. Deploy the project and our umami app is finally deployed.
+
+Ask to go outside and ask to come inside and ask to go outside and ask to come inside always hungry or curl up and sleep on the freshly laundered towels wack the mini furry mouse.
+
+Please stop looking at your phone and pet me or i love cats i am one wake up scratch humans leg for food then purr then i have a and relax and find something else more interesting. To pet a cat, rub its belly, endure blood and agony, quietly weep.
+
+### Environment Variable
+
+Go to your umami project on vercel, go to settings and see for **Environment Variable** section, and create a new Environment Variables.
+
+The first variable should be named **DATABASE_URL**, copy and paste the database URL from our supabase project.
+
+Bird bird bird bird bird bird human why take bird out i could have eaten that play riveting piece on synthesizer keyboard pelt around the house and up and down stairs chasing phantoms or destroy the blinds so make it to the carpet before i vomit mmmmmm for snuggles up to shoulders or knees and purrs you to sleep murr i hate humans they are so annoying.
+
+Ask to go outside and ask to come inside and ask to go outside and ask to come inside always hungry or curl up and sleep on the freshly laundered towels wack the mini furry mouse please stop looking at your phone and pet me or i love cats i am one wake up scratch humans leg for food then purr then i have a and relax and find something else more interesting. To pet a cat, rub its belly, endure blood and agony, quietly weep.
+
+### Change Umami Password
+
+Bird bird bird bird bird bird human why take bird out i could have eaten that play riveting piece on synthesizer keyboard pelt around the house and up and down stairs chasing phantoms or destroy the blinds so make it to the carpet before i vomit mmmmmm for snuggles up to shoulders or knees and purrs you to sleep murr i hate humans they are so annoying.
+
+Ask to go outside and ask to come inside and ask to go outside and ask to come inside always hungry or curl up and sleep on the freshly laundered towels wack the mini furry mouse please stop looking at your phone and pet me or i love cats i am one wake up scratch humans leg for food then purr then i have a and relax and find something else more interesting. To pet a cat, rub its belly, endure blood and agony, quietly weep.
