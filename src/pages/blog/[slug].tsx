@@ -1,4 +1,5 @@
 import CustomImage from '@/components/atoms/CustomImage'
+import EditButton from '@/components/mollecules/EditButton'
 import MDXComponents from '@/components/organism/MDXComponents'
 import ContentImage from '@/components/organism/MDXComponents/ContentImage'
 import Layout from '@/components/templates/Layout'
@@ -43,7 +44,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
       <article className={clsx('flex flex-col', 'gap-8')}>
         <section className={clsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
           <h1 className={clsx('max-w-prose', 'text-3xl md:text-5xl')}>{header.title}</h1>
-          <p className='my-8'>{header.summary}</p>
+          <p className={clsx('mt-4 md:mt-8', 'mb-8')}>{header.summary}</p>
 
           <div className={clsx('flex flex-col', 'gap-4', 'md:flex-row md:items-center md:justify-between')}>
             <div className={clsx('flex items-center', 'gap-4')}>
@@ -93,6 +94,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
       </article>
+
+      <EditButton path={`/blog/${header.slug}.mdx`} />
     </Layout>
   )
 }

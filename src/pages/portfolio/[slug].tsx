@@ -1,4 +1,5 @@
 import IconFinder from '@/components/atoms/IconFinder'
+import EditButton from '@/components/mollecules/EditButton'
 import UnderlineLink from '@/components/mollecules/UnderlineLink'
 import MDXComponents from '@/components/organism/MDXComponents'
 import ContentImage from '@/components/organism/MDXComponents/ContentImage'
@@ -84,13 +85,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
 
-        <section className={clsx('flex items-center gap-8')}>
-          <UnderlineLink
-            href={`https://github.com/rizkimcitra/rizkicitra/edit/main/src/data/portfolio/${header.slug}.mdx`}
-          >
-            Edit this on GitHub
-          </UnderlineLink>
-        </section>
+        <EditButton path={`/portfolio/${header.slug}.mdx`} />
       </article>
     </Layout>
   )
