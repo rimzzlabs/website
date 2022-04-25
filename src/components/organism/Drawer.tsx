@@ -50,10 +50,10 @@ const Drawer = () => {
                 onClick={changeState}
                 className={clsx(
                   'inline-flex text-left w-full',
-                  'py-4 border-b-2 font-semibold',
+                  'py-4 border-b font-medium',
                   pathname === prop.path
-                    ? 'text-theme-800 dark:text-theme-200 border-primary-500 dark:border-primary-400'
-                    : 'text-theme-600 dark:text-theme-400 border-theme-300 dark:border-theme-700'
+                    ? 'text-theme-900 dark:text-theme-100 border-primary-600 dark:border-primary-500'
+                    : 'text-theme-700 dark:text-theme-300 border-theme-200 dark:border-theme-800'
                 )}
               >
                 {prop.name}
