@@ -11,7 +11,6 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "postinstall": "husky install",
-    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
     "postbuild": "next-sitemap --config next-sitemap.js",
     "format": "prettier --config ./.prettierrc.js --write"
   },
