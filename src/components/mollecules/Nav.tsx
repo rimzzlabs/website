@@ -15,6 +15,7 @@ const Nav: React.FunctionComponent = () => {
     <nav className={twclsx('flex items-center', '-ml-3 md:-ml-3.5')}>
       {APP_ROUTE.map((route) => (
         <UnstyledLink
+          title={`route ${route.name}`}
           key={route.name}
           href={route.path}
           className={twclsx(
