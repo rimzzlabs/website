@@ -34,9 +34,10 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
         <CustomImage
           src={img.src}
           alt={img.alt_title}
-          width={mdscreen ? 168 : 96}
-          height={mdscreen ? 168 : 96}
+          width={mdscreen ? 144 : 112}
+          height={mdscreen ? 144 : 112}
           display='intrinsic'
+          objectFit='cover'
           className='rounded-full'
         />
       </figure>
