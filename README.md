@@ -7,7 +7,7 @@
 - 🧬 TypeScript
 - 🌌 NEXT.js
 - ⚛️ React & Preact
-- 💨Tailwind CSS
+- 💨 Tailwind CSS
 - 🌠 Framer Motion
 - 📑 MDX
 - 💎 Prism
