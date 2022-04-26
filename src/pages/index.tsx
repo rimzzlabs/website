@@ -8,6 +8,7 @@ import { Blogs } from '@/data/blog/blog.type'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import { getBlog } from '@/helpers/getBlog'
 import getPortfolio from '@/helpers/getPortfolio'
+import useMediaQuery from '@/hooks/useMediaQuery'
 import { getMetaData } from '@/libs/metaData'
 import { getNewestBlog } from '@/libs/sortBlog'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
@@ -20,19 +21,21 @@ interface HomePageProps {
   portfolios: Array<PortfolioHeadProps>
 }
 
-const meta = getMetaData({
-  title: 'Rizki Maulana Citra',
-  template: 'Student And Frontend Developer',
-  description: `Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, CSS and Web Development related topics.`,
-  keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
-  og_image:
-    'https://ik.imagekit.io/mlnzyx/attachment/profile_NEVpiY6EF.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1648893977282',
-  og_image_alt: 'Rizki Maulana Citra',
-  slug: '/',
-  type: 'website'
-})
-
 const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
+  const mdscreen = useMediaQuery('(min-width: 768px)')
+
+  const meta = getMetaData({
+    title: 'Rizki Maulana Citra',
+    template: 'Student And Frontend Developer',
+    description: `Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, CSS and Web Development related topics.`,
+    keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
+    og_image: `https://ik.imagekit.io/mlnzyx/tr:w-${mdscreen ? 144 : 112},h-${
+      mdscreen ? 144 : 112
+    }/attachment/profile.webp`,
+    og_image_alt: 'Rizki Maulana Citra',
+    slug: '/',
+    type: 'website'
+  })
   return (
     <Layout {...(meta as LayoutProps)}>
       <HeroWithPhoto
