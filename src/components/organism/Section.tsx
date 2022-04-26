@@ -3,6 +3,8 @@ import UnstyledLink from '@/components/atoms/UnstyledLink'
 
 import { twclsx } from '@/libs/twclsx'
 
+import { HiArrowNarrowRight } from 'react-icons/hi'
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 export interface SectionProps<DataProp> {
   title: string
@@ -28,10 +30,16 @@ const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionP
           ))}
       </div>
       <UnstyledLink
-        className={twclsx('block md:inline-flex', 'hover:text-primary-600 dark:hover:text-primary-500')}
+        className={twclsx(
+          'group',
+          'flex md:inline-flex',
+          'items-center gap-2',
+          'hover:text-primary-600 dark:hover:text-primary-500'
+        )}
         href={link.to}
       >
-        {link.children} &rarr;
+        <span>{link.children}</span>
+        <HiArrowNarrowRight className={twclsx('transition-transform', 'group-hover:-translate-x-1')} />
       </UnstyledLink>
     </section>
   )
