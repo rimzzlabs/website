@@ -26,7 +26,7 @@ const BackToTop: React.FunctionComponent = () => {
             'fixed md:bottom-[12vh] lg:right-[8vw]',
             'bottom-[6vh] right-[6vw]',
             'inline-flex items-center justify-center',
-            'h-10 w-10 z-10',
+            'h-10 w-10 z-[1]',
             'rounded-xl md:text-lg',
             'text-primary-700 dark:text-primary-400',
             'bg-primary-100 dark:bg-theme-800'
