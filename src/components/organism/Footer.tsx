@@ -24,7 +24,7 @@ const Footer: React.FunctionComponent = () => {
       <div className={twclsx('flex', 'mb-8 md:mb-12')}>
         <div className={twclsx('flex flex-col', 'w-full', 'space-y-4')}>
           {APP_ROUTE.map((route) => (
-            <UnstyledLink title={route.name} className={className} href={route.path} key={route.path}>
+            <UnstyledLink title={route.name} className={twclsx(className)} href={route.path} key={route.path}>
               {route.name}
             </UnstyledLink>
           ))}
@@ -32,7 +32,12 @@ const Footer: React.FunctionComponent = () => {
 
         <div className={twclsx('flex flex-col', 'w-full', 'space-y-4')}>
           {SOCIAL.map((route) => (
-            <UnstyledLink title={route.title} className={className} href={route.href} key={route.href}>
+            <UnstyledLink
+              title={route.title}
+              className={twclsx(className, `umami--click--${route.title.toLowerCase()}-button`)}
+              href={route.href}
+              key={route.href}
+            >
               {route.title}
             </UnstyledLink>
           ))}
@@ -45,7 +50,8 @@ const Footer: React.FunctionComponent = () => {
           title='Rizki Maulana Citras Github Profile'
           className={twclsx(
             'text-primary-600 hover:text-primary-500',
-            'dark:text-primary-400 dark:hover:text-primary-300'
+            'dark:text-primary-400 dark:hover:text-primary-300',
+            'umami--click--github-profile-button'
           )}
           href='https://github.com/rizkimcitra'
         >
