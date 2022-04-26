@@ -2,11 +2,12 @@ import CustomImage from '@/components/atoms/CustomImage'
 
 import { twclsx } from '@/libs/twclsx'
 
+import { ImageProps } from 'next/image'
 import { useEffect, useState } from 'react'
 import Lightbox from 'react-image-lightbox'
 import 'react-image-lightbox/style.css'
 
-interface ContentImageProps {
+interface ContentImageProps extends ImageProps {
   alt: string
   src: string
   title: string
@@ -30,15 +31,15 @@ const ContentImage: React.FunctionComponent<ContentImageProps> = ({ src, alt, ..
   return (
     <>
       <CustomImage
-        {...props}
         display='intrinsic'
         onClick={() => setIsOpen(true)}
         src={src}
         alt={alt}
-        width={672}
-        height={400}
-        className={twclsx('rounded-lg', 'cursor-pointer')}
+        width={768}
+        height={468}
         objectFit='cover'
+        className={twclsx('rounded-lg', 'cursor-pointer')}
+        {...props}
       />
 
       {isOpen && (
