@@ -29,19 +29,7 @@ const CustomImage: React.FunctionComponent<CustomImageProps> = ({
   }
 
   if (width < 40 && height < 40) {
-    return (
-      <Image
-        layout='intrinsic'
-        src={src}
-        alt={alt}
-        title={alt}
-        width={width}
-        height={height}
-        loading='lazy'
-        objectFit='cover'
-        {...props}
-      />
-    )
+    return <Image layout='intrinsic' src={src} alt={alt} title={alt} width={width} height={height} {...props} />
   }
 
   return (
@@ -53,7 +41,6 @@ const CustomImage: React.FunctionComponent<CustomImageProps> = ({
       width={width}
       height={height}
       loading='lazy'
-      objectFit='cover'
       placeholder='blur'
       blurDataURL='/blur.svg'
       {...props}
