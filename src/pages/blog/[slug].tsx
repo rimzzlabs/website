@@ -86,12 +86,14 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         </section>
 
         {header.thumbnail && (
-          <figure className={twclsx('relative', 'w-full', 'h-56 md:h-96', 'my-4')}>
+          <figure className={twclsx('relative', 'w-full', 'my-4')}>
             <ContentImage alt={header.title} src={header.thumbnail} title={header.title} />
           </figure>
         )}
 
-        <section className={twclsx('prose dark:prose-invert', 'md:prose-lg', 'prose-headings:scroll-mt-24')}>
+        <section
+          className={twclsx('prose dark:prose-invert', 'md:prose-lg', 'prose-headings:scroll-mt-24', 'prose-img:my-4')}
+        >
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
       </article>
