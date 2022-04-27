@@ -69,7 +69,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
               {header.views && (
                 <div className={twclsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
                   <HiOutlineEye className={twclsx('text-lg')} />
-                  <p>{header.views} iews</p>
+                  <p>{header.views} views</p>
                 </div>
               )}
             </div>
