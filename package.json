@@ -19,6 +19,7 @@
     "axios": "^0.26.0",
     "clsx": "^1.1.1",
     "framer-motion": "^6.2.8",
+    "isomorphic-fetch": "^3.0.0",
     "jotai": "^1.6.4",
     "mdx-prism": "^0.3.4",
     "next": "latest",
