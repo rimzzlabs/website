@@ -1,4 +1,4 @@
-import { BlogHeader } from '@/data/blog/blog.type'
+import { Blogs } from '@/data/blog/blog.type'
 
 import { DATA_DIR, getDirectory } from './getDirectory'
 
@@ -7,7 +7,7 @@ import matter from 'gray-matter'
 import path from 'path'
 
 export interface GetBlogReturnValue {
-  header: BlogHeader & { slug: string }
+  header: Blogs
   content: string
 }
 
@@ -21,7 +21,7 @@ export const getBlogBySlug = async (slug: string): Promise<GetBlogReturnValue> =
   const { content, data } = matter(file)
 
   return {
-    header: { ...(data as BlogHeader), slug },
+    header: { ...(data as Blogs), slug },
     content
   }
 }
@@ -37,7 +37,7 @@ export const getBlog = async (): Promise<Array<GetBlogReturnValue>> => {
 
     return {
       header: {
-        ...(data as BlogHeader),
+        ...(data as Blogs),
         slug: p.replace('.mdx', '')
       },
       content
