@@ -1,6 +1,5 @@
+import { getTokenFromUmami } from '@/helpers/getTokenFromUmami'
 import umami from '@/libs/umami'
-
-import { getTokenFromUmami } from './getTokenFromUmami'
 
 export interface PageViews {
   bounces: { value: number; change: number }
@@ -11,8 +10,16 @@ export interface PageViews {
 
 interface PageViewsReturn {
   isError: boolean
-  data: PageViews | null
+  data: number | null
 }
+
+const reducePageViewsToNumber = (arr: Array<PageViews>) =>
+  arr.reduce((acc, curVal) => {
+    const newVal = acc.pageviews.value + curVal.pageviews.value
+
+    acc.pageviews.value = newVal
+    return acc
+  }).pageviews.value
 
 export const getPageViews = async (slug: string): Promise<PageViewsReturn> => {
   const end_date = new Date().getTime()
@@ -24,19 +31,18 @@ export const getPageViews = async (slug: string): Promise<PageViewsReturn> => {
 
   const config = { headers: { Authorization: `Bearer ${token}` } }
 
-  try {
-    const res = await umami.get<PageViews>(
-      `/api/website/1/stats?start_at=${1645722000000}&end_at=${end_date}&url=${slug}`,
-      config
-    )
+  const articleURL = `/api/website/1/stats?start_at=${1645722000000}&end_at=${end_date}&url=/article/${slug}`
+  const blogURL = `/api/website/1/stats?start_at=${1645722000000}&end_at=${end_date}&url=/blog/${slug}`
 
-    if (res.status !== 200) {
-      return { isError: true, data: res.data }
-    }
+  const responseArticle = await umami.get<PageViews>(articleURL, config)
+  const responseBlog = await umami.get<PageViews>(blogURL, config)
 
-    return { isError: false, data: res.data }
-  } catch (error) {
-    console.info(error)
-    return { isError: true, data: null }
+  const mergedResponseData = Object.values([responseArticle.data, responseBlog.data])
+
+  const data = reducePageViewsToNumber(mergedResponseData)
+
+  return {
+    isError: false,
+    data
   }
 }
