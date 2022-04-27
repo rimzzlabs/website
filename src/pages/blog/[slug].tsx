@@ -9,6 +9,7 @@ import { getBlog, getBlogBySlug } from '@/helpers/getBlog'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
+import { umamiClient } from '@/libs/umami'
 
 import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
@@ -25,11 +26,17 @@ const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
 interface BlogPostProps {
   mdxSource: MDXRemoteSerializeResult
-  header: Blogs & { views?: number }
+  header: Blogs
 }
 
 interface slug extends ParsedUrlQuery {
   slug: string
+}
+
+interface HTTP {
+  status: boolean
+  message: string
+  data: number
 }
 
 const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
@@ -121,14 +128,24 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
 
   const res = await getBlogBySlug(slug)
   const est_read = readingTime(res.content).text
+  const views = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + slug)
 
   const mdxSource = await serialize(res.content, {
     mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
   })
 
+  if (views.status !== 200) {
+    return {
+      props: {
+        header: { est_read, views: 0, ...res.header },
+        mdxSource
+      }
+    }
+  }
+
   return {
     props: {
-      header: { est_read, ...res.header },
+      header: { est_read, views: views.data.data, ...res.header },
       mdxSource
     }
   }
