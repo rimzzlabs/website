@@ -1,16 +1,16 @@
-import axios from 'axios'
+import Axios from 'axios'
 
-const URL = process.env.UMAMI_URL
+const UMAMI_URL = process.env.UMAMI_URL
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
 
 const headers = { 'Content-Type': 'application/json' }
 
-const umami = axios.create({
-  baseURL: URL,
+const umami = Axios.create({
+  baseURL: UMAMI_URL,
   headers
 })
 
-export const umamiClient = axios.create({
+export const umamiClient = Axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : SITE_URL,
   headers
 })
