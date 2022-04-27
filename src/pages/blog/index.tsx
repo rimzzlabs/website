@@ -10,8 +10,8 @@ import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
-import umamiClient from '@/libs/umamiClient'
 
+// import umamiClient from '@/libs/umamiClient'
 import { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
 
@@ -96,13 +96,23 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 }
 
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
+  const baseURL =
+    process.env.NODE_ENV === 'production'
+      ? process.env.NEXT_PUBLIC_URL || 'https://rizkicitra.dev'
+      : 'http://localhost:3000'
+
+  require('isomorphic-fetch')
   const allBlogs = await getBlog()
 
   const promises = allBlogs.map(async (blog): Promise<Blogs> => {
-    const views = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + blog.header.slug)
+    const res = await fetch(`${baseURL}/api/umami/blogviews?slug=` + blog.header.slug, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
     const est_read = readingTime(blog.content).text
 
-    if (views.status !== 200) {
+    if (res.status !== 200) {
       return {
         views: 0,
         est_read,
@@ -110,8 +120,10 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
       }
     }
 
+    const views = (await res.json()) as HTTP
+
     return {
-      views: views.data.data,
+      views: views.data,
       est_read,
       ...blog.header
     }

@@ -9,7 +9,6 @@ import { getBlog, getBlogBySlug } from '@/helpers/getBlog'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
-import umamiClient from '@/libs/umamiClient'
 
 import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
@@ -129,19 +128,29 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
+  const baseURL =
+    process.env.NODE_ENV === 'production'
+      ? process.env.NEXT_PUBLIC_URL || 'https://rizkicitra.dev'
+      : 'http://localhost:3000'
+
   const mdxPrism = await require('mdx-prism')
+  await require('isomorphic-fetch')
 
   const { slug } = ctx.params as slug
 
   const res = await getBlogBySlug(slug)
   const est_read = readingTime(res.content).text
-  const views = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + slug)
+  const pv = await fetch(`${baseURL}/api/umami/blogviews?slug=` + slug, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
 
   const mdxSource = await serialize(res.content, {
     mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
   })
 
-  if (views.status !== 200) {
+  if (pv.status !== 200) {
     return {
       props: {
         header: { est_read, views: 0, ...res.header },
@@ -150,9 +159,11 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
     }
   }
 
+  const views = (await pv.json()) as HTTP
+
   return {
     props: {
-      header: { est_read, views: views.data.data, ...res.header },
+      header: { est_read, views: views.data, ...res.header },
       mdxSource
     }
   }
