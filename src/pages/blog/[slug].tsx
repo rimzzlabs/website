@@ -45,6 +45,13 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
     slug: '/blog/' + header.slug
   })
 
+  const config: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  }
+
   return (
     <Layout {...(metaData as LayoutProps)}>
       <BackToTop />
@@ -63,14 +70,14 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
               {header.views && (
                 <div className={twclsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
                   <HiOutlineEye className={twclsx('text-lg')} />
-                  <p>{header.views} Views</p>
+                  <p>{header.views} views</p>
                 </div>
               )}
             </div>
             <div className={twclsx('flex items-center', 'gap-2')}>
               <HiOutlineCalendar className={twclsx('text-lg')} />
               <time className={twclsx('text-sm md:text-base')} dateTime={dateStringToISO(header.published)}>
-                {dateFormat(header.published)}
+                {dateFormat(header.published, undefined, config)}
               </time>
             </div>
           </div>
