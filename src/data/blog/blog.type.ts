@@ -1,4 +1,4 @@
-export interface BlogHeader {
+export interface Blogs {
   title: string
   slug: string
   summary: string
@@ -9,9 +9,7 @@ export interface BlogHeader {
   topics: Array<string>
   keywords: Array<string>
   related: Array<string>
-}
-
-export interface Blogs extends BlogHeader {
-  est_read: string
+  views?: number
+  est_read?: string
   thumbnail?: string
 }
