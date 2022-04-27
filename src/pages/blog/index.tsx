@@ -8,14 +8,21 @@ import { Blogs } from '@/data/blog/blog.type'
 import { getBlog } from '@/helpers/getBlog'
 import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
-import { getNewestBlog } from '@/libs/sortBlog'
+import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
+import { umamiClient } from '@/libs/umami'
 
 import { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
 
 interface BlogPageProps {
   allBlogs: Array<Blogs>
+}
+
+interface HTTP {
+  status: boolean
+  message: string
+  data: number
 }
 
 const meta = getMetaData({
@@ -41,13 +48,15 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
       {allBlogs.length > 0 && query.length === 0 ? (
         <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
-            <h2 className={twclsx('mb-4')}>Featured Post</h2>
-            <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
+            <h2 className={twclsx('mb-4')}>Most Viewed</h2>
+            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
               {allBlogs
-                .filter((b) => b.featured)
+                .slice(0)
+                .sort(getMostPopularBlog)
+                .slice(0, 2)
                 .map((b) => (
                   <Card key={b.title.slice(0, 7)}>
-                    <BlogCard {...b} />
+                    <BlogCard displayViews {...b} />
                   </Card>
                 ))}
             </div>
@@ -58,7 +67,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
               {allBlogs.map((b, id) => (
                 <Card key={b.title.slice(0, 7) + id}>
-                  <BlogCard {...b} />
+                  <BlogCard displayViews {...b} />
                 </Card>
               ))}
             </div>
@@ -89,12 +98,32 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const allBlogs = await getBlog()
 
-  const blogs = allBlogs.map((nb) => ({ est_read: readingTime(nb.content).text, ...nb.header })).sort(getNewestBlog)
+  const promises = allBlogs.map(async (blog): Promise<Blogs> => {
+    const views = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + blog.header.slug)
+    const est_read = readingTime(blog.content).text
+
+    if (views.status !== 200) {
+      return {
+        views: 0,
+        est_read,
+        ...blog.header
+      }
+    }
+
+    return {
+      views: views.data.data,
+      est_read,
+      ...blog.header
+    }
+  })
+
+  const blogs = (await Promise.all(promises)).sort(getNewestBlog)
 
   return {
     props: {
       allBlogs: blogs
-    }
+    },
+    revalidate: 60
   }
 }
 
