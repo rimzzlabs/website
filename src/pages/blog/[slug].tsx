@@ -9,7 +9,7 @@ import { getBlog, getBlogBySlug } from '@/helpers/getBlog'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
-import { umamiClient } from '@/libs/umami'
+import umamiClient from '@/libs/umamiClient'
 
 import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
@@ -70,7 +70,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
               {header.views && (
                 <div className={twclsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
                   <HiOutlineEye className={twclsx('text-lg')} />
-                  <p>{header.views} views</p>
+                  <p>{header.views} iews</p>
                 </div>
               )}
             </div>

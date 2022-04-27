@@ -10,7 +10,7 @@ import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
-import { umamiClient } from '@/libs/umami'
+import umamiClient from '@/libs/umamiClient'
 
 import { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
