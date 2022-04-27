@@ -5,7 +5,7 @@ import { Blogs } from '@/data/blog/blog.type'
 import { twclsx } from '@/libs/twclsx'
 
 interface BlogCardProps extends Blogs {
-  views?: number
+  displayViews?: boolean
 }
 
 const BlogCard: React.FunctionComponent<BlogCardProps> = ({ title, topics, ...props }) => {
@@ -21,7 +21,7 @@ const BlogCard: React.FunctionComponent<BlogCardProps> = ({ title, topics, ...pr
           </div>
         )}
         <div className={twclsx('flex flex-col', 'gap-2', 'text-sm')}>
-          {/* <span>{props.views} views</span> */}
+          {props.displayViews && props.views ? <span>{props.views} views</span> : null}
           <span>{props.est_read}</span>
         </div>
       </div>
