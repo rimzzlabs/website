@@ -55,7 +55,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
                 .sort(getMostPopularBlog)
                 .slice(0, 2)
                 .map((b) => (
-                  <Card key={b.title.slice(0, 7)}>
+                  <Card key={b.slug}>
                     <BlogCard displayViews {...b} />
                   </Card>
                 ))}
@@ -65,8 +65,8 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
           <section>
             <h2 className={twclsx('mb-4')}>All Post</h2>
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-              {allBlogs.map((b, id) => (
-                <Card key={b.title.slice(0, 7) + id}>
+              {allBlogs.map((b) => (
+                <Card key={b.slug}>
                   <BlogCard displayViews {...b} />
                 </Card>
               ))}
