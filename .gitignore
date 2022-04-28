@@ -39,3 +39,7 @@ yarn-error.log*
 
 temp
 .eslintcache
+
+**/public/workbox-*.js
+**/public/sw.js
+**/public/fallback-*.js
