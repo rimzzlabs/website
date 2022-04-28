@@ -1,10 +1,7 @@
 import { Blogs } from '@/data/blog/blog.type'
-
-import { GetBlogReturnValue } from './getBlog'
+import { GetBlogReturnValue } from '@/helpers/getBlog'
 
 import readingTime from 'reading-time'
-
-require('isomorphic-fetch')
 
 interface HTTP {
   status: boolean
@@ -12,11 +9,16 @@ interface HTTP {
   data: number
 }
 
-const baseURL = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_URL : 'http://localhost:3000'
+const dev = process.env.NODE_ENV !== 'production'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+
+const baseURL = dev ? 'http://localhost:300' : SITE_URL
+
 const config = { headers: { 'Content-Type': 'application/json' } }
 
 // a function that process each blog post and get pageviews value from umami
 export const getPageViewsEach = async (blogs: Array<GetBlogReturnValue>): Promise<Array<Blogs>> => {
+  require('isomorphic-fetch')
   // run promise all to each post, by passing an async map function to the Promise.all() method.
 
   return await Promise.all(
