@@ -4,13 +4,21 @@ import APP_ROUTE from '@/libs/constants/route'
 import SOCIAL from '@/libs/constants/social'
 import { twclsx } from '@/libs/twclsx'
 
+import { useRouter } from 'next/router'
+
 const Footer: React.FunctionComponent = () => {
+  const { pathname } = useRouter()
+  const isError = pathname === '/_error' || pathname === '/_offline' || pathname === '/404'
   const className = twclsx(
     'text-sm md:text-base md:max-w-max',
     'text-theme-500 hover:text-primary-500',
     'dark:text-theme-400 dark:hover:text-primary-400'
   )
   const YEAR_NOW = new Date().getFullYear()
+
+  if (isError) {
+    return null
+  }
 
   return (
     <footer
