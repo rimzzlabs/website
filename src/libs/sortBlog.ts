@@ -5,5 +5,11 @@ export const getNewestBlog = (a: Blogs, b: Blogs) => {
 }
 
 export const getMostPopularBlog = (a: Blogs, b: Blogs) => {
-  return a.views && b.views ? (a.views < b.views ? 1 : a.views > b.views ? -1 : 0) : 0
+  const aviews = a.views as number
+  const bviews = b.views as number
+
+  if (aviews === 0 && bviews === 0) {
+    return 0
+  }
+  return aviews < bviews ? 1 : aviews > bviews ? -1 : 0
 }
