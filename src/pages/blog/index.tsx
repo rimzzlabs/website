@@ -97,8 +97,7 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   return {
     props: {
       allBlogs
-    },
-    revalidate: 30
+    }
   }
 }
 
