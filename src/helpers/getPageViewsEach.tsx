@@ -12,7 +12,7 @@ interface HTTP {
 const dev = process.env.NODE_ENV !== 'production'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
 
-const baseURL = dev ? 'http://localhost:300' : SITE_URL
+const baseURL = dev ? 'http://localhost:3000' : SITE_URL
 
 const config = { headers: { 'Content-Type': 'application/json' } }
 
