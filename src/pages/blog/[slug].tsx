@@ -155,7 +155,8 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
       props: {
         header: { est_read, views: 0, ...res.header },
         mdxSource
-      }
+      },
+      revalidate: 60
     }
   }
 
@@ -165,7 +166,8 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
     props: {
       header: { est_read, views: views.data, ...res.header },
       mdxSource
-    }
+    },
+      revalidate: 60
   }
 }
 
