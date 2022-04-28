@@ -9,6 +9,7 @@ import { getBlog, getBlogBySlug } from '@/helpers/getBlog'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
+import umamiClient from '@/libs/umamiClient'
 
 import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
@@ -17,6 +18,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import dynamic from 'next/dynamic'
 import 'prism-themes/themes/prism-night-owl.css'
 import { ParsedUrlQuery } from 'querystring'
+import { useEffect, useState } from 'react'
 import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 import readingTime from 'reading-time'
 import rehypeSlug from 'rehype-slug'
@@ -39,6 +41,8 @@ interface HTTP {
 }
 
 const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
+  const [postViews, setPostViews] = useState<number>(0)
+
   const metaData = getMetaDataBlog({
     ...header,
     slug: '/blog/' + header.slug
@@ -50,6 +54,16 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
     month: 'short',
     year: 'numeric'
   }
+
+  useEffect(() => {
+    ;(async () => {
+      console.log('running')
+      const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
+      const views = response.data.data ?? 0
+
+      setPostViews(views)
+    })()
+  }, [header.slug])
 
   return (
     <Layout {...(metaData as LayoutProps)}>
@@ -68,7 +82,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
               <div className={twclsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
                 <HiOutlineEye className={twclsx('text-lg')} />
-                {header.views && header.views > 0 ? <p>{header.views} views</p> : <p>—</p>}
+                {postViews > 0 ? <p>{postViews} views</p> : <p>—</p>}
               </div>
             </div>
             <div className={twclsx('flex items-center', 'gap-2')}>
@@ -126,43 +140,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
-  const baseURL =
-    process.env.NODE_ENV === 'production'
-      ? process.env.NEXT_PUBLIC_URL || 'https://rizkicitra.dev'
-      : 'http://localhost:3000'
-
   const mdxPrism = await require('mdx-prism')
-  await require('isomorphic-fetch')
 
   const { slug } = ctx.params as slug
 
   const res = await getBlogBySlug(slug)
   const est_read = readingTime(res.content).text
-  const pv = await fetch(`${baseURL}/api/umami/blogviews?slug=` + slug, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
 
   const mdxSource = await serialize(res.content, {
     mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
   })
 
-  if (pv.status !== 200) {
-    return {
-      props: {
-        header: { est_read, views: 0, ...res.header },
-        mdxSource
-      },
-      revalidate: 60
-    }
-  }
-
-  const views = (await pv.json()) as HTTP
-
   return {
     props: {
-      header: { est_read, views: views.data, ...res.header },
+      header: { est_read, ...res.header },
       mdxSource
     },
     revalidate: 60

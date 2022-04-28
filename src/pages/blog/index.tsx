@@ -6,6 +6,7 @@ import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { Blogs } from '@/data/blog/blog.type'
 import { getBlog } from '@/helpers/getBlog'
+import { getPageViewsEach } from '@/helpers/getPageViewsEach'
 import useSesarch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
@@ -13,16 +14,9 @@ import { twclsx } from '@/libs/twclsx'
 
 // import umamiClient from '@/libs/umamiClient'
 import { GetStaticProps, NextPage } from 'next'
-import readingTime from 'reading-time'
 
 interface BlogPageProps {
   allBlogs: Array<Blogs>
-}
-
-interface HTTP {
-  status: boolean
-  message: string
-  data: number
 }
 
 const meta = getMetaData({
@@ -96,46 +90,15 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 }
 
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
-  const baseURL =
-    process.env.NODE_ENV === 'production'
-      ? process.env.NEXT_PUBLIC_URL || 'https://rizkicitra.dev'
-      : 'http://localhost:3000'
+  const response = await getBlog()
 
-  require('isomorphic-fetch')
-  const allBlogs = await getBlog()
-
-  const promises = allBlogs.map(async (blog): Promise<Blogs> => {
-    const res = await fetch(`${baseURL}/api/umami/blogviews?slug=` + blog.header.slug, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const est_read = readingTime(blog.content).text
-
-    if (res.status !== 200) {
-      return {
-        views: 0,
-        est_read,
-        ...blog.header
-      }
-    }
-
-    const views = (await res.json()) as HTTP
-
-    return {
-      views: views.data,
-      est_read,
-      ...blog.header
-    }
-  })
-
-  const blogs = (await Promise.all(promises)).sort(getNewestBlog)
+  const allBlogs = (await getPageViewsEach(response)).sort(getNewestBlog)
 
   return {
     props: {
-      allBlogs: blogs
+      allBlogs
     },
-    revalidate: 60
+    revalidate: 30
   }
 }
 
