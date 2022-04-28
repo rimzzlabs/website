@@ -66,12 +66,10 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
                 <p>{header.est_read}</p>
               </div>
 
-              {header.views && (
-                <div className={twclsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
-                  <HiOutlineEye className={twclsx('text-lg')} />
-                  <p>{header.views} views</p>
-                </div>
-              )}
+              <div className={twclsx('flex items-center', 'gap-2', 'text-sm md:text-base')}>
+                <HiOutlineEye className={twclsx('text-lg')} />
+                {header.views && header.views > 0 ? <p>{header.views} views</p> : <p>—</p>}
+              </div>
             </div>
             <div className={twclsx('flex items-center', 'gap-2')}>
               <HiOutlineCalendar className={twclsx('text-lg')} />
@@ -167,7 +165,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
       header: { est_read, views: views.data, ...res.header },
       mdxSource
     },
-      revalidate: 60
+    revalidate: 60
   }
 }
 
