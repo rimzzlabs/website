@@ -27,7 +27,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
   const meta = getMetaData({
     title: 'Rizki Maulana Citra',
     template: 'Student And Frontend Developer',
-    description: `Howdy👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, CSS and Web Development related topics.`,
+    description: `Personal Website, Online Portfolio And Blog, Built On Top Of NEXT.js, An Online Space For Rizki To Share His Knowledge And Experience.`,
     keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
     og_image: `https://ik.imagekit.io/mlnzyx/tr:w-${mdscreen ? 144 : 112},h-${
       mdscreen ? 144 : 112
@@ -41,7 +41,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
       <HeroWithPhoto
         title={meta.title as string}
         subtitle='Student &amp; Frontend Developer'
-        description={meta.description as string}
+        description="Hello👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal website, where you can find my portfolio, blog and more."
         img={{
           alt_title: meta.title as string,
           src: meta?.openGraph?.images ? meta.openGraph.images[0].url : ''
