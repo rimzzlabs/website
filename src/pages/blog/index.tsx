@@ -7,7 +7,7 @@ import Layout, { LayoutProps } from '@/components/templates/Layout'
 import { Blogs } from '@/data/blog/blog.type'
 import { getBlog } from '@/helpers/getBlog'
 import { getPageViewsEach } from '@/helpers/getPageViewsEach'
-import useSesarch from '@/hooks/useSearch'
+import useSearch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
@@ -31,7 +31,7 @@ const meta = getMetaData({
 })
 
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
-  const { query, handleChange, filteredData } = useSesarch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
+  const { query, handleChange, filteredData } = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
 
   return (
     <Layout {...(meta as LayoutProps)}>

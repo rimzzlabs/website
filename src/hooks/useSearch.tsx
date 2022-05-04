@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 type Data = Array<Blogs> | Array<PortfolioHeadProps>
 
-const useSesarch = <T,>(data: Data, type: 'blog' | 'portfolio') => {
+const useSearch = <T,>(data: Data, type: 'blog' | 'portfolio') => {
   const [query, setQuery] = useState<string>('')
   const [filteredData, setFilteredData] = useState<Data>([])
 
@@ -41,4 +41,4 @@ const useSesarch = <T,>(data: Data, type: 'blog' | 'portfolio') => {
   }
 }
 
-export default useSesarch
+export default useSearch

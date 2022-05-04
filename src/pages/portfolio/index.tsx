@@ -6,7 +6,7 @@ import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import getPortfolio from '@/helpers/getPortfolio'
-import useSesarch from '@/hooks/useSearch'
+import useSearch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
 import { twclsx } from '@/libs/twclsx'
@@ -34,7 +34,7 @@ const meta = getMetaData({
 })
 
 const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
-  const { query, handleChange, filteredData } = useSesarch<ProjectPageProps['projects']>(projects, 'portfolio')
+  const { query, handleChange, filteredData } = useSearch<ProjectPageProps['projects']>(projects, 'portfolio')
 
   return (
     <Layout {...(meta as LayoutProps)}>
