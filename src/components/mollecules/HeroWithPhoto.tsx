@@ -20,6 +20,7 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
   img,
   children
 }) => {
+  const IMAGE_SRC = img.src.replace(',tr:bl-10', '')
   return (
     <div
       className={twclsx(
@@ -30,11 +31,12 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
     >
       <figure className={twclsx('flex items-center md:justify-end self-start md:w-1/2', 'mb-4 md:mb-0')}>
         <CustomImage
-          src={img.src}
+          src={IMAGE_SRC}
           alt={img.alt_title}
-          width={168}
-          height={168}
-          quality={100}
+          width={148}
+          height={148}
+          quality={80}
+          blurDataURL={img.src}
           display='intrinsic'
           objectFit='cover'
           className='rounded-full'

@@ -22,7 +22,7 @@ const CustomImage: React.FunctionComponent<CustomImageProps> = ({
         title={alt}
         loading='lazy'
         placeholder='blur'
-        blurDataURL='/blur.svg'
+        blurDataURL={props.blurDataURL ?? '/blur.svg'}
         {...props}
       />
     )
@@ -42,7 +42,7 @@ const CustomImage: React.FunctionComponent<CustomImageProps> = ({
       height={height}
       loading='lazy'
       placeholder='blur'
-      blurDataURL='/blur.svg'
+      blurDataURL={props.blurDataURL ?? '/blur.svg'}
       {...props}
     />
   )
