@@ -21,18 +21,14 @@ const App = ({ Component, pageProps, router }: AppProps) => {
   useEffect(() => {
     const SECRET = process.env.NEXT_PUBLIC_SECRET
     const isProd = process.env.NODE_ENV === 'production'
+    updateAmount(amount + 1)
 
-    // if the amount is more than or equal to 3, stop the rest of the code
-    if (amount >= 3) {
-      return
-    }
-    // will run only if the amount of switched page is less than or equal 3 times
-    ;(async () => {
+    // will run only if it's on production andthe amount of switched page is less than or equal 3 times
+    if (isProd && amount < 3) {
       // if it's on production on some condition fulfilled, run this HTTP request on component unmount
-      if (isProd) await umamiClient.get('/api/revalidate?secret=' + SECRET)
-    })()
+      ;(async () => await umamiClient.get('/api/revalidate?secret=' + SECRET))()
+    }
 
-    return () => updateAmount(amount + 1)
     // this useEffect will run everytime route change, except URL starts with /blog nor route /404
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
