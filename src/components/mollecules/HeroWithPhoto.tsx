@@ -29,13 +29,22 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
         'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
       )}
     >
-      <figure className={twclsx('flex items-center md:justify-end self-start md:w-1/2', 'mb-4 md:mb-0')}>
+      <figure
+        className={twclsx(
+          'w-[6rem] h-[6rem]',
+          'md:w-[10rem] md:h-[10rem]',
+          'relative',
+          'flex items-center self-start md:justify-end',
+          'mb-4 md:mb-0 md:ml-4'
+        )}
+      >
         <CustomImage
           src={IMAGE_SRC}
           alt={img.alt_title}
-          width={148}
-          height={148}
+          width={176}
+          height={176}
           quality={80}
+          placeholder='blur'
           blurDataURL={img.src}
           display='intrinsic'
           objectFit='cover'
