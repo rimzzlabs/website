@@ -2,7 +2,6 @@ import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
 import Timeline from '@/components/organism/Timeline'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
-import useMediaQuery from '@/hooks/useMediaQuery'
 import { timeline } from '@/libs/constants/timeline'
 import { getMetaData } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
@@ -10,15 +9,11 @@ import { twclsx } from '@/libs/twclsx'
 import { NextPage } from 'next'
 
 const About: NextPage = () => {
-  const mdscreen = useMediaQuery('(min-width: 768px)')
-
   const meta = getMetaData({
     title: 'About',
     description: `A computer science student, frontend developer and an adventurer of my own mind. I like to express my feelings through code, and a quite place would be nice to have around me.`,
     keywords: ['About Rizki Maulana Citra', 'About Rizki M Citra', 'About Rizkicitra', 'About Rizki Citra'],
-    og_image: `https://ik.imagekit.io/mlnzyx/attachment/tr:w-${mdscreen ? 144 : 112},h-${
-      mdscreen ? 144 : 112
-    }/profile-about.webp`,
+    og_image: `https://ik.imagekit.io/mlnzyx/attachment/tr:w-${168},h-${168}/profile-about.webp`,
     og_image_alt: 'Rizki Maulana Citra',
     slug: '/about',
     type: 'website'

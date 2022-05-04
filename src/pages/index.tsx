@@ -8,7 +8,6 @@ import { Blogs } from '@/data/blog/blog.type'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import { getBlog } from '@/helpers/getBlog'
 import getPortfolio from '@/helpers/getPortfolio'
-import useMediaQuery from '@/hooks/useMediaQuery'
 import { getMetaData } from '@/libs/metaData'
 import { getNewestBlog } from '@/libs/sortBlog'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
@@ -22,16 +21,12 @@ interface HomePageProps {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
-  const mdscreen = useMediaQuery('(min-width: 768px)')
-
   const meta = getMetaData({
     title: 'Rizki Maulana Citra',
     template: 'Student And Frontend Developer',
     description: `Personal Website, Online Portfolio And Blog, Built On Top Of NEXT.js, An Online Space For Rizki To Share His Knowledge And Experience.`,
     keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
-    og_image: `https://ik.imagekit.io/mlnzyx/tr:w-${mdscreen ? 144 : 112},h-${
-      mdscreen ? 144 : 112
-    }/attachment/profile.webp`,
+    og_image: `https://ik.imagekit.io/mlnzyx/tr:w-${168},h-${168}/attachment/profile.webp`,
     og_image_alt: 'Rizki Maulana Citra',
     slug: '/',
     type: 'website'

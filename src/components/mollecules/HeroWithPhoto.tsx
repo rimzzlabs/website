@@ -1,7 +1,6 @@
-import useMediaQuery from '@/hooks/useMediaQuery'
-import { twclsx } from '@/libs/twclsx'
+import CustomImage from '@/components/atoms/CustomImage'
 
-import CustomImage from '../atoms/CustomImage'
+import { twclsx } from '@/libs/twclsx'
 
 export interface HeroWithPhotoProps {
   title: string
@@ -21,7 +20,6 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
   img,
   children
 }) => {
-  const mdscreen = useMediaQuery('(min-width: 768px)')
   return (
     <div
       className={twclsx(
@@ -34,8 +32,9 @@ const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = ({
         <CustomImage
           src={img.src}
           alt={img.alt_title}
-          width={mdscreen ? 144 : 112}
-          height={mdscreen ? 144 : 112}
+          width={168}
+          height={168}
+          quality={100}
           display='intrinsic'
           objectFit='cover'
           className='rounded-full'
