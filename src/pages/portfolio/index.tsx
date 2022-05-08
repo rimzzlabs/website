@@ -19,7 +19,7 @@ interface ProjectPageProps {
 
 const meta = getMetaData({
   title: 'Portfolio',
-  description: `Ppersonal portfolio, proven that I've created something with my knowledge and experience, I will grow my skill and combine it with experience I have.`,
+  description: `Personal portfolio, proven that I've created something with my knowledge and experience, I will grow my skill and combine it with experience I have.`,
   keywords: [
     'Rizki Maulana Citra portfolio',
     'Rizki M Citra portfolio',
