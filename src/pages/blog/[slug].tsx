@@ -56,7 +56,6 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
   useEffect(() => {
     ;(async () => {
-      console.log('running')
       const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
       const views = response.data.data ?? 0
 
