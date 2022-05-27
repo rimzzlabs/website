@@ -76,7 +76,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
             <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
               {filteredData.map((b, id) => (
                 <Card key={b.title.slice(0, 7) + id}>
-                  <BlogCard {...b} />
+                  <BlogCard displayViews {...b} />
                 </Card>
               ))}
             </div>
