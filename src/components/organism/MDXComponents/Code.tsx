@@ -1,6 +1,6 @@
 import { twclsx } from '@/libs/twclsx'
 
-const Code: React.FunctionComponent = (props) => {
+const Code = (props: { children: React.ReactNode }) => {
   return (
     <code
       className={twclsx(

@@ -10,7 +10,7 @@ interface PreProps {
   className?: string
 }
 
-const Pre: React.FunctionComponent<PreProps> = ({ children, className }) => {
+const Pre = ({ children, className }: PreProps) => {
   const [isCopied, setIsCopied] = useState<boolean>(false)
   const preRef = useRef<HTMLPreElement>(null)
 

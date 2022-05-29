@@ -13,7 +13,7 @@ interface ContentImageProps extends ImageProps {
   title: string
 }
 
-const ContentImage: React.FunctionComponent<ContentImageProps> = ({ src, alt, ...props }) => {
+const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {

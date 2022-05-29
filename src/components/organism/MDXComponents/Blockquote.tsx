@@ -1,4 +1,4 @@
-const Blockquote: React.FunctionComponent = (props) => {
+const Blockquote = (props: { children: React.ReactNode }) => {
   return (
     <blockquote>
       {props.children}

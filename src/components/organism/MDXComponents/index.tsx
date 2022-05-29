@@ -5,6 +5,8 @@ import Code from './Code'
 import ContentImage from './ContentImage'
 import CustomPre from './Pre'
 
+import { MDXRemoteProps } from 'next-mdx-remote'
+
 const MDXComponents = {
   pre: CustomPre,
   img: ContentImage,
@@ -13,4 +15,4 @@ const MDXComponents = {
   a: UnderlineLink
 }
 
-export default MDXComponents
+export default MDXComponents as MDXRemoteProps['components']
