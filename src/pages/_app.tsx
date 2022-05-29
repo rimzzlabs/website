@@ -24,9 +24,15 @@ const App = ({ Component, pageProps, router }: AppProps) => {
     updateAmount(amount + 1)
 
     // will run only if it's on production andthe amount of switched page is less than or equal 3 times
-    if (isProd && amount < 3) {
+    if (isProd && amount < 1) {
       // if it's on production on some condition fulfilled, run this HTTP request on component unmount
-      ;(async () => await umamiClient.get('/api/revalidate?secret=' + SECRET))()
+      ;(async () => {
+        try {
+          await umamiClient.get('/api/revalidate?secret=' + SECRET)
+        } catch (error) {
+          console.info('revalidate error')
+        }
+      })()
     }
 
     // this useEffect will run everytime route change, except URL starts with /blog nor route /404
