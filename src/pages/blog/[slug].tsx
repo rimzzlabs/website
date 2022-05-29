@@ -153,8 +153,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
     props: {
       header: { est_read, ...res.header },
       mdxSource
-    },
-    revalidate: 60
+    }
   }
 }
 
