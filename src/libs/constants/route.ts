@@ -17,4 +17,11 @@ const APP_ROUTE = [
   }
 ]
 
+export const ADDT_ROUTE = [
+  {
+    path: '/certificate',
+    name: 'Certificate'
+  }
+]
+
 export default APP_ROUTE

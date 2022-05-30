@@ -1,6 +1,6 @@
 import UnstyledLink from '@/components/atoms/UnstyledLink'
 
-import APP_ROUTE from '@/libs/constants/route'
+import APP_ROUTE, { ADDT_ROUTE } from '@/libs/constants/route'
 import SOCIAL from '@/libs/constants/social'
 import { twclsx } from '@/libs/twclsx'
 
@@ -47,6 +47,14 @@ const Footer: React.FunctionComponent = () => {
               key={route.href}
             >
               {route.title}
+            </UnstyledLink>
+          ))}
+        </div>
+
+        <div className={twclsx('flex flex-col', 'w-full', 'space-y-4')}>
+          {ADDT_ROUTE.map((route) => (
+            <UnstyledLink title={route.name} className={twclsx(className)} href={route.path} key={route.path}>
+              {route.name}
             </UnstyledLink>
           ))}
         </div>

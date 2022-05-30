@@ -19,7 +19,7 @@ export interface SectionProps<DataProp> {
 
 const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionProps<DataProp>) => {
   return (
-    <section className={twclsx('py-10')}>
+    <section className={twclsx('content-auto', 'py-10')}>
       <h2>{title}</h2>
       <div className={twclsx('grid', 'gap-4 md:gap-5 my-6', 'flex-auto', gridCols)}>
         {data.length > 0 &&

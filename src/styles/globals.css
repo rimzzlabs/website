@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  div#skip-content {
-    content-visibility: auto;
-  }
   @font-face {
     font-family: 'Inter';
     font-style: normal;
@@ -52,5 +49,8 @@
   }
   .layout {
     @apply mx-auto w-[86%] max-w-2xl md:w-full;
+  }
+  .content-auto {
+    content-visibility: auto;
   }
 }
