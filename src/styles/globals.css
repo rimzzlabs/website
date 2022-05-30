@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  div#skip-content {
+    content-visibility: auto;
+  }
   @font-face {
     font-family: 'Inter';
     font-style: normal;
