@@ -81,7 +81,8 @@ const CertificatePage: NextPage = () => {
             prevSrc={ALBUMS[(currImage + ALBUMS.length - 1) % ALBUMS.length].src}
             nextSrc={ALBUMS[(currImage + 1) % ALBUMS.length].src}
             onCloseRequest={() => setIsOpen(false)}
-            imageTitle={ALBUMS[currImage].title}
+            imageTitle={isMatch && ALBUMS[currImage].title}
+            imageCaption={!isMatch && ALBUMS[currImage].title}
             imagePadding={isMatch ? 100 : 10}
             reactModalStyle={{
               maxWidth: '500px'
