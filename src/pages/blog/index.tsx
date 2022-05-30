@@ -8,12 +8,14 @@ import { Blogs } from '@/data/blog/blog.type'
 import { getBlog } from '@/helpers/getBlog'
 import { getPageViewsEach } from '@/helpers/getPageViewsEach'
 import useSearch from '@/hooks/useSearch'
+import { isProd } from '@/libs/constants/environmentState'
 import { getMetaData } from '@/libs/metaData'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
 
 // import umamiClient from '@/libs/umamiClient'
 import { GetStaticProps, NextPage } from 'next'
+import readingTime from 'reading-time'
 
 interface BlogPageProps {
   allBlogs: Array<Blogs>
@@ -40,7 +42,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
       <Searchbar onChange={handleChange} value={query} />
 
       {allBlogs.length > 0 && query.length === 0 ? (
-        <div className={twclsx('flex flex-col', 'gap-24')}>
+        <div className={twclsx('content-auto', 'flex flex-col', 'gap-24')}>
           <section>
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
@@ -56,7 +58,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
             </div>
           </section>
 
-          <section>
+          <section className={twclsx('content-auto')}>
             <h2 className={twclsx('mb-4')}>All Post</h2>
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
               {allBlogs.map((b) => (
@@ -70,7 +72,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
       ) : null}
 
       {query.length > 0 && (
-        <section>
+        <section className={twclsx('content-auto')}>
           <h2 className={twclsx('mb-4')}>Search Post</h2>
           {filteredData.length > 0 ? (
             <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
@@ -92,8 +94,17 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getBlog()
 
-  const allBlogs = (await getPageViewsEach(response)).sort(getNewestBlog)
+  if (isProd) {
+    const allBlogs = (await getPageViewsEach(response)).sort(getNewestBlog)
 
+    return {
+      props: {
+        allBlogs
+      }
+    }
+  }
+
+  const allBlogs = response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text }))
   return {
     props: {
       allBlogs

@@ -1,3 +1,4 @@
+import BackToTop from '@/components/atoms/BackToTop'
 import CustomImage from '@/components/atoms/CustomImage'
 import EditButton from '@/components/mollecules/EditButton'
 import MDXComponents from '@/components/organism/MDXComponents'
@@ -6,6 +7,7 @@ import Layout from '@/components/templates/Layout'
 
 import { Blogs } from '@/data/blog/blog.type'
 import { getBlog, getBlogBySlug } from '@/helpers/getBlog'
+import { isProd } from '@/libs/constants/environmentState'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
@@ -15,14 +17,11 @@ import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
-import dynamic from 'next/dynamic'
 import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 import readingTime from 'reading-time'
 import rehypeSlug from 'rehype-slug'
-
-const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
 interface BlogPostProps {
   mdxSource: MDXRemoteSerializeResult
@@ -56,12 +55,16 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
   useEffect(() => {
     ;(async () => {
-      try {
-        const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
+      if (isProd) {
+        try {
+          const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
 
-        setPostViews(response.data.data ?? 0)
-      } catch (error) {
-        console.info('Could not retrieve page views')
+          setPostViews(response.data.data ?? 0)
+        } catch (error) {
+          console.info('Could not retrieve page views')
+        }
+      } else {
+        setPostViews(0)
       }
     })()
   }, [header.slug])
@@ -69,7 +72,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   return (
     <Layout {...(metaData as LayoutProps)}>
       <BackToTop />
-      <article className={twclsx('flex flex-col', 'gap-8')}>
+      <article className={twclsx('content-auto', 'flex flex-col', 'gap-8')}>
         <section className={twclsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
           <h1 className={twclsx('max-w-prose', 'text-3xl md:text-5xl')}>{header.title}</h1>
           <p className={twclsx('mt-4 md:mt-8', 'mb-8')}>{header.summary}</p>
