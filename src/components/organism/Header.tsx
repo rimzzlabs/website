@@ -26,7 +26,17 @@ const Header = () => {
         scrollPos > 68 ? 'border-theme-300 dark:border-theme-700' : 'border-transparent'
       )}
     >
-      <div className={twclsx('h-2 w-full', 'bg-gradient-to-r', 'from-primary-500 to-ternary-500')} />
+      <div
+        className={twclsx(
+          'relative',
+          'h-2 w-full',
+          'bg-gradient-to-r',
+          'from-primary-500 to-ternary-500',
+          'before:absolute before:inset-0 before:bg-gradient-to-r',
+          'before:from-fuchsia-500 before:to-violet-500',
+          'before:animate-pulse'
+        )}
+      />
 
       <div className={twclsx('layout h-full pb-2', 'flex items-center justify-between')}>
         {mdscreen && <Nav />}
