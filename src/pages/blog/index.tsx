@@ -42,7 +42,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
       <Searchbar onChange={handleChange} value={query} />
 
       {allBlogs.length > 0 && query.length === 0 ? (
-        <div className={twclsx('content-auto', 'flex flex-col', 'gap-24')}>
+        <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
@@ -58,7 +58,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
             </div>
           </section>
 
-          <section className={twclsx('content-auto')}>
+          <section>
             <h2 className={twclsx('mb-4')}>All Post</h2>
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
               {allBlogs.map((b) => (
