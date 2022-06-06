@@ -8,11 +8,13 @@ import { HiMoon, HiSun } from 'react-icons/hi'
 const DarkMode: React.FunctionComponent = () => {
   const { theme, mounted, changeTheme } = useTheme()
 
+  const BUTTON_TTLE = `Switch To ${theme === 'light' ? 'dark' : 'light'} mode`
+
   if (!mounted) return null
 
   return (
     <Button
-      title='change theme'
+      title={BUTTON_TTLE}
       className={twclsx('accessible relative', 'h-10 w-10 text-lg', 'rounded-lg', 'bg-primary-100 dark:bg-theme-800')}
       onClick={changeTheme}
     >

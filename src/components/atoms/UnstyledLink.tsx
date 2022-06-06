@@ -1,10 +1,10 @@
 import { twclsx } from '@/libs/twclsx'
 
 import NextLink, { LinkProps } from 'next/link'
+import { createElement } from 'react'
 
 export interface UnstyledLinkProps extends LinkProps {
   href: string
-  onClick?: () => void
   title?: string
   className?: string
   children?: React.ReactNode
@@ -12,18 +12,7 @@ export interface UnstyledLinkProps extends LinkProps {
 
 const UnstyledLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, children, ...props }) => {
   if (href.startsWith('http')) {
-    return (
-      <a
-        className={twclsx(props.className)}
-        href={href}
-        rel='noopener noreferrer'
-        target='_blank'
-        title={props.title}
-        {...props}
-      >
-        {children}
-      </a>
-    )
+    return createElement('a', { href, rel: 'noopener noreferrer', target: '_blank', ...props }, children)
   }
 
   return (

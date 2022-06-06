@@ -32,17 +32,17 @@ const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
     <>
       <CustomImage
         display='intrinsic'
-        onClick={() => setIsOpen(true)}
+        onClick={() => !props.title.startsWith('nl') && setIsOpen(true)}
         src={src}
         alt={alt}
         width={768}
         height={468}
         objectFit='cover'
-        className={twclsx('rounded-lg', 'cursor-pointer')}
+        className={twclsx('rounded-lg', !props.title.startsWith('nl') && 'cursor-pointer')}
         {...props}
       />
 
-      {isOpen && (
+      {isOpen && !props.title.startsWith('nl') ? (
         <Lightbox
           mainSrc={src}
           onCloseRequest={() => setIsOpen(false)}
@@ -50,7 +50,7 @@ const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
             maxWidth: '500px'
           }}
         />
-      )}
+      ) : null}
     </>
   )
 }
