@@ -39,7 +39,7 @@ const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
         width={768}
         height={468}
         objectFit='cover'
-        className={twclsx('rounded-lg', !props.title.startsWith('nl') && 'cursor-pointer')}
+        className={twclsx('rounded-lg', !title.startsWith('nl') && 'cursor-pointer')}
         {...props}
       />
 
