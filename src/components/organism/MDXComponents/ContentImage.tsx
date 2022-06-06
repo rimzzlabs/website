@@ -15,6 +15,7 @@ interface ContentImageProps extends ImageProps {
 
 const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
   const [isOpen, setIsOpen] = useState(false)
+  const title = props.title ?? 'an image of' + alt
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -32,7 +33,7 @@ const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
     <>
       <CustomImage
         display='intrinsic'
-        onClick={() => !props.title.startsWith('nl') && setIsOpen(true)}
+        onClick={() => !title.startsWith('nl') && setIsOpen(true)}
         src={src}
         alt={alt}
         width={768}
