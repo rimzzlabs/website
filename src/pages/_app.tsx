@@ -28,7 +28,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
         }
       })()
     }
-  }, [router.asPath])
+  }, [])
 
   return (
     <ThemeProvider attribute='class' storageKey='theme' enableSystem>
