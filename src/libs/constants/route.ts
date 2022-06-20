@@ -21,6 +21,10 @@ export const ADDT_ROUTE = [
   {
     path: '/certificate',
     name: 'Certificate'
+  },
+  {
+    path: '/tags',
+    name: 'Tags'
   }
 ]
 
