@@ -3,6 +3,7 @@ import CustomImage from '@/components/atoms/CustomImage'
 import EditButton from '@/components/mollecules/EditButton'
 import MDXComponents from '@/components/organism/MDXComponents'
 import ContentImage from '@/components/organism/MDXComponents/ContentImage'
+import GiscusComment from '@/components/templates/GiscusComment'
 import Layout from '@/components/templates/Layout'
 
 import { Blogs } from '@/data/blog/blog.type'
@@ -128,6 +129,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
       </article>
 
       <EditButton path={`/blog/${header.slug}.mdx`} />
+
+      <GiscusComment />
     </Layout>
   )
 }
