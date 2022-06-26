@@ -33,7 +33,7 @@ const Header = () => {
           'bg-gradient-to-r',
           'from-primary-500 to-ternary-500',
           'before:absolute before:inset-0 before:bg-gradient-to-r',
-          'before:from-fuchsia-500 before:to-violet-500',
+          'before:from-primary-500 before:to-violet-500',
           'before:animate-pulse'
         )}
       />
