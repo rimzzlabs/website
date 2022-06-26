@@ -84,7 +84,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
               'py-2 px-4 rounded',
               !selectedTags.includes(t) && 'motion-safe:active:scale-95 motion-safe:hover:scale-110',
               !selectedTags.includes(t) && selectedTags.length > 0
-                ? 'bg-indigo-50/40 text-theme-900/75 dark:bg-theme-800/40 dark:text-white/75'
+                ? 'bg-theme-500 text-white dark:bg-theme-200 dark:text-theme-900'
                 : getClassName(t)
             )}
             key={t}
@@ -96,7 +96,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
 
       {selectedTags.length > 0 ? (
         <section>
-          <h2 className={twclsx('mb-4')}>Based on selected tags</h2>
+          <h2 className={twclsx('mb-4')}>Showing selected tags</h2>
           <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
             {blogs
               .filter((b) => selectedTags.map((t) => b.topics.includes(t)).includes(true))
@@ -107,18 +107,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
               ))}
           </div>
         </section>
-      ) : (
-        <section>
-          <h2 className={twclsx('mb-4')}>Blogs</h2>
-          <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-            {blogs.map((b) => (
-              <Card key={b.slug}>
-                <BlogCard {...b} />
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
+      ) : null}
     </Layout>
   )
 }
