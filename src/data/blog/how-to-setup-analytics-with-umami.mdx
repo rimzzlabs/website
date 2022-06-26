@@ -51,11 +51,11 @@ So let's just jump right into it!.
 
 Lets create an account on [Supabase](https://supabase.com 'Supabase official website'), and then initialize a **New Project**.
 
-![Supabase Project](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-1.png)
+![Supabase Project](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-1.png 'Supabase Project')
 
 Supabase will asks for some information, we need to fill in the fields, and then click **Create New Project**.
 
-![Supabase form field](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-2.png)
+![Supabase form field](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-2.png 'Supabase form field')
 
 We will only use the database tool, so we need to focus more on it.
 
@@ -65,13 +65,13 @@ We will only use the database tool, so we need to focus more on it.
 
 We need to configure the database schema on the supabase project.
 
-![sql editor](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-3.png)
+![sql editor](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-3.png "Supabase's SQL Editor")
 
 On the project dashboard, there is a tool that helps us create a new query on the database, let's go ahead to the sidebar menu, and select **SQL Editor**.
 
 Let's copy and paste [this code](https://github.com/mikecao/umami/blob/master/sql/schema.postgresql.sql 'PostgreSQL Schema') on the query field, and then **click run** to run query.
 
-![Postgres Query](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-4.png)
+![Postgres Query](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-4.png 'Postgres Query')
 
 The query simply create tables and wire up our database schema.
 
@@ -89,7 +89,7 @@ But first, we need the **Postgres Connection String**, let's go back to our supa
 
 Scroll down and search for **Connection string**, there would be a string that contains the database connection url.
 
-![Postgre connection string](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-5.png)
+![Postgre connection string](https://ik.imagekit.io/mlnzyx/setup-umami/supabase-5.png 'Pg connection string')
 
 As we are using vercel to deploy our Umami app, we need to use the **URI** connection, the URI string should be like this:
 
@@ -108,11 +108,11 @@ From the dashboard, there is a **New Project** button to create a new project, c
 
 Before we click the **Deploy** button, we need to configure the **Environment Variable**, expand the **Environment Variables** section.
 
-![DATABASE_URL](https://ik.imagekit.io/mlnzyx/setup-umami/vercel-1.png)
+![DATABASE_URL](https://ik.imagekit.io/mlnzyx/setup-umami/vercel-1.png 'Supabase DB URL')
 
 The first **Environment Variable** is `DATABASE_URL`, we need to fill in the **value** field with the **URI** string we just copied from our supabase project.
 
-![HASH_SALT](https://ik.imagekit.io/mlnzyx/setup-umami/vercel-2.png)
+![HASH_SALT](https://ik.imagekit.io/mlnzyx/setup-umami/vercel-2.png 'Hash Salt')
 
 The second **Environment Variable** is `HASH_SALT`, it's just a random string, we can use [this website](https://genapass.vercel.app/ 'genpass') to generate random string, and then paste it to the **value** field.
 
@@ -120,7 +120,7 @@ Everything is ready, click **Deploy** button to deploy the Umami app.
 
 ### Change Umami Password
 
-![Umami login page](https://ik.imagekit.io/mlnzyx/setup-umami/umami-1.png)
+![Umami login page](https://ik.imagekit.io/mlnzyx/setup-umami/umami-1.png 'Umami Login Page')
 
 The app was deployed, we can visit the app now, the domain usually would act as subdomain of vercels' domain with our repository name, followed with `vercel.app`, e.g: `https://repo-name.vercel.app`.
 
@@ -131,7 +131,7 @@ username: 'admin'
 password: 'umami'
 ```
 
-![Change umami password](https://ik.imagekit.io/mlnzyx/setup-umami/umami-2.png)
+![Change umami password](https://ik.imagekit.io/mlnzyx/setup-umami/umami-2.png 'Umami change password page')
 
 Login to the umami app, and then click **Settings** -> **Profile**, there are a buton on top-right of the tab, click **change password** button.
 
@@ -141,7 +141,7 @@ This is not finished yet, the last step is to link the Umami app to our website,
 
 We need to go to **settings** -> **websites** and add our website that we want to track, there will be a modal form asking for the **websites' name** and the **websites' domain**.
 
-![Create website](https://ik.imagekit.io/mlnzyx/setup-umami/umami-3.png)
+![Create website](https://ik.imagekit.io/mlnzyx/setup-umami/umami-3.png 'Umami target website to be tracked later')
 
 The name fields are the name of our website, we can name it whatever we want, fill in the domain field with your website' domain that you want to monitor, e.g: `rizkicitra.dev`, and click **save**.
 
