@@ -26,7 +26,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
     template: 'Student And Frontend Developer',
     description: `Personal Website, Online Portfolio And Blog, Built On Top Of NEXT.js, An Online Space For Rizki To Share His Knowledge And Experience.`,
     keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
-    og_image: `https://ik.imagekit.io/mlnzyx/tr:w-${712},h-${712},tr:bl-10,f-auto/attachment/profile.webp`,
+    og_image: `https://ik.imagekit.io/mlnzyx/tr:w-${712},h-${712},tr:bl-10,f-auto/attachment/profile.webp?updatedAt=1657210611675`,
     og_image_alt: 'Rizki Maulana Citra',
     slug: '/',
     type: 'website'
