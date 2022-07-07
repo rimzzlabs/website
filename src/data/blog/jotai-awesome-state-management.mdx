@@ -46,7 +46,7 @@ But the problem here is that when my app is getting bigger, I need to pass the s
 
 But React context is not an _awesome_ solution for me, I need to wrap my components inside it's provider, which you may already know about **Provider Hell**, React context also make a re-render to my component everytime a state has changed.
 
-Jotai on the other side is like a useState, I doesn't need to wrap my app with Provider, and it is also using atomic appproach, which is I've been using this approach lately _(components, style, services, etc.)_.
+Jotai on the other side is like a useState, I don't need to wrap my app with Provider, and it is also using atomic appproach, which is I've been using this approach lately _(components, style, services, etc.)_.
 
 ### Declaring State in Store file
 
@@ -76,7 +76,7 @@ import { useAtom } from 'jotai'
 const [user, setUser] = useAtom(userAtom)
 ```
 
-The user variable is containing user's data, otherwise `null` if there is no user logged in, so what's the `setUser` do?. Well setUser is just like `setState` in React, it's a function to modify it' state.
+The user variable is containing user's data, otherwise `null` if there is no user logged in, so what's the `setUser` do?. Well setUser is just like `setState` in React, it's a function to modify it's state.
 
 Just like React setState, setUser can accept a function or a new state. I can replace the state with a new state, like this.
 
@@ -110,9 +110,9 @@ See? it's just like a regular useState, and also I can use the User state in ano
 
 ### Persistent State
 
-Sometimes when I refreshed my browser, my app's state is also got refreshed, but I want to keep my state, the solution here is Persistent state.
+Sometimes when I refreshed my browser, my app's state is also got refreshed, but I want to keep my state, the solution here is persistent state.
 
-Jotai comes with battery-packed utilities, for example `atomWithStorage` not only holds my state but also saved my state on localStorage, this is a called a presisten state because I can save my state on localStorage, when I modify my state, it will also update my state on the localStorage.
+Jotai comes with battery-packed utilities, for example `atomWithStorage` not only holds my state but also saved my state on localStorage, this is called a persistent state because I can save my state on localStorage, when I modify my state, it will also update my state on the localStorage.
 
 This is very useful for a state that need to be hold on localStorage like **Theme**.
 
