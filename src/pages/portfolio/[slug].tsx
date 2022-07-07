@@ -55,10 +55,12 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
               <span className={twclsx('text-sm md:text-base')}>Repository</span>
             </UnderlineLink>
 
-            <UnderlineLink href={header.link.live} className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'>
-              <HiGlobeAlt className={twclsx('text-lg md:text-xl', 'text-theme-800 dark:text-theme-200')} />
-              <span className={twclsx('text-sm md:text-base')}>Live Demo</span>
-            </UnderlineLink>
+            {header.link.live !== null &&
+              <UnderlineLink href={header.link.live} className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'>
+                <HiGlobeAlt className={twclsx('text-lg md:text-xl', 'text-theme-800 dark:text-theme-200')} />
+                <span className={twclsx('text-sm md:text-base')}>Live Demo</span>
+              </UnderlineLink>
+            }
           </div>
         </section>
 
