@@ -10,9 +10,9 @@ import { MDXRemoteProps } from 'next-mdx-remote'
 const MDXComponents = {
   pre: CustomPre,
   img: ContentImage,
-  inlineCode: Code,
+  code: Code,
   blockquote: Blockquote,
   a: UnderlineLink
-}
+} as MDXRemoteProps['components']
 
-export default MDXComponents as MDXRemoteProps['components']
+export default MDXComponents

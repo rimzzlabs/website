@@ -22,7 +22,6 @@ import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 import readingTime from 'reading-time'
-import rehypeSlug from 'rehype-slug'
 
 interface BlogPostProps {
   mdxSource: MDXRemoteSerializeResult
@@ -155,7 +154,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
   const est_read = readingTime(res.content).text
 
   const mdxSource = await serialize(res.content, {
-    mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
+    mdxOptions: { rehypePlugins: [mdxPrism] }
   })
 
   return {
