@@ -25,7 +25,7 @@ const NotFoundPage: NextPage = () => {
       <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen', '-mt-36')}>
         <CustomImage
           display='intrinsic'
-          src='/static/404.webp'
+          src='/static/404.svg'
           alt='illustration'
           objectFit='contain'
           quality={60}
