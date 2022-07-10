@@ -5,11 +5,11 @@ const Code = (props: { children: React.ReactNode }) => {
     <code
       className={twclsx(
         'py-1 px-1.5 font-normal rounded border',
-        'bg-transparent text-theme-700 dark:text-theme-200',
+        'bg-transparent',
         'border-theme-300 dark:border-theme-700'
       )}
     >
-      <span>{props.children}</span>
+      {props.children}
     </code>
   )
 }
