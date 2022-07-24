@@ -14,7 +14,7 @@ const Searchbar: React.FunctionComponent<SearchbarProps> = ({ onChange, value })
       className={twclsx(
         'w-full my-8 md:my-16 transition-all',
         'bg-transparent border border-theme-900',
-        'dark:border-transparent dark:bg-theme-800 placeholder:dark:text-theme-200',
+        'dark:border-transparent dark:bg-theme-800',
         'focus-within:ring-1 ring-theme-900 dark:ring-primary-400'
       )}
     >
@@ -28,7 +28,7 @@ const Searchbar: React.FunctionComponent<SearchbarProps> = ({ onChange, value })
           className={twclsx(
             'w-full h-12 text-sm md:text-base',
             'bg-transparent outline-none caret-black dark:caret-primary-400',
-            'placeholder:text-theme-800'
+            'placeholder:text-theme-800 placeholder:dark:text-theme-200'
           )}
         />
       </div>
