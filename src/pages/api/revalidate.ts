@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    await res.unstable_revalidate('/blog')
+    await res.revalidate('/blog')
     return res.json({ revalidate: true })
   } catch (err) {
     // If there was an error, Next.js will continue
