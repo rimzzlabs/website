@@ -34,7 +34,7 @@ const IconFinder: React.FunctionComponent<IconFinderProps> = ({ type, className 
       return <SiNextdotjs className={twclsx('text-theme-800 dark:text-theme-200', className)} />
 
     case 'vite':
-      return <SiVite className={twclsx('text-fuchsia-500', className)} />
+      return <SiVite className={twclsx('text-yellow-500', className)} />
 
     case 'redux':
       return <SiRedux className={twclsx('text-violet-500', className)} />
