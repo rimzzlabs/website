@@ -6,7 +6,7 @@ interface LabelProps {
 }
 
 const Label: React.FunctionComponent<LabelProps> = (props) => {
-  const baseClass = 'inline-flex items-center justify-center py-1 px-1.5 rounded text-xs md:text-sm'
+  const baseClass = 'inline-flex items-center justify-center py-1 px-1.5 rounded text-xs md:text-sm font-medium'
   const type = props.type.toLowerCase()
   switch (type) {
     case 'devlife':
@@ -68,6 +68,18 @@ const Label: React.FunctionComponent<LabelProps> = (props) => {
     case 'state management':
       return (
         <div className={twclsx(baseClass, 'text-rose-700 bg-rose-100 dark:text-rose-50 dark:bg-rose-800')}>
+          {props.type}
+        </div>
+      )
+    case 'baas':
+      return (
+        <div className={twclsx(baseClass, 'bg-purple-100 text-purple-700 dark:bg-purple-500 dark:text-purple-50')}>
+          {props.type}
+        </div>
+      )
+    case 'supabase':
+      return (
+        <div className={twclsx(baseClass, 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500 dark:text-black')}>
           {props.type}
         </div>
       )
