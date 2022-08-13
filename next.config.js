@@ -19,5 +19,9 @@
 module.exports = {
   images: {
     domains: ['ik.imagekit.io', 'og-image.vercel.app', 'media3.giphy.com', 'media0.giphy.com']
-  }
+  },
+  compiler: {
+    removeConsole: true
+  },
+  swcMinify: true
 }
