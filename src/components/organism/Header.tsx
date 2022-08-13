@@ -13,7 +13,7 @@ const Header = () => {
   const scrollPos = useWindowScroll()
   const mdscreen = useMediaQuery('(min-width: 768px)')
 
-  const isError = pathname === '/_error' || pathname === '/404'
+  const isError = pathname === '/_error' || pathname === '/404' || pathname === '/resume'
 
   if (isError) return null
 
