@@ -30,6 +30,9 @@
   h4 {
     @apply text-lg font-bold text-theme-800 dark:text-theme-100 md:text-xl;
   }
+  h5 {
+    @apply font-bold text-theme-800 dark:text-theme-100 md:text-lg;
+  }
 
   body {
     @apply bg-theme-50 font-primary text-theme-700 antialiased dark:bg-theme-900 dark:text-theme-200;
