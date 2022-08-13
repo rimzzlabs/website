@@ -25,6 +25,10 @@ export const ADDT_ROUTE = [
   {
     path: '/tags',
     name: 'Tags'
+  },
+  {
+    path: '/resume',
+    name: 'Resume'
   }
 ]
 
