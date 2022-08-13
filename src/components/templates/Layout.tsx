@@ -5,9 +5,10 @@ import { twclsx } from '@/libs/twclsx'
 
 import { NextPage } from 'next'
 
-export interface LayoutProps extends CustomSeoProps {
+export type LayoutProps = {
   className?: string
-}
+  children: React.ReactNode
+} & CustomSeoProps
 
 const Layout: NextPage<LayoutProps> = ({ children, ...props }) => {
   return (
