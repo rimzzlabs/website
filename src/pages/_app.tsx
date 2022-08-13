@@ -43,7 +43,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
             initial='hidden'
             animate='visible'
             exit='exit'
-            className='layout'
+            className={router.pathname !== '/resume' ? 'layout' : 'max-w-3xl w-11/12 mx-auto'}
           >
             <Component {...pageProps} />
           </m.div>
