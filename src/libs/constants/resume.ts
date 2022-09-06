@@ -85,7 +85,7 @@ export const EDUCATION: Education = [
       start: 'September, 2021',
       end: 'Present'
     },
-    paragraphs: ['Semester 3 of Informatis Management Student.', 'Current GPA: 3.14.']
+    paragraphs: ['Semester 3 of Informatics Management Student.', 'Current GPA: 3.50.']
   },
   {
     school: 'Vocational High School of 8 Pandeglang',
