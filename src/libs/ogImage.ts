@@ -13,7 +13,7 @@ export const generateOgImage = (payload: generateOgImagePayload) => {
   return (
     'https://og-image.vercel.app/' +
     '**' +
-    (payload.title.replaceAll(' ', '%20') ?? '') +
+    (payload.title?.replaceAll(' ', '%20') ?? '') +
     '**' +
     '%3Cbr%2F%3E' +
     (payload.subTitle?.replaceAll(' ', '%20') ?? '') +
