@@ -63,8 +63,6 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         } catch (error) {
           console.info('Could not retrieve page views')
         }
-      } else {
-        setPostViews(0)
       }
     })()
   }, [header.slug])
