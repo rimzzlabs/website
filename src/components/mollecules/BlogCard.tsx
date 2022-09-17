@@ -4,6 +4,8 @@ import UnstyledLink from '@/components/atoms/UnstyledLink'
 import { Blogs } from '@/data/blog/blog.type'
 import { twclsx } from '@/libs/twclsx'
 
+import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
+
 interface BlogCardProps extends Blogs {
   displayViews?: boolean
 }
@@ -21,8 +23,16 @@ const BlogCard: React.FunctionComponent<BlogCardProps> = ({ title, topics, ...pr
           </div>
         )}
         <div className={twclsx('flex flex-col', 'gap-2', 'text-sm')}>
-          {props.displayViews && props.views ? <span>{props.views} views</span> : null}
-          <span>{props.est_read}</span>
+          {props.displayViews && props.views ? (
+            <p className='inline-flex items-center gap-2.5'>
+              <HiOutlineEye />
+              <span>{props.views} views</span>
+            </p>
+          ) : null}
+          <p className='inline-flex items-center gap-2.5'>
+            <HiOutlineClock />
+            <span>{props.est_read?.replace('read', '')}</span>
+          </p>
         </div>
       </div>
 
