@@ -12,6 +12,7 @@ const withPWA = require('next-pwa')({
   ],
   exclude: [
     /middleware-manifest.json$/,
+    /build-manifest.json$/,
     /\.map$/, // dont cache map files
     /^.*ts.*$/ // Dont let serviceworker touch the TS streams
   ],
