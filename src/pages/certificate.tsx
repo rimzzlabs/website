@@ -5,6 +5,7 @@ import Layout from '@/components/templates/Layout'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import ALBUMS from '@/libs/constants/certificate'
 import { getMetaData } from '@/libs/metaData'
+import { generateOgImage } from '@/libs/ogImage'
 import { twclsx } from '@/libs/twclsx'
 
 import { NextPage } from 'next'
@@ -16,9 +17,12 @@ const meta = getMetaData({
   description:
     "A collection of certificates I've earned, most of them are from finishing a course, you might want to take a look, click the certificate to zoom in.",
   keywords: ['certificate', 'certificates', 'rizkicitra.dev'],
-  og_image:
-    "https://og-image.vercel.app/**Certificate%20%E2%80%94%20Rizki%20M%20Citra**%3Cbr%20%2F%3EA%20collection%20of%20certificates%20I've%20earned.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-bw-logo.svg",
-  og_image_alt: 'Certificate — Rizki M Citra',
+  og_image: generateOgImage({
+    title: 'Certificate',
+    subTitle: "A collection of certificate I've earned",
+    theme: 'dark'
+  }),
+  og_image_alt: 'Certificate — rizkicitra.dev',
   slug: '/certificate',
   type: 'website'
 })

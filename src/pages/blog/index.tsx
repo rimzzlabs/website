@@ -10,6 +10,7 @@ import { getPageViewsEach } from '@/helpers/getPageViewsEach'
 import useSearch from '@/hooks/useSearch'
 import { isProd } from '@/libs/constants/environmentState'
 import { getMetaData } from '@/libs/metaData'
+import { generateOgImage } from '@/libs/ogImage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
 
@@ -23,11 +24,13 @@ interface BlogPageProps {
 
 const meta = getMetaData({
   title: 'Blog',
-  description: `I write blog once in a while, talks about React, CSS and Web Development related topics, I like to share my knowledge and experience throught writing blog.`,
+  description: `I write blog once in a while, talks about Web Development related topics and my personal experience, I like to share my thought this way.`,
   keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
-  og_image:
-    'https://og-image.vercel.app/**Blog%20%E2%80%94%20Rizki%20M%20Citra**%3Cbr%20%2F%3ETalks%20about%20Frontend%20Development%20Related%20Topics.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-bw-logo.svg',
-  og_image_alt: 'Blog — Rizki M Citra',
+  og_image: generateOgImage({
+    title: 'Blog - rizkicitra.dev',
+    subTitle: 'Any thought I think interesting to tell on my personal site'
+  }),
+  og_image_alt: 'Blog — rizkicitra.dev',
   slug: '/blog',
   type: 'website'
 })

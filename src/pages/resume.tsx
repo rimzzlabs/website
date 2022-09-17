@@ -7,6 +7,7 @@ import PopupResume from '@/components/organism/PopupResume'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { EDUCATION, EXPERIENCE, HEADLINE, LINKS, SKILLS } from '@/libs/constants/resume'
 import { getMetaData } from '@/libs/metaData'
+import { generateOgImage } from '@/libs/ogImage'
 
 import htmr from 'htmr'
 import { NextPage } from 'next'
@@ -18,9 +19,8 @@ const meta = getMetaData({
   description:
     "Personal resume that I build on the web, as a Frontend Dev, I use my creativity to build my personal resume on the web instead on a regular 'paper'.",
   keywords: ['rizki maulana citra', 'resume', 'curriculum vitae', 'rizki citra cv', 'rizki m citra resume'],
-  og_image:
-    'https://og-image.vercel.app/**Resume**%20-%20rizkicitra.dev%3Cbr%2F%3ETake%20a%20look%20at%20my%20resume..png?theme=light&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-color-logo.svg',
-  og_image_alt: 'Resume — Rizki M Citra',
+  og_image: generateOgImage({ title: 'Resume - rizkicitra.dev', subTitle: 'Take a look at my resume' }),
+  og_image_alt: 'Resume — rizkicitra.dev',
   slug: '/resume',
   type: 'website'
 })

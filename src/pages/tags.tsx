@@ -8,6 +8,7 @@ import { Blogs } from '@/data/blog/blog.type'
 import { getBlog } from '@/helpers/getBlog'
 import useTags from '@/hooks/useTags'
 import { getMetaData } from '@/libs/metaData'
+import { generateOgImage } from '@/libs/ogImage'
 import { getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
 
@@ -44,9 +45,8 @@ const meta = getMetaData({
   title: 'Tags',
   description: 'Look for a specific blog post based on tag.',
   keywords: ['Tags', 'tag', 'tags', 'rizkicitra.dev'],
-  og_image:
-    'https://og-image.vercel.app/**Tags%20%E2%80%94%20Rizki%20M%20Citra**%3Cbr%20%2F%3ELook%20for%20a%20specific%20blog%20post%20based%20on%20tag.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-bw-logo.svg',
-  og_image_alt: 'Certificate — Rizki M Citra',
+  og_image: generateOgImage({ title: 'Tags', subTitle: 'Look for a specific blog post based on tag.', theme: 'dark' }),
+  og_image_alt: 'Certificate — rizkicitra.dev',
   slug: '/tags',
   type: 'website'
 })

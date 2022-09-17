@@ -8,6 +8,7 @@ import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import getPortfolio from '@/helpers/getPortfolio'
 import useSearch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
+import { generateOgImage } from '@/libs/ogImage'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
 import { twclsx } from '@/libs/twclsx'
 
@@ -19,7 +20,7 @@ interface ProjectPageProps {
 
 const meta = getMetaData({
   title: 'Portfolio',
-  description: `Personal portfolio, proven that I've created something with my knowledge and experience, I will grow my skill and combine it with experience I have.`,
+  description: `Personal portfolio, proven that I've created something with my current knowledge and experience.`,
   keywords: [
     'Rizki Maulana Citra portfolio',
     'Rizki M Citra portfolio',
@@ -27,8 +28,8 @@ const meta = getMetaData({
     'Rizki Citra portfolio',
     'rizkicitra.dev'
   ],
-  og_image: `https://og-image.vercel.app/**Portfolio%20%E2%80%94%20Rizki%20M%20Citra**%3Cbr%20%20%2F%3EProof%20Of%20Work.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-bw-logo.svg`,
-  og_image_alt: 'Portfolio — Rizki M Citra',
+  og_image: generateOgImage({ title: 'Portfolio - rizkicitra.dev', subTitle: 'Take a look at my personal portfolio' }),
+  og_image_alt: 'Portfolio — rizkicitra.dev',
   slug: '/portfolio',
   type: 'website'
 })

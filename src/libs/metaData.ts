@@ -3,6 +3,7 @@ import { CustomSeoProps } from '@/components/atoms/Seo'
 import { Blogs } from '@/data/blog/blog.type'
 
 import { dateStringToISO } from './dateFormat'
+import { generateOgImage } from './ogImage'
 
 interface MetaData extends CustomSeoProps {
   title: string
@@ -58,7 +59,7 @@ export const getMetaDataBlog = (data: Blogs): CustomSeoProps => ({
     images: [
       {
         // TODDO: update your default thumbnail at public/static/
-        url: `https://og-image.vercel.app/**${data.title}**.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-bw-logo.svg`,
+        url: generateOgImage({ title: data.title, theme: 'dark' }),
         alt: data.title,
         width: 1200,
         height: 600
