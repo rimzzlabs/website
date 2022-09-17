@@ -1,6 +1,5 @@
-import Card from '@/components/atoms/Card'
 import Hero from '@/components/mollecules/Hero'
-import ProjectCard from '@/components/mollecules/ProjectCard'
+import { Loading } from '@/components/mollecules/Loading'
 import Searchbar from '@/components/mollecules/Searchbar'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
@@ -13,6 +12,11 @@ import { getNewestPortfolio } from '@/libs/sortPortfolio'
 import { twclsx } from '@/libs/twclsx'
 
 import { GetStaticProps, NextPage } from 'next'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+
+const ProjectCard = dynamic(() => import('@/components/mollecules/ProjectCard'), { suspense: true })
+const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
 
 interface ProjectPageProps {
   projects: Array<PortfolioHeadProps>
@@ -47,13 +51,15 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
           <section>
             <h2 className={twclsx('mb-4')}>Personal Portfolio</h2>
 
-            <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-              {projects.map((p) => (
-                <Card key={p.title}>
-                  <ProjectCard {...p} />
-                </Card>
-              ))}
-            </div>
+            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+              <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
+                {projects.map((p) => (
+                  <Card key={p.title}>
+                    <ProjectCard {...p} />
+                  </Card>
+                ))}
+              </div>
+            </Suspense>
           </section>
         ) : null}
 
@@ -61,13 +67,15 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
           <section>
             <h2 className={twclsx('mb-4')}>Search Portfolio</h2>
             {filteredData.length > 0 ? (
-              <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-                {filteredData.map((p) => (
-                  <Card key={p.title}>
-                    <ProjectCard {...p} />
-                  </Card>
-                ))}
-              </div>
+              <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+                <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
+                  {filteredData.map((p) => (
+                    <Card key={p.title}>
+                      <ProjectCard {...p} />
+                    </Card>
+                  ))}
+                </div>
+              </Suspense>
             ) : (
               <p>No portfolio found, try a lil different?</p>
             )}

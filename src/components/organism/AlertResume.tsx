@@ -12,12 +12,13 @@ type AlertResumeProps = {
 
 const AlertResume: React.FunctionComponent<AlertResumeProps> = (props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { exit: _, ...v } = resumeModalVariants
+  const v = resumeModalVariants
 
   return (
     <AnimatePresence exitBeforeEnter>
       {props.isOpen && (
         <m.div
+          onClick={props.onClose}
           variants={v}
           initial='hide'
           animate='enter'

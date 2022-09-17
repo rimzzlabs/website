@@ -1,6 +1,5 @@
-import Card from '@/components/atoms/Card'
-import BlogCard from '@/components/mollecules/BlogCard'
 import Hero from '@/components/mollecules/Hero'
+import { Loading } from '@/components/mollecules/Loading'
 import Searchbar from '@/components/mollecules/Searchbar'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
@@ -14,10 +13,13 @@ import { generateOgImage } from '@/libs/ogImage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
 
-// import umamiClient from '@/libs/umamiClient'
 import { GetStaticProps, NextPage } from 'next'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 import readingTime from 'reading-time'
 
+const BlogCard = dynamic(() => import('@/components/mollecules/BlogCard'), { suspense: true })
+const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
 interface BlogPageProps {
   allBlogs: Array<Blogs>
 }
@@ -48,28 +50,32 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
-            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-              {allBlogs
-                .slice(0)
-                .sort(getMostPopularBlog)
-                .slice(0, 2)
-                .map((b) => (
-                  <Card key={b.slug}>
-                    <BlogCard displayViews {...b} />
-                  </Card>
-                ))}
-            </div>
+            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+              <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
+                {allBlogs
+                  .slice(0, 2)
+                  .sort(getMostPopularBlog)
+                  .map((b) => (
+                    <Card key={b.slug}>
+                      <BlogCard displayViews {...b} />
+                    </Card>
+                  ))}
+              </div>
+            </Suspense>
           </section>
 
           <section>
             <h2 className={twclsx('mb-4')}>All Post</h2>
-            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-              {allBlogs.map((b) => (
-                <Card key={b.slug}>
-                  <BlogCard displayViews {...b} />
-                </Card>
-              ))}
-            </div>
+
+            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+              <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
+                {allBlogs.map((b) => (
+                  <Card key={b.slug}>
+                    <BlogCard displayViews {...b} />
+                  </Card>
+                ))}
+              </div>
+            </Suspense>
           </section>
         </div>
       ) : null}
@@ -78,15 +84,17 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         <section className={twclsx('content-auto')}>
           <h2 className={twclsx('mb-4')}>Search Post</h2>
           {filteredData.length > 0 ? (
-            <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
-              {filteredData.map((b, id) => (
-                <Card key={b.title.slice(0, 7) + id}>
-                  <BlogCard displayViews {...b} />
-                </Card>
-              ))}
-            </div>
+            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+              <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
+                {filteredData.map((b, id) => (
+                  <Card key={b.title.slice(0, 7) + id}>
+                    <BlogCard displayViews {...b} />
+                  </Card>
+                ))}
+              </div>
+            </Suspense>
           ) : (
-            <p>No post found, try a lil different?</p>
+            <p>No post found, try a lil different now?</p>
           )}
         </section>
       )}

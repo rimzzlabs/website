@@ -1,9 +1,14 @@
-import Card from '@/components/atoms/Card'
 import UnstyledLink from '@/components/atoms/UnstyledLink'
 
 import { twclsx } from '@/libs/twclsx'
 
+import { Loading } from '../mollecules/Loading'
+
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 import { HiArrowNarrowRight } from 'react-icons/hi'
+
+const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export interface SectionProps<DataProp> {
@@ -21,14 +26,17 @@ const Section = <DataProp,>({ title, link, data, Component, gridCols }: SectionP
   return (
     <section className={twclsx('content-auto', 'py-10')}>
       <h2>{title}</h2>
-      <div className={twclsx('grid', 'gap-4 md:gap-5 my-6', 'flex-auto', gridCols)}>
-        {data.length > 0 &&
-          data.map((data, index) => (
-            <Card key={index}>
-              <Component {...data}>{null}</Component>
-            </Card>
-          ))}
-      </div>
+      <Suspense fallback={<Loading containerSize='full' spinnerSize='sm' containerStyle='h-72' />}>
+        <div className={twclsx('grid', 'gap-4 md:gap-5 my-6', 'flex-auto', gridCols)}>
+          {data.length > 0 &&
+            data.map((data, index) => (
+              <Card key={index}>
+                <Component {...data}>{null}</Component>
+              </Card>
+            ))}
+        </div>
+      </Suspense>
+
       <UnstyledLink
         className={twclsx(
           'group',

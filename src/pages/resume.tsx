@@ -1,8 +1,6 @@
 import Button from '@/components/atoms/Button'
 import Seo from '@/components/atoms/Seo'
 import UnderlineLink from '@/components/mollecules/UnderlineLink'
-import AlertResume from '@/components/organism/AlertResume'
-import PopupResume from '@/components/organism/PopupResume'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { EDUCATION, EXPERIENCE, HEADLINE, LINKS, SKILLS } from '@/libs/constants/resume'
@@ -11,8 +9,12 @@ import { generateOgImage } from '@/libs/ogImage'
 
 import htmr from 'htmr'
 import { NextPage } from 'next'
-import { useCallback, useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
+
+const PopupResume = dynamic(() => import('@/components/organism/PopupResume'), { suspense: true })
+const AlertResume = dynamic(() => import('@/components/organism/AlertResume'), { suspense: true })
 
 const meta = getMetaData({
   title: 'Resume',
@@ -30,8 +32,8 @@ const Resume: NextPage = () => {
   const isMatch = useMediaQuery('(min-width: 768px)')
   const [modal, setModal] = useState({ alert: false, popup: false })
 
-  const setToHide = useCallback(() => setModal((prev) => ({ ...prev, popup: false })), [])
-  const openModal = useCallback(() => setModal((prev) => ({ ...prev, popup: true })), [])
+  const closePopup = useCallback(() => setModal((prev) => ({ ...prev, popup: false })), [])
+  const openPopup = useCallback(() => setModal((prev) => ({ ...prev, popup: true })), [])
   const closeAlert = useCallback(() => setModal((prev) => ({ ...prev, alert: false })), [])
   const openAlert = useCallback(() => setModal((prev) => ({ ...prev, alert: true })), [])
 
@@ -53,8 +55,11 @@ const Resume: NextPage = () => {
   return (
     <main className='py-4 dark:print:text-theme-800 dark:print:[&:is(h1)]:text-primary-700'>
       <Seo {...meta} />
-      <PopupResume isOpen={modal.popup} setToHide={setToHide} />
-      {modal.alert && <AlertResume isOpen={modal.alert} onClose={closeAlert} />}
+
+      <Suspense fallback={null}>
+        <PopupResume isOpen={modal.popup} onClose={closePopup} />
+        {modal.alert && <AlertResume isOpen={modal.alert} onClose={closeAlert} />}
+      </Suspense>
 
       <section className='w-full mb-4'>
         <h2 className='text-center'>{HEADLINE.name}</h2>
@@ -73,7 +78,7 @@ const Resume: NextPage = () => {
         <section>
           <div className='flex items-center justify-between pb-2.5 border-b-2 border-b-theme-700'>
             <h3>Experience</h3>
-            <Button onClick={openModal} className='print:hidden'>
+            <Button onClick={openPopup} className='print:hidden'>
               <HiInformationCircle className='text-red-500 animate-pulse text-lg' />
               <span className='sr-only'>How to print?</span>
             </Button>

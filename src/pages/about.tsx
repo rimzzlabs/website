@@ -1,5 +1,5 @@
 import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
-import Timeline from '@/components/organism/Timeline'
+import { Loading } from '@/components/mollecules/Loading'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
@@ -7,6 +7,10 @@ import { getMetaData } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
 
 import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+
+const Timeline = dynamic(() => import('@/components/organism/Timeline'), { suspense: true })
 
 const About: NextPage = () => {
   const meta = getMetaData({
@@ -56,7 +60,9 @@ const About: NextPage = () => {
         <p className={twclsx('max-w-prose mb-4')}>
           Take a look at my timeline below, it consists of my career path, formal education and more.
         </p>
-        <Timeline timeline={timeline} />
+        <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+          <Timeline timeline={timeline} />
+        </Suspense>
       </section>
 
       <section className={twclsx('pt-10 md:pt-20')}>

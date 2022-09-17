@@ -8,7 +8,7 @@ import { AnimatePresence, Variants, m } from 'framer-motion'
 
 type PopupResumeProps = {
   isOpen: boolean
-  setToHide: () => void
+  onClose: () => void
 }
 
 export const resumeModalVariants: Variants = {
@@ -24,6 +24,7 @@ const PopupResume: React.FunctionComponent<PopupResumeProps> = (props) => {
     <AnimatePresence exitBeforeEnter>
       {props.isOpen && (
         <m.div
+          onClick={props.onClose}
           variants={resumeModalVariants}
           initial='hide'
           animate='enter'
@@ -58,7 +59,7 @@ const PopupResume: React.FunctionComponent<PopupResumeProps> = (props) => {
                 </Button>
               </p>
             )}
-            <Button onClick={props.setToHide} className='mt-2.5 px-4 h-8 md:h-9 rounded-lg bg-primary-500 text-white'>
+            <Button onClick={props.onClose} className='mt-2.5 px-4 h-8 md:h-9 rounded-lg bg-primary-500 text-white'>
               Got it!
             </Button>
           </div>
