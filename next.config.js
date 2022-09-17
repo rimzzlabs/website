@@ -11,6 +11,7 @@ const withPWA = require('next-pwa')({
     /chunks\/pages\/api\/.*/ // Dont cache the API it needs fresh serverinfo
   ],
   exclude: [
+    /middleware-manifest.json$/,
     /\.map$/, // dont cache map files
     /^.*ts.*$/ // Dont let serviceworker touch the TS streams
   ],
