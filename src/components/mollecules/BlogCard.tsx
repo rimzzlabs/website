@@ -26,7 +26,7 @@ const BlogCard: React.FunctionComponent<BlogCardProps> = ({ title, topics, ...pr
           {props.displayViews && props.views ? (
             <p className='inline-flex items-center gap-2.5'>
               <HiOutlineEye />
-              <span>{props.views} views</span>
+              <span>{props.views}</span>
             </p>
           ) : null}
           <p className='inline-flex items-center gap-2.5'>
