@@ -1,4 +1,5 @@
 import UnstyledLink from '@/components/atoms/UnstyledLink'
+import UnderlineLink from '@/components/mollecules/UnderlineLink'
 
 import APP_ROUTE, { ADDT_ROUTE } from '@/libs/constants/route'
 import SOCIAL from '@/libs/constants/social'
@@ -29,7 +30,11 @@ const Footer: React.FunctionComponent = () => {
         'border-theme-300 dark:border-theme-700'
       )}
     >
-      <div className={twclsx('flex', 'mb-8 md:mb-12')}>
+      <section className={twclsx('flex items-center gap-2.5 mb-8')}>
+        <p className={twclsx('font-semibold text-xl md:text-2xl')}>rizkicitra.dev</p>
+      </section>
+
+      <section className={twclsx('flex', 'mb-8 md:mb-12')}>
         <div className={twclsx('flex flex-col', 'w-full', 'space-y-4')}>
           {APP_ROUTE.map((route) => (
             <UnstyledLink title={route.name} className={twclsx(className)} href={route.path} key={route.path}>
@@ -58,11 +63,11 @@ const Footer: React.FunctionComponent = () => {
             </UnstyledLink>
           ))}
         </div>
-      </div>
+      </section>
 
       <p className={twclsx('mb-2', 'text-sm font-medium', 'text-theme-500 dark:text-theme-400')}>
-        Made with &#128150; by{' '}
-        <UnstyledLink
+        Built with &#128150; by{' '}
+        <UnderlineLink
           title='Rizki Maulana Citras Github Profile'
           className={twclsx(
             'text-primary-600 hover:text-primary-500',
@@ -72,7 +77,7 @@ const Footer: React.FunctionComponent = () => {
           href='https://github.com/rizkimcitra'
         >
           Rizki M Citra
-        </UnstyledLink>
+        </UnderlineLink>
       </p>
 
       <p className={twclsx('text-sm font-medium text-theme-500', 'dark:text-theme-400')}>
