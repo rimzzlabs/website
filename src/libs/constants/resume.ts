@@ -43,7 +43,7 @@ export const SKILLS = [
 export const EXPERIENCE = [
   {
     companyName: 'Skyshi Digital Indonesia',
-    role: 'Frontend Engineer',
+    role: 'Frontend Developer',
     period: {
       start: 'January, 2022',
       end: 'Present'
@@ -56,7 +56,7 @@ export const EXPERIENCE = [
   },
   {
     companyName: 'Skyshi Digital Indonesia',
-    role: 'Frontend Engineer Intern',
+    role: 'Frontend Developer Intern',
     period: {
       start: 'October, 2021',
       end: 'January, 2022'

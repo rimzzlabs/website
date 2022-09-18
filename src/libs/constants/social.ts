@@ -5,7 +5,7 @@ const SOCIAL = [
   },
   {
     title: 'LinkedIn',
-    href: 'https://linkedin.com/in/rizkimcitraa'
+    href: 'https://linkedin.com/in/rizkimcitra'
   },
   {
     title: 'GitHub',
