@@ -15,7 +15,7 @@ import { twclsx } from '@/libs/twclsx'
 
 import { GetStaticProps, NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
+import { Suspense, useMemo } from 'react'
 import readingTime from 'reading-time'
 
 const BlogCard = dynamic(() => import('@/components/mollecules/BlogCard'), { suspense: true })
@@ -39,6 +39,7 @@ const meta = getMetaData({
 
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const { query, handleChange, filteredData } = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
+  const mostViewdBlogs = useMemo(() => Array.from(allBlogs).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   return (
     <Layout {...(meta as LayoutProps)}>
@@ -52,14 +53,11 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
             <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-                {allBlogs
-                  .slice(0, 2)
-                  .sort(getMostPopularBlog)
-                  .map((b) => (
-                    <Card key={b.slug}>
-                      <BlogCard displayViews {...b} />
-                    </Card>
-                  ))}
+                {mostViewdBlogs.map((b) => (
+                  <Card key={b.slug}>
+                    <BlogCard displayViews {...b} />
+                  </Card>
+                ))}
               </div>
             </Suspense>
           </section>
@@ -86,8 +84,8 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
           {filteredData.length > 0 ? (
             <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
-                {filteredData.map((b, id) => (
-                  <Card key={b.title.slice(0, 7) + id}>
+                {filteredData.map((b) => (
+                  <Card key={b.published}>
                     <BlogCard displayViews {...b} />
                   </Card>
                 ))}
@@ -106,7 +104,8 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getBlog()
 
   if (isProd) {
-    const allBlogs = (await getPageViewsEach(response)).sort(getNewestBlog)
+    const allBlogs = await getPageViewsEach(response)
+    allBlogs.sort(getNewestBlog)
 
     return {
       props: {
