@@ -39,7 +39,7 @@
   }
 
   html.dark {
-    @apply brightness-[0.96];
+    @apply brightness-[0.98];
   }
 
   :is(a, button) {
