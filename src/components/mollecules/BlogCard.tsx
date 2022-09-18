@@ -2,6 +2,7 @@ import Label from '@/components/atoms/Label'
 import UnstyledLink from '@/components/atoms/UnstyledLink'
 
 import { Blogs } from '@/data/blog/blog.type'
+import { numberToCompact } from '@/libs/numberFormat'
 import { twclsx } from '@/libs/twclsx'
 
 import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
@@ -26,7 +27,7 @@ const BlogCard: React.FunctionComponent<BlogCardProps> = ({ title, topics, ...pr
           {props.displayViews && props.views ? (
             <p className='inline-flex items-center gap-2.5'>
               <HiOutlineEye />
-              <span>{props.views}</span>
+              <span>{numberToCompact(props.views ?? 0)}</span>
             </p>
           ) : null}
           <p className='inline-flex items-center gap-2.5'>
