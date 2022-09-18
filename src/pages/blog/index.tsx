@@ -39,7 +39,7 @@ const meta = getMetaData({
 
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const { query, handleChange, filteredData } = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
-  const mostViewdBlogs = useMemo(() => Array.from(allBlogs).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
+  const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   return (
     <Layout {...(meta as LayoutProps)}>
