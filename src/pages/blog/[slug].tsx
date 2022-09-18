@@ -1,6 +1,7 @@
 import BackToTop from '@/components/atoms/BackToTop'
 import CustomImage from '@/components/atoms/CustomImage'
 import EditButton from '@/components/mollecules/EditButton'
+import UnderlineLink from '@/components/mollecules/UnderlineLink'
 import MDXComponents from '@/components/organism/MDXComponents'
 import ContentImage from '@/components/organism/MDXComponents/ContentImage'
 import GiscusComment from '@/components/templates/GiscusComment'
@@ -107,7 +108,12 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
                 height={32}
                 alt={header.author_name}
               />
-              <p>{header.author_name}</p>
+              <p>
+                Written by /{' '}
+                <UnderlineLink href={header.author_url} title={header.author_name}>
+                  {header.author_name}
+                </UnderlineLink>
+              </p>
             </div>
           </div>
         </section>

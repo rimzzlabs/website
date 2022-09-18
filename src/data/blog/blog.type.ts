@@ -4,6 +4,7 @@ export interface Blogs {
   summary: string
   featured: boolean
   author_name: string
+  author_url: string
   author_image: string
   published: string
   topics: Array<string>
