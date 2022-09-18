@@ -1,7 +1,7 @@
 import { Blogs } from '@/data/blog/blog.type'
 import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 type Data = Array<Blogs> | Array<PortfolioHeadProps>
 
@@ -37,7 +37,7 @@ const useSearch = <T,>(data: Data, type: 'blog' | 'portfolio') => {
   return {
     query,
     handleChange,
-    filteredData: filteredData as unknown as T
+    filteredData: useMemo(() => filteredData, [filteredData]) as unknown as T
   }
 }
 
