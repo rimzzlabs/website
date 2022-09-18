@@ -38,6 +38,10 @@
     @apply bg-theme-50 font-primary text-theme-700 antialiased dark:bg-theme-900 dark:text-theme-200;
   }
 
+  html.dark {
+    @apply brightness-[0.96];
+  }
+
   :is(a, button) {
     @apply outline-none;
   }
