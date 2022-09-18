@@ -1,11 +1,14 @@
 import Button from '@/components/atoms/Button'
-import Drawer from '@/components/organism/Drawer'
 
 import useDrawer from '@/hooks/useDrawer'
 import { twclsx } from '@/libs/twclsx'
 
 import { AnimatePresence, Variants, m } from 'framer-motion'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 import { HiMenuAlt4, HiX } from 'react-icons/hi'
+
+const Drawer = dynamic(() => import('@/components/organism/Drawer'), { suspense: true })
 
 const DrawerToggler = () => {
   const v: Variants = {
@@ -37,7 +40,7 @@ const DrawerToggler = () => {
         </AnimatePresence>
       </Button>
 
-      <AnimatePresence exitBeforeEnter>{isOpen && <Drawer />}</AnimatePresence>
+      <AnimatePresence exitBeforeEnter>{<Suspense fallback={null}>{isOpen && <Drawer />}</Suspense>}</AnimatePresence>
     </>
   )
 }
