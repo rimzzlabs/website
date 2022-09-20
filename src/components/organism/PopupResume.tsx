@@ -54,7 +54,7 @@ const PopupResume: React.FunctionComponent<PopupResumeProps> = (props) => {
             {theme === 'dark' && (
               <p className='text-sm py-1.5 px-2.5 mt-2.5 font-medium rounded-lg inline-block bg-yellow-100 text-yellow-800'>
                 <strong>Note: </strong>For a better result, switch to light mode when you want to print my resume.{' '}
-                <Button className='border-b border-yellow-800' onClick={changeTheme}>
+                <Button className='border-b border-yellow-800' onClick={changeTheme('light')}>
                   Switch to Light Mode
                 </Button>
               </p>
