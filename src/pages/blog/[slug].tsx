@@ -55,8 +55,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   }
 
   useEffect(() => {
-    ;(async () => {
-      if (isProd) {
+    if (isProd) {
+      ;(async () => {
         try {
           const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
 
@@ -64,8 +64,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         } catch (error) {
           console.info('Could not retrieve page views')
         }
-      }
-    })()
+      })()
+    }
   }, [header.slug])
 
   return (
