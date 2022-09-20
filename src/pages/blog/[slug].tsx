@@ -150,7 +150,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
-  const mdxPrism = await require('mdx-prism')
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const mdxPrism = require('mdx-prism')
 
   const { slug } = ctx.params as slug
 
