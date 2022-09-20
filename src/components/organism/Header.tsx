@@ -1,6 +1,6 @@
 import DrawerToggler from '@/components/atoms/DrawerToggler'
-import DarkMode from '@/components/mollecules/DarkMode'
 import Nav from '@/components/mollecules/Nav'
+import ThemeButton from '@/components/mollecules/ThemeButton'
 
 import useMediaQuery from '@/hooks/useMediaQuery'
 import useWindowScroll from '@/hooks/useWindowScroll'
@@ -45,7 +45,7 @@ const Header = () => {
 
         <DrawerToggler />
 
-        <DarkMode />
+        <ThemeButton />
       </div>
     </header>
   )

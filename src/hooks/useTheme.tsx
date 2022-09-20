@@ -1,32 +1,36 @@
 import { useTheme as useNextTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const useTheme = () => {
   const { theme, setTheme, systemTheme } = useNextTheme(),
     [mounted, setMounted] = useState<boolean>(false),
-    currentTheme = theme === 'system' ? systemTheme : theme
+    [dropdownIsOpen, setDropdown] = useState<boolean>(false)
 
-  const changeTheme = () => {
-    if (currentTheme === 'dark') {
-      setTheme('light')
-      return
-    }
-    setTheme('dark')
-  }
+  const toggleDropdown = useCallback(() => setDropdown((prev) => (prev ? false : true)), [])
+  const closeDropdown = useCallback(() => setDropdown(false), [])
+
+  const changeTheme = useCallback(
+    (value: string) => {
+      return () => {
+        setTheme(value)
+        closeDropdown()
+      }
+    },
+    [setTheme, closeDropdown]
+  )
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  useEffect(() => {
-    if (currentTheme) setTheme(currentTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTheme])
-
   return {
     mounted,
     changeTheme,
-    theme
+    theme,
+    systemTheme,
+    dropdownIsOpen,
+    toggleDropdown,
+    closeDropdown
   }
 }
 
