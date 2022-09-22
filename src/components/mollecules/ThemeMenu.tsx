@@ -1,8 +1,9 @@
+import useClickOutside from '@/hooks/useClickOutside'
 import { twclsx } from '@/libs/twclsx'
 
 import { m } from 'framer-motion'
 import type { Variants } from 'framer-motion'
-import { useMemo } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { HiDesktopComputer, HiOutlineMoon, HiOutlineSun } from 'react-icons/hi'
 
 type ThemeMenuProps = {
@@ -12,6 +13,8 @@ type ThemeMenuProps = {
 }
 
 const ThemeMenu: React.FunctionComponent<ThemeMenuProps> = (props) => {
+  const ref = useRef<HTMLDivElement | null>(null)
+  useClickOutside(ref, props.onClose)
   const v = useMemo<Variants>(
     () => ({
       hidden: { opacity: 0 },
@@ -30,8 +33,30 @@ const ThemeMenu: React.FunctionComponent<ThemeMenuProps> = (props) => {
     []
   )
 
+  const activeDecsendant = useMemo(() => {
+    return themesList.findIndex((f) => f.value === props.theme)
+  }, [props.theme, themesList])
+
+  const handleKeyDown = useCallback(
+    (theme: string) => (e: React.KeyboardEvent<HTMLLIElement>) => {
+      switch (e.key) {
+        case ' ':
+        case 'SpaceBar':
+        case 'Enter':
+          e.preventDefault()
+          props.changeTheme(theme)
+          props.onClose()
+          break
+        default:
+          break
+      }
+    },
+    [props]
+  )
+
   return (
     <m.div
+      ref={ref}
       initial='hidden'
       animate='enter'
       exit='exit'
@@ -52,11 +77,20 @@ const ThemeMenu: React.FunctionComponent<ThemeMenuProps> = (props) => {
           'dark:before:border-b-theme-800 before:z-[-1]'
         )}
       >
-        <div className='flex flex-col rounded-lg overflow-hidden'>
+        <ul
+          role='listbox'
+          aria-activedescendant={themesList[activeDecsendant].value}
+          tabIndex={-1}
+          className='flex flex-col rounded-lg overflow-hidden'
+        >
           {themesList.map((theme) => (
-            <button
+            <li
+              onKeyDown={handleKeyDown(theme.value)}
+              role='option'
+              aria-selected={theme.value === props.theme}
+              tabIndex={0}
               className={twclsx(
-                'inline-flex items-center w-full',
+                'inline-flex items-center w-full cursor-default',
                 'h-9 md:h-10 px-2.5 transition text-sm md:text-base font-semibold',
                 'hover:bg-theme-100 dark:hover:bg-theme-700',
                 'text-theme-700 dark:text-theme-200',
@@ -67,9 +101,9 @@ const ThemeMenu: React.FunctionComponent<ThemeMenuProps> = (props) => {
             >
               <theme.Icon className='mr-2.5' />
               <span>{theme.name}</span>
-            </button>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </m.div>
   )

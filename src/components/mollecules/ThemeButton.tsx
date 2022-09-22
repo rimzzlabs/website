@@ -17,6 +17,8 @@ const ThemeButton: React.FunctionComponent = () => {
   return (
     <div className='relative'>
       <Button
+        aria-haspopup='listbox'
+        aria-expanded={theme.dropdownIsOpen}
         onClick={theme.toggleDropdown}
         title='switch theme'
         className={twclsx('accessible relative', 'h-10 w-10 text-lg', 'rounded-lg', 'bg-primary-100 dark:bg-theme-800')}
