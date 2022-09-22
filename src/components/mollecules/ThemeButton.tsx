@@ -24,10 +24,10 @@ const ThemeButton: React.FunctionComponent = () => {
         className={twclsx('accessible relative', 'h-10 w-10 text-lg', 'rounded-lg', 'bg-primary-100 dark:bg-theme-800')}
       >
         {(theme.theme === 'dark' || (theme.theme === 'system' && theme.systemTheme === 'dark')) && (
-          <HiMoon className={twclsx('text-yellow-400')} />
+          <HiMoon className={twclsx('text-yellow-400', 'pointer-events-none')} />
         )}
         {(theme.theme === 'light' || (theme.theme === 'system' && theme.systemTheme === 'light')) && (
-          <HiSun className={twclsx('text-primary-700')} />
+          <HiSun className={twclsx('text-primary-700', 'pointer-events-none')} />
         )}
       </Button>
 

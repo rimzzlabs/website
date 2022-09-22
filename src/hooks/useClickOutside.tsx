@@ -7,7 +7,7 @@ const useClickOutside = <T extends HTMLElement = HTMLElement>(refObject: React.R
     const listener = (e: Event) => {
       const el = refObject?.current
 
-      if (!el || el.contains(e.target as Node)) {
+      if (!el || el.contains(e.target as Node) || (e.target as HTMLButtonElement).ariaHasPopup) {
         return
       }
 
