@@ -6,16 +6,15 @@ import MDXComponents from '@/components/organism/MDXComponents'
 import ContentImage from '@/components/organism/MDXComponents/ContentImage'
 import GiscusComment from '@/components/templates/GiscusComment'
 import Layout from '@/components/templates/Layout'
+import type { LayoutProps } from '@/components/templates/Layout'
 
-import { Blogs } from '@/data/blog/blog.type'
-import { getBlog, getBlogBySlug } from '@/helpers/getBlog'
 import { isProd } from '@/libs/constants/environmentState'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
 import umamiClient from '@/libs/umamiClient'
+import { getContentBySlug, getContents } from '@/services'
 
-import { LayoutProps } from 'framer-motion'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
@@ -23,10 +22,11 @@ import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 import readingTime from 'reading-time'
+import type { Blog } from 'rizkicitra'
 
 interface BlogPostProps {
   mdxSource: MDXRemoteSerializeResult
-  header: Blogs
+  header: Blog
 }
 
 interface slug extends ParsedUrlQuery {
@@ -139,7 +139,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await getBlog()
+  const res = await getContents<Blog>('/blog')
 
   const paths = res.map((r) => ({ params: { slug: r.header.slug } })) as GetStaticPathsResult['paths']
 
@@ -155,7 +155,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
 
   const { slug } = ctx.params as slug
 
-  const res = await getBlogBySlug(slug)
+  const res = await getContentBySlug<Blog>('/blog', slug)
   const est_read = readingTime(res.content).text
 
   const mdxSource = await serialize(res.content, {

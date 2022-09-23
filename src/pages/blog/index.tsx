@@ -3,25 +3,24 @@ import { Loading } from '@/components/mollecules/Loading'
 import Searchbar from '@/components/mollecules/Searchbar'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
-import { Blogs } from '@/data/blog/blog.type'
-import { getBlog } from '@/helpers/getBlog'
-import { getPageViewsEach } from '@/helpers/getPageViewsEach'
 import useSearch from '@/hooks/useSearch'
 import { isProd } from '@/libs/constants/environmentState'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
+import { getContents, getPageViewsEach } from '@/services'
 
 import { GetStaticProps, NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense, useMemo } from 'react'
 import readingTime from 'reading-time'
+import type { Blog } from 'rizkicitra'
 
 const BlogCard = dynamic(() => import('@/components/mollecules/BlogCard'), { suspense: true })
 const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
-interface BlogPageProps {
-  allBlogs: Array<Blogs>
+type BlogPageProps = {
+  allBlogs: Array<Blog>
 }
 
 const meta = getMetaData({
@@ -101,7 +100,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 }
 
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
-  const response = await getBlog()
+  const response = await getContents<Blog>('/blog')
 
   if (isProd) {
     const allBlogs = await getPageViewsEach(response)

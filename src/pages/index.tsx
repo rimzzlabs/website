@@ -2,22 +2,21 @@ import BlogCard from '@/components/mollecules/BlogCard'
 import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
 import ProjectCard from '@/components/mollecules/ProjectCard'
 import Section from '@/components/organism/Section'
-import Layout, { LayoutProps } from '@/components/templates/Layout'
+import Layout from '@/components/templates/Layout'
+import type { LayoutProps } from '@/components/templates/Layout'
 
-import { Blogs } from '@/data/blog/blog.type'
-import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
-import { getBlog } from '@/helpers/getBlog'
-import getPortfolio from '@/helpers/getPortfolio'
 import { getMetaData } from '@/libs/metaData'
 import { getNewestBlog } from '@/libs/sortBlog'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
+import { GetContents, getContents } from '@/services'
 
-import { GetStaticProps, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
+import type { Blog, Portfolio } from 'rizkicitra'
 
 interface HomePageProps {
-  blogs: Array<Blogs>
-  portfolios: Array<PortfolioHeadProps>
+  blogs: Array<Blog>
+  portfolios: Array<Portfolio>
 }
 
 const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
@@ -69,15 +68,35 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
 }
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-  const res = await getBlog()
-  const response = await getPortfolio()
+  const [requestBlogs, requestPortfolios] = await Promise.allSettled([
+    getContents<Blog>('/blog'),
+    getContents<Portfolio>('/portfolio')
+  ])
 
-  const blogs = res
+  const blogsData = [] as Array<GetContents<Blog>>
+  const portfoliosData = [] as Array<GetContents<Portfolio>>
+  // const portfoliosData = [] as Array<Portfolio>
+
+  if (requestBlogs.status === 'fulfilled') {
+    requestBlogs.value.forEach((blog) => {
+      blogsData.push(blog)
+    })
+  }
+  if (requestPortfolios.status === 'fulfilled') {
+    requestPortfolios.value.forEach((portfolio) => {
+      portfoliosData.push(portfolio)
+    })
+  }
+
+  const blogs = blogsData
     .filter((r) => r.header.featured)
     .map((r) => ({ est_read: readingTime(r.content).text, ...r.header }))
     .sort(getNewestBlog)
 
-  const portfolios = response.filter((r) => r.featured).sort(getNewestPortfolio)
+  const portfolios = portfoliosData
+    .map((p) => p.header)
+    .filter((f) => f.featured)
+    .sort(getNewestPortfolio)
 
   return {
     props: {

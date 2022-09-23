@@ -3,23 +3,23 @@ import { Loading } from '@/components/mollecules/Loading'
 import Searchbar from '@/components/mollecules/Searchbar'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
-import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
-import getPortfolio from '@/helpers/getPortfolio'
 import useSearch from '@/hooks/useSearch'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
 import { twclsx } from '@/libs/twclsx'
+import { getContents } from '@/services'
 
-import { GetStaticProps, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
+import type { Portfolio } from 'rizkicitra'
 
 const ProjectCard = dynamic(() => import('@/components/mollecules/ProjectCard'), { suspense: true })
 const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
 
-interface ProjectPageProps {
-  projects: Array<PortfolioHeadProps>
+type PortfoliopageProps = {
+  portfolio: Array<Portfolio>
 }
 
 const meta = getMetaData({
@@ -38,8 +38,8 @@ const meta = getMetaData({
   type: 'website'
 })
 
-const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
-  const { query, handleChange, filteredData } = useSearch<ProjectPageProps['projects']>(projects, 'portfolio')
+const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
+  const { query, handleChange, filteredData } = useSearch<PortfoliopageProps['portfolio']>(portfolio, 'portfolio')
 
   return (
     <Layout {...(meta as LayoutProps)}>
@@ -47,13 +47,13 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
       <Searchbar onChange={handleChange} value={query} />
 
       <div className={twclsx('flex flex-col gap-8')}>
-        {query.length === 0 && projects.length > 0 ? (
+        {query.length === 0 && portfolio.length > 0 ? (
           <section>
             <h2 className={twclsx('mb-4')}>Personal Portfolio</h2>
 
             <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-                {projects.map((p) => (
+                {portfolio.map((p) => (
                   <Card key={p.title}>
                     <ProjectCard {...p} />
                   </Card>
@@ -86,14 +86,14 @@ const ProjectPage: NextPage<ProjectPageProps> = ({ projects }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps<ProjectPageProps> = async () => {
-  const response = await getPortfolio()
+export const getStaticProps: GetStaticProps<PortfoliopageProps> = async () => {
+  const response = await getContents<Portfolio>('/portfolio')
 
-  const projects = response.sort(getNewestPortfolio)
+  const portfolio = response.map((d) => d.header).sort(getNewestPortfolio)
 
   return {
     props: {
-      projects
+      portfolio: portfolio
     }
   }
 }

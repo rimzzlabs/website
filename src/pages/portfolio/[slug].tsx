@@ -5,25 +5,25 @@ import MDXComponents from '@/components/organism/MDXComponents'
 import ContentImage from '@/components/organism/MDXComponents/ContentImage'
 import Layout from '@/components/templates/Layout'
 
-import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
-import getPortfolio, { getPortfolioBySlug } from '@/helpers/getPortfolio'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaData } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
+import { getContentBySlug, getContents } from '@/services'
 
 import { LayoutProps } from 'framer-motion'
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import dynamic from 'next/dynamic'
-import { ParsedUrlQuery } from 'querystring'
+import type { ParsedUrlQuery } from 'querystring'
 import { HiGlobeAlt, HiOutlineCalendar } from 'react-icons/hi'
 import { SiGithub } from 'react-icons/si'
+import type { Portfolio } from 'rizkicitra'
 
 const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
 
 interface ProjectDetailPageProps {
-  header: PortfolioHeadProps
+  header: Portfolio
   mdxSource: MDXRemoteSerializeResult
 }
 
@@ -55,12 +55,15 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
               <span className={twclsx('text-sm md:text-base')}>Repository</span>
             </UnderlineLink>
 
-            {header.link.live !== null &&
-              <UnderlineLink href={header.link.live} className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'>
+            {header.link.live !== null && (
+              <UnderlineLink
+                href={header.link.live}
+                className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'
+              >
                 <HiGlobeAlt className={twclsx('text-lg md:text-xl', 'text-theme-800 dark:text-theme-200')} />
                 <span className={twclsx('text-sm md:text-base')}>Live Demo</span>
               </UnderlineLink>
-            }
+            )}
           </div>
         </section>
 
@@ -96,9 +99,9 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
 }
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-  const portfolio = await getPortfolio()
+  const portfolio = await getContents<Portfolio>('/portfolio')
 
-  const paths = portfolio.map((p) => ({ params: { slug: p.slug } }))
+  const paths = portfolio.map((p) => ({ params: { slug: p.header.slug } }))
 
   return {
     paths,
@@ -110,7 +113,7 @@ export const getStaticProps: GetStaticProps<ProjectDetailPageProps> = async (ctx
   const mdxPrism = await require('mdx-prism')
   const { slug } = ctx.params as ParsedUrlQuery & { slug: string }
 
-  const res = await getPortfolioBySlug(slug)
+  const res = await getContentBySlug<Portfolio>('/portfolio', slug)
 
   const mdxSource = await serialize(res.content, { mdxOptions: { rehypePlugins: [mdxPrism] } })
 
