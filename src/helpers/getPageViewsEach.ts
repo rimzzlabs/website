@@ -1,13 +1,8 @@
 import { Blogs } from '@/data/blog/blog.type'
 import { GetBlogReturnValue } from '@/helpers/getBlog'
+import umami from '@/libs/umami'
 
 import readingTime from 'reading-time'
-
-interface HTTP {
-  status: boolean
-  message: string
-  data: number
-}
 
 const dev = process.env.NODE_ENV !== 'production'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
@@ -25,10 +20,10 @@ export const getPageViewsEach = async (blogs: Array<GetBlogReturnValue>): Promis
     // this would return an array of promises blog, so passing it to Promise.all() method like an array
     blogs.map(async (blog): Promise<Blogs> => {
       // do request to umami on each post by passing its slug to query parameter
-      const response = await fetch(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`, config)
+      const response = await umami.get(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`, config)
 
       // set views, process request data to json, and set static type as HTTP, see line 9
-      const views = (await response.json()) as HTTP
+      const views = response.data as number
 
       // estimate reading time of the contents by using readingTime() function from reading-time library
       // but as soon as the function returned the value, grab the text value from the object
@@ -38,7 +33,7 @@ export const getPageViewsEach = async (blogs: Array<GetBlogReturnValue>): Promis
       // otherwise return the data and set the views value property to 0
       return response.status === 200
         ? {
-            views: views.data,
+            views: views,
             est_read,
             ...blog.header
           }
