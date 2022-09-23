@@ -14,6 +14,12 @@ type GetPageViews = {
   data: number | null
 }
 
+type HTTPResult = {
+  status: boolean
+  message: string
+  data: number | null
+}
+
 /**
  * It takes an array of objects, and returns the sum of the values of the `pageviews` property of each
  * object
@@ -95,10 +101,10 @@ export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise
   const requests = blogs.map(async (blog): Promise<Blog> => {
     // this would return an array of promises blog, so passing it to Promise.all() method like an array
     // do request to umami on each post by passing its slug to query parameter
-    const response = await umami.get(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
+    const response = await umami.get<HTTPResult>(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
 
     // set views, process request data to json, and set static type as HTTP, see line 9
-    const views = response.data as number
+    const views = response.data.data as number
 
     // estimate reading time of the contents by using readingTime() function from reading-time library
     // but as soon as the function returned the value, grab the text value from the object
