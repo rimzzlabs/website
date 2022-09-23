@@ -6,12 +6,17 @@ import { join } from 'path'
 
 type GetContents<T> = { content: string; header: { slug: string } & T }
 
-export const getContents = async <T>(path: string): Promise<Array<GetContents<T>>> => {
+export const getContents = async <T>(
+  /** the path to the content folders, example: `/blog`,
+   * NOTE: that the slash is required!
+   */
+  path: string
+): Promise<Array<GetContents<T>>> => {
   // read files inside src/data/blog
-  const paths = await readDirectory('/blog')
+  const fileContents = await readDirectory(path)
 
   // map files and returns as a Promise
-  const files = paths.map(async (p) => {
+  const files = fileContents.map(async (p) => {
     // write the path file like: `src/data/blog
     const dir = join(`${LOCATION_DIR}/${path}`, p)
     // then read the file with fs promise, format will be utf8
