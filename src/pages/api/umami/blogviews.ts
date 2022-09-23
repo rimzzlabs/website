@@ -22,21 +22,23 @@ export default async (req: NextApiRequest, res: NextApiResponse<ReturnValue>) =>
     })
   }
 
-  // run getPageViews function and pass the slug
-  const response = await getPageViews(slug)
-
-  // if there is an error when trying to get the data, return 500
-  if (response.isError) {
+  try {
+    // run getPageViews function and pass the slug
+    const response = await getPageViews(slug)
+    if (response.isError) {
+      throw response
+    }
+    return res.status(200).send({
+      data: response.data,
+      status: true,
+      message: 'Fetch succesfully'
+    })
+  } catch (err) {
+    // if there is an error when trying to get the data, return 500
     return res.status(500).send({
       data: null,
       status: false,
       message: 'An error accoured getting blogviews data'
     })
   }
-
-  return res.status(200).send({
-    data: response.data,
-    status: true,
-    message: 'Fetch succesfully'
-  })
 }
