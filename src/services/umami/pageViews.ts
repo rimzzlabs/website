@@ -1,7 +1,7 @@
-import type { GetBlogReturnValue } from '@/helpers/getBlog'
 import { isDev } from '@/libs/constants/environmentState'
 import umami from '@/libs/umami'
 import { getToken } from '@/services'
+import type { GetContents } from '@/services'
 
 import readingTime from 'reading-time'
 import type { Blog, PageView } from 'rizkicitra'
@@ -90,7 +90,7 @@ export const getPageViews = async (slug: string): Promise<GetPageViews> => {
 }
 
 // a function that process each blog post and get pageviews value from umami
-export const getPageViewsEach = async (blogs: Array<GetBlogReturnValue>): Promise<Array<Blog>> => {
+export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise<Array<Blog>> => {
   require('isomorphic-fetch')
   const requests = blogs.map(async (blog): Promise<Blog> => {
     // this would return an array of promises blog, so passing it to Promise.all() method like an array
