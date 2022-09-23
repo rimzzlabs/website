@@ -1,7 +1,13 @@
+import type { GetBlogReturnValue } from '@/helpers/getBlog'
+import { isDev } from '@/libs/constants/environmentState'
 import umami from '@/libs/umami'
 import { getToken } from '@/services'
 
-import type { PageView } from 'rizkicitra'
+import readingTime from 'reading-time'
+import type { Blog, PageView } from 'rizkicitra'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+const baseURL = isDev ? 'http://localhost:3000' : SITE_URL
 
 type GetPageViews = {
   isError: boolean
@@ -47,6 +53,7 @@ export const getPageViews = async (slug: string): Promise<GetPageViews> => {
     totaltime: { change: 0, value: 0 },
     unique: { change: 0, value: 0 }
   } as PageView
+
   let responseBlog = {
     bounces: { change: 0, value: 0 },
     pageviews: { change: 0, value: 0 },
@@ -80,4 +87,40 @@ export const getPageViews = async (slug: string): Promise<GetPageViews> => {
     isError: false,
     data
   }
+}
+
+// a function that process each blog post and get pageviews value from umami
+export const getPageViewsEach = async (blogs: Array<GetBlogReturnValue>): Promise<Array<Blog>> => {
+  require('isomorphic-fetch')
+  const requests = blogs.map(async (blog): Promise<Blog> => {
+    // this would return an array of promises blog, so passing it to Promise.all() method like an array
+    // do request to umami on each post by passing its slug to query parameter
+    const response = await umami.get(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
+
+    // set views, process request data to json, and set static type as HTTP, see line 9
+    const views = response.data as number
+
+    // estimate reading time of the contents by using readingTime() function from reading-time library
+    // but as soon as the function returned the value, grab the text value from the object
+    const est_read = readingTime(blog.content).text
+
+    // if response status are OK or 200, return the data with the value of views property from umami
+    if (response.status !== 200) {
+      return {
+        views: 0,
+        est_read,
+        ...blog.header
+      }
+    }
+
+    // otherwise return the data and set the views value property to 0
+    return {
+      views,
+      est_read,
+      ...blog.header
+    }
+  })
+  // run promise all to each post, by passing an async map function to the Promise.all() method.
+
+  return await Promise.all(requests)
 }
