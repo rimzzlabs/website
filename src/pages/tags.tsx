@@ -1,5 +1,6 @@
 import Button from '@/components/atoms/Button'
 import Card from '@/components/atoms/Card'
+import CustomImage from '@/components/atoms/CustomImage'
 import BlogCard from '@/components/mollecules/BlogCard'
 import Hero from '@/components/mollecules/Hero'
 import type { HeroProps } from '@/components/mollecules/Hero'
@@ -77,7 +78,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
     <Layout {...meta}>
       <Hero {...(meta as HeroProps)} />
 
-      <section className={twclsx('flex items-stretch', 'flex-wrap flex-auto gap-4', 'py-10')}>
+      <section className={twclsx('flex items-stretch', 'flex-wrap flex-auto gap-2 md:gap-4', 'py-10')}>
         {tags.map((t) => (
           <Button
             onClick={() => setNewTag(t)}
@@ -108,7 +109,15 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
               ))}
           </div>
         </section>
-      ) : null}
+      ) : (
+        <section className={twclsx('flex flex-col items-center justify-center', 'py-10')}>
+          <figure className={twclsx('relative mb-2.5', 'w-40 h-40')}>
+            <CustomImage display='intrinsic' src='/static/tags-illustration.svg' alt='waiting' />
+          </figure>
+
+          <p>Waiting for your command</p>
+        </section>
+      )}
     </Layout>
   )
 }
