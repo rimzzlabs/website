@@ -1,12 +1,13 @@
 import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
 import { Loading } from '@/components/mollecules/Loading'
-import Layout, { LayoutProps } from '@/components/templates/Layout'
+import Layout from '@/components/templates/Layout'
+import type { LayoutProps } from '@/components/templates/Layout'
 
 import { timeline } from '@/libs/constants/timeline'
 import { getMetaData } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
 
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 

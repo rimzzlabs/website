@@ -1,17 +1,13 @@
 import Label from '@/components/atoms/Label'
 import UnstyledLink from '@/components/atoms/UnstyledLink'
 
-import { Blogs } from '@/data/blog/blog.type'
 import { numberToCompact } from '@/libs/numberFormat'
 import { twclsx } from '@/libs/twclsx'
 
 import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
+import type { Blog } from 'rizkicitra'
 
-interface BlogCardProps extends Blogs {
-  displayViews?: boolean
-}
-
-const BlogCard: React.FunctionComponent<BlogCardProps> = ({ title, topics, ...props }) => {
+const BlogCard: React.FunctionComponent<Blog> = ({ title, topics, ...props }) => {
   return (
     <div className={twclsx('relative flex flex-col p-3 h-full', 'bg-theme-50 dark:bg-theme-900')}>
       <h3 className={twclsx('mb-2 md:mb-4')}>{title}</h3>

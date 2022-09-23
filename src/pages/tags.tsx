@@ -1,23 +1,24 @@
 import Button from '@/components/atoms/Button'
 import Card from '@/components/atoms/Card'
 import BlogCard from '@/components/mollecules/BlogCard'
-import Hero, { HeroProps } from '@/components/mollecules/Hero'
+import Hero from '@/components/mollecules/Hero'
+import type { HeroProps } from '@/components/mollecules/Hero'
 import Layout from '@/components/templates/Layout'
 
-import { Blogs } from '@/data/blog/blog.type'
-import { getBlog } from '@/helpers/getBlog'
 import useTags from '@/hooks/useTags'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
+import { getContents } from '@/services'
 
-import { GetStaticProps, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
+import type { Blog } from 'rizkicitra'
 
 type TagsProps = {
   tags: string[]
-  blogs: Blogs[]
+  blogs: Blog[]
 }
 
 type OptionColors = Partial<{
@@ -52,7 +53,7 @@ const meta = getMetaData({
 })
 
 export const getStaticProps: GetStaticProps<TagsProps> = async () => {
-  const res = await getBlog()
+  const res = await getContents<Blog>('/blog')
 
   const blogs = res.map((b) => ({ ...b.header, est_read: readingTime(b.content).text })).sort(getNewestBlog)
 

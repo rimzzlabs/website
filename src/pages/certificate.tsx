@@ -8,7 +8,7 @@ import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { twclsx } from '@/libs/twclsx'
 
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import { useCallback, useEffect, useState } from 'react'
 import Lightbox from 'react-image-lightbox'
 

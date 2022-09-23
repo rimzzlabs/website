@@ -5,14 +5,14 @@ import Layout from '@/components/templates/Layout'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import { twclsx } from '@/libs/twclsx'
 
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 
 /**
-Used to display an UI of 404, if the
-Visitor of the web visit unavailable page,
-Try go to http://localhost:3000/unavail
-You will see this page being used
-*/
+ * Used to display UI of 404, if the
+ * Visitor of the web visit unavailable page,
+ * Try go to http://localhost:3000/unavail
+ * You will see this page being used
+ */
 const NotFoundPage: NextPage = () => {
   const mdscreen = useMediaQuery('(min-width: 768px)')
 

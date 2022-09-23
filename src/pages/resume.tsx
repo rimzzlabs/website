@@ -8,9 +8,9 @@ import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 
 import htmr from 'htmr'
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
 
 const PopupResume = dynamic(() => import('@/components/organism/PopupResume'), { suspense: true })
@@ -28,7 +28,7 @@ const meta = getMetaData({
 })
 
 const Resume: NextPage = () => {
-  const listStyle = 'list-disc list-inside [&>li]:my-2'
+  const listStyle = useMemo(() => 'list-disc list-inside [&>li]:my-2', [])
   const isMatch = useMediaQuery('(min-width: 768px)')
   const [modal, setModal] = useState({ alert: false, popup: false })
 

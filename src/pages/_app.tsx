@@ -9,7 +9,7 @@ import umamiClient from '@/libs/umamiClient'
 
 import { AnimatePresence, LazyMotion, Variants, domAnimation, m } from 'framer-motion'
 import { ThemeProvider } from 'next-themes'
-import { AppProps } from 'next/app'
+import type { AppProps } from 'next/app'
 import 'prism-themes/themes/prism-night-owl.css'
 import { useEffect } from 'react'
 import 'react-image-lightbox/style.css'

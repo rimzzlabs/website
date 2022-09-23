@@ -1,10 +1,11 @@
 import IconFinder from '@/components/atoms/IconFinder'
 import UnstyledLink from '@/components/atoms/UnstyledLink'
 
-import { PortfolioHeadProps } from '@/data/portfolio/portfolio.type'
 import { twclsx } from '@/libs/twclsx'
 
-const ProjectCard = ({ title, summary, slug, stack }: PortfolioHeadProps) => {
+import type { Portfolio } from 'rizkicitra'
+
+const ProjectCard = ({ title, summary, slug, stack }: Portfolio) => {
   return (
     <div className={twclsx('relative flex flex-col h-full', 'p-3 bg-theme-50 dark:bg-theme-900')}>
       <h3>{title}</h3>
