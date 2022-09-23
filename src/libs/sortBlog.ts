@@ -1,10 +1,10 @@
-import { Blogs } from '@/data/blog/blog.type'
+import type { Blog } from 'rizkicitra'
 
-export const getNewestBlog = (a: Blogs, b: Blogs) => {
+export const getNewestBlog = (a: Blog, b: Blog) => {
   return new Date(a.published) < new Date(b.published) ? 1 : new Date(a.published) > new Date(b.published) ? -1 : 0
 }
 
-export const getMostPopularBlog = (a: Blogs, b: Blogs) => {
+export const getMostPopularBlog = (a: Blog, b: Blog) => {
   const aviews = a.views as number
   const bviews = b.views as number
 
