@@ -1,4 +1,4 @@
-import { getPageViews } from '@/helpers/getPageViews'
+import { getPageViews } from '@/services'
 
 import { NextApiRequest, NextApiResponse } from 'next'
 
