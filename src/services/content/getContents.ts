@@ -4,7 +4,7 @@ import { readFile } from 'fs/promises'
 import matter from 'gray-matter'
 import { join } from 'path'
 
-type GetContents<T> = { content: string; header: { slug: string } & T }
+export type GetContents<T> = { content: string; header: { slug: string } & T }
 
 export const getContents = async <T>(
   /** the path to the content folders, example: `/blog`,
