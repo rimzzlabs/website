@@ -3,7 +3,7 @@ import { Loading } from '@/components/mollecules/Loading'
 import Searchbar from '@/components/mollecules/Searchbar'
 import Layout, { LayoutProps } from '@/components/templates/Layout'
 
-import useSearch from '@/hooks/useSearch'
+import { useSearch } from '@/hooks'
 import { isProd } from '@/libs/constants/environmentState'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'

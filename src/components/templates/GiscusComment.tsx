@@ -1,4 +1,4 @@
-import useTheme from '@/hooks/useTheme'
+import { useTheme } from '@/hooks'
 import { isDev } from '@/libs/constants/environmentState'
 import { twclsx } from '@/libs/twclsx'
 

@@ -1,6 +1,6 @@
 import Button from '@/components/atoms/Button'
 
-import useTheme from '@/hooks/useTheme'
+import { useTheme } from '@/hooks'
 import { twclsx } from '@/libs/twclsx'
 
 import ThemeMenu from './ThemeMenu'

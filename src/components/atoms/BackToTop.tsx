@@ -1,4 +1,4 @@
-import useWindowScroll from '@/hooks/useWindowScroll'
+import { useWindowScrollY } from '@/hooks'
 import variants, { withExit } from '@/libs/animation/variants'
 import { twclsx } from '@/libs/twclsx'
 
@@ -6,7 +6,7 @@ import { AnimatePresence, m } from 'framer-motion'
 import { HiOutlineArrowUp } from 'react-icons/hi'
 
 const BackToTop: React.FunctionComponent = () => {
-  const yAxis = useWindowScroll()
+  const yAxis = useWindowScrollY()
   const handleClick = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   const v = withExit(variants)

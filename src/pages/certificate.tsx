@@ -2,7 +2,7 @@ import CustomImage from '@/components/atoms/CustomImage'
 import Hero from '@/components/mollecules/Hero'
 import Layout from '@/components/templates/Layout'
 
-import useMediaQuery from '@/hooks/useMediaQuery'
+import { useMediaQuery } from '@/hooks'
 import ALBUMS from '@/libs/constants/certificate'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'

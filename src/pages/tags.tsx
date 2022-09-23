@@ -6,7 +6,7 @@ import Hero from '@/components/mollecules/Hero'
 import type { HeroProps } from '@/components/mollecules/Hero'
 import Layout from '@/components/templates/Layout'
 
-import useTags from '@/hooks/useTags'
+import { useTags } from '@/hooks'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { getNewestBlog } from '@/libs/sortBlog'

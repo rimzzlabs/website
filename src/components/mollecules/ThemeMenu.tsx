@@ -1,4 +1,4 @@
-import useClickOutside from '@/hooks/useClickOutside'
+import { useClickOutside } from '@/hooks'
 import { twclsx } from '@/libs/twclsx'
 
 import { m } from 'framer-motion'

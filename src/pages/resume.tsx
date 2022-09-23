@@ -2,7 +2,7 @@ import Button from '@/components/atoms/Button'
 import Seo from '@/components/atoms/Seo'
 import UnderlineLink from '@/components/mollecules/UnderlineLink'
 
-import useMediaQuery from '@/hooks/useMediaQuery'
+import { useMediaQuery } from '@/hooks'
 import { EDUCATION, EXPERIENCE, HEADLINE, LINKS, SKILLS } from '@/libs/constants/resume'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'

@@ -1,7 +1,7 @@
 import Button from '@/components/atoms/Button'
 import Code from '@/components/organism/MDXComponents/Code'
 
-import useTheme from '@/hooks/useTheme'
+import { useTheme } from '@/hooks'
 import { twclsx } from '@/libs/twclsx'
 
 import { AnimatePresence, Variants, m } from 'framer-motion'

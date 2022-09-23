@@ -2,7 +2,7 @@ import CustomImage from '@/components/atoms/CustomImage'
 import UnderlineLink from '@/components/mollecules/UnderlineLink'
 import Layout from '@/components/templates/Layout'
 
-import useMediaQuery from '@/hooks/useMediaQuery'
+import { useMediaQuery } from '@/hooks'
 import { twclsx } from '@/libs/twclsx'
 
 import type { NextPage } from 'next'

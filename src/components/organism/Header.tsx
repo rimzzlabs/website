@@ -2,15 +2,14 @@ import DrawerToggler from '@/components/atoms/DrawerToggler'
 import Nav from '@/components/mollecules/Nav'
 import ThemeButton from '@/components/mollecules/ThemeButton'
 
-import useMediaQuery from '@/hooks/useMediaQuery'
-import useWindowScroll from '@/hooks/useWindowScroll'
+import { useMediaQuery, useWindowScrollY } from '@/hooks'
 import { twclsx } from '@/libs/twclsx'
 
 import { useRouter } from 'next/router'
 
 const Header = () => {
   const { pathname } = useRouter()
-  const scrollPos = useWindowScroll()
+  const scrollPos = useWindowScrollY()
   const mdscreen = useMediaQuery('(min-width: 768px)')
 
   const isError = pathname === '/_error' || pathname === '/404' || pathname === '/resume'
