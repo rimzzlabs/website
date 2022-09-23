@@ -8,6 +8,7 @@ import { HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 import type { Blog } from 'rizkicitra'
 
 const BlogCard: React.FunctionComponent<Blog> = ({ title, topics, ...props }) => {
+  console.table({ title, topics, ...props })
   return (
     <div className={twclsx('relative flex flex-col p-3 h-full', 'bg-theme-50 dark:bg-theme-900')}>
       <h3 className={twclsx('mb-2 md:mb-4')}>{title}</h3>
