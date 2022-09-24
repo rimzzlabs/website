@@ -15,11 +15,10 @@ import dynamic from 'next/dynamic'
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
 
-const HowToPrintDialog = dynamic(
-  async () => await import('@/components/dialog/DialogResume').then((m) => m.HowToPrintDialog),
-  { suspense: true }
-)
-const AlertResume = dynamic(async () => await import('@/components/dialog/DialogResume').then((m) => m.AlertResume), {
+const HowToPrintDialog = dynamic(() => import('@/components/dialog').then((m) => ({ default: m.HowToPrintDialog })), {
+  suspense: true
+})
+const AlertResume = dynamic(() => import('@/components/dialog').then((m) => ({ default: m.AlertResume })), {
   suspense: true
 })
 

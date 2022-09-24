@@ -1,5 +1,6 @@
 import { ContentImage, IconStack, MDXComponents, PRButton } from '@/components/content'
 
+import { BackToTop } from '@/UI/buttons'
 import { UnderlineLink } from '@/UI/links'
 import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
@@ -14,13 +15,10 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { MDXRemote } from 'next-mdx-remote'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
-import dynamic from 'next/dynamic'
 import type { ParsedUrlQuery } from 'querystring'
 import { HiGlobeAlt, HiOutlineCalendar } from 'react-icons/hi'
 import { SiGithub } from 'react-icons/si'
 import type { Portfolio } from 'rizkicitra'
-
-const BackToTop = dynamic(async () => await import('@/UI/buttons').then((m) => m.BackToTop))
 
 interface ProjectDetailPageProps {
   header: Portfolio
