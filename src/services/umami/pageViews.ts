@@ -2,7 +2,8 @@ import { getToken } from '@/services'
 import type { GetContents } from '@/services'
 
 import { isDev } from '@/libs/constants/environmentState'
-import umami from '@/libs/umami'
+
+import { umamiServer } from './instance'
 
 import readingTime from 'reading-time'
 import type { Blog, PageView } from 'rizkicitra'
@@ -70,7 +71,10 @@ export const getPageViews = async (slug: string): Promise<GetPageViews> => {
 
   /* Making two requests to the Umami API, one for the article and one for the blog, and then merges the
  data and returns it */
-  const res = await Promise.allSettled([umami.get<PageView>(articleURL, config), umami.get<PageView>(blogURL, config)])
+  const res = await Promise.allSettled([
+    umamiServer.get<PageView>(articleURL, config),
+    umamiServer.get<PageView>(blogURL, config)
+  ])
 
   /* Checking if the first request was successful, and if it was, it is assigning the data to the
   responseArticle variable. */
@@ -102,7 +106,7 @@ export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise
   const requests = blogs.map(async (blog): Promise<Blog> => {
     // this would return an array of promises blog, so passing it to Promise.all() method like an array
     // do request to umami on each post by passing its slug to query parameter
-    const response = await umami.get<HTTPResult>(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
+    const response = await umamiServer.get<HTTPResult>(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
 
     // set views, process request data to json, and set static type as HTTP, see line 9
     const views = response.data.data as number
