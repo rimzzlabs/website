@@ -1,4 +1,3 @@
-import { Blogs } from '@/data/blog/blog.type'
 import { getMostPopularBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
 
@@ -6,12 +5,13 @@ import { Loading } from '../mollecules/Loading'
 
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
+import type { Blog } from 'rizkicitra'
 
 const BlogCard = dynamic(() => import('@/components/mollecules/BlogCard'), { suspense: true })
 const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
 
 type BlogListProps = {
-  blogs: Blogs[]
+  blogs: Blog[]
   limit?: boolean
   mostView?: boolean
   displayViews?: boolean

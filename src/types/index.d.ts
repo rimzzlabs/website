@@ -79,4 +79,13 @@ declare module 'rizkicitra' {
     totaltime: { value: number; change: number }
     unique: { value: number; change: number }
   }
+
+  export type Timeline = {
+    title: string
+    description: string
+    place: string
+    start_date: Date
+    end_date: Date | null
+    type: 'edu' | 'work'
+  }
 }
