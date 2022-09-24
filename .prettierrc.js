@@ -7,7 +7,7 @@ const config = {
   trailingComma: 'none',
   arrowParens: 'always',
   endOfLine: 'auto',
-  importOrder: ['^@/styles/(.*)$', '^@/components(.*)$', '^@/(.*)$', '^[./]', '^'],
+  importOrder: ['^@/styles/(.*)$', '^@/components(.*)$', '^@/UI(.*)$', '^@/(.*)$', '^[./]', '^'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true
 }
