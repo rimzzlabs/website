@@ -31,6 +31,7 @@ export const Spinner: React.FunctionComponent<SpinnerProps> = (props) => {
       )}
     >
       <ImSpinner2 className={twclsx('animate-spin text-blue-600 dark:text-blue-500', spinnerSize[props.spinnerSize])} />
+      <p className='sr-only'>Loading...</p>
     </div>
   )
 }
