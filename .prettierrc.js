@@ -7,7 +7,16 @@ const config = {
   trailingComma: 'none',
   arrowParens: 'always',
   endOfLine: 'auto',
-  importOrder: ['^@/styles/(.*)$', '^@/components(.*)$', '^@/UI(.*)$', '^@/(.*)$', '^[./]', '^'],
+  importOrder: [
+    '^@/components(.*)$',
+    '^@/UI(.*)$',
+    '^@/services(.*)$',
+    '^@/libs(.*)$',
+    '^@/(.*)$',
+    '^[./]',
+    '^',
+    '^@/styles/(.*)$'
+  ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true
 }
