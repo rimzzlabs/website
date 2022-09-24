@@ -1,7 +1,6 @@
-import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
-import { Loading } from '@/components/mollecules/Loading'
-import Layout from '@/components/templates/Layout'
-import type { LayoutProps } from '@/components/templates/Layout'
+import { Spinner } from '@/UI/common'
+import { HeroWithPhoto, LayoutPage } from '@/UI/templates'
+import type { LayoutPageProps } from '@/UI/templates'
 
 import { timeline } from '@/libs/constants/timeline'
 import { getMetaData } from '@/libs/metaData'
@@ -11,7 +10,9 @@ import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
-const Timeline = dynamic(() => import('@/components/organism/Timeline'), { suspense: true })
+const TimelineList = dynamic(() => import('@/components/timeline').then((m) => ({ default: m.TimelineList })), {
+  suspense: true
+})
 
 const About: NextPage = () => {
   const meta = getMetaData({
@@ -25,7 +26,7 @@ const About: NextPage = () => {
   })
 
   return (
-    <Layout {...(meta as LayoutProps)}>
+    <LayoutPage {...(meta as LayoutPageProps)}>
       <HeroWithPhoto
         title={meta.title as string}
         subtitle='Rizki Maulana Citra'
@@ -61,19 +62,16 @@ const About: NextPage = () => {
         <p className={twclsx('max-w-prose mb-4')}>
           Take a look at my timeline below, it consists of my career path, formal education and more.
         </p>
-        <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-          <Timeline timeline={timeline} />
+        <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+          <TimelineList timeline={timeline} />
         </Suspense>
       </section>
 
       <section className={twclsx('pt-10 md:pt-20')}>
         <h2 className={twclsx('mb-4')}>Contact</h2>
-        <p>
-          Hi there, if you want to make a new friendship, bring your idea to reality, or just want to know more about
-          me, please contact me on one of my social media account.
-        </p>
+        <p>Hi there, if you want to make a friendship with me, please contact me on one of my social media accounts.</p>
       </section>
-    </Layout>
+    </LayoutPage>
   )
 }
 

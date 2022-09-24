@@ -1,6 +1,6 @@
 import { getPageViews } from '@/services'
 
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 type ReturnValue = {
   status: boolean

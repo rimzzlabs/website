@@ -1,17 +1,17 @@
-import Button from '@/components/atoms/Button'
-import Card from '@/components/atoms/Card'
-import CustomImage from '@/components/atoms/CustomImage'
-import BlogCard from '@/components/mollecules/BlogCard'
-import Hero from '@/components/mollecules/Hero'
-import type { HeroProps } from '@/components/mollecules/Hero'
-import Layout from '@/components/templates/Layout'
+import { UnstyledButton } from '@/UI/buttons'
+import { BlogCard } from '@/UI/cards'
+import { CustomImage } from '@/UI/images'
+import type { HeroProps } from '@/UI/templates'
+import { Hero, LayoutPage } from '@/UI/templates'
 
-import { useTags } from '@/hooks'
+import { getContents } from '@/services'
+
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
-import { getContents } from '@/services'
+
+import { useTags } from '@/hooks'
 
 import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
@@ -75,12 +75,12 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
   const { selectedTags, setNewTag } = useTags()
 
   return (
-    <Layout {...meta}>
+    <LayoutPage {...meta}>
       <Hero {...(meta as HeroProps)} />
 
       <section className={twclsx('flex items-stretch', 'flex-wrap flex-auto gap-2 md:gap-4', 'py-10')}>
         {tags.map((t) => (
-          <Button
+          <UnstyledButton
             onClick={() => setNewTag(t)}
             className={twclsx(
               'py-2 px-4 rounded',
@@ -92,7 +92,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
             key={t}
           >
             {t}
-          </Button>
+          </UnstyledButton>
         ))}
       </section>
 
@@ -103,9 +103,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
             {blogs
               .filter((b) => selectedTags.map((t) => b.topics.includes(t)).includes(true))
               .map((b) => (
-                <Card key={b.slug}>
-                  <BlogCard {...b} />
-                </Card>
+                <BlogCard key={b.slug} {...b} />
               ))}
           </div>
         </section>
@@ -118,7 +116,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
           <p>Waiting for your command</p>
         </section>
       )}
-    </Layout>
+    </LayoutPage>
   )
 }
 

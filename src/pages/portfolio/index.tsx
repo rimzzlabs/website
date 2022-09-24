@@ -1,22 +1,25 @@
-import Hero from '@/components/mollecules/Hero'
-import { Loading } from '@/components/mollecules/Loading'
-import Searchbar from '@/components/mollecules/Searchbar'
-import Layout, { LayoutProps } from '@/components/templates/Layout'
+import { Spinner } from '@/UI/common'
+import { Searchbar } from '@/UI/inputs'
+import { Hero, LayoutPage } from '@/UI/templates'
+import type { LayoutPageProps } from '@/UI/templates'
 
-import { useSearch } from '@/hooks'
+import { getContents } from '@/services'
+
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
 import { twclsx } from '@/libs/twclsx'
-import { getContents } from '@/services'
+
+import { useSearch } from '@/hooks'
 
 import type { GetStaticProps, NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import type { Portfolio } from 'rizkicitra'
 
-const ProjectCard = dynamic(() => import('@/components/mollecules/ProjectCard'), { suspense: true })
-const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
+const PortfolioCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.PortfolioCard })), {
+  suspense: true
+})
 
 type PortfoliopageProps = {
   portfolio: Array<Portfolio>
@@ -42,7 +45,7 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
   const { query, handleChange, filteredData } = useSearch<PortfoliopageProps['portfolio']>(portfolio, 'portfolio')
 
   return (
-    <Layout {...(meta as LayoutProps)}>
+    <LayoutPage {...(meta as LayoutPageProps)}>
       <Hero title={meta.title as string} description={meta.description as string} />
       <Searchbar onChange={handleChange} value={query} />
 
@@ -51,12 +54,10 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
           <section>
             <h2 className={twclsx('mb-4')}>Personal Portfolio</h2>
 
-            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+            <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
                 {portfolio.map((p) => (
-                  <Card key={p.title}>
-                    <ProjectCard {...p} />
-                  </Card>
+                  <PortfolioCard key={p.slug} {...p} />
                 ))}
               </div>
             </Suspense>
@@ -67,12 +68,10 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
           <section>
             <h2 className={twclsx('mb-4')}>Search Portfolio</h2>
             {filteredData.length > 0 ? (
-              <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+              <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
                 <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
                   {filteredData.map((p) => (
-                    <Card key={p.title}>
-                      <ProjectCard {...p} />
-                    </Card>
+                    <PortfolioCard key={p.slug} {...p} />
                   ))}
                 </div>
               </Suspense>
@@ -82,7 +81,7 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
           </section>
         )}
       </div>
-    </Layout>
+    </LayoutPage>
   )
 }
 

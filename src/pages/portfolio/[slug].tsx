@@ -1,18 +1,18 @@
-import IconFinder from '@/components/atoms/IconFinder'
-import EditButton from '@/components/mollecules/EditButton'
-import UnderlineLink from '@/components/mollecules/UnderlineLink'
-import MDXComponents from '@/components/organism/MDXComponents'
-import ContentImage from '@/components/organism/MDXComponents/ContentImage'
-import Layout from '@/components/templates/Layout'
+import { ContentImage, IconStack, MDXComponents, PRButton } from '@/components/content'
+
+import { UnderlineLink } from '@/UI/links'
+import { LayoutPage } from '@/UI/templates'
+import type { LayoutPageProps } from '@/UI/templates'
+
+import { getContentBySlug, getContents } from '@/services'
 
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaData } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
-import { getContentBySlug, getContents } from '@/services'
 
-import { LayoutProps } from 'framer-motion'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { MDXRemote } from 'next-mdx-remote'
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import dynamic from 'next/dynamic'
 import type { ParsedUrlQuery } from 'querystring'
@@ -38,7 +38,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
   })
 
   return (
-    <Layout {...(metaData as LayoutProps)}>
+    <LayoutPage {...(metaData as LayoutPageProps)}>
       <BackToTop />
 
       <article className={twclsx('flex flex-col', 'gap-8')}>
@@ -71,7 +71,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
           <div className={twclsx('flex items-center gap-3', 'w-full')}>
             {header.stack.map((s) => (
               <span className={twclsx('text-2xl')} key={s}>
-                <IconFinder type={s} />
+                <IconStack type={s} />
               </span>
             ))}
           </div>
@@ -92,9 +92,9 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
 
-        <EditButton path={`/portfolio/${header.slug}.mdx`} />
+        <PRButton path={`/portfolio/${header.slug}.mdx`} />
       </article>
-    </Layout>
+    </LayoutPage>
   )
 }
 

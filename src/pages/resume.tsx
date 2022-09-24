@@ -1,11 +1,13 @@
-import Button from '@/components/atoms/Button'
-import Seo from '@/components/atoms/Seo'
-import UnderlineLink from '@/components/mollecules/UnderlineLink'
+import { CustomSeo } from '@/components/CustomSeo'
 
-import { useMediaQuery } from '@/hooks'
+import { UnstyledButton } from '@/UI/buttons'
+import { UnderlineLink } from '@/UI/links'
+
 import { EDUCATION, EXPERIENCE, HEADLINE, LINKS, SKILLS } from '@/libs/constants/resume'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
+
+import { useMediaQuery } from '@/hooks'
 
 import htmr from 'htmr'
 import type { NextPage } from 'next'
@@ -13,8 +15,14 @@ import dynamic from 'next/dynamic'
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
 
-const PopupResume = dynamic(() => import('@/components/organism/PopupResume'), { suspense: true })
-const AlertResume = dynamic(() => import('@/components/organism/AlertResume'), { suspense: true })
+const HowToPrintDialog = dynamic(
+  () => import('@/components/dialog/DialogResume').then((m) => ({ default: m.HowToPrintDialog })),
+  { suspense: true }
+)
+const AlertResume = dynamic(
+  () => import('@/components/dialog/DialogResume').then((m) => ({ default: m.AlertResume })),
+  { suspense: true }
+)
 
 const meta = getMetaData({
   title: 'Resume',
@@ -54,10 +62,10 @@ const Resume: NextPage = () => {
 
   return (
     <main className='py-4 dark:print:text-theme-800 dark:print:[&:is(h1)]:text-primary-700'>
-      <Seo {...meta} />
+      <CustomSeo {...meta} />
 
       <Suspense fallback={null}>
-        <PopupResume isOpen={modal.popup} onClose={closePopup} />
+        <HowToPrintDialog isOpen={modal.popup} onClose={closePopup} />
         {modal.alert && <AlertResume isOpen={modal.alert} onClose={closeAlert} />}
       </Suspense>
 
@@ -78,10 +86,10 @@ const Resume: NextPage = () => {
         <section>
           <div className='flex items-center justify-between pb-2.5 border-b-2 border-b-theme-700'>
             <h3>Experience</h3>
-            <Button onClick={openPopup} className='print:hidden'>
+            <UnstyledButton onClick={openPopup} className='print:hidden'>
               <HiInformationCircle className='text-red-500 animate-pulse text-lg' />
               <span className='sr-only'>How to print?</span>
-            </Button>
+            </UnstyledButton>
           </div>
 
           {EXPERIENCE.map((exp, i) => (

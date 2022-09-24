@@ -1,14 +1,12 @@
-import BlogCard from '@/components/mollecules/BlogCard'
-import HeroWithPhoto from '@/components/mollecules/HeroWithPhoto'
-import ProjectCard from '@/components/mollecules/ProjectCard'
-import Section from '@/components/organism/Section'
-import Layout from '@/components/templates/Layout'
-import type { LayoutProps } from '@/components/templates/Layout'
+import { BlogCard, PortfolioCard } from '@/UI/cards'
+import { HeroWithPhoto, LayoutPage, Section } from '@/UI/templates'
+import type { LayoutPageProps } from '@/UI/templates'
+
+import { GetContents, getContents } from '@/services'
 
 import { getMetaData } from '@/libs/metaData'
 import { getNewestBlog } from '@/libs/sortBlog'
 import { getNewestPortfolio } from '@/libs/sortPortfolio'
-import { GetContents, getContents } from '@/services'
 
 import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
@@ -31,7 +29,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
     type: 'website'
   })
   return (
-    <Layout {...(meta as LayoutProps)}>
+    <LayoutPage {...(meta as LayoutPageProps)}>
       <HeroWithPhoto
         title={meta.title as string}
         subtitle='Student &amp; Frontend Developer'
@@ -57,13 +55,13 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
         title='Featured Portfolio'
         gridCols='grid-cols-1 md:grid-cols-2'
         data={portfolios}
-        Component={ProjectCard}
+        Component={PortfolioCard}
         link={{
           to: '/portfolio',
           children: 'See all portfolio'
         }}
       />
-    </Layout>
+    </LayoutPage>
   )
 }
 

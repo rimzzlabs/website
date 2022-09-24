@@ -1,19 +1,18 @@
-import BackToTop from '@/components/atoms/BackToTop'
-import CustomImage from '@/components/atoms/CustomImage'
-import EditButton from '@/components/mollecules/EditButton'
-import UnderlineLink from '@/components/mollecules/UnderlineLink'
-import MDXComponents from '@/components/organism/MDXComponents'
-import ContentImage from '@/components/organism/MDXComponents/ContentImage'
-import GiscusComment from '@/components/templates/GiscusComment'
-import Layout from '@/components/templates/Layout'
-import type { LayoutProps } from '@/components/templates/Layout'
+import { ContentImage, GiscusComment, MDXComponents, PRButton } from '@/components/content'
+
+import { BackToTop } from '@/UI/buttons'
+import { CustomImage } from '@/UI/images'
+import { UnderlineLink } from '@/UI/links'
+import { LayoutPage } from '@/UI/templates'
+import type { LayoutPageProps } from '@/UI/templates'
+
+import { getContentBySlug, getContents } from '@/services'
 
 import { isProd } from '@/libs/constants/environmentState'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
 import umamiClient from '@/libs/umamiClient'
-import { getContentBySlug, getContents } from '@/services'
 
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -69,8 +68,9 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   }, [header.slug])
 
   return (
-    <Layout {...(metaData as LayoutProps)}>
+    <LayoutPage {...(metaData as LayoutPageProps)}>
       <BackToTop />
+
       <article className={twclsx('content-auto', 'flex flex-col', 'gap-8')}>
         <section className={twclsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
           <h1 className={twclsx('max-w-prose', 'text-3xl md:text-5xl')}>{header.title}</h1>
@@ -131,10 +131,10 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         </section>
       </article>
 
-      <EditButton path={`/blog/${header.slug}.mdx`} />
+      <PRButton path={`/blog/${header.slug}.mdx`} />
 
       <GiscusComment />
-    </Layout>
+    </LayoutPage>
   )
 }
 

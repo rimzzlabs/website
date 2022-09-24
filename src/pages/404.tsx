@@ -1,9 +1,10 @@
-import CustomImage from '@/components/atoms/CustomImage'
-import UnderlineLink from '@/components/mollecules/UnderlineLink'
-import Layout from '@/components/templates/Layout'
+import { CustomImage } from '@/UI/images'
+import { UnderlineLink } from '@/UI/links'
+import { LayoutPage } from '@/UI/templates'
+
+import { twclsx } from '@/libs/twclsx'
 
 import { useMediaQuery } from '@/hooks'
-import { twclsx } from '@/libs/twclsx'
 
 import type { NextPage } from 'next'
 
@@ -17,7 +18,7 @@ const NotFoundPage: NextPage = () => {
   const mdscreen = useMediaQuery('(min-width: 768px)')
 
   return (
-    <Layout
+    <LayoutPage
       title='404'
       description='The page you are looking for are not found, please contact Rizki if you encounter any problem'
       template='Page Not Found'
@@ -39,7 +40,7 @@ const NotFoundPage: NextPage = () => {
           <UnderlineLink href='/'>Back to home</UnderlineLink>
         </section>
       </div>
-    </Layout>
+    </LayoutPage>
   )
 }
 

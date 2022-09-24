@@ -1,15 +1,17 @@
-import Hero from '@/components/mollecules/Hero'
-import { Loading } from '@/components/mollecules/Loading'
-import Searchbar from '@/components/mollecules/Searchbar'
-import Layout, { LayoutProps } from '@/components/templates/Layout'
+import { Spinner } from '@/UI/common'
+import { Searchbar } from '@/UI/inputs'
+import { Hero, LayoutPage } from '@/UI/templates'
+import type { LayoutPageProps } from '@/UI/templates'
 
-import { useSearch } from '@/hooks'
+import { getContents, getPageViewsEach } from '@/services'
+
 import { isProd } from '@/libs/constants/environmentState'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
 import { twclsx } from '@/libs/twclsx'
-import { getContents, getPageViewsEach } from '@/services'
+
+import { useSearch } from '@/hooks'
 
 import { GetStaticProps, NextPage } from 'next'
 import dynamic from 'next/dynamic'
@@ -17,8 +19,8 @@ import { Suspense, useMemo } from 'react'
 import readingTime from 'reading-time'
 import type { Blog } from 'rizkicitra'
 
-const BlogCard = dynamic(() => import('@/components/mollecules/BlogCard'), { suspense: true })
-const Card = dynamic(() => import('@/components/atoms/Card'), { suspense: true })
+const BlogCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.BlogCard })), { suspense: true })
+
 type BlogPageProps = {
   allBlogs: Array<Blog>
 }
@@ -41,7 +43,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   return (
-    <Layout {...(meta as LayoutProps)}>
+    <LayoutPage {...(meta as LayoutPageProps)}>
       <Hero title={meta.title as string} description={meta.description as string} />
 
       <Searchbar onChange={handleChange} value={query} />
@@ -50,12 +52,10 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
-            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+            <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
                 {mostViewdBlogs.map((b) => (
-                  <Card key={b.slug}>
-                    <BlogCard displayViews {...b} />
-                  </Card>
+                  <BlogCard key={b.slug} displayViews {...b} />
                 ))}
               </div>
             </Suspense>
@@ -64,12 +64,10 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
           <section>
             <h2 className={twclsx('mb-4')}>All Post</h2>
 
-            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+            <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
                 {allBlogs.map((b) => (
-                  <Card key={b.slug}>
-                    <BlogCard displayViews {...b} />
-                  </Card>
+                  <BlogCard key={b.slug} displayViews {...b} />
                 ))}
               </div>
             </Suspense>
@@ -81,12 +79,10 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         <section className={twclsx('content-auto')}>
           <h2 className={twclsx('mb-4')}>Search Post</h2>
           {filteredData.length > 0 ? (
-            <Suspense fallback={<Loading containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+            <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
                 {filteredData.map((b) => (
-                  <Card key={b.published}>
-                    <BlogCard displayViews {...b} />
-                  </Card>
+                  <BlogCard key={b.slug} displayViews {...b} />
                 ))}
               </div>
             </Suspense>
@@ -95,7 +91,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
           )}
         </section>
       )}
-    </Layout>
+    </LayoutPage>
   )
 }
 

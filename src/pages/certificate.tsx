@@ -1,12 +1,12 @@
-import CustomImage from '@/components/atoms/CustomImage'
-import Hero from '@/components/mollecules/Hero'
-import Layout from '@/components/templates/Layout'
+import { CustomImage } from '@/UI/images'
+import { Hero, LayoutPage } from '@/UI/templates'
 
-import { useMediaQuery } from '@/hooks'
 import ALBUMS from '@/libs/constants/certificate'
 import { getMetaData } from '@/libs/metaData'
 import { generateOgImage } from '@/libs/ogImage'
 import { twclsx } from '@/libs/twclsx'
+
+import { useMediaQuery } from '@/hooks'
 
 import type { NextPage } from 'next'
 import { useCallback, useEffect, useState } from 'react'
@@ -32,6 +32,14 @@ const CertificatePage: NextPage = () => {
   const [currImage, setCurrImage] = useState(0)
 
   const isMatch = useMediaQuery('(min-width: 768px)')
+  const handleClick = useCallback((newValue: number) => {
+    setIsOpen((prev) => !prev)
+    setCurrImage(newValue)
+  }, [])
+
+  const onCloseRequest = useCallback(() => setIsOpen(false), [])
+  const onPrevImage = useCallback(() => setCurrImage((prev) => (prev === 0 ? ALBUMS.length - 1 : prev - 1)), [])
+  const onNextImage = useCallback(() => setCurrImage((prev) => (prev === ALBUMS.length - 1 ? 0 : prev + 1)), [])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -45,17 +53,8 @@ const CertificatePage: NextPage = () => {
     }
   }, [isOpen])
 
-  const handleClick = useCallback(
-    (newValue: number) => {
-      setIsOpen((prev) => !prev)
-      setCurrImage(newValue)
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currImage]
-  )
-
   return (
-    <Layout {...meta}>
+    <LayoutPage {...meta}>
       <Hero title={meta.title as string} description={meta.description as string} />
       <section
         className={twclsx(
@@ -87,11 +86,11 @@ const CertificatePage: NextPage = () => {
         <div className='relative w-full'>
           <Lightbox
             mainSrc={ALBUMS[currImage].src}
-            onMovePrevRequest={() => setCurrImage((prev) => (prev === 0 ? ALBUMS.length - 1 : prev - 1))}
-            onMoveNextRequest={() => setCurrImage((prev) => (prev === ALBUMS.length - 1 ? 0 : prev + 1))}
+            onMovePrevRequest={onPrevImage}
+            onMoveNextRequest={onNextImage}
             prevSrc={ALBUMS[(currImage + ALBUMS.length - 1) % ALBUMS.length].src}
             nextSrc={ALBUMS[(currImage + 1) % ALBUMS.length].src}
-            onCloseRequest={() => setIsOpen(false)}
+            onCloseRequest={onCloseRequest}
             imageTitle={isMatch && ALBUMS[currImage].title}
             imageCaption={!isMatch && ALBUMS[currImage].title}
             imagePadding={isMatch ? 100 : 10}
@@ -101,7 +100,7 @@ const CertificatePage: NextPage = () => {
           />
         </div>
       )}
-    </Layout>
+    </LayoutPage>
   )
 }
 
