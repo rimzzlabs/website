@@ -8,10 +8,9 @@ import { twclsx } from '@/libs/twclsx'
 
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
 
-const TimelineList = dynamic(() => import('@/components/timeline').then((m) => ({ default: m.TimelineList })), {
-  suspense: true
+const TimelineList = dynamic(() => import('@/components/timeline').then((m) => m.TimelineList), {
+  loading: () => <Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />
 })
 
 const About: NextPage = () => {
@@ -62,9 +61,7 @@ const About: NextPage = () => {
         <p className={twclsx('max-w-prose mb-4')}>
           Take a look at my timeline below, it consists of my career path, formal education and more.
         </p>
-        <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-          <TimelineList timeline={timeline} />
-        </Suspense>
+        <TimelineList timeline={timeline} />
       </section>
 
       <section className={twclsx('pt-10 md:pt-20')}>

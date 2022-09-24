@@ -12,15 +12,11 @@ import { useMediaQuery } from '@/hooks'
 import htmr from 'htmr'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
 
-const HowToPrintDialog = dynamic(() => import('@/components/dialog').then((m) => ({ default: m.HowToPrintDialog })), {
-  suspense: true
-})
-const AlertResume = dynamic(() => import('@/components/dialog').then((m) => ({ default: m.AlertResume })), {
-  suspense: true
-})
+const HowToPrintDialog = dynamic(() => import('@/components/dialog').then((m) => m.HowToPrintDialog))
+const AlertResume = dynamic(() => import('@/components/dialog').then((m) => m.AlertResume))
 
 const meta = getMetaData({
   title: 'Resume',
@@ -62,10 +58,8 @@ const Resume: NextPage = () => {
     <main className='py-4 dark:print:text-theme-800 dark:print:[&:is(h1)]:text-primary-700'>
       <CustomSeo {...meta} />
 
-      <Suspense fallback={null}>
-        <HowToPrintDialog isOpen={modal.popup} onClose={closePopup} />
-        {modal.alert && <AlertResume isOpen={modal.alert} onClose={closeAlert} />}
-      </Suspense>
+      <HowToPrintDialog isOpen={modal.popup} onClose={closePopup} />
+      {modal.alert && <AlertResume isOpen={modal.alert} onClose={closeAlert} />}
 
       <section className='w-full mb-4'>
         <h2 className='text-center'>{HEADLINE.name}</h2>
