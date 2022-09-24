@@ -6,10 +6,9 @@ import { Hero, LayoutPage } from '@/UI/templates'
 
 import { getContents } from '@/services'
 
-import { getMetaData } from '@/libs/metaData'
-import { generateOgImage } from '@/libs/ogImage'
-import { getNewestBlog } from '@/libs/sortBlog'
-import { twclsx } from '@/libs/twclsx'
+import { twclsx } from '@/libs'
+import { generateOgImage, getMetaPage } from '@/libs/metapage'
+import { getNewestBlog } from '@/libs/sorters'
 
 import { useTags } from '@/hooks'
 
@@ -43,7 +42,7 @@ const getClassName = (str: string) => {
   return optionColors[str] || defaultColor
 }
 
-const meta = getMetaData({
+const meta = getMetaPage({
   title: 'Tags',
   description: 'Look for a specific blog post based on tag.',
   keywords: ['Tags', 'tag', 'tags', 'rizkicitra.dev'],

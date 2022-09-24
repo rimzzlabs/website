@@ -4,13 +4,13 @@ import { HeroWithPhoto, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { timeline } from '@/libs/constants/timeline'
-import { getMetaData } from '@/libs/metaData'
+import { getMetaPage } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
 import type { NextPage } from 'next'
 
 const About: NextPage = () => {
-  const meta = getMetaData({
+  const meta = getMetaPage({
     title: 'About',
     description: `A computer science student, frontend developer and an adventurer of my own mind. I like to express my feelings through code, and a quite place would be nice to have around me.`,
     keywords: ['About Rizki Maulana Citra', 'About Rizki M Citra', 'About Rizkicitra', 'About Rizki Citra'],

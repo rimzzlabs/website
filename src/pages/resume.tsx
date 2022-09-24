@@ -1,12 +1,11 @@
-import { CustomSeo } from '@/components/CustomSeo'
+import { CustomSeo } from '@/components'
 import { AlertResume, HowToPrintDialog } from '@/components/dialog'
 
 import { UnstyledButton } from '@/UI/buttons'
 import { UnderlineLink } from '@/UI/links'
 
 import { EDUCATION, EXPERIENCE, HEADLINE, LINKS, SKILLS } from '@/libs/constants/resume'
-import { getMetaData } from '@/libs/metaData'
-import { generateOgImage } from '@/libs/ogImage'
+import { generateOgImage, getMetaPage } from '@/libs/metapage'
 
 import { useMediaQuery } from '@/hooks'
 
@@ -19,7 +18,7 @@ import { HiInformationCircle } from 'react-icons/hi'
 // const HowToPrintDialog = dynamic(() => import('@/components/dialog').then((m) => m.HowToPrintDialog))
 // const AlertResume = dynamic(() => import('@/components/dialog').then((m) => m.AlertResume))
 
-const meta = getMetaData({
+const meta = getMetaPage({
   title: 'Resume',
   description:
     "Personal resume that I build on the web, as a Frontend Dev, I use my creativity to build my personal resume on the web instead on a regular 'paper'.",

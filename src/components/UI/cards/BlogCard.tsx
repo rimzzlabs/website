@@ -2,7 +2,7 @@ import { LabelBlog } from '@/components/content'
 
 import { UnstyledLink } from '@/UI/links'
 
-import { numberToCompact } from '@/libs/numberFormat'
+import { numberToCompact } from '@/libs/intl'
 import { twclsx } from '@/libs/twclsx'
 
 import { WrapperCard } from './WrapperCard'

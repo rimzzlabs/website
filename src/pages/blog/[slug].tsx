@@ -10,8 +10,8 @@ import { getContentBySlug, getContents } from '@/services/content'
 import { umamiClient } from '@/services/umami'
 
 import { isProd } from '@/libs/constants/environmentState'
-import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
-import { getMetaDataBlog } from '@/libs/metaData'
+import { dateFormat, dateStringToISO } from '@/libs/intl'
+import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
@@ -41,7 +41,7 @@ interface HTTP {
 const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   const [postViews, setPostViews] = useState<number>(0)
 
-  const metaData = getMetaDataBlog({
+  const metaData = getMetaPageBlog({
     ...header,
     slug: '/blog/' + header.slug
   })

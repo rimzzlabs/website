@@ -1,4 +1,4 @@
-import dateFormat from '@/libs/dateFormat'
+import { dateFormat } from '@/libs/intl'
 import { twclsx } from '@/libs/twclsx'
 
 import { TimelineHightlight } from './Highlight'

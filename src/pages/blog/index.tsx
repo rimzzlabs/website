@@ -7,9 +7,8 @@ import type { LayoutPageProps } from '@/UI/templates'
 import { getContents, getPageViewsEach } from '@/services'
 
 import { isProd } from '@/libs/constants/environmentState'
-import { getMetaData } from '@/libs/metaData'
-import { generateOgImage } from '@/libs/ogImage'
-import { getMostPopularBlog, getNewestBlog } from '@/libs/sortBlog'
+import { generateOgImage, getMetaPage } from '@/libs/metapage'
+import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
 import { useSearch } from '@/hooks'
@@ -27,7 +26,7 @@ type BlogPageProps = {
   allBlogs: Array<Blog>
 }
 
-const meta = getMetaData({
+const meta = getMetaPage({
   title: 'Blog',
   description: `I write blog once in a while, talks about Web Development related topics and my personal experience, I like to share my thought this way.`,
   keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],

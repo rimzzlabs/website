@@ -7,8 +7,8 @@ import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContentBySlug, getContents } from '@/services'
 
-import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
-import { getMetaData } from '@/libs/metaData'
+import { dateFormat, dateStringToISO } from '@/libs/intl'
+import { getMetaPage } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
@@ -26,7 +26,7 @@ interface ProjectDetailPageProps {
 }
 
 const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource }) => {
-  const metaData = getMetaData({
+  const metaData = getMetaPage({
     title: header.title,
     description: header.summary,
     og_image: header.image,

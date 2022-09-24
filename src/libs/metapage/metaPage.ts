@@ -2,7 +2,7 @@ import type { CustomSeoProps } from '@/components'
 
 import { MetaPage, SITE_NAME, SITE_URL, TWITER_USERNAME } from './type'
 
-export const getMetaData = (data: MetaPage): CustomSeoProps => {
+export const getMetaPage = (data: MetaPage): CustomSeoProps => {
   return {
     canonical: SITE_URL + data.slug,
     openGraph: {

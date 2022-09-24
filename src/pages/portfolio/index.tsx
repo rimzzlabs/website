@@ -6,9 +6,8 @@ import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContents } from '@/services'
 
-import { getMetaData } from '@/libs/metaData'
-import { generateOgImage } from '@/libs/ogImage'
-import { getNewestPortfolio } from '@/libs/sortPortfolio'
+import { generateOgImage, getMetaPage } from '@/libs/metapage'
+import { getNewestPortfolio } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
 import { useSearch } from '@/hooks'
@@ -24,7 +23,7 @@ type PortfoliopageProps = {
   portfolio: Array<Portfolio>
 }
 
-const meta = getMetaData({
+const meta = getMetaPage({
   title: 'Portfolio',
   description: `Personal portfolio, proven that I've created something with my current knowledge and experience.`,
   keywords: [

@@ -2,8 +2,7 @@ import { CustomImage } from '@/UI/images'
 import { Hero, LayoutPage } from '@/UI/templates'
 
 import ALBUMS from '@/libs/constants/certificate'
-import { getMetaData } from '@/libs/metaData'
-import { generateOgImage } from '@/libs/ogImage'
+import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
 import { useMediaQuery } from '@/hooks'
@@ -12,7 +11,7 @@ import type { NextPage } from 'next'
 import { useCallback, useEffect, useState } from 'react'
 import Lightbox from 'react-image-lightbox'
 
-const meta = getMetaData({
+const meta = getMetaPage({
   title: 'Certificate',
   description:
     "A collection of certificates I've earned, most of them are from finishing a course, you might want to take a look, click the certificate to zoom in.",

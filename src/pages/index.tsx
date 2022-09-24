@@ -4,9 +4,8 @@ import type { LayoutPageProps } from '@/UI/templates'
 
 import { GetContents, getContents } from '@/services'
 
-import { getMetaData } from '@/libs/metaData'
-import { getNewestBlog } from '@/libs/sortBlog'
-import { getNewestPortfolio } from '@/libs/sortPortfolio'
+import { getMetaPage } from '@/libs/metapage'
+import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
 
 import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
@@ -18,7 +17,7 @@ interface HomePageProps {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
-  const meta = getMetaData({
+  const meta = getMetaPage({
     title: 'Rizki Maulana Citra',
     template: 'Student And Frontend Developer',
     description: `Personal Website, Online Portfolio And Blog, Built On Top Of NEXT.js, An Online Space For Rizki To Share His Knowledge And Experience.`,
