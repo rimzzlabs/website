@@ -1,4 +1,5 @@
 import { PortfolioCard } from '@/UI/cards'
+import { EmptyResult, Spinner } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
@@ -40,15 +41,15 @@ const meta = getMetaData({
 })
 
 const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
-  const { query, handleChange, filteredData } = useSearch<PortfoliopageProps['portfolio']>(portfolio, 'portfolio')
+  const search = useSearch<PortfoliopageProps['portfolio']>(portfolio, 'portfolio')
 
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
       <Hero title={meta.title as string} description={meta.description as string} />
-      <Searchbar onChange={handleChange} value={query} />
+      <Searchbar onChange={search.handleChange} value={search.query} />
 
       <div className={twclsx('flex flex-col gap-8')}>
-        {query.length === 0 && portfolio.length > 0 ? (
+        {search.query.length === 0 && portfolio.length > 0 ? (
           <section>
             <h2 className={twclsx('mb-4')}>Personal Portfolio</h2>
 
@@ -67,24 +68,19 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
           </section>
         ) : null}
 
-        {query.length > 0 && (
+        {search.query.length > 0 && (
           <section>
             <h2 className={twclsx('mb-4')}>Search Portfolio</h2>
-            {filteredData.length > 0 ? (
-              // <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-              //   <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-              //     {filteredData.map((p) => (
-              //       <PortfolioCard key={p.slug} {...p} />
-              //     ))}
-              //   </div>
-              // </Suspense>
-              <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-                {filteredData.map((p) => (
-                  <PortfolioCard key={p.slug} {...p} />
-                ))}
+            {search.filteredData.length > 0 ? (
+              <div className={twclsx('grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto', !search.isPending && 'grid')}>
+                {search.isPending ? (
+                  <Spinner containerSize='full' spinnerSize='md' containerStyle='h-40' />
+                ) : (
+                  search.filteredData.map((p) => <PortfolioCard key={p.slug} {...p} />)
+                )}
               </div>
             ) : (
-              <p>No portfolio found, try a lil different?</p>
+              <EmptyResult />
             )}
           </section>
         )}

@@ -1,4 +1,5 @@
 import { BlogCard } from '@/UI/cards'
+import { EmptyResult, Spinner } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
@@ -40,16 +41,16 @@ const meta = getMetaData({
 })
 
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
-  const { query, handleChange, filteredData } = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
+  const search = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
       <Hero title={meta.title as string} description={meta.description as string} />
 
-      <Searchbar onChange={handleChange} value={query} />
+      <Searchbar onChange={search.handleChange} value={search.query} />
 
-      {allBlogs.length > 0 && query.length === 0 ? (
+      {allBlogs.length > 0 && search.query.length === 0 ? (
         <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
@@ -86,24 +87,19 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         </div>
       ) : null}
 
-      {query.length > 0 && (
+      {search.query.length > 0 && (
         <section className={twclsx('content-auto')}>
           <h2 className={twclsx('mb-4')}>Search Post</h2>
-          {filteredData.length > 0 ? (
-            // <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-            //   <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
-            //     {filteredData.map((b) => (
-            //       <BlogCard key={b.slug} displayViews {...b} />
-            //     ))}
-            //   </div>
-            // </Suspense>
-            <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
-              {filteredData.map((b) => (
-                <BlogCard key={b.slug} displayViews {...b} />
-              ))}
+          {search.filteredData.length > 0 ? (
+            <div className={twclsx('grid-cols-1 gap-4', 'flex-auto', !search.isPending && 'grid')}>
+              {search.isPending ? (
+                <Spinner containerSize='full' spinnerSize='md' containerStyle='h-40' />
+              ) : (
+                search.filteredData.map((b) => <BlogCard key={b.slug} displayViews {...b} />)
+              )}
             </div>
           ) : (
-            <p>No post found, try a lil different now?</p>
+            <EmptyResult />
           )}
         </section>
       )}
