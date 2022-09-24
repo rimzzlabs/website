@@ -10,14 +10,14 @@ export interface UnstyledLinkProps extends LinkProps {
   children?: React.ReactNode
 }
 
-const UnstyledLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, children, ...props }) => {
+const UnstyledLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, children, onClick, ...props }) => {
   if (href.startsWith('http')) {
     return createElement('a', { href, rel: 'noopener noreferrer', target: '_blank', ...props }, children)
   }
 
   return (
     <NextLink href={href} scroll={false} {...props}>
-      <a title={props.title ?? ''} onClick={props.onClick} className={twclsx(props.className)}>
+      <a title={props.title ?? ''} onClick={onClick} className={twclsx(props.className)}>
         {children}
       </a>
     </NextLink>
