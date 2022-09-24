@@ -37,11 +37,20 @@ export const Footer: React.FunctionComponent = () => {
             src='/icon-256x256.png'
             alt='icon'
             display='intrinsic'
-            className='rounded-lg'
+            className='rounded-lg animate-pulse'
             width={30}
             height={30}
           />
-          <span className='font-semibold text-xl md:text-2xl ml-2.5'>rizkicitra.dev</span>
+          <span
+            className={twclsx(
+              'font-semibold ml-2.5',
+              'text-xl md:text-2xl text-transparent dark:text-transparent',
+              'bg-gradient-to-r bg-clip-text',
+              'from-primary-700 to-ternary-700 dark:from-primary-500 dark:to-ternary-500'
+            )}
+          >
+            rizkicitra.dev
+          </span>
         </div>
       </section>
 
