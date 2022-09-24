@@ -1,11 +1,11 @@
-import { CustomSeoProps } from '@/components/atoms/Seo'
+import { CustomSeoProps } from '@/components'
 
 import { dateStringToISO } from './dateFormat'
 import { generateOgImage } from './ogImage'
 
 import { Blog } from 'rizkicitra'
 
-interface MetaData extends CustomSeoProps {
+type MetaData = {
   title: string
   description: string
   keywords: Array<string>
@@ -13,7 +13,7 @@ interface MetaData extends CustomSeoProps {
   og_image: string
   og_image_alt: string
   type?: 'website' | 'blog'
-}
+} & CustomSeoProps
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME

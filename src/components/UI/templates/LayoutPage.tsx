@@ -1,6 +1,7 @@
-import type { CustomSeoProps } from '@/components/CustomSeo'
 import { CustomSeo } from '@/components/CustomSeo'
-import Footer from '@/components/organism/Footer'
+import type { CustomSeoProps } from '@/components/CustomSeo'
+
+import { Footer } from '@/UI/common'
 
 import { twclsx } from '@/libs/twclsx'
 
