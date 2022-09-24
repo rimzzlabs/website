@@ -1,9 +1,9 @@
 import { CustomSeoProps } from '@/components/atoms/Seo'
 
-import { Blogs } from '@/data/blog/blog.type'
-
 import { dateStringToISO } from './dateFormat'
 import { generateOgImage } from './ogImage'
+
+import { Blog } from 'rizkicitra'
 
 interface MetaData extends CustomSeoProps {
   title: string
@@ -49,7 +49,7 @@ export const getMetaData = (data: MetaData): CustomSeoProps => ({
   ...data
 })
 
-export const getMetaDataBlog = (data: Blogs): CustomSeoProps => ({
+export const getMetaDataBlog = (data: Blog): CustomSeoProps => ({
   title: data.title,
   description: data.summary,
   canonical: SITE_URL + data.slug,

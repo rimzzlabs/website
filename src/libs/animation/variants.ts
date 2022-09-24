@@ -1,4 +1,4 @@
-import { Variant, Variants } from 'framer-motion'
+import type { Variant, Variants } from 'framer-motion'
 
 const hidden: Variant = {
   y: 15,

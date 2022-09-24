@@ -1,10 +1,6 @@
-type generateOgImagePayload = {
-  title: string
-  subTitle?: string
-  theme?: 'light' | 'dark'
-}
+import type { genOgImagePayload } from 'rizkicitra'
 
-export const generateOgImage = (payload: generateOgImagePayload) => {
+export const generateOgImage = (payload: genOgImagePayload) => {
   const hyperLogo = {
     light: 'hyper-color-logo.svg',
     dark: 'hyper-color-logo.svg'
