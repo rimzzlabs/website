@@ -6,14 +6,14 @@ import Giscus from '@giscus/react'
 import { memo } from 'react'
 
 const GiscusComment = () => {
-  const { theme } = useTheme()
+  const { systemTheme } = useTheme()
 
   if (isDev) return null
 
   return (
     <figure className={twclsx('mt-4 md:mt-8')}>
       <Giscus
-        theme={theme}
+        theme={systemTheme ?? 'dark'}
         emitMetadata='0'
         inputPosition='top'
         repo='rizkimcitra/rizkicitra'
