@@ -1,9 +1,10 @@
 import { SkipToContent } from '@/UI/buttons'
 import { Header } from '@/UI/common'
 
+import { umamiClient } from '@/services/umami'
+
 import variants, { withExit } from '@/libs/animation/variants'
 import { isProd } from '@/libs/constants/environmentState'
-import umamiClient from '@/libs/umamiClient'
 
 import '@/styles/globals.css'
 

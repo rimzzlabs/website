@@ -6,13 +6,13 @@ import { UnderlineLink } from '@/UI/links'
 import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { getContentBySlug, getContents } from '@/services'
+import { getContentBySlug, getContents } from '@/services/content'
+import { umamiClient } from '@/services/umami'
 
 import { isProd } from '@/libs/constants/environmentState'
 import dateFormat, { dateStringToISO } from '@/libs/dateFormat'
 import { getMetaDataBlog } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
-import umamiClient from '@/libs/umamiClient'
 
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
