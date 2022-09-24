@@ -20,7 +20,7 @@ import { HiGlobeAlt, HiOutlineCalendar } from 'react-icons/hi'
 import { SiGithub } from 'react-icons/si'
 import type { Portfolio } from 'rizkicitra'
 
-const BackToTop = dynamic(() => import('@/components/atoms/BackToTop'))
+const BackToTop = dynamic(async () => await import('@/UI/buttons').then((m) => m.BackToTop))
 
 interface ProjectDetailPageProps {
   header: Portfolio

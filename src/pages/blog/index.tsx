@@ -19,7 +19,9 @@ import { Suspense, useMemo } from 'react'
 import readingTime from 'reading-time'
 import type { Blog } from 'rizkicitra'
 
-const BlogCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.BlogCard })), { suspense: true })
+const BlogCard = dynamic(async () => await import('@/UI/cards').then((m) => m.BlogCard), {
+  suspense: true
+})
 
 type BlogPageProps = {
   allBlogs: Array<Blog>

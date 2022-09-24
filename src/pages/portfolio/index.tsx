@@ -17,7 +17,7 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import type { Portfolio } from 'rizkicitra'
 
-const PortfolioCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.PortfolioCard })), {
+const PortfolioCard = dynamic(() => import('@/UI/cards').then((m) => m.PortfolioCard), {
   suspense: true
 })
 

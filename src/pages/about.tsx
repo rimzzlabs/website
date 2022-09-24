@@ -10,7 +10,7 @@ import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
-const TimelineList = dynamic(() => import('@/components/timeline').then((m) => ({ default: m.TimelineList })), {
+const TimelineList = dynamic(async () => await import('@/components/timeline').then((m) => m.TimelineList), {
   suspense: true
 })
 

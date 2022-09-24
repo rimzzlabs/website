@@ -16,13 +16,12 @@ import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
 
 const HowToPrintDialog = dynamic(
-  () => import('@/components/dialog/DialogResume').then((m) => ({ default: m.HowToPrintDialog })),
+  async () => await import('@/components/dialog/DialogResume').then((m) => m.HowToPrintDialog),
   { suspense: true }
 )
-const AlertResume = dynamic(
-  () => import('@/components/dialog/DialogResume').then((m) => ({ default: m.AlertResume })),
-  { suspense: true }
-)
+const AlertResume = dynamic(async () => await import('@/components/dialog/DialogResume').then((m) => m.AlertResume), {
+  suspense: true
+})
 
 const meta = getMetaData({
   title: 'Resume',
