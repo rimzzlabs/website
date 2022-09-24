@@ -1,7 +1,9 @@
 import { UnstyledButton } from '@/UI/buttons'
 import { ThemeMenu } from '@/UI/common'
-import { useTheme } from '@/hooks'
+
 import { twclsx } from '@/libs/twclsx'
+
+import { useTheme } from '@/hooks'
 
 import { AnimatePresence } from 'framer-motion'
 import { HiMoon, HiSun } from 'react-icons/hi'

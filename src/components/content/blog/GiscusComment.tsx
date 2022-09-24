@@ -1,6 +1,7 @@
-import { useTheme } from '@/hooks'
 import { isDev } from '@/libs/constants/environmentState'
 import { twclsx } from '@/libs/twclsx'
+
+import { useTheme } from '@/hooks'
 
 import Giscus from '@giscus/react'
 import { memo } from 'react'

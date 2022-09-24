@@ -1,6 +1,7 @@
-import { useWindowScrollY } from '@/hooks'
 import variants, { withExit } from '@/libs/animation/variants'
 import { twclsx } from '@/libs/twclsx'
+
+import { useWindowScrollY } from '@/hooks'
 
 import { AnimatePresence, m } from 'framer-motion'
 import { useCallback } from 'react'

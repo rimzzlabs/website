@@ -1,4 +1,5 @@
 import { CustomImage } from '@/UI/images'
+
 import { twclsx } from '@/libs/twclsx'
 
 import type { ImageProps } from 'next/image'

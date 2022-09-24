@@ -1,7 +1,8 @@
-import { isDev } from '@/libs/constants/environmentState'
-import umami from '@/libs/umami'
 import { getToken } from '@/services'
 import type { GetContents } from '@/services'
+
+import { isDev } from '@/libs/constants/environmentState'
+import umami from '@/libs/umami'
 
 import readingTime from 'reading-time'
 import type { Blog, PageView } from 'rizkicitra'
