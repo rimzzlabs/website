@@ -36,7 +36,7 @@ export const DrawerMenu: React.FunctionComponent = () => {
     <aside
       aria-labelledby='toggle-drawer'
       className={twclsx(
-        'fixed left-0 bottom-0 top-20 z-40',
+        'fixed left-0 bottom-0 top-20 z-20',
         'w-screen h-screen backdrop-blur',
         'bg-theme-50 dark:bg-theme-900',
         'md:hidden'

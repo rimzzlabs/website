@@ -90,7 +90,7 @@ export const ThemeMenu: React.FunctionComponent<ThemeMenuProps> = (props) => {
       exit='exit'
       variants={v}
       className={twclsx(
-        'absolute',
+        'absolute z-50',
         'right-0 -left-28 md:-left-28 top-14',
         'shadow-md dark:shadow-none rounded-lg',
         'bg-theme-50 dark:bg-theme-800'
