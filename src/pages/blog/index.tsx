@@ -1,4 +1,4 @@
-import { Spinner } from '@/UI/common'
+import { BlogCard } from '@/UI/cards'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
@@ -14,14 +14,13 @@ import { twclsx } from '@/libs/twclsx'
 import { useSearch } from '@/hooks'
 
 import { GetStaticProps, NextPage } from 'next'
-import dynamic from 'next/dynamic'
-import { Suspense, useMemo } from 'react'
+import { useMemo } from 'react'
 import readingTime from 'reading-time'
 import type { Blog } from 'rizkicitra'
 
-const BlogCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.BlogCard })), {
-  suspense: true
-})
+// const BlogCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.BlogCard })), {
+//   suspense: true
+// })
 
 type BlogPageProps = {
   allBlogs: Array<Blog>
@@ -54,25 +53,35 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
-            <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+            {/* <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
                 {mostViewdBlogs.map((b) => (
                   <BlogCard key={b.slug} displayViews {...b} />
                 ))}
               </div>
-            </Suspense>
+            </Suspense> */}
+            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
+              {mostViewdBlogs.map((b) => (
+                <BlogCard key={b.slug} displayViews {...b} />
+              ))}
+            </div>
           </section>
 
           <section>
             <h2 className={twclsx('mb-4')}>All Post</h2>
 
-            <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+            {/* <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
               <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
                 {allBlogs.map((b) => (
                   <BlogCard key={b.slug} displayViews {...b} />
                 ))}
               </div>
-            </Suspense>
+            </Suspense> */}
+            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
+              {allBlogs.map((b) => (
+                <BlogCard key={b.slug} displayViews {...b} />
+              ))}
+            </div>
           </section>
         </div>
       ) : null}
@@ -81,13 +90,18 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         <section className={twclsx('content-auto')}>
           <h2 className={twclsx('mb-4')}>Search Post</h2>
           {filteredData.length > 0 ? (
-            <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-              <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
-                {filteredData.map((b) => (
-                  <BlogCard key={b.slug} displayViews {...b} />
-                ))}
-              </div>
-            </Suspense>
+            // <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
+            //   <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
+            //     {filteredData.map((b) => (
+            //       <BlogCard key={b.slug} displayViews {...b} />
+            //     ))}
+            //   </div>
+            // </Suspense>
+            <div className={twclsx('grid grid-cols-1 gap-4', 'flex-auto')}>
+              {filteredData.map((b) => (
+                <BlogCard key={b.slug} displayViews {...b} />
+              ))}
+            </div>
           ) : (
             <p>No post found, try a lil different now?</p>
           )}

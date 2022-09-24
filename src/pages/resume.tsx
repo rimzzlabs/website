@@ -1,4 +1,5 @@
 import { CustomSeo } from '@/components/CustomSeo'
+import { AlertResume, HowToPrintDialog } from '@/components/dialog'
 
 import { UnstyledButton } from '@/UI/buttons'
 import { UnderlineLink } from '@/UI/links'
@@ -11,12 +12,12 @@ import { useMediaQuery } from '@/hooks'
 
 import htmr from 'htmr'
 import type { NextPage } from 'next'
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
 
-const HowToPrintDialog = dynamic(() => import('@/components/dialog').then((m) => m.HowToPrintDialog))
-const AlertResume = dynamic(() => import('@/components/dialog').then((m) => m.AlertResume))
+// const HowToPrintDialog = dynamic(() => import('@/components/dialog').then((m) => m.HowToPrintDialog))
+// const AlertResume = dynamic(() => import('@/components/dialog').then((m) => m.AlertResume))
 
 const meta = getMetaData({
   title: 'Resume',

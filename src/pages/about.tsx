@@ -1,4 +1,5 @@
-import { Spinner } from '@/UI/common'
+import { TimelineList } from '@/components/timeline'
+
 import { HeroWithPhoto, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
@@ -7,11 +8,6 @@ import { getMetaData } from '@/libs/metaData'
 import { twclsx } from '@/libs/twclsx'
 
 import type { NextPage } from 'next'
-import dynamic from 'next/dynamic'
-
-const TimelineList = dynamic(() => import('@/components/timeline').then((m) => m.TimelineList), {
-  loading: () => <Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />
-})
 
 const About: NextPage = () => {
   const meta = getMetaData({
