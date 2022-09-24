@@ -1,8 +1,8 @@
-import { getToken } from '@/services'
 import type { GetContents } from '@/services'
 
 import { isDev } from '@/libs/constants/environmentState'
 
+import { getToken } from './getToken'
 import { umamiServer } from './instance'
 
 import readingTime from 'reading-time'
