@@ -1,7 +1,10 @@
 import { UnderlineLink, UnstyledLink } from '@/UI/links'
+
 import APP_ROUTE, { ADDT_ROUTE } from '@/libs/constants/route'
 import SOCIAL from '@/libs/constants/social'
 import { twclsx } from '@/libs/twclsx'
+
+import { CustomImage } from '../images'
 
 import { useRouter } from 'next/router'
 
@@ -29,7 +32,17 @@ export const Footer: React.FunctionComponent = () => {
       )}
     >
       <section className={twclsx('flex items-center gap-2.5 mb-8')}>
-        <p className={twclsx('font-semibold text-xl md:text-2xl')}>rizkicitra.dev</p>
+        <div className={twclsx('inline-flex items-center', 'select-none')}>
+          <CustomImage
+            src='/icon-256x256.png'
+            alt='icon'
+            display='intrinsic'
+            className='rounded-lg'
+            width={30}
+            height={30}
+          />
+          <span className='font-semibold text-xl md:text-2xl ml-2.5'>rizkicitra.dev</span>
+        </div>
       </section>
 
       <section className={twclsx('flex', 'mb-8 md:mb-12')}>
