@@ -6,8 +6,9 @@ import { useTheme } from '@/hooks'
 import Giscus from '@giscus/react'
 import { memo, useMemo } from 'react'
 
-const Component: React.FunctionComponent = () => {
+export const GiscusComment = memo(() => {
   const { theme, systemTheme } = useTheme()
+
   const giscusTheme = useMemo(() => {
     if (systemTheme) {
       if (theme === 'system') return systemTheme // system theme, could be dark or light
@@ -21,7 +22,7 @@ const Component: React.FunctionComponent = () => {
   if (isDev) return null
 
   return (
-    <figure className={twclsx('mt-4 md:mt-8')}>
+    <div className={twclsx('mt-4 md:mt-8')}>
       <Giscus
         theme={giscusTheme}
         emitMetadata='0'
@@ -34,8 +35,8 @@ const Component: React.FunctionComponent = () => {
         reactionsEnabled='0'
         loading='lazy'
       />
-    </figure>
+    </div>
   )
-}
+})
 
-export const GiscusComment = memo(Component)
+GiscusComment.displayName = 'GiscusComment'
