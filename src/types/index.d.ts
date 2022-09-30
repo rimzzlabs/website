@@ -6,15 +6,13 @@ declare module 'rizkicitra' {
     summary: string
     featured: boolean
     author_name: string
-    author_url: string
-    author_image: string
+    github_username: string
     published: string
     topics: Array<string>
     keywords: Array<string>
     related: Array<string>
     views?: number
     est_read?: string
-    thumbnail?: string
     displayViews?: boolean
   }
   /** Type used for portfolio or meta data for portfolio */

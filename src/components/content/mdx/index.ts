@@ -12,7 +12,8 @@ const MDXComponents = {
   img: ContentImage,
   code: Code,
   blockquote: Blockquote,
-  a: UnderlineLink
+  a: UnderlineLink,
+  ContentImage
 } as MDXRemoteProps['components']
 
 export { MDXComponents, Pre, Code, Blockquote, ContentImage }

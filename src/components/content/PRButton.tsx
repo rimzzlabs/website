@@ -20,7 +20,7 @@ type PRButtonProps = {
  */
 export const PRButton: React.FunctionComponent<PRButtonProps> = (props) => {
   return (
-    <div className={twclsx('flex items-center gap-2 mt-10')}>
+    <div className={twclsx('flex items-center justify-end gap-2 mt-10')}>
       <HiExternalLink className={twclsx('text-lg md:text-xl')} />
       <UnderlineLink
         title='Edit on GitHub'
