@@ -16,7 +16,7 @@ export const getMetaPageBlog = (data: Blog): CustomSeoProps => ({
     article: { authors: [data.author_name], publishedTime: dateStringToISO(data.published), tags: data.topics },
     images: [
       {
-        // TODDO: update your default thumbnail at public/static/
+        // TODDO: update your default thumbnail
         url: generateOgImage({ title: data.title, theme: 'dark' }),
         alt: data.title,
         width: 1200,
@@ -28,7 +28,7 @@ export const getMetaPageBlog = (data: Blog): CustomSeoProps => ({
   },
   twitter: {
     cardType: 'summary_large_image',
-    // TODO: Change to your Tiwetter username
+    // TODO: Change to your Tiwitter username
     site: TWITER_USERNAME,
     handle: TWITER_USERNAME
   },
