@@ -17,3 +17,7 @@
   - next-themes
   - next-seo
   - next-mdx-remote
+
+## Commiting
+
+This repo uses conventional commit, please do `cz` instead of `git commit -m`. There you will find each context to your current changes.
