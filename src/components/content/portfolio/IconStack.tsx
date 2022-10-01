@@ -13,7 +13,8 @@ import {
   SiSupabase,
   SiTailwindcss,
   SiTypescript,
-  SiVite
+  SiVite,
+  SiCss3
 } from 'react-icons/si'
 
 type IconStackProps = {
@@ -50,6 +51,10 @@ export const IconStack: React.FunctionComponent<IconStackProps> = ({ type, class
     case 'scss':
       return <SiSass className={twclsx('text-pink-500 dark:text-pink-400', className)} />
 
+    case "css":
+      case "CSS":
+        return <SiCss3 className={twclsx('text-blue-600 dark:text-blue-500', className)} />
+
     case 'framer motion':
       return <SiFramer className={twclsx('text-theme-800 dark:text-theme-200', className)} />
 
@@ -66,6 +71,6 @@ export const IconStack: React.FunctionComponent<IconStackProps> = ({ type, class
       return <SiSupabase className={twclsx('text-emerald-600 dark:text-emerald-500', className)} />
 
     default:
-      return <SiCodesandbox />
+      return <SiCodesandbox className={twclsx('text-slate-900 dark:text-slate-800', className)} />
   }
 }
