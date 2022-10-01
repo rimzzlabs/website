@@ -7,12 +7,12 @@ github_username: 'rizkimcitra'
 created_at: '10/01/2022'
 ---
 
-```jsx
+```js
 export default function useClickOutside(refObject, handler){
     useEffect(() => {
         const listener = (event) => {
             const element = refObject?.current
-            if (!el || el.contains(e.target as Node) || (e.target as HTMLButtonElement).ariaHasPopup) return
+            if (!el || el.contains(e.target)) return
             handler(e)
         }
 
@@ -31,7 +31,7 @@ export default function useClickOutside(refObject, handler){
 
 ## TypeScript Implementation
 
-```tsx
+```ts
 type Handler = (e: Event) => void
 
 export const useClickOutside = <T extends HTMLElement = HTMLElement>(
@@ -41,7 +41,7 @@ export const useClickOutside = <T extends HTMLElement = HTMLElement>(
   useEffect(() => {
     const listener = (e: Event) => {
       const el = refObject?.current
-      if (!el || el.contains(e.target as Node) || (e.target as HTMLButtonElement).ariaHasPopup) {
+      if (!el || el.contains(e.target as Node)) {
         return
       }
 
