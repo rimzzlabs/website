@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState, useTransition } from 'react'
-import type { Blog, Portfolio } from 'rizkicitra'
+import type { Blog, Portfolio, Snippet } from 'rizkicitra'
 
-type Data = Array<Blog> | Array<Portfolio>
+type Data = Array<Blog> | Array<Portfolio> | Array<Snippet>
 
-export const useSearch = <T,>(data: Data, type: 'blog' | 'portfolio') => {
+export const useSearch = <T,>(data: Data, type: 'blog' | 'portfolio' | 'snippet') => {
   const [query, setQuery] = useState<string>('')
   const [isPending, startTransition] = useTransition()
   const [filteredData, setFilteredData] = useState<Data>([])
@@ -24,11 +24,22 @@ export const useSearch = <T,>(data: Data, type: 'blog' | 'portfolio') => {
           })
 
           setFilteredData(newData)
-        } else {
+        } else if (type === 'portfolio') {
           const res = data as Array<Portfolio>
           const newData = res.filter((r) => {
             return (
               r.stack.map(mapArrayString).includes(true) || r.title.toLowerCase().includes(e.target.value.toLowerCase())
+            )
+          })
+
+          setFilteredData(newData)
+        } else if (type === 'snippet') {
+          const res = data as Array<Snippet>
+          const newData = res.filter((r) => {
+            return (
+              r.topic.toLowerCase().includes(e.target.value.toLowerCase()) ||
+              r.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
+              r.summary.toLowerCase().includes(e.target.value.toLowerCase())
             )
           })
 
