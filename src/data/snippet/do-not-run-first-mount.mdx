@@ -1,0 +1,35 @@
+---
+title: 'Do Not Run First Mount'
+summary: 'Prevent Side Effect to run when component did first mount, but when the next state changes, do something'
+topic: 'react'
+author: 'Rizki Maulana Citra'
+github_username: 'rizkimcitra'
+created_at: '10/02/2022'
+---
+
+> `useLayoutEffect` is similiar to `useEffect`, see the difference [here](https://kentcdodds.com/blog/useeffect-vs-uselayouteffect)
+
+```js
+export default function LovelyComponent() {
+  const mounted = useRef(false)
+
+  const doSomething = useCallback(() => {
+    // do something
+  }, [])
+
+  useLayoutEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true
+      return
+    }
+
+    doSomething()
+  }, [doSomething])
+
+  return (
+    <>
+      <p>Little ice cream nuggets!</p>
+    </>
+  )
+}
+```
