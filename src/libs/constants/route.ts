@@ -19,16 +19,21 @@ const APP_ROUTE = [
 
 export const ADDT_ROUTE = [
   {
-    path: '/certificate',
-    name: 'Certificate'
-  },
-  {
     path: '/tags',
     name: 'Tags'
   },
   {
+    path: '/snippet',
+    name: 'Snippet'
+  },
+  {
     path: '/resume',
     name: 'Resume'
+  },
+
+  {
+    path: '/certificate',
+    name: 'Certificate'
   }
 ]
 

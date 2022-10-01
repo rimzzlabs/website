@@ -1,0 +1,38 @@
+---
+title: 'useWindowScrollPosition'
+summary: 'Get window scroll position of Y axis or X axis'
+topic: 'react'
+author: 'Rizki Maulana Citra'
+github_username: 'rizkimcitra'
+created_at: '10/01/2022'
+---
+
+```js
+export default function useWindowScrollPosition() {
+  const [pos, setPos] = useState({ y: 0, x: 0 })
+
+  const listener = useCallback(() => {
+    setPos({ x: window.scrollX, y: window.scrollY })
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('scroll', listener)
+
+    return () => window.removeEventListener('scroll', listener)
+  }, [listener])
+
+  return pos
+}
+```
+
+## Usage
+
+This can be use if you want to apply style to your sticky navbar, such as border.
+
+```jsx
+export default function LovelyComponent() {
+  const { y } = useWindowScrollPosition()
+
+  return <div className={clsx(y > 100 && 'border-b-1 border-b-gray-800')}></div>
+}
+```

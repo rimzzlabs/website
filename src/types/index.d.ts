@@ -29,7 +29,16 @@ declare module 'rizkicitra' {
       live: string
     }
   }
-
+  /** Type used for snippet or meta data for snippet */
+  export type Snippet = {
+    title: string
+    summary: string
+    topic: string
+    created_at: string
+    slug: string
+    author: string
+    github_username: string
+  }
   /** Payload for utils to generate og image, return value will be a string from https://og-image.vercel.app */
   export type genOgImagePayload = {
     title: string
