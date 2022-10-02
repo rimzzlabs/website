@@ -11,18 +11,18 @@ created_at: '10/02/2022'
 const useLocalStorage = (key, initialValue) => {
   const [value, setValue] = useState(() => {
     try {
-      return localStorage.getItem(key) || initialValue;
+      return localStorage.getItem(key) || initialValue
     } catch (error) {
-      console.log('there is an error with local storage:', error);
-      return initialValue;
+      console.log('there is an error with local storage:', error)
+      return initialValue
     }
-  });
+  })
 
   useEffect(() => {
-    window.localStorage.setItem(key, value);
-  }, [value]);
+    window.localStorage.setItem(key, value)
+  }, [value])
 
-  return [value, setValue];
+  return [value, setValue]
 }
 ```
 
@@ -30,7 +30,7 @@ const useLocalStorage = (key, initialValue) => {
 
 ```jsx
 const App = () => {
-  const [username, setUsername] = useLocalStorage('username', 'up2dul');
+  const [username, setUsername] = useLocalStorage('username', 'up2dul')
 
   return <input type='text' value={username} onChange={({ target }) => setUsername(target.value)} />
 }

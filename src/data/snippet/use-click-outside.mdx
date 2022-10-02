@@ -8,13 +8,13 @@ created_at: '10/01/2022'
 ---
 
 ```js
-export default function useClickOutside(refObject, handler){
-    useEffect(() => {
-        const listener = (event) => {
-            const element = refObject?.current
-            if (!el || el.contains(e.target)) return
-            handler(e)
-        }
+export default function useClickOutside(refObject, handler) {
+  useEffect(() => {
+    const listener = (event) => {
+      const element = refObject?.current
+      if (!el || el.contains(e.target)) return
+      handler(e)
+    }
 
     // use mousedown or touchstart instead of click event
     document.addEventListener('mousedown', listener)
@@ -25,7 +25,7 @@ export default function useClickOutside(refObject, handler){
       document.removeEventListener('mousedown', listener)
       document.removeEventListener('touchstart', listener)
     }
-    }, [refObject, handler])
+  }, [refObject, handler])
 }
 ```
 
