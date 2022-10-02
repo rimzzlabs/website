@@ -3,7 +3,6 @@ import { dateFormat, dateStringToISO } from '@/libs/intl'
 
 import type { Variants } from 'framer-motion'
 import { m } from 'framer-motion'
-import { useMemo } from 'react'
 import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 
 type HeadingContentProps = {
@@ -14,43 +13,31 @@ type HeadingContentProps = {
   est_read?: string
 }
 
-const DELAY = 0.5
+const DELAY = 0.1
+
+const sentenceVariants: Variants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: { opacity: 1, y: 0, transition: { delay: DELAY, type: 'tween', duration: 0.5 } }
+}
+
+const indicatorVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { delay: DELAY + 0.2, ease: 'anticipate', duration: 0.7 } }
+}
+
+const lineVariants: Variants = {
+  hidden: { width: 0, opacity: 0.5 },
+  visible: { width: '100%', opacity: 1, transition: { delay: DELAY + 0.4, ease: 'anticipate', duration: 1 } }
+}
+
+const config: Intl.DateTimeFormatOptions = {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric'
+}
 
 export const HeadingContent: React.FunctionComponent<HeadingContentProps> = (props) => {
-  const config: Intl.DateTimeFormatOptions = useMemo(
-    () => ({
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    }),
-    []
-  )
-
-  const sentenceVariants = useMemo<Variants>(
-    () => ({
-      hidden: { opacity: 0, y: 25 },
-      visible: { opacity: 1, y: 0, transition: { delay: DELAY, type: 'tween', duration: 0.5 } }
-    }),
-    []
-  )
-
-  const indicatorVariants = useMemo<Variants>(
-    () => ({
-      hidden: { opacity: 0, y: 50 },
-      visible: { opacity: 1, y: 0, transition: { delay: DELAY + 0.2, ease: 'anticipate', duration: 0.7 } }
-    }),
-    []
-  )
-
-  const lineVariants = useMemo<Variants>(
-    () => ({
-      hidden: { width: 0, opacity: 0.5 },
-      visible: { width: '100%', opacity: 1, transition: { delay: DELAY + 0.5, ease: 'anticipate', duration: 2 } }
-    }),
-    []
-  )
-
   return (
     <section>
       <m.h1
