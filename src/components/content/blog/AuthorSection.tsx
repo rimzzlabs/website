@@ -12,16 +12,16 @@ type AuthorSectionProps = {
   username: string
 }
 
-const DELAY = 0.5
+const DELAY = 0.1
 
 const imageV: Variants = {
   hidden: { opacity: 0, y: 25 },
-  visible: { opacity: 1, y: 0, transition: { delay: DELAY + 0.8, duration: 0.5, ease: 'anticipate' } }
+  visible: { opacity: 1, y: 0, transition: { delay: DELAY + 0.6, duration: 0.5, ease: 'anticipate' } }
 }
 
 const sentenceV: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { delay: DELAY + 1, delayChildren: DELAY + 1.05, staggerChildren: 0.1 } }
+  visible: { opacity: 1, transition: { delay: DELAY + 0.8, delayChildren: DELAY + 0.95, staggerChildren: 0.1 } }
 }
 
 const letterV: Variants = {

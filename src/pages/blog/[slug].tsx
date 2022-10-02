@@ -21,6 +21,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import readingTime from 'reading-time'
+import rehypeSlug from 'rehype-slug'
 import type { Blog } from 'rizkicitra'
 
 interface BlogPostProps {
@@ -40,7 +41,7 @@ interface HTTP {
 
 const articleV: Variants = {
   hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { delay: 1.8, duration: 0.75, ease: 'anticipate' } }
+  visible: { opacity: 1, y: 0, transition: { delay: 2.5, duration: 0.75, ease: 'anticipate' } }
 }
 
 const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
@@ -118,7 +119,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
   const est_read = readingTime(res.content).text
 
   const mdxSource = await serialize(res.content, {
-    mdxOptions: { rehypePlugins: [mdxPrism] }
+    mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
   })
 
   return {
