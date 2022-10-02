@@ -104,31 +104,32 @@ export const getPageViews = async (slug: string): Promise<GetPageViews> => {
 export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise<Array<Blog>> => {
   require('isomorphic-fetch')
   const requests = blogs.map(async (blog): Promise<Blog> => {
-    // this would return an array of promises blog, so passing it to Promise.all() method like an array
-    // do request to umami on each post by passing its slug to query parameter
-    const response = await umamiServer.get<HTTPResult>(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
+    try {
+      // this would return an array of promises blog, so passing it to Promise.all() method like an array
+      // do request to umami on each post by passing its slug to query parameter
+      const response = await umamiServer.get<HTTPResult>(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
 
-    // set views, process request data to json, and set static type as HTTP, see line 9
-    const views = response.data.data as number
+      // set views, process request data to json, and set static type as HTTP, see line 9
+      const views = response.data.data as number
 
-    // estimate reading time of the contents by using readingTime() function from reading-time library
-    // but as soon as the function returned the value, grab the text value from the object
-    const est_read = readingTime(blog.content).text
+      // estimate reading time of the contents by using readingTime() function from reading-time library
+      // but as soon as the function returned the value, grab the text value from the object
+      const est_read = readingTime(blog.content).text
 
-    // if response status are OK or 200, return the data with the value of views property from umami
-    if (response.status !== 200) {
+      // if response status are OK or 200, return the data with the value of views property from umami
+
       return {
-        views: 0,
+        views,
         est_read,
         ...blog.header
       }
-    }
-
-    // otherwise return the data and set the views value property to 0
-    return {
-      views,
-      est_read,
-      ...blog.header
+    } catch (err) {
+      // otherwise return the data and set the views value property to 0
+      return {
+        views: 0,
+        est_read: readingTime(blog.content).text,
+        ...blog.header
+      }
     }
   })
   // run promise all to each post, by passing an async map function to the Promise.all() method.
