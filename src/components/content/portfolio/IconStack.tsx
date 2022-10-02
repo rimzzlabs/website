@@ -2,6 +2,7 @@ import { twclsx } from '@/libs/twclsx'
 
 import {
   SiCodesandbox,
+  SiCss3,
   SiFirebase,
   SiFramer,
   SiJavascript,
@@ -13,8 +14,7 @@ import {
   SiSupabase,
   SiTailwindcss,
   SiTypescript,
-  SiVite,
-  SiCss3
+  SiVite
 } from 'react-icons/si'
 
 type IconStackProps = {
@@ -51,9 +51,9 @@ export const IconStack: React.FunctionComponent<IconStackProps> = ({ type, class
     case 'scss':
       return <SiSass className={twclsx('text-pink-500 dark:text-pink-400', className)} />
 
-    case "css":
-      case "CSS":
-        return <SiCss3 className={twclsx('text-blue-600 dark:text-blue-500', className)} />
+    case 'css':
+    case 'CSS':
+      return <SiCss3 className={twclsx('text-blue-600 dark:text-blue-500', className)} />
 
     case 'framer motion':
       return <SiFramer className={twclsx('text-theme-800 dark:text-theme-200', className)} />
