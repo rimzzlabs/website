@@ -12,21 +12,19 @@ type AuthorSectionProps = {
   username: string
 }
 
-const DELAY = 0.1
-
 const imageV: Variants = {
   hidden: { opacity: 0, y: 25 },
-  visible: { opacity: 1, y: 0, transition: { delay: DELAY + 0.6, duration: 0.5, ease: 'anticipate' } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'anticipate' } }
 }
 
 const sentenceV: Variants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { delay: DELAY + 0.8, delayChildren: DELAY + 0.95, staggerChildren: 0.1 } }
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 }
 
 const letterV: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { ease: 'anticipate' } }
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { ease: 'backIn', duration: 0.5 } }
 }
 
 const linkV: Variants = {
@@ -48,7 +46,7 @@ export const AuthorSection: React.FunctionComponent<AuthorSectionProps> = (props
     <section className={twclsx('flex flex-col', 'gap-4')}>
       <div className={twclsx('flex flex-col', 'gap-4')}>
         <div className={twclsx('flex items-center', 'gap-4')}>
-          <m.figure initial='hidden' animate='visible' variants={imageV}>
+          <m.figure variants={imageV}>
             <CustomImage
               display='intrinsic'
               className={twclsx('rounded-full')}
@@ -59,7 +57,7 @@ export const AuthorSection: React.FunctionComponent<AuthorSectionProps> = (props
             />
           </m.figure>
 
-          <m.p variants={sentenceV} initial='hidden' animate='visible'>
+          <m.p variants={sentenceV}>
             {letter.split('').map((c, i) => (
               <m.span variants={letterV} key={i}>
                 {c}
