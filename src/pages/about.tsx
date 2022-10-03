@@ -1,9 +1,6 @@
-import { TimelineList } from '@/components/timeline'
-
 import { HeroWithPhoto, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { timeline } from '@/libs/constants/timeline'
 import { getMetaPage } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
@@ -51,14 +48,6 @@ const About: NextPage = () => {
           </blockquote>
         </div>
       </HeroWithPhoto>
-
-      <section className={twclsx('pt-10 md:pt-20')}>
-        <h2 className={twclsx('mb-2')}>Timeline</h2>
-        <p className={twclsx('max-w-prose mb-4')}>
-          Take a look at my timeline below, it consists of my career path, formal education and more.
-        </p>
-        <TimelineList timeline={timeline} />
-      </section>
 
       <section className={twclsx('pt-10 md:pt-20')}>
         <h2 className={twclsx('mb-4')}>Contact</h2>
