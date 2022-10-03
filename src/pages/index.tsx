@@ -7,6 +7,8 @@ import { GetContents, getContents } from '@/services'
 import { getMetaPage } from '@/libs/metapage'
 import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
 
+import { m } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
 import type { Blog, Portfolio } from 'rizkicitra'
@@ -14,6 +16,16 @@ import type { Blog, Portfolio } from 'rizkicitra'
 interface HomePageProps {
   blogs: Array<Blog>
   portfolios: Array<Portfolio>
+}
+
+const parentV: Variants = {
+  hidden: { opacity: 1 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.25 } }
+}
+
+const toUp: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { ease: 'easeOut', duration: 0.5 } }
 }
 
 const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
@@ -29,37 +41,43 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
   })
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
-      <HeroWithPhoto
-        title={meta.title as string}
-        subtitle='Student &amp; Frontend Developer'
-        description="Hello👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal website, where you can find my portfolio, blog and more."
-        img={{
-          alt_title: meta.title as string,
-          src: meta?.openGraph?.images ? meta.openGraph.images[0].url : ''
-        }}
-      />
+      <m.div variants={parentV}>
+        <HeroWithPhoto
+          title={meta.title as string}
+          subtitle='Student &amp; Frontend Developer'
+          description="Hello👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal website, where you can find my portfolio, blog and more."
+          img={{
+            alt_title: meta.title as string,
+            src: meta?.openGraph?.images ? meta.openGraph.images[0].url : ''
+          }}
+        />
 
-      <Section
-        title='Featured Post'
-        gridCols='grid-cols-1 md:grid-cols-2'
-        data={blogs}
-        Component={BlogCard}
-        link={{
-          to: '/blog',
-          children: 'See all post'
-        }}
-      />
+        <m.div variants={toUp}>
+          <Section
+            title='Featured Post'
+            gridCols='grid-cols-1 md:grid-cols-2'
+            data={blogs}
+            Component={BlogCard}
+            link={{
+              to: '/blog',
+              children: 'See all post'
+            }}
+          />
+        </m.div>
 
-      <Section
-        title='Featured Portfolio'
-        gridCols='grid-cols-1 md:grid-cols-2'
-        data={portfolios}
-        Component={PortfolioCard}
-        link={{
-          to: '/portfolio',
-          children: 'See all portfolio'
-        }}
-      />
+        <m.div variants={toUp}>
+          <Section
+            title='Featured Portfolio'
+            gridCols='grid-cols-1 md:grid-cols-2'
+            data={portfolios}
+            Component={PortfolioCard}
+            link={{
+              to: '/portfolio',
+              children: 'See all portfolio'
+            }}
+          />
+        </m.div>
+      </m.div>
     </LayoutPage>
   )
 }
