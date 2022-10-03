@@ -14,7 +14,8 @@ import {
   SiSupabase,
   SiTailwindcss,
   SiTypescript,
-  SiVite
+  SiVite,
+  SiGo
 } from 'react-icons/si'
 
 type IconStackProps = {
@@ -69,6 +70,9 @@ export const IconStack: React.FunctionComponent<IconStackProps> = ({ type, class
 
     case 'supabase':
       return <SiSupabase className={twclsx('text-emerald-600 dark:text-emerald-500', className)} />
+
+      case 'go':
+        return <SiGo className={twclsx('text-emerald-600 dark:text-emerald-500', className)} />
 
     default:
       return <SiCodesandbox className={twclsx('text-slate-900 dark:text-slate-800', className)} />
