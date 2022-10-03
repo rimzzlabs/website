@@ -58,7 +58,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   })
 
   useEffect(() => {
-    if (isProd) {
+    // run only on client side
+    if (isProd && typeof window !== 'undefined') {
       ;(async () => {
         try {
           const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
