@@ -16,6 +16,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import type { ParsedUrlQuery } from 'querystring'
 import { useMemo } from 'react'
 import readingTime from 'reading-time'
+import rehypeSlug from 'rehype-slug'
 import type { Snippet } from 'rizkicitra'
 
 type SnippetPostProps = {
@@ -95,7 +96,7 @@ export const getStaticProps: GetStaticProps<SnippetPostProps> = async (ctx) => {
   const est_read = readingTime(res.content).text
 
   const mdxSource = await serialize(res.content, {
-    mdxOptions: { rehypePlugins: [mdxPrism] }
+    mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
   })
 
   return {
