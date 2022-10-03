@@ -13,21 +13,19 @@ type HeadingContentProps = {
   est_read?: string
 }
 
-const DELAY = 0.1
-
 const sentenceVariants: Variants = {
   hidden: { opacity: 0, y: 25 },
-  visible: { opacity: 1, y: 0, transition: { delay: DELAY, type: 'tween', duration: 0.5 } }
+  visible: { opacity: 1, y: 0, transition: { type: 'tween', duration: 0.5 } }
 }
 
 const indicatorVariants: Variants = {
   hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { delay: DELAY + 0.2, ease: 'anticipate', duration: 0.7 } }
+  visible: { opacity: 1, y: 0, transition: { ease: 'anticipate', duration: 0.7 } }
 }
 
 const lineVariants: Variants = {
   hidden: { width: 0, opacity: 0.5 },
-  visible: { width: '100%', opacity: 1, transition: { delay: DELAY + 0.4, ease: 'anticipate', duration: 1 } }
+  visible: { width: '100%', opacity: 1, transition: { ease: 'backIn', duration: 1.5 } }
 }
 
 const config: Intl.DateTimeFormatOptions = {
@@ -40,12 +38,7 @@ const config: Intl.DateTimeFormatOptions = {
 export const HeadingContent: React.FunctionComponent<HeadingContentProps> = (props) => {
   return (
     <section>
-      <m.h1
-        initial='hidden'
-        animate='visible'
-        variants={sentenceVariants}
-        className={twclsx('max-w-prose', 'text-3xl md:text-5xl', 'mb-8')}
-      >
+      <m.h1 variants={sentenceVariants} className={twclsx('max-w-prose', 'text-3xl md:text-5xl', 'mb-8')}>
         {props.title}
       </m.h1>
 
