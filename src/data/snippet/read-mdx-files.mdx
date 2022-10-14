@@ -1,0 +1,96 @@
+---
+title: 'Read Your Mdx Files'
+summary: 'Most dev use MDX as their storage to store content such as blog, well this site use mdx too, this snippet useful to read mdx files'
+topic: 'nodejs'
+author: 'Rizki Maulana Citra'
+github_username: 'rizkimcitra'
+created_at: '10/14/2022'
+---
+
+## Read Mdx File
+
+To read Mdx file, first locate where the mdx files are stored by targeting its folder
+
+```js
+// in my case: src/data/blog
+import * as fs from 'fs/promises'
+import matter from 'gray-matter'
+import * as path from 'path'
+
+// notice I only target it's parent folder (data) in case there is another
+// mdx content that I want to store aside from blog post
+const folder = path.join(process.cwd(), 'src/data')
+
+// this will return array of string (of mdx file name) ['fila-name.mdx']
+export const getContentBySlug = async (path, slug) => {
+  // read path to file src/data/{path}/[{slug}].mdx
+  const dir = join(`${LOCATION_DIR}/${path}`, `${slug}.mdx`)
+  // read file with promise based
+  const file = await readFile(dir, 'utf8')
+
+  // parse file content with gray matter, extract it's header and content
+  const { content, data } = matter(file)
+
+  return {
+    // in case we need the file name as slug, example usage is for the url page
+    header: { ...data, slug },
+    content
+  }
+}
+```
+
+### TypeScript Implementation
+
+```ts
+type Content<T> = {
+  header: T & { slug: string }
+  content: string
+}
+
+export const getContentBySlug = async <T>(path: string, slug: string): Promise<Content<T>> => {
+  const dir = join(`${LOCATION_DIR}/${path}`, `${slug}.mdx`)
+
+  const file = await readFile(dir, 'utf8')
+  const { content, data } = matter(file)
+
+  return {
+    header: { ...(data as T), slug },
+    content
+  }
+}
+```
+
+## Usage
+
+To read your mdx file, simply call it with giving it two argument:
+
+1. The folder where the mdx is stored
+2. the file name itself
+
+```js
+// notice I don't need to prefix the first parameter to be `/blog`
+// or the second paramter to be `my-first-post.mdx`
+const post = await getContentBySlug('blog', 'my-first-post')
+```
+
+### Usage in TypeScript
+
+Previously the function require one generic type, so the usage will be like so
+
+```ts
+type Post = {
+    title: string
+    published_at: string
+    author: string
+}
+
+const post = await getContentBySlug<Post>('blog', 'my-first-post')
+
+/**
+ * post will be:
+ * const post = { 
+ *  header: { title: string; published_at: string; author: string; slug: string }
+ *  content: string
+ * }
+ */
+```
