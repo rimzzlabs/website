@@ -21,10 +21,9 @@ import * as path from 'path'
 // mdx content that I want to store aside from blog post
 const folder = path.join(process.cwd(), 'src/data')
 
-// this will return array of string (of mdx file name) ['fila-name.mdx']
 export const getContentBySlug = async (path, slug) => {
   // read path to file src/data/{path}/[{slug}].mdx
-  const dir = join(`${LOCATION_DIR}/${path}`, `${slug}.mdx`)
+  const dir = join(`${folder}/${path}`, `${slug}.mdx`)
   // read file with promise based
   const file = await readFile(dir, 'utf8')
 
@@ -48,7 +47,7 @@ type Content<T> = {
 }
 
 export const getContentBySlug = async <T>(path: string, slug: string): Promise<Content<T>> => {
-  const dir = join(`${LOCATION_DIR}/${path}`, `${slug}.mdx`)
+  const dir = join(`${folder}/${path}`, `${slug}.mdx`)
 
   const file = await readFile(dir, 'utf8')
   const { content, data } = matter(file)
