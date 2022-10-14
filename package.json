@@ -12,7 +12,8 @@
     "lint:fix": "next lint --fix",
     "postinstall": "husky install",
     "postbuild": "next-sitemap --config next-sitemap.js",
-    "format": "prettier --write \"./**/*.{ts,tsx,css,js,jsx,json}\""
+    "format": "prettier --write \"./**/*.{ts,tsx,css,js,jsx,json}\"",
+    "commit": "cz"
   },
   "dependencies": {
     "@giscus/react": "^2.0.6",

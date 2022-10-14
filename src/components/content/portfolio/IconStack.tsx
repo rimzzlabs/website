@@ -5,17 +5,18 @@ import {
   SiCss3,
   SiFirebase,
   SiFramer,
+  SiGo,
   SiJavascript,
   SiMarkdown,
   SiNextdotjs,
+  SiNodedotjs,
   SiReact,
   SiRedux,
   SiSass,
   SiSupabase,
   SiTailwindcss,
   SiTypescript,
-  SiVite,
-  SiGo
+  SiVite
 } from 'react-icons/si'
 
 type IconStackProps = {
@@ -34,6 +35,9 @@ export const IconStack: React.FunctionComponent<IconStackProps> = ({ type, class
     case 'next.js':
     case 'nextjs':
       return <SiNextdotjs className={twclsx('text-theme-800 dark:text-theme-200', className)} />
+    case 'nodejs':
+    case 'node.js':
+      return <SiNodedotjs className={twclsx('text-emerald-500', className)} />
 
     case 'vite':
       return <SiVite className={twclsx('text-yellow-500', className)} />
@@ -71,8 +75,8 @@ export const IconStack: React.FunctionComponent<IconStackProps> = ({ type, class
     case 'supabase':
       return <SiSupabase className={twclsx('text-emerald-600 dark:text-emerald-500', className)} />
 
-      case 'go':
-        return <SiGo className={twclsx('text-emerald-600 dark:text-emerald-500', className)} />
+    case 'go':
+      return <SiGo className={twclsx('text-emerald-600 dark:text-emerald-500', className)} />
 
     default:
       return <SiCodesandbox className={twclsx('text-slate-900 dark:text-slate-800', className)} />
