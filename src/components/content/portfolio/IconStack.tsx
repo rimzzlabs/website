@@ -9,6 +9,7 @@ import {
   SiJavascript,
   SiMarkdown,
   SiNextdotjs,
+  SiNodedotjs,
   SiReact,
   SiRedux,
   SiSass,
@@ -34,6 +35,9 @@ export const IconStack: React.FunctionComponent<IconStackProps> = ({ type, class
     case 'next.js':
     case 'nextjs':
       return <SiNextdotjs className={twclsx('text-theme-800 dark:text-theme-200', className)} />
+    case 'nodejs':
+    case 'node.js':
+      return <SiNodedotjs className={twclsx('text-emerald-500', className)} />
 
     case 'vite':
       return <SiVite className={twclsx('text-yellow-500', className)} />

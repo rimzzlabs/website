@@ -44,7 +44,7 @@ const SnippetPostPage: NextPage<SnippetPostProps> = ({ header, mdxSource }) => {
       <section className={twclsx('pb-8')}>
         <div className='flex items-center justify-between'>
           <h1 className={twclsx('max-w-prose text-3xl md:text-5xl')}>{header.title}</h1>
-          <IconStack type={header.topic} className='w-8 h-8' />
+          <IconStack type={header.topic} className='w-8 h-8 md:w-12 md:h-12' />
         </div>
         <p className='w-full my-4'>{header.summary}</p>
 

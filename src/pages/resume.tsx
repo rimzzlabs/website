@@ -4,19 +4,15 @@ import { AlertResume, HowToPrintDialog } from '@/components/dialog'
 import { UnstyledButton } from '@/UI/buttons'
 import { UnderlineLink } from '@/UI/links'
 
-import { EDUCATION, EXPERIENCE, HEADLINE, LINKS, SKILLS } from '@/libs/constants/resume'
+import { EDUCATION, EXPERIENCE, HEADLINE, KEY_SKILLS, LANGUAGES, LINKS, SKILLS, SUMMARY } from '@/libs/constants/resume'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 
 import { useMediaQuery } from '@/hooks'
 
 import htmr from 'htmr'
 import type { NextPage } from 'next'
-// import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { HiInformationCircle } from 'react-icons/hi'
-
-// const HowToPrintDialog = dynamic(() => import('@/components/dialog').then((m) => m.HowToPrintDialog))
-// const AlertResume = dynamic(() => import('@/components/dialog').then((m) => m.AlertResume))
 
 const meta = getMetaPage({
   title: 'Resume',
@@ -62,13 +58,12 @@ const Resume: NextPage = () => {
       {modal.alert && <AlertResume isOpen={modal.alert} onClose={closeAlert} />}
 
       <section className='w-full mb-4'>
-        <h2 className='text-center'>{HEADLINE.name}</h2>
-        <h3 className='text-center'>{HEADLINE.role}</h3>
+        <h1 className='text-center'>{HEADLINE.name}</h1>
 
         <div className='space-x-4 text-center mt-1.5'>
           {LINKS.map((s) => (
             <UnderlineLink className='print:text-primary-500' key={s.href} href={s.href}>
-              {s.title === 'Email' ? 'rmaulana.citra@gmail.com' : s.title}
+              {s.title}
             </UnderlineLink>
           ))}
         </div>
@@ -77,11 +72,60 @@ const Resume: NextPage = () => {
       <div className='space-y-8'>
         <section>
           <div className='flex items-center justify-between pb-2.5 border-b-2 border-b-theme-700'>
-            <h3>Experience</h3>
+            <h3>Summary</h3>
+
             <UnstyledButton onClick={openPopup} className='print:hidden'>
               <HiInformationCircle className='text-red-500 animate-pulse text-lg' />
               <span className='sr-only'>How to print?</span>
             </UnstyledButton>
+          </div>
+
+          <ul className={listStyle}>
+            {SUMMARY.map((summ, idx) => {
+              return (
+                <li key={idx}>
+                  {htmr(summ, {
+                    transform: {
+                      a: (props) => <UnderlineLink href={props.href ?? ''}>{props.children}</UnderlineLink>
+                    }
+                  })}
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+
+        <section>
+          <h3 className='mb-4 pb-2.5 border-b-2 border-b-theme-700'>Techinal Skills</h3>
+
+          {SKILLS.map((skill) => (
+            <p className='[&:not(:first-of-type)]:mt-2.5' key={skill.name}>
+              <strong>{skill.name}:</strong> {skill.list.join(', ')}.
+            </p>
+          ))}
+        </section>
+
+        <section>
+          <h3 className='mb-4 pb-2.5 border-b-2 border-b-theme-700'>Key Skills</h3>
+
+          <ul className={listStyle}>
+            {KEY_SKILLS.map((skill, idx) => {
+              return (
+                <li key={idx}>
+                  {htmr(skill, {
+                    transform: {
+                      a: (props) => <UnderlineLink href={props.href ?? ''}>{props.children}</UnderlineLink>
+                    }
+                  })}
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+
+        <section>
+          <div className='flex items-center justify-between pb-2.5 border-b-2 border-b-theme-700'>
+            <h3>Experience</h3>
           </div>
 
           {EXPERIENCE.map((exp, i) => (
@@ -98,15 +142,17 @@ const Resume: NextPage = () => {
               </div>
 
               <ul className={listStyle}>
-                {exp.lists.map((list, idx) => (
-                  <li key={idx}>
-                    {htmr(list, {
-                      transform: {
-                        a: (props) => <UnderlineLink href={props.href ?? ''}>{props.children}</UnderlineLink>
-                      }
-                    })}
-                  </li>
-                ))}
+                {exp.lists.map((list, idx) => {
+                  return (
+                    <li key={idx}>
+                      {htmr(list, {
+                        transform: {
+                          a: (props) => <UnderlineLink href={props.href ?? ''}>{props.children}</UnderlineLink>
+                        }
+                      })}
+                    </li>
+                  )
+                })}
               </ul>
             </div>
           ))}
@@ -143,11 +189,11 @@ const Resume: NextPage = () => {
         </section>
 
         <section>
-          <h3 className='mb-4 pb-2.5 border-b-2 border-b-theme-700'>Skills</h3>
+          <h3 className='mb-4 pb-2.5 border-b-2 border-b-theme-700'>Languages</h3>
 
-          {SKILLS.map((skill) => (
-            <p className='[&:not(:first-of-type)]:mt-2.5' key={skill.name}>
-              <strong>{skill.name}:</strong> {skill.list.join(', ')}.
+          {LANGUAGES.map((lang) => (
+            <p className='[&:not(:first-of-type)]:mt-2.5' key={lang.title}>
+              <strong>{lang.title}:</strong> {lang.level}.
             </p>
           ))}
         </section>

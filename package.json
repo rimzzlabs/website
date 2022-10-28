@@ -2,7 +2,7 @@
   "name": "rizkicitra",
   "version": "1.0.0",
   "private": true,
-  "description": "My Personal Website, build with React, Next.js, Strapi and Tailwind CSS",
+  "description": "My Personal Website, build with React, Next.js, MDX and Tailwind CSS",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

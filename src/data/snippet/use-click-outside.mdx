@@ -12,8 +12,8 @@ export default function useClickOutside(refObject, handler) {
   useEffect(() => {
     const listener = (event) => {
       const element = refObject?.current
-      if (!el || el.contains(e.target)) return
-      handler(e)
+      if (!element || element.contains(event.target)) return
+      handler(event)
     }
 
     // use mousedown or touchstart instead of click event

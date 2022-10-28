@@ -1,0 +1,37 @@
+---
+title: 'useToggle'
+summary: 'Toggle boolean made easy with hooks'
+topic: 'react'
+author: 'Rizki Maulana Citra'
+github_username: 'rizkimcitra'
+created_at: '10/10/2022'
+---
+
+Tired of declaring `openModal` and `closeModal` function? I got you!
+
+```ts
+export default function useToggle(
+  initialValue = false
+): [boolean, React.Dispatch<React.SetStateAction<boolean>>, () => void, () => void] {
+  // s means state while sS means setState
+  const [s, sS] = useState(initialValue)
+
+  const enable = useCallback(() => sS(true), [])
+  const disable = useCallback(() => sS(false), [])
+
+  return [s, sS, enable, disable]
+}
+```
+
+## Usage
+
+You can use the hooks like so:
+
+```tsx
+export default function NutzComponent() {
+  // we actually skip the second value
+  const [isOpen, , open, close] = useToggle()
+
+  return // your lovely component here
+}
+```
