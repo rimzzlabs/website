@@ -41,15 +41,9 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   useEffect(() => {
-    if (isProd) {
+    if (isProd && typeof window !== 'undefined') {
       const SECRET = process.env.NEXT_PUBLIC_SECRET
-      ;(async () => {
-        try {
-          await umamiClient.get('/api/revalidate?secret=' + SECRET)
-        } catch (error) {
-          console.info('revalidate error')
-        }
-      })()
+      ;(async () => await umamiClient.get('/api/revalidate?secret=' + SECRET))()
     }
   }, [])
 
