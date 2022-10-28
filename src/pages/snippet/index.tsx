@@ -52,7 +52,7 @@ const SnippetIndexPage: NextPage<SnippetProps> = ({ snippets = [] }) => {
 
       {search.query.length > 0 && (
         <section>
-          <h2 className='mb-4'>Search Result</h2>
+          <h2 className='mb-4'>Search Snippet</h2>
 
           {search.filteredData.length > 0 ? (
             <div className={twclsx('grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto', !search.isPending && 'grid')}>

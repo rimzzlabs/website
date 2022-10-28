@@ -29,37 +29,39 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
   })
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
-      <HeroWithPhoto
-        title={meta.title as string}
-        subtitle='Student &amp; Frontend Developer'
-        description="Hello👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal website, where you can find my portfolio, blog and more."
-        img={{
-          alt_title: meta.title as string,
-          src: meta?.openGraph?.images ? meta.openGraph.images[0].url : ''
-        }}
-      />
+      <div>
+        <HeroWithPhoto
+          title={meta.title as string}
+          subtitle='Student &amp; Frontend Developer'
+          description="Hello👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal website, where you can find my portfolio, blog and more."
+          img={{
+            alt_title: meta.title as string,
+            src: meta?.openGraph?.images ? meta.openGraph.images[0].url : ''
+          }}
+        />
 
-      <Section
-        title='Featured Post'
-        gridCols='grid-cols-1 md:grid-cols-2'
-        data={blogs}
-        Component={BlogCard}
-        link={{
-          to: '/blog',
-          children: 'See all post'
-        }}
-      />
+        <Section
+          title='Featured Post'
+          gridCols='grid-cols-1 md:grid-cols-2'
+          data={blogs}
+          Component={BlogCard}
+          link={{
+            to: '/blog',
+            children: 'See all post'
+          }}
+        />
 
-      <Section
-        title='Featured Portfolio'
-        gridCols='grid-cols-1 md:grid-cols-2'
-        data={portfolios}
-        Component={PortfolioCard}
-        link={{
-          to: '/portfolio',
-          children: 'See all portfolio'
-        }}
-      />
+        <Section
+          title='Featured Portfolio'
+          gridCols='grid-cols-1 md:grid-cols-2'
+          data={portfolios}
+          Component={PortfolioCard}
+          link={{
+            to: '/portfolio',
+            children: 'See all portfolio'
+          }}
+        />
+      </div>
     </LayoutPage>
   )
 }

@@ -1,7 +1,6 @@
 import { twclsx } from '@/libs'
 import { dateFormat, dateStringToISO } from '@/libs/intl'
 
-import { useMemo } from 'react'
 import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 
 type HeadingContentProps = {
@@ -12,19 +11,16 @@ type HeadingContentProps = {
   est_read?: string
 }
 
-export const HeadingContent: React.FunctionComponent<HeadingContentProps> = (props) => {
-  const config: Intl.DateTimeFormatOptions = useMemo(
-    () => ({
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    }),
-    []
-  )
+const config: Intl.DateTimeFormatOptions = {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric'
+}
 
+export const HeadingContent: React.FunctionComponent<HeadingContentProps> = (props) => {
   return (
-    <section className={twclsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
+    <section>
       <h1 className={twclsx('max-w-prose', 'text-3xl md:text-5xl', 'mb-8')}>{props.title}</h1>
 
       <div className={twclsx('flex flex-col', 'gap-4', 'md:flex-row md:items-center md:justify-between')}>
@@ -46,6 +42,8 @@ export const HeadingContent: React.FunctionComponent<HeadingContentProps> = (pro
           </time>
         </div>
       </div>
+
+      <hr className={twclsx('mt-8 border-theme-300 dark:border-theme-700')} />
     </section>
   )
 }

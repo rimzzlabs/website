@@ -1,9 +1,8 @@
-import { TimelineList } from '@/components/timeline'
+import { Blockquote } from '@/components/content'
 
 import { HeroWithPhoto, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { timeline } from '@/libs/constants/timeline'
 import { getMetaPage } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
@@ -36,29 +35,25 @@ const About: NextPage = () => {
             I choose Information Technology as my main prospect career path, therefore I&apos;m facing many obstacles
             and it was quite challenging.
           </p>
-          <blockquote>
-            <style jsx>
-              {`
-                blockquote {
-                  border-image: linear-gradient(to bottom, #3b82f6, #14b8a6) 1;
-                }
-              `}
-            </style>
-            <p className={twclsx('text-theme-700 dark:text-theme-200')}>
-              I change during the course of a day. I wake and I&apos;m one person, and when I go to sleep I know for
-              certain I&apos;m somebody else.
-            </p>
-          </blockquote>
+
+          <Blockquote>
+            <p>The important thing is not to stop questioning. Curiosity has its own reason for existence.</p>
+            <span>- Albert Einstein</span>
+          </Blockquote>
+
+          <p>
+            I start learning <strong>Web Development</strong> in <strong>early 2021</strong>, but before that happens,
+            I&apos;ve actually learned the basics about <strong>Software Engineering</strong> in{' '}
+            <strong>High School</strong>, when I was at 12th grade. I&apos;m focusing on{' '}
+            <strong>Frontend Development</strong>, including <strong>Mobile App Development.</strong>
+          </p>
+
+          <p>
+            On this website, I like to share my various thoughts, including <strong>web development</strong>, and
+            showcase my <strong>personal portfolio.</strong>
+          </p>
         </div>
       </HeroWithPhoto>
-
-      <section className={twclsx('pt-10 md:pt-20')}>
-        <h2 className={twclsx('mb-2')}>Timeline</h2>
-        <p className={twclsx('max-w-prose mb-4')}>
-          Take a look at my timeline below, it consists of my career path, formal education and more.
-        </p>
-        <TimelineList timeline={timeline} />
-      </section>
 
       <section className={twclsx('pt-10 md:pt-20')}>
         <h2 className={twclsx('mb-4')}>Contact</h2>

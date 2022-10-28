@@ -9,6 +9,7 @@ type AuthorSectionProps = {
   name: string
   username: string
 }
+
 export const AuthorSection: React.FunctionComponent<AuthorSectionProps> = (props) => {
   const githubAPI = useMemo(() => {
     return {
@@ -21,19 +22,24 @@ export const AuthorSection: React.FunctionComponent<AuthorSectionProps> = (props
     <section className={twclsx('flex flex-col', 'gap-4')}>
       <div className={twclsx('flex flex-col', 'gap-4')}>
         <div className={twclsx('flex items-center', 'gap-4')}>
-          <CustomImage
-            display='intrinsic'
-            className={twclsx('rounded-full')}
-            src={githubAPI.picture}
-            width={32}
-            height={32}
-            alt={props.name}
-          />
+          <figure>
+            <CustomImage
+              display='intrinsic'
+              className={twclsx('rounded-full')}
+              src={githubAPI.picture}
+              width={32}
+              height={32}
+              alt={props.name}
+            />
+          </figure>
+
           <p>
             Written by /{' '}
-            <UnderlineLink href={githubAPI.profile} title={props.name}>
-              {props.name}
-            </UnderlineLink>
+            <span>
+              <UnderlineLink href={githubAPI.profile} title={props.name}>
+                {props.name}
+              </UnderlineLink>
+            </span>
           </p>
         </div>
       </div>

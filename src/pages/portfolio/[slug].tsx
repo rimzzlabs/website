@@ -1,7 +1,6 @@
-import { ContentImage, IconStack, MDXComponents, PRButton } from '@/components/content'
+import { ContentImage, HeadingPortfolio, IconStack, MDXComponents, PRButton } from '@/components/content'
 
 import { BackToTop } from '@/UI/buttons'
-import { UnderlineLink } from '@/UI/links'
 import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
@@ -16,11 +15,11 @@ import { MDXRemote } from 'next-mdx-remote'
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import type { ParsedUrlQuery } from 'querystring'
-import { HiGlobeAlt, HiOutlineCalendar } from 'react-icons/hi'
-import { SiGithub } from 'react-icons/si'
+import { HiOutlineCalendar } from 'react-icons/hi'
+import rehypeSlug from 'rehype-slug'
 import type { Portfolio } from 'rizkicitra'
 
-interface ProjectDetailPageProps {
+type ProjectDetailPageProps = {
   header: Portfolio
   mdxSource: MDXRemoteSerializeResult
 }
@@ -40,30 +39,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
       <BackToTop />
 
       <article className={twclsx('flex flex-col', 'gap-8')}>
-        <section className={twclsx('pb-8 border-b', 'border-theme-300 dark:border-theme-700')}>
-          <h1 className={twclsx('max-w-prose text-3xl md:text-5xl')}>{header.title}</h1>
-          <p className={twclsx('w-full my-8')}>{header.summary}</p>
-
-          <div className={twclsx('flex items-center', 'gap-4')}>
-            <UnderlineLink
-              href={header.link.github}
-              className={twclsx('max-w-max', 'gap-2 py-1', 'text-theme-700 dark:text-theme-200')}
-            >
-              <SiGithub className={twclsx('text-lg md:text-xl', 'text-theme-800 dark:text-theme-200')} />
-              <span className={twclsx('text-sm md:text-base')}>Repository</span>
-            </UnderlineLink>
-
-            {header.link.live !== null && (
-              <UnderlineLink
-                href={header.link.live}
-                className='max-w-max gap-2 py-1 text-theme-700 dark:text-theme-200'
-              >
-                <HiGlobeAlt className={twclsx('text-lg md:text-xl', 'text-theme-800 dark:text-theme-200')} />
-                <span className={twclsx('text-sm md:text-base')}>Live Demo</span>
-              </UnderlineLink>
-            )}
-          </div>
-        </section>
+        <HeadingPortfolio {...header} />
 
         <section className={twclsx('flex flex-col gap-4', 'md:flex-row md:items-center md:justify-between')}>
           <div className={twclsx('flex items-center gap-3', 'w-full')}>
@@ -113,7 +89,7 @@ export const getStaticProps: GetStaticProps<ProjectDetailPageProps> = async (ctx
 
   const res = await getContentBySlug<Portfolio>('/portfolio', slug)
 
-  const mdxSource = await serialize(res.content, { mdxOptions: { rehypePlugins: [mdxPrism] } })
+  const mdxSource = await serialize(res.content, { mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] } })
 
   return {
     props: {

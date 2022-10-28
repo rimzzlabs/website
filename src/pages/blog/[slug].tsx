@@ -19,6 +19,7 @@ import { serialize } from 'next-mdx-remote/serialize'
 import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import readingTime from 'reading-time'
+import rehypeSlug from 'rehype-slug'
 import type { Blog } from 'rizkicitra'
 
 interface BlogPostProps {
@@ -79,10 +80,10 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         </div>
       </article>
 
+      <BackToTop />
+
       <PRButton path={`/blog/${header.slug}.mdx`} />
       <GiscusComment />
-
-      <BackToTop />
     </LayoutPage>
   )
 }
@@ -108,7 +109,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
   const est_read = readingTime(res.content).text
 
   const mdxSource = await serialize(res.content, {
-    mdxOptions: { rehypePlugins: [mdxPrism] }
+    mdxOptions: { rehypePlugins: [mdxPrism, rehypeSlug] }
   })
 
   return {
