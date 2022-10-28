@@ -2,8 +2,6 @@ import { CustomImage } from '@/UI/images'
 
 import { twclsx } from '@/libs/twclsx'
 
-import { m } from 'framer-motion'
-import type { Variants } from 'framer-motion'
 import { useMemo } from 'react'
 
 export type HeroWithPhotoProps = {
@@ -15,11 +13,6 @@ export type HeroWithPhotoProps = {
     alt_title: string
   }
   children?: React.ReactNode
-}
-
-const toUp: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { ease: 'easeOut', duration: 0.5 } }
 }
 
 export const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = (props) => {
@@ -34,7 +27,7 @@ export const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = (props
         'space-y-4 md:space-y-0 md:space-x-3 md:space-x-reverse'
       )}
     >
-      <m.div variants={toUp} className={twclsx('relative', 'flex items-center self-start md:justify-end')}>
+      <div className={twclsx('relative', 'flex items-center self-start md:justify-end')}>
         <figure className='mb-4 md:mb-0 md:ml-4'>
           <CustomImage
             src={IMAGE_SRC}
@@ -48,11 +41,10 @@ export const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = (props
             objectFit='cover'
           />
         </figure>
-      </m.div>
+      </div>
       <section>
-        <m.h1 variants={toUp}>{props.title}</m.h1>
-        <m.p
-          variants={toUp}
+        <h1>{props.title}</h1>
+        <p
           className={twclsx(
             'max-w-max mt-2 mb-4',
             'text-transparent font-bold text-xl md:text-2xl',
@@ -61,10 +53,8 @@ export const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = (props
           )}
         >
           {props.subtitle}
-        </m.p>
-        <m.p variants={toUp} className={twclsx('max-w-prose', 'mb-2 md:mb-4')}>
-          {props.description}
-        </m.p>
+        </p>
+        <p className={twclsx('max-w-prose', 'mb-2 md:mb-4')}>{props.description}</p>
         {props.children}
       </section>
     </div>

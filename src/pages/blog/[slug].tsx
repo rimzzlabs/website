@@ -13,8 +13,6 @@ import { isProd } from '@/libs/constants/environmentState'
 import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
-import type { Variants } from 'framer-motion'
-import { m } from 'framer-motion'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
@@ -37,16 +35,6 @@ interface HTTP {
   status: boolean
   message: string
   data: number
-}
-
-const articleV: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: 'backInOut' } }
-}
-
-const parentV: Variants = {
-  hidden: { opacity: 1 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.25 } }
 }
 
 const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
@@ -74,12 +62,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
   return (
     <LayoutPage {...(metaData as LayoutPageProps)}>
-      <m.article
-        initial='hidden'
-        animate='visible'
-        variants={parentV}
-        className={twclsx('content-auto', 'flex flex-col', 'gap-8')}
-      >
+      <article className={twclsx('content-auto', 'flex flex-col', 'gap-8')}>
         <HeadingContent
           est_read={header.est_read}
           postViews={postViews}
@@ -90,13 +73,12 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
         <AuthorSection name={header.author_name} username={header.github_username} />
 
-        <m.div
-          variants={articleV}
+        <div
           className={twclsx('prose dark:prose-invert', 'md:prose-lg', 'prose-headings:scroll-mt-24', 'prose-img:my-4')}
         >
           <MDXRemote {...mdxSource} components={MDXComponents} />
-        </m.div>
-      </m.article>
+        </div>
+      </article>
 
       <BackToTop />
 
