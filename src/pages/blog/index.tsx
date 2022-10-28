@@ -5,6 +5,7 @@ import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContents, getPageViewsEach } from '@/services'
+import { umamiClient } from '@/services/umami'
 
 import { isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
@@ -14,13 +15,9 @@ import { twclsx } from '@/libs/twclsx'
 import { useSearch } from '@/hooks'
 
 import { GetStaticProps, NextPage } from 'next'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import readingTime from 'reading-time'
 import type { Blog } from 'rizkicitra'
-
-// const BlogCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.BlogCard })), {
-//   suspense: true
-// })
 
 type BlogPageProps = {
   allBlogs: Array<Blog>
@@ -42,6 +39,19 @@ const meta = getMetaPage({
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const search = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
+
+  useEffect(() => {
+    if (isProd) {
+      const SECRET = process.env.NEXT_PUBLIC_SECRET
+      ;(async () => {
+        try {
+          await umamiClient.get('/api/revalidate?secret=' + SECRET)
+        } catch (error) {
+          console.info('revalidate error')
+        }
+      })()
+    }
+  }, [])
 
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
