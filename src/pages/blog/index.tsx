@@ -18,17 +18,13 @@ import { useMemo } from 'react'
 import readingTime from 'reading-time'
 import type { Blog } from 'rizkicitra'
 
-// const BlogCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.BlogCard })), {
-//   suspense: true
-// })
-
 type BlogPageProps = {
   allBlogs: Array<Blog>
 }
 
 const meta = getMetaPage({
   title: 'Blog',
-  description: `I write blog once in a while, talks about Web Development related topics and my personal experience, I like to share my thought this way.`,
+  description: `I write blog once a while, talks about Web Development related topics and my personal experience, sometime it's fun to share with others even tho we're just folks.`,
   keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
   og_image: generateOgImage({
     title: 'Blog - rizkicitra.dev',
@@ -53,13 +49,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
         <div className={twclsx('flex flex-col', 'gap-24')}>
           <section>
             <h2 className={twclsx('mb-4')}>Most Viewed</h2>
-            {/* <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-              <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-                {mostViewdBlogs.map((b) => (
-                  <BlogCard key={b.slug} displayViews {...b} />
-                ))}
-              </div>
-            </Suspense> */}
+
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
               {mostViewdBlogs.map((b) => (
                 <BlogCard key={b.slug} displayViews {...b} />
@@ -69,14 +59,6 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
           <section>
             <h2 className={twclsx('mb-4')}>All Post</h2>
-
-            {/* <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-              <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-                {allBlogs.map((b) => (
-                  <BlogCard key={b.slug} displayViews {...b} />
-                ))}
-              </div>
-            </Suspense> */}
             <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
               {allBlogs.map((b) => (
                 <BlogCard key={b.slug} displayViews {...b} />
