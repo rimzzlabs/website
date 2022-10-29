@@ -1,7 +1,7 @@
 import type { GetContents } from '@/services'
 
 import { getToken } from './getToken'
-import { umamiServer } from './instance'
+import { UMAMI } from './instance'
 
 import readingTime from 'reading-time'
 import type { Blog, PageView } from 'rizkicitra'
@@ -60,10 +60,7 @@ export const getPageViews = async (slug: string): Promise<GetPageViews> => {
 
   /* Making two requests to the Umami API, one for the article and one for the blog, and then merges the
  data and returns it */
-  const res = await Promise.allSettled([
-    umamiServer.get<PageView>(articleURL, config),
-    umamiServer.get<PageView>(blogURL, config)
-  ])
+  const res = await Promise.allSettled([UMAMI.get<PageView>(articleURL, config), UMAMI.get<PageView>(blogURL, config)])
 
   /* Checking if the first request was successful, and if it was, it is assigning the data to the
   responseArticle variable. */
@@ -120,5 +117,20 @@ export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise
   })
   // run promise all to each post, by passing an async map function to the Promise.all() method.
 
-  return await Promise.all(requests)
+  const settled = await Promise.allSettled(requests)
+
+  const newBlogs: Blog[] = []
+  settled.forEach((s) => {
+    if (s.status === 'fulfilled') {
+      newBlogs.push(s.value)
+    }
+  })
+  // for (let i = 0; i < newBlogs.length; i++) {
+  //   const blog = blogs.find((b) => b.header.slug !== newBlogs[i].slug)
+  //   if (blog) {
+  //     newBlogs.push({ ...blog.header, est_read: readingTime(blog.content).text, views: 278 })
+  //   }
+  // }
+
+  return newBlogs
 }
