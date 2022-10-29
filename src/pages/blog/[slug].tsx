@@ -7,7 +7,7 @@ import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContentBySlug, getContents } from '@/services/content'
-import { umamiClient } from '@/services/umami'
+import { getPageViews } from '@/services/umami'
 
 import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
@@ -30,12 +30,6 @@ interface slug extends ParsedUrlQuery {
   slug: string
 }
 
-interface HTTP {
-  status: boolean
-  message: string
-  data: number
-}
-
 const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   const [postViews, setPostViews] = useState<number>(0)
 
@@ -49,8 +43,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
     if (typeof window !== 'undefined') {
       ;(async () => {
         try {
-          const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
-          setPostViews(response.data.data)
+          const response = await getPageViews(header.slug)
+          setPostViews(response.data ?? 0)
         } catch (error) {
           console.info('Could not retrieve page views')
         }

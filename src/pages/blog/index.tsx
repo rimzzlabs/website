@@ -89,8 +89,6 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getContents<Blog>('/blog')
 
-  // if (isProd) {
-  // }
   const allBlogs = await getPageViewsEach(response)
   allBlogs.sort(getNewestBlog)
 
@@ -99,13 +97,6 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
       allBlogs
     }
   }
-
-  // const allBlogs = response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text })).sort(getNewestBlog)
-  // return {
-  //   props: {
-  //     allBlogs
-  //   }
-  // }
 }
 
 export default BlogPage
