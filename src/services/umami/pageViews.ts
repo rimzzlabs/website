@@ -1,24 +1,13 @@
 import type { GetContents } from '@/services'
 
-import { isDev } from '@/libs/constants/environmentState'
-
 import { getToken } from './getToken'
 import { umamiServer } from './instance'
 
 import readingTime from 'reading-time'
 import type { Blog, PageView } from 'rizkicitra'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
-const baseURL = isDev ? 'http://localhost:3000' : SITE_URL
-
 type GetPageViews = {
   isError: boolean
-  data: number | null
-}
-
-type HTTPResult = {
-  status: boolean
-  message: string
   data: number | null
 }
 
@@ -102,24 +91,21 @@ export const getPageViews = async (slug: string): Promise<GetPageViews> => {
 
 // a function that process each blog post and get pageviews value from umami
 export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise<Array<Blog>> => {
-  require('isomorphic-fetch')
   const requests = blogs.map(async (blog): Promise<Blog> => {
+    // estimate reading time of the contents by using readingTime() function from reading-time library
+    // but as soon as the function returned the value, grab the text value from the object
+    const est_read = readingTime(blog.content).text
     try {
       // this would return an array of promises blog, so passing it to Promise.all() method like an array
       // do request to umami on each post by passing its slug to query parameter
-      const response = await umamiServer.get<HTTPResult>(`${baseURL}/api/umami/blogviews?slug=${blog.header.slug}`)
+      const response = await getPageViews(blog.header.slug)
 
       // set views, process request data to json, and set static type as HTTP, see line 9
-      const views = response.data.data as number
-
-      // estimate reading time of the contents by using readingTime() function from reading-time library
-      // but as soon as the function returned the value, grab the text value from the object
-      const est_read = readingTime(blog.content).text
-
+      const views = response.data
       // if response status are OK or 200, return the data with the value of views property from umami
 
       return {
-        views,
+        views: views as number,
         est_read,
         ...blog.header
       }
@@ -127,7 +113,7 @@ export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise
       // otherwise return the data and set the views value property to 0
       return {
         views: 0,
-        est_read: readingTime(blog.content).text,
+        est_read,
         ...blog.header
       }
     }

@@ -5,9 +5,7 @@ import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContents, getPageViewsEach } from '@/services'
-import { umamiClient } from '@/services/umami'
 
-import { isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
@@ -15,8 +13,7 @@ import { twclsx } from '@/libs/twclsx'
 import { useSearch } from '@/hooks'
 
 import { GetStaticProps, NextPage } from 'next'
-import { useEffect, useMemo } from 'react'
-import readingTime from 'reading-time'
+import { useMemo } from 'react'
 import type { Blog } from 'rizkicitra'
 
 type BlogPageProps = {
@@ -39,13 +36,6 @@ const meta = getMetaPage({
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const search = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
-
-  useEffect(() => {
-    if (isProd && typeof window !== 'undefined') {
-      const SECRET = process.env.NEXT_PUBLIC_SECRET
-      ;(async () => await umamiClient.get('/api/revalidate?secret=' + SECRET))()
-    }
-  }, [])
 
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
@@ -99,23 +89,23 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getContents<Blog>('/blog')
 
-  if (isProd) {
-    const allBlogs = await getPageViewsEach(response)
-    allBlogs.sort(getNewestBlog)
+  // if (isProd) {
+  // }
+  const allBlogs = await getPageViewsEach(response)
+  allBlogs.sort(getNewestBlog)
 
-    return {
-      props: {
-        allBlogs
-      }
-    }
-  }
-
-  const allBlogs = response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text }))
   return {
     props: {
       allBlogs
     }
   }
+
+  // const allBlogs = response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text })).sort(getNewestBlog)
+  // return {
+  //   props: {
+  //     allBlogs
+  //   }
+  // }
 }
 
 export default BlogPage

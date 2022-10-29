@@ -25,9 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<ReturnValue>) =>
   try {
     // run getPageViews function and pass the slug
     const response = await getPageViews(slug)
-    if (response.isError) {
-      throw response
-    }
+
     return res.status(200).send({
       data: response.data,
       status: true,

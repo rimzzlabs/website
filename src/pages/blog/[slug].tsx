@@ -9,7 +9,6 @@ import type { LayoutPageProps } from '@/UI/templates'
 import { getContentBySlug, getContents } from '@/services/content'
 import { umamiClient } from '@/services/umami'
 
-import { isProd } from '@/libs/constants/environmentState'
 import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
@@ -47,12 +46,11 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
   useEffect(() => {
     // run only on client side
-    if (isProd && typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       ;(async () => {
         try {
           const response = await umamiClient.get<HTTP>('/api/umami/blogviews?slug=' + header.slug)
-
-          setPostViews(response.data.data ?? 0)
+          setPostViews(response.data.data)
         } catch (error) {
           console.info('Could not retrieve page views')
         }

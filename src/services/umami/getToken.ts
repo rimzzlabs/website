@@ -1,7 +1,7 @@
 import { umamiServer } from './instance'
 
-const USERNAME = process.env.UMAMI_USERNAME
-const PASSWORD = process.env.UMAMI_PASSWORD
+const USERNAME = process.env.NEXT_PUBLIC_UMAMI_USERNAME
+const PASSWORD = process.env.NEXT_PUBLIC_UMAMI_PASSWORD
 
 /**
  * run only on the server.
@@ -13,9 +13,6 @@ export const getToken = async () => {
   try {
     const response = await umamiServer.post<{ token: string }>('/api/auth/login', body)
     // return null if the status not 200
-    if (response.status !== 200) {
-      throw response
-    }
     // return the token
     return response.data.token
   } catch (error) {
