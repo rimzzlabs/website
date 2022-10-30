@@ -7,10 +7,12 @@ import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContentBySlug, getContents } from '@/services/content'
-import { getPageViews } from '@/services/umami'
+import { API_CLIENT } from '@/services/umami'
 
 import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
+
+import { PageViewsResponse } from '../api/umami'
 
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -32,7 +34,6 @@ interface slug extends ParsedUrlQuery {
 
 const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   const [postViews, setPostViews] = useState<number>(0)
-
   const metaData = getMetaPageBlog({
     ...header,
     slug: '/blog/' + header.slug
@@ -43,8 +44,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
     if (typeof window !== 'undefined') {
       ;(async () => {
         try {
-          const response = await getPageViews(header.slug)
-          setPostViews(response.data ?? 0)
+          const response = await API_CLIENT.get<PageViewsResponse>('/api/umami?slug=' + header.slug)
+          setPostViews(response.data.pageviews ?? 0)
         } catch (error) {
           console.info('Could not retrieve page views')
         }

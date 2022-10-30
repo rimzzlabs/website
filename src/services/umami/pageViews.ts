@@ -1,7 +1,8 @@
 import type { GetContents } from '@/services'
 
-import { getToken } from './getToken'
-import { UMAMI } from './instance'
+import { PageViewsResponse } from '@/pages/api/umami'
+
+import { API_CLIENT, UMAMI } from './instance'
 
 import readingTime from 'reading-time'
 import type { Blog, PageView } from 'rizkicitra'
@@ -31,13 +32,8 @@ const reducePageViewsToNumber = (arr: Array<PageView>) => {
  * @param {string} slug - string - the slug of the article or blog post
  * @returns An object with two properties: isError and data.
  */
-export const getPageViews = async (slug: string): Promise<GetPageViews> => {
+export const getPageViews = async (slug: string, token: string): Promise<GetPageViews> => {
   const end_date = new Date()
-
-  const token = await getToken()
-  if (!token) {
-    return { isError: true, data: null }
-  }
 
   const config = { headers: { Authorization: `Bearer ${token}` } }
 
@@ -95,10 +91,10 @@ export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise
     try {
       // this would return an array of promises blog, so passing it to Promise.all() method like an array
       // do request to umami on each post by passing its slug to query parameter
-      const response = await getPageViews(blog.header.slug)
+      const response = await API_CLIENT.get<PageViewsResponse>('/api/umami?slug=' + blog.header.slug)
 
       // set views, process request data to json, and set static type as HTTP, see line 9
-      const views = response.data
+      const views = response.data.pageviews
       // if response status are OK or 200, return the data with the value of views property from umami
 
       return {
@@ -117,20 +113,6 @@ export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise
   })
   // run promise all to each post, by passing an async map function to the Promise.all() method.
 
-  const settled = await Promise.allSettled(requests)
-
-  const newBlogs: Blog[] = []
-  settled.forEach((s) => {
-    if (s.status === 'fulfilled') {
-      newBlogs.push(s.value)
-    }
-  })
-  // for (let i = 0; i < newBlogs.length; i++) {
-  //   const blog = blogs.find((b) => b.header.slug !== newBlogs[i].slug)
-  //   if (blog) {
-  //     newBlogs.push({ ...blog.header, est_read: readingTime(blog.content).text, views: 278 })
-  //   }
-  // }
-
-  return newBlogs
+  const r = await Promise.all(requests)
+  return r
 }
