@@ -1,15 +1,12 @@
 import { getPageViews, getToken } from '@/services'
 
 import { NextApiRequest, NextApiResponse } from 'next'
-import { isExpired } from 'react-jwt'
 
 export type PageViewsResponse = {
   error: boolean
   message: string
   pageviews: number | null
 }
-
-let jwt: null | string = null
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<PageViewsResponse>) => {
   if (!req.query.slug) {
@@ -27,21 +24,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PageViewsRespon
       pageviews: null
     })
   }
+  const jwt = await getToken()
   const slug = req.query.slug
-  if (!jwt) {
-    const token = await getToken()
-    jwt = token
-  }
-
-  if (jwt && isExpired(jwt)) {
-    const token = await getToken()
-    jwt = token
-  }
 
   if (!jwt) {
     return res.status(500).json({
       error: true,
-      message: 'Something went wrong, please try again later',
+      message: 'Cannot get token, please try again later',
       pageviews: null
     })
   }

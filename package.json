@@ -35,7 +35,6 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.3.1",
     "react-image-lightbox": "^5.1.4",
-    "react-jwt": "^1.1.7",
     "slugify": "^1.6.5",
     "tailwind-merge": "^1.2.1"
   },

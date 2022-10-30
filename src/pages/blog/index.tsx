@@ -44,7 +44,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
     if (!isProd) return
     ;(async () => {
       try {
-        await axios.get(`/api/revalidate?slug=/blog&secret=${SECRET_KEY}`)
+        await axios.get(`https://rizkicitra.dev/api/revalidate?slug=/blog&secret=${SECRET_KEY}`)
       } catch (err) {
         console.info('Could not revalidate')
       }
