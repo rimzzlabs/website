@@ -104,10 +104,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getContents<Blog>('/blog')
   const token = await getToken()
-  if (!token)
-    throw new Error(
-      `No token available, username: ${process.env.NEXT_PUBLIC_UMAMI_USERNAME}\nurl:${process.env.NEXT_PUBLIC_UMAMI_URL}\npassword: ${process.env.NEXT_PUBLIC_UMAMI_PASSWORD}`
-    )
+  if (!token) throw new Error(`Canot get token`)
 
   const requests = response.map(async (blog): Promise<Blog> => {
     // estimate reading time of the contents by using readingTime() function from reading-time library
