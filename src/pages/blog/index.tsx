@@ -4,8 +4,9 @@ import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { getContents, getPageViewsEach } from '@/services'
+import { API_CLIENT, getContents, getPageViewsEach } from '@/services'
 
+import { isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
@@ -13,7 +14,7 @@ import { twclsx } from '@/libs/twclsx'
 import { useSearch } from '@/hooks'
 
 import { GetStaticProps, NextPage } from 'next'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { Blog } from 'rizkicitra'
 
 type BlogPageProps = {
@@ -36,6 +37,17 @@ const meta = getMetaPage({
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const search = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
+
+  useEffect(() => {
+    ;(async () => {
+      if (!isProd) return
+      try {
+        await API_CLIENT.get('/api/revalidate?slug=/blog')
+      } catch (err) {
+        console.info('Cannot revalidate')
+      }
+    })()
+  }, [])
 
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
