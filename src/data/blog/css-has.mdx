@@ -1,0 +1,99 @@
+---
+title: 'A Deep Dive Into CSS :has'
+summary: "Ever wonder how CSS :has works?, well in this post, let's dive into CSS :has pseudo-class"
+featured: true
+author_name: 'Rizki Maulana Citra'
+github_username: 'rizkimcitra'
+published: '11/23/2022'
+topics: ['css', 'web dev']
+keywords: ['CSS']
+related: []
+---
+
+## Introduction
+
+Web Developer will never leave their CSS behind because it's one of the cores of the technology behind the web.
+
+Well, since CSS got upgraded to version 3 in 1998, A lot of things happened, and until now, CSS has already got many features, such as `:has()` pseudo-class.
+
+### What is pseudo-class?
+
+In CSS, A pseudo-class is a keyword added to a selector that specifies a special state of the selected element(s). For example, the pseudo-class `:hover` can be used to select a button when a user's pointer hovers over the button and this selected button can then be styled.
+
+I'm not going to talk much about what pseudo-class is, but here's a simple explanation of it, we will have a button with a background color black, and the color of the text will be white, and also with some padding.
+
+```css
+.button {
+  padding: 0.75rem;
+  background-color: black;
+  color: white;
+}
+```
+
+Result:
+
+<ContentImage src='/static/css-has-btn.gif' width={313} height={199} loading='lazy' alt='regular button' />
+
+We have a nice button there, now let's add interaction, such as color change when the user hovers over the element with `:hover` pseudo-class.
+
+```css
+.button {
+  padding: 0.75rem;
+  background-color: black;
+  color: white;
+}
+
+.button:hover {
+  background-color: red;
+}
+```
+
+Now the button would be like this:
+
+<ContentImage
+  width={313}
+  height={199}
+  loading='lazy'
+  alt='regular button with hover'
+  src='/static/css-has-btn-hover.gif'
+/>
+
+After I added the `:hover` pseudo-class, the button will change it's color if I hover over the element, that's my simple explanation about pseudo-class.
+
+## What is :has() pseudo-class?
+
+The functional `:has()` CSS pseudo-class represents an element if any of the relative selectors that are passed as an argument match at least one element when anchored against this element. This pseudo-class presents a way of selecting a parent element or a previous sibling element concerning a reference element by taking a forgiving relative selector list as an argument.
+
+- **Q:** Why it's called a functional?
+- **A:** Because this type of pseudo-class accepts parameters rather than just calling it
+
+CSS `:has()` pseudo-class will accept [forgiving relative element](https://developer.mozilla.org/en-US/docs/Web/CSS/Selector_list#forgiving_selector_list) and will apply a style if the parameters are valid as [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity).
+
+Let's take a look at this example of how the CSS pseudo-class `:has()` works
+
+```html
+<main>
+  <section>
+    <h1>Punctuation</h1>
+    <p>A simple punctuation will never arrive at a dragon's house tonight.</p>
+  </section>
+
+  <section>
+    <h1 id="vergil">Punctuation</h1>
+    <p>Hi Andrew can I borrow your pen?</p>
+    <p>Lorem ipsum dolor sit amet constectum adpisicing elit.</p>
+  </section>
+</main>
+```
+
+```css
+section:has(h1#vergil) {
+  color: blue;
+}
+```
+
+The result is going to be like this
+
+<ContentImage width={600} height={290} loading='lazy' alt='css has example' src='/static/css-has-example.gif' />
+
+So what is happening? as you can see, I'm targetting **the whole section** element that has an `h1` element with an **id** of **vergil**, and then **the whole section** will have a text color of blue.
