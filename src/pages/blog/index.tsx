@@ -106,7 +106,7 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const token = await getToken()
   if (!token)
     throw new Error(
-      `No token available, username: ${process.env.NEXT_PUBLIC_UMAMI_USERNAME}\npassword: ${process.env.NEXT_PUBLIC_UMAMI_PASSWORD}`
+      `No token available, username: ${process.env.NEXT_PUBLIC_UMAMI_USERNAME}\nurl:${process.env.NEXT_PUBLIC_UMAMI_URL}\npassword: ${process.env.NEXT_PUBLIC_UMAMI_PASSWORD}`
     )
 
   const requests = response.map(async (blog): Promise<Blog> => {
