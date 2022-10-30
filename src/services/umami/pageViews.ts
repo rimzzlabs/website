@@ -1,11 +1,6 @@
-import type { GetContents } from '@/services'
+import { UMAMI } from './instance'
 
-import { PageViewsResponse } from '@/pages/api/umami'
-
-import { API_CLIENT, UMAMI } from './instance'
-
-import readingTime from 'reading-time'
-import type { Blog, PageView } from 'rizkicitra'
+import type { PageView } from 'rizkicitra'
 
 type GetPageViews = {
   isError: boolean
@@ -80,39 +75,4 @@ export const getPageViews = async (slug: string, token: string): Promise<GetPage
     isError: false,
     data
   }
-}
-
-// a function that process each blog post and get pageviews value from umami
-export const getPageViewsEach = async (blogs: Array<GetContents<Blog>>): Promise<Array<Blog>> => {
-  const requests = blogs.map(async (blog): Promise<Blog> => {
-    // estimate reading time of the contents by using readingTime() function from reading-time library
-    // but as soon as the function returned the value, grab the text value from the object
-    const est_read = readingTime(blog.content).text
-    try {
-      // this would return an array of promises blog, so passing it to Promise.all() method like an array
-      // do request to umami on each post by passing its slug to query parameter
-      const response = await API_CLIENT.get<PageViewsResponse>('/api/umami?slug=' + blog.header.slug)
-
-      // set views, process request data to json, and set static type as HTTP, see line 9
-      const views = response.data.pageviews
-      // if response status are OK or 200, return the data with the value of views property from umami
-
-      return {
-        views: views as number,
-        est_read,
-        ...blog.header
-      }
-    } catch (err) {
-      // otherwise return the data and set the views value property to 0
-      return {
-        views: 0,
-        est_read,
-        ...blog.header
-      }
-    }
-  })
-  // run promise all to each post, by passing an async map function to the Promise.all() method.
-
-  const r = await Promise.all(requests)
-  return r
 }

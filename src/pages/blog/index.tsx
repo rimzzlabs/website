@@ -4,7 +4,7 @@ import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { getContents, getPageViewsEach } from '@/services'
+import { getContents, getPageViews, getToken } from '@/services'
 
 import { SECRET_KEY, isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
@@ -16,6 +16,7 @@ import { useSearch } from '@/hooks'
 import axios from 'axios'
 import { GetStaticProps, NextPage } from 'next'
 import { useEffect, useMemo } from 'react'
+import readingTime from 'reading-time'
 import type { Blog } from 'rizkicitra'
 
 type BlogPageProps = {
@@ -102,13 +103,42 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getContents<Blog>('/blog')
+  const token = await getToken()
+  if (!token) throw new Error('No token available')
 
-  const allBlogs = await getPageViewsEach(response)
-  allBlogs.sort(getNewestBlog)
+  const requests = response.map(async (blog): Promise<Blog> => {
+    // estimate reading time of the contents by using readingTime() function from reading-time library
+    // but as soon as the function returned the value, grab the text value from the object
+    const est_read = readingTime(blog.content).text
+    try {
+      // this would return an array of promises blog, so passing it to Promise.all() method like an array
+      // do request to umami on each post by passing its slug to query parameter
+      const response = await getPageViews(blog.header.slug, token)
+
+      // set views, process request data to json, and set static type as HTTP, see line 9
+      const views = response.data
+      // if response status are OK or 200, return the data with the value of views property from umami
+
+      return {
+        views: views as number,
+        est_read,
+        ...blog.header
+      }
+    } catch (err) {
+      // otherwise return the data and set the views value property to 0
+      return {
+        views: 0,
+        est_read,
+        ...blog.header
+      }
+    }
+  })
+
+  const allBlogs = await Promise.all(requests)
 
   return {
     props: {
-      allBlogs
+      allBlogs: allBlogs.sort(getNewestBlog)
     }
   }
 }
