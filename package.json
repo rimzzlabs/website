@@ -77,5 +77,14 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn lint:fix",
+      "yarn format"
+    ],
+    "**/*.{css,md,mdx}": [
+      "prettier --config ./.prettierrc.cjs -w ./src/**/*.{css,scss,md,html,json}"
+    ]
   }
 }
