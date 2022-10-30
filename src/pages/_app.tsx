@@ -19,8 +19,8 @@ const onExitComplete = () => window.scrollTo(0, 0)
 const App = ({ Component, pageProps, router }: AppProps) => {
   return (
     <ThemeProvider attribute='class' storageKey='theme' enableSystem>
+      <SkipToContent />
       <LazyMotion features={domAnimation}>
-        <SkipToContent />
         <Header />
         <AnimatePresence initial={false} onExitComplete={onExitComplete} exitBeforeEnter>
           <m.div
