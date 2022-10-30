@@ -4,15 +4,16 @@ import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { API_CLIENT, getContents, getPageViewsEach } from '@/services'
+import { getContents, getPageViewsEach } from '@/services'
 
-import { isProd } from '@/libs/constants/environmentState'
+import { SECRET_KEY, isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
 import { useSearch } from '@/hooks'
 
+import axios from 'axios'
 import { GetStaticProps, NextPage } from 'next'
 import { useEffect, useMemo } from 'react'
 import type { Blog } from 'rizkicitra'
@@ -39,12 +40,13 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (!isProd) return
     ;(async () => {
-      if (!isProd) return
       try {
-        await API_CLIENT.get('/api/revalidate?slug=/blog')
+        await axios.get(`/api/revalidate?slug=/blog&secret=${SECRET_KEY}`)
       } catch (err) {
-        console.info('Cannot revalidate')
+        console.info('Could not revalidate')
       }
     })()
   }, [])
