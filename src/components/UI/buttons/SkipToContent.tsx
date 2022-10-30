@@ -3,6 +3,7 @@ import { twclsx } from '@/libs/twclsx'
 export const SkipToContent: React.FunctionComponent = () => {
   return (
     <a
+      aria-hidden
       className={twclsx(
         'accessible',
         'absolute left-[20%] top-4',

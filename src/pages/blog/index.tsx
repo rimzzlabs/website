@@ -6,7 +6,7 @@ import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContents, getPageViews, getToken } from '@/services'
 
-import { SECRET_KEY, isProd } from '@/libs/constants/environmentState'
+import { SECRET_KEY, isDev, isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
@@ -103,6 +103,14 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getContents<Blog>('/blog')
+  if (isDev) {
+    return {
+      props: {
+        allBlogs: response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text })).sort(getNewestBlog)
+      }
+    }
+  }
+
   const token = await getToken()
   if (!token) throw new Error(`Canot get token`)
 
