@@ -14,7 +14,7 @@ export const Header: React.FunctionComponent = () => {
   const scrollPos = useWindowScrollY()
   const mdscreen = useMediaQuery('(min-width: 768px)')
 
-  const isError = pathname === '/_error' || pathname === '/404' || pathname === '/resume'
+  const isError = pathname === '/_error' || pathname === "/_offline" || pathname === '/404' || pathname === '/resume'
 
   if (isError) return null
 
