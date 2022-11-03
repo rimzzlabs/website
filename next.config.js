@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-// const runtimeCaching = require('next-pwa/cache')
+const runtimeCaching = require('next-pwa/cache')
 const isDev = process.env.NODE_ENV === 'development'
 
 const withPWA = require('next-pwa')({
@@ -8,7 +8,7 @@ const withPWA = require('next-pwa')({
   skipWaiting: true, // installs new SW when available without a prompt, we only need to send a reload request to user.
   register: true,
   disable: isDev,
-  // runtimeCaching,
+  runtimeCaching,
   buildExcludes: [
     /chunks\/images\/.*$/, // Don't precache files under .next/static/chunks/images this improves next-optimized-images behaviour
     /chunks\/pages\/api\/.*/ // Dont cache the API it needs fresh serverinfo
