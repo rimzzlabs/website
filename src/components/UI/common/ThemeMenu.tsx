@@ -105,7 +105,6 @@ export const ThemeMenu: React.FunctionComponent<ThemeMenuProps> = (props) => {
       >
         {themesList.map((theme, index) => (
           <li
-            onAnimationStart={(e) => console.info(e)}
             onKeyDown={handleKeyDown(theme.value, index)}
             role='option'
             aria-selected={theme.value === props.theme}

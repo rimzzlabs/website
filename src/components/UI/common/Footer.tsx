@@ -24,6 +24,7 @@ export const Footer: React.FunctionComponent = () => {
           alt='icon'
           display='intrinsic'
           className='rounded-lg animate-pulse'
+          loading='lazy'
           width={30}
           height={30}
         />

@@ -10,18 +10,17 @@ import type { Variants } from 'framer-motion'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import 'prism-themes/themes/prism-night-owl.css'
-import { useCallback } from 'react'
 import 'react-image-lightbox/style.css'
 
 const v: Variants = withExit(variants)
 
-const App = ({ Component, pageProps, router }: AppProps) => {
-  const onExitComplete = useCallback(() => window.scrollTo(0, 0), [])
+const onExitComplete = () => window.scrollTo(0, 0)
 
+const App = ({ Component, pageProps, router }: AppProps) => {
   return (
     <ThemeProvider attribute='class' storageKey='theme' enableSystem>
+      <SkipToContent />
       <LazyMotion features={domAnimation}>
-        <SkipToContent />
         <Header />
         <AnimatePresence initial={false} onExitComplete={onExitComplete} exitBeforeEnter>
           <m.div

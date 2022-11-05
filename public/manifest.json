@@ -5,10 +5,10 @@
   "scope": "/",
   "start_url": "/",
   "author": "Rizki Maulana Citra",
-  "name": "Rizki Maulana Citra",
-  "app_name": "Rizki Citra Personal Web App",
+  "name": "rizkicitra.dev",
+  "app_name": "rizkicitra.dev",
   "short_name": "Rizki Citra",
-  "description": "I'm Rizki Maulana Citra, a guy who loves to code, music and coffee, talks about React, Next.js, CSS and Web Development related topics.",
+  "description": "Personal Website, Online Portfolio And Blog, Built On Top Of NEXT.js, An Online Space For Rizki To Share His Knowledge And Experience.",
   "icons": [
     {
       "src": "/icon-192x192.png",
