@@ -19,7 +19,7 @@ export const useGuestbookUser = () => {
     return async () =>
       await supabaseClient.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: 'http://localhost:3000/guestbook' }
+        options: { redirectTo: 'https://rizkicitra.dev/guestbook' }
       })
   }, [])
 

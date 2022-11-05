@@ -30,7 +30,7 @@ export const useGuestbook = () => {
         name: user?.user_metadata.name ?? user?.user_metadata.user_name,
         message: message
       }
-      const toastId = toast.loading('Loading...')
+      const toastId = toast.loading('Posting your message...')
       const insert = await supabaseClient.from('guestbook').insert([payload])
       toast.remove(toastId)
       if (insert.error) {

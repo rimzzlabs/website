@@ -1,19 +1,26 @@
 import { Hero, LayoutPage } from '@/components/UI/templates'
 import { Guestbook, GuestbookEditor } from '@/components/guestbook'
 
+import { supabaseClient } from '@/services/supabase'
+
 import { twclsx } from '@/libs'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 
 import { useGuestbook, useGuestbookUser, useTheme } from '@/hooks'
+import { Guestbook as GuestbookType } from '@/hooks/guestbook/model'
 
-import { NextPage } from 'next'
+import { GetStaticProps, NextPage } from 'next'
 import { useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import colors from 'tailwindcss/colors'
 
+type GuestbookPageProps = {
+  guestbook: GuestbookType[]
+}
+
 const meta = getMetaPage({
   title: 'Guestbook',
-  description: `Leave a comment to me, you can write whatever you like— appreciation, warm message, tips, or just say hello.`,
+  description: `Leave a trace here, you can write whatever— appreciation, warm message, jokes, or just saying hello.`,
   keywords: ['About Rizki Maulana Citra', 'About Rizki M Citra', 'About Rizkicitra', 'About Rizki Citra'],
   og_image: generateOgImage({
     title: 'Guestbook',
@@ -25,9 +32,9 @@ const meta = getMetaPage({
   type: 'website'
 })
 
-const GuestbookPage: NextPage = () => {
+const GuestbookPage: NextPage<GuestbookPageProps> = ({ guestbook = [] }) => {
   const { getUser } = useGuestbookUser()
-  const { getGuestbook } = useGuestbook()
+  const { guestbook: guestbookClient, getGuestbook } = useGuestbook()
   const { theme, systemTheme, mounted } = useTheme()
 
   useEffect(() => {
@@ -42,7 +49,7 @@ const GuestbookPage: NextPage = () => {
       <Hero title={meta.title as string} description={meta.description as string} />
 
       <GuestbookEditor />
-      <Guestbook />
+      <Guestbook guestbook={guestbookClient.length === 0 ? guestbook : guestbookClient} />
 
       {mounted && (
         <Toaster
@@ -62,6 +69,17 @@ const GuestbookPage: NextPage = () => {
       )}
     </LayoutPage>
   )
+}
+
+export const getStaticProps: GetStaticProps<GuestbookPageProps> = async () => {
+  const res = await supabaseClient.from('guestbook').select('*')
+
+  return {
+    props: {
+      guestbook: (res.data as GuestbookType[] | null) ?? []
+    },
+    revalidate: 30
+  }
 }
 
 export default GuestbookPage
