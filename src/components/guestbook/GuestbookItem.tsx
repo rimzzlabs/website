@@ -9,7 +9,7 @@ const config: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   month: 'short',
   year: 'numeric',
-  weekday: 'long'
+  weekday: 'short'
 }
 
 const hourConfig: Intl.DateTimeFormatOptions = {
