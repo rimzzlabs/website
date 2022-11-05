@@ -7,7 +7,7 @@ export const WrapperCard: React.FunctionComponent<WrapperCardProps> = (props) =>
     <div
       className={twclsx(
         'relative p-0.5 transition-transform',
-        'active:scale-[0.98]',
+        'active:motion-safe:scale-[0.98]',
         'bg-black dark:bg-transparent',
         'dark:bg-gradient-to-br dark:from-primary-500 dark:to-ternary-500',
         'before:absolute before:-z-[1] before:inset-0 before:transition-transform',

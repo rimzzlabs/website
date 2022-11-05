@@ -60,4 +60,11 @@
   .content-auto {
     content-visibility: auto;
   }
+
+  .border-toast {
+    @apply border-black;
+  }
+  .dark .border-toast {
+    border-image: linear-gradient(to bottom right, #3b82f6, #14b8a6) 1;
+  }
 }
