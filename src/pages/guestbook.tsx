@@ -76,7 +76,10 @@ export const getStaticProps: GetStaticProps<GuestbookPageProps> = async () => {
 
   return {
     props: {
-      guestbook: (res.data as GuestbookType[] | null) ?? []
+      guestbook:
+        (res.data as GuestbookType[] | null)?.sort((a, b) =>
+          new Date(a.created_at) < new Date(b.created_at) ? 1 : new Date(a.created_at) > new Date(b.created_at) ? -1 : 0
+        ) ?? []
     },
     revalidate: 30
   }
