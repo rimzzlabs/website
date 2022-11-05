@@ -4,6 +4,10 @@ const APP_ROUTE = [
     name: 'Home'
   },
   {
+    path: '/guestbook',
+    name: 'Guestbook'
+  },
+  {
     path: '/portfolio',
     name: 'Portfolio'
   },
