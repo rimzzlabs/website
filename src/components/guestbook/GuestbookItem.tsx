@@ -27,10 +27,10 @@ export const GuestbookItem: React.FunctionComponent<Guestbook> = (props) => {
 
   return (
     <div className='w-full'>
-      <p className='mb-3 max-w-prose'>{props.message}</p>
-      <p className='text-sm'>
-        <span className='font-bold text-theme-700 dark:text-theme-500'>{props.name} — </span>
-        <span className='font-medium text-theme-400 dark:text-theme-600'>
+      <p className='max-w-prose font-bold'>{props.message}</p>
+      <p className='text-sm mt-3'>
+        <span className='font-semibold dark:text-theme-400'>{props.name} — </span>
+        <span className='text-theme-500 dark:text-theme-600'>
           {date} at {hour}
         </span>
       </p>
@@ -40,7 +40,7 @@ export const GuestbookItem: React.FunctionComponent<Guestbook> = (props) => {
           type='button'
           disabled={isDeleting}
           onClick={handleDelete(props.message_id)}
-          className='text-sm font-medium text-red-600 dark:text-red-700'
+          className='text-sm mt-2.5 font-medium text-red-600 dark:text-red-700'
         >
           Delete
         </UnstyledButton>

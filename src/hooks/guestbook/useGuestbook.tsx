@@ -16,7 +16,7 @@ const getAtomGuestbook = atom(null, async (get, set) => {
 })
 
 export const useGuestbook = () => {
-  const [guestbook] = useAtom(atomGuestbook)
+  const [guestbook, sG] = useAtom(atomGuestbook)
   const [, getGuestbook] = useAtom(getAtomGuestbook)
   const { user } = useGuestbookUser()
   const [message, setMessage] = useState('')
@@ -53,11 +53,11 @@ export const useGuestbook = () => {
           deleting(false)
           return
         }
-        await getGuestbook()
+        sG((prev) => prev.filter((guest) => guest.message_id !== id))
         deleting(false)
       }
     },
-    [getGuestbook]
+    [sG]
   )
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value), [])
 
