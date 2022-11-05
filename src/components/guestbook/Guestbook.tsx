@@ -1,20 +1,23 @@
-import { useGuestbook } from '@/hooks'
+import { Guestbook as GuestbookType } from '@/hooks/guestbook/model'
 
 import { GuestbookItem } from './GuestbookItem'
 
 import { useId } from 'react'
 
-export const Guestbook: React.FunctionComponent = () => {
-  const { guestbook } = useGuestbook()
+type P = {
+  guestbook: GuestbookType[]
+}
+
+export const Guestbook: React.FunctionComponent<P> = (props) => {
   const id = useId()
 
-  if (guestbook.length === 0) {
+  if (props.guestbook.length === 0) {
     return <p>No Message...</p>
   }
 
   return (
     <div className='flex flex-col gap-4 md:gap-6 w-full'>
-      {guestbook.map((g) => (
+      {props.guestbook.map((g) => (
         <GuestbookItem key={g.message_id + id} {...g} />
       ))}
     </div>

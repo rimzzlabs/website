@@ -22,7 +22,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
       )}
     >
       <h2 className='mb-1 text-xl md:text-2xl'>Sign the Guestbook</h2>
-      <p className='mb-4 md:mb-6 font-semibold'>Let me and the other know you was here!</p>
+      <p className='mb-4 md:mb-6 font-semibold'>Let me and the other know you were here!</p>
 
       {user ? (
         <form
