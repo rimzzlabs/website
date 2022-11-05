@@ -1,6 +1,6 @@
 ---
-title: 'A Deep Dive Into CSS :has'
-summary: "Ever wonder how CSS :has works?, well in this post, let's dive into CSS :has pseudo-class"
+title: 'A Powerful Pseudo Class, Deep Dive into CSS :has()'
+summary: "Ever heard of CSS :has() pseudo-class? well in this post, let's dive into CSS :has() pseudo-class and get a better understanding of how it works."
 featured: true
 author_name: 'Rizki Maulana Citra'
 github_username: 'rizkimcitra'
@@ -12,15 +12,31 @@ related: []
 
 ## Introduction
 
-Web Developer will never leave their CSS behind because it's one of the cores of the technology behind the web.
+Well, since CSS got upgraded to version 3 in 1998, A lot of things happened, and until now, CSS has already got many features that we can use to enhance our website to be more beautiful and interactive.
 
-Well, since CSS got upgraded to version 3 in 1998, A lot of things happened, and until now, CSS has already got many features, such as `:has()` pseudo-class.
+Web Developer will never leave their CSS behind because it's one of the cores of the technology behind the web, current CSS version let us use our creativity by crafting modern and accessible web applications.
 
-### What is pseudo-class?
+But more features mean we need more time to think about how it works _(again)_, although most modern web apps use CSS framework for managing their stylesheet, enhancing our fundamentals about the core of the CSS framework itself is necessary.
+
+CSS has never been easy, not a few people understand how CSS works _(including me)_, but there is a person out there ready to help you fall in love with CSS, [check out his YouTube channel](https://www.youtube.com/kevinpowell "Kevin Powell's youtube channel").
+
+One of the problems is that CSS is not a programming language, so it's very hard to debug when something goes wrong, and you might think _" CSS is quite easy, we change something, the UI reflected, what's the hard part?"_. That's what I thought when I was using [Bootstrap](https://getboostrap.com 'Bootstrap Website'), but the hard part is when you do all the stuff and some elements didn't quite fit with your expectation, like setting how to set _this style_ to a specific element that contains _this_.
+
+Well if you back to 1998 to do all those stuff, it's going to be challenging, but don't worry we now have the feature to do all those stuff.
+
+It's a **CSS pseudo-class** that will handle all of those for you. Just imagine you want to target an element that contains something and also the element shouldn't contain something again, it's like a condition in a programming language.
+
+```ts
+if(somethingOk && somethingOkToo) // do the stuff
+```
+
+Pretty cool right? now before we talk about this feature, let's talk a little bit about what **CSS pseudo-class** is.
+
+### What is CSS pseudo-class?
 
 In CSS, A pseudo-class is a keyword added to a selector that specifies a special state of the selected element(s). For example, the pseudo-class `:hover` can be used to select a button when a user's pointer hovers over the button and this selected button can then be styled.
 
-I'm not going to talk much about what pseudo-class is, but here's a simple explanation of it, we will have a button with a background color black, and the color of the text will be white, and also with some padding.
+I'm not going to talk much about what pseudo-class is, but here's a simple explanation of it, we will have a button with a black background color, and the text color will be white, I'm also going to add some padding.
 
 ```css
 .button {
@@ -48,7 +64,7 @@ We have a nice button there, now let's add interaction, such as color change whe
 }
 ```
 
-Now the button would be like this:
+Now the button would look like this:
 
 <ContentImage
   width={313}
@@ -58,18 +74,43 @@ Now the button would be like this:
   src='/static/css-has-btn-hover.gif'
 />
 
-After I added the `:hover` pseudo-class, the button will change it's color if I hover over the element, that's my simple explanation about pseudo-class.
+After I added the `:hover` pseudo-class, the button will change it's color if I hover over the element, that's my simple explanation about the pseudo-class.
 
 ## What is :has() pseudo-class?
 
 The functional `:has()` CSS pseudo-class represents an element if any of the relative selectors that are passed as an argument match at least one element when anchored against this element. This pseudo-class presents a way of selecting a parent element or a previous sibling element concerning a reference element by taking a forgiving relative selector list as an argument.
 
 - **Q:** Why it's called a functional?
-- **A:** Because this type of pseudo-class accepts parameters rather than just calling it
+- **A:** Because this type of pseudo-class accepts parameters rather than just calling it like `:hover`
 
 CSS `:has()` pseudo-class will accept [forgiving relative element](https://developer.mozilla.org/en-US/docs/Web/CSS/Selector_list#forgiving_selector_list) and will apply a style if the parameters are valid as [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity).
 
+CSS `:has()` pseudo-class often described as _"Parent Selector"_ because a lot of people use it to target the parent element but then they actually want to select a specific element that matches with the condition.
+
+As such, you might want to chill and understand how `:has()` works, this might break your mental model about the CSS itseld, now to simplify how `:has()` works, take a look at this CSS snippet:
+
+```css
+/* Matches <a> elements that contain an <span> child with a class colored */
+a:has(span.colored) {
+  /*...*/
+}
+
+/* Matches <a> elements that directly contain an <img> child */
+a:has(> img) {
+  /*...*/
+}
+
+/* Matches <section> elements that DON'T contain any heading elements: */
+section:not(:has(h1, h2, h3, h4, h5, h6)) {
+  /*...*/
+}
+```
+
+### :has pseudo-class examples
+
 Let's take a look at this example of how the CSS pseudo-class `:has()` works
+
+#### Simple Example
 
 ```html
 <main>
@@ -92,8 +133,14 @@ section:has(h1#vergil) {
 }
 ```
 
-The result is going to be like this
+The result is going to look like this:
 
 <ContentImage width={600} height={290} loading='lazy' alt='css has example' src='/static/css-has-example.gif' />
 
-So what is happening? as you can see, I'm targetting **the whole section** element that has an `h1` element with an **id** of **vergil**, and then **the whole section** will have a text color of blue.
+So what is happening? as you can see, I'm targetting **the section element** that has an `h1` element with an **id** of **vergil**, and then **the whole section** will have a text color of blue.
+
+It's kinda confusing if you read this pseudo-class for the first time, but I promise you will adapt.
+
+#### Kinda Challenging Example
+
+The previous example was quite simple, I know but don't lose hope, let's use another case where this pseudo-class can be useful when you need this pseudo-class.
