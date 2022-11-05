@@ -22,7 +22,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
       )}
     >
       <h2 className='mb-1 text-xl md:text-2xl'>Sign the Guestbook</h2>
-      <p className='mb-4'>Write a message to me or for future visitor of my website</p>
+      <p className='mb-4 md:mb-6 font-semibold'>Let me and the other know you was here!</p>
 
       {user ? (
         <form
@@ -50,33 +50,40 @@ export const GuestbookEditor: React.FunctionComponent = () => {
           </UnstyledButton>
         </form>
       ) : (
-        <div className='flex items-center space-x-3'>
-          <UnstyledButton
-            onClick={signin('github')}
-            type='button'
-            className={twclsx('h-10 px-4', 'space-x-2 transition hover:bg-theme-800', 'text-white bg-black')}
-          >
-            <SiGithub />
-            <span>Sign in</span>
-          </UnstyledButton>
-
-          <UnstyledButton
-            onClick={signin('google')}
-            type='button'
-            className={twclsx(
-              'h-10 px-4',
-              'space-x-2 transition',
-              'text-white bg-primary-600 dark:bg-primary-700',
-              'hover:bg-primary-400 dark:hover:bg-primary-500'
-            )}
-          >
-            <SiGoogle />
-            <span>Sign in</span>
-          </UnstyledButton>
+        <div className='mb-1'>
+          <p className='mb-2.5'>To write message, first sign in with:</p>
+          <div className='flex items-center space-x-3'>
+            <UnstyledButton
+              onClick={signin('github')}
+              type='button'
+              className={twclsx(
+                'h-10 px-4 font-medium',
+                'space-x-2 transition hover:bg-theme-800 dark:hover:bg-theme-700',
+                'text-white bg-black dark:bg-theme-800'
+              )}
+            >
+              <SiGithub />
+              <span>GitHub</span>
+            </UnstyledButton>
+            <span className='text-sm'>Or</span>
+            <UnstyledButton
+              onClick={signin('google')}
+              type='button'
+              className={twclsx(
+                'h-10 px-4 font-medium',
+                'space-x-2 transition',
+                'text-white bg-primary-600 dark:bg-primary-800',
+                'hover:bg-primary-400 dark:hover:bg-primary-700'
+              )}
+            >
+              <SiGoogle />
+              <span>Google</span>
+            </UnstyledButton>
+          </div>
         </div>
       )}
-      <p className='text-sm mt-2'>
-        <strong>Your information is only used to display your name</strong>
+      <p className='text-sm mt-2 dark:text-theme-400'>
+        <em>Your information is only used to display your name</em>
       </p>
     </div>
   )
