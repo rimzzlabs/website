@@ -45,6 +45,8 @@ Now let's implement that style in TypeScript. I'm going to use [Axios, a small l
 import axios from 'axios'
 import type { AxiosError, AxiosRequestConfig } from 'axios'
 
+type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+
 export const http = async <T>(
   method: Method,
   config?: AxiosRequestConfig
