@@ -114,7 +114,7 @@ export const SUMMARY = [
   `Frontend Developer <em>(especially on modern web technology)</em>.`,
   'Adept at leveraging <strong>Sprint</strong> and <strong>Agile</strong> methodologies to drive process efficiencies.',
   `Focused to frontend environment with strong Frontend core skills, but also has familiarity with other languages and tools.`,
-  'Deploy optimized apps with scalabble user interface, user experience, and user accessibility based on design thinking process.'
+  'Deploy optimized apps with scalable user interface, user experience, and user accessibility based on design thinking process.'
 ]
 
 export const LANGUAGES = [
