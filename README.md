@@ -8,10 +8,18 @@
 - **Next.js**
 - **Tailwind CSS**
 - **Markdown**
+  - To manage blog post
 - **Jotai**
+  - A small 3KB state management to handle my sites' theme
 - **Framer Motion**
+  - Simple page transition
 - **Giscus**
+  - Store post comments by using GitHub discussion
 - **Umami**
+  - an open source, privacy-focused alternative to Google Analytics
+- **Supabase**
+  - Auth
+  - Store Guestbook
 - **Next.js Plugins**:
   - next-pwa
   - next-themes
