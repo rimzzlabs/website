@@ -56,7 +56,7 @@ export const EXPERIENCE: Experience[] = [
     companyName: 'Skyshi Digital Indonesia',
     role: 'Frontend Developer',
     period: {
-      start: 'January, 2022',
+      start: 'April, 2022',
       end: 'Present'
     },
     lists: [
@@ -70,8 +70,8 @@ export const EXPERIENCE: Experience[] = [
     companyName: 'Skyshi Digital Indonesia',
     role: 'Frontend Developer Intern',
     period: {
-      start: 'October, 2021',
-      end: 'January, 2022'
+      start: 'January, 2021',
+      end: 'March, 2022'
     },
     lists: [
       `Responsible to develop specific features on internal project using React.js, Vue.js and Chakra UI.`,
@@ -114,7 +114,7 @@ export const SUMMARY = [
   `Frontend Developer <em>(especially on modern web technology)</em>.`,
   'Adept at leveraging <strong>Sprint</strong> and <strong>Agile</strong> methodologies to drive process efficiencies.',
   `Focused to frontend environment with strong Frontend core skills, but also has familiarity with other languages and tools.`,
-  'Deploy optimized apps with scalabble user interface, user experience, and user accessibility based on design thinking process.'
+  'Deploy optimized apps with scalable user interface, user experience, and user accessibility based on design thinking process.'
 ]
 
 export const LANGUAGES = [

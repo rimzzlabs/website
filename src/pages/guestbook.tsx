@@ -20,8 +20,20 @@ type GuestbookPageProps = {
 
 const meta = getMetaPage({
   title: 'Guestbook',
-  description: `Leave a trace here, you can write whatever— appreciation, warm message, jokes, or just saying hello.`,
-  keywords: ['About Rizki Maulana Citra', 'About Rizki M Citra', 'About Rizkicitra', 'About Rizki Citra'],
+  description: `Leave a trace, let me and other visitors know you were here too, you can write whatever— appreciation, warm message, jokes, or just saying hello.`,
+  keywords: [
+    'Guestbook',
+    'rizkicitra',
+    'rizkimcitra',
+    'Rizki Citra',
+    'R Maulana Citra',
+    'Guestbook Rizki',
+    'Guestbook message',
+    'Rizki Maulana Citra',
+    'Rizki Maulana Citra',
+    'Guestbook Rizki M Citra',
+    'Guestbook Rizki Maulana Citra'
+  ],
   og_image: generateOgImage({
     title: 'Guestbook',
     subTitle: 'Leave whatever you want on my website',
@@ -76,7 +88,10 @@ export const getStaticProps: GetStaticProps<GuestbookPageProps> = async () => {
 
   return {
     props: {
-      guestbook: (res.data as GuestbookType[] | null) ?? []
+      guestbook:
+        (res.data as GuestbookType[] | null)?.sort((a, b) =>
+          new Date(a.created_at) < new Date(b.created_at) ? 1 : new Date(a.created_at) > new Date(b.created_at) ? -1 : 0
+        ) ?? []
     },
     revalidate: 30
   }

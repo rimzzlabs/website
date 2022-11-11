@@ -13,7 +13,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
   return (
     <div
       className={twclsx(
-        'relative w-full p-2 md:p-3 my-10',
+        'relative w-full p-3 my-10',
         'bg-theme-50 dark:bg-theme-900',
         'before:absolute before:z-[-1] before:-inset-0.5',
         'dark:before:bg-gradient-to-br before:transition-all',
@@ -82,7 +82,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
           </div>
         </div>
       )}
-      <p className='text-sm mt-2 dark:text-theme-400'>
+      <p className='text-xs md:text-sm mt-3 dark:text-theme-400'>
         <em>Your information is only used to display your name</em>
       </p>
     </div>
