@@ -9,6 +9,7 @@ import type { LayoutPageProps } from '@/UI/templates'
 import { getContentBySlug, getContents } from '@/services/content'
 import { API_CLIENT } from '@/services/umami'
 
+import { isDev } from '@/libs/constants/environmentState'
 import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
@@ -42,6 +43,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   useEffect(() => {
     // run only on client side
     if (typeof window !== 'undefined') {
+      if (isDev) return
       ;(async () => {
         try {
           const response = await API_CLIENT.get<PageViewsResponse>('/api/umami?slug=' + header.slug)
