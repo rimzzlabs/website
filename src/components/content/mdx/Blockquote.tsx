@@ -1,6 +1,6 @@
 export const Blockquote = (props: { children: React.ReactNode }) => {
   return (
-    <blockquote>
+    <blockquote className='[&>p]:opacity-60'>
       {props.children}
       <style jsx>
         {`
