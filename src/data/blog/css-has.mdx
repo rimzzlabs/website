@@ -1,12 +1,26 @@
 ---
-title: 'A Powerful Pseudo Class, Deep Dive into CSS :has()'
+title: "A Powerful CSS Pseudo Class, Let's Take a Look at CSS :has()"
 summary: "Ever heard of CSS :has() pseudo-class? well in this post, let's dive into CSS :has() pseudo-class and get a better understanding of how it works."
 featured: true
 author_name: 'Rizki Maulana Citra'
 github_username: 'rizkimcitra'
-published: '11/23/2022'
+published: '11/12/2022'
 topics: ['css', 'web dev']
-keywords: ['CSS']
+keywords:
+  [
+    'css',
+    'selector',
+    'pseudo-class',
+    'has',
+    'css:has',
+    'css :has()',
+    ':has()',
+    'css parent selector',
+    'selector',
+    'parent selector',
+    ':has() pseudo-class',
+    'pseudo-element'
+  ]
 related: []
 ---
 
@@ -76,7 +90,7 @@ Now the button would look like this:
 
 After I added the `:hover` pseudo-class, the button will change it's color if I hover over the element, that's my simple explanation about the pseudo-class.
 
-## What is :has() pseudo-class?
+## What is CSS :has() pseudo-class?
 
 The functional `:has()` CSS pseudo-class represents an element if any of the relative selectors that are passed as an argument match at least one element when anchored against this element. This pseudo-class presents a way of selecting a parent element or a previous sibling element concerning a reference element by taking a forgiving relative selector list as an argument.
 
@@ -106,11 +120,9 @@ section:not(:has(h1, h2, h3, h4, h5, h6)) {
 }
 ```
 
-### :has pseudo-class examples
+### CSS :has() examples
 
-Let's take a look at this example of how the CSS pseudo-class `:has()` works
-
-#### Simple Example
+Let's take a look at these example of how the CSS pseudo-class `:has()` works
 
 ```html
 <main>
@@ -139,8 +151,135 @@ The result is going to look like this:
 
 So what is happening? as you can see, I'm targetting **the section element** that has an `h1` element with an **id** of **vergil**, and then **the whole section** will have a text color of blue.
 
-It's kinda confusing if you read this pseudo-class for the first time, but I promise you will adapt.
+It's kinda confusing if you read this pseudo-class for the first time, but you should feel comfortable later.
 
-#### Kinda Challenging Example
+Another example is when your website has a lot of images and some of the images will have a `figcaption` in them. This way you can use a different style to the image that has a `figcaption` by using CSS `:has()` pseudo-class.
 
-The previous example was quite simple, I know but don't lose hope, let's use another case where this pseudo-class can be useful when you need this pseudo-class.
+```html
+<div class="container">
+  <figure>
+    <img src="/mr-crab-dank.jpg" alt="Mr. Crab" />
+  </figure>
+  <figure>
+    <img src="/your-ms-puff.jpg" alt="Ms. Puff" />
+    <figcaption>Ms. Puff waving at you</figcaption>
+  </figure>
+</div>
+```
+
+Also with a little bit of _base styling_ with this CSS
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding-top: 0.875rem;
+  width: 91%;
+  margin: 0 auto;
+  max-width: 524px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.765rem;
+}
+
+.container figure {
+  width: 100%;
+}
+
+figure img {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+}
+```
+
+The result will look like this
+
+<ContentImage
+  width={768}
+  height={582}
+  loading='lazy'
+  alt='Mr. Crab Ms. Puff'
+  src='https://ik.imagekit.io/mlnzyx/tr:w-768,h-582/css-has/mr-crab-ms-puff'
+/>
+
+Now we have 2 images that contain Mr. Crab and Ms. Puff, but you as can see between the images, only Ms. Puff who have a
+descriptive `figcaption`.
+
+Now let's style an image that contains `figcaption` to be different from the other images. I'm going to style it to have padding and box-shadow.
+
+```css
+figure:has(img + figcaption) {
+  padding: 0.75rem;
+  box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.25);
+}
+```
+
+And the result will be like this
+
+<ContentImage
+  width={666}
+  height={619}
+  loading='lazy'
+  alt='Mr. Crab Ms. Puff edit'
+  src='https://ik.imagekit.io/mlnzyx/css-has/mr-crab-ms-puff-edited'
+/>
+
+I simply add some padding with a box-shadow to the `<figure>` element, if the `<figure>` element has a child that is an `<img>` element but also has `<figcaption>` element that is a sibling of the `<img />` element.
+
+> I hope I explained well with that sentence 😅
+
+But the point is I can style the `<figure>` element but with a condition if the element has a certain element or is followed by another selector by using CSS `:has()` pseudo-class.
+
+CSS `:has()` can also be used along with another pseudo-class, for example using `:nth-child(n)` to manage grid column. This can be useful if you don't want to use [Media Queries](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries 'Media Queries, MDN Web Docs') that much.
+
+```css
+/* This will apply if a container has 4 children or more */
+.container:has(:nth-child(5)) {
+  ...;
+}
+
+/* This will apply if a container has 4 children or more */
+.container:has(:nth-child(10)) {
+  ...;
+}
+```
+
+The above snippet can be used to modify our grid column to be 1 when the container has 5 or more items, but when the container has 10 or more items, a different style can be applied, for example, styling a grid column to be 2.
+
+### Browser Compatibility
+
+<ContentImage
+  width={1311}
+  height={639}
+  loading='lazy'
+  alt='CSS Has browser compatibility'
+  src='https://ik.imagekit.io/mlnzyx/css-has/css-has-compatibility'
+/>
+
+CSS pseudo-class `:has()` is now already supported on many browsers, including **Chrome**, **Edge**, and **Firefox**, but not for Internet Explorer.
+
+[Internet Explorer is already dead](https://www.wired.com/story/microsoft-internet-explorer-is-finally-really-fully-dead/, 'Article from wired.com that tells Internet Explore has been shut down by Microsoft') anyway so this is not a problem because so many people already use a modern web browser like Edge or Chrome.
+
+> But be careful, CSS `:has` is already supported on Firefox, but it is disabled by default, so you need to be aware of this one, as of today, there are a lot of people still using FireFox.
+
+#### Support Fallback
+
+As on firefox, CSS `:has()` pseudo-class is not enabled by default, you might need to think about the fallback, fortunately, we have [CSS at-rule](https://developer.mozilla.org/en-US/docs/Web/CSS/@supports 'at-rules supports') to handle if the browser support some rules or style.
+
+```css
+@supports (selector(:has(p))) {
+  /* Supported! */
+}
+```
+
+This will seek if the browser supports the CSS `:has()` pseudo-class.
+
+## Closing
+
+And that's it, folks, We're reaching the end of this post, thank you so much to read the blog till the last part. I really appreciate and I hope this post is useful for you.
+
+If you have any questions or want to share your thought related to this post, you can comment on this post by using your GitHub account, see you later.

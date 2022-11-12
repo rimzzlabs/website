@@ -15,7 +15,6 @@ interface ContentImageProps extends ImageProps {
 
 export const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const title = props.title ?? 'an image of' + alt
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -33,17 +32,17 @@ export const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
     <>
       <CustomImage
         display='intrinsic'
-        onClick={() => !title.startsWith('nl') && setIsOpen(true)}
+        onClick={() => setIsOpen(true)}
         src={src}
         alt={alt}
         width={768}
         height={468}
         objectFit='cover'
-        className={twclsx('rounded-lg', !title.startsWith('nl') && 'cursor-pointer')}
+        className={twclsx('rounded-lg', 'cursor-pointer')}
         {...props}
       />
 
-      {isOpen && !props.title.startsWith('nl') ? (
+      {isOpen && (
         <Lightbox
           mainSrc={src}
           onCloseRequest={() => setIsOpen(false)}
@@ -51,7 +50,7 @@ export const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
             maxWidth: '500px'
           }}
         />
-      ) : null}
+      )}
     </>
   )
 }
