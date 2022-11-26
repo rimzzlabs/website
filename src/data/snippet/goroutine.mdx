@@ -10,19 +10,19 @@ created_at: '10/03/2022'
 ```go
 package main
 
-import (  
+import (
     "fmt"
 )
 
-func firstWorker() {  
+func firstWorker() {
     fmt.Println("run your first worker")
 }
 
-func secondWorker() {  
+func secondWorker() {
     fmt.Println("run your second worker")
 }
 
-func main() {  
+func main() {
     go firstWorker()
     go secondWorker()
     fmt.Println("main running")
