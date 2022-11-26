@@ -14,10 +14,6 @@ const APP_ROUTE = [
   {
     path: '/blog',
     name: 'Blog'
-  },
-  {
-    path: '/about',
-    name: 'About Me'
   }
 ]
 

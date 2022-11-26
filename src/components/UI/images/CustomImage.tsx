@@ -17,7 +17,7 @@ export const CustomImage: React.FunctionComponent<CustomImageProps> = ({
   if (display === 'responsive') {
     return (
       <Image
-        layout='fill'
+        fill
         src={src}
         alt={alt}
         title={alt}
@@ -30,12 +30,11 @@ export const CustomImage: React.FunctionComponent<CustomImageProps> = ({
   }
 
   if (width < 40 && height < 40) {
-    return <Image layout='intrinsic' src={src} alt={alt} title={alt} width={width} height={height} {...props} />
+    return <Image src={src} alt={alt} title={alt} width={width} height={height} {...props} />
   }
 
   return (
     <Image
-      layout='intrinsic'
       src={src}
       alt={alt}
       title={alt}

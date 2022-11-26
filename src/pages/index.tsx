@@ -1,9 +1,15 @@
-import { BlogCard, PortfolioCard } from '@/UI/cards'
-import { HeroWithPhoto, LayoutPage, Section } from '@/UI/templates'
+import { SocialHome } from '@/components/UI/common'
+import { BlogList } from '@/components/content'
+import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
+
+import { PortfolioCard } from '@/UI/cards'
+import { CustomImage } from '@/UI/images'
+import { LayoutPage, Section } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { GetContents, getContents } from '@/services'
 
+import { twclsx } from '@/libs'
 import { getMetaPage } from '@/libs/metapage'
 import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
 
@@ -29,39 +35,70 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
   })
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
-      <div>
-        <HeroWithPhoto
-          title={meta.title as string}
-          subtitle='Student &amp; Frontend Developer'
-          description="Hello👋, I'm Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal website, where you can find my portfolio, blog and more."
-          img={{
-            alt_title: meta.title as string,
-            src: meta?.openGraph?.images ? meta.openGraph.images[0].url : ''
-          }}
-        />
+      <section className='flex flex-col md:items-center md:flex-row-reverse'>
+        <figure className='mb-6 md:mb-0 md:ml-6'>
+          <CustomImage
+            display='intrinsic'
+            src='https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp'
+            alt='Rizki Maulana Citra'
+            width={176}
+            height={176}
+            quality={100}
+            loading='eager'
+            className='rounded-md'
+            priority
+          />
+        </figure>
 
-        <Section
-          title='Featured Post'
-          gridCols='grid-cols-1 md:grid-cols-2'
-          data={blogs}
-          Component={BlogCard}
-          link={{
-            to: '/blog',
-            children: 'See all post'
-          }}
-        />
+        <div>
+          <h1>Rizki Maulana Citra</h1>
+          <p
+            className={twclsx(
+              'max-w-max mt-2 mb-4',
+              'text-transparent font-bold text-xl md:text-2xl',
+              'bg-clip-text bg-gradient-to-r',
+              'from-primary-500 to-ternary-500'
+            )}
+          >
+            Student &amp; Frontend Developer
+          </p>
+          <p className='mb-2 md:mb-4 max-w-prose'>
+            Hello👋, I&apos;m Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal
+            website, where you can find my portfolio, blog and more.
+          </p>
 
-        <Section
-          title='Featured Portfolio'
-          gridCols='grid-cols-1 md:grid-cols-2'
-          data={portfolios}
-          Component={PortfolioCard}
-          link={{
-            to: '/portfolio',
-            children: 'See all portfolio'
-          }}
-        />
-      </div>
+          <SocialHome />
+        </div>
+      </section>
+
+      <section className='py-10 md:py-20 [&>*:not(:last-child)]:mb-2 md:[&>*:not(:last-child)]:mb-2'>
+        <h2>About Me</h2>
+        <p>
+          A computer science student, frontend developer and an adventurer of my own mind. I like to express my feelings
+          through code, and a quite place would be nice to have around me.
+        </p>
+
+        <p>
+          I choose Information Technology as my main prospect career path, therefore I&apos;m facing many obstacles and
+          it was quite challenging.
+        </p>
+
+        <p>
+          I start learning <strong>Web Development</strong> in <strong>early 2021</strong>, but before that happens,
+          I&apos;ve actually learned the basics about <strong>Software Engineering</strong> in{' '}
+          <strong>High School</strong>, when I was at 12th grade. I&apos;m focusing on{' '}
+          <strong>Frontend Development</strong>, including <strong>Mobile App Development.</strong>
+        </p>
+
+        <p>
+          On this website, I like to share my various thoughts, including <strong>web development</strong>, and showcase
+          my <strong>personal portfolio.</strong>
+        </p>
+      </section>
+
+      <BlogList posts={blogs} title='Featured Post' />
+
+      <PortfolioList title='Featured Portfolio' portfolios={portfolios} />
     </LayoutPage>
   )
 }

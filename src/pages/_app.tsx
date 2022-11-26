@@ -1,5 +1,6 @@
+import { Header } from '@/components/UI/common/Header'
+
 import { SkipToContent } from '@/UI/buttons'
-import { Header } from '@/UI/common'
 
 import variants, { withExit } from '@/libs/animation/variants'
 
