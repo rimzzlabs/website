@@ -12,10 +12,12 @@ const Component: React.FunctionComponent<SearchbarProps> = ({ onChange, value })
   return (
     <div
       className={twclsx(
-        'w-full my-8 md:my-16 transition-all',
-        'bg-transparent border border-theme-900',
-        'dark:border-transparent dark:bg-theme-800',
-        'focus-within:ring-1 ring-theme-900 dark:ring-primary-400'
+        'w-full transition rounded',
+        'bg-transparent border',
+        'border-theme-200 dark:border-theme-700',
+        'bg-theme-100 dark:bg-theme-800/50',
+        'ring-primary-500 dark:ring-primary-500/50',
+        'focus-within:ring-1 focus-within:border-primary-500 dark:focus-within:border-primary-500/50'
       )}
     >
       <div className='flex items-center'>
@@ -26,7 +28,7 @@ const Component: React.FunctionComponent<SearchbarProps> = ({ onChange, value })
           type='text'
           placeholder='Search...'
           className={twclsx(
-            'w-full h-12 text-sm md:text-base',
+            'w-full h-9 md:h-10 text-sm md:text-base',
             'bg-transparent outline-none caret-black dark:caret-primary-400',
             'placeholder:text-theme-800 placeholder:dark:text-theme-200'
           )}

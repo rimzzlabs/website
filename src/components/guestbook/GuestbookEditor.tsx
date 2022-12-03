@@ -13,7 +13,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
   return (
     <div
       className={twclsx(
-        'relative w-full p-3 my-10',
+        'relative w-full p-3',
         'bg-theme-50 dark:bg-theme-900',
         'before:absolute before:z-[-1] before:-inset-0.5',
         'dark:before:bg-gradient-to-br before:transition-all',

@@ -4,16 +4,16 @@ const APP_ROUTE = [
     name: 'Home'
   },
   {
-    path: '/guestbook',
-    name: 'Guestbook'
+    path: '/blog',
+    name: 'Blog'
   },
   {
     path: '/portfolio',
     name: 'Portfolio'
   },
   {
-    path: '/blog',
-    name: 'Blog'
+    path: '/guestbook',
+    name: 'Guestbook'
   }
 ]
 

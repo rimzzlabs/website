@@ -35,8 +35,8 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
   })
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
-      <section className='flex flex-col md:items-center md:flex-row-reverse'>
-        <figure className='mb-6 md:mb-0 md:ml-6'>
+      <section className='flex flex-col md:flex-row-reverse'>
+        <figure className='relative z-[1] mb-6 md:mb-0 md:ml-6 max-w-max before:z-[-1] before:absolute md:before:hidden before:-inset-1 before:rounded-full before:bg-primary-500'>
           <CustomImage
             display='intrinsic'
             src='https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp'
@@ -45,7 +45,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
             height={176}
             quality={100}
             loading='eager'
-            className='rounded-md'
+            className='rounded-full md:rounded-md'
             priority
           />
         </figure>

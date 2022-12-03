@@ -16,7 +16,7 @@ export const Guestbook: React.FunctionComponent<P> = (props) => {
   }
 
   return (
-    <div className='flex flex-col gap-4 md:gap-6 w-full'>
+    <div className='flex flex-col gap-4 md:gap-6 w-full py-8 md:py-16'>
       {props.guestbook.map((g) => (
         <GuestbookItem key={g.message_id + id} {...g} />
       ))}

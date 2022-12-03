@@ -1,8 +1,8 @@
+import { UnstyledButton } from '@/components/UI/buttons'
 import { PRButton } from '@/components/content'
 import { AuthorSection, GiscusComment, HeadingContent } from '@/components/content/blog'
 import { MDXComponents } from '@/components/content/mdx'
 
-import { BackToTop } from '@/UI/buttons'
 import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
@@ -13,13 +13,16 @@ import { isDev } from '@/libs/constants/environmentState'
 import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
+import { PageViewResponse } from '../api/pageviews/_type'
 import { PageViewsResponse } from '../api/umami'
 
+import axios from 'axios'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import { ParsedUrlQuery } from 'querystring'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { HiArrowUp } from 'react-icons/hi'
 import readingTime from 'reading-time'
 import rehypeSlug from 'rehype-slug'
 import type { Blog } from 'rizkicitra'
@@ -39,6 +42,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
     ...header,
     slug: '/blog/' + header.slug
   })
+  const toTop = useCallback(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [])
 
   useEffect(() => {
     // run only on client side
@@ -46,8 +50,10 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
       if (isDev) return
       ;(async () => {
         try {
-          const response = await API_CLIENT.get<PageViewsResponse>('/api/umami?slug=' + header.slug)
-          setPostViews(response.data.pageviews ?? 0)
+          const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL!
+          const res = await axios.get<PageViewResponse>(baseURL + '/api/pageviews?slug=' + header.slug)
+          const view = res.data.view ?? 0
+          setPostViews(view)
         } catch (error) {
           console.info('Could not retrieve page views')
         }
@@ -56,9 +62,10 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
   }, [header.slug])
 
   return (
-    <LayoutPage {...(metaData as LayoutPageProps)}>
+    <LayoutPage {...(metaData as LayoutPageProps)} className='pb-4'>
       <article className={twclsx('content-auto', 'flex flex-col', 'gap-8')}>
         <HeadingContent
+          topics={header.topics}
           est_read={header.est_read}
           postViews={postViews}
           published={header.published}
@@ -75,9 +82,18 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         </div>
       </article>
 
-      <BackToTop />
+      <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-5 md:mt-7'>
+        <UnstyledButton
+          onClick={toTop}
+          className='justify-start space-x-1.5 py-1 max-w-max border-b-2 border-dashed border-theme-500'
+        >
+          <HiArrowUp className='w-4 h-4' />
+          <span>Back to top</span>
+        </UnstyledButton>
 
-      <PRButton path={`/blog/${header.slug}.mdx`} />
+        <PRButton path={`/blog/${header.slug}.mdx`} />
+      </div>
+
       <GiscusComment />
     </LayoutPage>
   )

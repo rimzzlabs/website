@@ -1,3 +1,5 @@
+import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
+
 import { PortfolioCard } from '@/UI/cards'
 import { EmptyResult, Spinner } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
@@ -14,10 +16,6 @@ import { useSearch } from '@/hooks'
 
 import type { GetStaticProps, NextPage } from 'next'
 import type { Portfolio } from 'rizkicitra'
-
-// const PortfolioCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.PortfolioCard })), {
-//   suspense: true
-// })
 
 type PortfoliopageProps = {
   portfolio: Array<Portfolio>
@@ -49,39 +47,23 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
 
       <div className={twclsx('flex flex-col gap-8')}>
         {search.query.length === 0 && portfolio.length > 0 ? (
-          <section>
-            <h2 className={twclsx('mb-4')}>Personal Portfolio</h2>
-
-            {/* <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-              <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-                {portfolio.map((p) => (
-                  <PortfolioCard key={p.slug} {...p} />
-                ))}
-              </div>
-            </Suspense> */}
-            <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-              {portfolio.map((p) => (
-                <PortfolioCard key={p.slug} {...p} />
-              ))}
-            </div>
-          </section>
+          <PortfolioList portfolios={portfolio} title='Personal Portfolio' />
         ) : null}
 
         {search.query.length > 0 && (
-          <section>
-            <h2 className={twclsx('mb-4')}>Search Portfolio</h2>
+          <>
             {search.filteredData.length > 0 ? (
-              <div className={twclsx('grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto', !search.isPending && 'grid')}>
+              <>
                 {search.isPending ? (
-                  <Spinner containerSize='full' spinnerSize='md' containerStyle='h-40' />
+                  <Spinner spinnerSize='md' containerSize='full' containerStyle='h-64' />
                 ) : (
-                  search.filteredData.map((p) => <PortfolioCard key={p.slug} {...p} />)
+                  <PortfolioList portfolios={search.filteredData} title='Search Portfolio' />
                 )}
-              </div>
+              </>
             ) : (
               <EmptyResult />
             )}
-          </section>
+          </>
         )}
       </div>
     </LayoutPage>

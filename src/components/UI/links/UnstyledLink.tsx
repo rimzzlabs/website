@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 import type { LinkProps } from 'next/link'
-import { createElement } from 'react'
+import { createElement, forwardRef } from 'react'
 
 export type UnstyledLinkProps = {
   href: string
@@ -9,14 +9,16 @@ export type UnstyledLinkProps = {
   children?: React.ReactNode
 } & LinkProps
 
-export const UnstyledLink: React.FunctionComponent<UnstyledLinkProps> = ({ href, ...props }) => {
+export const UnstyledLink = forwardRef<HTMLAnchorElement, UnstyledLinkProps>(({ href, ...props }, ref) => {
   if (href.startsWith('http')) {
-    return createElement('a', { href, rel: 'noopener noreferrer', target: '_blank', ...props }, props.children)
+    return createElement('a', { href, rel: 'noopener noreferrer', target: '_blank', ...props, ref }, props.children)
   }
 
   return (
-    <NextLink href={href} scroll={false} {...props}>
+    <NextLink href={href} scroll={false} {...props} ref={ref}>
       {props.children}
     </NextLink>
   )
-}
+})
+
+UnstyledLink.displayName = 'UnstyledLink'

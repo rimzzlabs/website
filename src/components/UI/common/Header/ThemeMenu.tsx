@@ -4,6 +4,8 @@ import { twclsx } from '@/libs'
 
 import { useTheme } from '@/hooks'
 
+import { Spinner } from '../Spinner'
+
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { HiCheck, HiDesktopComputer, HiOutlineMoon as Moon, HiOutlineSun as Sun } from 'react-icons/hi'
@@ -29,7 +31,8 @@ export const ThemeMenu: React.FunctionComponent = () => {
           'bg-primary-100 dark:bg-theme-800'
         )}
       >
-        <span className='sr-only'>Loading component..</span>
+        <Spinner spinnerSize='xs' containerSize='full' containerStyle='bg-transparent dark:bg-transparent' />
+        <span className='sr-only'>Switch theme</span>
       </UnstyledButton>
     )
   }
@@ -74,10 +77,9 @@ export const ThemeMenu: React.FunctionComponent = () => {
           <ul className='flex flex-col w-full'>
             {menu.map((item) => {
               return (
-                <Menu.Item as='li' key={item.value}>
+                <Menu.Item as='li' key={item.value} onClick={changeTheme(item.value)}>
                   {({ active }) => (
                     <UnstyledButton
-                      onClick={changeTheme(item.value)}
                       className={twclsx(
                         'justify-start px-1.5 h-9 md:h-10 space-x-2.5 w-full',
                         'rounded transition dark:text-white',

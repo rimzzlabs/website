@@ -1,7 +1,5 @@
 // PULL Request Button in case there is a typo on some post, other people can help you
-import { UnderlineLink } from '@/UI/links'
-
-import { twclsx } from '@/libs/twclsx'
+import { UnderlineLink, UnstyledLink } from '@/UI/links'
 
 import { HiExternalLink } from 'react-icons/hi'
 
@@ -20,15 +18,13 @@ type PRButtonProps = {
  */
 export const PRButton: React.FunctionComponent<PRButtonProps> = (props) => {
   return (
-    <div className={twclsx('flex items-center justify-end gap-2 mt-10')}>
-      <HiExternalLink className={twclsx('text-lg md:text-xl')} />
-      <UnderlineLink
-        title='Edit on GitHub'
-        className={twclsx('text-sm md:text-base', 'text-theme-800 dark:text-theme-200')}
-        href={`https://github.com/rizkimcitra/rizkicitra/edit/main/src/data` + props.path}
-      >
-        Edit this on GitHub
-      </UnderlineLink>
-    </div>
+    <UnstyledLink
+      title='Edit on GitHub'
+      className='inline-flex items-center text-sm md:text-base py-1 max-w-max space-x-1.5 border-b-2 border-dashed border-theme-500 text-theme-800 dark:text-theme-200'
+      href={`https://github.com/rizkimcitra/rizkicitra/edit/main/src/data` + props.path}
+    >
+      <HiExternalLink className='w-5 h-5' />
+      <span>Edit this on GitHub</span>
+    </UnstyledLink>
   )
 }

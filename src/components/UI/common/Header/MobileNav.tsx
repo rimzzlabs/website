@@ -54,18 +54,26 @@ export const MobileNav: React.FunctionComponent = () => {
             'dark:shadow-none dark:bg-theme-800'
           )}
         >
-          <ul className='flex flex-col w-full'>
+          <div className='flex flex-col w-full'>
             {route.map((route) => {
               return (
-                <Menu.Item key={route.path} as='li'>
-                  <UnstyledLink className='flex items-center px-2.5 h-9 space-x-2.5' href={route.path}>
-                    <route.icon className='w-4 h-4' />
-                    <span className='text-sm'>{route.name}</span>
-                  </UnstyledLink>
+                <Menu.Item key={route.path} as={Fragment}>
+                  {({ active }) => (
+                    <UnstyledLink
+                      className={twclsx(
+                        'flex items-center px-2.5 h-9 space-x-2.5 rounded',
+                        active && 'bg-primary-500 text-white'
+                      )}
+                      href={route.path}
+                    >
+                      <route.icon className='w-4 h-4' />
+                      <span className='text-sm'>{route.name}</span>
+                    </UnstyledLink>
+                  )}
                 </Menu.Item>
               )
             })}
-          </ul>
+          </div>
         </Menu.Items>
       </Transition>
     </Menu>

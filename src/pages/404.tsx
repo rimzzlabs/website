@@ -28,7 +28,6 @@ const NotFoundPage: NextPage = () => {
           display='intrinsic'
           src='/static/404.svg'
           alt='illustration'
-          objectFit='contain'
           quality={60}
           width={mdscreen ? 256 : 144}
           height={mdscreen ? 256 : 144}
