@@ -25,7 +25,7 @@ export const AuthorSection: React.FunctionComponent<AuthorSectionProps> = (props
           <figure>
             <CustomImage
               display='intrinsic'
-              className={twclsx('rounded-full')}
+              className={twclsx('rounded-md')}
               src={githubAPI.picture}
               width={32}
               height={32}

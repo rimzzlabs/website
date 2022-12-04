@@ -14,7 +14,6 @@ import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
 import { PageViewResponse } from '../api/pageviews/_type'
-import { PageViewsResponse } from '../api/umami'
 
 import axios from 'axios'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
@@ -83,6 +82,8 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
       </article>
 
       <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-5 md:mt-7'>
+        <PRButton path={`/blog/${header.slug}.mdx`} />
+
         <UnstyledButton
           onClick={toTop}
           className='justify-start space-x-1.5 py-1 max-w-max border-b-2 border-dashed border-theme-500'
@@ -90,8 +91,6 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
           <HiArrowUp className='w-4 h-4' />
           <span>Back to top</span>
         </UnstyledButton>
-
-        <PRButton path={`/blog/${header.slug}.mdx`} />
       </div>
 
       <GiscusComment />

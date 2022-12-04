@@ -3,16 +3,13 @@ import { Guestbook, GuestbookEditor } from '@/components/guestbook'
 
 import { supabaseClient } from '@/services/supabase'
 
-import { twclsx } from '@/libs'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 
-import { useGuestbook, useGuestbookUser, useTheme } from '@/hooks'
+import { useGuestbook, useGuestbookUser } from '@/hooks'
 import { Guestbook as GuestbookType } from '@/hooks/guestbook/model'
 
 import { GetStaticProps, NextPage } from 'next'
 import { useEffect } from 'react'
-import { Toaster } from 'react-hot-toast'
-import colors from 'tailwindcss/colors'
 
 type GuestbookPageProps = {
   guestbook: GuestbookType[]
@@ -47,7 +44,6 @@ const meta = getMetaPage({
 const GuestbookPage: NextPage<GuestbookPageProps> = ({ guestbook = [] }) => {
   const { getUser } = useGuestbookUser()
   const { guestbook: guestbookClient, getGuestbook } = useGuestbook()
-  const { theme, systemTheme, mounted } = useTheme()
 
   useEffect(() => {
     ;(async () => {
@@ -62,23 +58,6 @@ const GuestbookPage: NextPage<GuestbookPageProps> = ({ guestbook = [] }) => {
 
       <GuestbookEditor />
       <Guestbook guestbook={guestbookClient.length === 0 ? guestbook : guestbookClient} />
-
-      {mounted && (
-        <Toaster
-          toastOptions={{
-            className: twclsx('border-2 border-toast'),
-            style: {
-              borderRadius: 0,
-              position: 'relative',
-              zIndex: 4,
-              backgroundColor:
-                theme === 'dark' || (theme === 'system' && systemTheme === 'dark') ? colors.zinc[800] : colors.white,
-              color:
-                theme === 'dark' || (theme === 'system' && systemTheme === 'dark') ? colors.white : colors.zinc[900]
-            }
-          }}
-        />
-      )}
     </LayoutPage>
   )
 }

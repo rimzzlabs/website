@@ -13,7 +13,7 @@ import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
-import { useSearch } from '@/hooks'
+import { useSearch, useSearchBlog } from '@/hooks'
 
 import { PageViewResponse } from '../api/pageviews/_type'
 
@@ -41,7 +41,7 @@ const meta = getMetaPage({
 })
 
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
-  const search = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
+  const search = useSearchBlog(allBlogs)
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   useEffect(() => {
@@ -71,14 +71,8 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
       {search.query.length > 0 && (
         <>
-          {search.filteredData.length > 0 ? (
-            <>
-              {search.isPending ? (
-                <Spinner containerSize='full' spinnerSize='md' containerStyle='h-60' />
-              ) : (
-                <BlogList displayViews posts={search.filteredData} title='Search Post' />
-              )}
-            </>
+          {search.filteredBlog.length > 0 ? (
+            <BlogList displayViews posts={search.filteredBlog} title='Search Post' />
           ) : (
             <EmptyResult />
           )}
@@ -93,7 +87,7 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   if (isDev)
     return {
       props: {
-        allBlogs: response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text }))
+        allBlogs: response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text })).sort(getNewestBlog)
       }
     }
 

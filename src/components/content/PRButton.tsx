@@ -24,7 +24,7 @@ export const PRButton: React.FunctionComponent<PRButtonProps> = (props) => {
       href={`https://github.com/rizkimcitra/rizkicitra/edit/main/src/data` + props.path}
     >
       <HiExternalLink className='w-5 h-5' />
-      <span>Edit this on GitHub</span>
+      <span>Edit on GitHub</span>
     </UnstyledLink>
   )
 }

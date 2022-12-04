@@ -60,7 +60,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
 
       <section className={twclsx('flex items-stretch', 'flex-wrap flex-auto gap-2 md:gap-4', 'py-10')}>
         {tags.map((t) => (
-          <UnstyledButton onClick={() => setNewTag(t)} key={t}>
+          <UnstyledButton onClick={setNewTag(t)} key={t}>
             <LabelBlog
               type={t}
               className={twclsx(
