@@ -1,3 +1,4 @@
+import { WrappedImage } from '@/components/UI/images'
 import { ContentImage, HeadingPortfolio, IconStack, MDXComponents, PRButton } from '@/components/content'
 
 import { BackToTop } from '@/UI/buttons'
@@ -58,9 +59,15 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
           </div>
         </section>
 
-        <figure className={twclsx('relative', 'w-full', 'h-56 md:h-96', 'my-4')}>
-          <ContentImage title={header.title} alt={header.title} src={header.image} />
-        </figure>
+        <WrappedImage
+          title={header.title}
+          alt={header.title}
+          src={header.image}
+          parentStyle='w-full h-56 sm:h-72 md:h-96 my-4'
+          className='object-cover rounded-md'
+          priority
+          fill
+        />
 
         <section className={twclsx('prose', 'dark:prose-invert', 'md:prose-lg')}>
           <MDXRemote {...mdxSource} components={MDXComponents} />

@@ -9,7 +9,7 @@ type WrappedImageProps = ImageProps & {
 }
 
 export const WrappedImage: React.FunctionComponent<WrappedImageProps> = ({ parentStyle, ...props }) => {
-  if (props.fill) {
+  if (!props.fill) {
     return <NextImage {...props} />
   }
 
