@@ -1,6 +1,5 @@
 import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
 
-import { PortfolioCard } from '@/UI/cards'
 import { EmptyResult, Spinner } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'

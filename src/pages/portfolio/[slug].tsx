@@ -1,5 +1,5 @@
 import { WrappedImage } from '@/components/UI/images'
-import { ContentImage, HeadingPortfolio, IconStack, MDXComponents, PRButton } from '@/components/content'
+import { HeadingPortfolio, IconStack, MDXComponents, PRButton } from '@/components/content'
 
 import { BackToTop } from '@/UI/buttons'
 import { LayoutPage } from '@/UI/templates'

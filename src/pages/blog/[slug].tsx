@@ -7,7 +7,6 @@ import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContentBySlug, getContents } from '@/services/content'
-import { API_CLIENT } from '@/services/umami'
 
 import { isDev } from '@/libs/constants/environmentState'
 import { getMetaPageBlog } from '@/libs/metapage'
@@ -49,7 +48,7 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
       if (isDev) return
       ;(async () => {
         try {
-          const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL!
+          const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rizkicitra.dev'
           const res = await axios.get<PageViewResponse>(baseURL + '/api/pageviews?slug=' + header.slug)
           const view = res.data.view ?? 0
           setPostViews(view)
@@ -110,6 +109,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<BlogPostProps> = async (ctx) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const mdxPrism = require('mdx-prism')
 
   const { slug } = ctx.params as slug

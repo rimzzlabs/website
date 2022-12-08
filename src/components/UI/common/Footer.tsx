@@ -1,8 +1,6 @@
-import { CustomImage } from '@/UI/images'
 import { UnstyledLink } from '@/UI/links'
 
 import APP_ROUTE, { ADDT_ROUTE } from '@/libs/constants/route'
-import SOCIAL from '@/libs/constants/social'
 import { twclsx } from '@/libs/twclsx'
 
 import { SocialHome } from './SocialHome'

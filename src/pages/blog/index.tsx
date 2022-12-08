@@ -1,19 +1,18 @@
 import { BlogList } from '@/components/content'
 
-import { BlogCard } from '@/UI/cards'
-import { EmptyResult, Spinner } from '@/UI/common'
+import { EmptyResult } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { getContents, getPageViews, getToken } from '@/services'
+import { getContents } from '@/services'
 
 import { SECRET_KEY, isDev, isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
-import { useSearch, useSearchBlog } from '@/hooks'
+import { useSearchBlog } from '@/hooks'
 
 import { PageViewResponse } from '../api/pageviews/_type'
 
@@ -91,7 +90,7 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
       }
     }
 
-  const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL!
+  const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rizkicitra.dev'
 
   const blogs: Blog[] = []
 

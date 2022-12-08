@@ -10,7 +10,10 @@ let token: null | string | false = null
 const allowedMethod = ['GET']
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<PageViewResponse>) {
-  if (!allowedMethod.includes(req.method!)) return res.status(405).send({ message: 'Method not allowed.', view: null })
+  if (req.method && !allowedMethod.includes(req.method)) {
+    return res.status(405).send({ message: 'Method not allowed.', view: null })
+  }
+
   if (!req.query.slug) return res.status(400).send({ message: 'query parameter is required', view: null })
 
   if (!token && token !== false) {

@@ -2,9 +2,8 @@ import { SocialHome } from '@/components/UI/common'
 import { BlogList } from '@/components/content'
 import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
 
-import { PortfolioCard } from '@/UI/cards'
 import { CustomImage } from '@/UI/images'
-import { LayoutPage, Section } from '@/UI/templates'
+import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
 import { GetContents, getContents } from '@/services'

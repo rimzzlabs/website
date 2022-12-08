@@ -87,6 +87,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps<SnippetPostProps> = async (ctx) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const mdxPrism = require('mdx-prism')
 
   const { slug } = ctx.params as { slug: string } & ParsedUrlQuery
