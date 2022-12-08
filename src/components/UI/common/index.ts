@@ -1,6 +1,5 @@
 export * from './Header'
 export * from './Nav'
-export * from './ThemeMenu'
 export * from './Footer'
 export * from './Spinner'
 export * from './EmptyResult'

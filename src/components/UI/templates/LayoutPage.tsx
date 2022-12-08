@@ -16,7 +16,8 @@ export const LayoutPage: NextPage<LayoutPageProps> = ({ children, className, ...
   return (
     <>
       <CustomSeo {...props} />
-      <main className={twclsx('mt-10 scroll-mt-10', className)}>{children}</main>
+
+      <main className={twclsx('layout', className)}>{children}</main>
       <Footer />
     </>
   )

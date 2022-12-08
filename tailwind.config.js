@@ -14,7 +14,7 @@ module.exports = {
       colors: {
         primary: colors.blue,
         ternary: colors.teal,
-        theme: colors.stone
+        theme: colors.neutral
       },
       keyframes: {
         enter: {

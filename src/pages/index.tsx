@@ -1,16 +1,18 @@
-import { SocialHome } from '@/components/UI/common'
+import { CustomSeo } from '@/components'
+import { Footer, SocialHome } from '@/components/UI/common'
+import { UnderlineLink } from '@/components/UI/links'
 import { BlogList } from '@/components/content'
 import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
 
-import { CustomImage } from '@/UI/images'
-import { LayoutPage } from '@/UI/templates'
-import type { LayoutPageProps } from '@/UI/templates'
+import { WrappedImage } from '@/UI/images'
 
 import { GetContents, getContents } from '@/services'
 
 import { twclsx } from '@/libs'
 import { getMetaPage } from '@/libs/metapage'
 import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
+
+import { useMediaQuery } from '@/hooks'
 
 import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
@@ -22,6 +24,8 @@ interface HomePageProps {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
+  const isMdScreen = useMediaQuery('(min-width: 568px)')
+
   const meta = getMetaPage({
     title: 'Rizki Maulana Citra',
     template: 'Student And Frontend Developer',
@@ -33,72 +37,97 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
     type: 'website'
   })
   return (
-    <LayoutPage {...(meta as LayoutPageProps)}>
-      <section className='flex flex-col md:flex-row-reverse'>
-        <figure className='relative z-[1] mb-6 md:mb-0 md:ml-6 max-w-max before:z-[-1] before:absolute md:before:hidden before:-inset-1 before:rounded-full before:bg-primary-500'>
-          <CustomImage
-            display='intrinsic'
-            src='https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp'
-            alt='Rizki Maulana Citra'
-            width={176}
-            height={176}
-            quality={100}
-            loading='eager'
-            className='rounded-full md:rounded-md'
-            priority
-          />
-        </figure>
+    <>
+      <CustomSeo {...meta} />
 
-        <div>
-          <h1>Rizki Maulana Citra</h1>
-          <p
-            className={twclsx(
-              'max-w-max mt-2 mb-4',
-              'text-transparent font-bold text-xl md:text-2xl',
-              'bg-clip-text bg-gradient-to-r',
-              'from-primary-500 to-ternary-500'
-            )}
-          >
-            Student &amp; Frontend Developer
-          </p>
-          <p className='mb-2 md:mb-4 max-w-prose'>
-            Hello👋, I&apos;m Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal
-            website, where you can find my portfolio, blog and more.
-          </p>
+      <WrappedImage
+        fill
+        parentStyle='w-full h-40 rounded-lg md:layout'
+        src='/static/pattern-cover.svg'
+        alt='pattern-cover'
+        className='object-cover'
+        priority
+      />
 
-          <SocialHome />
-        </div>
-      </section>
+      <main className='layout'>
+        <section className='flex flex-col'>
+          <div className='relative flex h-14 md:h-16'>
+            <WrappedImage
+              src='https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp'
+              alt='Rizki Maulana Citra'
+              width={isMdScreen ? 128 : 118}
+              height={isMdScreen ? 128 : 118}
+              quality={100}
+              loading='eager'
+              className='rounded-full absolute -left-1 bottom-0 border-4 border-theme-100 dark:border-theme-800'
+              priority
+            />
+            {isMdScreen && <SocialHome className='ml-auto max-w-max' />}
+          </div>
 
-      <section className='py-10 md:py-20 [&>*:not(:last-child)]:mb-2 md:[&>*:not(:last-child)]:mb-2'>
-        <h2>About Me</h2>
-        <p>
-          A computer science student, frontend developer and an adventurer of my own mind. I like to express my feelings
-          through code, and a quite place would be nice to have around me.
-        </p>
+          <div className='mt-3 md:mt-6'>
+            <h1>Rizki Maulana Citra</h1>
+            <p
+              className={twclsx(
+                'max-w-max mt-2 mb-4',
+                'text-transparent font-bold text-xl md:text-2xl',
+                'bg-clip-text bg-gradient-to-r',
+                'from-primary-500 to-ternary-500'
+              )}
+            >
+              Student &amp; Frontend Developer
+            </p>
 
-        <p>
-          I choose Information Technology as my main prospect career path, therefore I&apos;m facing many obstacles and
-          it was quite challenging.
-        </p>
+            {!isMdScreen && <SocialHome className='mb-4' />}
 
-        <p>
-          I start learning <strong>Web Development</strong> in <strong>early 2021</strong>, but before that happens,
-          I&apos;ve actually learned the basics about <strong>Software Engineering</strong> in{' '}
-          <strong>High School</strong>, when I was at 12th grade. I&apos;m focusing on{' '}
-          <strong>Frontend Development</strong>, including <strong>Mobile App Development.</strong>
-        </p>
+            <div className='[&>p:not(:last-child)]:mb-3 [&>p]:max-w-prose md:pb-6'>
+              <p>
+                Hello👋, I&apos;m Rizki Maulana Citra, a guy who loves to code, music and coffee. Welcome to my personal
+                website, where you can find my portfolio, blog and more.
+              </p>
 
-        <p>
-          On this website, I like to share my various thoughts, including <strong>web development</strong>, and showcase
-          my <strong>personal portfolio.</strong>
-        </p>
-      </section>
+              <p>
+                As a <strong>self-taught developer</strong>, I started learning web development when I was in 12th grade
+                and have been gradually improving my skills over time.
+              </p>
 
-      <BlogList posts={blogs} title='Featured Post' />
+              <p>
+                I am passionate about <strong>Frontend Development</strong> and enjoy working on the Web. I love
+                combining my technical knowledge and creativity to build engaging and user-friendly websites and
+                applications.
+              </p>
 
-      <PortfolioList title='Featured Portfolio' portfolios={portfolios} />
-    </LayoutPage>
+              <p>
+                <strong>As a person</strong>, <strong>I am constantly striving to improve myself</strong> and{' '}
+                <strong>become a better person</strong>. I believe that <em>growth and personal development</em> are
+                important aspects of a <strong>fulfilling life</strong>.
+              </p>
+
+              <p>
+                I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
+                <strong>Frontend Accessibility</strong>, and <strong>User Experience</strong>, and also interested in
+                <strong>mobile development</strong> with{' '}
+                <UnderlineLink href='https://kotlinlang.org' title='Kotlin Programming language'>
+                  Kotlin
+                </UnderlineLink>{' '}
+                .
+              </p>
+
+              <p>
+                {' '}
+                On this website, I like to share my various thoughts, and showcasing my stuff while learning things.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <BlogList posts={blogs} title='Featured Post' />
+
+        <PortfolioList title='Featured Portfolio' portfolios={portfolios} />
+      </main>
+
+      <Footer />
+    </>
   )
 }
 

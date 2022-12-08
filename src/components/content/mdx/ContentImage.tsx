@@ -1,4 +1,4 @@
-import { CustomImage } from '@/UI/images'
+import { WrappedImage } from '@/UI/images'
 
 import { twclsx } from '@/libs/twclsx'
 
@@ -30,15 +30,13 @@ export const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
 
   return (
     <>
-      <CustomImage
-        display='intrinsic'
+      <WrappedImage
         onClick={() => setIsOpen(true)}
         src={src}
         alt={alt}
         width={768}
         height={468}
-        objectFit='cover'
-        className={twclsx('rounded-lg', 'cursor-pointer')}
+        className={twclsx('rounded-lg', 'cursor-pointer object-cover')}
         {...props}
       />
 

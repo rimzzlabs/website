@@ -14,6 +14,9 @@ import { useRouter } from 'next/router'
 export const Header: React.FunctionComponent = () => {
   const y = useWindowScrollY()
   const router = useRouter()
+  const exceptedPage = ['/404', '/resume', '/_error', '/_offline']
+
+  if (exceptedPage.includes(router.pathname)) return null
 
   return (
     <header
@@ -21,8 +24,8 @@ export const Header: React.FunctionComponent = () => {
         'sticky top-0 inset-x-0 z-50',
         'border-b border-b-transparent',
         'bg-theme-50 dark:bg-theme-900',
-        'supports-[backdrop-filter:blur(0px)]:bg-theme-50/50 dark:supports-[backdrop-filter:blur(0px)]:bg-theme-900/50',
-        'supports-[backdrop-filter:blur(0px)]:backdrop-blur-md',
+        'supports-[backdrop-filter:blur(0px)]:bg-theme-50/30 dark:supports-[backdrop-filter:blur(0px)]:bg-theme-900/30',
+        'supports-[backdrop-filter:blur(0px)]:backdrop-blur',
         y > 34 && 'border-b-theme-300 dark:border-b-theme-600'
       )}
     >

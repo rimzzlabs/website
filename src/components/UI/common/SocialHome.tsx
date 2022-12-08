@@ -1,5 +1,6 @@
 import { UnstyledLink } from '@/UI/links'
 
+import { twclsx } from '@/libs'
 import SOCIAL from '@/libs/constants/social'
 
 import type { IconType } from 'react-icons/lib'
@@ -19,9 +20,13 @@ const socialList: SocialWithIcon[] = SOCIAL.map((social) => ({
   icon: icon[social.title.toLowerCase()]
 }))
 
-export const SocialHome: React.FunctionComponent = () => {
+type SocialHomeProps = {
+  className?: string
+}
+
+export const SocialHome: React.FunctionComponent<SocialHomeProps> = (props) => {
   return (
-    <div className='flex items-center space-x-3 md:space-x-4'>
+    <div className={twclsx('flex items-center space-x-3 md:space-x-4', props.className)}>
       {socialList.map((social) => {
         return (
           <UnstyledLink href={social.href} key={social.href}>
