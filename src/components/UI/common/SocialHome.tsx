@@ -27,10 +27,16 @@ type SocialHomeProps = {
 
 export const SocialHome: React.FunctionComponent<SocialHomeProps> = (props) => {
   return (
-    <div className={twclsx('flex items-center space-x-3 md:space-x-4', props.className)}>
+    <div className={twclsx('flex items-center', props.className)}>
+      <span className='text-sm sr-only'>connect with me:</span>
       {socialList.map((social) => {
         return (
-          <UnstyledLink href={social.href} key={social.href}>
+          <UnstyledLink
+            className='mr-2.5 last-of-type:mr-0'
+            href={social.href}
+            key={social.href}
+            title={`Connect with me on ${social.title}`}
+          >
             <social.icon className={twclsx('w-5 h-5', props.iconStyle)} />
             <span className='sr-only'>{social.title}</span>
           </UnstyledLink>
