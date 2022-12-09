@@ -62,7 +62,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               className='rounded-full absolute -left-1 bottom-0 border-4 border-theme-100 dark:border-theme-800'
               priority
             />
-            {isMdScreen && <SocialHome className='ml-auto max-w-max' />}
+            <SocialHome className='ml-auto max-w-max' />
           </div>
 
           <div className='mt-3 md:mt-6'>
@@ -77,8 +77,6 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
             >
               Student &amp; Frontend Developer
             </p>
-
-            {!isMdScreen && <SocialHome className='mb-4' />}
 
             <div className='[&>p:not(:last-child)]:mb-3 [&>p]:max-w-prose md:pb-6'>
               <p>
@@ -98,12 +96,6 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               </p>
 
               <p>
-                <strong>As a person</strong>, <strong>I am constantly striving to improve myself</strong> and{' '}
-                <strong>become a better person</strong>. I believe that <em>growth and personal development</em> are
-                important aspects of a <strong>fulfilling life</strong>.
-              </p>
-
-              <p>
                 I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
                 <strong>Frontend Accessibility</strong>, and <strong>User Experience</strong>, and also interested in
                 <strong>mobile development</strong> with{' '}
@@ -114,8 +106,14 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               </p>
 
               <p>
-                {' '}
-                On this website, I like to share my various thoughts, and showcasing my stuff while learning things.
+                <strong>As a person</strong>, <strong>I am constantly striving to improve myself</strong> and{' '}
+                <strong>become a better person</strong>. I believe that <em>growth and personal development</em> are
+                important aspects of a <strong>fulfilling life</strong>.
+              </p>
+
+              <p>
+                On this website, I like to share <strong>my various personal thoughts</strong>, and{' '}
+                <strong>showcasing my stuff</strong> while cathing up the things I learned.
               </p>
             </div>
           </div>

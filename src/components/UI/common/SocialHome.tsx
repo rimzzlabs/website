@@ -22,6 +22,7 @@ const socialList: SocialWithIcon[] = SOCIAL.map((social) => ({
 
 type SocialHomeProps = {
   className?: string
+  iconStyle?: string
 }
 
 export const SocialHome: React.FunctionComponent<SocialHomeProps> = (props) => {
@@ -30,7 +31,7 @@ export const SocialHome: React.FunctionComponent<SocialHomeProps> = (props) => {
       {socialList.map((social) => {
         return (
           <UnstyledLink href={social.href} key={social.href}>
-            <social.icon className='w-5 h-5' />
+            <social.icon className={twclsx('w-5 h-5', props.iconStyle)} />
             <span className='sr-only'>{social.title}</span>
           </UnstyledLink>
         )

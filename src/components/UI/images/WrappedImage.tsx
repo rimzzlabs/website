@@ -15,7 +15,7 @@ export const WrappedImage: React.FunctionComponent<WrappedImageProps> = ({ paren
 
   return (
     <figure className={twclsx('relative', parentStyle)}>
-      <NextImage {...props} />
+      <NextImage {...props} sizes='(max-width: 768px) 100%' />
     </figure>
   )
 }

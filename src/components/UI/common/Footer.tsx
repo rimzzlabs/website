@@ -44,7 +44,7 @@ export const Footer: React.FunctionComponent = () => {
       </div>
 
       <div className='mt-4 max-w-max'>
-        <SocialHome />
+        <SocialHome iconStyle='w-4 h-4 md:w-5 md:h-5' />
       </div>
     </footer>
   )
