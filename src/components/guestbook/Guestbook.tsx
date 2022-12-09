@@ -16,10 +16,13 @@ export const Guestbook: React.FunctionComponent<P> = (props) => {
   }
 
   return (
-    <div className='flex flex-col gap-4 md:gap-6 w-full py-8 md:py-16'>
-      {props.guestbook.map((g) => (
-        <GuestbookItem key={g.message_id + id} {...g} />
-      ))}
-    </div>
+    <section className='pt-8 md:pt-16'>
+      <h2 className='mb-3 md:mb-6'>The Guest</h2>
+      <div className='flex flex-col w-full pb-8 md:pb-16'>
+        {props.guestbook.map((g) => (
+          <GuestbookItem key={g.message_id + id} {...g} />
+        ))}
+      </div>
+    </section>
   )
 }

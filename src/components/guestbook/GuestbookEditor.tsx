@@ -4,6 +4,7 @@ import { twclsx } from '@/libs'
 
 import { useGuestbook, useGuestbookUser } from '@/hooks'
 
+import { HiOutlineInformationCircle } from 'react-icons/hi'
 import { SiGithub, SiGoogle } from 'react-icons/si'
 
 export const GuestbookEditor: React.FunctionComponent = () => {
@@ -11,41 +12,40 @@ export const GuestbookEditor: React.FunctionComponent = () => {
   const { handleSubmit, message, handleChange } = useGuestbook()
 
   return (
-    <div
-      className={twclsx(
-        'relative w-full p-3',
-        'bg-theme-50 dark:bg-theme-900',
-        'before:absolute before:z-[-1] before:-inset-0.5',
-        'dark:before:bg-gradient-to-br before:transition-all',
-        'from-primary-500 to-ternary-500 before:bg-black',
-        user && 'before:focus-within:-bottom-2.5 before:focus-within:-right-2.5'
-      )}
-    >
-      <h2 className='mb-1 text-xl md:text-2xl'>Sign the Guestbook</h2>
+    <div>
+      <h2 className='mb-3 md:mb-5'>Sign the Guestbook</h2>
       <p className='mb-4 md:mb-6 font-semibold'>Let me and the other know you were here!</p>
 
       {user ? (
         <form
           onSubmit={handleSubmit}
           className={twclsx(
-            'flex items-center transition',
+            'flex items-center transition rounded',
             'border border-theme-400 dark:border-theme-700',
-            'focus-within:border-primary-600 dark:focus-within:border-primary-700'
+            'focus-within:border-theme-500 dark:focus-within:border-theme-600'
           )}
         >
           <input
-            required
-            type='text'
-            placeholder='Write your message'
-            value={message}
             onChange={handleChange}
+            value={message}
+            type='text'
+            placeholder='Write your message...'
             className={twclsx(
-              'w-full h-9 md:h-10 px-2.5 text-sm md:text-base',
+              'w-full h-9 md:h-10 text-sm md:text-base px-3',
+              'placeholder:text-sm rounded-l',
               'bg-transparent outline-none caret-black dark:caret-primary-400',
-              'placeholder:text-theme-500 placeholder:font-medium'
+              'placeholder:text-theme-800 placeholder:dark:text-theme-200'
             )}
           />
-          <UnstyledButton type='submit' className='h-9 md:h-10 w-24 bg-black dark:bg-primary-700 text-white'>
+          <UnstyledButton
+            type='submit'
+            className={twclsx(
+              'h-9 md:h-10 w-24 px-2.5',
+              'font-semibold rounded-r transition',
+              'bg-primary-600 text-white hover:bg-primary-500 active:bg-primary-700',
+              'dark:bg-theme-700 dark:hover:bg-theme-600'
+            )}
+          >
             Sign
           </UnstyledButton>
         </form>
@@ -57,20 +57,20 @@ export const GuestbookEditor: React.FunctionComponent = () => {
               onClick={signin('github')}
               type='button'
               className={twclsx(
-                'h-10 px-4 font-medium',
-                'space-x-2 transition hover:bg-theme-800 dark:hover:bg-theme-700',
+                'h-10 px-4 font-medium rounded-md',
+                'space-x-2 transition hover:bg-theme-700 dark:hover:bg-theme-700',
                 'text-white bg-black dark:bg-theme-800'
               )}
             >
               <SiGithub />
               <span>GitHub</span>
             </UnstyledButton>
-            <span className='text-sm'>Or</span>
+            <span className='text-sm'>or</span>
             <UnstyledButton
               onClick={signin('google')}
               type='button'
               className={twclsx(
-                'h-10 px-4 font-medium',
+                'h-10 px-4 font-medium rounded-md',
                 'space-x-2 transition',
                 'text-white bg-primary-600 dark:bg-primary-800',
                 'hover:bg-primary-400 dark:hover:bg-primary-700'
@@ -82,9 +82,12 @@ export const GuestbookEditor: React.FunctionComponent = () => {
           </div>
         </div>
       )}
-      <p className='text-xs md:text-sm mt-3 dark:text-theme-400'>
-        <em>Your information is only used to display your name</em>
-      </p>
+      <div className='flex items-center text-xs md:text-sm mt-3 dark:text-theme-400'>
+        <HiOutlineInformationCircle className='w-4 h-4 mr-1.5' />
+        <p>
+          <em>Your information is only used to display your name</em>
+        </p>
+      </div>
     </div>
   )
 }

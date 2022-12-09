@@ -17,7 +17,7 @@ type GuestbookPageProps = {
 
 const meta = getMetaPage({
   title: 'Guestbook',
-  description: `Leave a trace, let me and other visitors know you were here too, you can write whatever— appreciation, warm message, jokes, or just saying hello.`,
+  description: `Leave a mark and let me and other visitors know you were here too! You can write whatever you'd like - appreciation, a warm message, jokes, or just saying hello. It's always nice to connect with others. Thanks for stopping by!`,
   keywords: [
     'Guestbook',
     'rizkicitra',
@@ -33,7 +33,7 @@ const meta = getMetaPage({
   ],
   og_image: generateOgImage({
     title: 'Guestbook',
-    subTitle: 'Leave whatever you want on my website',
+    subTitle: "Leave whatever message you'd like on my website",
     theme: 'dark'
   }),
   og_image_alt: 'Guestbook - rizkicitra.dev',
