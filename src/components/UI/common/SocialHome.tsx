@@ -4,12 +4,12 @@ import { twclsx } from '@/libs'
 import SOCIAL from '@/libs/constants/social'
 
 import type { IconType } from 'react-icons/lib'
-import { SiGithub, SiGmail, SiLinkedin, SiTelegram } from 'react-icons/si'
+import { SiGithub, SiLinkedin, SiMaildotru, SiTelegram } from 'react-icons/si'
 
 type SocialWithIcon = typeof SOCIAL[0] & { icon: IconType }
 
 const icon = {
-  email: SiGmail,
+  email: SiMaildotru,
   linkedin: SiLinkedin,
   github: SiGithub,
   telegram: SiTelegram

@@ -1,7 +1,7 @@
 import { CustomSeo } from '@/components'
 import { Footer, SocialHome } from '@/components/UI/common'
 import { UnderlineLink } from '@/components/UI/links'
-import { BlogList } from '@/components/content'
+import { BlogList, ContentImage } from '@/components/content'
 import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
 
 import { WrappedImage } from '@/UI/images'
@@ -52,14 +52,14 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
       <main className='layout'>
         <section className='flex flex-col'>
           <div className='relative flex h-14 md:h-16'>
-            <WrappedImage
+            <ContentImage
               src='https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp'
               alt='Rizki Maulana Citra'
               width={isMdScreen ? 128 : 118}
               height={isMdScreen ? 128 : 118}
+              className='rounded-full absolute -left-1 bottom-0 border-4 cursor-pointer border-theme-100 dark:border-theme-800'
+              title="Rizki Citra's Face"
               quality={100}
-              loading='eager'
-              className='rounded-full absolute -left-1 bottom-0 border-4 border-theme-100 dark:border-theme-800'
               priority
             />
             <SocialHome className='ml-auto max-w-max' />
@@ -98,7 +98,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               <p>
                 I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
                 <strong>Frontend Accessibility</strong>, and <strong>User Experience</strong>, and also interested in
-                <strong>mobile development</strong> with{' '}
+                mobile development with{' '}
                 <UnderlineLink href='https://kotlinlang.org' title='Kotlin Programming language'>
                   Kotlin
                 </UnderlineLink>{' '}
@@ -109,11 +109,6 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
                 <strong>As a person</strong>, <strong>I am constantly striving to improve myself</strong> and{' '}
                 <strong>become a better person</strong>. I believe that <em>growth and personal development</em> are
                 important aspects of a <strong>fulfilling life</strong>.
-              </p>
-
-              <p>
-                On this website, I like to share <strong>my various personal thoughts</strong>, and{' '}
-                <strong>showcasing my stuff</strong> while cathing up the things I learned.
               </p>
             </div>
           </div>

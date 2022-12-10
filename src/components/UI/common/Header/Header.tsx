@@ -24,8 +24,8 @@ export const Header: React.FunctionComponent = () => {
         'sticky top-0 inset-x-0 z-50',
         'border-b border-b-transparent',
         'bg-theme-50 dark:bg-theme-900',
-        'supports-[backdrop-filter:blur(0px)]:bg-theme-50/30 dark:supports-[backdrop-filter:blur(0px)]:bg-theme-900/30',
-        'supports-[backdrop-filter:blur(0px)]:backdrop-blur',
+        'supports-[backdrop-filter:blur(0px)]:bg-theme-50/60 dark:supports-[backdrop-filter:blur(0px)]:bg-theme-900/60',
+        'supports-[backdrop-filter:blur(0px)]:backdrop-blur-xl',
         y > 34 && 'border-b-theme-300 dark:border-b-theme-600'
       )}
     >
