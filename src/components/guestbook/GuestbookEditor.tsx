@@ -12,9 +12,8 @@ export const GuestbookEditor: React.FunctionComponent = () => {
   const { handleSubmit, message, handleChange } = useGuestbook()
 
   return (
-    <div>
+    <div className='mb-3 md:mb-5'>
       <h2 className='mb-3 md:mb-5'>Sign the Guestbook</h2>
-      <p className='mb-4 md:mb-6 font-semibold'>Let me and the other know you were here!</p>
 
       {user ? (
         <form
@@ -57,7 +56,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
               onClick={signin('github')}
               type='button'
               className={twclsx(
-                'h-10 px-4 font-medium rounded-md',
+                'h-9 px-2.5 md:px-3 font-medium rounded-md',
                 'space-x-2 transition hover:bg-theme-700 dark:hover:bg-theme-700',
                 'text-white bg-black dark:bg-theme-800'
               )}
@@ -70,7 +69,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
               onClick={signin('google')}
               type='button'
               className={twclsx(
-                'h-10 px-4 font-medium rounded-md',
+                'h-9 px-2.5 md:px-3 font-medium rounded-md',
                 'space-x-2 transition',
                 'text-white bg-primary-600 dark:bg-primary-800',
                 'hover:bg-primary-400 dark:hover:bg-primary-700'
