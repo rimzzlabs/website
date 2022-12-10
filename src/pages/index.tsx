@@ -8,7 +8,6 @@ import { WrappedImage } from '@/UI/images'
 
 import { GetContents, getContents } from '@/services'
 
-import { twclsx } from '@/libs'
 import { getMetaPage } from '@/libs/metapage'
 import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
 
@@ -67,14 +66,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
 
           <div className='mt-3 md:mt-6'>
             <h1>Rizki Maulana Citra</h1>
-            <p
-              className={twclsx(
-                'max-w-max mt-2 mb-4',
-                'text-transparent font-bold text-xl md:text-2xl',
-                'bg-clip-text bg-gradient-to-r',
-                'from-primary-500 to-ternary-500'
-              )}
-            >
+            <p className='max-w-max mt-2 mb-4  text-transparent font-bold text-xl md:text-2xl  bg-clip-text bg-gradient-to-r  from-primary-500 to-ternary-500'>
               Student &amp; Frontend Developer
             </p>
 
@@ -92,11 +84,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               <p>
                 I am passionate about <strong>Frontend Development</strong> and enjoy working on the Web. I love
                 combining my technical knowledge and creativity to build engaging and user-friendly websites and
-                applications.
-              </p>
-
-              <p>
-                I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
+                applications. I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
                 <strong>Frontend Accessibility</strong>, and <strong>User Experience</strong>, and also interested in
                 mobile development with{' '}
                 <UnderlineLink href='https://kotlinlang.org' title='Kotlin Programming language'>
@@ -109,6 +97,11 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
                 <strong>As a person</strong>, <strong>I am constantly striving to improve myself</strong> and{' '}
                 <strong>become a better person</strong>. I believe that <em>growth and personal development</em> are
                 important aspects of a <strong>fulfilling life</strong>.
+              </p>
+
+              <p>
+                On this website, I like to share my <strong>various thoughts</strong> about web development related
+                topics, general daily life and a place for <strong>showcasing my portfolio</strong>.
               </p>
             </div>
           </div>
