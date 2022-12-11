@@ -4,8 +4,6 @@ import { UnderlineLink } from '@/components/UI/links'
 import { BlogList, ContentImage } from '@/components/content'
 import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
 
-import { WrappedImage } from '@/UI/images'
-
 import { GetContents, getContents } from '@/services'
 
 import { getMetaPage } from '@/libs/metapage'
@@ -39,14 +37,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
     <>
       <CustomSeo {...meta} />
 
-      <WrappedImage
-        fill
-        parentStyle='w-full h-40 rounded-lg md:layout'
-        src='/static/pattern-cover.svg'
-        alt='pattern-cover'
-        className='object-cover'
-        priority
-      />
+      <div className='w-full h-40 md:layout pattern' />
 
       <main className='layout'>
         <section className='flex flex-col'>
