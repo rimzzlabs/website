@@ -22,7 +22,7 @@ type PortfoliopageProps = {
 
 const meta = getMetaPage({
   title: 'Portfolio',
-  description: `Personal portfolio, proven that I've created something with my current knowledge and experience.`,
+  description: `A selection of my personal works. I've included samples to showcase my skills and experience. Take a look around and let me know what you think. I'm always open to feedback and opportunities to collaborate.`,
   keywords: [
     'Rizki Maulana Citra portfolio',
     'Rizki M Citra portfolio',

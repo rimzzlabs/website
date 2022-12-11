@@ -28,7 +28,7 @@ type BlogPageProps = {
 
 const meta = getMetaPage({
   title: 'Blog',
-  description: `I write blog once a while, talks about Web Development related topics and my personal experience, feel free to explore my post.`,
+  description: `You'll find a collection of my thoughts and musings on a variety of topics. I write about everything from current events to personal experiences, and I always strive to share my honest opinions. Keep in mind that my views are my own and do not necessarily reflect those of any other person or organization.`,
   keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
   og_image: generateOgImage({
     title: 'Blog - rizkicitra.dev',
