@@ -4,18 +4,16 @@ import { twclsx } from '@/libs/twclsx'
 import { useTheme } from '@/hooks'
 
 import Giscus from '@giscus/react'
-import { memo, useMemo } from 'react'
+import { memo } from 'react'
 
 export const GiscusComment = memo(() => {
   const { theme, systemTheme } = useTheme()
 
-  const giscusTheme = useMemo(() => {
-    if (systemTheme) {
-      if (theme === 'system') return systemTheme // system theme, could be dark or light
-      return theme // could be dark or light but not system
-    }
-    return theme // could be dark or light but not system
-  }, [theme, systemTheme])
+  const loadTheme = () => {
+    if (theme === 'dark' || (theme === 'system' && systemTheme === 'dark')) return 'dark'
+    if (theme === 'light' || (theme === 'system' && systemTheme === 'light')) return 'light'
+    return 'light'
+  }
 
   // don't load Giscus if on development mode, you can still remove this code thought
   // but that's would be a waste of internet data IMO
@@ -24,7 +22,7 @@ export const GiscusComment = memo(() => {
   return (
     <div className={twclsx('mt-4 md:mt-8')}>
       <Giscus
-        theme={giscusTheme}
+        theme={loadTheme()}
         emitMetadata='0'
         inputPosition='top'
         repo='rizkimcitra/rizkicitra'
