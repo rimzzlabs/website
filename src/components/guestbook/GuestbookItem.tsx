@@ -37,7 +37,7 @@ export const GuestbookItem: React.FunctionComponent<Guestbook> = (props) => {
 
       <div className='flex items-center space-x-1.5'>
         <HiOutlineCalendar className='w-3.5 h-3.5' />
-        <span className='text-sm font-medium'>
+        <span className='text-sm font-semibold dark:text-theme-400'>
           On {date} at {hour}
         </span>
       </div>
