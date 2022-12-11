@@ -1,4 +1,4 @@
-import { CustomImage } from '@/UI/images'
+import { WrappedImage } from '@/UI/images'
 import { UnderlineLink } from '@/UI/links'
 import { LayoutPage } from '@/UI/templates'
 
@@ -24,8 +24,9 @@ const NotFoundPage: NextPage = () => {
       template='Page Not Found'
     >
       <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen')}>
-        <CustomImage
-          display='intrinsic'
+        <WrappedImage
+          priority
+          loading='eager'
           src='/static/404.svg'
           alt='illustration'
           quality={60}

@@ -23,7 +23,7 @@ export const Footer: React.FunctionComponent = () => {
             <UnstyledLink
               href={route.path}
               key={`footer-${route.path}`}
-              className='text-xs md:text-sm font-medium md:max-w-max border-b border-dashed border-transparent hover:border-b-theme-500 text-theme-500 '
+              className='text-xs md:text-sm font-medium md:max-w-max border-b border-dashed border-transparent hover:border-b-theme-500 text-theme-500 dark:text-theme-400'
             >
               {route.name}
             </UnstyledLink>
@@ -35,7 +35,7 @@ export const Footer: React.FunctionComponent = () => {
             <UnstyledLink
               href={route.path}
               key={`footer-${route.path}`}
-              className='text-xs md:text-sm font-medium md:max-w-max border-b border-dashed border-transparent hover:border-b-theme-500 text-theme-500 '
+              className='text-xs md:text-sm font-medium md:max-w-max border-b border-dashed border-transparent hover:border-b-theme-500 text-theme-500 dark:text-theme-400'
             >
               {route.name}
             </UnstyledLink>
