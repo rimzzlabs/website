@@ -1,3 +1,5 @@
+import { WrappedImage } from '@/components/UI/images'
+
 import { UnstyledLink } from '@/UI/links'
 
 import { IconStack } from './IconStack'
@@ -8,7 +10,14 @@ export const PortfolioItem: React.FunctionComponent<Portfolio> = (props) => {
   const urlPortfolio = `/portfolio/${props.slug}`
 
   return (
-    <div key={props.slug} className='flex pt-3 pb-3 first-of-type:pt-0'>
+    <div key={props.slug} className='flex flex-col'>
+      <WrappedImage
+        src={props.image}
+        alt={props.title}
+        className='w-full object-cover rounded-md'
+        parentStyle='w-full h-44 rounded-md'
+        fill
+      />
       <div className='mt-3'>
         <h3>
           <UnstyledLink

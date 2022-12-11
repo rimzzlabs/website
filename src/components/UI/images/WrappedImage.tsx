@@ -15,7 +15,7 @@ export const WrappedImage: React.FunctionComponent<WrappedImageProps> = ({ paren
 
   return (
     <figure className={twclsx('relative', parentStyle)}>
-      <NextImage {...props} sizes='(max-width: 768px) 100%' />
+      <NextImage {...props} loading='lazy' placeholder='blur' blurDataURL='/blur.svg' sizes='(max-width: 768px) 100%' />
     </figure>
   )
 }
