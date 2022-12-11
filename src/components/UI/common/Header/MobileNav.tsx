@@ -28,7 +28,7 @@ export const MobileNav: React.FunctionComponent = () => {
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-12 md:h-12 rounded',
           'bg-primary-100 text-primary-700',
-          'dark:bg-theme-800 dark:text-white'
+          'dark:bg-theme-700 dark:text-white'
         )}
       >
         <HiMenuAlt4 className='w-4 h-4' />
@@ -51,7 +51,7 @@ export const MobileNav: React.FunctionComponent = () => {
             'rounded origin-top-right shadow-lg',
             'ring-1 focus:outline-none',
             'ring-black/5 bg-white',
-            'dark:shadow-none dark:bg-theme-800'
+            'dark:shadow-none dark:bg-theme-700'
           )}
         >
           <div className='flex flex-col w-full'>

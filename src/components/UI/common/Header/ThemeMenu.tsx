@@ -47,7 +47,7 @@ export const ThemeMenu: React.FunctionComponent = () => {
         )}
       >
         {(theme === 'dark' || (theme === 'system' && systemTheme === 'dark')) && (
-          <Moon className={twclsx('w-4 h-4 md:w-5 md:h-5', 'text-yellow-500')} />
+          <Moon className={twclsx('w-4 h-4 md:w-5 md:h-5', 'text-white')} />
         )}
         {(theme === 'light' || (theme === 'system' && systemTheme === 'light')) && (
           <Sun className={twclsx('w-4 h-4 md:w-5 md:h-5', 'text-primary-700')} />
@@ -71,7 +71,7 @@ export const ThemeMenu: React.FunctionComponent = () => {
             'rounded-md origin-top-right shadow-lg',
             'ring-1 focus:outline-none',
             'ring-black/5 bg-white',
-            'dark:shadow-none dark:bg-theme-800'
+            'dark:shadow-none dark:bg-theme-700'
           )}
         >
           <ul className='flex flex-col w-full'>
