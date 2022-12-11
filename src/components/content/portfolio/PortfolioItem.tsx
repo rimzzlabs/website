@@ -16,6 +16,9 @@ export const PortfolioItem: React.FunctionComponent<Portfolio> = (props) => {
         alt={props.title}
         className='w-full object-cover rounded-md'
         parentStyle='w-full h-44 rounded-md'
+        loading='lazy'
+        placeholder='blur'
+        blurDataURL='/blur.svg'
         fill
       />
       <div className='mt-3'>
