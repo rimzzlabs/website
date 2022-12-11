@@ -24,6 +24,7 @@ export const MobileNav: React.FunctionComponent = () => {
   return (
     <Menu as='div' className='relative z-40 block md:hidden'>
       <Menu.Button
+        title='Menu button'
         className={twclsx(
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-12 md:h-12 rounded',
@@ -31,6 +32,7 @@ export const MobileNav: React.FunctionComponent = () => {
           'dark:bg-theme-700 dark:text-white'
         )}
       >
+        <span className='sr-only'>Click to open menu</span>
         <HiMenuAlt4 className='w-4 h-4' />
       </Menu.Button>
 

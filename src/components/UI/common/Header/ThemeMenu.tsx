@@ -25,6 +25,7 @@ export const ThemeMenu: React.FunctionComponent = () => {
   if (!mounted) {
     return (
       <UnstyledButton
+        title='Switch theme'
         className={twclsx(
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-10 md:h-10 rounded',
@@ -40,6 +41,7 @@ export const ThemeMenu: React.FunctionComponent = () => {
   return (
     <Menu as='div' className='relative z-40'>
       <Menu.Button
+        title='Theme menu button'
         className={twclsx(
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-10 md:h-10 rounded',
@@ -52,6 +54,7 @@ export const ThemeMenu: React.FunctionComponent = () => {
         {(theme === 'light' || (theme === 'system' && systemTheme === 'light')) && (
           <Sun className={twclsx('w-4 h-4 md:w-5 md:h-5', 'text-primary-700')} />
         )}
+        <span className='sr-only'>Click to see option to switch theme</span>
       </Menu.Button>
 
       <Transition
