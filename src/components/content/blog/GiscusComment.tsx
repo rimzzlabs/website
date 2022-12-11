@@ -26,7 +26,7 @@ export const GiscusComment = memo(() => {
         theme={loadTheme(theme)}
         emitMetadata='0'
         inputPosition='top'
-        repo='rizkimcitra/rizkicitra'
+        repo='rizkimcitra/rizkicitra.dev'
         repoId='R_kgDOGh4MEw'
         category='General'
         categoryId='DIC_kwDOGh4ME84CPxWe'
