@@ -32,7 +32,7 @@ const meta = getMetaPage({
   keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
   og_image: generateOgImage({
     title: 'Blog - rizkicitra.dev',
-    subTitle: 'Any thought I think interesting to tell on my personal site'
+    subTitle: 'Any thought I think interesting to share on my personal site'
   }),
   og_image_alt: 'Blog — rizkicitra.dev',
   slug: '/blog',

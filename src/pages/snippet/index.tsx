@@ -1,15 +1,15 @@
-import { SnippetCard } from '@/UI/cards'
-import { EmptyResult, Spinner } from '@/UI/common'
+import { SnippetList } from '@/components/content/snippet'
+
+import { EmptyResult } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 
 import { getContents } from '@/services'
 
-import { twclsx } from '@/libs'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getNewestSnippet } from '@/libs/sorters'
 
-import { useSearch } from '@/hooks'
+import { useSearchSnippet } from '@/hooks'
 
 import type { GetStaticProps, NextPage } from 'next'
 import type { Snippet } from 'rizkicitra'
@@ -33,40 +33,20 @@ const meta = getMetaPage({
 })
 
 const SnippetIndexPage: NextPage<SnippetProps> = ({ snippets = [] }) => {
-  const search = useSearch<Snippet[]>(snippets, 'snippet')
+  const search = useSearchSnippet(snippets)
+
   return (
     <LayoutPage {...meta}>
       <Hero title={meta.title as string} description={meta.description as string} />
       <Searchbar onChange={search.handleChange} value={search.query} />
 
-      {snippets.length > 0 && search.query.length === 0 ? (
-        <section>
-          <h2 className='mb-4'>Explore Them</h2>
-          <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-            {snippets.map((s) => (
-              <SnippetCard key={s.slug} {...s} />
-            ))}
-          </div>
-        </section>
-      ) : null}
+      {snippets.length > 0 && search.query === '' ? <SnippetList snippets={snippets} title='Explore Them' /> : null}
 
-      {search.query.length > 0 && (
-        <section>
-          <h2 className='mb-4'>Search Snippet</h2>
-
-          {search.filteredData.length > 0 ? (
-            <div className={twclsx('grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto', !search.isPending && 'grid')}>
-              {search.isPending ? (
-                <Spinner containerSize='full' spinnerSize='md' containerStyle='h-40' />
-              ) : (
-                search.filteredData.map((s) => <SnippetCard key={s.slug} {...s} />)
-              )}
-            </div>
-          ) : (
-            <EmptyResult />
-          )}
-        </section>
+      {search.query !== '' && search.filteredSnippet.length > 0 && (
+        <SnippetList snippets={search.filteredSnippet} title='Search Snippet' />
       )}
+
+      {search.query !== '' && search.filteredSnippet.length === 0 && <EmptyResult />}
     </LayoutPage>
   )
 }

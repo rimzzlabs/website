@@ -1,11 +1,11 @@
 import { toLowerCase } from '@/libs/string'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { Blog } from 'rizkicitra'
+import { Snippet } from 'rizkicitra'
 
-export const useSearchBlog = (blogs: Blog[]) => {
+export const useSearchSnippet = (snippets: Snippet[]) => {
   const [query, setQ] = useState('')
-  const [filteredBlog, sFB] = useState<Blog[]>([])
+  const [filteredSnippet, sFS] = useState<Snippet[]>([])
   const mounted = useRef(true)
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setQ(e.target.value), [])
@@ -17,17 +17,17 @@ export const useSearchBlog = (blogs: Blog[]) => {
     }
 
     ;(() => {
-      if (blogs.length === 0) return
+      if (snippets.length === 0) return
 
-      const filtered = blogs.filter((blog) => {
+      const filtered = snippets.filter((snippet) => {
         return (
-          toLowerCase(blog.title).includes(toLowerCase(query)) ||
-          toLowerCase(blog.summary).includes(toLowerCase(query)) ||
-          blog.topics.map((t) => t.includes(query)).includes(true)
+          toLowerCase(snippet.title).includes(toLowerCase(query)) ||
+          toLowerCase(snippet.topic).includes(toLowerCase(query)) ||
+          toLowerCase(snippet.summary).includes(toLowerCase(query))
         )
       })
 
-      sFB(filtered)
+      sFS(filtered)
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
@@ -35,6 +35,6 @@ export const useSearchBlog = (blogs: Blog[]) => {
   return {
     query,
     handleChange,
-    filteredBlog
+    filteredSnippet
   }
 }

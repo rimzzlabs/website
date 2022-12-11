@@ -1,7 +1,6 @@
-import { LabelBlog } from '@/components/content'
+import { BlogList, LabelBlog } from '@/components/content'
 
 import { UnstyledButton } from '@/UI/buttons'
-import { BlogCard } from '@/UI/cards'
 import { CustomImage } from '@/UI/images'
 import type { HeroProps } from '@/UI/templates'
 import { Hero, LayoutPage } from '@/UI/templates'
@@ -76,16 +75,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
       </section>
 
       {selectedTags.length > 0 ? (
-        <section>
-          <h2 className={twclsx('mb-4')}>Showing selected tags</h2>
-          <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-            {blogs
-              .filter((b) => selectedTags.map((t) => b.topics.includes(t)).includes(true))
-              .map((b) => (
-                <BlogCard key={b.slug} {...b} />
-              ))}
-          </div>
-        </section>
+        <BlogList posts={blogs} title='Showing Selected Tags' />
       ) : (
         <section className={twclsx('flex flex-col items-center justify-center', 'py-10')}>
           <figure className={twclsx('relative mb-2.5', 'w-40 h-40')}>
