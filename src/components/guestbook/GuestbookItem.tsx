@@ -5,6 +5,8 @@ import { dateFormat } from '@/libs/intl'
 import { useGuestbook, useGuestbookUser } from '@/hooks'
 import { Guestbook } from '@/hooks/guestbook/model'
 
+import { HiOutlineCalendar, HiOutlineUserCircle } from 'react-icons/hi'
+
 const config: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   month: 'short',
@@ -26,14 +28,19 @@ export const GuestbookItem: React.FunctionComponent<Guestbook> = (props) => {
   const hour = dateFormat(props.created_at, 'en-US', hourConfig)
 
   return (
-    <div className='w-full'>
-      <p className='max-w-prose font-bold'>{props.message}</p>
-      <p className='text-sm mt-3'>
-        <span className='font-semibold dark:text-theme-400'>{props.name} — </span>
-        <span className='text-theme-500 dark:text-theme-600'>
-          {date} at {hour}
+    <div className='w-full py-1.5 md:py-3'>
+      <p className='mb-3 max-w-prose font-bold'>{props.message}</p>
+      <div className='flex items-center space-x-1.5'>
+        <HiOutlineUserCircle className='w-3.5 h-3.5' />
+        <span className='text-sm font-semibold dark:text-theme-400'>{props.name}</span>
+      </div>
+
+      <div className='flex items-center space-x-1.5'>
+        <HiOutlineCalendar className='w-3.5 h-3.5' />
+        <span className='text-sm font-semibold dark:text-theme-400'>
+          On {date} at {hour}
         </span>
-      </p>
+      </div>
 
       {user?.id === props.user_id && (
         <UnstyledButton

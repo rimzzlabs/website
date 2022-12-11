@@ -34,7 +34,7 @@ export const Pre = ({ children, className }: PreProps) => {
           'absolute left-0 right-12',
           'h-11 rounded-tl rounded-br',
           'font-semibold text-sm',
-          'bg-slate-700 dark:bg-slate-800 text-main-1.5'
+          'bg-slate-700 text-main-1.5'
         )}
       >
         <div
@@ -53,7 +53,7 @@ export const Pre = ({ children, className }: PreProps) => {
           'absolute top-0 right-0',
           'flex items-center justify-center',
           'w-11 h-11 rounded-tr rounded-bl',
-          'bg-slate-700 dark:bg-slate-800'
+          'bg-slate-700'
         )}
       >
         <UnstyledButton

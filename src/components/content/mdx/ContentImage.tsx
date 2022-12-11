@@ -1,4 +1,4 @@
-import { CustomImage } from '@/UI/images'
+import { WrappedImage } from '@/UI/images'
 
 import { twclsx } from '@/libs/twclsx'
 
@@ -20,31 +20,34 @@ export const ContentImage = ({ src, alt, ...props }: ContentImageProps) => {
     if (typeof window !== 'undefined') {
       const html = document.documentElement
 
-      if (isOpen) html.classList.add('overflow-hidden')
+      if (isOpen) {
+        html.classList.add('overflow-hidden')
+        html.classList.add('pr-3.5')
+      }
 
       if (html.classList.contains('overflow-hidden') && !isOpen) {
         html.classList.remove('overflow-hidden')
+        html.classList.remove('pr-3.5')
       }
     }
   }, [isOpen])
 
   return (
     <>
-      <CustomImage
-        display='intrinsic'
+      <WrappedImage
         onClick={() => setIsOpen(true)}
         src={src}
         alt={alt}
         width={768}
         height={468}
-        objectFit='cover'
-        className={twclsx('rounded-lg', 'cursor-pointer')}
+        className={twclsx('rounded-lg', 'cursor-pointer object-cover')}
         {...props}
       />
 
       {isOpen && (
         <Lightbox
           mainSrc={src}
+          imageTitle={props.title}
           onCloseRequest={() => setIsOpen(false)}
           reactModalStyle={{
             maxWidth: '500px'

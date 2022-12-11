@@ -81,8 +81,6 @@ type AlertResumeProps = {
 }
 
 export const AlertResume: React.FunctionComponent<AlertResumeProps> = (props) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
   return (
     <AnimatePresence exitBeforeEnter>
       {props.isOpen && (

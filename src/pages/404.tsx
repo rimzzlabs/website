@@ -1,4 +1,4 @@
-import { CustomImage } from '@/UI/images'
+import { WrappedImage } from '@/UI/images'
 import { UnderlineLink } from '@/UI/links'
 import { LayoutPage } from '@/UI/templates'
 
@@ -23,12 +23,12 @@ const NotFoundPage: NextPage = () => {
       description='The page you are looking for are not found, please contact Rizki if you encounter any problem'
       template='Page Not Found'
     >
-      <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen', '-mt-36')}>
-        <CustomImage
-          display='intrinsic'
+      <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen')}>
+        <WrappedImage
+          priority
+          loading='eager'
           src='/static/404.svg'
           alt='illustration'
-          objectFit='contain'
           quality={60}
           width={mdscreen ? 256 : 144}
           height={mdscreen ? 256 : 144}
@@ -37,6 +37,7 @@ const NotFoundPage: NextPage = () => {
         <section className={twclsx('text-center')}>
           <h1 className={twclsx('text-center')}>404 - Not Found</h1>
           <p className={twclsx('my-2 md:my-4')}>The page you are looking for are not found</p>
+
           <UnderlineLink href='/'>Back to home</UnderlineLink>
         </section>
       </div>

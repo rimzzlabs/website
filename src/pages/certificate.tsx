@@ -1,4 +1,4 @@
-import { CustomImage } from '@/UI/images'
+import { WrappedImage } from '@/UI/images'
 import { Hero, LayoutPage } from '@/UI/templates'
 
 import ALBUMS from '@/libs/constants/certificate'
@@ -8,7 +8,7 @@ import { twclsx } from '@/libs/twclsx'
 import { useMediaQuery } from '@/hooks'
 
 import type { NextPage } from 'next'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useId, useState } from 'react'
 import Lightbox from 'react-image-lightbox'
 
 const meta = getMetaPage({
@@ -29,6 +29,7 @@ const meta = getMetaPage({
 const CertificatePage: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [currImage, setCurrImage] = useState(0)
+  const id = useId()
 
   const isMatch = useMediaQuery('(min-width: 768px)')
   const handleClick = useCallback((newValue: number) => {
@@ -44,10 +45,14 @@ const CertificatePage: NextPage = () => {
     if (typeof window !== 'undefined') {
       const html = document.documentElement
 
-      if (isOpen) html.classList.add('overflow-hidden')
+      if (isOpen) {
+        html.classList.add('overflow-hidden')
+        html.classList.add('pr-3.5')
+      }
 
       if (html.classList.contains('overflow-hidden') && !isOpen) {
         html.classList.remove('overflow-hidden')
+        html.classList.remove('pr-3.5')
       }
     }
   }, [isOpen])
@@ -56,28 +61,20 @@ const CertificatePage: NextPage = () => {
     <LayoutPage {...meta}>
       <Hero title={meta.title as string} description={meta.description as string} />
       <section
-        className={twclsx(
-          'content-auto',
-          'w-full grid grid-cols-1 md:grid-cols-2',
-          'gap-4 flex-auto',
-          'my-10 md:my-20'
-        )}
+        className={twclsx('content-auto', 'w-full grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto pb-8 md:pb-16')}
       >
         {ALBUMS.map((prop, index) => (
-          <figure key={prop.title} className='relative w-full h-56'>
-            <CustomImage
-              onClick={() => handleClick(index)}
-              src={prop.src}
-              alt={`${prop.title} certificate`}
-              title={`${prop.title} certificate`}
-              className={twclsx(
-                'w-full h-full aspect-square object-cover',
-                'cursor-pointer hover:brightness-75',
-                'transition-all'
-              )}
-              display='responsive'
-            />
-          </figure>
+          <WrappedImage
+            fill
+            loading='lazy'
+            src={prop.src}
+            parentStyle='w-full h-56'
+            key={`${id}-${prop.title}`}
+            onClick={() => handleClick(index)}
+            alt={`${prop.title} certificate`}
+            title={`${prop.title} certificate`}
+            className={twclsx('object-cover', 'cursor-pointer motion-safe:hover:brightness-75', 'transition-all')}
+          />
         ))}
       </section>
 

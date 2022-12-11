@@ -4,7 +4,6 @@ import { twclsx } from '@/libs/twclsx'
 
 import { HiArrowNarrowRight } from 'react-icons/hi'
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type SectionProps<DataProp> = {
   title: string
   Component: React.FunctionComponent<DataProp>

@@ -1,17 +1,20 @@
-import { BlogCard } from '@/UI/cards'
-import { EmptyResult, Spinner } from '@/UI/common'
+import { BlogList } from '@/components/content'
+
+import { EmptyResult } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
-import { getContents, getPageViews, getToken } from '@/services'
+import { getContents } from '@/services'
 
 import { SECRET_KEY, isDev, isProd } from '@/libs/constants/environmentState'
 import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getMostPopularBlog, getNewestBlog } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
-import { useSearch } from '@/hooks'
+import { useSearchBlog } from '@/hooks'
+
+import { PageViewResponse } from '../api/pageviews/_type'
 
 import axios from 'axios'
 import { GetStaticProps, NextPage } from 'next'
@@ -25,11 +28,11 @@ type BlogPageProps = {
 
 const meta = getMetaPage({
   title: 'Blog',
-  description: `I write blog once a while, talks about Web Development related topics and my personal experience, feel free to explore my post.`,
+  description: `You'll find a collection of my thoughts and musings on a variety of topics. I write about everything from current events to personal experiences, and I always strive to share my honest opinions. Keep in mind that my views are my own and do not necessarily reflect those of any other person or organization.`,
   keywords: ['Rizki Maulana Citra', 'Rizki M Citra', 'Rizkicitra', 'Rizki Citra', 'rizkicitra.dev'],
   og_image: generateOgImage({
     title: 'Blog - rizkicitra.dev',
-    subTitle: 'Any thought I think interesting to tell on my personal site'
+    subTitle: 'Any thought I think interesting to share on my personal site'
   }),
   og_image_alt: 'Blog — rizkicitra.dev',
   slug: '/blog',
@@ -37,12 +40,11 @@ const meta = getMetaPage({
 })
 
 const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
-  const search = useSearch<BlogPageProps['allBlogs']>(allBlogs, 'blog')
+  const search = useSearchBlog(allBlogs)
   const mostViewdBlogs = useMemo(() => allBlogs.slice(0).sort(getMostPopularBlog).slice(0, 2), [allBlogs])
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    if (!isProd) return
+    if (typeof window === 'undefined' || !isProd) return
     ;(async () => {
       try {
         await axios.get(`https://rizkicitra.dev/api/revalidate?slug=/blog&secret=${SECRET_KEY}`)
@@ -60,42 +62,20 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
       {allBlogs.length > 0 && search.query.length === 0 ? (
         <div className={twclsx('flex flex-col', 'gap-24')}>
-          <section>
-            <h2 className={twclsx('mb-4')}>Most Viewed</h2>
+          <BlogList displayViews posts={mostViewdBlogs} title='Most Viewed' />
 
-            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-              {mostViewdBlogs.map((b) => (
-                <BlogCard key={b.slug} displayViews {...b} />
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <h2 className={twclsx('mb-4')}>All Post</h2>
-            <div className={twclsx('grid grid-cols-1', 'gap-4 flex-auto')}>
-              {allBlogs.map((b) => (
-                <BlogCard key={b.slug} displayViews {...b} />
-              ))}
-            </div>
-          </section>
+          <BlogList displayViews posts={allBlogs} title='All Post' />
         </div>
       ) : null}
 
       {search.query.length > 0 && (
-        <section className={twclsx('content-auto')}>
-          <h2 className={twclsx('mb-4')}>Search Post</h2>
-          {search.filteredData.length > 0 ? (
-            <div className={twclsx('grid-cols-1 gap-4', 'flex-auto', !search.isPending && 'grid')}>
-              {search.isPending ? (
-                <Spinner containerSize='full' spinnerSize='md' containerStyle='h-40' />
-              ) : (
-                search.filteredData.map((b) => <BlogCard key={b.slug} displayViews {...b} />)
-              )}
-            </div>
+        <>
+          {search.filteredBlog.length > 0 ? (
+            <BlogList displayViews posts={search.filteredBlog} title='Search Post' />
           ) : (
             <EmptyResult />
           )}
-        </section>
+        </>
       )}
     </LayoutPage>
   )
@@ -103,50 +83,36 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
 export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
   const response = await getContents<Blog>('/blog')
-  if (isDev) {
+  if (isDev)
     return {
       props: {
         allBlogs: response.map((r) => ({ ...r.header, est_read: readingTime(r.content).text })).sort(getNewestBlog)
       }
     }
-  }
 
-  const token = await getToken()
-  if (!token) throw new Error(`Canot get token`)
+  const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rizkicitra.dev'
 
-  const requests = response.map(async (blog): Promise<Blog> => {
-    // estimate reading time of the contents by using readingTime() function from reading-time library
-    // but as soon as the function returned the value, grab the text value from the object
-    const est_read = readingTime(blog.content).text
-    try {
-      // this would return an array of promises blog, so passing it to Promise.all() method like an array
-      // do request to umami on each post by passing its slug to query parameter
-      const response = await getPageViews(blog.header.slug, token)
+  const blogs: Blog[] = []
 
-      // set views, process request data to json, and set static type as HTTP, see line 9
-      const views = response.data
-      // if response status are OK or 200, return the data with the value of views property from umami
+  const requests = response.map(async (r) => {
+    const res = await axios.get<PageViewResponse>(baseURL + '/api/pageviews?slug=' + r.header.slug)
+    const est_read = readingTime(r.content).text
+    const views = res.data.view ?? 0
 
-      return {
-        views: views as number,
-        est_read,
-        ...blog.header
-      }
-    } catch (err) {
-      // otherwise return the data and set the views value property to 0
-      return {
-        views: 0,
-        est_read,
-        ...blog.header
-      }
+    return { ...r.header, views, est_read } as Blog
+  })
+
+  const settles = await Promise.allSettled(requests)
+
+  settles.forEach((settle) => {
+    if (settle.status === 'fulfilled') {
+      blogs.push(settle.value)
     }
   })
 
-  const allBlogs = await Promise.all(requests)
-
   return {
     props: {
-      allBlogs: allBlogs.sort(getNewestBlog)
+      allBlogs: blogs.sort(getNewestBlog)
     }
   }
 }

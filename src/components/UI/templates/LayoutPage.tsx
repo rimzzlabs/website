@@ -12,11 +12,12 @@ export type LayoutPageProps = {
   children: React.ReactNode
 } & CustomSeoProps
 
-export const LayoutPage: NextPage<LayoutPageProps> = ({ children, ...props }) => {
+export const LayoutPage: NextPage<LayoutPageProps> = ({ children, className, ...props }) => {
   return (
     <>
       <CustomSeo {...props} />
-      <main className={twclsx('mt-36 scroll-mt-36')}>{children}</main>
+
+      <main className={twclsx('layout', className)}>{children}</main>
       <Footer />
     </>
   )

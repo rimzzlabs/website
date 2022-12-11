@@ -1,5 +1,6 @@
-import { PortfolioCard } from '@/UI/cards'
-import { EmptyResult, Spinner } from '@/UI/common'
+import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
+
+import { EmptyResult } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
@@ -10,14 +11,10 @@ import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getNewestPortfolio } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
-import { useSearch } from '@/hooks'
+import { useSearchPortfolio } from '@/hooks'
 
 import type { GetStaticProps, NextPage } from 'next'
 import type { Portfolio } from 'rizkicitra'
-
-// const PortfolioCard = dynamic(() => import('@/UI/cards').then((m) => ({ default: m.PortfolioCard })), {
-//   suspense: true
-// })
 
 type PortfoliopageProps = {
   portfolio: Array<Portfolio>
@@ -25,7 +22,7 @@ type PortfoliopageProps = {
 
 const meta = getMetaPage({
   title: 'Portfolio',
-  description: `Personal portfolio, proven that I've created something with my current knowledge and experience.`,
+  description: `A selection of my personal works. I've included samples to showcase my skills and experience. Take a look around and let me know what you think. I'm always open to feedback and opportunities to collaborate.`,
   keywords: [
     'Rizki Maulana Citra portfolio',
     'Rizki M Citra portfolio',
@@ -40,7 +37,7 @@ const meta = getMetaPage({
 })
 
 const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
-  const search = useSearch<PortfoliopageProps['portfolio']>(portfolio, 'portfolio')
+  const search = useSearchPortfolio(portfolio)
 
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
@@ -48,41 +45,15 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
       <Searchbar onChange={search.handleChange} value={search.query} />
 
       <div className={twclsx('flex flex-col gap-8')}>
-        {search.query.length === 0 && portfolio.length > 0 ? (
-          <section>
-            <h2 className={twclsx('mb-4')}>Personal Portfolio</h2>
-
-            {/* <Suspense fallback={<Spinner containerSize='full' spinnerSize='md' containerStyle='h-56' />}>
-              <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-                {portfolio.map((p) => (
-                  <PortfolioCard key={p.slug} {...p} />
-                ))}
-              </div>
-            </Suspense> */}
-            <div className={twclsx('grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto')}>
-              {portfolio.map((p) => (
-                <PortfolioCard key={p.slug} {...p} />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {search.query.length > 0 && (
-          <section>
-            <h2 className={twclsx('mb-4')}>Search Portfolio</h2>
-            {search.filteredData.length > 0 ? (
-              <div className={twclsx('grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto', !search.isPending && 'grid')}>
-                {search.isPending ? (
-                  <Spinner containerSize='full' spinnerSize='md' containerStyle='h-40' />
-                ) : (
-                  search.filteredData.map((p) => <PortfolioCard key={p.slug} {...p} />)
-                )}
-              </div>
-            ) : (
-              <EmptyResult />
-            )}
-          </section>
+        {search.query === '' && portfolio.length > 0 && (
+          <PortfolioList portfolios={portfolio} title='Personal Portfolio' />
         )}
+
+        {search.query !== '' && search.filteredPortfolio.length > 0 && (
+          <PortfolioList portfolios={search.filteredPortfolio} title='Search Portfolio' />
+        )}
+
+        {search.query !== '' && search.filteredPortfolio.length === 0 && <EmptyResult />}
       </div>
     </LayoutPage>
   )

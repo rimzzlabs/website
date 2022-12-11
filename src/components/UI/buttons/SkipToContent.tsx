@@ -8,7 +8,7 @@ export const SkipToContent: React.FunctionComponent = () => {
         'absolute left-[20%] top-4',
         'inline-flex items-center justify-center',
         'py-2 px-4 rounded text-sm',
-        'bg-gradient-to-r z-[999]',
+        'bg-gradient-to-r z-[99999]',
         '-translate-y-96 focus-visible:-translate-y-0',
         'text-white from-primary-500 to-ternary-500'
       )}

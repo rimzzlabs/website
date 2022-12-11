@@ -3,6 +3,7 @@ import { twclsx } from '@/libs/twclsx'
 import { ImSpinner2 } from 'react-icons/im'
 
 const spinnerSize = {
+  xs: 'w-4 h-4',
   sm: 'w-8 h-8',
   md: 'w-12 h-12',
   lg: 'w-16 h-16',
@@ -30,8 +31,8 @@ export const Spinner: React.FunctionComponent<SpinnerProps> = (props) => {
         props.containerStyle
       )}
     >
-      <ImSpinner2 className={twclsx('animate-spin text-blue-600 dark:text-blue-500', spinnerSize[props.spinnerSize])} />
-      <p className='sr-only'>Loading...</p>
+      <ImSpinner2 className={twclsx('animate-spin text-primary-500', spinnerSize[props.spinnerSize])} />
+      <span className='sr-only'>Loading...</span>
     </div>
   )
 }

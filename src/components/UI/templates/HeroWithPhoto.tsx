@@ -38,7 +38,6 @@ export const HeroWithPhoto: React.FunctionComponent<HeroWithPhotoProps> = (props
             placeholder='blur'
             blurDataURL={props.img.src}
             display='intrinsic'
-            objectFit='cover'
             loading='eager'
             priority
           />

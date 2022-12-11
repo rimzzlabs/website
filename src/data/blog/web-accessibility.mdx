@@ -1,0 +1,117 @@
+---
+title: 'Accessibility on The Web, Why You Should Care'
+summary: 'Web accessibility refers to the practice of making websites usable by people of all abilities and disabilities. This includes people who are blind, have low vision, are deaf or hard of hearing, have motor or cognitive disabilities, or have other conditions that may affect their ability to use a website.'
+featured: true
+author_name: 'Rizki Maulana Citra'
+github_username: 'rizkimcitra'
+published: '12/11/2022'
+topics: ['web dev', 'UX', 'accessibility']
+keywords:
+  [
+    'accessibility',
+    'web accessibility',
+    'website accessibility',
+    'accessibility on the web',
+    'accessibility on the website',
+    'UX',
+    'user experience',
+    'interactive web',
+    'use of accessibility',
+    'accessible',
+    'accessible of website'
+  ]
+related: []
+---
+
+## Introduction
+
+So, you might be wondering what this whole **"accessibility"** thing is all about. Well, let me tell you: accessibility is all about making sure that everyone can use and access the things we create, including websites.
+
+You see, **not everyone has the same abilities and limitations** when it comes to **using the internet**. Some people might be blind or have low vision and need a screen reader **to interpret the content of a website** for them. Others might have hearing impairments and need **closed captions or transcripts** for videos. And still, others might have physical limitations that make it hard for them to use a mouse or keyboard and need alternative ways **to interact** with a website.
+
+That's where accessibility comes in. By making sure our websites are accessible, we're making sure that everyone can use them, regardless of their abilities or limitations. And that's not just the right thing to do - it's also the law in many places.
+
+In the United States, for example, the [Americans with Disabilities Act (ADA)](https://www.ada.gov/topics/intro-to-ada/ 'Introduction to ADA') requires that all websites be accessible to people with disabilities.
+
+So, in this blog post, we're going to talk about what accessibility on the web means, why it's important, and how to make sure your website is accessible to everyone. Let's dive in!
+
+## Why Accessible?
+
+So, why should you care about accessibility on your website? Well, for starters, it's the right thing to do. By making your website accessible, you're making sure that everyone can use it, regardless of their abilities or limitations. And that means that you're not excluding anyone from accessing your content or using your services.
+
+But it's not just about doing the right thing - there are also some very good practical reasons to make your website accessible. For one, it can improve the user experience for everyone, not just people with disabilities. For example, using clear and simple language, providing alt text for images, and using descriptive link text can make your website easier to understand and navigate for everyone.
+
+Additionally, making your website accessible can also help you reach a wider audience.
+
+By making your website accessible, you're not only making it available to people with disabilities, but also to people who might be using assistive technologies, such as screen readers or magnifiers. And that can help you attract more visitors and potential customers to your website.
+
+But perhaps most importantly, in many places, making your website accessible is **required by law**. In the United States, for example, **the Americans with Disabilities Act (ADA)** requires that all websites be **accessible** to people with disabilities. And failing to comply with these laws can result in legal action, fines, and reputational damage.
+
+There are many good reasons to make sure your website is accessible. It's the right thing to do, it can improve the user experience for everyone, it can help you reach a wider audience, and in many cases, it's required by law.
+
+## Examples of Accessibility on The Web
+
+So, now that we know why **accessibility** is important, let's talk about how to make your website accessible. There are many different ways to do this, and it can _seem overwhelming at first_. But don't worry - there are some simple steps you can take to make your website more accessible, and I'll go over a few of them here.
+
+### Simple Use Case
+
+One of the most basic things you can do is to use clear and simple language on your website. This is especially important for people with cognitive disabilities, who might have trouble understanding complex or _jargon-filled_ text. So, try to **avoid using technical terms or slang**, and **use short**, **clear sentences** instead.
+
+Another important aspect of **accessibility** is providing alternatives for non-text content, such as images or videos. For example, you can use the `alt` attribute in HTML to provide a text alternative for images.
+
+This is especially important for people who are blind or have low vision, as they rely on screen readers to interpret the content of a website. Here's an example of how to use the `alt` attribute:
+
+```html
+<img src="cat.jpg" alt="A handsome orange cat smiling" />
+```
+
+In this example, the `alt` attribute provides a text description of the image, so that a screen reader can interpret it for a user who can't see the image.
+
+Additionally, you can also provide captions or transcripts for videos, so that people who are deaf or hard of hearing can access the audio content. This can be done using the `track` element in HTML, like this:
+
+```html
+<video>
+  <source src="video.mp4" type="video/mp4" />
+  <track src="video-transcript.vtt" kind="subtitles" srclang="en" label="English" />
+</video>
+```
+
+In this example, the `track` element provides a transcript of the video in English, which can be accessed by a user who can't hear the audio.
+
+### Real-World Use Case
+
+One of the key aspects of **accessibility** is making sure that your website can be used by people who have difficulty using a mouse or other pointing device.
+
+This is especially important for people with [motor impairments](https://www.neura.edu.au/research-centre/motor-impairment/ 'what is motor impairments'), who might not be able to use a mouse at all, or who might have difficulty using one accurately.
+
+One way to make your website more accessible for these users is to design it so that it can be navigated using only a keyboard. This means making sure that all of the interactive elements on your website, such as buttons, links, and form fields, can be accessed and activated using the keyboard.
+
+Here are a few notes when designing a website for keyboard **accessibility**:
+
+- Use the `tabindex` attribute in HTML to specify the order in which keyboard focus should move through the interactive elements on your page. This will allow keyboard users to easily navigate through your website by pressing the tab key.
+- Use clear and descriptive link text, so that keyboard users can easily understand where the link will take them.**Avoid using generic link text**, such as "click here" or "read more", which can be confusing for keyboard users.
+- Use the `accesskey` attribute to assign shortcut keys to frequently used elements, such as the main navigation menu or the search form. This will allow keyboard users to quickly access these elements without having to tab through the entire page.
+
+Here's an example of how to use these attributes to make a website more accessible for keyboard users:
+
+```html
+<a href="home.html" tabindex="1" accesskey="h">Home</a>
+<a href="about.html" tabindex="2" accesskey="a">About Us</a>
+<a href="products.html" tabindex="3" accesskey="p">Our Products</a>
+```
+
+In this example, the tabindex and `accesskey` attributes are used to specify the order and shortcut keys for the main navigation links. This allows keyboard users to easily navigate through the website by pressing the tab key or the specified shortcut keys.
+
+By using the appropriate HTML attributes, you can design your website to be more accessible for keyboard users. This will not only improve the user experience for people with motor impairments, but also for anyone who prefers to use the keyboard instead of a mouse.
+
+## Closing
+
+As a Front-end developer, I am constantly learning about new technologies and trends, but one thing that always stays at the top of my mind is **accessibility**. I believe that the web should be **accessible** to everyone, regardless of their abilities or disabilities. This is why I always strive to make my websites and applications as **accessible** as possible.
+
+I know that accessibility can be challenging, and it requires extra effort and attention to detail. But it's worth it because by making our websites **accessible**, we can make them usable and enjoyable for a wider range of people. And that's something that we should all strive for.
+
+So, if you're a Front-end developer or a Designer, please make **accessibility** a priority in your work, especially for public-use applications such as social media. It may take some time and effort to learn about the various **accessibility** guidelines and techniques, but the rewards are well worth it.
+
+And if you're a user of the web, remember to always advocate for **accessibility** and support the developers and designers who are working hard to make the web a more inclusive place.
+
+I think that's it for the whole story, I hope you got any insight about **accessibility**, see you in the next post, folks!

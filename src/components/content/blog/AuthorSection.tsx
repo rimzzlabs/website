@@ -1,7 +1,5 @@
-import { CustomImage } from '@/UI/images'
+import { WrappedImage } from '@/UI/images'
 import { UnderlineLink } from '@/UI/links'
-
-import { twclsx } from '@/libs'
 
 import { useMemo } from 'react'
 
@@ -19,17 +17,18 @@ export const AuthorSection: React.FunctionComponent<AuthorSectionProps> = (props
   }, [props.username])
 
   return (
-    <section className={twclsx('flex flex-col', 'gap-4')}>
-      <div className={twclsx('flex flex-col', 'gap-4')}>
-        <div className={twclsx('flex items-center', 'gap-4')}>
+    <section className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4'>
+        <div className='flex items-center gap-4'>
           <figure>
-            <CustomImage
-              display='intrinsic'
-              className={twclsx('rounded-full')}
+            <WrappedImage
+              className='rounded-full'
+              alt={props.name}
               src={githubAPI.picture}
               width={32}
               height={32}
-              alt={props.name}
+              quality={100}
+              priority
             />
           </figure>
 

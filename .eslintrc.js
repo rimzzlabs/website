@@ -1,24 +1,11 @@
-const config = {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true
-  },
-  plugins: ['@typescript-eslint'],
-  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'prettier'],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
-    sourceType: 'module'
-  },
+/** @type {import('eslint').ESLint.ConfigData} */
+module.exports = {
+  extends: ['plugin:@typescript-eslint/recommended', 'next/core-web-vitals'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
     'prefer-const': 'warn',
-    'import/no-duplicates': 'error'
+    'import/no-duplicates': 'error',
+    '@typescript-eslint/no-extra-semi': 'off'
   }
 }
-
-module.exports = config

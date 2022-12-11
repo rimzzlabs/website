@@ -1,6 +1,8 @@
 import { twclsx } from '@/libs'
 import { dateFormat, dateStringToISO } from '@/libs/intl'
 
+import { LabelBlog } from './LabelBlog'
+
 import { HiOutlineCalendar, HiOutlineClock, HiOutlineEye } from 'react-icons/hi'
 
 type HeadingContentProps = {
@@ -9,6 +11,7 @@ type HeadingContentProps = {
   published: string
   postViews: number
   est_read?: string
+  topics: string[]
 }
 
 const config: Intl.DateTimeFormatOptions = {
@@ -21,7 +24,13 @@ const config: Intl.DateTimeFormatOptions = {
 export const HeadingContent: React.FunctionComponent<HeadingContentProps> = (props) => {
   return (
     <section>
-      <h1 className={twclsx('max-w-prose', 'text-3xl md:text-5xl', 'mb-8')}>{props.title}</h1>
+      <h1 className={twclsx('max-w-prose', 'text-3xl md:text-5xl')}>{props.title}</h1>
+
+      <div className='flex items-center space-x-2.5 mt-8 mb-4'>
+        {props.topics.map((topic) => (
+          <LabelBlog key={props.title + topic} type={topic} />
+        ))}
+      </div>
 
       <div className={twclsx('flex flex-col', 'gap-4', 'md:flex-row md:items-center md:justify-between')}>
         <div className={twclsx('flex items-center', 'gap-4')}>
