@@ -52,6 +52,7 @@ export const getStaticProps: GetStaticProps<TagsProps> = async () => {
 
 const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
   const { selectedTags, setNewTag } = useTags()
+  const filteredBlogs = blogs.filter((b) => selectedTags.map((t) => b.topics.includes(t)).includes(true))
 
   return (
     <LayoutPage {...meta}>
@@ -75,7 +76,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
       </section>
 
       {selectedTags.length > 0 ? (
-        <BlogList posts={blogs} title='Showing Selected Tags' />
+        <BlogList posts={filteredBlogs} title='Showing Selected Tags' />
       ) : (
         <section className={twclsx('flex flex-col items-center justify-center', 'py-10')}>
           <figure className={twclsx('relative mb-2.5', 'w-40 h-40')}>

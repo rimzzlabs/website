@@ -23,7 +23,7 @@ const NotFoundPage: NextPage = () => {
       description='The page you are looking for are not found, please contact Rizki if you encounter any problem'
       template='Page Not Found'
     >
-      <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen', '-mt-36')}>
+      <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen')}>
         <CustomImage
           display='intrinsic'
           src='/static/404.svg'
@@ -36,6 +36,7 @@ const NotFoundPage: NextPage = () => {
         <section className={twclsx('text-center')}>
           <h1 className={twclsx('text-center')}>404 - Not Found</h1>
           <p className={twclsx('my-2 md:my-4')}>The page you are looking for are not found</p>
+
           <UnderlineLink href='/'>Back to home</UnderlineLink>
         </section>
       </div>
