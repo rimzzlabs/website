@@ -28,7 +28,7 @@ export const ThemeMenu: React.FunctionComponent = () => {
         className={twclsx(
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-10 md:h-10 rounded',
-          'bg-primary-100 dark:bg-theme-800'
+          'bg-primary-100 dark:bg-theme-700'
         )}
       >
         <Spinner spinnerSize='xs' containerSize='full' containerStyle='bg-transparent dark:bg-transparent' />
@@ -43,7 +43,7 @@ export const ThemeMenu: React.FunctionComponent = () => {
         className={twclsx(
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-10 md:h-10 rounded',
-          'bg-primary-100 dark:bg-theme-800'
+          'bg-primary-100 dark:bg-theme-700'
         )}
       >
         {(theme === 'dark' || (theme === 'system' && systemTheme === 'dark')) && (
