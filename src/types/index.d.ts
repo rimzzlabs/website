@@ -95,4 +95,9 @@ declare module 'rizkicitra' {
     end_date: Date | null
     type: 'edu' | 'work'
   }
+
+  export type PageViewResponse = {
+    message: string
+    view: number | null
+  }
 }

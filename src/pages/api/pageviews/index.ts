@@ -1,9 +1,7 @@
 import { UMAMI, getToken } from '@/services'
 
-import { PageViewResponse } from './_type'
-
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PageView } from 'rizkicitra'
+import type { PageView, PageViewResponse } from 'rizkicitra'
 
 let token: null | string | false = null
 

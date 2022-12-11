@@ -14,13 +14,11 @@ import { twclsx } from '@/libs/twclsx'
 
 import { useSearchBlog } from '@/hooks'
 
-import { PageViewResponse } from '../api/pageviews/_type'
-
 import axios from 'axios'
 import { GetStaticProps, NextPage } from 'next'
 import { useEffect, useMemo } from 'react'
 import readingTime from 'reading-time'
-import type { Blog } from 'rizkicitra'
+import type { Blog, PageViewResponse } from 'rizkicitra'
 
 type BlogPageProps = {
   allBlogs: Array<Blog>

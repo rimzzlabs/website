@@ -12,8 +12,6 @@ import { isDev } from '@/libs/constants/environmentState'
 import { getMetaPageBlog } from '@/libs/metapage'
 import { twclsx } from '@/libs/twclsx'
 
-import { PageViewResponse } from '../api/pageviews/_type'
-
 import axios from 'axios'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from 'next'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -23,7 +21,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { HiArrowUp } from 'react-icons/hi'
 import readingTime from 'reading-time'
 import rehypeSlug from 'rehype-slug'
-import type { Blog } from 'rizkicitra'
+import type { Blog, PageViewResponse } from 'rizkicitra'
 
 interface BlogPostProps {
   mdxSource: MDXRemoteSerializeResult
