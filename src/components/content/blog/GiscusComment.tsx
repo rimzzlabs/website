@@ -7,13 +7,14 @@ import Giscus from '@giscus/react'
 import { memo } from 'react'
 
 export const GiscusComment = memo(() => {
-  const { theme, systemTheme } = useTheme()
+  const { theme } = useTheme()
 
-  const loadTheme = () => {
-    if (theme === 'dark' || (theme === 'system' && systemTheme === 'dark')) return 'dark'
-    if (theme === 'light' || (theme === 'system' && systemTheme === 'light')) return 'light'
-    return 'light'
-  }
+  const loadTheme = (theme = 'preferred_color_scheme') =>
+    ({
+      dark: 'dark',
+      light: 'light',
+      preferred_color_scheme: 'preferred_color_scheme'
+    }[theme] ?? 'preferred_color_scheme')
 
   // don't load Giscus if on development mode, you can still remove this code thought
   // but that's would be a waste of internet data IMO
@@ -22,7 +23,7 @@ export const GiscusComment = memo(() => {
   return (
     <div className={twclsx('mt-4 md:mt-8')}>
       <Giscus
-        theme={loadTheme()}
+        theme={loadTheme(theme)}
         emitMetadata='0'
         inputPosition='top'
         repo='rizkimcitra/rizkicitra'
