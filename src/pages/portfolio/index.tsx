@@ -1,6 +1,6 @@
 import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
 
-import { EmptyResult, Spinner } from '@/UI/common'
+import { EmptyResult } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
 import { Hero, LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
@@ -11,7 +11,7 @@ import { generateOgImage, getMetaPage } from '@/libs/metapage'
 import { getNewestPortfolio } from '@/libs/sorters'
 import { twclsx } from '@/libs/twclsx'
 
-import { useSearch } from '@/hooks'
+import { useSearchPortfolio } from '@/hooks'
 
 import type { GetStaticProps, NextPage } from 'next'
 import type { Portfolio } from 'rizkicitra'
@@ -37,7 +37,7 @@ const meta = getMetaPage({
 })
 
 const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
-  const search = useSearch<PortfoliopageProps['portfolio']>(portfolio, 'portfolio')
+  const search = useSearchPortfolio(portfolio)
 
   return (
     <LayoutPage {...(meta as LayoutPageProps)}>
@@ -45,25 +45,15 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
       <Searchbar onChange={search.handleChange} value={search.query} />
 
       <div className={twclsx('flex flex-col gap-8')}>
-        {search.query.length === 0 && portfolio.length > 0 ? (
+        {search.query === '' && portfolio.length > 0 && (
           <PortfolioList portfolios={portfolio} title='Personal Portfolio' />
-        ) : null}
-
-        {search.query.length > 0 && (
-          <>
-            {search.filteredData.length > 0 ? (
-              <>
-                {search.isPending ? (
-                  <Spinner spinnerSize='md' containerSize='full' containerStyle='h-64' />
-                ) : (
-                  <PortfolioList portfolios={search.filteredData} title='Search Portfolio' />
-                )}
-              </>
-            ) : (
-              <EmptyResult />
-            )}
-          </>
         )}
+
+        {search.query !== '' && search.filteredPortfolio.length > 0 && (
+          <PortfolioList portfolios={search.filteredPortfolio} title='Search Portfolio' />
+        )}
+
+        {search.query !== '' && search.filteredPortfolio.length === 0 && <EmptyResult />}
       </div>
     </LayoutPage>
   )

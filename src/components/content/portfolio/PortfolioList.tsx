@@ -13,7 +13,7 @@ export const PortfolioList: React.FunctionComponent<PortfolioListProps> = (props
       <h2 className='mb-5 md:mb-7'>{props.title}</h2>
 
       {props.portfolios.length > 0 && (
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-7 flex-auto'>
+        <div className='flex flex-col'>
           {props.portfolios.map((item) => {
             return <PortfolioItem key={item.slug} {...item} />
           })}
