@@ -5,8 +5,7 @@
   "description": "My Personal Website, build with React, Next.js, MDX and Tailwind CSS",
   "scripts": {
     "dev": "next dev",
-    "build": "yarn partytown && next build",
-    "partytown": "partytown copylib public/~partytown",
+    "build": "next build",
     "start": "next start -p 5000",
     "cache-clean": "rm -rf ./.next",
     "lint": "next lint",
@@ -18,7 +17,6 @@
     "commit": "cz"
   },
   "dependencies": {
-    "@builder.io/partytown": "^0.7.3",
     "@giscus/react": "^2.2.4",
     "@headlessui/react": "^1.7.4",
     "@supabase/supabase-js": "^2.0.5",
