@@ -17,7 +17,7 @@
     "commit": "cz"
   },
   "dependencies": {
-    "@giscus/react": "^2.0.6",
+    "@giscus/react": "^2.2.4",
     "@headlessui/react": "^1.7.4",
     "@supabase/supabase-js": "^2.0.5",
     "@tailwindcss/typography": "^0.5.0",
