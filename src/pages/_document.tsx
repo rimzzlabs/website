@@ -1,3 +1,4 @@
+import { Partytown } from '@builder.io/partytown/react'
 import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document'
 
 export default class CustomDocument extends Document {
@@ -9,6 +10,7 @@ export default class CustomDocument extends Document {
     return (
       <Html lang='en-US'>
         <Head>
+          <Partytown debug={true} forward={['dataLayer.push']} />
           <meta name='theme-color' content='#18181b' />
           <link rel='preload' href='/fonts/inter-var-latin.woff2' as='font' type='font/woff2' crossOrigin='true' />
           <link rel='apple-touch-icon' sizes='180x180' href='/icon-192.png' />
@@ -24,6 +26,7 @@ export default class CustomDocument extends Document {
               data-website-id='6daf05f5-92d2-430f-9cdd-1801014260da'
               // change to your hosted umami app
               src='https://umami.rizkicitra.dev/umami.js'
+              type='text/partytown'
             />
           )}
         </Head>
