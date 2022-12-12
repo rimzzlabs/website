@@ -9,8 +9,6 @@ import { GetContents, getContents } from '@/services'
 import { getMetaPage } from '@/libs/metapage'
 import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
 
-import { useMediaQuery } from '@/hooks'
-
 import type { GetStaticProps, NextPage } from 'next'
 import readingTime from 'reading-time'
 import type { Blog, Portfolio } from 'rizkicitra'
@@ -21,8 +19,6 @@ interface HomePageProps {
 }
 
 const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
-  const isMdScreen = useMediaQuery('(min-width: 568px)')
-
   const meta = getMetaPage({
     title: 'Rizki Maulana Citra',
     template: 'Student And Frontend Developer',
@@ -45,8 +41,8 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
             <ContentImage
               src='https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp'
               alt='Rizki Maulana Citra'
-              width={isMdScreen ? 128 : 118}
-              height={isMdScreen ? 128 : 118}
+              width={128}
+              height={128}
               className='rounded-full absolute -left-1 bottom-1 border-4 cursor-pointer border-theme-100 dark:border-theme-800'
               title="Rizki Citra's Face"
               quality={100}
