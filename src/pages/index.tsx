@@ -53,7 +53,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
 
           <div className='mt-3 md:mt-6'>
             <h1>Rizki Maulana Citra</h1>
-            <h2 className='max-w-max mt-2 mb-4 text-transparent font-bold text-xl md:text-2xl  bg-clip-text bg-gradient-to-r  from-primary-500 to-ternary-500'>
+            <h2 className='max-w-max mt-1.5 md:mt-2.5 mb-6 md:mb-8 text-transparent font-bold text-xl md:text-2xl bg-clip-text bg-gradient-to-r  from-primary-500 to-ternary-500 dark:text-transparent'>
               Student &amp; Frontend Developer
             </h2>
 
@@ -71,7 +71,11 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               <p>
                 I am passionate about <strong>Frontend Development</strong> and enjoy working on the Web. I love
                 combining my technical knowledge and creativity to build engaging and user-friendly websites and
-                applications. I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
+                applications.
+              </p>
+
+              <p>
+                I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
                 <strong>Frontend Accessibility</strong>, and <strong>User Experience</strong>, and also interested in
                 mobile development with{' '}
                 <UnderlineLink href='https://kotlinlang.org' title='Kotlin Programming language'>
@@ -100,7 +104,11 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
           title='Featured Post'
         />
 
-        <PortfolioList title='Featured Portfolio' portfolios={portfolios} />
+        <PortfolioList
+          description='Check out my featured portfolio, feel free to explore it.'
+          title='Featured Portfolio'
+          portfolios={portfolios}
+        />
       </main>
 
       <Footer />

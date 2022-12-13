@@ -46,11 +46,19 @@ const ProjectPage: NextPage<PortfoliopageProps> = ({ portfolio }) => {
 
       <div className={twclsx('flex flex-col gap-8')}>
         {search.query === '' && portfolio.length > 0 && (
-          <PortfolioList portfolios={portfolio} title='Personal Portfolio' />
+          <PortfolioList
+            description="I've put together a portfolio of my personal work, mostly from my junior years. You're welcome to take a look and explore. Some of the portfolios even have website demos that you can try out if you'd like."
+            portfolios={portfolio}
+            title='Personal Portfolio'
+          />
         )}
 
         {search.query !== '' && search.filteredPortfolio.length > 0 && (
-          <PortfolioList portfolios={search.filteredPortfolio} title='Search Portfolio' />
+          <PortfolioList
+            description="I've found some possible results for your search."
+            portfolios={search.filteredPortfolio}
+            title='Search Portfolio'
+          />
         )}
 
         {search.query !== '' && search.filteredPortfolio.length === 0 && <EmptyResult />}
