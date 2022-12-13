@@ -2,8 +2,6 @@ import { WrappedImage } from '@/UI/images'
 import { UnderlineLink } from '@/UI/links'
 import { LayoutPage } from '@/UI/templates'
 
-import { useMediaQuery } from '@/hooks'
-
 import type { NextPage } from 'next'
 
 /**
@@ -13,8 +11,6 @@ import type { NextPage } from 'next'
  * You will see this page being used
  */
 const NotFoundPage: NextPage = () => {
-  const mdscreen = useMediaQuery('(min-width: 768px)')
-
   return (
     <LayoutPage
       title='404'
@@ -22,15 +18,7 @@ const NotFoundPage: NextPage = () => {
       template='Page Not Found'
     >
       <div className='flex flex-col items-center justify-center gap-4 min-h-screen'>
-        <WrappedImage
-          priority
-          loading='eager'
-          src='/static/404.svg'
-          alt='illustration'
-          quality={60}
-          width={mdscreen ? 256 : 144}
-          height={mdscreen ? 256 : 144}
-        />
+        <WrappedImage priority src='/static/404.svg' alt='illustration' quality={60} width={225} height={225} />
 
         <section className='text-center'>
           <h1 className='text-center'>404 - Not Found</h1>
