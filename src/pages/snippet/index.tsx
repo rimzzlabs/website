@@ -40,10 +40,20 @@ const SnippetIndexPage: NextPage<SnippetProps> = ({ snippets = [] }) => {
       <Hero title={meta.title as string} description={meta.description as string} />
       <Searchbar onChange={search.handleChange} value={search.query} />
 
-      {snippets.length > 0 && search.query === '' ? <SnippetList snippets={snippets} title='Explore Them' /> : null}
+      {snippets.length > 0 && search.query === '' ? (
+        <SnippetList
+          snippets={snippets}
+          title='Explore Them'
+          description="I've put a collection of snippets that are available on my site. These snippets were created by me, as well as some awesome contributors on GitHub."
+        />
+      ) : null}
 
       {search.query !== '' && search.filteredSnippet.length > 0 && (
-        <SnippetList snippets={search.filteredSnippet} title='Search Snippet' />
+        <SnippetList
+          snippets={search.filteredSnippet}
+          title='Search Snippet'
+          description="I've found some possible results for your search."
+        />
       )}
 
       {search.query !== '' && search.filteredSnippet.length === 0 && <EmptyResult />}

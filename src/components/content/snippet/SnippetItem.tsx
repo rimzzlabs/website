@@ -9,7 +9,7 @@ export const SnippetItem: React.FunctionComponent<Snippet> = (props) => {
 
   return (
     <div className='flex py-3 w-full'>
-      <div className='w-full pr-2'>
+      <div className='w-full pr-4'>
         <h3>
           <UnstyledLink
             className='border-b-2 border-dashed border-transparent hover:border-theme-500 dark:hover:border-theme-300'
