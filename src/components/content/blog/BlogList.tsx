@@ -11,7 +11,7 @@ type BlogListProps = {
 
 export const BlogList: React.FunctionComponent<BlogListProps> = ({ displayViews, ...props }) => {
   return (
-    <section className='py-8 md:py-16'>
+    <section className='py-16'>
       <h2 className='mb-1 md:mb-3'>{props.title}</h2>
       <p className='mb-6 md:mb-8'>{props.description}</p>
 
