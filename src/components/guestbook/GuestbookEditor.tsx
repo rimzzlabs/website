@@ -12,7 +12,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
   const { handleSubmit, message, handleChange } = useGuestbook()
 
   return (
-    <div className='mb-3 md:mb-5'>
+    <section>
       <h2 className='mb-3 md:mb-5'>Sign the Guestbook</h2>
 
       {user ? (
@@ -87,6 +87,6 @@ export const GuestbookEditor: React.FunctionComponent = () => {
           <em>Your information is only used to display your name</em>
         </p>
       </div>
-    </div>
+    </section>
   )
 }

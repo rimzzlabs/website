@@ -28,7 +28,7 @@ export const GuestbookItem: React.FunctionComponent<Guestbook> = (props) => {
   const hour = dateFormat(props.created_at, 'en-US', hourConfig)
 
   return (
-    <div className='w-full py-1.5 md:py-3'>
+    <div className='w-full py-3'>
       <p className='mb-3 max-w-prose font-bold'>{props.message}</p>
       <div className='flex items-center space-x-1.5'>
         <HiOutlineUserCircle className='w-3.5 h-3.5' />
