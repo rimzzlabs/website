@@ -2,8 +2,6 @@ import { WrappedImage } from '@/UI/images'
 import { UnderlineLink } from '@/UI/links'
 import { LayoutPage } from '@/UI/templates'
 
-import { twclsx } from '@/libs/twclsx'
-
 import { useMediaQuery } from '@/hooks'
 
 import type { NextPage } from 'next'
@@ -23,7 +21,7 @@ const NotFoundPage: NextPage = () => {
       description='The page you are looking for are not found, please contact Rizki if you encounter any problem'
       template='Page Not Found'
     >
-      <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen')}>
+      <div className='flex flex-col items-center justify-center gap-4 min-h-screen'>
         <WrappedImage
           priority
           loading='eager'
@@ -34,9 +32,9 @@ const NotFoundPage: NextPage = () => {
           height={mdscreen ? 256 : 144}
         />
 
-        <section className={twclsx('text-center')}>
-          <h1 className={twclsx('text-center')}>404 - Not Found</h1>
-          <p className={twclsx('my-2 md:my-4')}>The page you are looking for are not found</p>
+        <section className='text-center'>
+          <h1 className='text-center'>404 - Not Found</h1>
+          <p className='my-2 md:my-4'>The page you are looking for are not found</p>
 
           <UnderlineLink href='/'>Back to home</UnderlineLink>
         </section>
