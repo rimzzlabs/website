@@ -32,12 +32,12 @@ export const SocialHome: React.FunctionComponent<SocialHomeProps> = (props) => {
       {socialList.map((social) => {
         return (
           <UnstyledLink
-            className='mr-2.5 last-of-type:mr-0'
+            className='inline-flex items-center justify-center w-7 h-7 mr-2.5 last-of-type:mr-0'
             href={social.href}
             key={social.href}
             title={`Connect with me on ${social.title}`}
           >
-            <social.icon className={twclsx('w-5 sm:w-6 h-5 sm:h-6', props.iconStyle)} />
+            <social.icon className={twclsx('w-5 h-5', props.iconStyle)} />
             <span className='sr-only'>Connect with Rizki M Citra on {social.title}</span>
           </UnstyledLink>
         )
