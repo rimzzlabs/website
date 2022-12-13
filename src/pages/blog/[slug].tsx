@@ -78,7 +78,9 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
         </div>
       </article>
 
-      <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-5 md:mt-7'>
+      <GiscusComment />
+
+      <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-2'>
         <PRButton path={`/blog/${header.slug}.mdx`} />
 
         <UnstyledButton
@@ -89,8 +91,6 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
           <span>Back to top</span>
         </UnstyledButton>
       </div>
-
-      <GiscusComment />
     </LayoutPage>
   )
 }

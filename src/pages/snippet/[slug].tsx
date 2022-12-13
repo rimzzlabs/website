@@ -70,7 +70,9 @@ const SnippetPostPage: NextPage<SnippetPostProps> = ({ header, mdxSource }) => {
         <MDXRemote {...mdxSource} components={MDXComponents} />
       </section>
 
-      <PRButton path={`/snippet/${header.slug}.mdx`} />
+      <div className='mt-8 mb-2'>
+        <PRButton path={`/snippet/${header.slug}.mdx`} />
+      </div>
     </LayoutPage>
   )
 }

@@ -73,7 +73,9 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
 
-        <PRButton path={`/portfolio/${header.slug}.mdx`} />
+        <div className='mt-5 mb-2'>
+          <PRButton path={`/portfolio/${header.slug}.mdx`} />
+        </div>
       </article>
     </LayoutPage>
   )
