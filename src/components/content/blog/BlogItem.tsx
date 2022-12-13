@@ -46,7 +46,7 @@ export const BlogItem: React.FunctionComponent<Blog> = (props) => {
           )}
         </div>
       </div>
-      <p>{props.summary}</p>
+      <p className='max-w-prose'>{props.summary}</p>
     </div>
   )
 }
