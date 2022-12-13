@@ -24,12 +24,13 @@
   }
 
   h3 {
-    @apply text-xl font-bold text-theme-800 dark:text-theme-100 md:text-2xl;
+    @apply text-lg font-bold text-theme-800 dark:text-theme-100 md:text-xl;
   }
 
   h4 {
-    @apply text-lg font-bold text-theme-800 dark:text-theme-100 md:text-xl;
+    @apply font-bold text-theme-800 dark:text-theme-100 md:text-lg;
   }
+
   h5 {
     @apply font-bold text-theme-800 dark:text-theme-100 md:text-lg;
   }

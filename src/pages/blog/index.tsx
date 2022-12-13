@@ -60,16 +60,31 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
 
       {allBlogs.length > 0 && search.query.length === 0 ? (
         <div className={twclsx('flex flex-col', 'gap-24')}>
-          <BlogList displayViews posts={mostViewdBlogs} title='Most Viewed' />
+          <BlogList
+            displayViews
+            posts={mostViewdBlogs}
+            title='Most Viewed'
+            description='Hey, I thought you might be interested in checking out my most-viewed post. Feel free to give it a read.'
+          />
 
-          <BlogList displayViews posts={allBlogs} title='All Post' />
+          <BlogList
+            posts={allBlogs}
+            displayViews
+            title='All Post'
+            description="t looks like you're interested in my posts. You're welcome to take a look and read them, and they're sorted by date so you can easily find the newest ones."
+          />
         </div>
       ) : null}
 
       {search.query.length > 0 && (
         <>
           {search.filteredBlog.length > 0 ? (
-            <BlogList displayViews posts={search.filteredBlog} title='Search Post' />
+            <BlogList
+              description="I've found some possible results for your search."
+              displayViews
+              posts={search.filteredBlog}
+              title='Search Post'
+            />
           ) : (
             <EmptyResult />
           )}

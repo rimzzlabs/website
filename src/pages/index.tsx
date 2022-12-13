@@ -53,9 +53,9 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
 
           <div className='mt-3 md:mt-6'>
             <h1>Rizki Maulana Citra</h1>
-            <p className='max-w-max mt-2 mb-4  text-transparent font-bold text-xl md:text-2xl  bg-clip-text bg-gradient-to-r  from-primary-500 to-ternary-500'>
+            <h2 className='max-w-max mt-2 mb-4 text-transparent font-bold text-xl md:text-2xl  bg-clip-text bg-gradient-to-r  from-primary-500 to-ternary-500'>
               Student &amp; Frontend Developer
-            </p>
+            </h2>
 
             <div className='[&>p:not(:last-child)]:mb-3 [&>p]:max-w-prose md:pb-6'>
               <p>
@@ -94,7 +94,11 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
           </div>
         </section>
 
-        <BlogList posts={blogs} title='Featured Post' />
+        <BlogList
+          description="If you're looking for some interesting reads, check out my featured blog post. sorted from latest to least, feel free to explore it."
+          posts={blogs}
+          title='Featured Post'
+        />
 
         <PortfolioList title='Featured Portfolio' portfolios={portfolios} />
       </main>

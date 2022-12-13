@@ -5,13 +5,15 @@ import type { Blog } from 'rizkicitra'
 type BlogListProps = {
   posts: Blog[]
   title: string
+  description: string
   displayViews?: boolean
 }
 
 export const BlogList: React.FunctionComponent<BlogListProps> = ({ displayViews, ...props }) => {
   return (
     <section className='py-8 md:py-16'>
-      <h2 className='mb-4 md:mb-7'>{props.title}</h2>
+      <h2 className='mb-3'>{props.title}</h2>
+      <p className='mb-5 md:mb-8'>{props.description}</p>
 
       {props.posts.length > 0 && (
         <div className='flex flex-col'>

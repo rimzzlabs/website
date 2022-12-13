@@ -76,7 +76,11 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
       </section>
 
       {selectedTags.length > 0 ? (
-        <BlogList posts={filteredBlogs} title='Showing Selected Tags' />
+        <BlogList
+          description="Based on the selected tags, I've found some possible results for your."
+          posts={filteredBlogs}
+          title='Showing Selected Tags'
+        />
       ) : (
         <section className={twclsx('flex flex-col items-center justify-center', 'py-10')}>
           <figure className={twclsx('relative mb-2.5', 'w-40 h-40')}>
