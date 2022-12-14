@@ -19,36 +19,18 @@ export const LINKS: typeof SOCIAL = [
 ]
 
 export const SKILLS = [
-  {
-    name: 'Technologies',
-    list: [
-      'React.js',
-      'Next.js',
-      'Vite.js',
-      'React Query',
-      'Redux',
-      'Jotai',
-      'Zustand',
-      'Tailwind CSS',
-      'Vue.js',
-      'Angular',
-      'Supabase',
-      'Firebase',
-      'Vercel',
-      'Node.js'
-    ]
-  },
-  { name: 'Programming Languages', list: ['HTML', 'CSS/SCSS', 'JavaScript', 'TypeScript'] }
+  `Knowledgeable in web standards and best practices, including HTML, CSS, and JavaScript. Also use TypeScript for type safety, and implement best practices to ensure the highest level of quality and reliability.`,
+  `Implement React Query to synchronize data between the server and client, ensuring that users have access to the latest information while maintaining optimal application performance."`,
+  `Proficient in frontend technologies, particularly within the React.js ecosystem, including React.js, and Next.js.`,
+  `Skilled in UI development, accessibility, user experience, and performance optimization.`,
+  `Able to adapt to new technologies and maintain best practices. Committed to delivering high-quality, user-centered, and scalable web applications.`,
+  `Familiar with design tools such as Figma.`
 ]
 
 export const KEY_SKILLS = [
-  'Continuous Integration & Continuous Deployment',
-  'Design Thinking Process',
-  'Critical Thinking & Problem Solving',
-  'Accessible Frontend Application',
-  'Adaptability',
-  'Team Player',
-  'Creativity'
+  `As a professional, I am proficient in Continuous Integration & Continuous Deployment, and I am well-versed in the Design Thinking Process.`,
+  `I am also skilled in Critical Thinking & Problem Solving, and I am committed to creating accessible Frontend Applications.`,
+  `I am highly adaptable and thrive in team-oriented environments. I am also known for my creativity and ability to approach tasks and challenges with an innovative mindset.`
 ]
 
 export const EXPERIENCE: Experience[] = [
@@ -111,10 +93,9 @@ export const EDUCATION: Education = [
 ]
 
 export const SUMMARY = [
-  `Frontend Developer <em>(especially on modern web technology)</em>.`,
-  'Adept at leveraging <strong>Sprint</strong> and <strong>Agile</strong> methodologies to drive process efficiencies.',
-  `Focused to frontend environment with strong Frontend core skills, but also has familiarity with other languages and tools.`,
-  'Deploy optimized apps with scalable user interface, user experience, and user accessibility based on design thinking process.'
+  `Experienced frontend developer with a strong background in modern web technologies, particularly within the React.js ecosystem. Skilled in UI development, accessibility, user experience, and performance optimization, with a focus on creating scalable, optimized, and user-friendly applications.`,
+  `Adept at working in agile environments and collaborating with teams to drive process efficiencies and deliver high-quality results. Committed to delivering exceptional user experiences and maximizing the impact of web applications.`,
+  `Continuously seeking to learn and explore new technologies and best practices, while also staying focused on meeting responsibilities and delivering results.`
 ]
 
 export const LANGUAGES = [

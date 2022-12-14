@@ -98,11 +98,11 @@ const Resume: NextPage = () => {
         <section>
           <h3 className='mb-4 pb-2.5 border-b-2 border-b-theme-700'>Techinal Skills</h3>
 
-          {SKILLS.map((skill) => (
-            <p className='[&:not(:first-of-type)]:mt-2.5' key={skill.name}>
-              <strong>{skill.name}:</strong> {skill.list.join(', ')}.
-            </p>
-          ))}
+          <ul className={listStyle}>
+            {SKILLS.map((skill) => (
+              <li key={skill}>{skill}</li>
+            ))}
+          </ul>
         </section>
 
         <section>
