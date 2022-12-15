@@ -71,7 +71,7 @@ const BlogPage: NextPage<BlogPageProps> = ({ allBlogs }) => {
             posts={allBlogs}
             displayViews
             title='All Post'
-            description="t looks like you're interested in my posts. You're welcome to take a look and read them, and they're sorted by date so you can easily find the newest ones."
+            description="It looks like you're interested in my posts. You're welcome to take a look and read them, and they're sorted by date so you can easily find the newest ones."
           />
         </div>
       ) : null}
