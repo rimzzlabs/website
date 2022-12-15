@@ -1,8 +1,8 @@
 import { CustomSeo } from '@/components'
-import { Footer, SocialHome } from '@/components/UI/common'
-import { UnderlineLink } from '@/components/UI/links'
-import { BlogList, ContentImage } from '@/components/content'
-import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
+import { BlogList, ContentImage, PortfolioList } from '@/components/content'
+
+import { Footer, SocialHome } from '@/UI/common'
+import { UnstyledLink } from '@/UI/links'
 
 import { GetContents, getContents } from '@/services'
 
@@ -10,6 +10,7 @@ import { getMetaPage } from '@/libs/metapage'
 import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
 
 import type { GetStaticProps, NextPage } from 'next'
+import { HiOutlineNewspaper } from 'react-icons/hi'
 import readingTime from 'reading-time'
 import type { Blog, Portfolio } from 'rizkicitra'
 
@@ -53,9 +54,17 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
 
           <div className='mt-3 md:mt-6'>
             <h1>Rizki Maulana Citra</h1>
-            <h2 className='max-w-max mt-1.5 md:mt-2.5 mb-6 md:mb-8 text-transparent font-bold text-xl md:text-2xl bg-clip-text bg-gradient-to-r  from-primary-500 to-ternary-500 dark:text-transparent'>
+            <h2 className='max-w-max text-transparent font-bold text-xl md:text-2xl bg-clip-text bg-gradient-to-r from-primary-500 to-ternary-500 dark:text-transparent'>
               Student &amp; Frontend Developer
             </h2>
+
+            <UnstyledLink
+              href='https://rizkicitra.dev/resume'
+              className='inline-flex items-center space-x-1.5 mt-3 mb-5 h-9 px-2.5 rounded-md transition bg-primary-600 dark:bg-primary-700 text-white active:bg-primary-700 dark:active:bg-primary-800'
+            >
+              <HiOutlineNewspaper />
+              <span className='text-sm font-semibold'>My Resume</span>
+            </UnstyledLink>
 
             <div className='[&>p:not(:last-child)]:mb-3 [&>p]:max-w-prose md:pb-6'>
               <p>
@@ -77,11 +86,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               <p>
                 I&apos;m very interested with <strong>Frontend Architecture</strong>,{' '}
                 <strong>Frontend Accessibility</strong>, and <strong>User Experience</strong>, and also interested in
-                mobile development with{' '}
-                <UnderlineLink href='https://kotlinlang.org' title='Kotlin Programming language'>
-                  Kotlin
-                </UnderlineLink>{' '}
-                .
+                mobile development with Kotlin .
               </p>
 
               <p>
@@ -99,6 +104,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
         </section>
 
         <BlogList
+          className='pt-32'
           description="If you're looking for some interesting reads, check out my featured blog post. sorted from latest to least, feel free to explore it."
           posts={blogs}
           title='Featured Post'

@@ -1,4 +1,4 @@
-import { PortfolioList } from '@/components/content/portfolio/PortfolioList'
+import { PortfolioList } from '@/components/content'
 
 import { EmptyResult } from '@/UI/common'
 import { Searchbar } from '@/UI/inputs'
