@@ -42,7 +42,7 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
               alt='Rizki Maulana Citra'
               width={128}
               height={128}
-              className='rounded-full absolute -left-1 bottom-1 border-4 cursor-pointer border-theme-100 dark:border-theme-800'
+              className='rounded-full absolute left-1 bottom-0.5 border-4 cursor-pointer border-theme-50 dark:border-theme-900'
               title="Rizki Citra's Face"
               quality={100}
               priority
