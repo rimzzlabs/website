@@ -2,7 +2,6 @@ import { CustomSeo } from '@/components'
 import { BlogList, ContentImage, PortfolioList } from '@/components/content'
 
 import { Footer, SocialHome } from '@/UI/common'
-import { UnstyledLink } from '@/UI/links'
 
 import { GetContents, getContents } from '@/services'
 
@@ -10,7 +9,6 @@ import { getMetaPage } from '@/libs/metapage'
 import { getNewestBlog, getNewestPortfolio } from '@/libs/sorters'
 
 import type { GetStaticProps, NextPage } from 'next'
-import { HiOutlineNewspaper } from 'react-icons/hi'
 import readingTime from 'reading-time'
 import type { Blog, Portfolio } from 'rizkicitra'
 
@@ -54,17 +52,9 @@ const HomePage: NextPage<HomePageProps> = ({ blogs, portfolios }) => {
 
           <div className='mt-3 md:mt-6'>
             <h1>Rizki Maulana Citra</h1>
-            <h2 className='max-w-max text-transparent font-bold text-xl md:text-2xl bg-clip-text bg-gradient-to-r from-primary-500 to-ternary-500 dark:text-transparent'>
+            <h2 className='max-w-max mb-7 text-transparent font-bold text-xl md:text-2xl bg-clip-text bg-gradient-to-r from-primary-500 to-ternary-500 dark:text-transparent'>
               Student &amp; Frontend Developer
             </h2>
-
-            <UnstyledLink
-              href='https://rizkicitra.dev/resume'
-              className='inline-flex items-center space-x-1.5 mt-3 mb-5 h-9 px-2.5 rounded-md transition bg-primary-600 dark:bg-primary-700 text-white active:bg-primary-700 dark:active:bg-primary-800'
-            >
-              <HiOutlineNewspaper />
-              <span className='text-sm font-semibold'>My Resume</span>
-            </UnstyledLink>
 
             <div className='[&>p:not(:last-child)]:mb-3 [&>p]:max-w-prose md:pb-6'>
               <p>
