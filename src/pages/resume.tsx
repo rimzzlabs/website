@@ -96,7 +96,7 @@ const Resume: NextPage = () => {
         </section>
 
         <section>
-          <h3 className='mb-4 pb-2.5 border-b-2 border-b-theme-700'>Techinal Skills</h3>
+          <h3 className='mb-4 pb-2.5 border-b-2 border-b-theme-700'>Technical Skills</h3>
 
           <ul className={listStyle}>
             {SKILLS.map((skill) => (
