@@ -17,7 +17,7 @@ type GuestbookPageProps = {
 
 const meta = getMetaPage({
   title: 'Guestbook',
-  description: `Leave a mark and let me and other visitors know you were here too! You can write whatever you'd like - appreciation, a warm message, jokes, or just saying hello. It's always nice to connect with others. Thanks for stopping by!`,
+  description: `Sign a guestbook on my website, you can leave whatever you'd like.`,
   keywords: [
     'Guestbook',
     'rizkicitra',
@@ -54,7 +54,10 @@ const GuestbookPage: NextPage<GuestbookPageProps> = ({ guestbook = [] }) => {
 
   return (
     <LayoutPage {...meta}>
-      <Hero title={meta.title as string} description={meta.description as string} />
+      <Hero
+        title={meta.title as string}
+        description='Hey, leave a little message to let me and other visitors know you were here. You can write whatever you want, maybe some appreciation, a friendly message, a joke, or just a quick hello.'
+      />
 
       <GuestbookEditor />
       <Guestbook guestbook={guestbookClient.length === 0 ? guestbook : guestbookClient} />
