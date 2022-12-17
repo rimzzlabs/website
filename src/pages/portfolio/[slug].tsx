@@ -1,7 +1,7 @@
+import { ToTopButton } from '@/components/UI/buttons'
 import { WrappedImage } from '@/components/UI/images'
 import { HeadingPortfolio, IconStack, MDXComponents, PRButton } from '@/components/content'
 
-import { BackToTop } from '@/UI/buttons'
 import { LayoutPage } from '@/UI/templates'
 import type { LayoutPageProps } from '@/UI/templates'
 
@@ -37,8 +37,6 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
 
   return (
     <LayoutPage {...(metaData as LayoutPageProps)}>
-      <BackToTop />
-
       <article className={twclsx('flex flex-col', 'gap-8')}>
         <HeadingPortfolio {...header} />
 
@@ -73,8 +71,10 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
           <MDXRemote {...mdxSource} components={MDXComponents} />
         </section>
 
-        <div className='mt-5 mb-2'>
+        <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-5'>
           <PRButton path={`/portfolio/${header.slug}.mdx`} />
+
+          <ToTopButton />
         </div>
       </article>
     </LayoutPage>
