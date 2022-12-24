@@ -12,7 +12,7 @@ const meta = {
 const OfflinePage: NextPage = () => {
   return (
     <LayoutPage {...meta}>
-      <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 min-h-screen', '-mt-36')}>
+      <div className={twclsx('flex flex-col items-center justify-center', 'gap-4 h-screen')}>
         <section className={twclsx('text-center')}>
           <h1 className={twclsx('text-center')}>503 - Offline</h1>
           <p className={twclsx('my-2 md:my-4 max-w-prose')}>{meta.description}</p>

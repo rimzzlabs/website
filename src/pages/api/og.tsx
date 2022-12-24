@@ -15,10 +15,10 @@ export default async function handler(req: NextRequest) {
 
     return new ImageResponse(
       (
-        <div tw='flex h-[600px] py-3 px-5 bg-gray-800 text-zinc-200'>
-          <div tw='flex flex-col h-full w-full justify-between'>
+        <div tw='flex items-center h-[600px] w-full py-3 px-5 bg-gray-800 text-zinc-200'>
+          <div tw='flex flex-col h-full w-1/2 justify-between'>
             <p tw='font-bold text-3xl text-blue-500'>https://rizkicitra.dev/blog</p>
-            <p tw='font-extrabold text-6xl max-w-lg'>{title}</p>
+            <p tw='font-extrabold text-6xl'>{title}</p>
             <div tw='flex items-center'>
               <img
                 width='44'
@@ -34,12 +34,9 @@ export default async function handler(req: NextRequest) {
             </div>
           </div>
 
-          <img
-            src='https://ik.imagekit.io/mlnzyx/attachment/icon-192x192_OIe1oiGnQ.webp'
-            alt='logo'
-            width='128'
-            height='128'
-          />
+          <div tw='flex items-center justify-center w-1/2 h-full'>
+            <img src='https://ik.imagekit.io/mlnzyx/attachment/logo.png' alt='logo' width={192} height={192} />
+          </div>
         </div>
       ),
       {
@@ -48,7 +45,6 @@ export default async function handler(req: NextRequest) {
       }
     )
   } catch (err) {
-    console.info(JSON.stringify(err))
     return new Response('Failed to generate the og image', {
       status: 500,
       statusText: 'failed to generate the og image'
