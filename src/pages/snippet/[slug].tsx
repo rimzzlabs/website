@@ -1,3 +1,4 @@
+import { ToTopButton } from '@/components/UI/buttons'
 import { CustomImage } from '@/components/UI/images'
 import { UnderlineLink } from '@/components/UI/links'
 import { IconStack, MDXComponents, PRButton } from '@/components/content'
@@ -70,8 +71,10 @@ const SnippetPostPage: NextPage<SnippetPostProps> = ({ header, mdxSource }) => {
         <MDXRemote {...mdxSource} components={MDXComponents} />
       </section>
 
-      <div className='mt-8 mb-2'>
+      <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-8'>
         <PRButton path={`/snippet/${header.slug}.mdx`} />
+
+        <ToTopButton />
       </div>
     </LayoutPage>
   )

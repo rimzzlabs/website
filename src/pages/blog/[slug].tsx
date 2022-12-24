@@ -1,4 +1,4 @@
-import { UnstyledButton } from '@/components/UI/buttons'
+import { ToTopButton } from '@/components/UI/buttons'
 import { PRButton } from '@/components/content'
 import { AuthorSection, GiscusComment, HeadingContent } from '@/components/content/blog'
 import { MDXComponents } from '@/components/content/mdx'
@@ -17,8 +17,7 @@ import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from '
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import { ParsedUrlQuery } from 'querystring'
-import { useCallback, useEffect, useState } from 'react'
-import { HiArrowUp } from 'react-icons/hi'
+import { useEffect, useState } from 'react'
 import readingTime from 'reading-time'
 import rehypeSlug from 'rehype-slug'
 import type { Blog, PageViewResponse } from 'rizkicitra'
@@ -38,7 +37,6 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
     ...header,
     slug: '/blog/' + header.slug
   })
-  const toTop = useCallback(() => window.scrollTo({ top: 0, behavior: 'smooth' }), [])
 
   useEffect(() => {
     // run only on client side
@@ -80,16 +78,10 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
       <GiscusComment />
 
-      <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-2'>
+      <div className='flex flex-col space-y-2.5 md:space-y-0 md:flex-row md:items-center md:justify-between mt-8'>
         <PRButton path={`/blog/${header.slug}.mdx`} />
 
-        <UnstyledButton
-          onClick={toTop}
-          className='justify-start space-x-1.5 py-1 max-w-max border-b-2 border-dashed border-theme-500'
-        >
-          <HiArrowUp className='w-4 h-4' />
-          <span>Back to top</span>
-        </UnstyledButton>
+        <ToTopButton />
       </div>
     </LayoutPage>
   )
