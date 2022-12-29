@@ -8,6 +8,7 @@ export const GiscusComment = memo(() => {
 
   const gcTheme = theme === 'dark' || (theme === 'system' && systemTheme === 'dark') ? 'dark' : 'light'
 
+  // change the repoId and categoryId properties with do setup at giscuss.app
   return (
     <div className='mt-4 md:mt-8'>
       <Giscus
