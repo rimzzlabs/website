@@ -25,6 +25,7 @@ export const GuestbookEditor: React.FunctionComponent = () => {
           )}
         >
           <input
+            required
             onChange={handleChange}
             value={message}
             type='text'

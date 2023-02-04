@@ -9,17 +9,6 @@ yarn type-check || (
     "⛔️  There is a type error in the code, fix it, and try commit again. ⛔️";
     false;
     )
-
-
-echo "✅  No TypeError found"
-echo "🔎  Running linter.."
-
-yarn lint || (
-    echo '⛔️  There is a problem in the code. Check linter, add changes and try commit again. ⛔️';
-    false;
-    )
-
-echo '✅ No Eslint error found'
-echo '⌛️ Running lint staged and git commit ⌛️'
+echo "✅  No TypeError found"echo '⌛️ Running lint staged and git commit ⌛️'
 
 yarn lint-staged

@@ -22,28 +22,34 @@ export const useGuestbook = () => {
   const [message, setMessage] = useState('')
   const [isDeleting, deleting] = useState(false)
 
+  const postMessage = useCallback(async () => {
+    const payload = {
+      user_id: user?.id as string,
+      name: user?.user_metadata.name ?? user?.user_metadata.user_name,
+      message: message
+    }
+    const insert = await supabaseClient.from('guestbook').insert([payload])
+    if (insert.error) {
+      toast.error(insert.error.message || 'Cannot post message, try again later')
+      setMessage('')
+      throw new Error(insert.error?.message ?? 'Network Error')
+    }
+    await getGuestbook()
+    setMessage('')
+  }, [getGuestbook, message, user])
+
   const handleSubmit = useCallback(
     async (e: React.ChangeEvent<HTMLFormElement>) => {
       e.preventDefault()
-      const payload = {
-        user_id: user?.id as string,
-        name: user?.user_metadata.name ?? user?.user_metadata.user_name,
-        message: message
+      const message = {
+        loading: 'Loading, please wait...',
+        success: '🎉Message posted!'
       }
-      const toastId = toast.loading('Posting your message...')
-      const insert = await supabaseClient.from('guestbook').insert([payload])
-      toast.remove(toastId)
-      if (insert.error) {
-        toast.error(insert.error.message || 'Cannot post message, try again later')
-        setMessage('')
-        return
-      }
-      await getGuestbook()
-      toast.success('Hooray🎉\nThank you for signing my guestbook!', { duration: 5000 })
-      setMessage('')
+      await toast.promise(postMessage(), { ...message, error: (error) => error?.message ?? 'Network Error' })
     },
-    [user, message, getGuestbook]
+    [postMessage]
   )
+
   const handleDelete = useCallback(
     (id: string) => {
       return async () => {
