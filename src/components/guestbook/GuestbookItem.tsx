@@ -5,6 +5,7 @@ import { dateFormat } from '@/libs/intl'
 import { useGuestbook, useGuestbookUser } from '@/hooks'
 import { Guestbook } from '@/hooks/guestbook/model'
 
+import { useEffect, useState } from 'react'
 import { HiOutlineCalendar, HiOutlineUserCircle } from 'react-icons/hi'
 
 const config: Intl.DateTimeFormatOptions = {
@@ -20,12 +21,20 @@ const hourConfig: Intl.DateTimeFormatOptions = {
   minute: 'numeric'
 }
 
+const getPostedAt = (created_at: string) => {
+  const date = dateFormat(created_at, 'en-GB', config)
+  const hour = dateFormat(created_at, 'en-GB', hourConfig)
+  return ` On ${date} at ${hour}`
+}
+
 export const GuestbookItem: React.FunctionComponent<Guestbook> = (props) => {
   const { user } = useGuestbookUser()
   const { handleDelete, isDeleting } = useGuestbook()
+  const [postedAt, setPostedAt] = useState(getPostedAt(props.created_at))
 
-  const date = dateFormat(props.created_at, 'en-US', config)
-  const hour = dateFormat(props.created_at, 'en-US', hourConfig)
+  useEffect(() => {
+    setPostedAt(getPostedAt(props.created_at))
+  }, [props.created_at])
 
   return (
     <div className='w-full py-3'>
@@ -37,9 +46,7 @@ export const GuestbookItem: React.FunctionComponent<Guestbook> = (props) => {
 
       <div className='flex items-center space-x-1.5'>
         <HiOutlineCalendar className='w-3.5 h-3.5' />
-        <span className='text-sm font-semibold dark:text-theme-400'>
-          On {date} at {hour}
-        </span>
+        <span className='text-sm font-semibold dark:text-theme-400'>{postedAt}</span>
       </div>
 
       {user?.id === props.user_id && (
