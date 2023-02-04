@@ -24,10 +24,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PageViewsRespon
       pageviews: null
     })
   }
-  const jwt = await getToken()
+  const token = await getToken()
   const slug = req.query.slug
 
-  if (!jwt) {
+  if (!token) {
     return res.status(500).json({
       error: true,
       message: 'Cannot get token, please try again later',
@@ -35,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<PageViewsRespon
     })
   }
 
-  const pv = await getPageViews(slug, jwt)
+  const pv = await getPageViews(slug, token)
 
   if (pv.isError) {
     return res.status(500).json({

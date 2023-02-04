@@ -40,19 +40,16 @@ const BlogPost: NextPage<BlogPostProps> = ({ header, mdxSource }) => {
 
   useEffect(() => {
     // run only on client side
-    if (typeof window !== 'undefined') {
-      if (isDev) return
-      ;(async () => {
-        try {
-          const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rizkicitra.dev'
-          const res = await axios.get<PageViewResponse>(baseURL + '/api/pageviews?slug=' + header.slug)
-          const view = res.data.view ?? 0
-          setPostViews(view)
-        } catch (error) {
-          console.info('Could not retrieve page views')
-        }
-      })()
-    }
+    if (typeof window === 'undefined') return
+    ;(async () => {
+      const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rizkicitra.dev'
+      try {
+        const res = await axios.get<PageViewResponse>(`${baseURL}/api/pageviews?slug=${header.slug}`)
+        setPostViews(res.data?.view ?? 0)
+      } catch (error) {
+        console.info('Could not retrieve page views')
+      }
+    })()
   }, [header.slug])
 
   return (
