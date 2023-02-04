@@ -22,7 +22,7 @@
     "@supabase/supabase-js": "^2.0.5",
     "@tailwindcss/typography": "^0.5.8",
     "@vercel/og": "^0.0.27",
-    "axios": "^0.26.0",
+    "axios": "^1.0.0",
     "clsx": "^1.1.1",
     "framer-motion": "^7.1.0",
     "htmr": "^1.0.2",
