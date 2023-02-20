@@ -18,7 +18,7 @@
 - **Umami**
   - an open source, privacy-focused alternative to Google Analytics
 - **Supabase**
-  - Auth
+  - Auth-login
   - Store Guestbook
 - **Next.js Plugins**:
   - next-pwa
