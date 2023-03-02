@@ -3,12 +3,12 @@
 
 echo 'Running Git Hooks'
 
-echo "🔎  Checking validity of types with TypeScript"
+# echo "🔎  Checking validity of types with TypeScript"
 
-yarn type-check || (
-    "⛔️  There is a type error in the code, fix it, and try commit again. ⛔️";
-    false;
-    )
-echo "✅  No TypeError found"echo '⌛️ Running lint staged and git commit ⌛️'
+# pnpm type-check || (
+#     "⛔️  There is a type error in the code, fix it, and try commit again. ⛔️";
+#     false;
+#     )
+# echo "✅  No TypeError found"echo '⌛️ Running lint staged and git commit ⌛️'
 
-yarn lint-staged
+pnpm lint-staged

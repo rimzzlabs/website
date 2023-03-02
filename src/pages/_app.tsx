@@ -16,7 +16,7 @@ import type { AppProps } from 'next/app'
 // import 'prism-themes/themes/prism-a11y-dark.css'
 import 'prism-themes/themes/prism-dracula.css'
 import { Toaster } from 'react-hot-toast'
-import 'react-image-lightbox/style.css'
+import 'react-18-image-lightbox/style.css'
 import colors from 'tailwindcss/colors'
 
 const v: Variants = withExit(variants)
@@ -31,7 +31,7 @@ const App = ({ Component, pageProps, router }: AppProps) => {
       <SkipToContent />
       <LazyMotion features={domAnimation}>
         <Header />
-        <AnimatePresence initial={false} onExitComplete={onExitComplete} exitBeforeEnter>
+        <AnimatePresence initial={false} onExitComplete={onExitComplete} mode='wait'>
           <m.div
             id='skip-content'
             key={router.route.concat(router.pathname)}

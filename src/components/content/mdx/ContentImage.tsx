@@ -4,8 +4,8 @@ import { twclsx } from '@/libs/twclsx'
 
 import type { ImageProps } from 'next/image'
 import { useEffect, useState } from 'react'
-import Lightbox from 'react-image-lightbox'
-import 'react-image-lightbox/style.css'
+import Lightbox from 'react-18-image-lightbox'
+import 'react-18-image-lightbox/style.css'
 
 interface ContentImageProps extends ImageProps {
   alt: string
