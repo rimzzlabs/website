@@ -75,14 +75,6 @@ type Education = Array<{
 
 export const EDUCATION: Education = [
   {
-    school: 'Computer and Informatics Management Academy of Serang',
-    period: {
-      start: 'September, 2021',
-      end: 'Present'
-    },
-    paragraphs: ['Semester 3 of Informatics Management Student.', 'Current GPA: 3.50.']
-  },
-  {
     school: 'Vocational High School of 8 Pandeglang',
     period: {
       start: 'July, 2018',
