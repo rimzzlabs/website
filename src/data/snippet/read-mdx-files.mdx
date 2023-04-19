@@ -78,9 +78,9 @@ Previously the function require one generic type, so the usage will be like so
 
 ```ts
 type Post = {
-    title: string
-    published_at: string
-    author: string
+  title: string
+  published_at: string
+  author: string
 }
 
 const post = await getContentBySlug<Post>('blog', 'my-first-post')

@@ -9,7 +9,7 @@ import { HiMenuAlt4 } from 'react-icons/hi'
 import type { IconType } from 'react-icons/lib'
 import { RiContactsBookLine, RiHome6Line, RiPenNibLine, RiReactjsLine } from 'react-icons/ri'
 
-type RouteType = typeof APP_ROUTE[0] & { icon: IconType }
+type RouteType = (typeof APP_ROUTE)[0] & { icon: IconType }
 
 const icon = {
   home: RiHome6Line,
