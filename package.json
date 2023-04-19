@@ -54,6 +54,7 @@
     "autoprefixer": "^10.4.13",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "3.3.0",
+    "encoding": "^0.1.13",
     "eslint": "^8.35.0",
     "eslint-config-next": "^13.2.3",
     "gray-matter": "^4.0.3",
