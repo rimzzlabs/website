@@ -36,7 +36,7 @@ const SnippetIndexPage: NextPage<SnippetProps> = ({ snippets = [] }) => {
   const search = useSearchSnippet(snippets)
 
   return (
-    <LayoutPage {...meta}>
+    <LayoutPage seo={meta}>
       <Hero title={meta.title as string} description={meta.description as string} />
       <Searchbar onChange={search.handleChange} value={search.query} />
 

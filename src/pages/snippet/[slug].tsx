@@ -41,7 +41,7 @@ const SnippetPostPage: NextPage<SnippetPostProps> = ({ header, mdxSource }) => {
     slug: '/portfolio/' + header.slug
   })
   return (
-    <LayoutPage {...metaData}>
+    <LayoutPage seo={metaData}>
       <section className={twclsx('pb-8')}>
         <div className='flex items-center justify-between'>
           <h1 className={twclsx('max-w-prose text-3xl md:text-5xl')}>{header.title}</h1>

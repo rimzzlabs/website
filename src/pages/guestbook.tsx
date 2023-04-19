@@ -53,7 +53,7 @@ const GuestbookPage: NextPage<GuestbookPageProps> = ({ guestbook = [] }) => {
   }, [])
 
   return (
-    <LayoutPage {...meta}>
+    <LayoutPage seo={meta}>
       <Hero
         title={meta.title as string}
         description='Hey, leave a little message to let me and other visitors know you were here. You can write whatever you want, maybe some appreciation, a friendly message, a joke, or just a quick hello.'

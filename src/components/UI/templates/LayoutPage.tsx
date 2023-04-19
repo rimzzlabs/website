@@ -3,19 +3,19 @@ import { CustomSeo, CustomSeoProps } from '@/components/CustomSeo'
 import { Footer } from '@/UI/common'
 
 import { twclsx } from '@/libs/twclsx'
-import { NextPage } from 'next'
 
 type TProps = {
   className?: string
   children: React.ReactNode
+  seo: CustomSeoProps
 }
 
-export type LayoutPageProps = CustomSeoProps & TProps
+export type LayoutPageProps = TProps
 
-export const LayoutPage: NextPage<LayoutPageProps> = ({ children, className, ...props }) => {
+export const LayoutPage = ({ children, className, ...props }: TProps) => {
   return (
     <>
-      <CustomSeo {...props} />
+      <CustomSeo {...props.seo} />
 
       <main className={twclsx('layout', className)}>{children}</main>
       <Footer />

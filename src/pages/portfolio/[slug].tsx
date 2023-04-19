@@ -3,7 +3,6 @@ import { WrappedImage } from '@/components/UI/images'
 import { HeadingPortfolio, IconStack, MDXComponents, PRButton } from '@/components/content'
 
 import { LayoutPage } from '@/UI/templates'
-import type { LayoutPageProps } from '@/UI/templates'
 
 import { getContentBySlug, getContents } from '@/services'
 
@@ -36,7 +35,7 @@ const ProjectDetailPage: NextPage<ProjectDetailPageProps> = ({ header, mdxSource
   })
 
   return (
-    <LayoutPage {...(metaData as LayoutPageProps)}>
+    <LayoutPage seo={metaData}>
       <article className={twclsx('flex flex-col', 'gap-8')}>
         <HeadingPortfolio {...header} />
 

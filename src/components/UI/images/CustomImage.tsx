@@ -29,7 +29,7 @@ export const CustomImage: React.FunctionComponent<CustomImageProps> = ({
     )
   }
 
-  if (width < 40 && height < 40) {
+  if (typeof width === 'number' && width < 40 && typeof height === 'number' && height < 40) {
     return <Image src={src} alt={alt} title={alt} width={width} height={height} {...props} />
   }
 

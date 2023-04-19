@@ -55,7 +55,7 @@ const TagsPage: NextPage<TagsProps> = ({ tags, blogs }) => {
   const filteredBlogs = blogs.filter((b) => selectedTags.map((t) => b.topics.includes(t)).includes(true))
 
   return (
-    <LayoutPage {...meta}>
+    <LayoutPage seo={meta}>
       <Hero {...(meta as HeroProps)} />
 
       <section className={twclsx('flex items-stretch', 'flex-wrap flex-auto gap-2 md:gap-4', 'py-10')}>

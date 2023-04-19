@@ -58,7 +58,7 @@ const CertificatePage: NextPage = () => {
   }, [isOpen])
 
   return (
-    <LayoutPage {...meta}>
+    <LayoutPage seo={meta}>
       <Hero title={meta.title as string} description={meta.description as string} />
       <section
         className={twclsx('content-auto', 'w-full grid grid-cols-1 md:grid-cols-2', 'gap-4 flex-auto pb-8 md:pb-16')}
