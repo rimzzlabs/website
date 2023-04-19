@@ -124,8 +124,8 @@ devDependencies:
     specifier: ^13.1.2
     version: 13.1.2
   next-sitemap:
-    specifier: ^3.1.55
-    version: 3.1.55(@next/env@13.2.3)(next@13.2.3)
+    specifier: ^4.0.0
+    version: 4.0.1(@next/env@13.2.3)(next@13.2.3)
   postcss:
     specifier: ^8.4.21
     version: 8.4.21
@@ -5683,8 +5683,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next-sitemap@3.1.55(@next/env@13.2.3)(next@13.2.3):
-    resolution: {integrity: sha512-ZjkRfkqoSLbU+e8W9TWWe0zfOGNA47lpvm35kNcUCmj73gpLX2PIn51gwHT/B6bgGVAFYY0OXixJDrxIIwcEHw==}
+  /next-sitemap@4.0.1(@next/env@13.2.3)(next@13.2.3):
+    resolution: {integrity: sha512-dY6vKE/uayNYSfhXA64U9NZYSJtFzK01oBouY+XqgQieksKBG9BWNmq8yGSJUermyux4wCnNa9gLHwSk38emhA==}
     engines: {node: '>=14.18'}
     hasBin: true
     peerDependencies:

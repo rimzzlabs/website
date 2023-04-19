@@ -59,7 +59,7 @@
     "gray-matter": "^4.0.3",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
-    "next-sitemap": "^3.1.55",
+    "next-sitemap": "^4.0.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.3",
