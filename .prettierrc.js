@@ -1,24 +1,24 @@
-const config = {
+/** @type {import('prettier').Config} */
+module.exports = {
   semi: false,
   tabWidth: 2,
-  printWidth: 120,
+  printWidth: 100,
   singleQuote: true,
   jsxSingleQuote: true,
-  trailingComma: 'none',
+  trailingComma: 'all',
   arrowParens: 'always',
   endOfLine: 'auto',
   importOrder: [
     '^@/components(.*)$',
-    '^@/UI(.*)$',
-    '^@/services(.*)$',
+    '^@/pages(.*)$',
+    '^@/hooks(.*)$',
     '^@/libs(.*)$',
+    '^@/styles/(.*)$',
     '^@/(.*)$',
     '^[./]',
     '^',
-    '^@/styles/(.*)$'
   ],
+  plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
   importOrderSeparation: true,
-  importOrderSortSpecifiers: true
+  importOrderSortSpecifiers: true,
 }
-
-module.exports = config

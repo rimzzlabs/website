@@ -1,14 +1,15 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-echo 'Running Git Hooks'
+echo 'RUNNING GIT HOOKS'
 
-# echo "🔎  Checking validity of types with TypeScript"
+pnpm lint-staged ||
+  (
+    echo '🔨❌ Yoo, you have a problem in your code. Check linter 🔨❌
+     Run npm run lint, add changes and try commit again.
+     '
+    false
+  )
 
-# pnpm type-check || (
-#     "⛔️  There is a type error in the code, fix it, and try commit again. ⛔️";
-#     false;
-#     )
-# echo "✅  No TypeError found"echo '⌛️ Running lint staged and git commit ⌛️'
 
-pnpm lint-staged
+echo '🎉 No error found: committing this now.... ✨🚀🏄‍♂️🍻'

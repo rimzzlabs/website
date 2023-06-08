@@ -3,7 +3,7 @@ module.exports = {
   siteUrl: 'https://rizkicitra.dev',
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', allow: '/' }]
+    policies: [{ userAgent: '*', allow: '/' }],
   },
-  sitemapSize: 10000
+  sitemapSize: 10000,
 }

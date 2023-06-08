@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :is(h1, h2, h3, h4, h5, h6) {
+    @apply text-typo-head dark:text-typo-h-dark;
+  }
+  ::selection {
+    @apply bg-primary-200 text-base-900 dark:bg-primary-400 dark:text-white;
+  }
+
+  h1 {
+    @apply text-3xl font-bold md:text-4xl;
+  }
+  h2 {
+    @apply text-2xl font-bold md:text-3xl;
+  }
+  h3 {
+    @apply text-lg font-bold md:text-xl;
+  }
+  h4 {
+    @apply font-bold md:text-lg;
+  }
+  h5 {
+    @apply font-bold md:text-lg;
+  }
+  p {
+    @apply lg:text-lg text-typo-paragraph dark:text-typo-p-dark;
+  }
+  body {
+    @apply antialiased bg-white dark:bg-base-900 pt-16 font-primary;
+  }
+
+  .layout {
+    @apply mx-auto max-w-2xl w-[86%];
+  }
+
+  .pattern {
+    background-color: #ffffff;
+    opacity: 1;
+    background-image: linear-gradient(135deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
+      linear-gradient(225deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
+      linear-gradient(45deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
+      linear-gradient(315deg, rgba(59, 30, 246, 1) 25%, #ffffff 25%);
+    background-position: 19px 0, 19px 0, 0 0, 0 0;
+    background-size: 38px 38px;
+    background-repeat: repeat;
+  }
+  .dark .pattern {
+    background-color: #09090b;
+    opacity: 1;
+    background-image: linear-gradient(135deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
+      linear-gradient(225deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
+      linear-gradient(45deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
+      linear-gradient(315deg, rgba(59, 30, 246, 1) 25%, #09090b 25%);
+    background-position: 19px 0, 19px 0, 0 0, 0 0;
+    background-size: 38px 38px;
+    background-repeat: repeat;
+  }
+}

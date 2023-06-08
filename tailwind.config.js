@@ -2,38 +2,32 @@
 const colors = require('tailwindcss/colors')
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
-/** @type {import("tailwindcss").Config } */
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx,mdx}'],
-  darkMode: 'class', // or 'media' or 'class' or false
+  content: ['./src/**/*.{tsx,ts}'],
+  darkMode: 'class',
   theme: {
+    colors: {
+      base: colors.zinc,
+      typo: {
+        head: colors.zinc[900],
+        'h-dark': colors.zinc[100],
+        paragraph: colors.zinc[700],
+        'p-dark': colors.zinc[300],
+      },
+      primary: colors.blue,
+      white: colors.white,
+      black: colors.black,
+      transparent: colors.transparent,
+    },
+    fontFamily: {
+      primary: ['var(--font-inter)', ...fontFamily.sans],
+    },
     extend: {
-      fontFamily: {
-        primary: ['"Inter"', ...fontFamily.sans]
+      spacing: {
+        unset: 'unset',
       },
-      colors: {
-        primary: colors.blue,
-        ternary: colors.teal,
-        theme: colors.neutral
-      },
-      keyframes: {
-        enter: {
-          '0%': { transform: 'translateY(1.75rem)', opacity: '0' },
-          '50%': { transform: 'translateY(0.75rem)', opacity: '0.5' },
-          '100%': { transform: 'translateY(0)', scale: '1', opacity: '1' }
-        },
-        leave: {
-          '0%': { transform: 'translateY(0)', scale: '1', opacity: '1' },
-          '50%': { transform: 'translateY(0.75rem)', opacity: '0.5' },
-          '100%': { transform: 'translateY(1.75rem)', opacity: '0' }
-        }
-      },
-      animation: {
-        enter: 'enter 0.15s ease-out',
-        leave: 'leave 0.15s ease-out'
-      }
-    }
+    },
   },
-  variants: {},
-  plugins: [require('@tailwindcss/typography')]
+  plugins: [],
 }

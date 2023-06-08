@@ -1,7 +1,0 @@
-This is a Brave Rewards publisher verification file.
-
-Domain: rizkicitra.my.id
-Token: 3da6a9d754bdaf1f19e8167601a8eaf1f68ebb82fe6013b47c8d04da20227dfa
-
-Domain: rizkicitra.dev
-Token: 6a9b462dbbc94460ec712562effe3e44af24f5da6c80f6db88774de70b5a91a9
