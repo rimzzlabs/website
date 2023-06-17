@@ -10,10 +10,10 @@ import { match } from 'ts-pattern'
 
 export const Footer = () => {
   const segment = useSelectedLayoutSegment()
-  console.info(segment)
 
   return match(segment)
     .with('__DEFAULT__', () => null)
+    .with('not-found', () => null)
     .otherwise(() => (
       <footer
         className={tw(
