@@ -7,5 +7,5 @@ export const PatternBanner = () => {
 
   if (pathname !== '/') return null
 
-  return <div className='w-full h-40 md:max-w-2xl mx-auto pattern' />
+  return <div className='md:layout h-40 pattern' />
 }
