@@ -1,6 +1,7 @@
 import { createMetadata } from '@/utils/ssr'
 import { tw } from '@/utils/tw'
 
+import buildUrl from 'cloudinary-build-url'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -10,6 +11,12 @@ export const metadata = createMetadata({
 })
 
 export default async function Page() {
+  const src = buildUrl('rizkicitra.dev/not-found-illustration.svg', {
+    cloud: {
+      cloudName: 'rizkicitra',
+    },
+  })
+
   return (
     <section
       className={tw('flex flex-col', 'items-center justify-center', 'w-full h-[calc(100vh-4rem)]')}
@@ -20,7 +27,7 @@ export default async function Page() {
         height={144}
         alt='Not Found Illustration'
         title='Not Found Illustration'
-        src='https://res.cloudinary.com/db0g0am2n/image/upload/v1686222529/rizkicitra.dev/not-found-illustration.svg'
+        src={src}
       />
       <h1 className='mt-6 mb-2 md:text-5xl'>404 | Not Found</h1>
       <p>Oops, you&apos;ve visited the unwritten land!</p>
