@@ -2,10 +2,11 @@ import { Metadata } from 'next'
 
 type Meta = Metadata & {
   templateTitle?: string
+  canonical?: string
 }
 
-export const createMetadata = (meta: Meta) => {
-  const title = `${meta.title} — ${meta.templateTitle ?? 'Frontend Developer'}`
+export const createMetadata = ({ canonical, templateTitle, ...meta }: Meta): Metadata => {
+  const title = `${meta.title} — ${templateTitle ?? 'Frontend Developer'}`
 
-  return { ...meta, title }
+  return { ...meta, title, alternates: { canonical: canonical } }
 }
