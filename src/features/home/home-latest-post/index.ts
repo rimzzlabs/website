@@ -1,1 +1,1 @@
-export * from './home-latest-post'
+export * from './hlp'

@@ -42,7 +42,7 @@ type SocialHomeProps = {
   iconStyle?: string
 }
 
-export const HomeSocialMedia: React.FunctionComponent<SocialHomeProps> = (props) => {
+export const HomeHeroSocialMedia: React.FunctionComponent<SocialHomeProps> = (props) => {
   return (
     <div className={tw('flex items-center', props.className)}>
       <span className='text-sm sr-only'>connect with me:</span>
