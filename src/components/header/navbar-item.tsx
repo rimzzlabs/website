@@ -1,16 +1,16 @@
+import { ROUTE } from '@/data/routes'
 import { tw } from '@/utils/tw'
 
-import Link from 'next/link'
+import { UnstyledLink } from '../link/unstyled'
 
-type Props = {
-  name: string
-  href: string
-}
-
-export const NavbarItem = (props: Props) => {
+export const NavbarItem = (props: ROUTE) => {
   return (
-    <Link href={props.href} className={tw('mr-2.5 last-of-type:mr-unset')}>
+    <UnstyledLink
+      href={props.href}
+      title={props.title}
+      className={tw('mr-2.5 last-of-type:mr-unset')}
+    >
       {props.name}
-    </Link>
+    </UnstyledLink>
   )
 }
