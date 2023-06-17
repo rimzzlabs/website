@@ -1,6 +1,9 @@
-import { PatternBanner } from '@/components/pattern-banner'
+import { Footer } from '@/components/footer'
+import { SkipContent } from '@/components/skip-content'
 
 import '@/styles/tailwind.css'
+
+import { tw } from '@/utils/tw'
 
 import { Providers } from './providers'
 
@@ -15,11 +18,12 @@ const inter = localFont({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en' className={inter.variable} suppressHydrationWarning>
+    <html lang='en' className={tw('scroll-pt-16', inter.variable)} suppressHydrationWarning>
       <head />
       <body>
-        <PatternBanner />
+        <SkipContent />
         <Providers>{children}</Providers>
+        <Footer />
       </body>
     </html>
   )

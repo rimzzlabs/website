@@ -1,5 +1,8 @@
-import { HomeHero, HomeLatestPortfolio, HomeLatestPost } from '@/features/home'
+import { PatternBanner } from '@/components/pattern-banner'
+
+import { HomeHero, HomeLatestPost } from '@/features/home'
 import { MainLayout } from '@/layouts'
+import { getAllPosts } from '@/post/helpers/get-all-posts'
 import { createMetadata } from '@/utils/ssr'
 
 export const metadata = createMetadata({
@@ -12,14 +15,19 @@ export const metadata = createMetadata({
     title: 'Rizki Maulana Citra',
   },
   creator: 'Rizki Maulana Citra',
+  canonical: 'https://rizkicitra.dev',
 })
 
 export default async function Page() {
+  const posts = await getAllPosts()
+
   return (
-    <MainLayout className='max-w-2xl'>
-      <HomeHero />
-      <HomeLatestPost />
-      <HomeLatestPortfolio />
-    </MainLayout>
+    <>
+      <PatternBanner />
+      <MainLayout>
+        <HomeHero />
+        <HomeLatestPost posts={posts} />
+      </MainLayout>
+    </>
   )
 }

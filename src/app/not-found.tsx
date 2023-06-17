@@ -1,4 +1,3 @@
-import { MainLayout } from '@/layouts'
 import { createMetadata } from '@/utils/ssr'
 import { tw } from '@/utils/tw'
 
@@ -12,20 +11,21 @@ export const metadata = createMetadata({
 
 export default async function Page() {
   return (
-    <MainLayout className='-mt-16' noHeader>
-      <section className={tw('flex flex-col', 'items-center justify-center', 'w-full h-screen')}>
-        <Image
-          width={256}
-          height={256}
-          alt='Not Found Illustration'
-          title='Not Found Illustration'
-          src='https://res.cloudinary.com/db0g0am2n/image/upload/v1686222529/rizkicitra.dev/not-found-illustration.svg'
-        />
-        <h1 className='mt-6 mb-2'>404 | Not Found</h1>
-        <p>Oops, you&apos;ve visited the unwritten land!</p>
-        <Link href='/'>Back to home</Link>
-      </section>
-    </MainLayout>
+    <section
+      className={tw('flex flex-col', 'items-center justify-center', 'w-full h-[calc(100vh-4rem)]')}
+    >
+      <Image
+        priority
+        width={144}
+        height={144}
+        alt='Not Found Illustration'
+        title='Not Found Illustration'
+        src='https://res.cloudinary.com/db0g0am2n/image/upload/v1686222529/rizkicitra.dev/not-found-illustration.svg'
+      />
+      <h1 className='mt-6 mb-2 md:text-5xl'>404 | Not Found</h1>
+      <p>Oops, you&apos;ve visited the unwritten land!</p>
+      <Link href='/'>Back to home</Link>
+    </section>
   )
 }
 
