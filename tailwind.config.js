@@ -27,6 +27,9 @@ module.exports = {
       spacing: {
         unset: 'unset',
       },
+      screens: {
+        '3xl': '1876px',
+      },
     },
   },
   plugins: [],
