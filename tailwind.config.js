@@ -8,14 +8,15 @@ module.exports = {
   darkMode: 'class',
   theme: {
     colors: {
-      base: colors.zinc,
+      base: colors.gray,
       typo: {
-        head: colors.zinc[900],
-        'h-dark': colors.zinc[100],
-        paragraph: colors.zinc[700],
-        'p-dark': colors.zinc[300],
+        head: colors.gray[900],
+        'h-dark': colors.white,
+        paragraph: colors.gray[800],
+        'p-dark': colors.gray[100],
       },
       primary: colors.blue,
+      secondary: colors.cyan,
       white: colors.white,
       black: colors.black,
       transparent: colors.transparent,

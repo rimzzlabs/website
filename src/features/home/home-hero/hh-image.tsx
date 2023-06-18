@@ -31,7 +31,7 @@ export const HomeHeroImage = () => (
             className={tw(
               'absolute left-1 bottom-0.5',
               'border-4 rounded-full cursor-pointer',
-              'border-base-50 dark:border-base-900',
+              'border-base-50 dark:border-base-950',
             )}
           />
         )

@@ -6,7 +6,6 @@
   :is(h1, h2, h3, h4, h5, h6) {
     @apply text-typo-head dark:text-typo-h-dark font-bold;
   }
-
   h1 {
     @apply text-3xl md:text-4xl 3xl:text-5xl;
   }
@@ -26,7 +25,11 @@
     @apply text-typo-paragraph dark:text-typo-p-dark;
   }
   body {
-    @apply antialiased bg-base-50 dark:bg-base-900 pt-16 font-primary;
+    @apply antialiased bg-base-50 dark:bg-base-950 pt-16 font-primary motion-safe:transition-[background-color,_color];
+  }
+
+  html.dark {
+    @apply brightness-[.91];
   }
 
   .layout {
@@ -39,7 +42,7 @@
 
   :is(a, button) {
     @apply outline-none ring-primary-500 ring-offset-4 ring-offset-base-50
-    transition-all focus-visible:ring dark:ring-primary-700 dark:ring-offset-base-900;
+    motion-safe:transition focus-visible:ring dark:ring-primary-700 dark:ring-offset-base-950;
   }
 
   .pattern {
@@ -54,12 +57,12 @@
     background-repeat: repeat;
   }
   .dark .pattern {
-    background-color: #18181b;
+    background-color: #02050d;
     opacity: 1;
     background-image: linear-gradient(135deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
       linear-gradient(225deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
       linear-gradient(45deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
-      linear-gradient(315deg, rgba(59, 30, 246, 1) 25%, #18181b 25%);
+      linear-gradient(315deg, rgba(59, 30, 246, 1) 25%, #02050d 25%);
     background-position: 19px 0, 19px 0, 0 0, 0 0;
     background-size: 38px 38px;
     background-repeat: repeat;

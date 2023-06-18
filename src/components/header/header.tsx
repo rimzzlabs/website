@@ -12,7 +12,7 @@ export const Header = () => {
       className={tw(
         'fixed top-0 inset-x-0 z-[999]',
         'border-b border-transparent',
-        'bg-base-50 dark:bg-base-900',
+        'bg-base-50 dark:bg-base-950',
       )}
     >
       <div

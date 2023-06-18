@@ -3,7 +3,7 @@
 import { ALL_ROUTE } from '@/data/routes'
 import { tw } from '@/utils/tw'
 
-import { UnstyledLink } from './link/unstyled'
+import { HoverUnderlineLink, UnstyledLink } from './link'
 
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { match } from 'ts-pattern'
@@ -29,7 +29,7 @@ export const Footer = () => {
             return (
               <UnstyledLink
                 {...item}
-                className='md:max-w-max text-sm transition hover:text-primary-600'
+                className='md:max-w-max text-sm motion-safe:transition hover:text-primary-500'
                 key={item.href}
               >
                 {name}
@@ -38,7 +38,13 @@ export const Footer = () => {
           })}
         </div>
 
-        <p className='mt-4 text-sm'>&copy; rizkicitra.dev 2022 - {new Date().getFullYear()}</p>
+        <p className='mt-4 text-sm'>
+          &copy; 2022 - {new Date().getFullYear()}{' '}
+          <HoverUnderlineLink href='https://rizkicitra.dev' title="Rizki's Copyright">
+            Rizki M Citra
+          </HoverUnderlineLink>
+          . All rights reserved.
+        </p>
       </footer>
     ))
 }

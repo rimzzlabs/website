@@ -9,14 +9,16 @@ type Props = {
 } & NextLinkProps &
   Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>
 
-export type LinkProps = typeof UnstyledLink
+export type UnstyledLinkProps = typeof UnstyledLink
 
-export const UnstyledLink = forwardRef<HTMLAnchorElement, Props>(({ flex, ...props }, ref) => {
-  return (
-    <Link {...props} ref={ref} className={tw(flex && 'flex items-center', props.className)}>
-      {props.children}
-    </Link>
-  )
-})
+export const UnstyledLink = forwardRef<HTMLAnchorElement, Props>(
+  ({ flex, children, ...props }, ref) => {
+    return (
+      <Link ref={ref} {...props} className={tw(flex && 'flex items-center', props.className)}>
+        {children}
+      </Link>
+    )
+  },
+)
 
 UnstyledLink.displayName = 'UnstyledLink'
