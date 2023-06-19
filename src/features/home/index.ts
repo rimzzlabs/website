@@ -1,2 +1,3 @@
 export * from './home-hero'
-export * from './home-latest-post'
+export * from './home-explore'
+export * from './home-timeline'
