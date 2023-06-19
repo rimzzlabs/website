@@ -1,8 +1,8 @@
 import { PatternBanner } from '@/components/pattern-banner'
 
-import { HomeHero, HomeLatestPost } from '@/features/home'
+import { HomeExplore, HomeHero } from '@/features/home'
+import { HomeTimeline } from '@/features/home/home-timeline/home-timeline'
 import { MainLayout } from '@/layouts'
-import { getAllPosts } from '@/post/helpers/get-all-posts'
 import { createMetadata } from '@/utils/ssr'
 
 export const metadata = createMetadata({
@@ -19,14 +19,13 @@ export const metadata = createMetadata({
 })
 
 export default async function Page() {
-  const posts = await getAllPosts()
-
   return (
     <>
       <PatternBanner />
-      <MainLayout>
+      <MainLayout className='space-y-10 md:space-y-14'>
         <HomeHero />
-        <HomeLatestPost posts={posts} />
+        <HomeTimeline />
+        <HomeExplore />
       </MainLayout>
     </>
   )
