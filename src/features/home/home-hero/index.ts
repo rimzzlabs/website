@@ -1,1 +1,1 @@
-export * from './home-hero'
+export * from './component'

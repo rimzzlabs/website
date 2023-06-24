@@ -41,8 +41,8 @@
   }
 
   :is(a, button) {
-    @apply outline-none ring-primary-500 ring-offset-4 ring-offset-base-50
-    motion-safe:transition focus-visible:ring dark:ring-primary-700 dark:ring-offset-base-950;
+    @apply outline-none ring-primary-500 ring-offset-base-50
+    motion-safe:transition focus-visible:ring focus-visible:ring-offset-4 dark:ring-primary-700 dark:ring-offset-base-950;
   }
 
   .pattern {

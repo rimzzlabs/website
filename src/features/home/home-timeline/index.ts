@@ -1,1 +1,1 @@
-export * from './home-timeline'
+export * from './component'

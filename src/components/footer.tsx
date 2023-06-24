@@ -1,6 +1,7 @@
 'use client'
 
-import { ALL_ROUTE } from '@/data/routes'
+import { ALL_ROUTES } from '@/domains/routes'
+
 import { tw } from '@/utils/tw'
 
 import { HoverUnderlineLink, UnstyledLink } from './link'
@@ -25,7 +26,7 @@ export const Footer = () => {
         <p className='font-semibold mb-2'>Explore More</p>
 
         <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3'>
-          {ALL_ROUTE.map(({ name, ...item }) => {
+          {ALL_ROUTES.map(({ name, ...item }) => {
             return (
               <UnstyledLink
                 {...item}

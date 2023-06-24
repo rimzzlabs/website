@@ -1,6 +1,6 @@
-import { tw } from '@/utils/tw'
+import { type Timeline } from '@/domains/timelines'
 
-import { type Timeline } from './ht-list'
+import { tw } from '@/utils/tw'
 
 export const HomeTimlineListItem = (props: Timeline) => {
   return (
@@ -12,7 +12,10 @@ export const HomeTimlineListItem = (props: Timeline) => {
         'border-l-base-200 dark:border-l-base-900',
       )}
     >
-      <h3 className='leading-none mb-2'>{props.date}</h3>
+      <h3 className='leading-none mb-2'>
+        {props.emoji}
+        {props.date}
+      </h3>
       <h4>{props.title}</h4>
       {props.list.length > 0 && (
         <ul className='list-disc space-y-1.5 mt-2.5 ml-4'>

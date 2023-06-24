@@ -8,17 +8,12 @@ export const HomeHeroDescription = () => (
     </p>
     <p>
       This is also where I showcasing my personal portfolio-a collection of a variety of projects
-      that show my passion and ability. Please feel free to see what I&apos;ve come up with.
+      that show my passion and skills. Please feel free to see what I&apos;ve come up with.
     </p>
     <p>
       Throughout my career, I improved my technical skills and kept up with front-end development
       trends and technologies. I utilize the power of the web&apos;s fundamentals to bring ideas to
       life and bring detail into every pixel, from flexible layouts to interactive features.
-    </p>
-    <p>
-      I&apos;m also interested in motorcycles; I&apos;m not sure where it came from, but it&apos;s a
-      hobby of mine, and perhaps I&apos;ll share some of my posts about motorcycle-related topics
-      here.
     </p>
     <p>
       And once more, welcome to my personal website. Feel free to explore, and don&apos;t forget to

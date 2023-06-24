@@ -1,4 +1,4 @@
-import { NAVBAR_ROUTES } from '@/data/routes'
+import { NAVBAR_ROUTES } from '@/domains/routes'
 
 import { NavbarItem } from './navbar-item'
 

@@ -1,24 +1,28 @@
-import { NAVBAR_ROUTES } from '@/data/routes'
+import { UnstyledLink } from '@/components/link/unstyled'
+
+import { NAVBAR_ROUTES } from '@/domains/routes'
+
 import { tw } from '@/utils/tw'
 
-import { UnstyledLink } from '../link/unstyled'
-
 import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { IconType } from 'react-icons'
+import React, { Fragment, useCallback, useMemo } from 'react'
 import { TbAddressBook, TbFilePencil, TbHome, TbMenu, TbSwipe, TbX } from 'react-icons/tb'
-
-type OnionRoute = (typeof NAVBAR_ROUTES)[0]['href']
-
-const IconRoutes = {
-  '/': TbHome,
-  '/blog': TbFilePencil,
-  '/portfolio': TbSwipe,
-  '/guestbook': TbAddressBook,
-} as Record<OnionRoute, IconType>
+import { match } from 'ts-pattern'
 
 export const NavbarMobile = () => {
-  const routes = NAVBAR_ROUTES.map((route) => ({ ...route, Icon: IconRoutes[route.href] }), [])
+  const getIcon = useCallback((type: string) => {
+    return match(type)
+      .with('/', () => TbHome)
+      .with('/blog', () => TbFilePencil)
+      .with('/portfolio', () => TbSwipe)
+      .with('/guestbook', () => TbAddressBook)
+      .otherwise(() => React.Fragment)
+  }, [])
+
+  const routes = useMemo(
+    () => NAVBAR_ROUTES.map((route) => ({ ...route, Icon: getIcon(route.href) })),
+    [getIcon],
+  )
 
   return (
     <Menu as='div' className='md:hidden relative z-40'>

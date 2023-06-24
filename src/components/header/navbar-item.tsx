@@ -1,4 +1,5 @@
-import { ROUTE } from '@/data/routes'
+import { type ROUTE } from '@/domains/routes'
+
 import { tw } from '@/utils/tw'
 
 import { UnstyledLink } from '../link/unstyled'
