@@ -1,1 +1,2 @@
-export * from './generate-metadata'
+export * from './get-content-by-slug'
+export * from './get-contents'

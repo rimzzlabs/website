@@ -1,5 +1,5 @@
 import { compareDesc } from '@/utils/date'
-import { getContents } from '@/utils/ssr/get-contents'
+import { getContents } from '@/utils/ssr'
 
 import { PortfolioFrontMatter } from '../contents/type'
 
