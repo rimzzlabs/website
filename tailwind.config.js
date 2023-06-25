@@ -14,10 +14,10 @@ module.exports = {
       colors: {
         base: colors.gray,
         typo: {
-          head: colors.gray[900],
+          head: colors.gray[950],
           'h-dark': colors.white,
-          paragraph: colors.gray[800],
-          'p-dark': colors.gray[100],
+          paragraph: colors.gray[900],
+          'p-dark': colors.gray[200],
         },
         primary: colors.blue,
         secondary: colors.cyan,
@@ -34,5 +34,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')({ target: 'modern' })],
 }
