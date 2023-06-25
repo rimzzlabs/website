@@ -1,0 +1,73 @@
+---
+title: 'Next.js App Directory'
+description: "Next.js App directory has changed the way I think about React, especially about React Server Component, what else they prepare to surpise me about this updates? let's see"
+publishedAt: '05/05/2023'
+tags: ['Life Event']
+keywords: []
+recommendations: []
+---
+
+## Heading 2
+
+Attack feet behind the couch destroy couch flop over give attitude hide when guests.
+
+### Heading 3
+
+Attack feet behind the couch destroy couch flop over give attitude hide when guests.
+
+### Heading 4
+
+Attack feet behind the couch destroy couch flop over give attitude hide when guests.
+
+### Heading 5
+
+Attack feet behind the couch destroy couch flop over give attitude hide when guests.
+
+### Heading 6
+
+### How Does List Looks like?
+
+Let's find out
+
+#### Unordered List
+
+- List One
+- List Two
+- List Three
+- List Four
+- List Five
+- List Six
+
+### Ordered List
+
+1. List One
+2. List Two
+3. List Three
+4. List Four
+5. List Five
+6. List Six
+
+### How About Quotes?
+
+> Some quotes, maybe you need to put on some mask!
+
+### A Code?
+
+This Is introduc you to `<ReactComponent props={something: 'nice'} booleanValue>`
+
+### How about code block?
+
+```tsx
+import { match } from 'ts-pattern'
+
+type Props = {
+  type: 'LIFE' | 'CAREER' | 'SCHOOL'
+}
+export default function Tags(props: Props) {
+  return match(props.type)
+    .with('LIFE', () => <span>Life Event!</span>)
+    .with('CAREER', () => <span>Career Event!</span>)
+    .with('SCHOOL', () => <span>Academy Event!</span>)
+    .exhaustive()
+}
+```
