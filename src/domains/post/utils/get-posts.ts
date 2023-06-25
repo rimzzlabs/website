@@ -1,7 +1,7 @@
 import { compareDesc } from '@/utils/date'
 import { getContents } from '@/utils/ssr'
 
-import { PostFrontMatter } from './type'
+import { PostFrontMatter } from '../type'
 
 export const getPosts = async () => {
   const res = await getContents<PostFrontMatter>('src/domains/post/content')
