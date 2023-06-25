@@ -7,7 +7,7 @@ type Meta = Metadata & {
   canonical?: string
 }
 
-export const generateMetadata = ({ canonical, templateTitle, ...meta }: Meta): Metadata => {
+export const createMetadata = ({ canonical, templateTitle, ...meta }: Meta): Metadata => {
   const title = `${meta.title} — ${templateTitle ?? SITE_OWNER_ROLE}`
   const metadataBase = new URL(SITE_URL)
 
