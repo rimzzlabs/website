@@ -1,13 +1,14 @@
 import { Footer } from '@/components/footer'
 import { SkipContent } from '@/components/skip-content'
 
-import '@/styles/tailwind.css'
-
 import { tw } from '@/utils/tw'
+
+import '@/styles/tailwind.css'
 
 import { Providers } from './providers'
 
 import localFont from 'next/font/local'
+import 'react-tooltip/dist/react-tooltip.css'
 
 const inter = localFont({
   src: './font/inter-var-latin.woff2',

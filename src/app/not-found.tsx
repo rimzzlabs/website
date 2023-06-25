@@ -1,4 +1,4 @@
-import { generateMetadata } from '@/domains/seo'
+import { createMetadata } from '@/domains/seo'
 
 import { tw } from '@/utils/tw'
 
@@ -6,7 +6,7 @@ import buildUrl from 'cloudinary-build-url'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export const metadata = generateMetadata({
+export const metadata = createMetadata({
   title: 'Not Found',
   description: "Oops, you've visited the unwritten land!",
 })
