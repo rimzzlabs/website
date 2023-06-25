@@ -9,7 +9,7 @@ export const NavbarItem = (props: ROUTE) => {
     <UnstyledLink
       href={props.href}
       title={props.title}
-      className={tw('mr-2.5 last-of-type:mr-unset')}
+      className={tw('mr-4 last-of-type:mr-unset')}
     >
       {props.name}
     </UnstyledLink>
