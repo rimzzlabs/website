@@ -1,6 +1,6 @@
-import { createTimelines } from './utils'
+import { CreateTimelinePayload } from './type'
 
-export const timelines = createTimelines({
+export const timelines: CreateTimelinePayload = {
   titles: [
     'I Was Born',
     'Vocational high school',
@@ -61,4 +61,4 @@ export const timelines = createTimelines({
       'Continue improving my skills in software engineering and related fields.',
     ],
   ],
-})
+}

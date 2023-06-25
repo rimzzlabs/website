@@ -1,29 +1,40 @@
 import { randomId } from '@/utils/random-id'
 
-import { Timeline } from '../type'
+import { CreateTimelinePayload, Timeline } from '../type'
 import createTimelineItem from './create-timeline-item'
 import createEmojiTimeline from './emoji-timeline-item'
 
-type CreateTimelinePayload = {
-  titles: string[]
-  dates: string[]
-  emojis: Array<Timeline['emoji']>
-  lists: string[][]
-}
-
 export const createTimelines = (payload: CreateTimelinePayload) => {
-  const { emojis, dates, lists, titles } = payload
+  return new Promise<Timeline[]>((resolve, reject) => {
+    const { emojis, dates, lists, titles } = payload
 
-  return titles.map((title, index) => {
-    const emoji = createEmojiTimeline(emojis[index])
+    const timelines = titles.map((title, index) => {
+      const id = randomId()
+      const emoji = createEmojiTimeline(emojis[index])
+      const date = dates[index]
+      const timelineItems = lists[index]
+      if (!emoji || !date || !date || !timelineItems) {
+        reject(new Error('Timelines data is not complete!'))
+        return
+      }
 
-    return {
-      title,
-      emoji,
-      date: dates[index],
-      id: randomId(),
-      list: createTimelineItem(...lists[index]),
-      currentEvent: index === titles.length - 1,
-    }
-  }) as Timeline[]
+      const list = createTimelineItem(...timelineItems)
+
+      if (!list) {
+        reject(new Error('Timelines data of lists is not completed!'))
+        return
+      }
+
+      return {
+        id,
+        title,
+        emoji,
+        date,
+        list: createTimelineItem(...timelineItems),
+        currentEvent: index === titles.length - 1,
+      }
+    }) as Timeline[]
+
+    resolve(timelines)
+  })
 }

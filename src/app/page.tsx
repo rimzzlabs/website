@@ -2,8 +2,16 @@ import { PatternBanner } from '@/components/pattern-banner'
 
 import { SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
-import { HomeExplore, HomeHero, HomeSkills, HomeTimeline } from '@/features/home'
+import {
+  HomeExplore,
+  HomeHero,
+  HomeSkills,
+  HomeTimeline,
+  HomeTimelineLoading,
+} from '@/features/home'
 import { MainLayout } from '@/layouts'
+
+import { Suspense } from 'react'
 
 export const metadata = createMetadata({
   title: SITE_OWNER,
@@ -32,7 +40,9 @@ export default async function Page() {
       <PatternBanner />
       <MainLayout className='space-y-10 md:space-y-14'>
         <HomeHero />
-        <HomeTimeline />
+        <Suspense fallback={<HomeTimelineLoading />}>
+          <HomeTimeline />
+        </Suspense>
         <HomeSkills />
         <HomeExplore />
       </MainLayout>

@@ -3,6 +3,13 @@ export type TimeLineItemList = {
   description: string
 }
 
+export type CreateTimelinePayload = {
+  titles: string[]
+  dates: string[]
+  emojis: Array<Timeline['emoji']>
+  lists: string[][]
+}
+
 export type Timeline = {
   id: string
   title: string
