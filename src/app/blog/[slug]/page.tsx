@@ -3,9 +3,8 @@ import { getPost } from '@/domains/post/utils/get-post'
 import { SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
 import { BlogPostHeader } from '@/features/blog'
-import { MainLayout } from '@/layouts'
 
-import 'prism-themes/themes/prism-dracula.css'
+import 'prism-themes/themes/prism-a11y-dark.css'
 
 type PageParam = {
   params: {
@@ -43,12 +42,10 @@ export default async function PostPage(param: PageParam) {
   const post = await getPost(param.params.slug)
 
   return (
-    <MainLayout>
-      <article>
-        <BlogPostHeader {...post.frontMatter} />
+    <article>
+      <BlogPostHeader {...post.frontMatter} />
 
-        <section className='prose dark:prose-invert'>{post.content}</section>
-      </article>
-    </MainLayout>
+      <section className='prose dark:prose-invert'>{post.content}</section>
+    </article>
   )
 }
