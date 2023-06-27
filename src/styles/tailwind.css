@@ -51,6 +51,16 @@
     @apply bg-gradient-to-r from-primary-500 to-secondary-500;
   }
 
+  code {
+    @apply !font-firaCode;
+  }
+
+  @supports (font-variation-settings: normal) {
+    code {
+      @apply !font-firaCodeVF;
+    }
+  }
+
   .pattern {
     background-color: #ffffff;
     opacity: 1;
