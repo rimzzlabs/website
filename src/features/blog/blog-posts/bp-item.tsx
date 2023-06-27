@@ -40,7 +40,7 @@ export const BlogPostsItem = (props: PostFrontMatter) => {
       <p className='mb-3'>{props.description}</p>
 
       <ColorLink {...linkProps} className='md:max-w-max [&:hover>svg]:ml-2' flex>
-        <span>Read More</span>
+        <span>Read More</span> <span className='sr-only'>about {props.title}</span>
         <TbArrowRight className='opacity-0 group-hover:opacity-100 transition-all ml-1' />
       </ColorLink>
     </li>
