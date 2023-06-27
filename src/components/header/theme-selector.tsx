@@ -9,6 +9,7 @@ import { Fragment } from 'react'
 import { CgSpinner } from 'react-icons/cg'
 import type { IconType } from 'react-icons/lib'
 import { TbMoonStars as Moon, TbSunHigh as Sun, TbCheck, TbDeviceDesktop } from 'react-icons/tb'
+import { Tooltip } from 'react-tooltip'
 
 type ThemeMenu = { value: string; name: string; icon: IconType }
 
@@ -34,7 +35,7 @@ export const HeaderThemeSelector = () => {
         )}
       >
         <CgSpinner className='animate-spin' />
-        <span className='sr-only'>Loading theme handler...</span>
+        <span className='sr-only'>Loading theme menu button...</span>
       </button>
     )
   }
@@ -42,7 +43,7 @@ export const HeaderThemeSelector = () => {
   return (
     <Menu as='div' className='relative z-40'>
       <Menu.Button
-        title='Theme menu button'
+        data-tooltip-id='theme-selector-button'
         className={tw(
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-10 md:h-10 rounded flex-shrink-0 motion-safe:transition',
@@ -56,8 +57,15 @@ export const HeaderThemeSelector = () => {
         {(theme === 'light' || (theme === 'system' && systemTheme === 'light')) && (
           <Sun className={tw('w-4 h-4 md:w-5 md:h-5', 'text-base-950')} />
         )}
-        <span className='sr-only'>Click to see option to switch theme</span>
+        <span className='sr-only'>Click to switch theme</span>
       </Menu.Button>
+
+      <Tooltip
+        className='max-w-xs bg-opacity-100 dark:bg-base-800'
+        place='bottom'
+        id='theme-selector-button'
+        content='Switch theme'
+      />
 
       <Transition
         as={Fragment}
