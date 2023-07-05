@@ -1,4 +1,3 @@
-import { Footer } from '@/components/footer'
 import { SkipContent } from '@/components/skip-content'
 
 import { tw } from '@/utils/tw'
@@ -24,7 +23,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <SkipContent />
         <Providers>{children}</Providers>
-        <Footer />
       </body>
     </html>
   )

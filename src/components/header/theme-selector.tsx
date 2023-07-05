@@ -1,5 +1,7 @@
 'use client'
 
+import { CustomTooltip } from '@/components/CustomTooltip'
+
 import { useTheme } from '@/hooks/use-theme'
 
 import { tw } from '@/utils/tw'
@@ -9,7 +11,6 @@ import { Fragment } from 'react'
 import { CgSpinner } from 'react-icons/cg'
 import type { IconType } from 'react-icons/lib'
 import { TbMoonStars as Moon, TbSunHigh as Sun, TbCheck, TbDeviceDesktop } from 'react-icons/tb'
-import { Tooltip } from 'react-tooltip'
 
 type ThemeMenu = { value: string; name: string; icon: IconType }
 
@@ -60,12 +61,7 @@ export const HeaderThemeSelector = () => {
         <span className='sr-only'>Click to switch theme</span>
       </Menu.Button>
 
-      <Tooltip
-        className='max-w-xs bg-opacity-100 dark:bg-base-800'
-        place='bottom'
-        id='theme-selector-button'
-        content='Switch theme'
-      />
+      <CustomTooltip place='bottom' id='theme-selector-button' content='Switch theme' />
 
       <Transition
         as={Fragment}

@@ -1,7 +1,3 @@
-// export const SITE_OWNER = 'Rizki Maulana Citra'
-// export const SITE_NAME = 'rizkicitra.dev'
-// export const SITE_URL = 'https://rizkicitra.dev'
-
 const siteOwner = process.env.NEXT_PUBLIC_SITE_OWNER
 const siteOwnerRole = process.env.NEXT_PUBLIC_SITE_OWNER_ROLE
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME

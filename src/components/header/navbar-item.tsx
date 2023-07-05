@@ -4,14 +4,10 @@ import { tw } from '@/utils/tw'
 
 import { UnstyledLink } from '../link/unstyled'
 
-export const NavbarItem = (props: ROUTE) => {
+export const NavbarItem = ({ name, ...props }: ROUTE) => {
   return (
-    <UnstyledLink
-      href={props.href}
-      title={props.title}
-      className={tw('mr-4 last-of-type:mr-unset')}
-    >
-      {props.name}
+    <UnstyledLink {...props} className={tw('mr-4 last-of-type:mr-unset')}>
+      {name}
     </UnstyledLink>
   )
 }

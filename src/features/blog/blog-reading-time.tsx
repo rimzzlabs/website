@@ -1,7 +1,8 @@
 'use client'
 
+import { CustomTooltip } from '@/components/CustomTooltip'
+
 import { TbClockRecord, TbQuestionCircle } from 'react-icons/tb'
-import { Tooltip } from 'react-tooltip'
 import { type ReadTimeResults } from 'reading-time'
 import { P, match } from 'ts-pattern'
 
@@ -31,17 +32,12 @@ export const BlogReadingTime = (props: Props) => {
           className='self-start cursor-help'
         />
 
-        <Tooltip
-          className='max-w-xs bg-opacity-100 dark:bg-base-800'
-          place='bottom'
-          id={props.tooltipId}
-          clickable
-        >
+        <CustomTooltip place='bottom' id={props.tooltipId} clickable>
           <p className='text-sm text-white'>
             This post has <strong>{value.words} words</strong>, reading time is calculated using{' '}
             <strong>225WPM reading speeds</strong>.
           </p>
-        </Tooltip>
+        </CustomTooltip>
       </span>
     ))
     .otherwise(() => null)

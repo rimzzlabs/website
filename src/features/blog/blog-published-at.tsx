@@ -13,7 +13,7 @@ export const BlogPublishedAt = (props: Props) => {
   const ISOdate = formatToISO(props.publishedAt)
 
   return (
-    <span className='flex items-center cursor-help'>
+    <span className='flex items-center'>
       <TbCalendarEvent size={props?.iconSize ?? 18} />
 
       <time className='ml-1' dateTime={ISOdate}>

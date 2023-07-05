@@ -19,11 +19,16 @@ export const metadata = createMetadata({
 
 export default async function Page() {
   const posts = await getPosts()
+  if (!posts) {
+    throw new Error('Cannot fetch blog post', {
+      cause: { page: '/blog', reason: 'Failed to fetch' },
+    })
+  }
 
   return (
     <MainLayout className='space-y-10 md:space-y-14'>
       <BlogHero />
       <BlogPosts posts={posts} />
-    </MainLayout>
+    </MainLayout> 
   )
 }

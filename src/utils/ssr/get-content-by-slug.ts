@@ -9,32 +9,32 @@ import readingTime from 'reading-time'
 type Content<T> = {
   frontMatter: T
   content: CompileMDXResult['content']
-}
+} | null
 
 export const getContent = async <T>(path: string): Promise<Content<T>> => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const mdxPrism = require('mdx-prism')
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const mdxPrism = require('mdx-prism')
 
-  const slug = path.split('/')[0]
-  const targetFile = join(process.cwd(), path + '.mdx')
-  const file = await readFile(targetFile, 'utf8')
+    const slug = path.split('/')[0]
+    const targetFile = join(process.cwd(), path + '.mdx')
+    const file = await readFile(targetFile, 'utf8')
 
-  if (!slug) {
-    throw new Error('Cannot find the specified file')
-  }
+    const matterResult = matter(file)
 
-  const matterResult = matter(file)
+    const { content, frontmatter } = await compileMDX<T>({
+      source: file,
+      options: { parseFrontmatter: true, mdxOptions: { format: 'mdx', rehypePlugins: [mdxPrism] } },
+      components: MDXComponents,
+    })
 
-  const { content, frontmatter } = await compileMDX<T>({
-    source: file,
-    options: { parseFrontmatter: true, mdxOptions: { format: 'mdx', rehypePlugins: [mdxPrism] } },
-    components: MDXComponents,
-  })
+    const est_read = readingTime(matterResult.content, { wordsPerMinute: 225 })
 
-  const est_read = readingTime(matterResult.content, { wordsPerMinute: 225 })
-
-  return {
-    frontMatter: { ...(frontmatter as T), slug, est_read },
-    content,
+    return {
+      frontMatter: { ...(frontmatter as T), slug, est_read },
+      content,
+    }
+  } catch (err) {
+    return null
   }
 }
