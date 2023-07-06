@@ -5,8 +5,8 @@ export const ALL_ROUTES: ROUTE[] = [
   { href: '/blog', name: 'Blog', title: 'Blog Page' },
   { href: '/portfolio', name: 'Portfolio', title: 'Portfolio Page' },
   { href: '/guestbook', name: 'Guestbook', title: 'Guestbook Page' },
+  { href: '/resume', name: 'Resume', title: 'Resume' },
   { href: '/snippet', name: 'Snippet', title: 'Snippet page' },
-  { href: '/resume', name: 'Certificate', title: 'Resume' },
 ]
 
 export const NAVBAR_ROUTES = ALL_ROUTES.slice(0, 4)

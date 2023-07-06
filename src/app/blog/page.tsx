@@ -1,3 +1,6 @@
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
+
 import { getPosts } from '@/domains/post'
 import { SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
@@ -26,9 +29,13 @@ export default async function Page() {
   }
 
   return (
-    <MainLayout className='space-y-10 md:space-y-14'>
-      <BlogHero />
-      <BlogPosts posts={posts} />
-    </MainLayout> 
+    <>
+      <Header />
+      <MainLayout className='space-y-10 md:space-y-14'>
+        <BlogHero />
+        <BlogPosts posts={posts} />
+      </MainLayout>
+      <Footer />
+    </>
   )
 }

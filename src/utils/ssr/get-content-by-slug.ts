@@ -1,4 +1,7 @@
 import { MDXComponents } from '@/components/mdx-components'
+import { TocList } from '@/components/table-of-contents'
+
+import { slugify } from '@/utils/slugify'
 
 import { readFile } from 'fs/promises'
 import matter from 'gray-matter'
@@ -9,6 +12,7 @@ import readingTime from 'reading-time'
 type Content<T> = {
   frontMatter: T
   content: CompileMDXResult['content']
+  toc: TocList
 } | null
 
 export const getContent = async <T>(path: string): Promise<Content<T>> => {
@@ -22,9 +26,20 @@ export const getContent = async <T>(path: string): Promise<Content<T>> => {
 
     const matterResult = matter(file)
 
+    const headingsRegex = /^(#+)\s(.+)/gm
+    const matches = Array.from(matterResult.content.matchAll(headingsRegex))
+    const toc: TocList = matches.map((match) => ({
+      level: match[1].length, // Determine the depth based on the number of '#' symbols
+      text: match[2], // Extract the heading text
+      url: slugify(match[2]), // Generate an URL-friendly ID from the heading text
+    }))
+
     const { content, frontmatter } = await compileMDX<T>({
       source: file,
-      options: { parseFrontmatter: true, mdxOptions: { format: 'mdx', rehypePlugins: [mdxPrism] } },
+      options: {
+        parseFrontmatter: true,
+        mdxOptions: { format: 'mdx', rehypePlugins: [mdxPrism] },
+      },
       components: MDXComponents,
     })
 
@@ -32,6 +47,7 @@ export const getContent = async <T>(path: string): Promise<Content<T>> => {
 
     return {
       frontMatter: { ...(frontmatter as T), slug, est_read },
+      toc,
       content,
     }
   } catch (err) {

@@ -6,7 +6,11 @@ import { Navbar } from './navbar'
 import { NavbarMobile } from './navbar-mobile'
 import { HeaderThemeSelector } from './theme-selector'
 
-export const Header = () => {
+type HeaderProps = {
+  className?: string
+}
+
+export const Header = (props: HeaderProps) => {
   return (
     <header
       className={tw(
@@ -21,6 +25,7 @@ export const Header = () => {
           'justify-end md:justify-between',
           'h-16 space-x-1',
           'layout',
+          props.className,
         )}
       >
         <Navbar />

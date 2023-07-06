@@ -1,6 +1,6 @@
 'use client'
 
-import { CustomTooltip } from '@/components/CustomTooltip'
+import { CustomTooltip } from '@/components/custom-tooltip'
 
 import { TbClockRecord, TbQuestionCircle } from 'react-icons/tb'
 import { type ReadTimeResults } from 'reading-time'

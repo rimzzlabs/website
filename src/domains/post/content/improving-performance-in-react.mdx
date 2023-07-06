@@ -230,7 +230,7 @@ export const ProductList = ({ products, filter, sortBy }) => {
 
 In this example, the `ProductList` component filters and sorts the products list based on the filter and `sortBy` props, and stores the result in a memoized value. This can help to improve the performance of the component by **avoiding unnecessary recalculations** of the filtered and sorted list every time the component re-renders.
 
-#### When Should I NOT use React.useMemo?
+### When Should I NOT use React.useMemo?
 
 `React.useMemo` is a hook that allows you to optimize the performance of your functional components by memoizing values that are expensive to compute. But there are a few situations where it might not be the best choice:
 
@@ -242,7 +242,7 @@ In this example, the `ProductList` component filters and sorts the products list
 
 `React.useMemo` is a good way to improve your React app performance, but if the value you're computing is super simple or cheap to compute, if it's only used a few times in the component, or if it depends on frequent changing props. But in most other cases, `React.useMemo` can be a really useful way to optimize the performance of your functional components.
 
-### React.useCallback
+## React.useCallback
 
 The `useCallback` hook is a built-in React hook that allows you to create a memoized version of a callback function. It takes a function as an argument and an array of dependencies and **returns a memoized version of the function that only changes if one of the dependencies has changed**.
 
@@ -286,7 +286,7 @@ const ParentComponent = ({ items, onDelete }) => {
 
 In this example, the `ParentComponent` function component renders a list of ChildComponent components and passes each component a callback function for deleting items. The `useCallback` hook is used to create a memoized version of the callback function, which helps improve the performance of the `ParentComponent` component by **avoiding unnecessary re-creations of the function**. The `ChildComponent` components can then use the callback function to delete the corresponding item when the delete button is clicked.
 
-#### When Should I NOT use React.useCallback?
+### When Should I NOT use React.useCallback?
 
 There are a few situations where it might not be the best choice to use this hook, here are a few reasons why:
 
@@ -296,7 +296,7 @@ There are a few situations where it might not be the best choice to use this hoo
 
 - If the callback function depends on props that change very frequently, then `React.useCallback` might not be able to keep up with the changes and you could end up with a stale function. In these cases, you might want to consider using a different optimization technique.
 
-### React.memo
+## React.memo
 
 `React.memo` is a way to optimize the performance of functional components in React by **preventing them from re-rendering unnecessarily**. It does this by **"memoizing"** the component, which means that it only re-renders the component if the props have actually changed.
 
@@ -317,7 +317,7 @@ In this example, the `MyComponent` component renders a greeting with the name pr
 
 You can use `React.memo` to optimize the performance of any functional component that doesn't need to re-render every time its props change. It's a simple and effective way to improve the performance of your React app.
 
-#### When Should I NOT Use React.memo?
+### When Should I NOT Use React.memo?
 
 Basically, `React.memo` is a way to optimize the performance of functional components by **avoiding unnecessary re-renders**. But there are a few situations where it might not be the best choice:
 

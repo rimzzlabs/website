@@ -1,6 +1,6 @@
 'use client'
 
-import { CustomTooltip } from '@/components/CustomTooltip'
+import { CustomTooltip } from '@/components/custom-tooltip'
 
 import { useTheme } from '@/hooks/use-theme'
 

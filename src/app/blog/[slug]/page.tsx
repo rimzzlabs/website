@@ -4,8 +4,7 @@ import { SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
 import { tw } from '@/utils/tw'
 
-import { BlogPostHeader } from '@/features/blog'
-import { MainLayout } from '@/layouts'
+import { PostLayout } from '@/layouts/post-layout'
 
 import localFont from 'next/font/local'
 import { notFound, redirect } from 'next/navigation'
@@ -97,12 +96,12 @@ export default async function PostPage(props: PageParam) {
   }
 
   return (
-    <MainLayout className={tw(FiraCode.variable, FiraCodeVF.variable)}>
-      <article>
-        <BlogPostHeader {...post.frontMatter} />
-
-        <section className='prose dark:prose-invert'>{post.content}</section>
-      </article>
-    </MainLayout>
+    <PostLayout
+      toc={post.toc}
+      className={tw(FiraCode.variable, FiraCodeVF.variable)}
+      frontMatter={{ ...post.frontMatter, slug: props.params.slug }}
+    >
+      {post.content}
+    </PostLayout>
   )
 }

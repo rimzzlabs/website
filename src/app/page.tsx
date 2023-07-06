@@ -1,3 +1,5 @@
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
 import { PatternBanner } from '@/components/pattern-banner'
 
 import { SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
@@ -37,6 +39,7 @@ export const metadata = createMetadata({
 export default async function Page() {
   return (
     <>
+      <Header />
       <PatternBanner />
       <MainLayout className='space-y-10 md:space-y-14'>
         <HomeHero />
@@ -46,6 +49,7 @@ export default async function Page() {
         <HomeSkills />
         <HomeExplore />
       </MainLayout>
+      <Footer />
     </>
   )
 }

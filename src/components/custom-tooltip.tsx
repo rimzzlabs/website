@@ -28,7 +28,10 @@ export const CustomTooltip = (props: CustomTooltipProps) => {
   return (
     <Tooltip
       {...props}
-      className={tw('max-w-xs !opacity-100 bg-base-600 dark:bg-base-800', props.className)}
+      className={tw(
+        'max-w-xs !opacity-100 bg-base-600 dark:bg-base-800 z-[9999999]',
+        props.className,
+      )}
     />
   )
 }
