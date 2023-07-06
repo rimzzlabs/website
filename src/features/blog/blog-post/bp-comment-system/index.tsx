@@ -16,9 +16,10 @@ export const BlogPostComment = () => {
       <div className='flex items-center justify-between'>
         <p>
           {match(comments.length)
-            .with(P.lte(1), () => 'No comments yet')
-            .with(P.gte(2), (length) => `${length} comments`)
-            .otherwise((length) => `${length} comment`)}
+            .with(P.shape(0), () => 'No comments yet')
+            .with(P.shape(1), (length) => `${length} comment`)
+            .with(P.gt(1), (length) => `${length} comments`)
+            .otherwise(() => null)}
         </p>
       </div>
 

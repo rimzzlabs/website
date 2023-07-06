@@ -59,7 +59,7 @@ export const BlogPostCommentForm = () => {
     .exhaustive()
 
   return (
-    <form className='my-4' onSubmit={handleSubmit}>
+    <form className='my-4 lg:mb-unset' onSubmit={handleSubmit}>
       <div className='flex flex-col space-y-2'>
         <label className='flex-grow-0' htmlFor='name'>
           Name
