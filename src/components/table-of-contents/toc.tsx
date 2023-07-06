@@ -16,7 +16,7 @@ export const TableOfContents = (props: TableOfContentsProps) => {
   }, [props.list])
 
   return (
-    <aside className='py-3'>
+    <aside className='py-3 hidden lg:block'>
       <div className='sticky top-28'>
         <h3 className='md:text-xl 3xl:text-2xl'>Table of Contents</h3>
         <ul className='flex flex-col mt-4 space-y-2 text-sm'>
