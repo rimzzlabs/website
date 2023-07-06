@@ -19,6 +19,7 @@
     "cloudinary-build-url": "^0.2.4",
     "clsx": "^1.2.1",
     "gray-matter": "^4.0.3",
+    "jotai": "^2.2.2",
     "mdx-prism": "^0.3.4",
     "next": "13.4.4",
     "next-mdx-remote": "^4.4.1",

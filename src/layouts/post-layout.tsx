@@ -7,7 +7,7 @@ import { PostFrontMatter } from '@/domains/post'
 
 import { tw } from '@/utils/tw'
 
-import { BlogPostHeader } from '@/features/blog'
+import { BlogPostComment, BlogPostHeader } from '@/features/blog'
 
 type PostLayoutProps = {
   className?: string
@@ -17,6 +17,7 @@ type PostLayoutProps = {
 export const PostLayout = (props: React.PropsWithChildren<PostLayoutProps>) => {
   return (
     <>
+      <BackTopButton />
       <Header className='lg:max-w-5xl' />
       <main id='skip-content' className={tw('layout lg:max-w-5xl', props.className)}>
         <BlogPostHeader {...props.frontMatter} />
@@ -27,7 +28,7 @@ export const PostLayout = (props: React.PropsWithChildren<PostLayoutProps>) => {
           <TableOfContents list={props.toc} slug={props.frontMatter.slug} />
         </section>
 
-        <BackTopButton />
+        <BlogPostComment />
       </main>
       <Footer className='lg:max-w-5xl' />
     </>
