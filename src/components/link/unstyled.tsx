@@ -1,6 +1,7 @@
 import { tw } from '@/utils/tw'
 
-import Link, { LinkProps as NextLinkProps } from 'next/link'
+import type { LinkProps as NextLinkProps } from 'next/link';
+import Link from 'next/link'
 import { forwardRef } from 'react'
 
 type Props = {

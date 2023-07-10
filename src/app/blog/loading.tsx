@@ -1,38 +1,26 @@
-import { tw } from '@/utils/tw'
+import { Skeleton } from '@/components/skeleton'
 
-import { BlogHero } from '@/features/blog'
 import { MainLayout } from '@/layouts'
-
-const loadingScreen = ['rounded-md', 'bg-base-300', 'dark:bg-base-700', 'animate-pulse']
 
 export default function LoadingBlogPage() {
   return (
     <>
-      <MainLayout className='space-y-10 md:space-y-14'>
-        <BlogHero />
+      <MainLayout className='pt-16'>
+        <Skeleton className='h-6 w-2/3 mb-8' />
 
-        <DummyList />
+        <div className='space-y-2 mb-8'>
+          <Skeleton className='h-4 w-3/4' />
+          <Skeleton className='h-4 w-2/3' />
+          <Skeleton className='h-4 w-4/5' />
+        </div>
+
+        <div className='space-y-2'>
+          <Skeleton className='h-32 w-full' />
+          <Skeleton className='h-32 w-full' />
+          <Skeleton className='h-32 w-full' />
+          <Skeleton className='h-32 w-full' />
+        </div>
       </MainLayout>
     </>
-  )
-}
-
-function DummyList() {
-  const list = [1, 2, 3, 4]
-
-  return (
-    <ul className='flex flex-col space-y-6'>
-      {list.map((item) => {
-        return (
-          <li
-            key={`loading-blog-list-${item}`}
-            className={tw('w-full h-24', ...loadingScreen)}
-            style={{
-              animationDelay: `.${item}s`,
-            }}
-          />
-        )
-      })}
-    </ul>
   )
 }

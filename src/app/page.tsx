@@ -1,10 +1,10 @@
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
-import { PatternBanner } from '@/components/pattern-banner'
 
+import { getLatestPosts } from '@/domains/post/utils/get-latest-posts'
 import { SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
-import { HomeExplore, HomeHero, HomeSkills, HomeTimeline } from '@/features/home'
+import { HomeHero, HomePosts } from '@/features/home'
 import { MainLayout } from '@/layouts'
 
 export const metadata = createMetadata({
@@ -29,15 +29,16 @@ export const metadata = createMetadata({
 })
 
 export default async function Page() {
+  const posts = await getLatestPosts()
+
+  if (!posts) throw new Error('Cannot get post list')
+
   return (
     <>
       <Header />
-      <PatternBanner />
       <MainLayout className='space-y-10 md:space-y-14'>
         <HomeHero />
-        <HomeTimeline />
-        <HomeSkills />
-        <HomeExplore />
+        <HomePosts posts={posts} />
       </MainLayout>
       <Footer />
     </>

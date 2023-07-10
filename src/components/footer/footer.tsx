@@ -22,7 +22,7 @@ export const Footer = (props: FooterProps) => {
         className={tw(
           'layout',
           'pt-3 pb-6 mt-4',
-          'border-t-2 border-t-base-300 dark:border-t-base-800',
+          'border-t border-t-base-200 dark:border-t-base-900',
           props.className,
         )}
       >

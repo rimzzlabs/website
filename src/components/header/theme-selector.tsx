@@ -79,7 +79,7 @@ export const HeaderThemeSelector = () => {
             'w-40 right-0 p-1 z-[9999]',
             'ring-1 focus:outline-none border',
             'rounded-md origin-top-right',
-            'border-base-400 dark:border-base-600',
+            'border-base-300 dark:border-base-800',
             'ring-black/5 bg-white dark:bg-base-900',
           )}
         >

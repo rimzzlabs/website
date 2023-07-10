@@ -1,17 +1,31 @@
-import { CldOptions } from '@cld-apis/types'
+import type { CldOptions } from '@cld-apis/types'
 import buildUrl from 'cloudinary-build-url'
-import Image, { ImageProps } from 'next/image'
+import type { ImageProps } from 'next/image'
+import Image from 'next/image'
 import { forwardRef } from 'react'
 
-type ImagePropsOmit = Omit<Omit<Omit<ImageProps, 'title'>, 'src'>, 'alt'>
-type Props = ImagePropsOmit & {
+type ImagePropsExtended = Omit<ImageProps, 'src'>
+
+type Props = ImagePropsExtended & {
   title: string
   alt: string
   publicId: string
   buildUrlProps?: CldOptions
 }
 
-export const CloudinaryImg = forwardRef<HTMLImageElement, Props>(
+type CloudinaryImgAbsoluteProps = Props & {
+  width: ImageProps['width']
+  height: ImageProps['height']
+}
+
+type CloudinaryImgFillProps = Props & {
+  fill: boolean
+  sizes: string
+}
+
+type P = CloudinaryImgAbsoluteProps | CloudinaryImgFillProps
+
+export const CloudinaryImg = forwardRef<HTMLImageElement, P>(
   ({ publicId, buildUrlProps, ...props }, ref) => {
     const src = buildUrl(publicId, {
       ...buildUrlProps,
@@ -21,7 +35,7 @@ export const CloudinaryImg = forwardRef<HTMLImageElement, Props>(
       },
     })
     // eslint-disable-next-line jsx-a11y/alt-text
-    return <Image src={src} ref={ref} {...props} />
+    return <Image {...props} src={src} ref={ref} />
   },
 )
 

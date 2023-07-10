@@ -1,1 +1,1 @@
-export * from './footer'
+export { Footer } from './footer'

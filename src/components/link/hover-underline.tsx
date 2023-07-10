@@ -1,6 +1,6 @@
 import { tw } from '@/utils/tw'
 
-import { UnstyledLinkProps } from './unstyled'
+import type { UnstyledLinkProps } from './unstyled'
 
 import Link from 'next/link'
 import { forwardRef } from 'react'

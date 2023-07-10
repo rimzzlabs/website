@@ -1,6 +1,6 @@
 import { SITE_OWNER_ROLE, SITE_URL } from '../constant'
 
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 type Meta = Metadata & {
   templateTitle?: string

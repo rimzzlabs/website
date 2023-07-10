@@ -1,6 +1,6 @@
 import { tw } from '@/utils/tw'
 
-import { UnstyledLinkProps } from './unstyled'
+import type { UnstyledLinkProps } from './unstyled'
 
 import Link from 'next/link'
 import { forwardRef } from 'react'
@@ -12,7 +12,7 @@ export const ColorLink: UnstyledLinkProps = forwardRef(({ flex, children, ...pro
       {...props}
       className={tw(
         flex && 'flex items-center',
-        'text-primary-600 dark:text-primary-500 font-medium',
+        'text-primary-600 dark:text-primary-500 font-medium no-underline',
         props.className,
       )}
     >

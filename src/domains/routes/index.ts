@@ -1,2 +1,2 @@
-export * from './constant'
-export * from './type'
+export { ALL_ROUTES, NAVBAR_ROUTES } from './constant'
+export type { ROUTE } from './type'

@@ -31,7 +31,7 @@ export default async function Page() {
   return (
     <>
       <Header />
-      <MainLayout className='space-y-10 md:space-y-14'>
+      <MainLayout className='pt-16'>
         <BlogHero />
         <BlogPosts posts={posts} />
       </MainLayout>

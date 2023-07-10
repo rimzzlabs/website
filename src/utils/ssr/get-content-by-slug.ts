@@ -1,5 +1,5 @@
 import { MDXComponents } from '@/components/mdx-components'
-import { TocList } from '@/components/table-of-contents'
+import type { TocList } from '@/components/table-of-contents'
 
 import { slugify } from '@/utils/slugify'
 

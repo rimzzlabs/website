@@ -1,5 +1,3 @@
-'use client'
-
 import { formatReadableDate, formatToISO } from '@/utils/date'
 
 import { TbCalendarEvent } from 'react-icons/tb'
@@ -9,12 +7,12 @@ type Props = {
   iconSize?: number
 }
 
-export const BlogPublishedAt = (props: Props) => {
+export const PostPublishedLabel = (props: Props) => {
   const ISOdate = formatToISO(props.publishedAt)
 
   return (
-    <span className='flex items-center'>
-      <TbCalendarEvent size={props?.iconSize ?? 18} />
+    <span className='flex items-center text-sm'>
+      <TbCalendarEvent size={props?.iconSize ?? 14} />
 
       <time className='ml-1' dateTime={ISOdate}>
         {formatReadableDate(props.publishedAt)}

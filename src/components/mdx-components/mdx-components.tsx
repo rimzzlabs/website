@@ -1,10 +1,12 @@
+import { ColorLink } from '../link/color'
 import { Code } from './code'
 import { CodeBlock } from './code-block'
 import { mdxHeading } from './heading'
 
-import { MDXRemoteProps } from 'next-mdx-remote/rsc'
+import type { MDXRemoteProps } from 'next-mdx-remote/rsc'
 
 const MDXComponents = {
+  a: ColorLink,
   pre: CodeBlock,
   code: Code,
   h2: mdxHeading('h2'),

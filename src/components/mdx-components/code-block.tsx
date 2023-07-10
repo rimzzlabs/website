@@ -7,6 +7,7 @@ import { useCopyClipboard } from '@/hooks/use-copy-clipboard'
 import { tw } from '@/utils/tw'
 
 import { useRef } from 'react'
+import { SiJavascript } from 'react-icons/si'
 import { TbCheck, TbClipboard, TbLoader2 } from 'react-icons/tb'
 import { match } from 'ts-pattern'
 
@@ -24,10 +25,14 @@ const CodeBlockHeading = (props: { label: string; content?: string | null }) => 
         'h-10 px-4',
         'absolute top-0 inset-x-0',
         'flex items-center justify-between',
-        'rounded-t-[0.3em] bg-[#45474B] ',
+        'rounded-t-[0.3em] bg-[#787586] ',
       )}
     >
-      <span className='text-[#F9F871] text-sm font-medium'>{props.label}</span>
+      {match(props.label)
+        .with('js', () => <SiJavascript size={18} className='text-[#F2ECFF] ' />)
+        .otherwise((label) => {
+          return <span className='text-[#F2ECFF] text-sm font-medium'>{label}</span>
+        })}
 
       <button
         onClick={onClickCopy}
@@ -36,11 +41,11 @@ const CodeBlockHeading = (props: { label: string; content?: string | null }) => 
         <span className='sr-only'>Copy to clipboard</span>
         {match(state)
           .with({ isCopying: true, isCopied: false }, () => (
-            <TbLoader2 className='animate-spin text-white' />
+            <TbLoader2 className='animate-spin text-[#F2ECFF]' />
           ))
           .with({ isCopied: true, isCopying: false }, () => <TbCheck className='text-[#00C896]' />)
           .otherwise(() => (
-            <TbClipboard className='text-white' />
+            <TbClipboard className='text-[#F2ECFF]' />
           ))}
       </button>
 
@@ -60,7 +65,7 @@ export const CodeBlock = ({ children, className }: Props) => {
   return (
     <div className='relative'>
       <CodeBlockHeading label={label} content={preRef.current?.textContent} />
-      <pre ref={preRef} className={tw(className, '[&>code]:border-none !pt-12')}>
+      <pre ref={preRef} className={tw(className, '[&>code]:border-none [&>code]:!bg-unset !pt-12')}>
         {children}
       </pre>
     </div>

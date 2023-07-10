@@ -12,7 +12,7 @@ type Props = {
   iconSize?: number
 }
 
-export const BlogReadingTime = (props: Props) => {
+export const PostReadTimeLabel = (props: Props) => {
   const estReadTime = (value: ReadTimeResults) => {
     return match(Math.floor(value.minutes))
       .with(P.gte(11), () => `10+ mins. read`)
@@ -22,10 +22,10 @@ export const BlogReadingTime = (props: Props) => {
   }
 
   return match(props.est_read)
-    .with({}, (value) => (
+    .with({ minutes: P.number, text: P.string, time: P.number, words: P.number }, (value) => (
       <span className='flex items-center'>
-        <TbClockRecord size={props?.iconSize ?? 18} />
-        <span className='mx-1'>{estReadTime(value)}</span>
+        <TbClockRecord size={props?.iconSize ?? 14} />
+        <span className='mx-1 text-sm'>{estReadTime(value)}</span>
         <TbQuestionCircle
           data-tooltip-id={props.tooltipId}
           size={14}

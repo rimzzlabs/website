@@ -1,5 +1,7 @@
 'use client'
 
+import { useWindowYAxis } from '@/hooks/use-win-y-axis'
+
 import { tw } from '@/utils/tw'
 
 import { Navbar } from './navbar'
@@ -11,12 +13,15 @@ type HeaderProps = {
 }
 
 export const Header = (props: HeaderProps) => {
+  const y = useWindowYAxis()
+
   return (
     <header
       className={tw(
         'fixed top-0 inset-x-0 z-[999]',
-        'border-b border-transparent',
+        'border-b border-transparent transition-[background-color,border-color]',
         'bg-base-50 dark:bg-base-950',
+        y > 65 && 'border-base-200 dark:border-base-900',
       )}
     >
       <div

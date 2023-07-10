@@ -1,2 +1,3 @@
 export * from './get-content-by-slug'
-export * from './get-contents'
+export { getContents } from './get-contents'
+export type { GetContents } from './get-contents'

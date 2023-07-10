@@ -26,10 +26,12 @@ module.exports = {
         white: colors.white,
         black: colors.black,
         transparent: colors.transparent,
+        unset: 'unset',
       },
       spacing: {
         unset: 'unset',
       },
+
       screens: {
         xs: '346px',
         lg: '1126px',

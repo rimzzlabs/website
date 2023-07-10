@@ -1,3 +1,4 @@
 export * from './blog-hero'
-export * from './blog-posts'
-export * from './blog-post'
+export { BlogPosts } from './blog-posts'
+export type { BlogProps } from './blog-posts'
+export { BlogPostComment, BlogPostHeader } from './blog-post'

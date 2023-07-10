@@ -1,1 +1,1 @@
-export * from './create-metadata'
+export { createMetadata } from './create-metadata'

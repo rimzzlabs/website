@@ -1,6 +1,7 @@
 import { tw } from '@/utils/tw'
 
-import { ITooltip, Tooltip } from 'react-tooltip'
+import type { ITooltip} from 'react-tooltip';
+import { Tooltip } from 'react-tooltip'
 
 type OmittedBaseProps = Omit<ITooltip, 'content'>
 

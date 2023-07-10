@@ -16,17 +16,21 @@
     @apply text-xl md:text-2xl 3xl:text-3xl;
   }
   h4 {
-    @apply md:text-lg;
+    @apply md:text-lg 3xl:text-xl;
   }
   h5 {
-    @apply md:text-lg;
+    @apply md:text-lg 3xl:text-xl;
   }
   p {
-    @apply text-typo-paragraph dark:text-typo-p-dark;
+    @apply text-typo-paragraph dark:text-typo-p-dark 3xl:text-lg;
   }
   body {
     @apply antialiased bg-base-50 dark:bg-base-950 pt-16 font-primary motion-safe:transition-[background-color,_color];
     @apply text-base-800 dark:text-base-300;
+  }
+
+  hr {
+    @apply border-base-300 dark:border-base-900;
   }
 
   html.dark {
@@ -34,7 +38,7 @@
   }
 
   .layout {
-    @apply mx-auto max-w-2xl w-[86%];
+    @apply mx-auto max-w-2xl 3xl:max-w-4xl w-[86%];
   }
 
   :is(a, button) {
@@ -47,8 +51,8 @@
   }
 
   h1.title {
-    @apply text-6xl md:text-8xl 3xl:text-9xl text-transparent bg-clip-text pb-2.5;
-    @apply bg-gradient-to-r from-primary-500 to-secondary-500;
+    @apply text-6xl md:text-6xl 3xl:text-7xl text-transparent bg-clip-text !leading-tight;
+    @apply bg-gradient-to-r from-primary-700 to-secondary-500;
   }
 
   code {
@@ -59,28 +63,5 @@
     code {
       @apply !font-firaCodeVF;
     }
-  }
-
-  .pattern {
-    background-color: #ffffff;
-    opacity: 1;
-    background-image: linear-gradient(135deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
-      linear-gradient(225deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
-      linear-gradient(45deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
-      linear-gradient(315deg, rgba(59, 30, 246, 1) 25%, #ffffff 25%);
-    background-position: 19px 0, 19px 0, 0 0, 0 0;
-    background-size: 38px 38px;
-    background-repeat: repeat;
-  }
-  .dark .pattern {
-    background-color: #02050d;
-    opacity: 1;
-    background-image: linear-gradient(135deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
-      linear-gradient(225deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
-      linear-gradient(45deg, rgba(59, 30, 246, 1) 25%, transparent 25%),
-      linear-gradient(315deg, rgba(59, 30, 246, 1) 25%, #02050d 25%);
-    background-position: 19px 0, 19px 0, 0 0, 0 0;
-    background-size: 38px 38px;
-    background-repeat: repeat;
   }
 }
