@@ -25,7 +25,9 @@ export const metadata = createMetadata({
     images: ogImageURL,
     type: 'website',
     title: SITE_OWNER,
-    description: `My personal blog is a place where I share my experiences, knowledge, my hobbies, and ideas on a variety of topics`,
+    siteName: 'rizkicitra.dev',
+    url: 'https://rizkicitra.dev/blog',
+    description: `My personal blog`,
   },
   twitter: {
     card: 'summary_large_image',

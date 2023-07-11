@@ -30,6 +30,9 @@ export const metadata = createMetadata({
     images: ogImageURL,
     type: 'profile',
     title: SITE_OWNER,
+    siteName: 'rizkicitra.dev',
+    url: 'https://rizkicitra.dev',
+    description: `My personal website`,
   },
   twitter: {
     card: 'summary_large_image',
