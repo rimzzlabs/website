@@ -13,6 +13,7 @@ import { P, match } from 'ts-pattern'
 type PostCardProps = PostFrontMatter & {
   className?: string
   headingLevel?: 'h2' | 'h3' | 'h4'
+  clickableTags?: boolean
 }
 
 const headingProps = { className: 'mt-1 mb-4' }
@@ -33,9 +34,32 @@ export const PostCard = (props: PostCardProps) => {
     )
     .exhaustive()
 
+  const tags = match([props.tags, props.clickableTags])
+    .with([P.array(), P.nullish], ([tags]) => (
+      <div className='flex items-center space-x-1'>
+        {tags.map((tag) => (
+          <PostTag key={`tag-${tag}-${props.slug}`} tag={tag} />
+        ))}
+      </div>
+    ))
+    .with([P.array(), P.shape(true)], ([tags]) => (
+      <div className='flex items-center space-x-1'>
+        {tags.map((tag) => (
+          <PostTag key={`tag-${tag}-${props.slug}`} tag={tag} />
+        ))}
+      </div>
+    ))
+    .with([P.array(), P.shape(false)], ([tags, clickable]) => (
+      <div className='flex items-center space-x-1'>
+        {tags.map((tag) => (
+          <PostTag clickable={clickable} key={`tag-${tag}-${props.slug}`} tag={tag} />
+        ))}
+      </div>
+    ))
+    .otherwise(() => null)
+
   return (
     <div className={tw('py-4 first-of-type:pt-0 last-of-type:pb-0', props.className)}>
-      {/* <div className='flex flex-col space-y-1 sm:space-y-unset sm:flex-row sm:items-center sm:space-x-2'> */}
       <div className='flex items-center space-x-4'>
         <PostPublishedLabel publishedAt={props.publishedAt} />
 
@@ -47,15 +71,7 @@ export const PostCard = (props: PostCardProps) => {
 
       {heading}
 
-      {match(props.tags)
-        .with(P.array(), () => (
-          <div className='flex items-center space-x-1'>
-            {props.tags.map((tag) => (
-              <PostTag key={`tag-${tag}-${props.slug}`} tag={tag} />
-            ))}
-          </div>
-        ))
-        .otherwise(() => null)}
+      {tags}
     </div>
   )
 }

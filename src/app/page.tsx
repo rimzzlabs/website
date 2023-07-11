@@ -2,13 +2,14 @@ import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 
 import { getLatestPosts } from '@/domains/post/utils/get-latest-posts'
-import { SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
+import { SITE_OWNER, SITE_OWNER_ROLE, SITE_URL, createMetadata } from '@/domains/seo'
 
 import { HomeHero, HomePosts } from '@/features/home'
 import { MainLayout } from '@/layouts'
 
 export const metadata = createMetadata({
   title: SITE_OWNER,
+  templateTitle: SITE_OWNER_ROLE,
   description: `Embark on an Unforgettable Voyage through Rizki's Digital Cosmos: Delve into Thought-Provoking Blog Posts, Explore the Marvels of My Personal Portfolio, and Immerse Yourself in an Abundance of Inspirations, Musings, and Creative Adventures, All Within the Enchanting Realm of My Online Haven.`,
   keywords: [
     SITE_OWNER,

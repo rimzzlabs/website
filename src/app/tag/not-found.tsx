@@ -1,12 +1,12 @@
 import { NotFound } from '@/components/not-found'
 
-export default function NotFoundPost() {
+export default function NotFoundTag() {
   return (
     <NotFound
-      title='Post not found'
+      title='Tag not found'
       description="Oops ..., You've visited the unwritten blog post!"
-      restoreUrl='/blog'
-      restoreText='See all posts'
+      restoreUrl='/tag'
+      restoreText='See all tags'
     />
   )
 }

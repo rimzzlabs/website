@@ -51,8 +51,8 @@
   }
 
   h1.title {
-    @apply text-6xl md:text-6xl 3xl:text-7xl text-transparent bg-clip-text !leading-tight;
-    @apply bg-gradient-to-r from-primary-700 to-secondary-500;
+    @apply text-5xl/tight md:text-5xl/tight 3xl:text-7xl/normal text-transparent bg-clip-text pb-1.5;
+    @apply bg-gradient-to-r from-primary-700 from-20% to-secondary-500;
   }
 
   code {

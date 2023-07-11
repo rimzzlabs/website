@@ -1,4 +1,4 @@
-import { SITE_OWNER_ROLE, SITE_URL } from '../constant'
+import { SITE_NAME, SITE_URL } from '../constant'
 
 import type { Metadata } from 'next'
 
@@ -8,7 +8,7 @@ type Meta = Metadata & {
 }
 
 export const createMetadata = ({ canonical, templateTitle, ...meta }: Meta): Metadata => {
-  const title = `${meta.title} — ${templateTitle ?? SITE_OWNER_ROLE}`
+  const title = `${meta.title} — ${templateTitle ?? SITE_NAME}`
   const metadataBase = new URL(SITE_URL)
 
   return { ...meta, title, metadataBase, alternates: { canonical: canonical } }
