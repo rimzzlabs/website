@@ -5,7 +5,7 @@ export const ALL_ROUTES: ROUTE[] = [
   { href: '/blog', name: 'Blog', title: 'Blog Page' },
   { href: '/project', name: 'Project', title: 'Portfolio Page' },
   { href: '/guestbook', name: 'Guestbook', title: 'Guestbook Page' },
-  { href: '/tag', name: 'Tags', title: 'Tag Page' },
+  { href: '/tag', name: 'Tag', title: 'Tag Page' },
   { href: '/resume', name: 'Resume', title: 'Resume' },
   { href: '/snippet', name: 'Snippet', title: 'Snippet page' },
 ]
