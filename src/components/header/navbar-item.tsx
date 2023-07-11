@@ -15,11 +15,11 @@ export const NavbarItem = ({ name, ...props }: ROUTE) => {
   const activeClassName = match(pathname)
     .with(
       P.when((path) => props.href === '/' && path === props.href),
-      () => 'text-primary-500',
+      () => 'text-primary-700 dark:text-primary-500',
     )
     .with(
       P.when((path) => props.href !== '/' && path.includes(props.href)),
-      () => 'text-primary-500',
+      () => 'text-primary-700 dark:text-primary-500',
     )
     .otherwise(() => null)
 

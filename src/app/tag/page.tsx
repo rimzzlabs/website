@@ -19,7 +19,7 @@ type SearchParamsTag = ParsedUrlQuery & {
   tag?: string
 }
 
-export const generateMetadata = async (props: PageProps) => {
+export async function generateMetadata(props: PageProps) {
   const searchParams = props.searchParams as SearchParamsTag
   const title = match(searchParams.tag)
     .with(P.not(P.nullish), (tag) => 'Tag: ' + tag)
