@@ -19,7 +19,9 @@ const inter = localFont({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' className={tw('scroll-pt-20', inter.variable)} suppressHydrationWarning>
-      <head />
+      <head>
+        <meta name='theme-color' content='030712' />
+      </head>
       <body>
         <SkipContent />
         <Providers>{children}</Providers>

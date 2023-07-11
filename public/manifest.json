@@ -1,0 +1,90 @@
+{
+  "theme_color": "#030712",
+  "background_color": "#030712",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "author": "Rizki Maulana Citra",
+  "name": "rizkicitra.dev",
+  "app_name": "app.rizkicitra.dev",
+  "short_name": "Rizki M Citra",
+  "description": "Read my blog posts from your home shortcut, no need to open a web browser!",
+  "icons": [
+    {
+      "src": "/icons/android/72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android/96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android/128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android/144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android/152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android/384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/iphone/129.png",
+      "sizes": "129x129",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/iphone/180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "rizkicitra.dev",
+      "short_name": "Today",
+      "description": "App from Rizki M Citra",
+      "url": "/",
+      "icons": [{ "src": "/icons/android/192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "rizkicitra.dev",
+      "short_name": "Tomorrow",
+      "description": "App from Rizki M Citra",
+      "url": "/",
+      "icons": [{ "src": "/icons/iphone/180.png", "sizes": "180x180" }]
+    }
+  ]
+}
