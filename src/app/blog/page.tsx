@@ -22,7 +22,7 @@ export const metadata = createMetadata({
   creator: 'Rizki Maulana Citra',
   canonical: SITE_URL + '/blog',
   openGraph: {
-    images: `https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp`,
+    images: ogImageURL,
     type: 'website',
     title: SITE_OWNER,
     description: `My personal blog is a place where I share my experiences, knowledge, my hobbies, and ideas on a variety of topics`,
