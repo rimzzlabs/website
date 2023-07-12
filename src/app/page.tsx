@@ -6,6 +6,7 @@ import { PostCard } from '@/components/post'
 import { getLatestPosts } from '@/domains/post/utils/get-latest-posts'
 import {
   KEYWORDS,
+  OG,
   SITE_OWNER,
   SITE_OWNER_ROLE,
   SITE_URL,
@@ -15,17 +16,13 @@ import {
 
 import { MainLayout } from '@/layouts'
 
-import buildUrl from 'cloudinary-build-url'
-
-const ogImageURL = buildUrl('rizkicitra.dev/og/og.jpg', { cloud: { cloudName: 'rizkicitra' } })
-
 export const metadata = createMetadata({
   title: SITE_OWNER,
   templateTitle: SITE_OWNER_ROLE,
   description: `Hey, I am Rizki Maulana Citra. I am a software engineer frontend. I craft fascinating and intuitive user interfaces.`,
   keywords: KEYWORDS.home,
   openGraph: {
-    images: ogImageURL,
+    images: OG.static,
     url: SITE_URL,
     title: SITE_OWNER,
     type: 'profile',
@@ -40,7 +37,7 @@ export const metadata = createMetadata({
     creatorId: TWITTER.id,
     siteId: TWITTER.id,
     title: SITE_OWNER,
-    images: [ogImageURL],
+    images: [OG.static],
   },
 })
 

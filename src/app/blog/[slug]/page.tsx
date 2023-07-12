@@ -1,6 +1,6 @@
 import { getPosts } from '@/domains/post'
 import { getPost } from '@/domains/post/utils/get-post'
-import { SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
+import { OG, SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
 import { tw } from '@/utils/tw'
 
@@ -9,6 +9,7 @@ import { PostLayout } from '@/layouts/post-layout'
 import localFont from 'next/font/local'
 import { notFound, redirect } from 'next/navigation'
 import 'prism-themes/themes/prism-a11y-dark.css'
+import { P, match } from 'ts-pattern'
 
 const FiraCode = localFont({
   src: [
@@ -59,19 +60,27 @@ type PageParam = {
 export async function generateMetadata(param: PageParam) {
   const post = await getPost(param.params.slug)
 
-  return createMetadata({
-    title: post?.frontMatter.title ?? 'Crafting Blog Post...',
-    description: post?.frontMatter.description ?? '',
-    templateTitle: SITE_NAME,
-    keywords: post?.frontMatter.keywords,
-    canonical: SITE_URL + '/blog/' + post?.frontMatter.slug ?? '',
-    creator: SITE_OWNER,
-    openGraph: {
-      images: `https://ik.imagekit.io/mlnzyx/attachment/tr:w-720,h-720,f-auto/rizkimcitra.webp`,
-      type: 'article',
-      title: post?.frontMatter.title ?? "Rizki's Post",
-    },
-  })
+  return match(post)
+    .with(P.not(P.nullish), (post) =>
+      createMetadata({
+        title: post.frontMatter.title,
+        description: post.frontMatter.description,
+        templateTitle: SITE_NAME,
+        keywords: post.frontMatter.keywords,
+        authors: [
+          {
+            name: SITE_OWNER,
+            url: SITE_URL,
+          },
+        ],
+        openGraph: {
+          images: OG.dynamic,
+          type: 'article',
+          title: post.frontMatter.title ?? "Rizki's Post",
+        },
+      }),
+    )
+    .otherwise(() => ({ title: 'You might searching for unavailable post' }))
 }
 
 export async function generateStaticParams() {

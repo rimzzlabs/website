@@ -1,3 +1,4 @@
+import buildUrl from 'cloudinary-build-url'
 import type { Metadata } from 'next'
 
 const siteOwner = process.env.NEXT_PUBLIC_SITE_OWNER
@@ -42,3 +43,16 @@ export const KEYWORDS = {
 export const AUTHORS: Metadata['authors'] = [
   { name: 'Rizki Maulana Citra', url: 'https://rizkicitra.dev' },
 ]
+
+export const OG = {
+  static: buildUrl('rizkicitra.dev/og/og.png', {
+    cloud: {
+      cloudName: 'rizkicitra',
+    },
+  }),
+  dynamic: buildUrl('rizkicitra.dev/og/dynamic.png', {
+    cloud: {
+      cloudName: 'rizkicitra',
+    },
+  }),
+}

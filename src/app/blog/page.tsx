@@ -2,19 +2,11 @@ import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 
 import { getPosts } from '@/domains/post'
-import { SITE_NAME, SITE_OWNER, TWITTER, createMetadata } from '@/domains/seo'
+import { OG, SITE_NAME, SITE_OWNER, TWITTER, createMetadata } from '@/domains/seo'
 
 import { MainLayout } from '@/layouts'
 
 import { BlogPosts } from './blog-posts'
-
-import buildUrl from 'cloudinary-build-url'
-
-const og = buildUrl('rizkicitra.dev/og/og.png', {
-  cloud: {
-    cloudName: 'rizkicitra',
-  },
-})
 
 export const metadata = createMetadata({
   title: 'Blog',
@@ -22,7 +14,7 @@ export const metadata = createMetadata({
   description: `My personal blog is a place where I share my experiences, knowledge, my hobbies, and ideas on a variety of topics`,
   creator: 'Rizki Maulana Citra',
   openGraph: {
-    images: og,
+    images: OG.static,
     type: 'website',
     title: SITE_OWNER,
     siteName: SITE_NAME,
@@ -35,7 +27,7 @@ export const metadata = createMetadata({
     creatorId: TWITTER.id,
     siteId: TWITTER.id,
     title: SITE_OWNER,
-    images: [og],
+    images: [OG.static],
   },
 })
 
