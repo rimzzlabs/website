@@ -4,8 +4,10 @@ import { Header } from '@/components/header'
 import { getPostsByTag } from '@/domains/post/utils'
 import { createMetadata } from '@/domains/seo'
 
-import { TagHero, TagList, TagPosts } from '@/features/tag'
 import { MainLayout } from '@/layouts'
+
+import { TagList } from './tag-list'
+import { TagPosts } from './tag-posts'
 
 import type { ParsedUrlQuery } from 'querystring'
 import { P, match } from 'ts-pattern'
@@ -33,8 +35,10 @@ export async function generateMetadata(props: PageProps) {
 
 export default async function Page(props: PageProps) {
   const searchParams = props.searchParams as SearchParamsTag
-
   const posts = await getPostsByTag(searchParams.tag)
+  const title = match(searchParams.tag)
+    .with(P.not(P.nullish), (tag) => <h1 className='title mb-2'>Tag: {tag}</h1>)
+    .otherwise(() => <h1 className='title mb-2'>Tag</h1>)
 
   if (!posts) {
     throw new Error('Something went wrong and it is my fault')
@@ -44,7 +48,10 @@ export default async function Page(props: PageProps) {
     <>
       <Header />
       <MainLayout className='pt-16'>
-        <TagHero tag={searchParams?.tag} />
+        <section className='mb-8'>
+          {title}
+          <p>You can filter my post based on the available tags I provide.</p>
+        </section>
         <TagList />
         <TagPosts posts={posts} />
       </MainLayout>

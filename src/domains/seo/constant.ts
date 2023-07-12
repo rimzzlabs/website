@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+
 const siteOwner = process.env.NEXT_PUBLIC_SITE_OWNER
 const siteOwnerRole = process.env.NEXT_PUBLIC_SITE_OWNER_ROLE
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME
@@ -18,3 +20,25 @@ export const TWITTER = {
   id: twitterId,
   username: twitterUsername,
 }
+
+export const KEYWORDS = {
+  home: [
+    SITE_OWNER,
+    'rizki',
+    'rizki citra',
+    'rizki m citra',
+    'rizki maulana citra',
+    'software engineer',
+    'frontend development',
+    'slicing website',
+    'blog',
+    'tech',
+    'reactjs',
+    'nextjs',
+    'personal website',
+  ],
+}
+
+export const AUTHORS: Metadata['authors'] = [
+  { name: 'Rizki Maulana Citra', url: 'https://rizkicitra.dev' },
+]
