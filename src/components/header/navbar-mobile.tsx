@@ -31,8 +31,8 @@ export const NavbarMobile = () => {
         className={tw(
           'inline-flex items-center justify-center',
           'w-9 h-9 md:w-10 md:h-10 rounded flex-shrink-0 motion-safe:transition',
-          'bg-base-50 dark:bg-base-950',
-          'hover:bg-base-200 dark:hover:bg-base-900',
+          'bg-base-50 dark:bg-base-900',
+          'hover:bg-base-200 dark:hover:bg-base-800',
         )}
       >
         {({ open }) => (
@@ -55,12 +55,12 @@ export const NavbarMobile = () => {
         <Menu.Items
           as='div'
           className={tw(
-            'absolute top-11 md:top-12',
-            'w-40 right-0 p-1 z-[9999]',
+            'absolute top-12 right-0',
+            'w-40 p-0.5 z-[9999]',
             'ring-1 focus:outline-none border',
             'rounded-md origin-top-right',
-            'border-base-300 dark:border-base-800',
-            'ring-black/5 bg-white dark:bg-base-900',
+            'border-base-300 dark:border-base-700',
+            'ring-black/5 bg-white dark:bg-base-800',
           )}
         >
           <ul className='flex flex-col w-full'>
@@ -73,14 +73,14 @@ export const NavbarMobile = () => {
                       title={item.title}
                       onClick={close}
                       className={tw(
-                        'flex items-center justify-start',
-                        'px-1.5 h-9 md:h-10 space-x-2.5 w-full',
+                        'flex items-center',
+                        'px-1.5 h-9 md:h-10 w-full',
                         'rounded motion-safe:transition dark:text-white',
-                        active && 'bg-primary-500 text-white',
+                        active && 'bg-base-200 dark:bg-base-900 dark:text-white',
                       )}
                     >
                       <item.Icon className='w-4 h-4 md:w-5 md:h-5' />
-                      <span className='text-xs md:text-sm'>{item.name}</span>
+                      <span className='text-xs md:text-sm ml-2.5 mr-4'>{item.name}</span>
                     </UnstyledLink>
                   )}
                 </Menu.Item>

@@ -8,7 +8,6 @@ const list: Array<PostTagType> = [
   'jotai',
   'user experience',
   'dev experience',
-  'personal branding',
   'personal growth',
 ]
 

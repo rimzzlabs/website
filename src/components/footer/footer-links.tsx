@@ -1,19 +1,34 @@
+'use client'
+
 import { ALL_ROUTES } from '@/domains/routes'
 
 import { UnstyledLink } from '../link'
 
-export const FooterLinks = () => (
-  <div className='flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3'>
-    {ALL_ROUTES.map(({ name, ...item }) => {
-      return (
-        <UnstyledLink
-          {...item}
-          className='md:max-w-max motion-safe:transition hover:text-primary-500'
-          key={item.href}
-        >
-          {name}
-        </UnstyledLink>
-      )
-    })}
-  </div>
-)
+import { usePathname } from 'next/navigation'
+import { P, match } from 'ts-pattern'
+
+export const FooterLinks = () => {
+  const pathname = usePathname()
+
+  const routes = ALL_ROUTES.filter((route) => {
+    return match(route.href)
+      .with(P.not(P.shape(pathname)), () => true)
+      .otherwise(() => false)
+  })
+
+  return (
+    <div className='flex items-center space-x-3'>
+      {routes.map(({ name, ...item }) => {
+        return (
+          <UnstyledLink
+            {...item}
+            className='md:max-w-max motion-safe:transition hover:text-primary-500'
+            key={item.href}
+          >
+            {name}
+          </UnstyledLink>
+        )
+      })}
+    </div>
+  )
+}

@@ -21,12 +21,11 @@ export const Footer = (props: FooterProps) => {
       <footer
         className={tw(
           'layout',
-          'pt-3 pb-6 mt-4',
+          'pt-8 pb-6 mt-16',
           'border-t border-t-base-200 dark:border-t-base-900',
           props.className,
         )}
       >
-        <p className='text-lg font-bold mb-2'>Explore More</p>
         <FooterLinks />
         <FooterCopyRight />
       </footer>

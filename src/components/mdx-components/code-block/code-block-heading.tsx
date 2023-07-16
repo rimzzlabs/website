@@ -18,8 +18,8 @@ export const CodeBlockHeading = (props: { label: string; content?: string | null
         'h-10 px-4',
         'absolute top-0 inset-x-0',
         'flex items-center justify-between',
-        'rounded-t-[0.3em] bg-base-50 dark:bg-base-950',
-        'border-t border-x border-base-300 dark:border-base-900',
+        'rounded-t-[0.3em] bg-base-50 dark:bg-base-900',
+        'border-t border-x border-base-300 dark:border-base-800',
       )}
     >
       <CodeBlockLanguage label={props.label} />

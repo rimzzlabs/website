@@ -8,6 +8,7 @@ import matter from 'gray-matter'
 import { type CompileMDXResult, compileMDX } from 'next-mdx-remote/rsc'
 import { join } from 'path'
 import readingTime from 'reading-time'
+import rehypePrism from 'rehype-prism-plus'
 
 type Content<T> = {
   frontMatter: T
@@ -17,10 +18,7 @@ type Content<T> = {
 
 export const getContent = async <T>(path: string): Promise<Content<T>> => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const mdxPrism = require('mdx-prism')
-
-    const slug = path.split('/')[0]
+    const slug = path.split('/').at(-1)
     const targetFile = join(process.cwd(), path + '.mdx')
     const file = await readFile(targetFile, 'utf8')
 
@@ -34,11 +32,15 @@ export const getContent = async <T>(path: string): Promise<Content<T>> => {
       url: slugify(match[2]), // Generate an URL-friendly ID from the heading text
     }))
 
+    const rehypePrismOptions = {
+      showLineNumbers: true,
+    }
+
     const { content, frontmatter } = await compileMDX<T>({
       source: file,
       options: {
         parseFrontmatter: true,
-        mdxOptions: { format: 'mdx', rehypePlugins: [mdxPrism] },
+        mdxOptions: { format: 'mdx', rehypePlugins: [[rehypePrism, rehypePrismOptions]] },
       },
       components: MDXComponents,
     })

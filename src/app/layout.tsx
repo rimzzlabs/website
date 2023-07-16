@@ -1,4 +1,5 @@
 import { SkipContent } from '@/components/skip-content'
+import { UmamiScript } from '@/components/umami-script'
 
 import { SITE_NAME, SITE_URL } from '@/domains/seo'
 
@@ -31,6 +32,9 @@ export const metadata: Metadata = {
       index: true,
       follow: true,
     },
+    'max-snippet': -1,
+    'max-video-preview': -1,
+    'max-image-preview': 'large',
   },
   appleWebApp: {
     startupImage: [
@@ -42,13 +46,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en-US' className={tw('scroll-pt-20', inter.variable)} suppressHydrationWarning>
       <head />
       <body>
         <SkipContent />
         <Providers>{children}</Providers>
+
+        <UmamiScript />
       </body>
     </html>
   )

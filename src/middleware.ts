@@ -10,8 +10,5 @@ export default async function middleware(req: NextRequest) {
 
   return match(pathname)
     .with('/portfolio', () => redirect(`${url.origin}/project`))
-    .with('/blog/jotai-awesome-state-management', () =>
-      redirect(`${url.origin}/blog/jotai-awesome-state-manager`),
-    )
     .otherwise(() => NextResponse.next())
 }

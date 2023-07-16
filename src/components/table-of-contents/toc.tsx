@@ -11,6 +11,8 @@ type TableOfContentsProps = {
   slug: string
 }
 export const TableOfContents = (props: TableOfContentsProps) => {
+  /* The `useMemo` hook is used to memoize the result of a computation. In this case, it is used to
+  calculate the minimum level of the table of contents items. */
   const minLevel = useMemo(() => {
     return props.list.reduce((min, item) => (item.level < min ? item.level : min), 10) ?? 0
   }, [props.list])

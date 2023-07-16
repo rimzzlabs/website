@@ -25,43 +25,63 @@
     @apply text-typo-paragraph dark:text-typo-p-dark 3xl:text-lg;
   }
   body {
-    @apply antialiased bg-base-50 dark:bg-base-950 pt-16 font-primary motion-safe:transition-[background-color,_color];
+    @apply antialiased bg-base-50 dark:bg-base-900 pt-16 font-primary motion-safe:transition-[background-color,color];
     @apply text-base-800 dark:text-base-300;
   }
+}
 
-  hr {
-    @apply border-base-300 dark:border-base-900;
-  }
+hr {
+  @apply border-base-300 dark:border-base-800;
+}
 
-  html.dark {
-    @apply brightness-[.91];
-  }
+html.dark {
+  @apply brightness-[.9];
+}
 
-  .layout {
-    @apply mx-auto max-w-2xl 3xl:max-w-4xl w-[86%];
-  }
+.layout {
+  @apply mx-auto max-w-2xl 3xl:max-w-4xl w-[86%];
+}
 
-  :is(a, button) {
-    @apply outline-none;
-  }
+:is(a, button) {
+  @apply outline-none;
+}
 
-  :is(a, button) {
-    @apply outline-none ring-primary-500 ring-offset-base-50
+:is(a, button) {
+  @apply outline-none ring-primary-500 ring-offset-base-50
     motion-safe:transition focus-visible:ring focus-visible:ring-offset-4 dark:ring-primary-700 dark:ring-offset-base-950;
-  }
+}
 
-  h1.title {
-    @apply text-5xl/tight md:text-5xl/tight 3xl:text-7xl/normal text-transparent bg-clip-text pb-1.5;
-    @apply bg-gradient-to-r from-primary-700 from-20% to-secondary-500;
-  }
+h1.title {
+  @apply text-5xl/tight md:text-5xl/tight 3xl:text-7xl/normal text-transparent bg-clip-text pb-1.5;
+  @apply bg-gradient-to-r from-primary-700 from-20% to-secondary-500;
+}
 
+code {
+  @apply !font-firaCode;
+}
+
+@supports (font-variation-settings: normal) {
   code {
-    @apply !font-firaCode;
+    @apply !font-firaCodeVF;
   }
+}
 
-  @supports (font-variation-settings: normal) {
-    code {
-      @apply !font-firaCodeVF;
-    }
-  }
+.code-line {
+  @apply block border-l-4 border-l-transparent;
+}
+
+.code-line.inserted {
+  @apply bg-[rgba(16,185,129,0.2)] border-l-emerald-500; /* Set inserted line (+) color */
+}
+
+.code-line.deleted {
+  @apply bg-[rgba(239,68,68,0.2)] border-l-rose-500; /* Set inserted line (-) color */
+}
+
+.highlight-line {
+  @apply -ml-4 pl-4 bg-[rgba(55,65,81,0.5)] border-l-[rgb(59,130,246)];
+}
+
+.line-number::before {
+  @apply inline-block w-4 text-left mr-[.875rem] -ml-2 text-[rgb(156,163,175)] content-[attr(line)];
 }

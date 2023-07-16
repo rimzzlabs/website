@@ -1,6 +1,19 @@
 import { P, match } from 'ts-pattern'
 
-export type LocaleDate = 'en-GB' | 'id-ID'
+export type LOCALE = 'en-US' | 'id-ID'
+
+/**
+ * The function `getLocale` returns the provided locale if it matches 'en-US' or 'id-ID', otherwise it
+ * returns the default locale 'en-US'.
+ * @param {LOCALE} [locale] - The `locale` parameter is an optional parameter of type `LOCALE`.
+ */
+export const getLocale = (locale?: LOCALE): LOCALE => {
+  const defaultLocale = 'en-US'
+  return match(locale)
+    .with('en-US', (ll) => ll)
+    .with('id-ID', (ll) => ll)
+    .otherwise(() => defaultLocale)
+}
 
 /**
  * The `getActualDate` function takes a string or a Date object as input and returns a Date object
@@ -45,7 +58,7 @@ export const formatToISO = (date: string | Date) => {
  * locale and configuration options.
  * @param {string | Date} date - The `date` parameter can be either a string or a Date object. It
  * represents the date that you want to format.
- * @param {LocaleDate} [locale] - The `locale` parameter is an optional parameter that specifies the
+ * @param {LOCALE} [locale] - The `locale` parameter is an optional parameter that specifies the
  * locale or language for formatting the date. It can be a string representing a BCP 47 language tag,
  * such as 'en-US' for English (United States) or 'fr-FR' for French (France). If no locale
  * @param [config] - The `config` parameter is an optional object that allows you to customize the
@@ -56,10 +69,11 @@ export const formatToISO = (date: string | Date) => {
  */
 export const formatDate = (
   date: string | Date,
-  locale?: LocaleDate,
+  locale?: LOCALE,
   config?: Intl.DateTimeFormatOptions,
 ) => {
-  const fmt = new Intl.DateTimeFormat(locale ?? 'en-GB', config)
+  const l = getLocale(locale)
+  const fmt = new Intl.DateTimeFormat(l, config)
   const dateObject = getActualDate(date)
 
   return fmt.format(dateObject)
@@ -70,13 +84,13 @@ export const formatDate = (
  * specifying the locale.
  * @param {string | Date} date - The `date` parameter can be either a string or a Date object. It
  * represents the date that you want to format.
- * @param {LocaleDate} [locale] - The `locale` parameter is an optional parameter that specifies the
+ * @param {LOCALE} [locale] - The `locale` parameter is an optional parameter that specifies the
  * locale to be used for formatting the date. It can be a string representing a BCP 47 language tag,
  * such as "en-US" for English (United States), or an object representing a custom locale
  * configuration. If no locale is
  * @returns The function `formatReadableDate` returns a formatted date string in a readable format.
  */
-export const formatReadableDate = (date: string | Date, locale?: LocaleDate) => {
+export const formatReadableDate = (date: string | Date, locale?: LOCALE) => {
   return formatDate(date, locale, {
     day: 'numeric',
     weekday: 'short',

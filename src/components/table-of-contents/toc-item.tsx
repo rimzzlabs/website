@@ -18,8 +18,9 @@ export const TocItem = (props: Props) => {
   return (
     <li>
       <a
+        title={`table of content ${props.text}`}
         className={tw(
-          'block w-full font-medium',
+          'block w-full font-medium max-w-max',
           'text-base-400 dark:text-base-500',
           'hover:text-base-700 dark:hover:text-base-300',
           activeId && activeId === props.url && 'text-base-700 dark:text-base-300',

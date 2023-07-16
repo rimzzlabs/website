@@ -6,9 +6,9 @@ import { TbLink } from 'react-icons/tb'
 
 type HeadingVariants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 type P = React.HTMLAttributes<HTMLHeadingElement>
+
 export const mdxHeading = (type: HeadingVariants) => {
-  // eslint-disable-next-line react/display-name
-  return forwardRef<HTMLHeadElement, P>(({ children, ...props }, ref) => {
+  const element = forwardRef<HTMLHeadElement, P>(({ children, ...props }, ref) => {
     return createElement<P, HTMLHeadElement>(
       type,
       {
@@ -26,4 +26,8 @@ export const mdxHeading = (type: HeadingVariants) => {
       </a>,
     )
   })
+
+  element.displayName = 'MDXHeadingElement'
+
+  return element
 }

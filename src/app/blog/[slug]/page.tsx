@@ -1,13 +1,17 @@
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
+
 import { getPosts } from '@/domains/post'
 import { getPost } from '@/domains/post/utils/get-post'
 import { OG, SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
 import { tw } from '@/utils/tw'
 
-import { PostLayout } from '@/layouts/post-layout'
+import { BlogPostMainContent } from './content'
+import { BlogPostHeader } from './header'
 
 import localFont from 'next/font/local'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import 'prism-themes/themes/prism-a11y-dark.css'
 import { P, match } from 'ts-pattern'
 
@@ -94,10 +98,6 @@ export async function generateStaticParams() {
 }
 
 export default async function PostPage(props: PageParam) {
-  if (props.params.slug === 'jotai-awesome-state-management') {
-    redirect('/blog/jotai-awesome-state-manager')
-  }
-
   const post = await getPost(props.params.slug)
 
   if (!post) {
@@ -105,12 +105,18 @@ export default async function PostPage(props: PageParam) {
   }
 
   return (
-    <PostLayout
-      toc={post.toc}
-      className={tw(FiraCode.variable, FiraCodeVF.variable)}
-      frontMatter={{ ...post.frontMatter, slug: props.params.slug }}
-    >
-      {post.content}
-    </PostLayout>
+    <>
+      <Header className='lg:max-w-5xl' />
+      <main id='skip-content' className={tw('layout lg:max-w-5xl', FiraCode, FiraCodeVF)}>
+        <BlogPostHeader {...post.frontMatter} views={post.views} />
+
+        <hr className='my-4 max-w-prose' />
+
+        <BlogPostMainContent frontMatter={post.frontMatter} toc={post.toc}>
+          {post.content}
+        </BlogPostMainContent>
+      </main>
+      <Footer className='lg:max-w-5xl' />
+    </>
   )
 }

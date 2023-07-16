@@ -20,3 +20,7 @@ export type PostFrontMatter = {
   recommendations?: string[]
   est_read?: ReadTimeResults
 }
+
+export type PostFrontMatterWithViews = PostFrontMatter & {
+  views: number
+}

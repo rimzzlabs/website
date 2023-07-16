@@ -14,12 +14,12 @@ module.exports = {
     },
     extend: {
       colors: {
-        base: colors.gray,
+        base: colors.neutral,
         typo: {
-          head: colors.gray[950],
+          head: colors.neutral[950],
           'h-dark': colors.white,
-          paragraph: colors.gray[900],
-          'p-dark': colors.gray[200],
+          paragraph: colors.neutral[900],
+          'p-dark': colors.neutral[200],
         },
         primary: colors.blue,
         secondary: colors.cyan,

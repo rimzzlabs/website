@@ -26,7 +26,7 @@ export const NotFound = (props: NotFoundProps) => {
         title='Not Found Illustration'
         src={src}
       />
-      <h1 className='mt-6 mb-2 md:text-5xl'>404 | {props.title}</h1>
+      <h1 className='mt-6 mb-2 md:text-5xl'>{props.title}</h1>
       <p>{props.description}</p>
       <Link href={props.restoreUrl ?? '/'}>{props?.restoreText ?? 'Back to home'}</Link>
     </section>

@@ -28,7 +28,7 @@ export const getPostTag = (tag: PostTag) => {
     .with('next.js', (name) => ({
       name,
       icon: TbBrandNextjs,
-      color: 'text-zinc-800 dark:text-white',
+      color: 'text-z-800 dark:text-white',
     }))
     .with('jotai', (name) => ({
       name,

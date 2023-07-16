@@ -11,14 +11,24 @@ type Props = {
   className?: string
 }
 
-export const CodeBlock = ({ children, className }: Props) => {
+export const CodeBlock = ({ children, className, ...props }: Props) => {
   const label = className?.replace('language-', '') ?? 'bash'
   const preRef = useRef<HTMLPreElement>(null)
+  console.info(props)
 
   return (
     <div className='relative rounded-t-[.3em]'>
       <CodeBlockHeading label={label} content={preRef.current?.textContent} />
-      <pre ref={preRef} className={tw(className, '[&>code]:border-none [&>code]:!bg-unset !pt-12')}>
+      <pre
+        ref={preRef}
+        className={tw(
+          className,
+          '!pt-11',
+          '[&>code]:block',
+          '[&>code]:border-none [&>code]:!bg-unset',
+          '[&>code]:!px-0 [&>code]:!pb-0 [&>code]:min-w-min',
+        )}
+      >
         {children}
       </pre>
     </div>

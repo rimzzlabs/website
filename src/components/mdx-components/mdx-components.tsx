@@ -1,4 +1,4 @@
-import { ColorLink } from '../link/color'
+import { Anchor } from './anchor'
 import { Code } from './code'
 import { CodeBlock } from './code-block'
 import { mdxHeading } from './heading'
@@ -8,7 +8,7 @@ import type { ImageProps } from 'next/image'
 import Image from 'next/image'
 
 const MDXComponents = {
-  a: ColorLink,
+  a: Anchor,
   pre: CodeBlock,
   code: Code,
   h2: mdxHeading('h2'),
