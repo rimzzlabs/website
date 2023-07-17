@@ -7,7 +7,7 @@ type CodeBlockLabelProps = {
 export const CodeBlockLanguage = (props: CodeBlockLabelProps) => {
   const IconProps = {
     size: 18,
-    className: 'text-base-800 dark:text-base-200',
+    className: 'text-base-100',
   }
 
   return match([props.label, IconProps])

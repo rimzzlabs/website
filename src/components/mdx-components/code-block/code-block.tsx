@@ -11,10 +11,9 @@ type Props = {
   className?: string
 }
 
-export const CodeBlock = ({ children, className, ...props }: Props) => {
+export const CodeBlock = ({ children, className }: Props) => {
   const label = className?.replace('language-', '') ?? 'bash'
   const preRef = useRef<HTMLPreElement>(null)
-  console.info(props)
 
   return (
     <div className='relative rounded-t-[.3em]'>

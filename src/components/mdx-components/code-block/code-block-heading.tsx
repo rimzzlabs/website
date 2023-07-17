@@ -18,26 +18,26 @@ export const CodeBlockHeading = (props: { label: string; content?: string | null
         'h-10 px-4',
         'absolute top-0 inset-x-0',
         'flex items-center justify-between',
-        'rounded-t-[0.3em] bg-base-50 dark:bg-base-900',
-        'border-t border-x border-base-300 dark:border-base-800',
+        'rounded-t-[0.3em] bg-base-900',
+        'border-t border-x border-transparent dark:border-base-800',
       )}
     >
       <CodeBlockLanguage label={props.label} />
 
       <button
         onClick={onClickCopy}
-        className='tooltip-copy-code p-1.5 rounded-md transition hover:bg-base-200 dark:hover:bg-base-900'
+        className='tooltip-copy-code p-1.5 rounded-md transition hover:bg-base-800'
       >
         <span className='sr-only'>Copy to clipboard</span>
         {match(state)
           .with({ isCopying: true, isCopied: false }, () => (
-            <TbLoader2 className='animate-spin text-base-900 dark:text-[#F2ECFF]' />
+            <TbLoader2 className='animate-spin text-base-100' />
           ))
           .with({ isCopied: true, isCopying: false }, () => (
             <TbCheck className='text-emerald-500 dark:text-[#00C896]' />
           ))
           .otherwise(() => (
-            <TbClipboard className='text-base-900 dark:text-[#F2ECFF]' />
+            <TbClipboard className='text-base-100' />
           ))}
       </button>
 

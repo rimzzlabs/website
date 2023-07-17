@@ -36,7 +36,9 @@ export const getPostViews = async (slug: string): Promise<number> => {
 
     const views = data.pageviews.value
 
-    await redis.set('PAGE_VIEWS_' + slug, views)
+    const KEY = 'page-views-of-' + slug
+    const EXPIRED = 3600 // in seconds = 60 minutes
+    await Promise.all([redis.set(KEY, views), redis.expire(KEY, EXPIRED)])
 
     return views
   }

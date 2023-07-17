@@ -5,7 +5,7 @@ export const Code = (props: React.PropsWithChildren) => {
     <code
       className={tw(
         'border rounded text-sm p-1',
-        'before:hidden after:hidden bg-base-100 dark:bg-base-900',
+        'before:hidden after:hidden bg-base-100 dark:bg-base-800',
         'border-base-300 dark:border-base-700',
       )}
     >

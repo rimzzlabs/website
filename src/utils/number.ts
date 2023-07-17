@@ -5,5 +5,5 @@ const fmt = (config?: Intl.NumberFormatOptions) => {
 export const compactNumber = (num: number, min?: number) => {
   if (min && num < min) return fmt().format(num)
 
-  return fmt({ notation: 'compact' }).format(num)
+  return fmt({ notation: 'compact', maximumFractionDigits: 2 }).format(num)
 }

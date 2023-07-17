@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3222",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -17,6 +17,7 @@
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.4.4",
     "@types/mdx": "^2.0.5",
+    "@umami/api-client": "^0.37.0",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.1",
     "cloudinary-build-url": "^0.2.4",
