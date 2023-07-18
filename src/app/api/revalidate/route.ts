@@ -9,6 +9,4 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ revalidated: true, now: Date.now() })
   }
-
-  return NextResponse.next()
 }
