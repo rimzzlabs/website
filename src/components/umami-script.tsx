@@ -14,6 +14,8 @@ export const UmamiScript = () => {
     'data-website-id': UMAMI_WEBSITE_ID,
     src: UMAMI_SRC,
   }
+  const isDev = process.env.NODE_ENV
+  const isVercelPreview = process.env.VERCEL_ENV || 'development'
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -21,7 +23,7 @@ export const UmamiScript = () => {
     }
   }, [])
 
-  if (crawlerAgent.test(userAgent) || process.env.NODE_ENV === 'development') return null
+  if (crawlerAgent.test(userAgent) || isDev || isVercelPreview) return null
 
   return <Script async defer id='umami-analytics' strategy='afterInteractive' {...props} />
 }
