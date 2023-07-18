@@ -61,6 +61,8 @@ type PageParam = {
   }
 }
 
+export const revalidate = 0
+
 export async function generateMetadata(param: PageParam) {
   const post = await getPost(param.params.slug)
 
