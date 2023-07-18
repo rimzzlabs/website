@@ -9,8 +9,8 @@ module.exports = {
   theme: {
     fontFamily: {
       primary: ['var(--font-inter)', ...fontFamily.sans],
-      firaCode: ['var(--font-fira-code)', ...fontFamily.mono],
-      firaCodeVF: ['var(--font-fira-code-vf)', ...fontFamily.mono],
+      firaCode: ['var(--font-fira-code)'],
+      firaCodeVF: ['var(--font-fira-code-vf)'],
     },
     extend: {
       colors: {

@@ -19,12 +19,24 @@ const inter = localFont({
   preload: true,
   variable: '--font-inter',
 })
-
+/**
+ * <meta
+  name='viewport'
+  content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover'
+/>
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
   manifest: '/manifest.json',
   themeColor: '#030712',
+  viewport: {
+    minimumScale: 1,
+    initialScale: 1,
+    width: 'device-width',
+    viewportFit: 'cover',
+    userScalable: false,
+  },
   robots: {
     index: true,
     follow: true,
@@ -48,7 +60,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en-US' className={tw('scroll-pt-20', inter.variable)} suppressHydrationWarning>
+    <html lang='en' className={tw('scroll-pt-20', inter.variable)} suppressHydrationWarning>
       <head />
       <body>
         <SkipContent />

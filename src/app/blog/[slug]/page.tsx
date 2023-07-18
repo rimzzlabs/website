@@ -61,7 +61,7 @@ type PageParam = {
   }
 }
 
-export const revalidate = 0
+export const revalidate = 30
 
 export async function generateMetadata(param: PageParam) {
   const post = await getPost(param.params.slug)
@@ -109,7 +109,10 @@ export default async function PostPage(props: PageParam) {
   return (
     <>
       <Header className='lg:max-w-5xl' />
-      <main id='skip-content' className={tw('layout lg:max-w-5xl', FiraCode, FiraCodeVF)}>
+      <main
+        id='skip-content'
+        className={tw('layout lg:max-w-5xl', FiraCode.variable, FiraCodeVF.variable)}
+      >
         <BlogPostHeader {...post.frontMatter} views={post.views} />
 
         <hr className='my-4 max-w-prose' />
