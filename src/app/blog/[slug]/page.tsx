@@ -62,6 +62,7 @@ type PageParam = {
 }
 
 export const revalidate = 15
+export const runtime = 'edge'
 
 export async function generateMetadata(param: PageParam) {
   const post = await getPost(param.params.slug)

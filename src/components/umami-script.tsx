@@ -6,7 +6,8 @@ import Script from 'next/script'
 import { useEffect, useState } from 'react'
 
 export const UmamiScript = () => {
-  const crawlerAgent = /bot|google|aolbuild|baidu|bing|msn|duckduckgo|teoma|slurp|yandex/i
+  const crawlerAgent =
+    /bot|google|aolbuild|baidu|bing|msn|duckduckgo|teoma|slurp|yandex|Lighthouse|lighthouse/i
 
   const [userAgent, setUserAgent] = useState('chrome')
 
