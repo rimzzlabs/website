@@ -1,6 +1,9 @@
 'use client'
 
 import { CustomTooltip } from '@/components/custom-tooltip'
+import { Skeleton } from '@/components/skeleton'
+
+import { usePageViews } from '@/domains/queries/post'
 
 import { compactNumber } from '@/utils/number'
 
@@ -14,7 +17,16 @@ type Props = {
 }
 
 export const PostViewsLabel = (props: Props) => {
-  const word = match(props.views)
+  const query = usePageViews({ initialData: props.views, slug: props.slug })
+
+  const views = match<[(typeof query)['status'], typeof query.data], number>([
+    query.status,
+    query.data,
+  ])
+    .with(['success', P.select()], (value) => value)
+    .otherwise(([, views]) => views)
+
+  const word = match(views)
     .with(0, () => "You're the first reader")
     .otherwise((views) => `${compactNumber(views)} people viewed this post`)
 
@@ -29,13 +41,33 @@ export const PostViewsLabel = (props: Props) => {
     .with(P.string, (slug) => `tooltip-views-${slug}`)
     .otherwise(() => 'toooltip-content')
 
+  const queryState = {
+    loading: query.isLoading,
+    fetching: query.isFetching,
+    refetching: query.isRefetching,
+  }
+
+  const content = match(queryState)
+    .with({ loading: false, fetching: false, refetching: false }, () => (
+      <>
+        <TbActivityHeartbeat size={props?.iconSize ?? 14} />
+        <span className='mx-1 text-sm'>{word}</span>
+        <TbQuestionCircle data-tooltip-id={tooltipId} className='cursor-help' size={14} />
+        <CustomTooltip content={tooltipContent} id={tooltipId} />
+      </>
+    ))
+    .otherwise(() => null)
+
   return (
     <span className='flex items-center text-base-600 dark:text-base-400'>
-      <TbActivityHeartbeat size={props?.iconSize ?? 14} />
-      <span className='mx-1 text-sm'>{word}</span>
-      <TbQuestionCircle data-tooltip-id={tooltipId} className='cursor-help' size={14} />
+      {(queryState.loading || queryState.fetching || queryState.refetching) && (
+        <>
+          <Skeleton className='w-4 h-4 mr-1' />
+          <Skeleton className='w-40 h-3.5' />
+        </>
+      )}
 
-      <CustomTooltip content={tooltipContent} id={tooltipId} />
+      {content}
     </span>
   )
 }

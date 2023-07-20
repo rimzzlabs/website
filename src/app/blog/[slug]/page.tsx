@@ -1,12 +1,15 @@
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 
+import { getSession } from '@/domains/actions'
+import { getComments } from '@/domains/comment'
 import { getPosts } from '@/domains/post'
 import { getPost } from '@/domains/post/utils/get-post'
 import { OG, SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
 
 import { tw } from '@/utils/tw'
 
+import { CommentPost } from './comment'
 import { BlogPostMainContent } from './content'
 import { BlogPostHeader } from './header'
 
@@ -63,6 +66,39 @@ type PageParam = {
 
 export const revalidate = 30
 
+export default async function PostPage(props: PageParam) {
+  const [post, comments, session] = await Promise.all([
+    getPost(props.params.slug),
+    getComments(props.params.slug),
+    getSession(),
+  ])
+
+  if (!post) {
+    notFound()
+  }
+
+  return (
+    <>
+      <Header className='lg:max-w-5xl' />
+      <main
+        id='skip-content'
+        className={tw('layout lg:max-w-5xl', FiraCode.variable, FiraCodeVF.variable)}
+      >
+        <BlogPostHeader {...post.frontMatter} views={post.views} />
+
+        <hr className='my-4 max-w-prose' />
+
+        <BlogPostMainContent frontMatter={post.frontMatter} toc={post.toc}>
+          {post.content}
+        </BlogPostMainContent>
+      </main>
+
+      <CommentPost session={session} comments={comments} slug={props.params.slug} />
+      <Footer className='lg:max-w-5xl' />
+    </>
+  )
+}
+
 export async function generateMetadata(param: PageParam) {
   const post = await getPost(param.params.slug)
 
@@ -97,31 +133,4 @@ export async function generateStaticParams() {
   return posts.map((post) => ({
     slug: post.slug,
   }))
-}
-
-export default async function PostPage(props: PageParam) {
-  const post = await getPost(props.params.slug)
-
-  if (!post) {
-    notFound()
-  }
-
-  return (
-    <>
-      <Header className='lg:max-w-5xl' />
-      <main
-        id='skip-content'
-        className={tw('layout lg:max-w-5xl', FiraCode.variable, FiraCodeVF.variable)}
-      >
-        <BlogPostHeader {...post.frontMatter} views={post.views} />
-
-        <hr className='my-4 max-w-prose' />
-
-        <BlogPostMainContent frontMatter={post.frontMatter} toc={post.toc}>
-          {post.content}
-        </BlogPostMainContent>
-      </main>
-      <Footer className='lg:max-w-5xl' />
-    </>
-  )
 }

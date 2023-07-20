@@ -5,6 +5,9 @@ const nextConfig = {
     domains: ['ik.imagekit.io', 'github.com', 'res.cloudinary.com'],
   },
   swcMinify: true,
+  experimental: {
+    serverActions: true,
+  },
 }
 
 module.exports = nextConfig

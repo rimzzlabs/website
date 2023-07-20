@@ -22,16 +22,6 @@ export const getContent = async <T>(path: string): Promise<Content<T>> => {
     const targetFile = join(process.cwd(), path + '.mdx')
     const file = await readFile(targetFile, 'utf8')
 
-    const matterResult = matter(file)
-
-    const headingsRegex = /^(#+)\s(.+)/gm
-    const matches = Array.from(matterResult.content.matchAll(headingsRegex))
-    const toc: TocList = matches.map((match) => ({
-      level: match[1].length, // Determine the depth based on the number of '#' symbols
-      text: match[2], // Extract the heading text
-      url: slugify(match[2]), // Generate an URL-friendly ID from the heading text
-    }))
-
     const rehypePrismOptions = {
       showLineNumbers: true,
     }
@@ -44,6 +34,16 @@ export const getContent = async <T>(path: string): Promise<Content<T>> => {
       },
       components: MDXComponents,
     })
+
+    const matterResult = matter(file)
+
+    const headingsRegex = /^(#+)\s(.+)/gm
+    const matches = Array.from(matterResult.content.matchAll(headingsRegex))
+    const toc: TocList = matches.map((match) => ({
+      level: match[1].length, // Determine the depth based on the number of '#' symbols
+      text: match[2], // Extract the heading text
+      url: slugify(match[2]), // Generate an URL-friendly ID from the heading text
+    }))
 
     const est_read = readingTime(matterResult.content, { wordsPerMinute: 225 })
 

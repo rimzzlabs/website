@@ -8,6 +8,6 @@ type SkeletonProps = {
 
 export const Skeleton = (props: SkeletonProps) => {
   return createElement<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>('div', {
-    className: tw('rounded', 'bg-base-200 dark:bg-base-900', 'animate-pulse', props.className),
+    className: tw('rounded', 'bg-base-200 dark:bg-base-800', 'animate-pulse', props.className),
   })
 }
