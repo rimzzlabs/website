@@ -30,7 +30,6 @@ export const metadata: Metadata = {
     initialScale: 1,
     width: 'device-width',
     viewportFit: 'cover',
-    userScalable: false,
   },
   robots: {
     index: true,
