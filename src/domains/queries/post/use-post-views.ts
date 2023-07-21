@@ -8,7 +8,7 @@ type usePageViewsParams = {
   slug: string
 }
 
-export const usePageViews = (params: usePageViewsParams) => {
+export const usePostViews = (params: usePageViewsParams) => {
   return useQuery({
     queryKey: [QUERY_KEY_POST_VIEWS, params.slug],
     queryFn: getPostViewsQuery(params.slug),

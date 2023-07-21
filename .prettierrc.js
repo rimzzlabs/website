@@ -1,4 +1,4 @@
-/** @type {import('prettier').Config} */
+/** @type {import('@trivago/prettier-plugin-sort-imports').PluginConfig & import('prettier').Config} */
 module.exports = {
   semi: false,
   tabWidth: 2,

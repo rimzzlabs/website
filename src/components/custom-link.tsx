@@ -14,7 +14,15 @@ const customLink = cva('font-medium', {
       color: [
         'transition no-underline',
         'text-primary-600 dark:text-primary-500',
-        'hover:text-primary-700 dark:hover:text-primary-600',
+        'hover:text-primary-400 dark:hover:text-primary-600',
+      ],
+      colorUnderline: [
+        'transition',
+        'text-primary-600 dark:text-primary-500',
+        'hover:text-primary-400 dark:hover:text-primary-600',
+        'underline decoration-dotted underline-offset-4',
+        'decoration-primary-600 dark:decoration-primary-500',
+        'hover:decoration-primary-400 dark:hover:decoration-primary-600',
       ],
       underline: ['underline decoration-dotted underline-offset-4'],
     },

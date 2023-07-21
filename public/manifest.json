@@ -1,12 +1,12 @@
 {
   "theme_color": "#030712",
-  "background_color": "#030712",
+  "background_color": "#171717",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
   "author": "Rizki Maulana Citra",
   "name": "rizkicitra.dev",
-  "app_name": "app.rizkicitra.dev",
+  "app_name": "app.pwa.rizkicitra.dev",
   "short_name": "Rizki M Citra",
   "description": "Read my blog posts from your home shortcut, no need to open a web browser!",
   "icons": [
@@ -74,17 +74,13 @@
   "shortcuts": [
     {
       "name": "rizkicitra.dev",
-      "short_name": "Today",
-      "description": "App from Rizki M Citra",
-      "url": "/",
-      "icons": [{ "src": "/icons/android/192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "rizkicitra.dev",
-      "short_name": "Tomorrow",
-      "description": "App from Rizki M Citra",
-      "url": "/",
-      "icons": [{ "src": "/icons/iphone/180.png", "sizes": "180x180" }]
+      "short_name": "Blog",
+      "description": "Read blog posts from Rizki M Citra",
+      "url": "/blog",
+      "icons": [
+        { "src": "/icons/android/192.png", "sizes": "192x192" },
+        { "src": "/icons/iphone/180.png", "sizes": "180x180" }
+      ]
     }
   ]
 }

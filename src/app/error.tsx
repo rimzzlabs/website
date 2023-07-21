@@ -10,7 +10,7 @@ export default function GlobalErrorPage(props: ErrorPageProps) {
   return (
     <div className='w-full h-[calc(100vh-4rem)] flex flex-col items-center justify-center'>
       <h2>Something went wrong!</h2>
-      <p className='mt-3 mb-2 text-center'>{props.error.message}</p>
+      <p className='mt-3 mb-2 text-center max-w-prose mx-auto'>{props.error.message}</p>
       <button
         className={tw(
           'py-2 px-4 text-sm',

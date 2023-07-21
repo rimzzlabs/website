@@ -10,7 +10,7 @@ type Props = React.PropsWithChildren<{
   toc: TocList
 }>
 
-export const BlogPostMainContent = (props: Props) => {
+export const PostContent = (props: Props) => {
   return (
     <section className='lg:grid lg:grid-cols-[auto,20rem] lg:gap-7 2xl:gap-10'>
       <article className={tw('w-full', 'prose dark:prose-invert')}>{props.children}</article>

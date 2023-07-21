@@ -3,7 +3,7 @@ import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { PostCard } from '@/components/post'
 
-import { getLatestPosts } from '@/domains/post/utils/get-latest-posts'
+import { getLatestPosts } from '@/domains/post'
 import {
   KEYWORDS,
   OG,

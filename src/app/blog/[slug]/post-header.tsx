@@ -2,7 +2,7 @@ import { PostPublishedLabel, PostReadTimeLabel, PostViewsLabel } from '@/compone
 
 import type { PostFrontMatterWithViews } from '@/domains/post/type'
 
-export const BlogPostHeader = (props: PostFrontMatterWithViews) => {
+export const PostHeader = (props: PostFrontMatterWithViews) => {
   return (
     <section className='pt-10 xs:pt-16 md:pt-24'>
       <h1 className='mb-8'>{props.title}</h1>

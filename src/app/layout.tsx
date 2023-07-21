@@ -1,3 +1,4 @@
+import { Scroll } from '@/components/scroll'
 import { SkipContent } from '@/components/skip-content'
 import { UmamiScript } from '@/components/umami-script'
 
@@ -19,12 +20,6 @@ const inter = localFont({
   preload: true,
   variable: '--font-inter',
 })
-/**
- * <meta
-  name='viewport'
-  content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover'
-/>
- */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
@@ -65,7 +60,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <SkipContent />
         <Providers>{children}</Providers>
-
+        <Scroll />
         <UmamiScript />
       </body>
     </html>

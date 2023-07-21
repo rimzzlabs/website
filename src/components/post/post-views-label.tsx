@@ -3,7 +3,7 @@
 import { CustomTooltip } from '@/components/custom-tooltip'
 import { Skeleton } from '@/components/skeleton'
 
-import { usePageViews } from '@/domains/queries/post'
+import { usePostViews } from '@/domains/queries/post'
 
 import { compactNumber } from '@/utils/number'
 
@@ -17,7 +17,7 @@ type Props = {
 }
 
 export const PostViewsLabel = (props: Props) => {
-  const query = usePageViews({ initialData: props.views, slug: props.slug })
+  const query = usePostViews({ initialData: props.views, slug: props.slug })
 
   const views = match<[(typeof query)['status'], typeof query.data], number>([
     query.status,

@@ -1,2 +1,2 @@
 export type { PostFrontMatter, PostTag } from './type'
-export { getPost, getPosts, getPostTag } from './utils'
+export { getPost, getPosts, getPostTag, getLatestPosts, getPostsByTag } from './utils'

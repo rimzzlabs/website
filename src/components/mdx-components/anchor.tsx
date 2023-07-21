@@ -8,7 +8,14 @@ export const Anchor = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => 
     .otherwise((href) => href)
 
   return (
-    <CustomLink {...props} title={props.title ?? 'A link about this article'} href={href}>
+    <CustomLink
+      {...props}
+      href={href}
+      variant='colorUnderline'
+      title={props.title ?? 'A link about this post'}
+      target='_blank'
+      rel='noopener noreferrer'
+    >
       {props.children}
     </CustomLink>
   )

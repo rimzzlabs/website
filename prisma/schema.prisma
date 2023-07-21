@@ -17,7 +17,7 @@ model Comment {
     user_email String
     user_name  String
     user_image String
-    body       String
+    body       String    @db.Text
 
     @@index(id)
 }
@@ -32,7 +32,7 @@ model Subcomment {
     user_email   String
     user_name    String
     user_image   String
-    body         String
+    body         String    @db.Text
 
     @@index(id)
 }
