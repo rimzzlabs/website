@@ -1,4 +1,5 @@
 import { Anchor } from './anchor'
+import { Blockquote } from './blockquote'
 import { Code } from './code'
 import { CodeBlock } from './code-block'
 import { mdxHeading } from './heading'
@@ -9,8 +10,9 @@ import Image from 'next/image'
 
 const MDXComponents = {
   a: Anchor,
-  pre: CodeBlock,
   code: Code,
+  pre: CodeBlock,
+  blockquote: Blockquote,
   h2: mdxHeading('h2'),
   h3: mdxHeading('h3'),
   h4: mdxHeading('h4'),
