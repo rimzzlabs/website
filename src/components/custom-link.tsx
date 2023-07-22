@@ -1,3 +1,5 @@
+import { tw } from '@/utils/tw'
+
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 import Link, { type LinkProps } from 'next/link'
@@ -13,15 +15,15 @@ const customLink = cva('font-medium', {
       ],
       color: [
         'transition no-underline',
-        'text-primary-600 dark:text-primary-500',
+        'text-primary-600 dark:text-primary-400',
         'hover:text-primary-400 dark:hover:text-primary-600',
       ],
       colorUnderline: [
         'transition',
-        'text-primary-600 dark:text-primary-500',
+        'text-primary-600 dark:text-primary-400',
         'hover:text-primary-400 dark:hover:text-primary-600',
         'underline decoration-dotted underline-offset-4',
-        'decoration-primary-600 dark:decoration-primary-500',
+        'decoration-primary-600 dark:decoration-primary-400',
         'hover:decoration-primary-400 dark:hover:decoration-primary-600',
       ],
       underline: ['underline decoration-dotted underline-offset-4'],
@@ -44,7 +46,14 @@ type CustomLinkProps = {
 export const CustomLink = forwardRef<HTMLAnchorElement, CustomLinkProps>(
   ({ variant, ...props }, ref) => {
     return (
-      <Link {...props} ref={ref} className={customLink({ variant, className: props.className })}>
+      <Link
+        {...props}
+        ref={ref}
+        className={customLink({
+          variant,
+          className: tw(props.flex && 'flex items-center', props.className),
+        })}
+      >
         {props.children}
       </Link>
     )

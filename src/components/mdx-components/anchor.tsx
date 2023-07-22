@@ -11,7 +11,7 @@ export const Anchor = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => 
     <CustomLink
       {...props}
       href={href}
-      variant='colorUnderline'
+      variant='color'
       title={props.title ?? 'A link about this post'}
       target='_blank'
       rel='noopener noreferrer'

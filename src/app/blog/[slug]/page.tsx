@@ -100,6 +100,7 @@ export async function generateMetadata(param: PageParam) {
         title: post.frontMatter.title,
         description: post.frontMatter.description,
         templateTitle: SITE_NAME,
+        canonical: `blog/${post.frontMatter.slug}`,
         keywords: post.frontMatter.keywords,
         authors: [
           {

@@ -1,13 +1,6 @@
 import { type ReadTimeResults } from 'reading-time'
 
-export type PostTag =
-  | 'personal branding'
-  | 'next.js'
-  | 'react.js'
-  | 'jotai'
-  | 'user experience'
-  | 'dev experience'
-  | 'personal growth'
+export type PostTag = string
 
 export type PostFrontMatter = {
   slug: string

@@ -1,6 +1,8 @@
+import { CustomLink } from './custom-link'
+
 import buildUrl from 'cloudinary-build-url'
 import Image from 'next/image'
-import Link from 'next/link'
+import { TbArrowBack } from 'react-icons/tb'
 
 type NotFoundProps = {
   title: string
@@ -17,7 +19,7 @@ export const NotFound = (props: NotFoundProps) => {
   })
 
   return (
-    <section className='flex flex-col items-center justify-center w-full h-[calc(100vh-4rem)]'>
+    <section className='flex flex-col items-center justify-center w-full h-[calc(100vh-5rem)]'>
       <Image
         priority
         width={144}
@@ -26,9 +28,18 @@ export const NotFound = (props: NotFoundProps) => {
         title='Not Found Illustration'
         src={src}
       />
-      <h1 className='mt-6 mb-2 md:text-5xl'>{props.title}</h1>
-      <p>{props.description}</p>
-      <Link href={props.restoreUrl ?? '/'}>{props?.restoreText ?? 'Back to home'}</Link>
+      <h1 className='mt-6 md:text-5xl'>{props.title}</h1>
+      <p className='mt-6 mb-3'>{props.description}</p>
+      <CustomLink
+        flex
+        className='items-center space-x-2'
+        variant='colorUnderline'
+        title='Back'
+        href={props.restoreUrl ?? '/'}
+      >
+        <span>{props.restoreText ?? 'Back to home'}</span>
+        <TbArrowBack />
+      </CustomLink>
     </section>
   )
 }

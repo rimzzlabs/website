@@ -1,7 +1,8 @@
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 
-import { getPostsByTag } from '@/domains/post/utils'
+import type { PostTag } from '@/domains/post'
+import { getPosts, getPostsByTag } from '@/domains/post/utils'
 import { createMetadata } from '@/domains/seo'
 
 import { MainLayout } from '@/layouts'
@@ -21,6 +22,23 @@ type SearchParamsTag = ParsedUrlQuery & {
   tag?: string
 }
 
+async function getTags() {
+  const res = await getPosts()
+
+  return match(res)
+    .with(P.nullish, () => [])
+    .with(P.array(), (posts) => {
+      return posts
+        .map((post) => post.tags)
+        .flat()
+        .reduce((acc, cur) => {
+          if (!acc.includes(cur)) acc.push(cur)
+          return acc
+        }, [] as PostTag[])
+    })
+    .exhaustive()
+}
+
 export async function generateMetadata(props: PageProps) {
   const searchParams = props.searchParams as SearchParamsTag
   const title = match(searchParams.tag)
@@ -29,6 +47,7 @@ export async function generateMetadata(props: PageProps) {
 
   return createMetadata({
     title,
+    canonical: 'tag',
     description: 'Search blog post based on tag me provide',
   })
 }
@@ -36,6 +55,8 @@ export async function generateMetadata(props: PageProps) {
 export default async function Page(props: PageProps) {
   const searchParams = props.searchParams as SearchParamsTag
   const posts = await getPostsByTag(searchParams.tag)
+  const tags = await getTags()
+
   const title = match(searchParams.tag)
     .with(P.not(P.nullish), (tag) => <h1 className='title mb-2'>Tag: {tag}</h1>)
     .otherwise(() => <h1 className='title mb-2'>Tag</h1>)
@@ -52,7 +73,7 @@ export default async function Page(props: PageProps) {
           {title}
           <p>You can filter my post based on the available tags I provide.</p>
         </section>
-        <TagList />
+        <TagList tags={tags} />
         <TagPosts posts={posts} />
       </MainLayout>
 

@@ -21,6 +21,7 @@ export const metadata = createMetadata({
   templateTitle: SITE_OWNER_ROLE,
   description: `Hey, I am Rizki Maulana Citra. I am a software engineer frontend. I craft fascinating and intuitive user interfaces.`,
   keywords: KEYWORDS.home,
+  canonical: '',
   openGraph: {
     images: OG.static,
     url: SITE_URL,
@@ -52,13 +53,11 @@ export default async function Page() {
       <MainLayout className='space-y-10 md:space-y-14'>
         <section className='flex flex-col my-4'>
           <div className='flex flex-col-reverse sm:flex-row md:items-end mb-10'>
-            <div className='w-full'>
-              <span className='text-xl font-bold text-typo-head dark:text-typo-h-dark'>
-                Hello, I&apos;m
-              </span>
-
-              <h1 className='mt-1 md:text-5xl'>{SITE_OWNER}</h1>
-            </div>
+            <h1 className='mt-1 md:text-5xl'>
+              Howdy, I&apos;m
+              <br />
+              {SITE_OWNER}
+            </h1>
 
             <div className='relative aspect-[.75/1] w-28 sm:w-32 mb-4 md:mb-unset md:ml-auto'>
               <CloudinaryImg
@@ -76,13 +75,12 @@ export default async function Page() {
 
           <div className='prose'>
             <p>
-              I&apos;m a software engineer frontend. A passionate engineer driven to craft an
-              intuitive and smooth user experiences on the web.
+              I&apos;m a software engineer frontend based in Indonesia. A passionate software
+              engineer driven to craft intuitive and smooth user experiences on the web.
             </p>
             <p>
               I continually explore new technologies and tools to improve my development process,
-              and I keep up with the most latest enterprise trends and best practices. And by
-              combining those I can build remarkable user experiences on the web.
+              while keeping up with the latest trends and best practices.
             </p>
           </div>
         </section>

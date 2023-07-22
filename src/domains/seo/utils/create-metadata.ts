@@ -4,10 +4,19 @@ import type { Metadata } from 'next'
 
 type Meta = Metadata & {
   templateTitle?: string
+  canonical: string
 }
 
-export const createMetadata = ({ templateTitle, ...meta }: Meta): Metadata => {
+export const createMetadata = ({ templateTitle, canonical, ...meta }: Meta): Metadata => {
   const title = `${meta.title} — ${templateTitle ?? SITE_NAME}`
+  const canonicalURL = new URL(canonical, SITE_URL)
 
-  return { ...meta, title, metadataBase: new URL(SITE_URL) }
+  return {
+    ...meta,
+    title,
+    alternates: {
+      ...meta.alternates,
+      canonical: canonicalURL.toString(),
+    },
+  }
 }

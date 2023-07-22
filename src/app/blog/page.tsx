@@ -13,6 +13,7 @@ export const metadata = createMetadata({
   templateTitle: SITE_NAME,
   description: `My personal blog is a place where I share my experiences, knowledge, my hobbies, and ideas on a variety of topics`,
   creator: 'Rizki Maulana Citra',
+  canonical: 'blog',
   openGraph: {
     images: OG.static,
     type: 'website',
@@ -45,13 +46,15 @@ export default async function Page() {
       <MainLayout className='pt-16'>
         <section className='mb-8'>
           <h1 className='title mb-8'>Blog</h1>
+          <p className='mb-2.5'>
+            You&apos;ll find me exploring a variety of interesting topics, from my career
+            development, programming and technologies to trending topics of interest at the time.
+          </p>
           <p>
-            You&apos;ll find me amusing on a variety of topics. From a simple blog about myself
-            learning technologies and growing in my career, to a specific post I&apos;m interested
-            in at the time; feel free to reads!.
+            All posts on my blog are my own and do not represent any particular organization; feel
+            free to reads.
           </p>
         </section>
-
         <BlogPosts posts={posts} />
       </MainLayout>
       <Footer />
