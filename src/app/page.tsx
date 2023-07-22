@@ -54,7 +54,7 @@ export default async function Page() {
         <section className='flex flex-col my-4'>
           <div className='flex flex-col-reverse sm:flex-row md:items-end mb-10'>
             <h1 className='mt-1 md:text-5xl'>
-              Howdy, I&apos;m
+              Hi, I&apos;m
               <br />
               {SITE_OWNER}
             </h1>
