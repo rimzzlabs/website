@@ -103,7 +103,7 @@ export async function generateMetadata(param: PageParam) {
     .with(P.not(P.nullish), (post) => {
       const url = new URL(
         'api/og',
-        process.env.NODE_ENV === 'production' ? 'http://localhost:3222' : SITE_URL,
+        process.env.NODE_ENV === 'production' ? SITE_URL : 'http://localhost:3222',
       )
       url.searchParams.append('title', post.frontMatter.title)
 
@@ -111,7 +111,7 @@ export async function generateMetadata(param: PageParam) {
         title: post.frontMatter.title,
         description: post.frontMatter.description,
         templateTitle: SITE_NAME,
-        canonical: `blog/${post.frontMatter}`,
+        canonical: `blog/${post.frontMatter.slug}`,
         keywords: post.frontMatter.keywords,
         authors: [
           {
