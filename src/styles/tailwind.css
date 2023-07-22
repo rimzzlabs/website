@@ -43,12 +43,10 @@ html.dark {
 }
 
 :is(a, button) {
-  @apply outline-none;
-}
-
-:is(a, button) {
-  @apply outline-none ring-primary-500 ring-offset-base-50
-    motion-safe:transition focus-visible:ring focus-visible:ring-offset-4 dark:ring-primary-700 dark:ring-offset-base-950;
+  @apply outline-none ring-primary-500 ring-offset-base-50;
+  @apply motion-safe:transition focus-visible:ring focus-visible:ring-offset-4;
+  @apply dark:ring-primary-700 dark:ring-offset-base-950;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1.title {
@@ -70,11 +68,11 @@ code {
 }
 
 .code-line.inserted {
-  @apply bg-[rgba(16,185,129,0.2)] border-l-emerald-500; /* Set inserted line (+) color */
+  @apply bg-[rgba(16,185,129,0.2)] border-l-emerald-500;
 }
 
 .code-line.deleted {
-  @apply bg-[rgba(239,68,68,0.2)] border-l-rose-500; /* Set inserted line (-) color */
+  @apply bg-[rgba(239,68,68,0.2)] border-l-rose-500;
 }
 
 .highlight-line {
