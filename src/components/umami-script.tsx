@@ -15,7 +15,7 @@ export const UmamiScript = () => {
     'data-website-id': UMAMI_WEBSITE_ID,
     src: UMAMI_SRC,
   }
-  const isDev = process.env.VERCEL_ENV || 'development'
+  const isDev = (process.env.VERCEL_ENV && process.env.VERCEL_ENV === 'preview') || 'development'
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
