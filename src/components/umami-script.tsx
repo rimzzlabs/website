@@ -6,8 +6,7 @@ import Script from 'next/script'
 import { useEffect, useState } from 'react'
 
 export const UmamiScript = () => {
-  const crawlerAgent =
-    /bot|google|aolbuild|baidu|bing|msn|duckduckgo|teoma|slurp|yandex|Lighthouse|lighthouse/i
+  const crawlerAgent = /bot|Lighthouse|lighthouse/i
 
   const [userAgent, setUserAgent] = useState('chrome')
 
@@ -15,7 +14,7 @@ export const UmamiScript = () => {
     'data-website-id': UMAMI_WEBSITE_ID,
     src: UMAMI_SRC,
   }
-  const isDev = (process.env.VERCEL_ENV && process.env.VERCEL_ENV === 'preview') || 'development'
+  const isDev = process.env.NEXT_PUBLIC_VERCEL_ENV === 'development'
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
