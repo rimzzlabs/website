@@ -3,12 +3,13 @@ import { Header } from '@/components/header'
 
 import { getPosts } from '@/domains/post'
 import { getPost } from '@/domains/post'
-import { OG, SITE_NAME, SITE_OWNER, SITE_URL, createMetadata } from '@/domains/seo'
+import { SITE_NAME, SITE_OWNER, SITE_URL, TWITTER, createMetadata } from '@/domains/seo'
 
 import { tw } from '@/utils/tw'
 
 import { PostContent } from './post-content'
 import { PostHeader } from './post-header'
+import { PostReaction } from './post-reaction'
 
 import localFont from 'next/font/local'
 import { notFound } from 'next/navigation'
@@ -84,6 +85,10 @@ export default async function PostPage(props: PageParam) {
         <PostContent frontMatter={post.frontMatter} toc={post.toc}>
           {post.content}
         </PostContent>
+
+        <section className='max-w-prose mt-8'>
+          <PostReaction />
+        </section>
       </main>
 
       <Footer className='lg:max-w-5xl' />
@@ -95,12 +100,18 @@ export async function generateMetadata(param: PageParam) {
   const post = await getPost(param.params.slug)
 
   return match(post)
-    .with(P.not(P.nullish), (post) =>
-      createMetadata({
+    .with(P.not(P.nullish), (post) => {
+      const url = new URL(
+        'api/og',
+        process.env.NODE_ENV === 'production' ? 'http://localhost:3222' : SITE_URL,
+      )
+      url.searchParams.append('title', post.frontMatter.title)
+
+      return createMetadata({
         title: post.frontMatter.title,
         description: post.frontMatter.description,
         templateTitle: SITE_NAME,
-        canonical: `blog/${post.frontMatter.slug}`,
+        canonical: `blog/${post.frontMatter}`,
         keywords: post.frontMatter.keywords,
         authors: [
           {
@@ -109,12 +120,28 @@ export async function generateMetadata(param: PageParam) {
           },
         ],
         openGraph: {
-          images: OG.dynamic,
+          images: url.toString(),
           type: 'article',
           title: post.frontMatter.title ?? "Rizki's Post",
+          authors: ['Rizki Maulana Citra'],
+          description:
+            'Software engineer frontend. I craft fascinating and intuitive user interfaces.',
+          tags: post.frontMatter.tags,
         },
-      }),
-    )
+
+        twitter: {
+          card: 'summary_large_image',
+          description:
+            'Software engineer frontend. I craft fascinating and intuitive user interfaces.',
+          site: SITE_URL,
+          creator: TWITTER.username,
+          creatorId: TWITTER.id,
+          siteId: TWITTER.id,
+          title: SITE_OWNER,
+          images: url.toString(),
+        },
+      })
+    })
     .otherwise(() => ({ title: 'You might searching for unavailable post' }))
 }
 

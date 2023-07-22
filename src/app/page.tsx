@@ -87,7 +87,7 @@ export default async function Page() {
 
         <section className='my-4'>
           <h2 className='mb-2'>Latest Posts</h2>
-          <p className='mb-8'>Here are my latest three posts you might be interested in reading.</p>
+          <p className='mb-8'>Here are my latest posts you might be interested in reading.</p>
 
           <div className='flex flex-col divide-y divide-base-200 dark:divide-base-800'>
             {posts.map((post) => (

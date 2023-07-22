@@ -54,5 +54,11 @@ export const OG = {
     cloud: {
       cloudName: 'rizkicitra',
     },
+    transformations: {
+      resize: {
+        height: 1080,
+        width: 1920,
+      },
+    },
   }),
 }
