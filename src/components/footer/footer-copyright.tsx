@@ -1,11 +1,11 @@
-import { HoverUnderlineLink } from '@/components/link'
+import { CustomLink } from '../custom-link'
 
 export const FooterCopyRight = () => (
   <p className='mt-4 text-sm font-medium'>
     &copy; 2022 - {new Date().getFullYear()}{' '}
-    <HoverUnderlineLink href='https://rizkicitra.dev' title="Rizki's Copyright">
+    <CustomLink variant='base' href='https://rizkicitra.dev' title="Rizki's Copyright">
       Rizki M Citra
-    </HoverUnderlineLink>
+    </CustomLink>
     . All rights reserved.
   </p>
 )
