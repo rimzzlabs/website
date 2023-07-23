@@ -46,6 +46,8 @@ html.dark {
   @apply outline-none ring-primary-500 ring-offset-base-50;
   @apply motion-safe:transition focus-visible:ring focus-visible:ring-offset-4;
   @apply dark:ring-primary-700 dark:ring-offset-base-950;
+}
+button {
   -webkit-tap-highlight-color: transparent;
 }
 
