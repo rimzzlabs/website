@@ -4,7 +4,7 @@ import { type ROUTE } from '@/domains/routes'
 
 import { tw } from '@/utils/tw'
 
-import { UnstyledLink } from '../link/unstyled'
+import { CustomLink } from '../custom-link'
 
 import { usePathname } from 'next/navigation'
 import { P, match } from 'ts-pattern'
@@ -24,8 +24,12 @@ export const NavbarItem = ({ name, ...props }: ROUTE) => {
     .otherwise(() => null)
 
   return (
-    <UnstyledLink {...props} className={tw('mr-4 last-of-type:mr-unset', activeClassName)}>
+    <CustomLink
+      {...props}
+      variant='unstyled'
+      className={tw('mr-4 last-of-type:mr-unset', activeClassName)}
+    >
       {name}
-    </UnstyledLink>
+    </CustomLink>
   )
 }

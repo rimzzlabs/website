@@ -2,7 +2,7 @@
 
 import { ALL_ROUTES } from '@/domains/routes'
 
-import { UnstyledLink } from '../link'
+import { CustomLink } from '../custom-link'
 
 import { usePathname } from 'next/navigation'
 import { P, match } from 'ts-pattern'
@@ -20,13 +20,14 @@ export const FooterLinks = () => {
     <div className='flex items-center space-x-3'>
       {routes.map(({ name, ...item }) => {
         return (
-          <UnstyledLink
+          <CustomLink
             {...item}
-            className='md:max-w-max motion-safe:transition hover:text-primary-500'
             key={item.href}
+            variant='unstyled'
+            className='md:max-w-max motion-safe:transition hover:text-primary-500'
           >
             {name}
-          </UnstyledLink>
+          </CustomLink>
         )
       })}
     </div>

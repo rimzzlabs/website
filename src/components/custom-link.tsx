@@ -8,6 +8,7 @@ import { forwardRef } from 'react'
 const customLink = cva('font-medium', {
   variants: {
     variant: {
+      unstyled: '',
       base: [
         'transition no-underline',
         'text-base-700 dark:text-base-300',

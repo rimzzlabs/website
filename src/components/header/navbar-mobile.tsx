@@ -1,4 +1,4 @@
-import { UnstyledLink } from '@/components/link/unstyled'
+import { CustomLink } from '@/components/custom-link'
 
 import { NAVBAR_ROUTES } from '@/domains/routes'
 
@@ -68,10 +68,11 @@ export const NavbarMobile = () => {
               return (
                 <Menu.Item as='li' key={item.href}>
                   {({ active, close }) => (
-                    <UnstyledLink
+                    <CustomLink
                       href={item.href}
                       title={item.title}
                       onClick={close}
+                      variant='unstyled'
                       className={tw(
                         'flex items-center',
                         'px-1.5 h-9 md:h-10 w-full',
@@ -81,7 +82,7 @@ export const NavbarMobile = () => {
                     >
                       <item.Icon className='w-4 h-4 md:w-5 md:h-5' />
                       <span className='text-xs md:text-sm ml-2.5 mr-4'>{item.name}</span>
-                    </UnstyledLink>
+                    </CustomLink>
                   )}
                 </Menu.Item>
               )
