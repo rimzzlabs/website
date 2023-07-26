@@ -62,8 +62,8 @@ export const PostViewsLabel = (props: Props) => {
     <span className='flex items-center text-base-600 dark:text-base-400'>
       {(queryState.loading || queryState.fetching || queryState.refetching) && (
         <>
-          <Skeleton className='w-4 h-4 mr-1' />
-          <Skeleton className='w-40 h-3.5' />
+          <Skeleton className='w-5 h-5 mr-1' />
+          <Skeleton className='w-40 h-5' />
         </>
       )}
 

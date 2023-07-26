@@ -5,7 +5,6 @@ const QUERY_CONFIG: QueryClientConfig = {
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: process.env.NODE_ENV === 'production', // save build and compilation time on development
-      refetchOnMount: false,
     },
   },
 }
