@@ -45,14 +45,14 @@ type CustomLinkProps = {
   VariantProps<typeof customLink>
 
 export const CustomLink = forwardRef<HTMLAnchorElement, CustomLinkProps>(
-  ({ variant, ...props }, ref) => {
+  ({ variant, flex, ...props }, ref) => {
     return (
       <Link
         {...props}
         ref={ref}
         className={customLink({
           variant,
-          className: tw(props.flex && 'flex items-center', props.className),
+          className: tw(flex && 'flex items-center', props.className),
         })}
       >
         {props.children}

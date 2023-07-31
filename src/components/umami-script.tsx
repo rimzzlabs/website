@@ -6,6 +6,8 @@ import Script from 'next/script'
 import { useEffect, useState } from 'react'
 import { P, match } from 'ts-pattern'
 
+
+
 export const UmamiScript = () => {
   const crawlerAgent =
     /bot|google|aolbuild|baidu|bing|msn|duckduckgo|teoma|slurp|yandex|Chrome-Lighthouse/i

@@ -13,7 +13,9 @@ type Props = React.PropsWithChildren<{
 export const PostContent = (props: Props) => {
   return (
     <section className='lg:grid lg:grid-cols-[auto,20rem] lg:gap-7 2xl:gap-10'>
-      <article className={tw('w-full', 'prose dark:prose-invert')}>{props.children}</article>
+      <article className={tw('w-full', 'prose prose-neutral dark:prose-invert')}>
+        {props.children}
+      </article>
 
       <TableOfContents list={props.toc} slug={props.frontMatter.slug} />
     </section>
