@@ -25,7 +25,7 @@ export const Footer = (props: FooterProps) => {
           target='_blank'
           rel='noopener noreferrer'
           title='RSS feed'
-          href='/feed.xml'
+          href='/feed'
         >
           RSS
         </CustomLink>
