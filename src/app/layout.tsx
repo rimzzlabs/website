@@ -23,7 +23,6 @@ const inter = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
-  manifest: '/manifest.json',
   themeColor: '#030712',
   viewport: {
     minimumScale: 1,

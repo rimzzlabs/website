@@ -1,9 +1,8 @@
 import { CloudinaryImg } from '@/components/cloudinary-image'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
-import { PostCard } from '@/components/post'
+import { LatestPostList, LatestPostListLoading } from '@/components/post'
 
-import { getLatestPosts } from '@/domains/post'
 import {
   KEYWORDS,
   OG,
@@ -15,6 +14,8 @@ import {
 } from '@/domains/seo'
 
 import { MainLayout } from '@/layouts'
+
+import { Suspense } from 'react'
 
 export const metadata = createMetadata({
   title: SITE_OWNER,
@@ -43,10 +44,6 @@ export const metadata = createMetadata({
 })
 
 export default async function Page() {
-  const posts = await getLatestPosts()
-
-  if (!posts) throw new Error('Cannot get post list')
-
   return (
     <>
       <Header />
@@ -62,7 +59,7 @@ export default async function Page() {
             <div className='relative aspect-[.75/1] w-28 sm:w-32 mb-4 md:mb-unset md:ml-auto'>
               <CloudinaryImg
                 fill
-                sizes='(max-width: 640px) 112px, (min-width: 640px) 128px'
+                sizes='(min-width: 10px) 112px, (min-width: 640px) 128px'
                 priority
                 quality={80}
                 className='rounded-md dark:brightness-95'
@@ -85,16 +82,9 @@ export default async function Page() {
           </div>
         </section>
 
-        <section className='my-4'>
-          <h2 className='mb-2'>Latest Posts</h2>
-          <p className='mb-8'>Here are my latest posts you might be interested in reading.</p>
-
-          <div className='flex flex-col divide-y divide-base-200 dark:divide-base-800'>
-            {posts.map((post) => (
-              <PostCard key={post.slug} {...post} />
-            ))}
-          </div>
-        </section>
+        <Suspense fallback={<LatestPostListLoading />}>
+          <LatestPostList />
+        </Suspense>
       </MainLayout>
       <Footer />
     </>
