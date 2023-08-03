@@ -1,28 +1,35 @@
-import { readFile, readdir } from 'fs/promises'
+import { promises as fs } from 'fs'
 import matter from 'gray-matter'
 import { join } from 'path'
 import readingTime from 'reading-time'
 
-export type GetContents<T> = T
+export const getContents = async <T = unknown>(path: string) => {
+  try {
+    const targetDir = join(process.cwd(), path)
 
-export const getContents = async <T>(path: string): Promise<Array<GetContents<T>>> => {
-  const targetDir = join(process.cwd(), path)
+    const fileContents = await fs.readdir(targetDir)
+    const mdxFiles = fileContents.filter(
+      (fileName) => fileName.endsWith('.mdx') || fileName.endsWith('.md'),
+    )
 
-  const fileContents = (await readdir(targetDir)).filter((p) => /\.mdx?$/.test(p))
+    const files = await Promise.all(
+      mdxFiles.map(async (fileName) => {
+        const targetFile = join(targetDir, fileName)
+        const file = await fs.readFile(targetFile, 'utf8')
 
-  const files = fileContents.map(async (fileName) => {
-    const targetFile = join(targetDir, fileName)
-    const file = await readFile(targetFile, 'utf8')
+        const { content, data } = matter(file)
+        const estRead = readingTime(content)
 
-    const { content, data } = matter(file)
-    const est_read = readingTime(content)
+        return {
+          ...(data as T),
+          estRead,
+          slug: fileName.replace('.mdx', '').replace('.md', ''),
+        }
+      }),
+    )
 
-    return {
-      ...(data as T),
-      est_read: est_read,
-      slug: fileName.replace('.mdx', ''),
-    }
-  })
-
-  return await Promise.all(files)
+    return [files as T[], null] as const
+  } catch (e) {
+    return [null, e as Error] as const
+  }
 }

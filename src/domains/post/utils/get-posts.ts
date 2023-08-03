@@ -4,11 +4,8 @@ import { getContents } from '@/utils/ssr'
 import type { PostFrontMatter } from '../type'
 
 export const getPosts = async () => {
-  try {
-    const posts = await getContents<PostFrontMatter>('src/domains/post/content')
+  const [posts, error] = await getContents<PostFrontMatter>('src/domains/post/content')
+  if (error) return []
 
-    return posts.sort((a, b) => compareDesc(new Date(a.publishedAt), new Date(b.publishedAt)))
-  } catch (err) {
-    return null
-  }
+  return posts.sort((a, b) => compareDesc(new Date(a.publishedAt), new Date(b.publishedAt)))
 }

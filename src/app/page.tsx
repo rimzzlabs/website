@@ -1,8 +1,9 @@
 import { CloudinaryImg } from '@/components/cloudinary-image'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
-import { LatestPostList, LatestPostListLoading } from '@/components/post'
+import { LatestPostList } from '@/components/post'
 
+import { getLatestPosts } from '@/domains/post'
 import {
   KEYWORDS,
   OG,
@@ -14,8 +15,6 @@ import {
 } from '@/domains/seo'
 
 import { MainLayout } from '@/layouts'
-
-import { Suspense } from 'react'
 
 export const metadata = createMetadata({
   title: SITE_OWNER,
@@ -44,6 +43,8 @@ export const metadata = createMetadata({
 })
 
 export default async function Page() {
+  const posts = await getLatestPosts()
+
   return (
     <>
       <Header />
@@ -82,9 +83,7 @@ export default async function Page() {
           </div>
         </section>
 
-        <Suspense fallback={<LatestPostListLoading />}>
-          <LatestPostList />
-        </Suspense>
+        <LatestPostList posts={posts} />
       </MainLayout>
       <Footer />
     </>

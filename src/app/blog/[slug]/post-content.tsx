@@ -1,14 +1,28 @@
-import type { TocList } from '@/components/table-of-contents'
+import { Skeleton } from '@/components/skeleton'
 import { TableOfContents } from '@/components/table-of-contents'
 
 import type { PostFrontMatter } from '@/domains/post'
 
 import { tw } from '@/utils/tw'
 
+import { Suspense } from 'react'
+
 type Props = React.PropsWithChildren<{
   frontMatter: PostFrontMatter
-  toc: TocList
 }>
+
+const Fallback = () => (
+  <div className='hidden w-full lg:flex lg:flex-col'>
+    <Skeleton className='h-8 w-full mb-4' />
+    <Skeleton className='w-3/4 h-4 mb-2' />
+    <Skeleton className='w-1/3 h-4 mb-2' />
+    <Skeleton className='w-11/12 h-4 mb-2' />
+    <Skeleton className='w-9/12 h-4 mb-2' />
+    <Skeleton className='w-full h-4 mb-2' />
+    <Skeleton className='w-8/12 h-4 mb-2' />
+    <Skeleton className='w-10/12 h-4' />
+  </div>
+)
 
 export const PostContent = (props: Props) => {
   return (
@@ -17,7 +31,9 @@ export const PostContent = (props: Props) => {
         {props.children}
       </article>
 
-      <TableOfContents list={props.toc} slug={props.frontMatter.slug} />
+      <Suspense fallback={<Fallback />}>
+        <TableOfContents slug={props.frontMatter.slug} />
+      </Suspense>
     </section>
   )
 }

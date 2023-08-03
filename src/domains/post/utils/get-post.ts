@@ -6,13 +6,10 @@ import type { PostFrontMatter } from '../type'
 
 export const getPost = async (slug: string) => {
   const path = 'src/domains/post/content/' + slug
-  const post = await getContent<PostFrontMatter>(path)
-  if (!post) return null
+  const [post, error] = await getContent<PostFrontMatter>(path)
+  const views = await getPostViews(slug)
 
-  const views = await getPostViews(post.frontMatter.slug)
+  if (error) return [null, error] as const
 
-  return {
-    views,
-    ...post,
-  }
+  return [{ ...post, views }, error] as const
 }

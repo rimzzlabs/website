@@ -65,9 +65,9 @@ type PageParam = {
 export const revalidate = 30
 
 export default async function PostPage(props: PageParam) {
-  const post = await getPost(props.params.slug)
+  const [post, error] = await getPost(props.params.slug)
 
-  if (!post) {
+  if (error) {
     notFound()
   }
 
@@ -82,9 +82,7 @@ export default async function PostPage(props: PageParam) {
 
         <hr className='my-4 max-w-prose' />
 
-        <PostContent frontMatter={post.frontMatter} toc={post.toc}>
-          {post.content}
-        </PostContent>
+        <PostContent frontMatter={post.frontMatter}>{post.content}</PostContent>
 
         <section className='max-w-prose mt-8'>
           <PostReaction />
@@ -97,7 +95,14 @@ export default async function PostPage(props: PageParam) {
 }
 
 export async function generateMetadata(param: PageParam) {
-  const post = await getPost(param.params.slug)
+  const [post, error] = await getPost(param.params.slug)
+
+  if (error)
+    return createMetadata({
+      templateTitle: SITE_NAME,
+      title: 'Blog',
+      canonical: `blog/${param.params.slug}`,
+    })
 
   return match(post)
     .with(P.not(P.nullish), (post) => {

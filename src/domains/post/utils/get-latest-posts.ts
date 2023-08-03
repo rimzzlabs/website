@@ -7,7 +7,7 @@ import { P, match } from 'ts-pattern'
 export const getLatestPosts = async () => {
   const posts = await getPosts()
 
-  return match<typeof posts, typeof posts>(posts)
+  return match(posts)
     .with(P.array(), (posts) => {
       return posts
         .sort((a, b) => {
@@ -17,5 +17,5 @@ export const getLatestPosts = async () => {
         })
         .slice(0, 3)
     })
-    .otherwise(() => null)
+    .otherwise(() => [])
 }
