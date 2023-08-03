@@ -2,7 +2,7 @@ import { Scroll } from '@/components/scroll'
 import { SkipContent } from '@/components/skip-content'
 import { UmamiScript } from '@/components/umami-script'
 
-import { SITE_NAME } from '@/domains/seo'
+import { SITE_NAME, SITE_URL } from '@/domains/seo'
 
 import { tw } from '@/utils/tw'
 
@@ -22,6 +22,7 @@ const inter = localFont({
 })
 export const metadata: Metadata = {
   applicationName: SITE_NAME,
+  metadataBase: new URL(SITE_URL),
   themeColor: '#030712',
   viewport: {
     minimumScale: 1,
