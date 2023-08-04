@@ -18,11 +18,11 @@ export const getContents = async <T = unknown>(path: string) => {
         const file = await fs.readFile(targetFile, 'utf8')
 
         const { content, data } = matter(file)
-        const estRead = readingTime(content)
+        const est_read = readingTime(content)
 
         return {
           ...(data as T),
-          estRead,
+          est_read,
           slug: fileName.replace('.mdx', '').replace('.md', ''),
         }
       }),

@@ -20,7 +20,7 @@ export const Header = (props: HeaderProps) => {
       className={tw(
         'fixed top-0 inset-x-0 z-[999]',
         'border-b border-transparent transition-[background-color,border-color]',
-        'bg-base-50 dark:bg-base-900',
+        'bg-white dark:bg-base-900',
         y > 65 && 'border-base-200 dark:border-base-800',
       )}
     >

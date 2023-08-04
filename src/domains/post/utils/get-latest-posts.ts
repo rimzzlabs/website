@@ -6,6 +6,7 @@ import { P, match } from 'ts-pattern'
 
 export const getLatestPosts = async () => {
   const posts = await getPosts()
+  console.info(posts)
 
   return match(posts)
     .with(P.array(), (posts) => {

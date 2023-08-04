@@ -60,9 +60,9 @@ export const PostCard = (props: PostCardProps) => {
 
   return (
     <div className={tw('py-4 first-of-type:pt-0 last-of-type:pb-0', props.className)}>
-      <div className='flex items-center space-x-4'>
+      <div className='flex flex-col xs:flex-row xs:items-center space-y-1 xs:space-y-0'>
         <PostPublishedLabel publishedAt={props.publishedAt} />
-
+        <span className='mx-1 hidden xs:block'>•</span>
         <PostReadTimeLabel
           tooltipId={`home-post-${props.slug}-read-time`}
           est_read={props.est_read}

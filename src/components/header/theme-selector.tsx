@@ -8,7 +8,12 @@ import { Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { CgSpinner } from 'react-icons/cg'
 import type { IconType } from 'react-icons/lib'
-import { TbMoonStars as Moon, TbSunHigh as Sun, TbCheck, TbDeviceDesktop } from 'react-icons/tb'
+import {
+  TbMoonStars as Moon,
+  TbSunHigh as Sun,
+  TbCircleFilled,
+  TbDeviceDesktop,
+} from 'react-icons/tb'
 
 type ThemeMenu = { value: string; name: string; icon: IconType }
 
@@ -29,11 +34,10 @@ export const HeaderThemeSelector = () => {
         className={tw(
           'inline-flex items-center justify-center',
           'flex-shrink-0',
-          'w-9 h-9 md:w-10 md:h-10 rounded',
-          'bg-theme-50 dark:bg-base-900',
+          'w-8 h-8 rounded dark:bg-base-900',
         )}
       >
-        <CgSpinner className='animate-spin' />
+        <CgSpinner className='animate-spin dark:text-white' />
         <span className='sr-only'>Loading theme menu button...</span>
       </button>
     )
@@ -44,16 +48,17 @@ export const HeaderThemeSelector = () => {
       <Menu.Button
         className={tw(
           'inline-flex items-center justify-center',
-          'w-9 h-9 md:w-10 md:h-10 rounded flex-shrink-0 motion-safe:transition',
-          'bg-base-50 dark:bg-base-900',
-          'hover:bg-base-200 dark:hover:bg-base-800',
+          'w-8 h-8 rounded flex-shrink-0',
+          'motion-safe:transition dark:bg-base-900',
+          'hover:bg-base-100 active:bg-base-200',
+          'dark:hover:bg-base-800 dark:active:bg-base-950',
         )}
       >
         {(theme === 'dark' || (theme === 'system' && systemTheme === 'dark')) && (
-          <Moon className={tw('w-4 h-4 md:w-5 md:h-5', 'text-base-50')} />
+          <Moon size={16} className='text-base-50' />
         )}
         {(theme === 'light' || (theme === 'system' && systemTheme === 'light')) && (
-          <Sun className={tw('w-4 h-4 md:w-5 md:h-5', 'text-base-900')} />
+          <Sun size={16} className='text-base-900' />
         )}
         <span className='sr-only'>Switch theme</span>
       </Menu.Button>
@@ -61,16 +66,16 @@ export const HeaderThemeSelector = () => {
       <Transition
         as={Fragment}
         enter='motion-safe:transition ease-out duration-300'
-        enterFrom='transform opacity-0 scale-95 -translate-y-8'
-        enterTo='transform opacity-100 scale-100 -translate-y-0'
+        enterFrom='transform opacity-0 scale-95'
+        enterTo='transform opacity-100 scale-100'
         leave='motion-safe:transition ease-in duration-200'
-        leaveFrom='transform opacity-100 scale-100 -translate-y-0'
-        leaveTo='transform opacity-0 scale-95 -translate-y-2'
+        leaveFrom='transform opacity-100 scale-100'
+        leaveTo='transform opacity-0 scale-95'
       >
         <Menu.Items
           as='div'
           className={tw(
-            'absolute top-12 right-0',
+            'absolute top-9 right-0',
             'w-40 p-0.5 z-[9999]',
             'ring-1 focus:outline-none border',
             'rounded-md origin-top-right',
@@ -91,14 +96,19 @@ export const HeaderThemeSelector = () => {
                     <button
                       className={tw(
                         'flex items-center',
-                        'px-1.5 h-9 md:h-10 w-full',
+                        'px-1.5 h-8 w-full',
                         'rounded motion-safe:transition dark:text-white',
                         active && 'bg-base-200 dark:bg-base-900 dark:text-white',
                       )}
                     >
-                      <item.icon className='w-4 h-4 md:w-5 md:h-5' />
-                      <span className='text-xs md:text-sm ml-2.5 mr-4'>{item.name}</span>
-                      {theme === item.value && <TbCheck className='-mt-px' />}
+                      <item.icon size={16} />
+                      <span className='text-xs md:text-sm ml-2.5 mr-2'>{item.name}</span>
+                      {theme === item.value && (
+                        <TbCircleFilled
+                          size={10}
+                          className='text-emerald-500 dark:text-emerald-400'
+                        />
+                      )}
                     </button>
                   )}
                 </Menu.Item>

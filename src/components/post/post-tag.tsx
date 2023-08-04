@@ -15,8 +15,16 @@ type Props = {
 export const PostTag = (props: Props) => {
   const tag = getPostTag(props.tag)
 
-  const baseCn =
-    'inline-flex items-center space-x-1 py-1 px-2 rounded text-sm select-none border border-base-200 dark:border-base-800'
+  const className = tw([
+    'inline-flex items-center',
+    'space-x-1 py-1 px-2 motion-safe:transition',
+    'rounded text-sm select-none border',
+    'border-base-200 dark:border-base-700',
+    'bg-base-100 dark:bg-base-800',
+    'hover:bg-base-200 active:bg-base-300',
+    'dark:hover:bg-base-700 dark:hover:border-base-600',
+    'dark:active:bg-base-900 dark:active:border-base-700',
+  ])
 
   return match([tag, props.clickable])
     .with([P.not(P.nullish), P.nullish], ([tag]) => (
@@ -27,7 +35,7 @@ export const PostTag = (props: Props) => {
             tag: tag.name,
           },
         }}
-        className={tw(baseCn, 'bg-base-100 dark:bg-base-900')}
+        className={className}
       >
         <tag.icon size={20} className={tag.color} />
         <span>{tag.name}</span>
@@ -41,22 +49,22 @@ export const PostTag = (props: Props) => {
             tag: tag.name,
           },
         }}
-        className={tw(baseCn, 'bg-base-100 dark:bg-base-900')}
+        className={className}
       >
         <tag.icon size={20} className={tag.color} />
         <span>{tag.name}</span>
       </Link>
     ))
     .with([P.not(P.nullish), P.shape(false)], ([tag]) => (
-      <span className={tw(baseCn, 'cursor-default', 'bg-base-100 dark:bg-base-900')}>
+      <span className={tw(className, 'cursor-default')}>
         <tag.icon size={20} className={tag.color} />
         <span>{tag.name}</span>
       </span>
     ))
     .otherwise(() => (
-      <button className={tw(baseCn, 'text-orange-700 bg-base-100 dark:bg-base-900')}>
+      <button className={className}>
         <TbAlertCircle />
-        <span className='italic'>Tag might haven&apos;t registered yet</span>
+        <span className='italic'>Unknown Tag</span>
       </button>
     ))
 }

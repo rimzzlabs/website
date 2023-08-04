@@ -5,24 +5,21 @@ import { NAVBAR_ROUTES } from '@/domains/routes'
 import { tw } from '@/utils/tw'
 
 import { Menu, Transition } from '@headlessui/react'
-import React, { Fragment, useCallback, useMemo } from 'react'
+import { Fragment } from 'react'
 import { TbAddressBook, TbFilePencil, TbHome, TbMenu, TbSwipe, TbX } from 'react-icons/tb'
 import { match } from 'ts-pattern'
 
 export const NavbarMobile = () => {
-  const getIcon = useCallback((type: string) => {
+  const getIcon = (type: string) => {
     return match(type)
       .with('/', () => TbHome)
       .with('/blog', () => TbFilePencil)
       .with('/project', () => TbSwipe)
       .with('/guestbook', () => TbAddressBook)
-      .otherwise(() => React.Fragment)
-  }, [])
+      .otherwise(() => Fragment)
+  }
 
-  const routes = useMemo(
-    () => NAVBAR_ROUTES.map((route) => ({ ...route, Icon: getIcon(route.href) })),
-    [getIcon],
-  )
+  const routes = NAVBAR_ROUTES.map((route) => ({ ...route, Icon: getIcon(route.href) }))
 
   return (
     <Menu as='div' className='md:hidden relative z-40'>
@@ -30,15 +27,20 @@ export const NavbarMobile = () => {
         title='Menu List'
         className={tw(
           'inline-flex items-center justify-center',
-          'w-9 h-9 md:w-10 md:h-10 rounded flex-shrink-0 motion-safe:transition',
-          'bg-base-50 dark:bg-base-900',
-          'hover:bg-base-200 dark:hover:bg-base-800',
+          'w-8 h-8 rounded flex-shrink-0',
+          'motion-safe:transition dark:bg-base-900',
+          'hover:bg-base-100 active:bg-base-200',
+          'dark:hover:bg-base-800 dark:active:bg-base-950',
         )}
       >
         {({ open }) => (
           <>
-            {open ? <TbX /> : <TbMenu />}
-            <span className='sr-only'>Open to see menu</span>
+            {open ? (
+              <TbX size={16} className='text-base-900 dark:text-base-50' />
+            ) : (
+              <TbMenu size={16} className='text-base-900 dark:text-base-50' />
+            )}
+            <span className='sr-only'>Click to open menus</span>
           </>
         )}
       </Menu.Button>
@@ -46,17 +48,17 @@ export const NavbarMobile = () => {
       <Transition
         as={Fragment}
         enter='motion-safe:transition ease-out duration-300'
-        enterFrom='transform opacity-0 scale-95 -translate-y-8'
-        enterTo='transform opacity-100 scale-100 -translate-y-0'
+        enterFrom='transform opacity-0 scale-95'
+        enterTo='transform opacity-100 scale-100'
         leave='motion-safe:transition ease-in duration-200'
-        leaveFrom='transform opacity-100 scale-100 -translate-y-0'
-        leaveTo='transform opacity-0 scale-95 -translate-y-2'
+        leaveFrom='transform opacity-100 scale-100'
+        leaveTo='transform opacity-0 scale-95'
       >
         <Menu.Items
           as='div'
           className={tw(
-            'absolute top-12 right-0',
-            'w-40 p-0.5 z-[9999]',
+            'absolute top-9 right-0',
+            'w-32 p-0.5 z-[9999]',
             'ring-1 focus:outline-none border',
             'rounded-md origin-top-right',
             'border-base-300 dark:border-base-700',
@@ -75,12 +77,12 @@ export const NavbarMobile = () => {
                       variant='unstyled'
                       className={tw(
                         'flex items-center',
-                        'px-1.5 h-9 md:h-10 w-full',
+                        'px-1.5 h-8 w-full',
                         'rounded motion-safe:transition dark:text-white',
                         active && 'bg-base-200 dark:bg-base-900 dark:text-white',
                       )}
                     >
-                      <item.Icon className='w-4 h-4 md:w-5 md:h-5' />
+                      <item.Icon size={16} />
                       <span className='text-xs md:text-sm ml-2.5 mr-4'>{item.name}</span>
                     </CustomLink>
                   )}
