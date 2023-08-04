@@ -50,14 +50,14 @@ export default async function Page() {
       <Header />
       <MainLayout className='space-y-10 md:space-y-14'>
         <section className='flex flex-col my-4'>
-          <div className='flex flex-col-reverse sm:flex-row md:items-end mb-10'>
-            <h1 className='mt-1 md:text-5xl'>
+          <div className='flex flex-col-reverse sm:flex-row sm:items-end mb-10'>
+            <h1 className='mt-1 sm:mt-0 sm:text-4xl md:text-5xl'>
               Hi, I&apos;m
               <br />
               {SITE_OWNER}
             </h1>
 
-            <div className='relative aspect-[.75/1] w-28 sm:w-32 mb-4 md:mb-unset md:ml-auto'>
+            <div className='relative aspect-[.75/1] w-28 sm:w-32 mb-4 sm:mb-unset sm:ml-auto'>
               <CloudinaryImg
                 fill
                 sizes='(min-width: 10px) 112px, (min-width: 640px) 128px'

@@ -1,6 +1,5 @@
 import { Scroll } from '@/components/scroll'
 import { SkipContent } from '@/components/skip-content'
-import { UmamiScript } from '@/components/umami-script'
 
 import { SITE_NAME, SITE_URL } from '@/domains/seo'
 
@@ -11,8 +10,14 @@ import '@/styles/tailwind.css'
 import { Providers } from './providers'
 
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import localFont from 'next/font/local'
 import 'react-tooltip/dist/react-tooltip.css'
+
+const UmamiScript = dynamic(
+  () => import('@/components/umami-script').then((m) => ({ default: m.UmamiScript })),
+  { ssr: false },
+)
 
 const inter = localFont({
   src: './font/inter-var-latin.woff2',
