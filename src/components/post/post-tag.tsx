@@ -1,15 +1,65 @@
-import type { PostTag as TypePostTag } from '@/domains/post'
-import { getPostTag } from '@/domains/post'
-
 import { tw } from '@/utils/tw'
 
+import { SiNextdotjs, SiReact } from '@icons-pack/react-simple-icons'
+import {
+  ActivityIcon,
+  AlertCircleIcon,
+  FileCodeIcon,
+  FlaskConicalIcon,
+  GhostIcon,
+  Lightbulb,
+  type LucideIcon,
+} from 'lucide-react'
 import Link from 'next/link'
-import { TbAlertCircle } from 'react-icons/tb'
 import { P, match } from 'ts-pattern'
 
 type Props = {
-  tag: TypePostTag
+  tag: string
   clickable?: boolean
+}
+type PostTagProps = {
+  name: string
+  icon: LucideIcon
+  color: string
+}
+const getPostTag = (tag: string) => {
+  return match<typeof tag, PostTagProps | null>(tag)
+    .with('react.js', (name) => ({
+      name,
+      icon: SiReact,
+      color: 'text-sky-500',
+    }))
+    .with('next.js', (name) => ({
+      name,
+      icon: SiNextdotjs,
+      color: 'text-base-800 dark:text-white',
+    }))
+    .with('jotai', (name) => ({
+      name,
+      icon: GhostIcon,
+      color: 'text-zinc-800 dark:text-white',
+    }))
+    .with('dev experience', (name) => ({
+      name,
+      icon: FileCodeIcon,
+      color: 'text-blue-500',
+    }))
+    .with('user experience', (name) => ({
+      name,
+      icon: FlaskConicalIcon,
+      color: 'text-fuchsia-400',
+    }))
+    .with('personal branding', (name) => ({
+      name,
+      icon: Lightbulb,
+      color: 'text-yellow-500',
+    }))
+    .with('personal growth', (name) => ({
+      name,
+      icon: ActivityIcon,
+      color: 'text-emerald-500',
+    }))
+    .otherwise(() => null)
 }
 
 export const PostTag = (props: Props) => {
@@ -37,7 +87,7 @@ export const PostTag = (props: Props) => {
         }}
         className={className}
       >
-        <tag.icon size={20} className={tag.color} />
+        <tag.icon size={18} className={tag.color} />
         <span>{tag.name}</span>
       </Link>
     ))
@@ -51,19 +101,19 @@ export const PostTag = (props: Props) => {
         }}
         className={className}
       >
-        <tag.icon size={20} className={tag.color} />
+        <tag.icon size={18} className={tag.color} />
         <span>{tag.name}</span>
       </Link>
     ))
     .with([P.not(P.nullish), P.shape(false)], ([tag]) => (
       <span className={tw(className, 'cursor-default')}>
-        <tag.icon size={20} className={tag.color} />
+        <tag.icon size={18} className={tag.color} />
         <span>{tag.name}</span>
       </span>
     ))
     .otherwise(() => (
       <button className={className}>
-        <TbAlertCircle />
+        <AlertCircleIcon />
         <span className='italic'>Unknown Tag</span>
       </button>
     ))

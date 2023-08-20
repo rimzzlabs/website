@@ -1,16 +1,14 @@
-import { getPosts } from '@/domains/post'
-import { ALL_ROUTES } from '@/domains/routes'
-import { SITE_URL } from '@/domains/seo'
-
 import { formatToISO } from '@/utils/date'
+import { SITE_URL } from '@/utils/env/client'
 
+import { ALL_ROUTES } from '@/constants/route'
+
+import { allPosts } from 'contentlayer/generated'
 import type { MetadataRoute } from 'next'
 import { P, match } from 'ts-pattern'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getPosts()
-
-  const route_posts = match(posts)
+  const route_posts = match(allPosts)
     .with(P.nullish, () => null)
     .with(P.not(P.nullish), (posts) =>
       posts.map((post) => ({
@@ -32,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
   )
 
-  return match([posts, routes, route_posts])
+  return match([allPosts, routes, route_posts])
     .with([P.not(P.nullish), P._, P.not(P.nullish)], ([, routes, posts]) => [...routes, ...posts])
     .otherwise(() => routes)
 }

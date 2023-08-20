@@ -1,6 +1,6 @@
 'use client'
 
-import { ALL_ROUTES } from '@/domains/routes'
+import { ALL_ROUTES } from '@/constants/route'
 
 import { CustomLink } from '../custom-link'
 

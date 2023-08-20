@@ -2,36 +2,45 @@
 
 import { CustomLink } from '@/components/custom-link'
 
-import { type ROUTE } from '@/domains/routes'
+import type { ROUTE } from '@/constants/route'
 
+import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { P, match } from 'ts-pattern'
 
 export const NavbarItem = ({ name, ...props }: ROUTE) => {
   const pathname = usePathname()
 
-  const variant = match(pathname)
+  const isActive = match(pathname)
     .with(
       P.when((path) => props.href === '/' && path === props.href),
-      () => 'color' as const,
+      () => true,
     )
     .with(
       P.when((path) => props.href !== '/' && path.includes(props.href)),
-      () => 'color' as const,
+      () => true,
     )
-    .otherwise(() => null)
-
-  const base = 'text-sm mr-2.5 last-of-type:mr-unset decoration-2 underline-offset-4'
-
-  const className = match([variant, base])
-    .with([P.not(P.nullish), P.select()], (base) => `${base} !underline`)
-    .otherwise(([, base]) => {
-      return `${base} hover:text-primary-600 dark:hover:text-primary-500 hover:underline`
-    })
+    .otherwise(() => false)
 
   return (
-    <CustomLink {...props} variant={variant} className={className}>
+    <CustomLink
+      {...props}
+      variant='base'
+      className='relative pb-1 text-sm mr-2.5 last-of-type:mr-unset'
+    >
       {name}
+
+      {isActive && (
+        <motion.div
+          className='absolute inset-x-0 h-0.5 bottom-0 bg-base-700 dark:bg-base-300'
+          layoutId='navbar-desktop'
+          transition={{
+            type: 'spring',
+            stiffness: 350,
+            damping: 30,
+          }}
+        />
+      )}
     </CustomLink>
   )
 }

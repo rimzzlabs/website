@@ -6,26 +6,20 @@ import { useTheme } from '@/hooks/use-theme'
 
 import { tw } from '@/utils/tw'
 
-import { CgSpinner } from 'react-icons/cg'
-import type { IconType } from 'react-icons/lib'
-import {
-  TbMoonStars as Moon,
-  TbSunHigh as Sun,
-  TbCircleFilled,
-  TbDeviceDesktop,
-} from 'react-icons/tb'
-import { P, match } from 'ts-pattern'
+import { CircleIcon, Loader2Icon, MonitorIcon, MoonStarIcon, SunMediumIcon } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { match } from 'ts-pattern'
 
-type ThemeMenu = { value: string; name: string; icon: IconType }
+type ThemeMenu = { value: string; name: string; icon: LucideIcon }
 
 const menu: ThemeMenu[] = [
-  { name: 'System', icon: TbDeviceDesktop, value: 'system' },
-  { name: 'Dark', icon: Moon, value: 'dark' },
-  { name: 'Light', icon: Sun, value: 'light' },
+  { name: 'System', icon: MonitorIcon, value: 'system' },
+  { name: 'Dark', icon: MoonStarIcon, value: 'dark' },
+  { name: 'Light', icon: SunMediumIcon, value: 'light' },
 ]
 
 export const HeaderThemeSelector = () => {
-  const { theme, systemTheme, changeTheme, mounted } = useTheme()
+  const { theme, changeTheme, mounted, actualTheme } = useTheme()
 
   if (!mounted) {
     return (
@@ -38,7 +32,7 @@ export const HeaderThemeSelector = () => {
           'w-8 h-8 rounded dark:bg-base-900',
         )}
       >
-        <CgSpinner className='animate-spin dark:text-white' />
+        <Loader2Icon size='1em' className='animate-spin dark:text-white' />
         <span className='sr-only'>Loading theme menu button...</span>
       </button>
     )
@@ -48,13 +42,9 @@ export const HeaderThemeSelector = () => {
     <ComboboxMenu
       buttonTitle='Switch Theme'
       renderIcon={() => {
-        return match([theme, systemTheme])
-          .with(P.shape(['dark', P._]).or(P.shape(['system', 'dark'])), () => (
-            <Moon size={16} className='text-base-50' />
-          ))
-          .with(P.shape(['light', P._]).or(P.shape(['system', 'light'])), () => (
-            <Sun size={16} className='text-base-900' />
-          ))
+        return match(actualTheme)
+          .with('dark', () => <MoonStarIcon size={16} className='text-base-50' />)
+          .with('light', () => <SunMediumIcon size={16} className='text-base-900' />)
           .otherwise(() => null)
       }}
       renderItems={(_, Menu) => {
@@ -78,7 +68,7 @@ export const HeaderThemeSelector = () => {
                   <item.icon size={16} />
                   <span className='text-xs md:text-sm ml-2.5 mr-2'>{item.name}</span>
                   {theme === item.value && (
-                    <TbCircleFilled size={10} className='text-emerald-500 dark:text-emerald-400' />
+                    <CircleIcon size={10} className='text-emerald-500 dark:text-emerald-400' />
                   )}
                 </button>
               )}

@@ -1,12 +1,10 @@
 import { Scroll } from '@/components/scroll'
 import { SkipContent } from '@/components/skip-content'
 
-import { SITE_NAME, SITE_URL } from '@/domains/seo'
-
+import { SITE_NAME, SITE_URL } from '@/utils/env/client'
 import { tw } from '@/utils/tw'
 
-import '@/styles/tailwind.css'
-
+import '../styles/tailwind.css'
 import { Providers } from './providers'
 
 import type { Metadata } from 'next'

@@ -1,12 +1,9 @@
-import { getPosts } from '@/domains/post'
-import { SITE_NAME, SITE_OWNER, SITE_URL } from '@/domains/seo'
+import { SITE_NAME, SITE_OWNER, SITE_URL } from '@/utils/env/client'
 
+import { allPosts } from 'contentlayer/generated'
 import RSS from 'rss'
 
-export async function GET() {
-  const posts = await getPosts()
-  if (!posts) throw new Error('Cannot build feed.xml, please check your code at `src/feed.ts`')
-
+export function GET() {
   const feed = new RSS({
     title: SITE_NAME,
     description: 'Read rizki blog posts',
@@ -17,7 +14,7 @@ export async function GET() {
     pubDate: new Date('2023-07-24'),
   })
 
-  posts.forEach((post) => {
+  allPosts.forEach((post) => {
     feed.item({
       author: SITE_OWNER,
       title: post.title,

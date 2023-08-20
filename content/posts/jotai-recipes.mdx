@@ -1,0 +1,172 @@
+---
+title: 'Some Jotai Recipes I Commonly Use for my Project'
+description: 'To read and modify state on our application with Jotai, we need to use paradigm called Recipes, now lets see how we can utilize those terms to read and modify our state with Jotai'
+publishedAt: '09/29/2023'
+tags: ['jotai']
+status: 'draft'
+keywords:
+  ['react', 'jotai', 'hooks', 'recipes', 'state', 'state manager', 'state management']
+  # some comment to fix
+---
+
+## Introduction
+
+Jotai takes an atomic approach to global React state management. By combining atoms and renders are automatically optimized based on atom dependency.
+
+This solves the extra re-render issue of React context, eliminates the need for memoization, and provides a similar developer experience to signals while maintaining a **_declarative programming model_**.
+
+> If you don't know about Jotai, I have a [blog post about jotai](https://rizkicitra.dev/blog/jotai-awesome-state-management) explained you can read.
+
+To update a state with Jotai, I can simply use built-in Jotai `setter` like so:
+
+```tsx showLineNumbers title="App.tsx"
+import { atom, useAtom } from 'jotai'
+
+const atomFruit = atom('mango')
+
+export default function App() {
+  const [fruit, setFruit] = useAtom(atomFruit)
+
+  return (
+    <div>
+      <p>{fruit}</p>
+
+      <button onClick={() => setFruit('orange')}>Change to Orange</button>
+    </div>
+  )
+}
+```
+
+But that's just a basic usage right? We all know we're not normal, so let's explore how to create _'recipes'_ in Jotai, to easily manage our application state.
+
+## Derived Value
+
+A derived or computed value is a value that is obtained from other existing value through some logic, transformation, or calculation.
+
+In programming, a derived or computed values are often used to simplify code, it used to encapsulate logic, and make data manipulation based on existing value to be more convenient.
+
+```tsx title="App.tsx" showLineNumbers
+export default function App() {
+  const { user } = useUser()
+  const isUserAdmin = user.role === 'admin'
+
+  if (isUserAdmin) {
+    return <p>You are admin</p>
+  }
+
+  return <p>Just a normal user</p>
+}
+```
+
+In the above example, I check wether the user is admin or not, if it's admin, it simply render "You are admin", otherwise it render "Just a normal user".
+
+The condition to render different UI to the client is by using a derived value `isUserAdmin`. That is a `computed` or `derived` value.
+
+## Derived Atoms
+
+Let's move on to derived atoms. Derived atoms are just same as the previous one, I just need to see what the previous values are, and then make some magic to process with the current logic or calculation.
+
+```ts title="@/store/atom.ts" showLineNumbers
+import { atom } from 'jotai'
+
+type TUserRole = 'admin' | 'user'
+type TUser = {
+  name: string
+  role: Role
+}
+
+const userAtom = atom<TUser>({ name: 'Rizki', role: 'user' })
+
+const isUserAdminAtom = atom((get) => get(userAtom).role === 'admin')
+```
+
+The above example shows us how to create a derived value from the previous atom, very similiar from what I write before with `React.useState`.
+
+In Jotai, It's called recipes, we can compose atoms to another atoms, or create an atoms based on the previous atoms.
+
+Jotai allows you to create these derived values using a declarative approach and without needing to explicitly manage complex state relationships.
+
+## Recipes
+
+Now let's create some recipes I've been used for my project. This recipes are from my first-hand.
+
+Of course you can improve this on your own.
+
+### 1. Filtering Recipes
+
+Let's start with basic recipes, we have a list of arrays, the arrays should be filtered based on user input.
+
+> Wait, that's a search feature?
+
+Yes, you got it right, and without any further explanation. Let's go.
+
+```ts title="@/store/atom.ts" showLineNumbers
+import { clearString } from '@/utils/clearString'
+
+import { atom } from 'jotai'
+
+export const inputAtom = atom('')
+export const foodsAtom = atom([])
+export const filteredFoodsAtom = atom((get) => {
+  const search = get(inputAtom)
+  const foods = get(foodsAtom)
+
+  if (search === '') return foods
+  return foods.filter((food) => {
+    return food.name
+      .toLowerCase()
+      .replace(/\s+/g, '')
+      .includes(search.toLowerCase().replace(/\s+/g, ''))
+  })
+})
+```
+
+That being said, the `filteredFoodsAtom` will filter out the `foodsAtom` based on the `inputAtom` value user provided.
+
+That is too verbose, I can actually create a _`pure function`_ to clear the string.
+
+```ts title="@/util/clearstring"
+export const clearString = (s: string) => s.toLowerCase().replace(/\s+/g, '')
+```
+
+Now, let's refactor our `filteredFoodsAtom`.
+
+```ts {12-16} title="@/store/atom.ts" showLineNumbers
+import { clearString } from '@/utils/clearString'
+
+import { atom } from 'jotai'
+
+export const inputAtom = atom('')
+export const foodsAtom = atom([])
+export const filteredFoodsAtom = atom((get) => {
+  const search = get(inputAtom)
+  const foods = get(foodsAtom)
+
+  if (search === '') return foods
+  return foods.filter((food) => {
+    const clearSearch = clearString(search)
+    const clearName = clearString(food.name)
+    return clearName.includes(clearSearch)
+  })
+})
+```
+
+Pretty neat right?
+
+### 2. Sorting Atoms
+
+Sorting a list of array in an atoms is easy, just like previous example, we just need to sorted it out.
+
+```ts showLineNumbers
+export const postAtoms = atom([])
+
+export const latestPostAtoms = atom((get) => {
+  const posts = get(postAtoms)
+
+  return posts.slice(0).sort((a, b) => compareDesc(a, b))
+})
+```
+
+### 3. Fetch Recipes
+
+This is some serious recipes, we'll create a recipes to fetch data based on previous atom values.

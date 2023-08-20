@@ -3,21 +3,28 @@
 import { ComboboxMenu } from '@/components/combobox-menu'
 import { CustomLink } from '@/components/custom-link'
 
-import { NAVBAR_ROUTES } from '@/domains/routes'
-
 import { tw } from '@/utils/tw'
 
+import { NAVBAR_ROUTES } from '@/constants/route'
+
+import {
+  HomeIcon,
+  XIcon,
+  MenuIcon,
+  FileEditIcon,
+  EggFriedIcon,
+  BookOpenCheckIcon,
+} from 'lucide-react'
 import { Fragment } from 'react'
-import { TbAddressBook, TbFilePencil, TbHome, TbMenu, TbSwipe, TbX } from 'react-icons/tb'
 import { match } from 'ts-pattern'
 
 export const NavbarMobile = () => {
   const getIcon = (type: string) => {
     return match(type)
-      .with('/', () => TbHome)
-      .with('/blog', () => TbFilePencil)
-      .with('/project', () => TbSwipe)
-      .with('/guestbook', () => TbAddressBook)
+      .with('/', () => HomeIcon)
+      .with('/blog', () => FileEditIcon)
+      .with('/project', () => EggFriedIcon)
+      .with('/guestbook', () => BookOpenCheckIcon)
       .otherwise(() => Fragment)
   }
 
@@ -29,8 +36,8 @@ export const NavbarMobile = () => {
       buttonTitle='App menu'
       renderIcon={(prop) =>
         match(prop.open)
-          .with(false, () => <TbMenu size={16} />)
-          .with(true, () => <TbX size={16} />)
+          .with(false, () => <MenuIcon size={16} />)
+          .with(true, () => <XIcon size={16} />)
           .exhaustive()
       }
       renderItems={(_, Menu) => {

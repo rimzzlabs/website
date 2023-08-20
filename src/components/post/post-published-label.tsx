@@ -1,6 +1,6 @@
 import { formatReadableDate, formatToISO } from '@/utils/date'
 
-import { TbCalendarEvent } from 'react-icons/tb'
+import { CalendarIcon } from 'lucide-react'
 
 type Props = {
   publishedAt: string
@@ -12,7 +12,7 @@ export const PostPublishedLabel = (props: Props) => {
 
   return (
     <span className='flex items-center text-sm'>
-      <TbCalendarEvent size={props?.iconSize ?? 14} />
+      <CalendarIcon size={props?.iconSize ?? 14} />
 
       <time className='ml-1' dateTime={ISOdate}>
         {formatReadableDate(props.publishedAt)}

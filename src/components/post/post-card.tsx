@@ -1,16 +1,15 @@
-import type { PostFrontMatter } from '@/domains/post'
-
 import { tw } from '@/utils/tw'
 
 import { PostPublishedLabel } from './post-published-label'
 import { PostReadTimeLabel } from './post-read-time-label'
 import { PostTag } from './post-tag'
 
+import { type Post } from 'contentlayer/generated'
 import Link from 'next/link'
 import { createElement } from 'react'
 import { P, match } from 'ts-pattern'
 
-type PostCardProps = PostFrontMatter & {
+type PostCardProps = Post & {
   className?: string
   headingLevel?: 'h2' | 'h3' | 'h4'
   clickableTags?: boolean
@@ -65,7 +64,7 @@ export const PostCard = (props: PostCardProps) => {
         <span className='mx-1 hidden xs:block'>•</span>
         <PostReadTimeLabel
           tooltipId={`home-post-${props.slug}-read-time`}
-          est_read={props.est_read}
+          estRead={props.readingTime}
         />
       </div>
 

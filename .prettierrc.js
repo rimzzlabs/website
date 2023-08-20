@@ -9,6 +9,7 @@ module.exports = {
   arrowParens: 'always',
   endOfLine: 'auto',
   importOrder: [
+    '^server-only(.*)$',
     '^@/components(.*)$',
     '^@/pages(.*)$',
     '^@/hooks(.*)$',
@@ -21,5 +22,5 @@ module.exports = {
   ],
   plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
   importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
+  importOrderSortSpecifiers: false,
 }

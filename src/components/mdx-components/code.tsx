@@ -1,8 +1,10 @@
 import { tw } from '@/utils/tw'
 
-export const Code = (props: React.PropsWithChildren) => {
+type TProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
+export const Code = (props: TProps) => {
   return (
     <code
+      {...props}
       className={tw(
         'border rounded text-sm p-1',
         'before:hidden after:hidden bg-base-100 dark:bg-base-800',

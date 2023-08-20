@@ -1,29 +1,31 @@
 import { tw } from '@/utils/tw'
 
-import type { ITooltip} from 'react-tooltip';
+import type { ITooltip } from 'react-tooltip'
 import { Tooltip } from 'react-tooltip'
 
-type OmittedBaseProps = Omit<ITooltip, 'content'>
+type TProps = Omit<ITooltip, 'content' | 'anchorSelect' | 'children' | 'id'>
 
-type CustomTooltipId = {
-  id: string
-  content: string
-} & Omit<OmittedBaseProps, 'id'>
+type TTooltipWithId =
+  | (TProps & {
+      id: string
+      content: string
+    })
+  | (TProps & {
+      id: string
+      children: React.ReactNode
+    })
 
-type CustomTooltipAnchorSelect = {
-  anchorSelect: string
-  content: string
-} & Omit<OmittedBaseProps, 'anchorSelect'>
+type TooltipWithAnchor =
+  | (TProps & {
+      anchorSelect: string
+      content: string
+    })
+  | (TProps & {
+      anchorSelect: string
+      children: React.ReactNode
+    })
 
-type CustomTooltipWithChildren = {
-  content?: string
-  children?: React.ReactNode
-} & Omit<OmittedBaseProps, 'children'>
-
-export type CustomTooltipProps =
-  | CustomTooltipId
-  | CustomTooltipAnchorSelect
-  | CustomTooltipWithChildren
+export type CustomTooltipProps = TooltipWithAnchor | TTooltipWithId
 
 export const CustomTooltip = (props: CustomTooltipProps) => {
   return (

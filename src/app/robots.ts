@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/domains/seo'
+import { SITE_URL } from '@/utils/env/client'
 
 import type { MetadataRoute } from 'next'
 

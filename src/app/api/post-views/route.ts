@@ -1,9 +1,9 @@
-import { getPostViews } from '@/domains/umami/utils'
+import { getPostViews } from '@/utils/post'
 
 import { type NextRequest, NextResponse } from 'next/server'
 
 type SuccesResponse = {
-  message: 'Success'
+  message: 'success'
   data: {
     views: number
     slug: string
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     const views = await getPostViews(slug)
     return NextResponse.json<PostViewsResponseAPI>(
       {
-        message: 'Success',
+        message: 'success',
         data: {
           slug,
           views,

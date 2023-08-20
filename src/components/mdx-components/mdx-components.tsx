@@ -4,7 +4,6 @@ import { Code } from './code'
 import { CodeBlock } from './code-block'
 import { mdxHeading } from './heading'
 
-import type { MDXRemoteProps } from 'next-mdx-remote/rsc'
 import type { ImageProps } from 'next/image'
 import Image from 'next/image'
 
@@ -21,6 +20,6 @@ const MDXComponents = {
   Image: (props: ImageProps) => {
     return <Image {...props} alt={props.alt} />
   },
-} as MDXRemoteProps['components']
+}
 
 export { MDXComponents }

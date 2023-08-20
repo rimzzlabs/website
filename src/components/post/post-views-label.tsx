@@ -2,11 +2,11 @@
 
 import { CustomTooltip } from '@/components/custom-tooltip'
 
-import { usePostViews } from '@/domains/queries/post'
-
 import { compactNumber } from '@/utils/number'
 
-import { TbActivityHeartbeat, TbAlertCircle, TbQuestionCircle } from 'react-icons/tb'
+import { usePostViews } from '@/queries/post'
+
+import { ActivityIcon, AlertCircleIcon, HelpCircleIcon } from 'lucide-react'
 import { P, match } from 'ts-pattern'
 
 type Props = {
@@ -38,19 +38,15 @@ export const PostViewsLabel = (props: Props) => {
   const content = match(query)
     .with({ status: 'error' }, () => (
       <div className='flex items-center space-x-1'>
-        <TbAlertCircle />
+        <AlertCircleIcon />
         <span>Something went wrong</span>
       </div>
     ))
-    .with({ status: 'success', data: P.select() }, (views) => (
+    .with({ status: 'success', data: P.select() }, ({ data }) => (
       <div className='flex items-center'>
-        <TbActivityHeartbeat size={props?.iconSize ?? 14} />
-        <span className='mx-1 text-sm'>{getWording(views)}</span>
-        <TbQuestionCircle
-          data-tooltip-id={tooltipId}
-          className='cursor-help self-start'
-          size={13}
-        />
+        <ActivityIcon size={props?.iconSize ?? 14} />
+        <span className='mx-1 text-sm'>{getWording(data.views)}</span>
+        <HelpCircleIcon data-tooltip-id={tooltipId} className='cursor-help self-start' size={13} />
         <CustomTooltip content={tooltipContent} id={tooltipId} />
       </div>
     ))

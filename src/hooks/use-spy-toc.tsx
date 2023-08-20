@@ -22,7 +22,7 @@ export const useSpyToc = () => {
         })
       },
 
-      { rootMargin: '-64px 0px -360px 0px' },
+      { rootMargin: '-64px 0px -300px 0px' },
     )
 
     headings.forEach((heading) => obs.observe(heading))

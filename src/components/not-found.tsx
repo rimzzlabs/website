@@ -1,8 +1,8 @@
 import { CustomLink } from './custom-link'
 
 import buildUrl from 'cloudinary-build-url'
+import { MoveLeft } from 'lucide-react'
 import Image from 'next/image'
-import { TbArrowBack } from 'react-icons/tb'
 
 type NotFoundProps = {
   title: string
@@ -32,13 +32,13 @@ export const NotFound = (props: NotFoundProps) => {
       <p className='mt-6 mb-3'>{props.description}</p>
       <CustomLink
         flex
-        className='items-center space-x-2'
+        className='items-center space-x-2 group'
         variant='colorUnderline'
         title='Back'
         href={props.restoreUrl ?? '/'}
       >
+        <MoveLeft size={18} className='transition group-hover:translate-x-1' />
         <span>{props.restoreText ?? 'Back to home'}</span>
-        <TbArrowBack />
       </CustomLink>
     </section>
   )

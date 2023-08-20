@@ -1,3 +1,4 @@
+import type { AxiosError } from 'axios'
 import axios, { type AxiosRequestConfig } from 'axios'
 
 type Config = Omit<Omit<AxiosRequestConfig, 'url'>, 'method'>
@@ -17,12 +18,12 @@ export const asyncFetchJSON = async <T = unknown>(url: string, config?: ExtendCo
       },
     })
 
-    if (res.status !== 200) {
-      throw new Error(res.statusText)
+    if (res.status === 200 || res.status === 201) {
+      return [res.data as T, null] as const
     }
 
-    return [res.data as T, null] as const
+    throw new Error(res.statusText)
   } catch (e) {
-    return [null, e as unknown as Error] as const
+    return [null, e as unknown as AxiosError<T>] as const
   }
 }

@@ -1,12 +1,10 @@
 'use client'
 
-import { UMAMI_SRC, UMAMI_WEBSITE_ID } from '@/domains/umami'
+import { UMAMI_SRC, UMAMI_WEBSITE_ID } from '@/utils/env/client'
 
 import Script from 'next/script'
 import { useEffect, useState } from 'react'
 import { P, match } from 'ts-pattern'
-
-
 
 export const UmamiScript = () => {
   const crawlerAgent =

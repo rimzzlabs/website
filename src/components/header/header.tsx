@@ -27,7 +27,7 @@ export const Header = (props: HeaderProps) => {
       <div
         className={tw(
           'flex items-center',
-          'justify-end md:justify-between',
+          'justify-end md:justify-start',
           'h-16 space-x-1',
           'layout',
           props.className,

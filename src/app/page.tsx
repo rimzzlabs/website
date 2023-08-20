@@ -3,17 +3,16 @@ import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { LatestPostList } from '@/components/post'
 
-import { getLatestPosts } from '@/domains/post'
+import { createMetadata } from '@/utils/create-metadata'
 import {
-  KEYWORDS,
-  OG,
   SITE_OWNER,
   SITE_OWNER_ROLE,
   SITE_URL,
-  TWITTER,
-  createMetadata,
-} from '@/domains/seo'
+  TWITTER_ID,
+  TWITTER_USERNAME,
+} from '@/utils/env/client'
 
+import { KEYWORDS, OG } from '@/constants/seo'
 import { MainLayout } from '@/layouts'
 
 export const metadata = createMetadata({
@@ -34,17 +33,15 @@ export const metadata = createMetadata({
     card: 'summary_large_image',
     description: 'Software engineer frontend. I craft fascinating and intuitive user interfaces.',
     site: SITE_URL,
-    creator: TWITTER.username,
-    creatorId: TWITTER.id,
-    siteId: TWITTER.id,
+    creator: TWITTER_USERNAME,
+    creatorId: TWITTER_ID,
+    siteId: TWITTER_ID,
     title: SITE_OWNER,
     images: [OG.static],
   },
 })
 
 export default async function Page() {
-  const posts = await getLatestPosts()
-
   return (
     <>
       <Header />
@@ -83,7 +80,7 @@ export default async function Page() {
           </div>
         </section>
 
-        <LatestPostList posts={posts} />
+        <LatestPostList />
       </MainLayout>
       <Footer />
     </>

@@ -1,4 +1,4 @@
-import { OG } from '@/domains/seo'
+import { OG } from '@/constants/seo'
 
 import type { NextRequest } from 'next/server'
 import { ImageResponse, NextResponse } from 'next/server'
