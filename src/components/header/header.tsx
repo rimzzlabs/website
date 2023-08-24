@@ -4,9 +4,13 @@ import { useWindowYAxis } from '@/hooks/use-win-y-axis'
 
 import { tw } from '@/utils/tw'
 
+import { signInDialogAtom } from '@/store/signin'
+
 import { Navbar } from './navbar'
 import { NavbarMobile } from './navbar-mobile'
 import { HeaderThemeSelector } from './theme-selector'
+
+import { useAtomValue } from 'jotai'
 
 type HeaderProps = {
   className?: string
@@ -14,6 +18,7 @@ type HeaderProps = {
 
 export const Header = (props: HeaderProps) => {
   const y = useWindowYAxis()
+  const isDialogOpen = useAtomValue(signInDialogAtom)
 
   return (
     <header
@@ -30,6 +35,7 @@ export const Header = (props: HeaderProps) => {
           'justify-end md:justify-start',
           'h-16 space-x-1',
           'layout',
+          isDialogOpen && 'w-[calc(100%)-1rem]',
           props.className,
         )}
       >

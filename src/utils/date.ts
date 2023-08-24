@@ -93,7 +93,6 @@ export const formatDate = (
 export const formatReadableDate = (date: string | Date, locale?: LOCALE) => {
   return formatDate(date, locale, {
     day: 'numeric',
-    weekday: 'short',
     month: 'short',
     year: 'numeric',
   })

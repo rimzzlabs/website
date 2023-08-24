@@ -7,7 +7,7 @@ import { mdxHeading } from './heading'
 import type { ImageProps } from 'next/image'
 import Image from 'next/image'
 
-const MDXComponents = {
+export const MDXComponents = {
   a: Anchor,
   code: Code,
   pre: CodeBlock,
@@ -21,5 +21,3 @@ const MDXComponents = {
     return <Image {...props} alt={props.alt} />
   },
 }
-
-export { MDXComponents }

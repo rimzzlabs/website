@@ -1,8 +1,9 @@
 import { CloudinaryImg } from '@/components/cloudinary-image'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
-import { LatestPostList } from '@/components/post'
+import { PostList } from '@/components/post/post-list'
 
+import { compose } from '@/utils/common'
 import { createMetadata } from '@/utils/create-metadata'
 import {
   SITE_OWNER,
@@ -11,9 +12,12 @@ import {
   TWITTER_ID,
   TWITTER_USERNAME,
 } from '@/utils/env/client'
+import { filterPublishedPosts, sliceFirstThreePosts, sortLatestPosts } from '@/utils/post'
 
 import { KEYWORDS, OG } from '@/constants/seo'
 import { MainLayout } from '@/layouts'
+
+import { allPosts } from 'contentlayer/generated'
 
 export const metadata = createMetadata({
   title: SITE_OWNER,
@@ -41,7 +45,9 @@ export const metadata = createMetadata({
   },
 })
 
-export default async function Page() {
+export default function Page() {
+  const posts = compose(filterPublishedPosts, sortLatestPosts, sliceFirstThreePosts)(allPosts)
+
   return (
     <>
       <Header />
@@ -80,7 +86,7 @@ export default async function Page() {
           </div>
         </section>
 
-        <LatestPostList />
+        <PostList className='mt-4' posts={posts} title='Latest Post' />
       </MainLayout>
       <Footer />
     </>

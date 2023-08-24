@@ -1,4 +1,5 @@
-import { getLatestPosts } from '@/utils/post'
+import { compose } from '@/utils/common'
+import { filterPublishedPosts, sliceFirstThreePosts, sortLatestPosts } from '@/utils/post'
 
 import { PostCard } from './post-card'
 
@@ -6,7 +7,7 @@ import { allPosts } from 'contentlayer/generated'
 import { P, match } from 'ts-pattern'
 
 export const LatestPostList = () => {
-  const posts = getLatestPosts(allPosts).slice(0, 3)
+  const posts = compose(filterPublishedPosts, sortLatestPosts, sliceFirstThreePosts)(allPosts)
 
   const content = match([posts, posts.length])
     .with([P.array(), 0], () => (
@@ -22,7 +23,7 @@ export const LatestPostList = () => {
     .otherwise(() => null)
 
   return (
-    <section className='my-4'>
+    <section className='mt-4'>
       <h2 className='mb-2'>Latest Posts</h2>
       {content}
     </section>

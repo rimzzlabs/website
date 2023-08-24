@@ -2,6 +2,8 @@
 
 import { CustomLink } from '@/components/custom-link'
 
+import { tw } from '@/utils/tw'
+
 import type { ROUTE } from '@/constants/route'
 
 import { motion } from 'framer-motion'
@@ -26,7 +28,10 @@ export const NavbarItem = ({ name, ...props }: ROUTE) => {
     <CustomLink
       {...props}
       variant='base'
-      className='relative pb-1 text-sm mr-2.5 last-of-type:mr-unset'
+      className={tw(
+        'relative pb-0.5 text-sm mr-2.5 last-of-type:mr-unset',
+        isActive ? 'text-base-700 dark:text-base-300' : 'text-base-600 dark:text-base-400',
+      )}
     >
       {name}
 

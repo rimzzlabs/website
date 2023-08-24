@@ -50,7 +50,7 @@
 
   span[data-line] {
     @apply border-l-4 border-l-transparent;
-    @apply px-[0.475em] py-[0.125em] inline-block w-full my-[0.05em] last-of-type:mb-unset first-of-type:mt-unset;
+    @apply px-[0.475em] py-[0.13em] inline-block w-full last-of-type:mb-unset first-of-type:mt-unset;
   }
 
   code[data-line-numbers] span[data-line]::before {

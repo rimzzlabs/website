@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['github.com', 'res.cloudinary.com'],
+    domains: ['avatars.githubusercontent.com', 'res.cloudinary.com'],
   },
 }
 

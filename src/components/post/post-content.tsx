@@ -3,7 +3,7 @@ import { TableOfContents } from '@/components/table-of-contents'
 
 import { tw } from '@/utils/tw'
 
-import { MDX } from './mdx'
+import { PostMdx } from './post-mdx'
 
 import type { Post } from 'contentlayer/generated'
 import { Suspense } from 'react'
@@ -25,7 +25,7 @@ export const PostContent = (props: Post) => {
   return (
     <section className='lg:grid lg:grid-cols-[auto,20rem] lg:gap-7 2xl:gap-10'>
       <article className={tw('w-full', 'prose prose-neutral dark:prose-invert')}>
-        <MDX body={props.body.code} />
+        <PostMdx body={props.body.code} />
       </article>
 
       <Suspense fallback={<Fallback />}>

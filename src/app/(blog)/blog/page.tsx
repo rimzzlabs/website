@@ -1,13 +1,16 @@
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
+import { PostList } from '@/components/post/post-list'
 
+import { compose } from '@/utils/common'
 import { createMetadata } from '@/utils/create-metadata'
 import { SITE_NAME, SITE_OWNER, TWITTER_ID, TWITTER_USERNAME } from '@/utils/env/client'
+import { filterPublishedPosts, sortLatestPosts } from '@/utils/post'
 
 import { OG } from '@/constants/seo'
 import { MainLayout } from '@/layouts'
 
-import { BlogPosts } from './blog-posts'
+import { allPosts } from 'contentlayer/generated'
 
 export const metadata = createMetadata({
   title: 'Blog',
@@ -33,7 +36,9 @@ export const metadata = createMetadata({
   },
 })
 
-export default async function BlogPage() {
+export default function BlogPage() {
+  const posts = compose(filterPublishedPosts, sortLatestPosts)(allPosts)
+
   return (
     <>
       <Header />
@@ -49,7 +54,8 @@ export default async function BlogPage() {
             free to reads.
           </p>
         </section>
-        <BlogPosts />
+
+        <PostList posts={posts} className='mt-4 mb-8' headingLevel='h2' />
       </MainLayout>
       <Footer />
     </>

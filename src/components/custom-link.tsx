@@ -4,6 +4,7 @@ import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 import Link, { type LinkProps } from 'next/link'
 import { forwardRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 const customLink = cva('font-medium', {
   variants: {
@@ -50,10 +51,12 @@ export const CustomLink = forwardRef<HTMLAnchorElement, CustomLinkProps>(
       <Link
         {...props}
         ref={ref}
-        className={customLink({
-          variant,
-          className: tw(flex && 'flex items-center', props.className),
-        })}
+        className={twMerge(
+          customLink({
+            variant,
+            className: tw(flex && 'flex items-center', props.className),
+          }),
+        )}
       >
         {props.children}
       </Link>

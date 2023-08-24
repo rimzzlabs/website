@@ -11,12 +11,23 @@ import { redis } from '@db/redis'
 import type { Post } from 'contentlayer/generated'
 import { P, match } from 'ts-pattern'
 
-const filterPublishedPost = (posts: Post[]) => {
+export const filterPublishedPosts = (posts: Post[]) => {
   const isDev = process.env.NODE_ENV === 'development'
 
   return match([isDev, posts])
     .with([true, P.select()], (posts) => posts)
     .otherwise(([, posts]) => posts.filter((post) => post.status === 'ready'))
+}
+
+export const sortLatestPosts = (posts: Post[]) => {
+  const publishedPosts = filterPublishedPosts(posts)
+  return publishedPosts
+    .slice(0)
+    .sort((a, b) => compareDesc(new Date(a.publishedAt), new Date(b.publishedAt)))
+}
+
+export const sliceFirstThreePosts = (posts: Post[]) => {
+  return posts.slice(0, 3)
 }
 
 export const getTableOfContents = (body: string) => {
@@ -32,7 +43,7 @@ export const getTableOfContents = (body: string) => {
 }
 
 export const getLatestPosts = (posts: Post[]) => {
-  const publishedPosts = filterPublishedPost(posts)
+  const publishedPosts = filterPublishedPosts(posts)
   return publishedPosts
     .slice(0)
     .sort((a, b) => compareDesc(new Date(a.publishedAt), new Date(b.publishedAt)))
@@ -80,12 +91,31 @@ export const getPostViews = async (slug: string): Promise<number> => {
 }
 
 export const getPostsByTag = (posts: Post[], tag?: string) => {
-  const publishedPosts = filterPublishedPost(posts)
-  return match<[Post[], string | undefined], Post[] | null>([publishedPosts, tag])
+  const publishedPosts = filterPublishedPosts(posts)
+  return match<[Post[], string | undefined], Post[]>([publishedPosts, tag])
     .with([P._, P.nullish], () => [])
-    .with([P.nullish, P._], () => null)
+    .with([P.nullish, P._], () => [])
     .with([P.not(P.nullish), P.string], ([posts]) => {
-      return posts.filter((post) => post.tags.includes(tag ?? ''))
+      return posts.filter((post) =>
+        post.tags.map((tag) => tag.toLowerCase()).includes(tag?.toLowerCase() ?? ''),
+      )
+    })
+    .exhaustive()
+}
+
+export const getPostTags = (posts: Post[]) => {
+  return match(posts)
+    .with(P.nullish, () => [])
+    .with(P.array(), (posts) => {
+      return posts
+        .map((post) => post.tags)
+        .flat()
+        .reduce((acc, cur) => {
+          if (!acc.includes(cur)) {
+            acc.push(cur)
+          }
+          return acc
+        }, [] as string[])
     })
     .exhaustive()
 }

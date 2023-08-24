@@ -113,7 +113,7 @@ export const PostTag = (props: Props) => {
     ))
     .otherwise(() => (
       <button className={className}>
-        <AlertCircleIcon />
+        <AlertCircleIcon size={18} className='text-red-500' />
         <span className='italic'>Unknown Tag</span>
       </button>
     ))

@@ -1,13 +1,14 @@
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
+import { PostList } from '@/components/post/post-list'
 
+import { compose } from '@/utils/common'
 import { createMetadata } from '@/utils/create-metadata'
-import { getPostsByTag } from '@/utils/post'
+import { filterPublishedPosts, getLatestPosts, getPostTags, getPostsByTag } from '@/utils/post'
 
 import { MainLayout } from '@/layouts'
 
 import { TagList } from './tag-list'
-import { TagPosts } from './tag-posts'
 
 import { allPosts } from 'contentlayer/generated'
 import type { ParsedUrlQuery } from 'querystring'
@@ -20,21 +21,6 @@ type PageProps = {
 
 type SearchParamsTag = ParsedUrlQuery & {
   tag?: string
-}
-
-async function getTags() {
-  return match(allPosts)
-    .with(P.nullish, () => [])
-    .with(P.array(), (posts) => {
-      return posts
-        .map((post) => post.tags)
-        .flat()
-        .reduce((acc, cur) => {
-          if (!acc.includes(cur)) acc.push(cur)
-          return acc
-        }, [] as string[])
-    })
-    .exhaustive()
 }
 
 export async function generateMetadata(props: PageProps) {
@@ -52,16 +38,13 @@ export async function generateMetadata(props: PageProps) {
 
 export default async function Page(props: PageProps) {
   const searchParams = props.searchParams as SearchParamsTag
-  const posts = getPostsByTag(allPosts, searchParams.tag)
-  const tags = await getTags()
+  const filteredAllPosts = compose(filterPublishedPosts, getLatestPosts)(allPosts)
+  const posts = getPostsByTag(filteredAllPosts, searchParams.tag)
+  const tags = getPostTags(filteredAllPosts)
 
   const title = match(searchParams.tag)
     .with(P.not(P.nullish), (tag) => <h1 className='title mb-2'>Tag: {tag}</h1>)
     .otherwise(() => <h1 className='title mb-2'>Tag</h1>)
-
-  if (!posts) {
-    throw new Error('Something went wrong and it is my fault')
-  }
 
   return (
     <>
@@ -71,8 +54,15 @@ export default async function Page(props: PageProps) {
           {title}
           <p>You can filter my post based on the available tags I provide.</p>
         </section>
+
         <TagList tags={tags} />
-        <TagPosts posts={posts} />
+
+        <PostList
+          posts={posts}
+          className='my-4'
+          headingLevel='h2'
+          placeholder={() => <p>Nothing to see here yet</p>}
+        />
       </MainLayout>
 
       <Footer />

@@ -39,14 +39,16 @@ model Session {
 }
 
 model User {
-    id            String     @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String?
-    email         String?    @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     reactions     Reaction[]
+    comments      Comment[]
+    subComments   SubComment[]
 }
 
 model VerificationToken {
@@ -59,11 +61,37 @@ model VerificationToken {
 
 model Reaction {
     id        String   @id @default(cuid())
-    userEmail String   @map("user_email")
+    userId    String   @map("user_id")
     slug      String
     name      String
     createdAt DateTime @default(now()) @map("created_at")
-    User      User?    @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+    User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@index([userEmail])
+    @@index([userId])
+}
+
+model Comment {
+    id          String       @id @default(cuid())
+    userId      String       @map("user_id")
+    slug        String
+    body        String
+    createdAt   DateTime     @default(now()) @map("created_at")
+    User        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    subcomments SubComment[]
+
+    @@index([userId])
+}
+
+model SubComment {
+    id        String   @id @default(cuid())
+    commentId String   @map("comment_id")
+    userId    String   @map("user_id")
+    slug      String
+    body      String
+    createdAt DateTime @default(now()) @map("created_at")
+    Comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+    User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([commentId])
+    @@index([userId])
 }

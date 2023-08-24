@@ -8,7 +8,7 @@ import { Provider as JotaiProvider } from 'jotai'
 import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
 
-export function Providers({ children }: React.PropsWithChildren) {
+export const Providers = ({ children }: React.PropsWithChildren) => {
   return (
     <SessionProvider>
       <QueryClientProvider client={QUERY_CLIENT}>

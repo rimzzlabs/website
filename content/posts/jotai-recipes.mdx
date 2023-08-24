@@ -1,8 +1,8 @@
 ---
-title: 'Some Jotai Recipes I Commonly Use for my Project'
+title: 'Jotai Recipes I Commonly Use for my Project'
 description: 'To read and modify state on our application with Jotai, we need to use paradigm called Recipes, now lets see how we can utilize those terms to read and modify our state with Jotai'
 publishedAt: '09/29/2023'
-tags: ['jotai']
+tags: ['react.js', 'jotai']
 status: 'draft'
 keywords:
   ['react', 'jotai', 'hooks', 'recipes', 'state', 'state manager', 'state management']
@@ -15,7 +15,7 @@ Jotai takes an atomic approach to global React state management. By combining at
 
 This solves the extra re-render issue of React context, eliminates the need for memoization, and provides a similar developer experience to signals while maintaining a **_declarative programming model_**.
 
-> If you don't know about Jotai, I have a [blog post about jotai](https://rizkicitra.dev/blog/jotai-awesome-state-management) explained you can read.
+> If you don't know about Jotai, I have a [blog post about jotai](https://rizkicitra.dev/blog/jotai-awesome-state-management) explained you can read, feel free to check it out!
 
 To update a state with Jotai, I can simply use built-in Jotai `setter` like so:
 
@@ -27,21 +27,17 @@ const atomFruit = atom('mango')
 export default function App() {
   const [fruit, setFruit] = useAtom(atomFruit)
 
-  return (
-    <div>
-      <p>{fruit}</p>
-
-      <button onClick={() => setFruit('orange')}>Change to Orange</button>
-    </div>
-  )
+  return <button onClick={() => setFruit('orange')}>{fruit}</button>
 }
 ```
 
-But that's just a basic usage right? We all know we're not normal, so let's explore how to create _'recipes'_ in Jotai, to easily manage our application state.
+Just a basic usage with Jotai, pretty simple.
 
 ## Derived Value
 
-A derived or computed value is a value that is obtained from other existing value through some logic, transformation, or calculation.
+Before coming to know what _Recipes_ are in Jotai, we first should know about a derived or computed value.
+
+A derived or computed value is a value obtained from other existing value through some logic, transformation, or calculation.
 
 In programming, a derived or computed values are often used to simplify code, it used to encapsulate logic, and make data manipulation based on existing value to be more convenient.
 
@@ -58,13 +54,15 @@ export default function App() {
 }
 ```
 
-In the above example, I check wether the user is admin or not, if it's admin, it simply render "You are admin", otherwise it render "Just a normal user".
+In the above example we check wether the user is admin or not, if it's admin, the component simply render **"You are admin"**, otherwise it render **"Just a normal user"**.
 
-The condition to render different UI to the client is by using a derived value `isUserAdmin`. That is a `computed` or `derived` value.
+The condition to render different UI to the client is by using a derived value `isUserAdmin`.
+
+Oh wow! we already use a `derived` value here.
 
 ## Derived Atoms
 
-Let's move on to derived atoms. Derived atoms are just same as the previous one, I just need to see what the previous values are, and then make some magic to process with the current logic or calculation.
+Let's move on to derived atoms. Derived atoms are just same as the previous one, we just need to see what the previous values are, and then make some magic to process with the current logic or calculation.
 
 ```ts title="@/store/atom.ts" showLineNumbers
 import { atom } from 'jotai'
@@ -80,19 +78,41 @@ const userAtom = atom<TUser>({ name: 'Rizki', role: 'user' })
 const isUserAdminAtom = atom((get) => get(userAtom).role === 'admin')
 ```
 
-The above example shows us how to create a derived value from the previous atom, very similiar from what I write before with `React.useState`.
+The above example shows how to create a derived value from the previous atom, very similiar from what we wrote before with `React.useState`.
 
-In Jotai, It's called recipes, we can compose atoms to another atoms, or create an atoms based on the previous atoms.
+In Jotai, It's called recipes, we can compose atoms to another atoms, or create an atoms based on the previous atoms to make a new value or atom.
 
-Jotai allows you to create these derived values using a declarative approach and without needing to explicitly manage complex state relationships.
+Jotai allows to create these derived values using a declarative approach and without needing to explicitly manage complex state relationships.
 
 ## Recipes
 
-Now let's create some recipes I've been used for my project. This recipes are from my first-hand.
+Recipes are just derived atoms, a derived atoms usually consist of two principle.
 
-Of course you can improve this on your own.
+A `read-only` atom takes another atom as input and transforms its value through a calculation performed by a function. This changed value can be used to indicate a computation or modification of the value of the original atom as a derived value.
 
-### 1. Filtering Recipes
+A `write-only` atoms serve the purpose of accepting new values through writing mechanisms, like `callbacks`. These new values can then be used to trigger specific actions or update an atom in your `write-only` atom.
+
+Now you know about these terms, let's create some recipes.
+
+### 1. String Recipes
+
+A string recipes usually a `read-only` atoms. Where you take a string atoms to be transformed to a new string value.
+
+```ts title="@/store/atom/string.ts" showLineNumbers
+export const uppercaseTextAtom = (atomString: Atom<string>) => {
+  return atom((get) => get(atomString).toUpperCase())
+}
+```
+
+### 2. Number Recipes
+
+Who loves math? you're probably not one of.
+
+```ts title="@/store/atom/number.ts" showLineNumbers
+export const addAtoms = (num: Atom<string>) => atom((get) => get(num) + 1)
+```
+
+### 3. Array Recipes
 
 Let's start with basic recipes, we have a list of arrays, the arrays should be filtered based on user input.
 
@@ -151,13 +171,14 @@ export const filteredFoodsAtom = atom((get) => {
 })
 ```
 
-Pretty neat right?
-
-### 2. Sorting Atoms
+Another example is to sort an array, array recipes in Jotai is just like a regular declarative way to mutat your data.
 
 Sorting a list of array in an atoms is easy, just like previous example, we just need to sorted it out.
 
-```ts showLineNumbers
+```ts title="@/store/atom.ts" showLineNumbers
+import { compareDesc } from 'date-fns'
+import { atom } from 'jotai'
+
 export const postAtoms = atom([])
 
 export const latestPostAtoms = atom((get) => {
@@ -167,6 +188,4 @@ export const latestPostAtoms = atom((get) => {
 })
 ```
 
-### 3. Fetch Recipes
-
-This is some serious recipes, we'll create a recipes to fetch data based on previous atom values.
+With that being said, mutating array states are pretty neat right?

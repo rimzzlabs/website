@@ -1,8 +1,9 @@
 import { SignInDialog } from '@/components/dialog/sign-in'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
-import { PostReaction } from '@/components/post'
+import { PostContent, PostExtension, PostHeader } from '@/components/post'
 
+import { compose } from '@/utils/common'
 import { createMetadata } from '@/utils/create-metadata'
 import {
   BASE_URL,
@@ -12,10 +13,8 @@ import {
   TWITTER_ID,
   TWITTER_USERNAME,
 } from '@/utils/env/client'
+import { filterPublishedPosts, getLatestPosts } from '@/utils/post'
 import { tw } from '@/utils/tw'
-
-import { PostContent } from './post-content'
-import { PostHeader } from './post-header'
 
 import { allPosts } from 'contentlayer/generated'
 import localFont from 'next/font/local'
@@ -68,7 +67,7 @@ type PageParam = {
   }
 }
 
-export default async function PostPage(props: PageParam) {
+export default function PostPage(props: PageParam) {
   const post = allPosts.find((post) => post.slug === props.params.slug)
 
   if (!post) {
@@ -83,12 +82,11 @@ export default async function PostPage(props: PageParam) {
         className={tw('layout lg:max-w-5xl', FiraCode.variable, FiraCodeVF.variable)}
       >
         <PostHeader {...post} />
-
         <hr className='my-4 max-w-prose' />
 
         <PostContent {...post} />
 
-        <PostReaction slug={post.slug} />
+        <PostExtension />
       </main>
 
       <Footer className='lg:max-w-5xl' />
@@ -101,12 +99,13 @@ export default async function PostPage(props: PageParam) {
 export async function generateMetadata(context: PageParam) {
   const post = allPosts.find((post) => post.slug === context.params.slug)
 
-  if (!post)
+  if (!post) {
     return createMetadata({
       templateTitle: SITE_NAME,
-      title: 'Blog',
+      title: 'Post Not Found',
       canonical: `blog/${context.params.slug}`,
     })
+  }
 
   return match(post)
     .with(P.not(P.nullish), (post) => {
@@ -152,7 +151,8 @@ export async function generateMetadata(context: PageParam) {
 }
 
 export async function generateStaticParams() {
-  return allPosts.map((post) => ({
+  const posts = compose(filterPublishedPosts, getLatestPosts)(allPosts)
+  return posts.map((post) => ({
     slug: post.slug,
   }))
 }

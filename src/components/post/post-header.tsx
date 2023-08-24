@@ -1,11 +1,11 @@
 import { PostPublishedLabel, PostReadTimeLabel, PostViewsLabel } from '@/components/post'
 
-import { getPostViews } from '@/utils/post'
+import { getViews } from '@/app/api/post/views/utils'
 
 import type { Post } from 'contentlayer/generated'
 
 export const PostHeader = async (props: Post) => {
-  const views = await getPostViews(props.slug)
+  const views = await getViews(props.slug)
 
   return (
     <section className='pt-10 xs:pt-16 md:pt-24'>
