@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { createElement } from 'react'
 

@@ -1,4 +1,4 @@
-import { formatToISO } from '@/utils/date'
+import { formatDateToISO, getDateISO } from '@/utils/date'
 import { SITE_URL } from '@/utils/env/client'
 
 import { ALL_ROUTES } from '@/constants/route'
@@ -7,13 +7,13 @@ import { allPosts } from 'contentlayer/generated'
 import type { MetadataRoute } from 'next'
 import { P, match } from 'ts-pattern'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const route_posts = match(allPosts)
     .with(P.nullish, () => null)
     .with(P.not(P.nullish), (posts) =>
       posts.map((post) => ({
         url: new URL(`blog/${post.slug}`, SITE_URL).href,
-        lastModified: formatToISO(post.publishedAt).split('T')[0],
+        lastModified: formatDateToISO(post.publishedAt).split('T')[0],
       })),
     )
     .exhaustive()
@@ -22,11 +22,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     match(href)
       .with(P.shape('/'), () => ({
         url: SITE_URL,
-        lastModified: formatToISO(new Date()).split('T')[0],
+        lastModified: getDateISO().split('T')[0],
       }))
       .otherwise(() => ({
         url: new URL(href.slice(1), SITE_URL).href,
-        lastModified: formatToISO(new Date()).split('T')[0],
+        lastModified: getDateISO().split('T')[0],
       })),
   )
 

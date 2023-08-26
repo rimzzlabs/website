@@ -2,36 +2,35 @@
 
 import { Skeleton } from '@/components/skeleton'
 
-import { useIntersection } from '@/hooks/use-intersection'
 import { usePostSlug } from '@/hooks/use-post-slug'
 
 import { useComments } from '@/queries/comment'
 
 import { PostCommentListItem } from './post-comment-list-item'
+import { PostCommentListPlaceholder } from './post-comment-list-placeholder'
 
-import { useRef } from 'react'
 import { P, match } from 'ts-pattern'
 
 export const PostCommentList = () => {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useIntersection(ref)
   const slug = usePostSlug()
-  const query = useComments(slug, isInView)
+  const query = useComments(slug)
 
   const count = match(query)
     .with({ status: 'success', data: { data: P.select() } }, (comments) => comments.length)
     .otherwise(() => 0)
 
-  const totalComments = match(count)
-    .with(0, () => 'Be the first to comment')
+  const commentsCount = match(count)
+    .with(0, () => null)
     .with(1, () => '1 comment')
     .otherwise(() => `${count} comments`)
 
-  const renderList = match(query)
+  const list = match(query)
     .with({ status: 'success', data: { data: P.select() } }, (comments) => {
-      return comments.map((comment) => {
-        return <PostCommentListItem key={comment.id} {...comment} />
-      })
+      return match(comments.length)
+        .with(P.number.gt(0), () =>
+          comments.map((comment) => <PostCommentListItem key={comment.id} {...comment} />),
+        )
+        .otherwise(() => <PostCommentListPlaceholder />)
     })
     .with({ status: 'loading' }, () => {
       return (
@@ -42,14 +41,13 @@ export const PostCommentList = () => {
         </>
       )
     })
-    .otherwise(() => <p>Something went wrong 😢</p>)
+    .otherwise(() => <p>Couldn&apos;t fetch comments😢</p>)
 
   return (
-    <div ref={ref}>
+    <div>
       {query.status === 'loading' && <Skeleton className='w-44 h-5 mb-4' />}
-      {query.status === 'error' && <p className='text-sm font-semibold mb-4'>-</p>}
-      {query.status === 'success' && <p className='text-sm font-semibold mb-4'>{totalComments}</p>}
-      <div className='flex flex-col space-y-4'>{renderList}</div>
+      {query.status === 'success' && <p className='text-sm font-semibold mb-4'>{commentsCount}</p>}
+      <div className='flex flex-col space-y-4'>{list}</div>
     </div>
   )
 }

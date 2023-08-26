@@ -1,19 +1,22 @@
 'use client'
 
+import { tw } from '@/utils/common'
+
 import { Dialog, Transition } from '@headlessui/react'
+import { XIcon } from 'lucide-react'
 import { Fragment } from 'react'
 
 export type TBaseDialogProps = {
   title: string
   description: string
   open: boolean
-  body?: (p: TBaseDialogProps) => React.ReactNode
+  body?: ((p: TBaseDialogProps) => React.ReactNode) | React.ReactNode
   onClose: () => void
 }
 export const BaseDialog = (props: TBaseDialogProps) => {
   return (
     <Transition appear show={props.open} as={Fragment}>
-      <Dialog as='div' className='relative z-[998]' onClose={props.onClose}>
+      <Dialog as='div' className='relative z-[99999]' onClose={props.onClose}>
         <Transition.Child
           as={Fragment}
           enter='ease-out duration-300'
@@ -42,7 +45,19 @@ export const BaseDialog = (props: TBaseDialogProps) => {
 
                 <p className='mt-2 mb-4'>{props.description}</p>
 
-                {props?.body?.(props)}
+                <button
+                  onClick={props.onClose}
+                  className={tw(
+                    'absolute top-4 right-4',
+                    'w-7 h-7 rounded border',
+                    'inline-flex items-center justify-center',
+                    'dark:border-base-800 hover:bg-base-50 dark:hover:bg-base-800',
+                  )}
+                >
+                  <XIcon size='0.875rem' />
+                </button>
+
+                {typeof props.body === 'function' ? props.body(props) : props.body}
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -17,10 +17,10 @@ type Props = {
 export const PostReadTimeLabel = (props: Props) => {
   const estReadTime = (minutes: number) => {
     return match(Math.floor(minutes))
-      .with(P.gte(11), () => `10+ mins. read`)
-      .with(P.gte(2), (m) => `${m} mins. read`)
-      .with(P.lt(1), () => 'A brief read')
-      .otherwise((m) => `${m} min. read`)
+      .with(P.number.gte(11), () => `10+ min reads`)
+      .with(P.number.gte(2), (m) => `${m} min reads`)
+      .with(P.number.lt(1), () => 'A brief read')
+      .otherwise(() => `a short post`)
   }
 
   return match(props.estRead)
@@ -34,7 +34,7 @@ export const PostReadTimeLabel = (props: Props) => {
           className='self-start cursor-help'
         />
 
-        <CustomTooltip place='bottom' id={props.tooltipId} clickable>
+        <CustomTooltip place='top' id={props.tooltipId} clickable>
           <p className='text-sm text-white'>
             This post has <strong>{value.words} words</strong>, reading time is calculated using{' '}
             <strong>225 WPM reading speeds</strong>.

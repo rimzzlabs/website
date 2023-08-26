@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 type TProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
 export const Code = (props: TProps) => {

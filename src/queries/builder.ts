@@ -17,30 +17,43 @@ export const buildQuery = <TData>(config: TBuildQuery) => {
   const url = buildURL(config)
 
   return async () => {
-    const [res, err] = await asyncFetchJSON<TData>(url, {
+    const [data, err] = await asyncFetchJSON<TData>(url, {
       method: 'GET',
     })
 
     if (err) throw err
 
-    return res
+    return data
   }
 }
 
 type TMutateQuery = TBuildQuery & {
-  method: 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+  method: 'POST' | 'PUT' | 'PATCH'
 }
 export const buildMutation = <TData, TPayload = unknown>(config: TMutateQuery) => {
   const url = buildURL(config)
 
   return async (payload: TPayload) => {
-    const [res, err] = await asyncFetchJSON<TData>(url, {
+    const [data, err] = await asyncFetchJSON<TData>(url, {
       method: config.method,
       data: payload,
     })
 
     if (err) throw err
 
-    return res
+    return data
+  }
+}
+
+export const buildDeleteMutation = <TData>(config: TBuildQuery) => {
+  const url = buildURL(config)
+  return async () => {
+    const [data, err] = await asyncFetchJSON<TData>(url, {
+      method: 'DELETE',
+    })
+
+    if (err) throw err
+
+    return data
   }
 }

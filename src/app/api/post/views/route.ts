@@ -10,7 +10,7 @@ type TResponse = Omit<TPostViewsResponse, 'slug'> & {
   slug: null | string
 }
 
-export default async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get('slug')
 
   if (!slug) {

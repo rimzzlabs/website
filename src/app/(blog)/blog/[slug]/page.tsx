@@ -1,9 +1,11 @@
+import { DeleteCommentDialog } from '@/components/dialog/delete-comment'
 import { SignInDialog } from '@/components/dialog/sign-in'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { PostContent, PostExtension, PostHeader } from '@/components/post'
 
 import { compose } from '@/utils/common'
+import { tw } from '@/utils/common'
 import { createMetadata } from '@/utils/create-metadata'
 import {
   BASE_URL,
@@ -14,7 +16,6 @@ import {
   TWITTER_USERNAME,
 } from '@/utils/env/client'
 import { filterPublishedPosts, getLatestPosts } from '@/utils/post'
-import { tw } from '@/utils/tw'
 
 import { allPosts } from 'contentlayer/generated'
 import localFont from 'next/font/local'
@@ -92,6 +93,7 @@ export default function PostPage(props: PageParam) {
       <Footer className='lg:max-w-5xl' />
 
       <SignInDialog />
+      <DeleteCommentDialog />
     </>
   )
 }

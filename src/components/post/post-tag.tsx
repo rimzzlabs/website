@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { SiNextdotjs, SiReact } from '@icons-pack/react-simple-icons'
 import {

@@ -1,5 +1,4 @@
-import { slugify } from '@/utils/slugify'
-import { tw } from '@/utils/tw'
+import { slugify, tw } from '@/utils/common'
 
 import { HashIcon } from 'lucide-react'
 import { createElement } from 'react'
@@ -22,7 +21,7 @@ export const mdxHeading = (type: HeadingVariants) => {
       <a className={tw('group')} href={`#${slugify(props.children as string)}`}>
         {props.children}
         <HashIcon
-          size={22}
+          size={18}
           className='align-baseline inline-flex group-hover:visible group-hover:opacity-100 invisible opacity-0 transition ml-1.5'
         />
       </a>,

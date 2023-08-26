@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { CustomLink } from '../custom-link'
 import { FooterCopyRight } from './footer-copyright'
@@ -21,11 +21,12 @@ export const Footer = (props: FooterProps) => {
       <div className='flex items-center justify-between space-x-2'>
         <FooterLinks />
         <CustomLink
-          variant='underline'
+          variant='unstyled'
           target='_blank'
           rel='noopener noreferrer'
           title='RSS feed'
           href='/feed'
+          className='md:max-w-max motion-safe:transition hover:text-primary-500'
         >
           RSS
         </CustomLink>

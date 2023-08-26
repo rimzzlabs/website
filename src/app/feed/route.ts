@@ -1,10 +1,14 @@
+import { compose } from '@/utils/common'
 import { SITE_NAME, SITE_OWNER, SITE_URL } from '@/utils/env/client'
+import { filterPublishedPosts, sortLatestPosts } from '@/utils/post'
 
 import { allPosts } from 'contentlayer/generated'
 import RSS from 'rss'
 
 export function GET() {
-  const feed = new RSS({
+  const posts = compose(filterPublishedPosts, sortLatestPosts)(allPosts)
+
+  const rss = new RSS({
     title: SITE_NAME,
     description: 'Read rizki blog posts',
     site_url: SITE_URL,
@@ -14,8 +18,8 @@ export function GET() {
     pubDate: new Date('2023-07-24'),
   })
 
-  allPosts.forEach((post) => {
-    feed.item({
+  const feed = posts.reduce((rss, post) => {
+    rss.item({
       author: SITE_OWNER,
       title: post.title,
       guid: post.slug,
@@ -24,12 +28,12 @@ export function GET() {
       url: `${SITE_URL}/blog/${post.slug}`,
       date: new Date(post.publishedAt),
     })
-  })
+    return rss
+  }, rss)
 
-  return new Response(feed.xml({ indent: true }), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-    },
-  })
+  const response = new Response(feed.xml({ indent: true }), { status: 200, statusText: 'OK' })
+
+  response.headers.set('Content-Type', 'application/xml; charset=utf-8')
+
+  return response
 }

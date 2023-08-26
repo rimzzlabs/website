@@ -3,7 +3,7 @@
 import { ComboboxMenu } from '@/components/combobox-menu'
 import { CustomLink } from '@/components/custom-link'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { NAVBAR_ROUTES } from '@/constants/route'
 

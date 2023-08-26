@@ -1,14 +1,9 @@
 import type { TocList } from '@/components/table-of-contents'
 
-import { asyncFetchJSON } from '@/utils/async-fetch'
+import { slugify } from './common'
 
-import { compareDesc } from './date'
-import { UMAMI_DEPLOYED_URL } from './env/server'
-import { slugify } from './slugify'
-import { getUmamiToken } from './umami'
-
-import { redis } from '@db/redis'
 import type { Post } from 'contentlayer/generated'
+import { compareDesc } from 'date-fns/esm'
 import { P, match } from 'ts-pattern'
 
 export const filterPublishedPosts = (posts: Post[]) => {
@@ -20,8 +15,7 @@ export const filterPublishedPosts = (posts: Post[]) => {
 }
 
 export const sortLatestPosts = (posts: Post[]) => {
-  const publishedPosts = filterPublishedPosts(posts)
-  return publishedPosts
+  return posts
     .slice(0)
     .sort((a, b) => compareDesc(new Date(a.publishedAt), new Date(b.publishedAt)))
 }
@@ -47,47 +41,6 @@ export const getLatestPosts = (posts: Post[]) => {
   return publishedPosts
     .slice(0)
     .sort((a, b) => compareDesc(new Date(a.publishedAt), new Date(b.publishedAt)))
-}
-
-type SubProp = { value: number; change: number }
-type ResponsePageViews = {
-  pageviews: SubProp
-  uniques: SubProp
-  bounces: SubProp
-  totaltime: SubProp
-}
-
-export const getPostViews = async (slug: string): Promise<number> => {
-  const redisViews = await redis.get('page-views-of' + slug)
-
-  if (!redisViews) {
-    const endDate = new Date().getTime()
-    const token = await getUmamiToken()
-    if (!token) return 0
-
-    const url = `/api/website/1/stats?start_at=${1645722000000}&end_at=${endDate}&url=/blog/${slug}`
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-
-    const [data, err] = await asyncFetchJSON<ResponsePageViews>(UMAMI_DEPLOYED_URL + url, config)
-
-    if (err) {
-      return 0
-    }
-
-    const views = data.pageviews.value
-
-    const KEY = 'page-views-of-' + slug
-    const EXPIRED = 3600 // in seconds = 60 minutes
-    await Promise.all([redis.set(KEY, views), redis.expire(KEY, EXPIRED)])
-
-    return views
-  }
-
-  return parseInt(redisViews)
 }
 
 export const getPostsByTag = (posts: Post[], tag?: string) => {

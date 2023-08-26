@@ -1,16 +1,19 @@
 import { getUser } from '@/utils/auth'
 import { responseJSON } from '@/utils/response-json'
 
-import type {
-  TComment,
-  TCommentMutationPayload,
-  TCommentResponsePOST,
-  TSubCommentMutationPayload,
-} from '@/types/comment'
+import type { TCommentMutationPayload } from '@/types/comment'
 
 import { prisma } from '@db/prisma'
 
-export async function getComments(slug: string): Promise<TComment[]> {
+function unauthorized() {
+  return responseJSON({ message: 'unauthorized!' }, 401)
+}
+
+export async function getComments(slug?: string | null) {
+  if (!slug) {
+    return responseJSON({ data: null, message: 'failed' }, 400)
+  }
+
   try {
     const res = await prisma.comment.findMany({
       where: {
@@ -18,89 +21,72 @@ export async function getComments(slug: string): Promise<TComment[]> {
       },
       include: {
         User: true,
-        subcomments: {
-          include: {
-            User: true,
-          },
-        },
       },
     })
 
-    return res.map((comment) => {
+    const comments = res.map((comment) => {
       return {
         id: comment.id,
         body: comment.body,
         slug: comment.slug,
         createdAt: comment.createdAt.toISOString(),
-        sub: comment.subcomments.map((subComment) => ({
-          id: comment.id,
-          commentId: subComment.commentId,
-          body: subComment.body,
-          slug: subComment.slug,
-          createdAt: subComment.createdAt.toISOString(),
-          user: {
-            image: subComment.User?.image ?? null,
-            name: subComment.User?.name ?? null,
-          },
-        })),
         user: {
+          email: comment.User?.email ?? null,
           image: comment.User?.image ?? null,
           name: comment.User?.name ?? null,
         },
       }
     })
+
+    return responseJSON({ data: comments, message: 'success' }, 200)
   } catch (err) {
-    return []
+    console.info(err)
+    return responseJSON({ data: [], message: 'failed' }, 500)
   }
 }
 
 export async function createComment(payload: TCommentMutationPayload) {
   try {
     const user = await getUser()
+
     if (!user) {
-      return 'unauthorized' as const
+      return unauthorized()
     }
 
-    const res = await prisma.comment.create({
+    await prisma.comment.create({
       data: {
         body: payload.body,
         slug: payload.slug,
         userId: user.id,
       },
     })
-    return res
+    return responseJSON({ message: 'success', slug: payload.slug }, 201)
   } catch (err) {
-    return null
+    console.info(err)
+    return responseJSON({ message: 'failed', slug: payload.slug }, 500)
   }
 }
-export async function createSubComment(payload: TSubCommentMutationPayload) {
+
+export async function deleteComment(id?: string | null, slug?: string | null) {
+  const user = await getUser()
+  if (!id || !slug) {
+    return responseJSON({ message: 'Missing comment id or slug' }, 400)
+  }
+  if (!user) {
+    return unauthorized()
+  }
+
   try {
-    const user = await getUser()
-    if (!user) {
-      return 'unauthorized' as const
-    }
-
-    const res = await prisma.subComment.create({
-      data: {
-        commentId: payload.commentId,
-        body: payload.body,
-        slug: payload.slug,
-        userId: user.id,
+    await prisma.comment.delete({
+      where: {
+        id,
+        AND: {
+          userId: user.id,
+        },
       },
     })
-    return res
-  } catch (err) {
-    return null
+    return responseJSON({ message: 'success', slug }, 200)
+  } catch (error) {
+    return responseJSON({ message: 'Cannot delete comment', slug }, 500)
   }
-}
-
-//  create a function that return responseJSON of status code 401
-export function unauthorized() {
-  return responseJSON<TCommentResponsePOST>(
-    {
-      slug: '',
-      message: 'failed',
-    },
-    401,
-  )
 }

@@ -22,9 +22,12 @@ function parseReactions(data: Reaction[]) {
     },
   )
 }
-export async function getReactions(req: NextRequest, slug: string) {
-  const user = await getUser()
+export async function getReactions(slug?: string | null) {
+  if (!slug) {
+    return responseJSON({ message: 'Missing slug' }, 400)
+  }
 
+  const user = await getUser()
   const reactions = await prisma.reaction.findMany({
     where: {
       slug,

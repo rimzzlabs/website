@@ -1,27 +1,65 @@
-import { formatReadableDate } from '@/utils/date'
-import { tw } from '@/utils/tw'
+import { useAuth } from '@/hooks/use-auth'
 
+import { tw } from '@/utils/common'
+
+import { commmentIdAtom } from '@/store/signin'
 import type { TComment } from '@/types/comment'
 
+import { PostComentListItemDate } from './post-comment-list-item-date'
+
 import htmr from 'htmr'
+import { useSetAtom } from 'jotai'
+import { TrashIcon } from 'lucide-react'
 import Image from 'next/image'
 import { P, match } from 'ts-pattern'
 
 export const PostCommentListItem = (props: TComment) => {
-  const userInfo = match(props.user)
+  const [session] = useAuth()
+  const setCommentId = useSetAtom(commmentIdAtom)
+  const user = match(props.user)
+    .with(P.nullish, () => null)
+    .otherwise((user) => user)
+
+  const userInfo = match(user)
     .with({ image: P.not(P.nullish), name: P.not(P.nullish) }, (user) => {
       return (
-        <div className='inline-flex items-center space-x-2'>
+        <div className='inline-flex items-start'>
           <Image
-            width={24}
-            height={24}
+            width={28}
+            height={28}
+            sizes='(min-width: 1px) 28px,(min-width: 640px) 128px'
             src={user.image}
             alt={user.name}
-            className='rounded object-cover'
+            className='rounded-full object-cover'
           />
-          <p className='font-semibold'>{user.name}</p>
+          <div className='ml-2.5'>
+            <p className='font-semibold leading-none'>{user.name}</p>
+
+            <PostComentListItemDate createdAt={props.createdAt} />
+          </div>
         </div>
       )
+    })
+    .otherwise(() => null)
+
+  const buttonDelete = match({ user, session })
+    .with({ session: P.not(P.nullish), user: P.not(P.nullish) }, (data) => {
+      return match(data.session)
+        .with({ email: P.string.includes(data?.user?.email ?? '') }, () => (
+          <button
+            onClick={() => setCommentId(props.id)}
+            className={tw(
+              'inline-flex items-center justify-center',
+              'w-6 h-6 ml-auto rounded',
+              'border dark:border-base-700',
+              'hover:bg-red-600 hover:text-white hover:border-red-500',
+            )}
+          >
+            <TrashIcon size='0.75rem' />
+            <span className='sr-only'>Delete this comment</span>
+          </button>
+        ))
+        .otherwise(() => null)
     })
     .otherwise(() => null)
 
@@ -33,12 +71,8 @@ export const PostCommentListItem = (props: TComment) => {
         'border-base-200 dark:border-base-700',
       )}
     >
-      <div className='flex items-center mb-2.5 pt-1.5 px-2'>
-        {userInfo}
-
-        <p className='font-sembold text-sm ml-auto text-base-600 dark:text-base-500'>
-          at <time dateTime={props.createdAt}>{formatReadableDate(props.createdAt)}</time>
-        </p>
+      <div className='flex items-start mb-2.5 pt-1.5 px-2'>
+        {userInfo} {buttonDelete}
       </div>
 
       <div

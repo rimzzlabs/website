@@ -1,6 +1,6 @@
 import { useCopyClipboard } from '@/hooks/use-copy-clipboard'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { CheckIcon, CopyIcon, Loader2Icon } from 'lucide-react'
 import { match } from 'ts-pattern'

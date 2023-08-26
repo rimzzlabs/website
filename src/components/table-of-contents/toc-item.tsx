@@ -2,7 +2,7 @@
 
 import { useSpyToc } from '@/hooks/use-spy-toc'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { motion } from 'framer-motion'
 
@@ -26,8 +26,8 @@ export const TocItem = (props: Props) => {
         className={tw(
           'relative',
           'block w-full font-medium max-w-max pb-0.5',
-          'text-base-400 dark:text-base-500',
           'hover:text-base-700 dark:hover:text-base-300',
+          !isActive && 'text-base-400 dark:text-base-500',
           isActive && 'text-base-700 dark:text-base-300',
         )}
         href={`#${props.url}`}
@@ -37,12 +37,14 @@ export const TocItem = (props: Props) => {
 
         {isActive && (
           <motion.div
-            className='absolute inset-x-0 h-0.5 bottom-0 bg-base-600 dark:text-base-300'
+            className={tw(
+              'absolute inset-x-0 h-px bottom-0 bg-base-400',
+              'dark:bg-gradient-to-r dark:from-base-300 dark:bg-unset',
+            )}
             layoutId='toc'
             transition={{
-              type: 'spring',
-              stiffness: 350,
-              damping: 30,
+              type: 'tween',
+              duration: 0.15,
             }}
           />
         )}

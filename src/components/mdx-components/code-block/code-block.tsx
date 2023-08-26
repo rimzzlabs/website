@@ -1,6 +1,6 @@
 'use client'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { CodeBlockCopy } from './code-block-copy'
 

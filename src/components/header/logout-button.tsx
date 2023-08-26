@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { LogOutIcon } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'

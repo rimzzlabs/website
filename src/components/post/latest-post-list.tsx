@@ -13,7 +13,7 @@ export const LatestPostList = () => {
     .with([P.array(), 0], () => (
       <p className='mt-8 text-center'>Currently There are no posts available</p>
     ))
-    .with([P.array().select(), P.gt(0)], (posts) => (
+    .with([P.array().select(), P.number.gt(0)], (posts) => (
       <div className='flex flex-col divide-y divide-base-200 dark:divide-base-800'>
         {posts.map((post) => (
           <PostCard key={post.slug} {...post} />

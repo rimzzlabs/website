@@ -4,7 +4,7 @@ import { ComboboxMenu } from '@/components/combobox-menu'
 
 import { useTheme } from '@/hooks/use-theme'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { CircleIcon, Loader2Icon, MonitorIcon, MoonStarIcon, SunMediumIcon } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'

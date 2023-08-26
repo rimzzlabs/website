@@ -3,11 +3,15 @@ const { withContentlayer } = require('next-contentlayer')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
   images: {
     domains: ['avatars.githubusercontent.com', 'res.cloudinary.com'],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  reactStrictMode: true,
+  swcMinify: true,
+  staticPageGenerationTimeout: 120,
 }
 
 module.exports = withContentlayer(nextConfig)

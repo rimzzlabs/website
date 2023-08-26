@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/skeleton'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 export default function LoadingPage() {
   return (
@@ -38,8 +38,6 @@ export default function LoadingPage() {
           <Skeleton className='h-4 w-2/5 mb-2' />
 
           <Skeleton className='h-8 w-9/12 my-6' />
-          <Skeleton className='h-4 w-full mb-2' />
-          <Skeleton className='h-4 w-8/12 mb-2' />
           <Skeleton className='h-4 w-10/12 mb-2' />
           <Skeleton className='h-4 w-8/12 mb-2' />
           <Skeleton className='h-4 w-9/12 mb-2' />

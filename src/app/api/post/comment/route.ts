@@ -1,72 +1,30 @@
-import { getUser } from '@/utils/auth'
 import { responseJSON } from '@/utils/response-json'
 
-import type {
-  TCommentResponse,
-  TCommentResponsePOST,
-  TMergedCommentMutationPayload,
-} from '@/types/comment'
+import type { TCommentMutationPayload } from '@/types/comment'
 
-import { createComment, createSubComment, getComments, unauthorized } from './utils'
+import { createComment, deleteComment, getComments } from './utils'
 
 import type { NextRequest } from 'next/server'
 
-type TResponseGET = Omit<TCommentResponse, 'data'> & {
-  data: TCommentResponse['data'] | null
-}
-
 export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get('slug')
-  if (!slug) {
-    return responseJSON<TResponseGET>(
-      {
-        data: null,
-        message: 'failed',
-      },
-      400,
-    )
-  }
 
-  const comments = await getComments(slug)
-
-  if (comments.length === 0) {
-    return responseJSON<TResponseGET>({ data: null, message: 'failed' }, 500)
-  }
-
-  return responseJSON<TResponseGET>({ data: comments, message: 'success' }, 200)
+  return getComments(slug)
 }
 
 export async function POST(req: NextRequest) {
-  const user = await getUser()
-  const payload = (await req.json()) as TMergedCommentMutationPayload
+  const payload = (await req.json()) as TCommentMutationPayload
 
-  if (!user) {
-    return unauthorized()
+  if (!payload?.body || !payload?.slug) {
+    return responseJSON({ slug: payload?.slug ?? null, message: 'failed' }, 400)
   }
 
-  if (!payload?.body || !payload?.slug || !payload?.type) {
-    return responseJSON<TCommentResponsePOST>(
-      {
-        slug: '',
-        message: 'failed',
-      },
-      400,
-    )
-  }
+  return createComment(payload)
+}
 
-  if (payload.type === 'comment') {
-    const res = await createComment(payload)
-    if (res === 'unauthorized') {
-      return unauthorized()
-    }
+export async function DELETE(req: NextRequest) {
+  const commentId = req.nextUrl.searchParams.get('commentId')
+  const slug = req.nextUrl.searchParams.get('slug')
 
-    return responseJSON<TCommentResponsePOST>({ slug: payload.slug, message: 'success' }, 201)
-  }
-
-  const res = await createSubComment(payload)
-  if (res === 'unauthorized') {
-    return unauthorized()
-  }
-
-  return responseJSON<TCommentResponsePOST>({ slug: payload.slug, message: 'success' }, 201)
+  return deleteComment(commentId, slug)
 }

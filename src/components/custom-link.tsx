@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'

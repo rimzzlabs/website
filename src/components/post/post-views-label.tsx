@@ -4,7 +4,7 @@ import { CustomTooltip } from '@/components/custom-tooltip'
 
 import { compactNumber } from '@/utils/number'
 
-import { usePostViews } from '@/queries/post'
+import { usePostViews } from '@/queries/post-views'
 
 import { ActivityIcon, AlertCircleIcon, HelpCircleIcon } from 'lucide-react'
 import { P, match } from 'ts-pattern'
@@ -24,10 +24,10 @@ export const PostViewsLabel = (props: Props) => {
       .otherwise((views) => `${compactNumber(views)} people viewed this post`)
   }
 
-  const tooltipContent = match(query.data)
+  const tooltipContent = match(query.data.count)
     .with(
-      P.gt(0),
-      () => 'This result is based on page visit, it might be different from the actual views.',
+      P.number.gt(0),
+      () => 'The result is based on page visit, it might be different from the actual views.',
     )
     .otherwise(() => 'You might be the first reader of this blog.')
 
@@ -42,10 +42,10 @@ export const PostViewsLabel = (props: Props) => {
         <span>Something went wrong</span>
       </div>
     ))
-    .with({ status: 'success', data: P.select() }, ({ data }) => (
+    .with({ status: 'success', data: P.select() }, ({ count }) => (
       <div className='flex items-center'>
         <ActivityIcon size={props?.iconSize ?? 14} />
-        <span className='mx-1 text-sm'>{getWording(data.views)}</span>
+        <span className='mx-1 text-sm'>{getWording(count)}</span>
         <HelpCircleIcon data-tooltip-id={tooltipId} className='cursor-help self-start' size={13} />
         <CustomTooltip content={tooltipContent} id={tooltipId} />
       </div>

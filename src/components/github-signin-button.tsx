@@ -1,6 +1,6 @@
 'use client'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { SiGithub } from '@icons-pack/react-simple-icons'
 import { signIn } from 'next-auth/react'

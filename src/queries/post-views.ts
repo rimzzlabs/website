@@ -13,10 +13,8 @@ export const usePostViews = (params: { initialData: number; slug: string }) => {
     }),
     initialData: {
       message: '',
-      data: {
-        slug: params.slug,
-        views: params.initialData,
-      },
+      count: params.initialData,
+      slug: params.slug,
     },
   })
 }

@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import type { ITooltip } from 'react-tooltip'
 import { Tooltip } from 'react-tooltip'

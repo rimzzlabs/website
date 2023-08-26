@@ -14,7 +14,7 @@ export const TableOfContents = async (props: { rawBody: string }) => {
       return (
         <aside className='py-2 hidden lg:block'>
           <div className='sticky top-28'>
-            <h3 className='md:text-xl 3xl:text-2xl'>Table of Contents</h3>
+            <h3 className='md:text-xl 3xl:text-2xl'>On This Page</h3>
             <TocItems list={list} />
           </div>
         </aside>

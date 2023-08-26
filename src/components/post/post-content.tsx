@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/skeleton'
 import { TableOfContents } from '@/components/table-of-contents'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { PostMdx } from './post-mdx'
 

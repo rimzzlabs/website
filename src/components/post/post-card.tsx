@@ -1,4 +1,4 @@
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 import { PostPublishedLabel } from './post-published-label'
 import { PostReadTimeLabel } from './post-read-time-label'

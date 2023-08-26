@@ -4,9 +4,9 @@ import { useAuth } from '@/hooks/use-auth'
 import { usePostSlug } from '@/hooks/use-post-slug'
 import { useReduceMotion } from '@/hooks/use-reduce-motion'
 
+import { tw } from '@/utils/common'
 import { compactNumber } from '@/utils/number'
 import { sparkConfeti } from '@/utils/party'
-import { tw } from '@/utils/tw'
 
 import { useMutateReactions, useReactions } from '@/queries/reaction'
 import { signInDialogAtom } from '@/store/signin'
@@ -33,24 +33,29 @@ export const PostReactionListItem = (props: TReactionItem) => {
     .otherwise(() => null)
 
   const userReactionGteFive = match(userReactions)
-    .with(P.not(P.nullish).and({ [props.name]: P.gte(5) }), () => true)
+    .with(P.not(P.nullish).and({ [props.name]: P.number.gte(5) }), () => true)
     .otherwise(() => null)
 
   const reactionCount = match(reaction?.data.counters)
     .with(
-      P.union(P.not(P.nullish), { love: P.gt(0) }, { rocket: P.gt(0) }, { star: P.gt(0) }),
+      P.union(
+        P.not(P.nullish),
+        { love: P.number.gt(0) },
+        { rocket: P.number.gt(0) },
+        { star: P.number.gt(0) },
+      ),
       (reaction) => reaction[props.name],
     )
     .otherwise(() => null)
 
   const iconColor = match({ name: props.name, reactionCount })
-    .with({ name: 'love', reactionCount: P.gt(0) }, () => 'text-red-500')
-    .with({ name: 'rocket', reactionCount: P.gt(0) }, () => 'text-primary-500')
-    .with({ name: 'star', reactionCount: P.gt(0) }, () => 'text-yellow-500')
+    .with({ name: 'love', reactionCount: P.number.gt(0) }, () => 'text-red-500')
+    .with({ name: 'rocket', reactionCount: P.number.gt(0) }, () => 'text-primary-500')
+    .with({ name: 'star', reactionCount: P.number.gt(0) }, () => 'text-yellow-500')
     .otherwise(() => null)
 
   const fillIcon = match(reactionCount)
-    .with(P.positive(), () => ({ fill: 'currentColor' }))
+    .with(P.number.positive(), () => ({ fill: 'currentColor' }))
     .otherwise(() => ({}))
 
   const buttonDisabled = match({ mutation, userReactionGteFive })

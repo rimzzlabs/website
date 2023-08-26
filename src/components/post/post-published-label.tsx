@@ -1,4 +1,4 @@
-import { formatReadableDate, formatToISO } from '@/utils/date'
+import { formatDate, formatDateToISO } from '@/utils/date'
 
 import { CalendarIcon } from 'lucide-react'
 
@@ -8,14 +8,16 @@ type Props = {
 }
 
 export const PostPublishedLabel = (props: Props) => {
-  const ISOdate = formatToISO(props.publishedAt)
-
   return (
     <span className='flex items-center text-sm'>
       <CalendarIcon size={props?.iconSize ?? 14} />
 
-      <time className='ml-1' dateTime={ISOdate}>
-        {formatReadableDate(props.publishedAt)}
+      <time
+        title={formatDate(props.publishedAt, 'full')}
+        className='ml-1'
+        dateTime={formatDateToISO(props.publishedAt)}
+      >
+        {formatDate(props.publishedAt, 'day-month')}
       </time>
     </span>
   )

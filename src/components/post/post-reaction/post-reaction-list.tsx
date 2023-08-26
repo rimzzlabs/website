@@ -37,7 +37,7 @@ export const PostReactionList = () => {
     .otherwise(() => <p className='font-semibold text-sm'>-</p>)
 
   return (
-    <div className='flex items-center justify-between space-x-4 mb-6'>
+    <div className='flex items-start justify-between space-x-2.5 mb-6'>
       {count}
 
       <div className='inline-flex items-center space-x-2'>

@@ -1,6 +1,6 @@
 'use client'
 
-import { tw } from '@/utils/tw'
+import { tw } from '@/utils/common'
 
 export type ErrorPageProps = {
   error: Error

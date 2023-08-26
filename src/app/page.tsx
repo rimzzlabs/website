@@ -63,12 +63,12 @@ export default function Page() {
             <div className='relative aspect-[.75/1] w-28 sm:w-32 mb-4 sm:mb-unset sm:ml-auto'>
               <CloudinaryImg
                 fill
-                sizes='(min-width: 10px) 112px, (min-width: 640px) 128px'
                 priority
                 quality={80}
-                className='rounded-md dark:brightness-95'
                 alt='Rizki Maulana Citra'
                 title='Rizki Maulana Citra'
+                className='rounded-md dark:brightness-95'
+                sizes='(min-width: 10px) 112px, (min-width: 640px) 128px'
                 publicId='rizkicitra.dev/rizkimcitra.webp'
               />
             </div>
