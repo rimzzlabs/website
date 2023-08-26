@@ -4,6 +4,8 @@ import { P, match } from 'ts-pattern'
 export const useAuth = () => {
   const session = useSession()
 
+  const isAuthenticated = session.status === 'authenticated'
+
   return match(session)
     .with(
       P.not(P.nullish)
@@ -15,8 +17,8 @@ export const useAuth = () => {
           name: user.name as string,
           image: user.image as string,
         }
-        return [data, true] as const
+        return [data, isAuthenticated] as const
       },
     )
-    .otherwise(() => [null, false] as const)
+    .otherwise(() => [null, isAuthenticated] as const)
 }
