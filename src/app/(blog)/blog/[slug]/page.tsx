@@ -69,7 +69,7 @@ type PageParam = {
 }
 
 export default function PostPage(props: PageParam) {
-  const post = allPosts.find((post) => post.slug === props.params.slug)
+  const post = filterPublishedPosts(allPosts).find((post) => post.slug === props.params.slug)
 
   if (!post) {
     notFound()
@@ -99,7 +99,7 @@ export default function PostPage(props: PageParam) {
 }
 
 export async function generateMetadata(context: PageParam) {
-  const post = allPosts.find((post) => post.slug === context.params.slug)
+  const post = filterPublishedPosts(allPosts).find((post) => post.slug === context.params.slug)
 
   if (!post) {
     return createMetadata({
