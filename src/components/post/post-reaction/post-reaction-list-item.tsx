@@ -16,7 +16,7 @@ import { useSetAtom } from 'jotai'
 import { P, match } from 'ts-pattern'
 
 export const PostReactionListItem = (props: TReactionItem) => {
-  const [, isSignedIn] = useAuth()
+  const isSignedIn = useAuth()
   const setModalSignin = useSetAtom(signInDialogAtom)
   const isReduceMotion = useReduceMotion()
   const slug = usePostSlug()

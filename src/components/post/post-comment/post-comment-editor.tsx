@@ -18,7 +18,7 @@ import { P, match } from 'ts-pattern'
 export const PostCommentEditor = () => {
   const editor = useEditorComment()
   const slug = usePostSlug()
-  const [, isAuthenticated] = useAuth()
+  const isAuthenticated = useAuth()
   const [btnLoading, setLoading] = useState(false)
   const mutation = useMutateComment()
   const setDialog = useSetAtom(signInDialogAtom)

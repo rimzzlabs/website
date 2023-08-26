@@ -1,16 +1,12 @@
 import { tw } from '@/utils/common'
 
-import { useAuth } from './use-auth'
-
 import CharacterCount from '@tiptap/extension-character-count'
 import Placeholder from '@tiptap/extension-placeholder'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 export const useEditorComment = () => {
-  const [, isAuthenticated] = useAuth()
-  const editor = useEditor({
-    editable: isAuthenticated,
+  return useEditor({
     extensions: [
       StarterKit.configure({
         heading: {
@@ -49,6 +45,4 @@ export const useEditorComment = () => {
       },
     },
   })
-
-  return editor
 }

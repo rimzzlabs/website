@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 
-export const useAuth = () => {
+export const useUser = () => {
   const session = useSession()
 
-  return session.status === 'authenticated'
+  return session.data?.user ?? null
 }

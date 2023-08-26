@@ -1,4 +1,4 @@
-import { useAuth } from '@/hooks/use-auth'
+import { useUser } from '@/hooks/use-user'
 
 import { tw } from '@/utils/common'
 
@@ -14,8 +14,9 @@ import Image from 'next/image'
 import { P, match } from 'ts-pattern'
 
 export const PostCommentListItem = (props: TComment) => {
-  const [session] = useAuth()
   const setCommentId = useSetAtom(commmentIdAtom)
+  const userSession = useUser()
+
   const user = match(props.user)
     .with(P.nullish, () => null)
     .otherwise((user) => user)
@@ -42,9 +43,9 @@ export const PostCommentListItem = (props: TComment) => {
     })
     .otherwise(() => null)
 
-  const buttonDelete = match({ user, session })
-    .with({ session: P.not(P.nullish), user: P.not(P.nullish) }, (data) => {
-      return match(data.session)
+  const buttonDelete = match({ user, userSession })
+    .with({ userSession: P.not(P.nullish), user: P.not(P.nullish) }, (data) => {
+      return match(data.userSession)
         .with({ email: P.string.includes(data?.user?.email ?? '') }, () => (
           <button
             onClick={() => setCommentId(props.id)}
