@@ -86,7 +86,7 @@ To implement code splitting in your React application, you can use `React.lazy` 
 
 Here's an example of how you might use `React.lazy` and `React.Suspense` in your application:
 
-```tsx showLineNumbers
+```tsx title="App.tsx" showLineNumbers
 import { Suspense, lazy } from 'react'
 
 const MyComponent = lazy(() => import('./MyComponent'))
@@ -204,7 +204,7 @@ In this example, the `computedExpensiveValue` function is called with arguments 
 
 Another example to use `React.useMemo` is for filtering and sorting large data sets: Let's say you have a list of products that you want to display in a component, and you want to allow the user to filter and sort the list based on various criteria. You could use the `useMemo` hook to memoize the filtered and sorted version of the list, like so:
 
-```tsx showLineNumbers
+```tsx title="@/components/product-list.tsx" showLineNumbers
 import { useMemo } from 'react'
 
 export const ProductList = ({ products, filter, sortBy }) => {
@@ -263,7 +263,7 @@ Another example to use `React.useCallback` is by passing callbacks to deeply nes
 
 Let's say you have a parent component that renders a list of items, and each item has a delete button that calls a delete callback when clicked. You could use the `useCallback` hook to create a memoized version of the delete callback and pass it down to the child component like this:
 
-```tsx showLineNumbers
+```tsx title="@/components/parent-component.tsx" showLineNumbers
 import { useCallback } from 'react'
 
 const ParentComponent = ({ items, onDelete }) => {
@@ -303,7 +303,7 @@ There are a few situations where it might not be the best choice to use this hoo
 
 Here's an example of how you might use `React.memo`:
 
-```tsx showLineNumbers
+```tsx title="@/components/my-component.tsx" showLineNumbers
 import { memo } from 'react'
 
 const MyComponent = ({ name }) => {

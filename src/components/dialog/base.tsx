@@ -40,10 +40,10 @@ export const BaseDialog = (props: TBaseDialogProps) => {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <Dialog.Panel className='w-full max-w-lg p-4 rounded-lg bg-white dark:bg-base-900'>
+              <Dialog.Panel className='w-11/12 max-w-lg p-4 rounded-lg bg-white dark:bg-base-900'>
                 <h4>{props.title}</h4>
 
-                <p className='mt-2 mb-4'>{props.description}</p>
+                <p className='mt-2 mb-4 max-w-prose'>{props.description}</p>
 
                 <button
                   onClick={props.onClose}
