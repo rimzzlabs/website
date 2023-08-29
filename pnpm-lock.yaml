@@ -186,9 +186,6 @@ devDependencies:
   tailwindcss:
     specifier: 3.3.2
     version: 3.3.2(ts-node@10.9.1)
-  tsc-files:
-    specifier: ^1.1.4
-    version: 1.1.4(typescript@5.1.3)
   typescript:
     specifier: 5.1.3
     version: 5.1.3
@@ -7196,15 +7193,6 @@ packages:
   /ts-pattern@5.0.5:
     resolution: {integrity: sha512-tL0w8U/pgaacOmkb9fRlYzWEUDCfVjjv9dD4wHTgZ61MjhuMt46VNWTG747NqW6vRzoWIKABVhFSOJ82FvXrfA==}
     dev: false
-
-  /tsc-files@1.1.4(typescript@5.1.3):
-    resolution: {integrity: sha512-RePsRsOLru3BPpnf237y1Xe1oCGta8rmSYzM76kYo5tLGsv5R2r3s64yapYorGTPuuLyfS9NVbh9ydzmvNie2w==}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=3'
-    dependencies:
-      typescript: 5.1.3
-    dev: true
 
   /tsconfig-paths@3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
