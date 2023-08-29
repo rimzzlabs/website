@@ -1,4 +1,3 @@
-import { Scroll } from '@/components/scroll'
 import { SkipContent } from '@/components/skip-content'
 
 import { tw } from '@/utils/common'
@@ -61,7 +60,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <SkipContent />
         <Providers>{children}</Providers>
-        <Scroll />
         <UmamiScript />
       </body>
     </html>

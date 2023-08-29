@@ -1,5 +1,5 @@
 const fmt = (config?: Intl.NumberFormatOptions) => {
-  return new Intl.NumberFormat('en-GB', config)
+  return new Intl.NumberFormat('en-US', config)
 }
 
 export const compactNumber = (num: number, min?: number) => {
@@ -7,3 +7,5 @@ export const compactNumber = (num: number, min?: number) => {
 
   return fmt({ notation: 'compact', maximumFractionDigits: 2 }).format(num)
 }
+
+export const formatNumber = (num: number) => fmt().format(num)

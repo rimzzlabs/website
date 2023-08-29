@@ -2,7 +2,7 @@
 
 import { CustomTooltip } from '@/components/custom-tooltip'
 
-import { compactNumber } from '@/utils/number'
+import { formatNumber } from '@/utils/number'
 
 import { usePostViews } from '@/queries/post-views'
 
@@ -21,7 +21,7 @@ export const PostViewsLabel = (props: Props) => {
   const getWording = (views: number) => {
     return match(views)
       .with(0, () => "You're the first reader")
-      .otherwise((views) => `${compactNumber(views)} people viewed this post`)
+      .otherwise((views) => `${formatNumber(views)} people viewed this post`)
   }
 
   const tooltipContent = match(query.data.count)
