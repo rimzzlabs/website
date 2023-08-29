@@ -3,7 +3,7 @@ import enUS from 'date-fns/esm/locale/en-US'
 import { P, match } from 'ts-pattern'
 
 export const getDateISO = () => new Date().toISOString()
-export const formatDateToISO = (date: string) => new Date(date).toISOString()
+export const formatDateToISO = (date: string | Date) => new Date(date).toISOString()
 
 const getActualDate = (date: string | Date) => {
   return match(date)

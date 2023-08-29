@@ -87,13 +87,22 @@ async function getToken() {
 }
 
 export async function getViews(slug: string) {
-  const viewsFromRedis = await getRedisViews(slug)
-  if (!viewsFromRedis) {
-    const token = await getToken()
-    if (!token) return 0
-    const viewsFromUmami = await getUmamiViews({ token, slug })
-    await setRedisViews(slug, viewsFromUmami)
-    return viewsFromUmami
+  try {
+    const viewsFromRedis = await getRedisViews(slug)
+
+    if (!viewsFromRedis) {
+      const token = await getToken()
+
+      if (!token) throw new Error('Cannot get token')
+
+      const viewsFromUmami = await getUmamiViews({ token, slug })
+      await setRedisViews(slug, viewsFromUmami)
+
+      return [viewsFromUmami, null] as const
+    }
+
+    return [viewsFromRedis, null] as const
+  } catch (error) {
+    return [null, error as Error] as const
   }
-  return viewsFromRedis
 }
