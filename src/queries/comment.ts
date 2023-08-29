@@ -6,13 +6,20 @@ import { buildDeleteMutation, buildMutation, buildQuery } from './builder'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-export const useComments = (slug: string) => {
+type TUseCommentsParam = TCommentResponse & {
+  slug: string
+}
+export const useComments = (payload: TUseCommentsParam) => {
   return useQuery({
-    queryKey: ['GET_COMMENTS', slug],
+    queryKey: ['GET_COMMENTS', payload.slug],
     queryFn: buildQuery<TCommentResponse>({
       url: `${BASE_URL}/api/post/comment`,
-      params: { slug },
+      params: { slug: payload.slug },
     }),
+    initialData: {
+      data: payload.data,
+      message: payload.message,
+    },
   })
 }
 

@@ -1,6 +1,6 @@
-import { formatDateToISO } from '@/utils/date'
+import { normalizeComments } from '@/utils/comment'
 
-import type { TCommentMutationPayload } from '@/types/comment'
+import type { TComment, TCommentMutationPayload } from '@/types/comment'
 
 import { prisma } from '@db/prisma'
 import type { User } from '@prisma/client'
@@ -16,21 +16,9 @@ export async function getComments(slug: string) {
       },
     })
 
-    const comments = res.map((comment) => {
-      return {
-        id: comment.id,
-        body: comment.body,
-        slug: comment.slug,
-        createdAt: formatDateToISO(comment.createdAt),
-        user: {
-          email: comment.User?.email ?? null,
-          image: comment.User?.image ?? null,
-          name: comment.User?.name ?? null,
-        },
-      }
-    })
+    const comments = normalizeComments(res)
 
-    return [comments, null] as const
+    return [comments as TComment[], null] as const
   } catch (err) {
     return [null, err as Error] as const
   }

@@ -11,7 +11,7 @@ export type TComment = {
 }
 
 export type TCommentResponse = {
-  message: 'success' | 'failed'
+  message: string
   data: TComment[]
 }
 

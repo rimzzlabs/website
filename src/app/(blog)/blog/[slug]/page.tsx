@@ -87,7 +87,7 @@ export default function PostPage(props: PageParam) {
 
         <PostContent {...post} />
 
-        <PostExtension />
+        <PostExtension slug={post.slug} />
       </main>
 
       <Footer className='lg:max-w-5xl' />

@@ -1,19 +1,19 @@
 'use client'
 
-import { Skeleton } from '@/components/skeleton'
-
-import { usePostSlug } from '@/hooks/use-post-slug'
-
 import { useComments } from '@/queries/comment'
+import type { TComment } from '@/types/comment'
 
 import { PostCommentListItem } from './post-comment-list-item'
 import { PostCommentListPlaceholder } from './post-comment-list-placeholder'
 
 import { P, match } from 'ts-pattern'
 
-export const PostCommentList = () => {
-  const slug = usePostSlug()
-  const query = useComments(slug)
+export const PostCommentList = (props: { comments: TComment[]; slug: string }) => {
+  const query = useComments({
+    data: props.comments,
+    message: 'loading',
+    slug: props.slug,
+  })
 
   const count = match(query)
     .with({ status: 'success', data: { data: P.select() } }, (comments) => comments.length)
@@ -21,8 +21,8 @@ export const PostCommentList = () => {
 
   const commentsCount = match(count)
     .with(0, () => null)
-    .with(1, () => '1 comment')
-    .otherwise(() => `${count} comments`)
+    .with(1, () => <p className='text-sm font-semibold mb-4'>1 comment</p>)
+    .otherwise(() => <p className='text-sm font-semibold mb-4'>{`${count} comments`}</p>)
 
   const list = match(query)
     .with({ status: 'success', data: { data: P.select() } }, (comments) => {
@@ -32,21 +32,11 @@ export const PostCommentList = () => {
         )
         .otherwise(() => <PostCommentListPlaceholder />)
     })
-    .with({ status: 'loading' }, () => {
-      return (
-        <>
-          <Skeleton className='w-full h-20' />
-          <Skeleton className='w-full h-20' />
-          <Skeleton className='w-full h-20' />
-        </>
-      )
-    })
     .otherwise(() => <p>Couldn&apos;t fetch comments😢</p>)
 
   return (
     <div>
-      {query.status === 'loading' && <Skeleton className='w-44 h-5 mb-4' />}
-      {query.status === 'success' && <p className='text-sm font-semibold mb-4'>{commentsCount}</p>}
+      {query.status === 'success' && commentsCount}
       <div className='flex flex-col space-y-4'>{list}</div>
     </div>
   )
