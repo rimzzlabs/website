@@ -1,84 +1,65 @@
-import { getUser } from '@/utils/auth'
-import type { TPostReactionPayload } from '@/utils/reaction'
-import { responseJSON } from '@/utils/response-json'
+import { normalizeReactions, type TPostReactionPayload } from '@/utils/reaction'
 
 import { prisma } from '@db/prisma'
-import type { Reaction } from '@prisma/client'
-import type { NextRequest } from 'next/server'
-import { P, match } from 'ts-pattern'
+import type { User } from '@prisma/client'
 
-function parseReactions(data: Reaction[]) {
-  return data.reduce(
-    (acc, cur) => {
-      acc.star += cur.name === 'star' ? 1 : 0
-      acc.love += cur.name === 'love' ? 1 : 0
-      acc.rocket += cur.name === 'rocket' ? 1 : 0
-      return acc
-    },
-    {
-      star: 0,
-      love: 0,
-      rocket: 0,
-    },
-  )
+type TGetPayload = {
+  slug: string
+  user?: User | null
 }
-export async function getReactions(slug?: string | null) {
-  if (!slug) {
-    return responseJSON({ message: 'Missing slug' }, 400)
-  }
-
-  const user = await getUser()
-  const reactions = await prisma.reaction.findMany({
-    where: {
-      slug,
-    },
-  })
-
-  const counters = parseReactions(reactions)
-  if (!user) {
-    return responseJSON({ message: 'success', slug, data: { counters } }, 200)
-  }
-
-  const userReactions = await prisma.reaction.findMany({
-    where: {
-      userId: user.id,
-      slug,
-    },
-  })
-  const userCounters = parseReactions(userReactions)
-
-  return responseJSON({ message: 'success', slug, data: { counters, userCounters } }, 200)
-}
-
-export async function createReaction(req: NextRequest) {
-  const user = await getUser()
-  const requestBody = (await req.json()) as TPostReactionPayload | undefined
-
-  const body = match(requestBody)
-    .with(P.shape({ slug: P.string, name: P.string }).select(), (body) => body)
-    .otherwise(() => null)
-
-  if (!body) {
-    return responseJSON({ message: 'missing body' }, 400)
-  }
-
-  if (!user) {
-    return responseJSON({ message: 'unauthenticated!' }, 401)
-  }
-
+export async function getReactions(payload: TGetPayload) {
   try {
-    const { name, slug } = body
+    const reactions = await prisma.reaction.findMany({
+      where: {
+        slug: payload.slug,
+      },
+    })
+
+    const counters = normalizeReactions(reactions)
+    if (!payload.user) {
+      const data = { counters }
+
+      return [data, null] as const
+    }
+
+    const userReactions = await prisma.reaction.findMany({
+      where: {
+        userId: payload.user.id,
+        slug: payload.slug,
+      },
+    })
+    const userCounters = normalizeReactions(userReactions)
+
+    const data = {
+      counters,
+      userCounters,
+    }
+
+    return [data, null] as const
+  } catch (error) {
+    return [null, error as Error] as const
+  }
+}
+
+type TPostPayload = {
+  body: TPostReactionPayload
+  user: User
+}
+
+export async function createReaction(payload: TPostPayload) {
+  try {
+    const { name, slug } = payload.body
 
     await prisma.reaction.create({
       data: {
         name,
         slug,
-        userId: user.id,
+        userId: payload.user.id,
       },
     })
 
-    return responseJSON({ message: 'sucess', slug }, 201)
+    return true
   } catch (err) {
-    return responseJSON({ message: 'Server Error', detail: err }, 500)
+    return false
   }
 }

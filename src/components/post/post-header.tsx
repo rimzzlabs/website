@@ -5,7 +5,7 @@ import { getViews } from '@/app/api/post/views/utils'
 import type { Post } from 'contentlayer/generated'
 
 export const PostHeader = async (props: Post) => {
-  const views = await getViews(props.slug)
+  const [views] = await getViews(props.slug)
 
   return (
     <section className='pt-10 xs:pt-16 md:pt-24'>
@@ -17,7 +17,7 @@ export const PostHeader = async (props: Post) => {
         <PostReadTimeLabel tooltipId='reading-time' estRead={props.readingTime} iconSize={16} />
       </div>
 
-      <PostViewsLabel iconSize={16} slug={props.slug} views={views} />
+      <PostViewsLabel iconSize={16} slug={props.slug} views={views ?? 0} />
     </section>
   )
 }
