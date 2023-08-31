@@ -1,5 +1,3 @@
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
 import { PostList } from '@/components/post/post-list'
 
 import { compose } from '@/utils/common'
@@ -47,25 +45,20 @@ export default async function Page(props: PageProps) {
     .otherwise(() => <h1 className='title mb-2'>Tag</h1>)
 
   return (
-    <>
-      <Header />
-      <MainLayout className='pt-16'>
-        <section className='mb-8'>
-          {title}
-          <p>You can filter my post based on the available tags I provide.</p>
-        </section>
+    <MainLayout className='pt-16'>
+      <section className='mb-8'>
+        {title}
+        <p>You can filter my post based on the available tags I provide.</p>
+      </section>
 
-        <TagList tags={tags} />
+      <TagList tags={tags} />
 
-        <PostList
-          posts={posts}
-          className='my-4'
-          headingLevel='h2'
-          placeholder={() => <p>Nothing to see here yet</p>}
-        />
-      </MainLayout>
-
-      <Footer />
-    </>
+      <PostList
+        posts={posts}
+        className='my-4'
+        headingLevel='h2'
+        placeholder={() => <p>Nothing to see here yet</p>}
+      />
+    </MainLayout>
   )
 }

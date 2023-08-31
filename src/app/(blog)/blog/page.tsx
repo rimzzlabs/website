@@ -1,5 +1,3 @@
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
 import { PostList } from '@/components/post/post-list'
 
 import { compose } from '@/utils/common'
@@ -40,24 +38,20 @@ export default function BlogPage() {
   const posts = compose(filterPublishedPosts, sortLatestPosts)(allPosts)
 
   return (
-    <>
-      <Header />
-      <MainLayout className='pt-16'>
-        <section className='mb-8'>
-          <h1 className='title mb-8'>Blog</h1>
-          <p className='mb-2.5'>
-            You&apos;ll find me exploring a variety of interesting topics, from my career
-            development, programming and technologies to trending topics of interest at the time.
-          </p>
-          <p>
-            All posts on my blog are my own and do not represent any particular organization; feel
-            free to reads.
-          </p>
-        </section>
+    <MainLayout className='pt-16'>
+      <section className='mb-8'>
+        <h1 className='title mb-8'>Blog</h1>
+        <p className='mb-2.5'>
+          You&apos;ll find me exploring a variety of interesting topics, from my career development,
+          programming and technologies to trending topics of interest at the time.
+        </p>
+        <p>
+          All posts on my blog are my own and do not represent any particular organization; feel
+          free to reads.
+        </p>
+      </section>
 
-        <PostList posts={posts} className='mt-4 mb-8' headingLevel='h2' />
-      </MainLayout>
-      <Footer />
-    </>
+      <PostList posts={posts} className='mt-4 mb-8' headingLevel='h2' />
+    </MainLayout>
   )
 }

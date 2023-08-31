@@ -1,7 +1,5 @@
 import { DeleteDialog } from '@/components/dialog/delete-dialog'
 import { SignInDialog } from '@/components/dialog/sign-in'
-import { Footer } from '@/components/footer'
-import { Header } from '@/components/header'
 import { PostContent, PostExtension, PostHeader } from '@/components/post'
 
 import { compose } from '@/utils/common'
@@ -16,6 +14,8 @@ import {
   TWITTER_USERNAME,
 } from '@/utils/env/client'
 import { filterPublishedPosts, getLatestPosts } from '@/utils/post'
+
+import { MainLayout } from '@/layouts'
 
 import { allPosts } from 'contentlayer/generated'
 import localFont from 'next/font/local'
@@ -76,25 +76,16 @@ export default function PostPage(props: PageParam) {
   }
 
   return (
-    <>
-      <Header className='lg:max-w-5xl' />
-      <main
-        id='skip-content'
-        className={tw('layout lg:max-w-5xl', FiraCode.variable, FiraCodeVF.variable)}
-      >
-        <PostHeader {...post} />
-        <hr className='my-4 max-w-prose' />
+    <MainLayout className={tw('lg:max-w-5xl', FiraCode.variable, FiraCodeVF.variable)}>
+      <PostHeader {...post} />
+      <hr className='my-4 max-w-prose' />
 
-        <PostContent {...post} />
+      <PostContent {...post} />
 
-        <PostExtension slug={post.slug} />
-      </main>
-
-      <Footer className='lg:max-w-5xl' />
-
+      <PostExtension slug={post.slug} />
       <SignInDialog />
       <DeleteDialog />
-    </>
+    </MainLayout>
   )
 }
 

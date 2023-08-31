@@ -1,3 +1,5 @@
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
 import { SkipContent } from '@/components/skip-content'
 
 import { tw } from '@/utils/common'
@@ -59,7 +61,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head />
       <body>
         <SkipContent />
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
         <UmamiScript />
       </body>
     </html>

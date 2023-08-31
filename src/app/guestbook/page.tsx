@@ -1,7 +1,5 @@
 import { DeleteDialog } from '@/components/dialog/delete-dialog'
-import { Footer } from '@/components/footer'
 import { GuestbookList, GuestbookForm } from '@/components/guestbook'
-import { Header } from '@/components/header'
 import { Skeleton } from '@/components/skeleton'
 
 import { createMetadata } from '@/utils/create-metadata'
@@ -41,36 +39,32 @@ export default async function GuestbookPage() {
   const [guestbook] = await getGuestbook()
 
   return (
-    <>
-      <Header />
-      <MainLayout className='pt-16'>
-        <section className='mb-8'>
-          <h1 className='title mb-8'>Guestbook</h1>
-          <p className='mb-2.5'>
-            Welcome to the <strong>guestbook</strong>! I hope you&apos;re doing well. Why not leave
-            some messages here? Either it&apos;s a quick hello, a warm message, or a joke. Drop a
-            line, surprise me.
-          </p>
-        </section>
+    <MainLayout className='pt-16'>
+      <section className='mb-8'>
+        <h1 className='title mb-8'>Guestbook</h1>
+        <p className='mb-2.5'>
+          Welcome to the <strong>guestbook</strong>! I hope you&apos;re doing well. Why not leave
+          some messages here? Either it&apos;s a quick hello, a warm message, or a joke. Drop a
+          line, surprise me.
+        </p>
+      </section>
 
-        <GuestbookForm />
+      <GuestbookForm />
 
-        <Suspense
-          fallback={
-            <div className='space-y-4'>
-              <Skeleton className='h-20 w-full' />
-              <Skeleton className='h-20 w-full' />
-              <Skeleton className='h-20 w-full' />
-              <Skeleton className='h-20 w-full' />
-            </div>
-          }
-        >
-          <GuestbookList guestbook={guestbook ?? []} />
-        </Suspense>
-      </MainLayout>
+      <Suspense
+        fallback={
+          <div className='space-y-4'>
+            <Skeleton className='h-20 w-full' />
+            <Skeleton className='h-20 w-full' />
+            <Skeleton className='h-20 w-full' />
+            <Skeleton className='h-20 w-full' />
+          </div>
+        }
+      >
+        <GuestbookList guestbook={guestbook ?? []} />
+      </Suspense>
 
       <DeleteDialog />
-      <Footer />
-    </>
+    </MainLayout>
   )
 }
