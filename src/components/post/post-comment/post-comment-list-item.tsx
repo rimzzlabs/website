@@ -1,22 +1,32 @@
 import { useUser } from '@/hooks/use-user'
 
 import { tw } from '@/utils/common'
+import { formatDistance } from '@/utils/date'
 
-import { commmentIdAtom } from '@/store/signin'
+import { useDeleteComment } from '@/queries/comment'
+import { deleteDialogAtom } from '@/store/delete-dialog'
 import type { TComment } from '@/types/comment'
-
-import { PostComentListItemDate } from './post-comment-list-item-date'
 
 import htmr from 'htmr'
 import { useSetAtom } from 'jotai'
-import { TrashIcon } from 'lucide-react'
 import Image from 'next/image'
 import { P, match } from 'ts-pattern'
 
 export const PostCommentListItem = (props: TComment) => {
-  const setCommentId = useSetAtom(commmentIdAtom)
   const userSession = useUser()
+  const mutation = useDeleteComment({ commentId: props.id, slug: props.slug })
+  const setDeleteDialog = useSetAtom(deleteDialogAtom)
 
+  const onClickDeleteButton = () => {
+    setDeleteDialog({
+      open: true,
+      title: 'For real you wanna delete it?',
+      description: "I mean it's up to you. But this action will permanently delete your comment!",
+      async onConfirm() {
+        await mutation.mutateAsync()
+      },
+    })
+  }
   const user = match(props.user)
     .with(P.nullish, () => null)
     .otherwise((user) => user)
@@ -35,8 +45,9 @@ export const PostCommentListItem = (props: TComment) => {
           />
           <div className='ml-2.5'>
             <p className='font-semibold leading-none'>{user.name}</p>
-
-            <PostComentListItemDate createdAt={props.createdAt} />
+            <time className='text-sm text-base-500' dateTime={props.createdAt}>
+              {formatDistance(props.createdAt)}
+            </time>
           </div>
         </div>
       )
@@ -48,16 +59,10 @@ export const PostCommentListItem = (props: TComment) => {
       return match(data.userSession)
         .with({ email: P.string.includes(data?.user?.email ?? '') }, () => (
           <button
-            onClick={() => setCommentId(props.id)}
-            className={tw(
-              'inline-flex items-center justify-center',
-              'w-6 h-6 ml-auto rounded',
-              'border dark:border-base-700',
-              'hover:bg-red-600 hover:text-white hover:border-red-500',
-            )}
+            onClick={onClickDeleteButton}
+            className='ml-auto text-sm font-medium text-red-500'
           >
-            <TrashIcon size='0.75rem' />
-            <span className='sr-only'>Delete this comment</span>
+            Delete
           </button>
         ))
         .otherwise(() => null)

@@ -1,4 +1,4 @@
-import { DeleteCommentDialog } from '@/components/dialog/delete-comment'
+import { DeleteDialog } from '@/components/dialog/delete-dialog'
 import { SignInDialog } from '@/components/dialog/sign-in'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
@@ -93,7 +93,7 @@ export default function PostPage(props: PageParam) {
       <Footer className='lg:max-w-5xl' />
 
       <SignInDialog />
-      <DeleteCommentDialog />
+      <DeleteDialog />
     </>
   )
 }

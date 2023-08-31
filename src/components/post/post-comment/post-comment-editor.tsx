@@ -1,8 +1,8 @@
 'use client'
 
 import { useAuth } from '@/hooks/use-auth'
+import { useEditorComment } from '@/hooks/use-editor-comment'
 import { usePostSlug } from '@/hooks/use-post-slug'
-import { useEditorComment } from '@/hooks/useEditorComment'
 
 import { tw } from '@/utils/common'
 

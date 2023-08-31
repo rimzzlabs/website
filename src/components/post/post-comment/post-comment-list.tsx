@@ -1,10 +1,11 @@
 'use client'
 
+import { Placeholder } from '@/components/placeholder'
+
 import { useComments } from '@/queries/comment'
 import type { TComment } from '@/types/comment'
 
 import { PostCommentListItem } from './post-comment-list-item'
-import { PostCommentListPlaceholder } from './post-comment-list-placeholder'
 
 import { P, match } from 'ts-pattern'
 
@@ -30,7 +31,7 @@ export const PostCommentList = (props: { comments: TComment[]; slug: string }) =
         .with(P.number.gt(0), () =>
           comments.map((comment) => <PostCommentListItem key={comment.id} {...comment} />),
         )
-        .otherwise(() => <PostCommentListPlaceholder />)
+        .otherwise(() => <Placeholder message='Be the first to comment on this post!' />)
     })
     .otherwise(() => <p>Couldn&apos;t fetch comments😢</p>)
 
