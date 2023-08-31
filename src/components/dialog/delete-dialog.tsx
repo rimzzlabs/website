@@ -1,42 +1,39 @@
 'use client'
 
-import { usePostSlug } from '@/hooks/use-post-slug'
-
 import { tw } from '@/utils/common'
 
-import { useDeleteComment } from '@/queries/comment'
-import { commmentIdAtom } from '@/store/signin'
+import { closeDeleteDialogAtom, deleteDialogAtom } from '@/store/delete-dialog'
 
 import { BaseDialog } from './base'
 
-import { useAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { Loader2Icon } from 'lucide-react'
 import { useState } from 'react'
 
-export const DeleteCommentDialog = () => {
-  const [commentId, setCommmentId] = useAtom(commmentIdAtom)
+export const DeleteDialog = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const slug = usePostSlug()
-  const mutation = useDeleteComment({ commentId, slug })
+
+  const state = useAtomValue(deleteDialogAtom)
+  const onClose = useSetAtom(closeDeleteDialogAtom)
 
   const onDeleteComment = async () => {
     setIsLoading(true)
     try {
-      await mutation.mutateAsync()
+      await state.onConfirm()
     } catch (error) {
       console.error(error)
     } finally {
       setIsLoading(false)
-      setCommmentId(null)
+      onClose()
     }
   }
 
   return (
     <BaseDialog
-      open={!!commentId}
-      title='Delete Comment'
-      description='Are you sure you want to delete your comment?. Your comment will be permanently removed from my post!'
-      onClose={() => setCommmentId(null)}
+      open={state.open}
+      title={state.title}
+      description={state.description}
+      onClose={onClose}
       body={({ onClose }) => (
         <div className='flex justify-end'>
           <button

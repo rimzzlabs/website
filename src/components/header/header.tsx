@@ -6,9 +6,7 @@ import { tw } from '@/utils/common'
 
 import { signInDialogAtom } from '@/store/signin'
 
-import { LogoutButton } from './logout-button'
 import { Navbar } from './navbar'
-import { NavbarMobile } from './navbar-mobile'
 import { HeaderThemeSelector } from './theme-selector'
 
 import { useAtomValue } from 'jotai'
@@ -43,8 +41,6 @@ export const Header = (props: HeaderProps) => {
         <Navbar />
 
         <HeaderThemeSelector />
-        <LogoutButton />
-        <NavbarMobile />
       </div>
     </header>
   )

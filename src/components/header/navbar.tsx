@@ -9,7 +9,7 @@ import { LayoutGroup } from 'framer-motion'
 export const Navbar = () => {
   return (
     <LayoutGroup>
-      <nav id='navbar-desktop' className='hidden md:flex items-center mr-auto'>
+      <nav id='navbar-desktop' className='flex items-center mr-auto'>
         {NAVBAR_ROUTES.map((item) => {
           return <NavbarItem key={item.href} {...item} />
         })}

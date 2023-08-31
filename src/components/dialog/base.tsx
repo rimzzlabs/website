@@ -26,7 +26,7 @@ export const BaseDialog = (props: TBaseDialogProps) => {
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <div className='fixed inset-0 bg-black/75' />
+          <div className='fixed inset-0 bg-black/40' />
         </Transition.Child>
 
         <div className='fixed inset-0 overflow-y-auto'>
@@ -43,7 +43,7 @@ export const BaseDialog = (props: TBaseDialogProps) => {
               <Dialog.Panel className='w-11/12 max-w-lg p-4 rounded-lg bg-white dark:bg-base-900'>
                 <h4>{props.title}</h4>
 
-                <p className='mt-2 mb-4 max-w-prose'>{props.description}</p>
+                <p className='text-sm mt-2 mb-4 max-w-prose'>{props.description}</p>
 
                 <button
                   onClick={props.onClose}

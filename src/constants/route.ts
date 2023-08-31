@@ -9,6 +9,7 @@ export type ROUTE = {
 export const ALL_ROUTES: ROUTE[] = [
   { href: '/', name: 'Home', title: 'Home Page' },
   { href: '/blog', name: 'Blog', title: 'Blog Page' },
+  { href: '/guestbook', name: 'Guestbook', title: 'Guestbook Page' },
   { href: '/tag', name: 'Tag', title: 'Tag Page' },
 ]
 
