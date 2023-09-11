@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios'
 import axios, { type AxiosRequestConfig } from 'axios'
 
-type Config = Omit<Omit<AxiosRequestConfig, 'url'>, 'method'>
+type Config = Omit<AxiosRequestConfig, 'url' | 'method'>
 type ExtendConfig = Config & {
   method?: 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE'
 }
