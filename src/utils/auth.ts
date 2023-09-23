@@ -1,12 +1,8 @@
+import { prisma } from '@db/prisma'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { PrismaClient } from '@prisma/client'
 import { getServerSession, type AuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import { P, match } from 'ts-pattern'
-
-const prisma = new PrismaClient({
-  errorFormat: 'pretty',
-})
 
 const clientId = process.env.GITHUB_CLIENT_ID
 const clientSecret = process.env.GITHUB_CLIENT_SECRET

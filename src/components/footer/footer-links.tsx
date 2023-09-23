@@ -3,6 +3,7 @@
 import { ALL_ROUTES } from '@/constants/route'
 
 import { CustomLink } from '../custom-link'
+import { FooterSignoutButton } from './footer-signout-button'
 
 import { usePathname } from 'next/navigation'
 import { P, match } from 'ts-pattern'
@@ -34,6 +35,8 @@ export const FooterLinks = () => {
           </CustomLink>
         )
       })}
+
+      <FooterSignoutButton />
     </div>
   )
 }
