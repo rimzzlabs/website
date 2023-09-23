@@ -4,8 +4,9 @@ import type { TGuestbook, TGuestbookPayload } from '@/types/guestbook'
 
 import { prisma } from '@db/prisma'
 import type { User } from '@prisma/client'
+import { cache } from 'react'
 
-export async function getGuestbook() {
+export const getGuestbook = cache(async () => {
   try {
     const res = await prisma.guestbook.findMany({
       orderBy: {
@@ -34,7 +35,7 @@ export async function getGuestbook() {
   } catch (error) {
     return [null, error as Error] as const
   }
-}
+})
 
 export async function createGuestbook(payload: TGuestbookPayload & { user: User }) {
   try {

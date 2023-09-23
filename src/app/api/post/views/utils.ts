@@ -4,6 +4,7 @@ import { UMAMI_DEPLOYED_URL, UMAMI_PASSWORD, UMAMI_USERNAME } from '@/utils/env/
 import type { TUmamiStatResponse, TUmamiAuthResponse } from '@/types/umami'
 
 import { redis } from '@db/redis'
+import { cache } from 'react'
 
 async function setRedisViews(slug: string, count: number) {
   try {
@@ -86,7 +87,7 @@ async function getToken() {
   return tokenFromRedis
 }
 
-export async function getViews(slug: string) {
+export const getViews = cache(async (slug: string) => {
   try {
     const viewsFromRedis = await getRedisViews(slug)
 
@@ -105,4 +106,4 @@ export async function getViews(slug: string) {
   } catch (error) {
     return [null, error as Error] as const
   }
-}
+})

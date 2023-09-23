@@ -4,8 +4,9 @@ import type { TComment, TCommentMutationPayload } from '@/types/comment'
 
 import { prisma } from '@db/prisma'
 import type { User } from '@prisma/client'
+import { cache } from 'react'
 
-export async function getComments(slug: string) {
+export const getComments = cache(async (slug: string) => {
   try {
     const res = await prisma.comment.findMany({
       where: {
@@ -22,7 +23,7 @@ export async function getComments(slug: string) {
   } catch (err) {
     return [null, err as Error] as const
   }
-}
+})
 
 type TPostPayload = {
   body: TCommentMutationPayload

@@ -2,12 +2,13 @@ import { normalizeReactions, type TPostReactionPayload } from '@/utils/reaction'
 
 import { prisma } from '@db/prisma'
 import type { User } from '@prisma/client'
+import { cache } from 'react'
 
 type TGetPayload = {
   slug: string
   user?: User | null
 }
-export async function getReactions(payload: TGetPayload) {
+export const getReactions = cache(async (payload: TGetPayload) => {
   try {
     const reactions = await prisma.reaction.findMany({
       where: {
@@ -39,7 +40,7 @@ export async function getReactions(payload: TGetPayload) {
   } catch (error) {
     return [null, error as Error] as const
   }
-}
+})
 
 type TPostPayload = {
   body: TPostReactionPayload
