@@ -49,25 +49,25 @@ export default function Page() {
   return (
     <MainLayout className='space-y-10 md:space-y-14'>
       <section className='flex flex-col my-4'>
-        <div className='flex flex-col-reverse sm:flex-row sm:items-end mb-10'>
+        <div className='flex flex-col sm:flex-row sm:items-end mb-10'>
+          <div className='relative aspect-[.75/1] w-28 sm:w-32 mb-4 sm:mb-unset sm:mr-10'>
+            <CloudinaryImg
+              fill
+              priority
+              quality={85}
+              alt='Rizki Maulana Citra'
+              title='Rizki Maulana Citra'
+              className='rounded-md dark:brightness-95'
+              sizes='(min-width: 10px) 112px, (min-width: 640px) 128px'
+              publicId='rizkicitra.dev/me.webp'
+            />
+          </div>
+
           <h1 className='mt-1 sm:mt-0 sm:text-4xl md:text-5xl'>
             Hi, I&apos;m
             <br />
             {SITE_OWNER}
           </h1>
-
-          <div className='relative aspect-[.75/1] w-28 sm:w-32 mb-4 sm:mb-unset sm:ml-auto'>
-            <CloudinaryImg
-              fill
-              priority
-              quality={80}
-              alt='Rizki Maulana Citra'
-              title='Rizki Maulana Citra'
-              className='rounded-md dark:brightness-95'
-              sizes='(min-width: 10px) 112px, (min-width: 640px) 128px'
-              publicId='rizkicitra.dev/rizkimcitra.webp'
-            />
-          </div>
         </div>
 
         <div className='prose'>
