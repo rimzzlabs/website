@@ -104,12 +104,12 @@ Now you know about these terms, let's create some recipes.
 Composing atoms is a way to transform atoms with multiple function calls; the returned value should be predictable and have no side effects.
 
 ```ts title="@/atoms/compose.ts" showLineNumbers
-import type { Atom } from 'jotai'
+import type { PrimitiveAtom } from 'jotai'
 
-type ComposeAtomFn<T> = (value: Atom<T>) => Atom<T>
+type ComposeAtomFn<T> = (value: PrimitiveAtom<T>) => PrimitiveAtom<T>
 
-export function composeAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
-  return (value: Atom<T>) => {
+export function composePrimitiveAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
+  return (value: PrimitiveAtom<T>) => {
     return fns.reduce((acc, fun) => fun(value), value)
   }
 }
@@ -122,15 +122,17 @@ Switch! Who doesn't need boolean? Everyone needs boolean value, so let's create 
 First, we usually manage a boolean value with React. useState to handle an open or closed state, such as a sidebar or dialog. But what if it can be well-baked with Jotai?.
 
 ```ts title="@/atoms/boolean.ts" showLineNumbers
-export function openAtom(boolAtom: Atom<boolean>) {
+import type { PrimitiveAtom } from 'jotai'
+
+export function openAtom(boolAtom: PrimitiveAtom<boolean>) {
   return atom(null, (_, set) => set(boolAtom, true))
 }
 
-export function closeAtom(boolAtom: Atom<boolean>) {
+export function closeAtom(boolAtom: PrimitiveAtom<boolean>) {
   return atom(null, (_, set) => set(boolAtom, false))
 }
 
-export function toggleAtom(boolAtom: Atom<boolean>) {
+export function toggleAtom(boolAtom: PrimitiveAtom<boolean>) {
   return atom(null, (get, set) => set(boolAtom, !get(boolAtom)))
 }
 ```
@@ -138,6 +140,10 @@ export function toggleAtom(boolAtom: Atom<boolean>) {
 With that snippet, we can create each handler to manage our `open/closed` state.
 
 ```ts title="@/atoms/sidebar.ts" showLineNumbers
+import { openAtom, closeAtom, toggleAtom } from '@/atoms/boolean'
+
+import { atom } from 'jotai'
+
 export const sidebarAtom = atom(false)
 export const openSidebarAtom = openAtom(sidebarAtom)
 export const closeSidebarAtom = closeAtom(sidebarAtom)
@@ -192,11 +198,13 @@ A string recipes usually a `read-only` atoms. Where you take a string atom to be
 This is very helpful whenever I work with string values, for example, lowercase string, [encoding strings to URI components](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent 'Encoding URI Component'), and so on.
 
 ```ts title="@/atoms/string.ts" showLineNumbers
-export function upperCaseAtom(stringAtom: Atom<string>) {
+import type { PrimitiveAtom } from 'jotai'
+
+export function upperCaseAtom(stringAtom: PrimitiveAtom<string>) {
   return atom((get) => get(stringAtom).toUpperCase())
 }
 
-export function lowerCaseAtom(stringAtom: Atom<string>) {
+export function lowerCaseAtom(stringAtom: PrimitiveAtom<string>) {
   return atom((get) => get(stringAtom).toUpperCase())
 }
 ```
@@ -204,7 +212,9 @@ export function lowerCaseAtom(stringAtom: Atom<string>) {
 Encoding a string to URI components.
 
 ```ts title="@/atoms/string.ts" showLineNumbers
-export function encodeURIAtom(stringAtom: Atom<string>) {
+import type { PrimitiveAtom } from 'jotai'
+
+export function encodeURIAtom(stringAtom: PrimitiveAtom<string>) {
   return atom((get) => encodeURIComponent(get(stringAtom)))
 }
 ```
@@ -214,16 +224,18 @@ export function encodeURIAtom(stringAtom: Atom<string>) {
 Manipulating numbers with atoms is such ease. First, let's start with basic math.
 
 ```ts title="@/atoms/number.ts" showLineNumbers
-export function addAtom(numberAtom: Atom<number>) {
+import type { PrimitiveAtom } from 'jotai'
+
+export function addAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => get(numberAtom) + 1)
 }
-export function multiplyAtom(numberAtom: Atom<number>) {
+export function multiplyAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => get(numberAtom) * 2)
 }
-export function divideAtom(numberAtom: Atom<number>) {
+export function divideAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => get(numberAtom) / 2)
 }
-export function minusAtom(numberAtom: Atom<number>) {
+export function minusAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => get(numberAtom) - 1)
 }
 ```
@@ -231,7 +243,9 @@ export function minusAtom(numberAtom: Atom<number>) {
 Then the cool thing here is that I can transform a number value into a well-formatted value, like formatting numbers into a currency.
 
 ```ts title="@/atoms/number.ts" showLineNumbers
-export function formatNumberAtom(numberAtom: Atom<number>) {
+import type { PrimitiveAtom } from 'jotai'
+
+export function formatNumberAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => {
     const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
     return fmt.format(get(numberAtom))
