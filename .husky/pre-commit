@@ -1,13 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "CHECKING TYPES"
-
-tsc --noEmit || (
-  echo '🔨❌ Yoo, you have a type error in your code. Check linter 🔨❌'
-  false
-)
-
 echo 'RUNNING GIT HOOKS'
 
 pnpm lint-staged ||

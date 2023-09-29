@@ -13,9 +13,9 @@ import { match } from 'ts-pattern'
 type ThemeMenu = { value: string; name: string; icon: LucideIcon }
 
 const menu: ThemeMenu[] = [
-  { name: 'System', icon: MonitorIcon, value: 'system' },
   { name: 'Dark', icon: MoonStarIcon, value: 'dark' },
   { name: 'Light', icon: SunMediumIcon, value: 'light' },
+  { name: 'System', icon: MonitorIcon, value: 'system' },
 ]
 
 export const HeaderThemeSelector = () => {

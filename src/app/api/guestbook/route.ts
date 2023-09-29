@@ -5,6 +5,7 @@ import type { TGuestbookPayload } from '@/types/guestbook'
 
 import { createGuestbook, deleteGuestbook, getGuestbook } from './utils'
 
+import { revalidatePath } from 'next/cache'
 import type { NextRequest } from 'next/server'
 
 export async function GET() {
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest) {
     return serverError({ message: 'Cannot sign guestbook, please try again later', messageId })
   }
 
+  revalidatePath('/guestbook', 'layout')
   return responseOK({ message: 'Message created successfully', messageId })
 }
 
@@ -51,5 +53,7 @@ export async function DELETE(req: NextRequest) {
   if (!ok) {
     return serverError({ message: 'Cannot delete this message, please try again later' })
   }
+
+  revalidatePath('/guestbook', 'layout')
   return responseOK({ message: 'Message deleted successfully' })
 }
