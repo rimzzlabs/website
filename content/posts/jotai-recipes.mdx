@@ -110,7 +110,7 @@ type ComposeAtomFn<T> = (value: PrimitiveAtom<T>) => PrimitiveAtom<T>
 
 export function composePrimitiveAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
   return (value: PrimitiveAtom<T>) => {
-    return fns.reduce((acc, fun) => fun(value), value)
+    return fns.reduce((currentValue, fun) => fun(currentValue), value)
   }
 }
 ```
