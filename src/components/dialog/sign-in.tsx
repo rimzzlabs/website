@@ -13,8 +13,8 @@ export const SignInDialog = () => {
   const onClose = () => setModal((p) => !p)
   return (
     <BaseDialog
-      title='Howdyy!'
-      description='You have to sign in to interact with my website!'
+      title='Sign in confirmation'
+      description='Hey, thanks for your intereset, but you have to sign in to interact with my website!'
       onClose={onClose}
       open={open}
       body={<GithubSigninButton />}

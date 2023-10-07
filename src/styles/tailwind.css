@@ -25,7 +25,7 @@
     @apply text-typo-paragraph dark:text-typo-p-dark 3xl:text-lg;
   }
   body {
-    @apply antialiased bg-white dark:bg-base-900 pt-16 font-primary motion-safe:transition-[background-color,color];
+    @apply antialiased bg-white dark:bg-base-900 !pt-16 font-primary motion-safe:transition-[background-color,color];
     @apply text-base-800 dark:text-base-300;
   }
 

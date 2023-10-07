@@ -27,7 +27,7 @@ export const HeaderThemeSelector = () => {
         disabled
         title='Switch theme'
         className={tw(
-          'inline-flex items-center justify-center',
+          'hidden md:inline-flex items-center justify-center',
           'flex-shrink-0',
           'w-8 h-8 rounded dark:bg-base-900',
         )}
@@ -40,6 +40,7 @@ export const HeaderThemeSelector = () => {
 
   return (
     <ComboboxMenu
+      className='hidden md:block'
       buttonTitle='Switch Theme'
       renderIcon={() => {
         return match(actualTheme)

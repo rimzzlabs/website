@@ -1,6 +1,9 @@
+import { DrawerConfirmation } from '@/components/drawer/drawer-confirm'
+import { DrawerSignin } from '@/components/drawer/drawer-signin'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { SkipContent } from '@/components/skip-content'
+import { UmamiScript } from '@/components/umami-script'
 
 import { tw } from '@/utils/common'
 import { SITE_NAME, SITE_URL } from '@/utils/env/client'
@@ -9,14 +12,8 @@ import '../styles/tailwind.css'
 import { Providers } from './providers'
 
 import type { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import localFont from 'next/font/local'
 import 'react-tooltip/dist/react-tooltip.css'
-
-const UmamiScript = dynamic(
-  () => import('@/components/umami-script').then((m) => ({ default: m.UmamiScript })),
-  { ssr: false },
-)
 
 const inter = localFont({
   src: './font/inter-var-latin.woff2',
@@ -65,6 +62,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Header />
           {children}
           <Footer />
+
+          <DrawerConfirmation />
+          <DrawerSignin />
         </Providers>
         <UmamiScript />
       </body>

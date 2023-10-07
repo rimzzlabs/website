@@ -72,7 +72,7 @@ export function FooterSignoutButton() {
       />
       <button
         onClick={openModal}
-        className='font-medium md:max-w-max motion-safe:transition text-base-700 dark:text-base-300 hover:text-primary-500 dark:hover:text-primary-500'
+        className='hidden md:block font-medium md:max-w-max motion-safe:transition text-base-700 dark:text-base-300 hover:text-primary-500 dark:hover:text-primary-500'
       >
         Sign Out
       </button>

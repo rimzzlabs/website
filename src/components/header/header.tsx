@@ -4,10 +4,17 @@ import { useWindowYAxis } from '@/hooks/use-win-y-axis'
 
 import { tw } from '@/utils/common'
 
-import { Navbar } from './navbar'
-import { HeaderThemeSelector } from './theme-selector'
+import { HeaderDrawerMenuTrigger } from './header-drawer-menu-trigger'
+import { HeaderLogo } from './header-logo'
+import { HeaderNavbar } from './header-navbar'
+import { HeaderThemeSelector } from './header-theme-selector'
 
+import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
+
+const DrawerMenu = dynamic(() =>
+  import('@/components/drawer-menu').then((m) => ({ default: m.DrawerMenu })),
+)
 
 type HeaderProps = {
   className?: string
@@ -30,15 +37,18 @@ export const Header = (props: HeaderProps) => {
         className={tw(
           'flex items-center',
           'justify-end md:justify-start',
-          'h-16 space-x-1',
+          'h-16 gap-1',
           'layout',
           pathname.includes('/blog/') && 'lg:max-w-5xl',
           props.className,
         )}
       >
-        <Navbar />
+        <HeaderLogo />
+        <HeaderNavbar />
 
         <HeaderThemeSelector />
+        <HeaderDrawerMenuTrigger />
+        <DrawerMenu />
       </div>
     </header>
   )

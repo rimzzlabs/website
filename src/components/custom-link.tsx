@@ -1,5 +1,3 @@
-import { tw } from '@/utils/common'
-
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 import Link, { type LinkProps } from 'next/link'
@@ -54,7 +52,7 @@ export const CustomLink = forwardRef<HTMLAnchorElement, CustomLinkProps>(
         className={twMerge(
           customLink({
             variant,
-            className: tw(flex && 'flex items-center', props.className),
+            className: twMerge(flex && 'flex items-center', props.className),
           }),
         )}
       >
