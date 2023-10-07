@@ -14,7 +14,7 @@ export function DrawerSignin() {
   return (
     <BaseDrawer onClose={onClose} open={open} className='max-h-[36%]'>
       <div className='px-4'>
-        <p className='px-4 pb-2 font-bold text-lg'>Sign in confirmation</p>
+        <p className='pb-2 font-bold text-lg'>Sign in confirmation</p>
         <p className='pb-4'>
           Hey, thanks for your intereset, but you have to sign in to interact with my website!
         </p>
