@@ -56,7 +56,8 @@
     "server-only": "^0.0.1",
     "shiki": "^0.14.3",
     "tailwind-merge": "^1.14.0",
-    "ts-pattern": "^5.0.5"
+    "ts-pattern": "^5.0.5",
+    "vaul": "^0.6.8"
   },
   "devDependencies": {
     "@cld-apis/types": "^0.1.6",

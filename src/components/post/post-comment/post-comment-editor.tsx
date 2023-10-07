@@ -2,11 +2,13 @@
 
 import { useAuth } from '@/hooks/use-auth'
 import { useEditorComment } from '@/hooks/use-editor-comment'
+import { useMediaMinWidth } from '@/hooks/use-media-min-width'
 import { usePostSlug } from '@/hooks/use-post-slug'
 
 import { tw } from '@/utils/common'
 
 import { useMutateComment } from '@/queries/comment'
+import { drawerSigninAtom } from '@/store/drawer'
 import { signInDialogAtom } from '@/store/signin'
 
 import { EditorContent } from '@tiptap/react'
@@ -22,11 +24,19 @@ export const PostCommentEditor = () => {
   const [btnLoading, setLoading] = useState(false)
   const mutation = useMutateComment()
   const setDialog = useSetAtom(signInDialogAtom)
+  const openSigninDrawer = useSetAtom(drawerSigninAtom.enable)
+  const isDekstopDevice = useMediaMinWidth(768)
 
   const count = editor?.storage?.characterCount?.characters() ?? 0
   const buttonDisabled = btnLoading || !isAuthenticated || count === 0
 
-  const openSigninDialog = () => setDialog(true)
+  const openSigninDialog = () => {
+    if (isDekstopDevice) {
+      setDialog(true)
+      return
+    }
+    openSigninDrawer()
+  }
 
   const onSubmitComment = async () => {
     if (!editor) return

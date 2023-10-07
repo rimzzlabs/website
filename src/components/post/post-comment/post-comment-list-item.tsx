@@ -1,3 +1,4 @@
+import { useMediaMinWidth } from '@/hooks/use-media-min-width'
 import { useUser } from '@/hooks/use-user'
 
 import { tw } from '@/utils/common'
@@ -5,6 +6,7 @@ import { formatDistance } from '@/utils/date'
 
 import { useDeleteComment } from '@/queries/comment'
 import { deleteDialogAtom } from '@/store/delete-dialog'
+import { drawerConfirmationAtom } from '@/store/drawer'
 import type { TComment } from '@/types/comment'
 
 import htmr from 'htmr'
@@ -14,14 +16,33 @@ import { P, match } from 'ts-pattern'
 
 export const PostCommentListItem = (props: TComment) => {
   const userSession = useUser()
+  const isDekstopDevice = useMediaMinWidth(768)
   const mutation = useDeleteComment({ commentId: props.id, slug: props.slug })
   const setDeleteDialog = useSetAtom(deleteDialogAtom)
+  const setDrawerConfirmation = useSetAtom(drawerConfirmationAtom)
 
   const onClickDeleteButton = () => {
-    setDeleteDialog({
+    const description =
+      "I mean it's up to you. But this action will permanently delete your comment!"
+    const title = 'Delete comment?'
+
+    if (isDekstopDevice) {
+      setDeleteDialog({
+        open: true,
+        title,
+        description,
+        async onConfirm() {
+          await mutation.mutateAsync()
+        },
+      })
+      return
+    }
+
+    setDrawerConfirmation({
+      title,
       open: true,
-      title: 'For real you wanna delete it?',
-      description: "I mean it's up to you. But this action will permanently delete your comment!",
+      body: description,
+      text: { no: 'Nevermind', yes: 'Delete' },
       async onConfirm() {
         await mutation.mutateAsync()
       },

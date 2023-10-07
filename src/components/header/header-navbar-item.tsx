@@ -10,7 +10,7 @@ import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { P, match } from 'ts-pattern'
 
-export const NavbarItem = (props: ROUTE) => {
+export const HeaderNavbarItem = (props: ROUTE) => {
   const pathname = usePathname()
 
   const isActive = match(pathname)

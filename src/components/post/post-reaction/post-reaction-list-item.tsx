@@ -1,6 +1,7 @@
 'use client'
 
 import { useAuth } from '@/hooks/use-auth'
+import { useMediaMinWidth } from '@/hooks/use-media-min-width'
 import { usePostSlug } from '@/hooks/use-post-slug'
 import { useReduceMotion } from '@/hooks/use-reduce-motion'
 
@@ -9,6 +10,7 @@ import { compactNumber } from '@/utils/number'
 import { sparkConfeti } from '@/utils/party'
 
 import { useMutateReactions, useReactions } from '@/queries/reaction'
+import { drawerSigninAtom } from '@/store/drawer'
 import { signInDialogAtom } from '@/store/signin'
 import type { TReactionItem } from '@/types/reaction'
 
@@ -17,7 +19,9 @@ import { P, match } from 'ts-pattern'
 
 export const PostReactionListItem = (props: TReactionItem) => {
   const isSignedIn = useAuth()
+  const isDekstopDevice = useMediaMinWidth(768)
   const setModalSignin = useSetAtom(signInDialogAtom)
+  const openDrawerSignin = useSetAtom(drawerSigninAtom.enable)
   const isReduceMotion = useReduceMotion()
   const slug = usePostSlug()
 
@@ -65,7 +69,11 @@ export const PostReactionListItem = (props: TReactionItem) => {
   const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (userReactionGteFive) return
     if (!isSignedIn) {
-      setModalSignin(true)
+      if (isDekstopDevice) {
+        setModalSignin(true)
+        return
+      }
+      openDrawerSignin()
       return
     }
 
@@ -77,10 +85,10 @@ export const PostReactionListItem = (props: TReactionItem) => {
     const origin = { x, y }
     try {
       await mutation.mutateAsync({ name: props.name, slug })
+
+      !isReduceMotion && sparkConfeti(origin)
     } catch (err) {
       console.info(err)
-    } finally {
-      !isReduceMotion && sparkConfeti(origin)
     }
   }
 

@@ -1,5 +1,6 @@
 'use client'
 
+import { useMediaMinWidth } from '@/hooks/use-media-min-width'
 import { useUser } from '@/hooks/use-user'
 
 import { tw } from '@/utils/common'
@@ -7,6 +8,7 @@ import { formatDistance } from '@/utils/date'
 
 import { useDeleteGuestbook } from '@/queries/guestbook'
 import { deleteDialogAtom } from '@/store/delete-dialog'
+import { drawerConfirmationAtom } from '@/store/drawer'
 import type { TGuestbook } from '@/types/guestbook'
 
 import { useSetAtom } from 'jotai'
@@ -16,13 +18,32 @@ import { P, match } from 'ts-pattern'
 export const GuestbookListItem = (props: TGuestbook) => {
   const user = useUser()
   const mutation = useDeleteGuestbook({ guestbookId: props.id })
+
+  const isDesktopdevice = useMediaMinWidth(768)
   const setDeleteDialog = useSetAtom(deleteDialogAtom)
+  const setDrawerConfirmation = useSetAtom(drawerConfirmationAtom)
 
   const handleDeleteButton = () => {
-    setDeleteDialog({
+    const title = 'Delete message?'
+    const description =
+      "I mean it's up to you. But this action will permanently delete your message!"
+
+    if (isDesktopdevice) {
+      setDeleteDialog({
+        open: true,
+        title,
+        description,
+        async onConfirm() {
+          await mutation.mutateAsync()
+        },
+      })
+      return
+    }
+    setDrawerConfirmation({
+      title,
+      body: description,
       open: true,
-      title: 'For real you wanna delete it?',
-      description: "I mean it's up to you. But this action will permanently delete your message!",
+      text: { no: 'Nevermind', yes: 'Delete' },
       async onConfirm() {
         await mutation.mutateAsync()
       },
