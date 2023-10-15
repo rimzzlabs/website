@@ -10,12 +10,8 @@ import { P, match } from 'ts-pattern'
 
 export const FooterLinks = () => {
   const pathname = usePathname()
-  const links: typeof ALL_ROUTES = [
-    ...ALL_ROUTES,
-    { href: '/feed', name: 'RSS', title: 'RSS Feed' },
-  ]
 
-  const routes = links.filter((route) => {
+  const routes = ALL_ROUTES.filter((route) => {
     return match(route.href)
       .with(P.not(P.shape(pathname)), () => true)
       .otherwise(() => false)

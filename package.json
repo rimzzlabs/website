@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3222",
+    "dev": "pnpm db:generate && pnpm content:build && next dev -p 3222",
     "build": "pnpm db:generate && next build",
     "start": "next start",
     "lint": "next lint",

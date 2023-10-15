@@ -7,6 +7,7 @@ import { tw } from '@/utils/common'
 import { HeaderDrawerMenuTrigger } from './header-drawer-menu-trigger'
 import { HeaderLogo } from './header-logo'
 import { HeaderNavbar } from './header-navbar'
+import { HeaderRssFeed } from './header-rss-feed'
 import { HeaderThemeSelector } from './header-theme-selector'
 
 import dynamic from 'next/dynamic'
@@ -46,8 +47,12 @@ export const Header = (props: HeaderProps) => {
         <HeaderLogo />
         <HeaderNavbar />
 
-        <HeaderThemeSelector />
-        <HeaderDrawerMenuTrigger />
+        <div className='flex items-center gap-1.5'>
+          <HeaderRssFeed />
+          <HeaderThemeSelector />
+          <HeaderDrawerMenuTrigger />
+        </div>
+
         <DrawerMenu />
       </div>
     </header>

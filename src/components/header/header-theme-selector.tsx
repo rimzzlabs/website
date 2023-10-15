@@ -27,8 +27,8 @@ export const HeaderThemeSelector = () => {
         disabled
         title='Switch theme'
         className={tw(
-          'hidden md:inline-flex items-center justify-center',
-          'flex-shrink-0',
+          'hidden md:inline-flex',
+          'items-center justify-center flex-shrink-0',
           'w-8 h-8 rounded dark:bg-base-900',
         )}
       >

@@ -23,7 +23,11 @@ export function HeaderDrawerMenuTrigger() {
         'dark:hover:bg-base-800 dark:active:bg-base-950',
       )}
     >
-      {isDrawerOpen ? <XIcon /> : <MenuIcon />}
+      {isDrawerOpen ? (
+        <XIcon size={16} className='dark:text-base-50' />
+      ) : (
+        <MenuIcon size={16} className='dark:text-base-50' />
+      )}
       <span className='sr-only'>Open/Close drawer</span>
     </button>
   )
