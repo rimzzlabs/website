@@ -52,7 +52,7 @@ export function FooterSignoutButton() {
                 'hover:bg-primary-700 active:bg-primary-800',
               )}
             >
-              Nah, nevermind
+              Nevermind
             </button>
             <button
               disabled={isLoading}
@@ -65,7 +65,7 @@ export function FooterSignoutButton() {
               )}
             >
               {isLoading && <Loader2Icon size='0.875rem' className='mr-1.5 animate-spin' />}
-              {isLoading ? 'Signing you out...' : 'Yes, sign me out'}
+              {isLoading ? 'Signing you out' : 'Sign out'}
             </button>
           </div>
         }

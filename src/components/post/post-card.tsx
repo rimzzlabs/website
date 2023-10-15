@@ -15,7 +15,7 @@ type PostCardProps = Post & {
   clickableTags?: boolean
 }
 
-const headingProps = { className: 'mt-1 mb-4' }
+const headingProps = { className: 'mt-1 mb-4 [text-wrap:balance]' }
 
 export const PostCard = (props: PostCardProps) => {
   const heading = match([props.headingLevel, headingProps])

@@ -21,7 +21,7 @@ export const PostList = (props: TProps) => {
 
   const title = match(props.title)
     .with(P.nullish, () => null)
-    .otherwise((content) => <h2 className='mb-2'>{content}</h2>)
+    .otherwise((content) => <h2 className='mb-4'>{content}</h2>)
 
   const content = match([props.posts, props.posts.length])
     .with([P.array(), 0], () => (

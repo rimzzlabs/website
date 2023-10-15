@@ -40,7 +40,7 @@ export const BaseDialog = (props: TBaseDialogProps) => {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <Dialog.Panel className='w-11/12 max-w-lg p-4 rounded-lg bg-white dark:bg-base-900'>
+              <Dialog.Panel className='w-11/12 max-w-lg p-4 rounded-lg bg-white dark:bg-base-800'>
                 <h4>{props.title}</h4>
 
                 <p className='text-sm mt-2 mb-4 max-w-prose'>{props.description}</p>
