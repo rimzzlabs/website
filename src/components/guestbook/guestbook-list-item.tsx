@@ -86,7 +86,7 @@ export const GuestbookListItem = (props: TGuestbook) => {
         </div>
       )}
 
-      <p className='text-sm'>{props.message}</p>
+      <p className='text-sm break-words'>{props.message}</p>
     </div>
   )
 }
