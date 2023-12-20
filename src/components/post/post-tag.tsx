@@ -1,6 +1,6 @@
 import { tw } from '@/utils/common'
 
-import { SiNextdotjs, SiReact } from '@icons-pack/react-simple-icons'
+import { SiNextdotjs, SiReact, SiTypescript } from '@icons-pack/react-simple-icons'
 import {
   ActivityIcon,
   AlertCircleIcon,
@@ -59,6 +59,11 @@ const getPostTag = (tag: string) => {
       icon: ActivityIcon,
       color: 'text-emerald-500',
     }))
+    .with('typescript', (name) => ({
+      name,
+      icon: SiTypescript,
+      color: 'text-blue-600',
+    }))
     .otherwise(() => null)
 }
 
@@ -87,7 +92,7 @@ export const PostTag = (props: Props) => {
         }}
         className={className}
       >
-        <tag.icon size={18} className={tag.color} />
+        <tag.icon size={16} className={tag.color} />
         <span>{tag.name}</span>
       </Link>
     ))
@@ -101,19 +106,19 @@ export const PostTag = (props: Props) => {
         }}
         className={className}
       >
-        <tag.icon size={18} className={tag.color} />
+        <tag.icon size={16} className={tag.color} />
         <span>{tag.name}</span>
       </Link>
     ))
     .with([P.not(P.nullish), P.shape(false)], ([tag]) => (
       <span className={tw(className, 'cursor-default')}>
-        <tag.icon size={18} className={tag.color} />
+        <tag.icon size={16} className={tag.color} />
         <span>{tag.name}</span>
       </span>
     ))
     .otherwise(() => (
       <button className={className}>
-        <AlertCircleIcon size={18} className='text-red-500' />
+        <AlertCircleIcon size={16} className='text-red-500' />
         <span className='italic'>Unknown Tag</span>
       </button>
     ))
