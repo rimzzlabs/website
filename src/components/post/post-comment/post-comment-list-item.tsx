@@ -109,7 +109,7 @@ export const PostCommentListItem = (props: TComment) => {
           'prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg',
           'prose-h1:mb-[0.45em] prose-h2:mb-[0.45em] prose-h2:mt-[0.25em] prose-h3:mb-[0.45em]',
           'prose-p:mt-[0.25em]',
-          'bg-inherit dark:bg-inherit',
+          'bg-inherit dark:bg-inherit break-words',
         )}
       >
         {htmr(props.body)}

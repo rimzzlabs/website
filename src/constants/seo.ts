@@ -6,6 +6,10 @@ import type { Metadata } from 'next'
 export const KEYWORDS = {
   home: [
     SITE_OWNER,
+    'rimzzlabs',
+    'rizzlabs',
+    'rimzz labs',
+    'rimzz lab',
     'rizki',
     'rizki citra',
     'rizki m citra',
@@ -22,7 +26,7 @@ export const KEYWORDS = {
 }
 
 export const AUTHORS: Metadata['authors'] = [
-  { name: 'Rizki Maulana Citra', url: 'https://rizkicitra.dev' },
+  { name: 'Rizki Maulana Citra', url: 'https://rimzzlabs.com' },
 ]
 
 export const OG = {

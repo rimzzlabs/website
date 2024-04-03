@@ -4,6 +4,7 @@ import { PostList } from '@/components/post/post-list'
 import { compose } from '@/utils/common'
 import { createMetadata } from '@/utils/create-metadata'
 import {
+  SITE_NAME,
   SITE_OWNER,
   SITE_OWNER_ROLE,
   SITE_URL,
@@ -28,7 +29,7 @@ export const metadata = createMetadata({
     url: SITE_URL,
     title: SITE_OWNER,
     type: 'profile',
-    siteName: 'rizkicitra.dev',
+    siteName: SITE_NAME,
     description: `Software engineer frontend. I craft fascinating and intuitive user interfaces.`,
   },
   twitter: {
