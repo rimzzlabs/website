@@ -7,7 +7,7 @@ export function SourceCodeButton() {
       asChild
       size="sm"
       variant="secondary"
-      className="group mx-auto text-neutral-300 rounded-lg flex max-w-max cursor-pointer"
+      className="group mx-auto max-sm:text-xs text-neutral-300 rounded-lg flex max-w-max cursor-pointer"
     >
       <a
         target="_blank"
