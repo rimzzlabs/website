@@ -1,0 +1,15 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo 'RUNNING GIT HOOKS'
+
+pnpm lint-staged ||
+  (
+    echo '🔨❌ Yoo, you have a problem in your code. Check linter 🔨❌
+     Run npm run lint, add changes and try commit again.
+     '
+    false
+  )
+
+
+echo '🎉 No error found: committing this now.... ✨🚀🏄‍♂️🍻'
