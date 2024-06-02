@@ -1,0 +1,32 @@
+---
+let links = [
+  { text: 'Home', href: '/', title: 'Home' },
+  { text: 'Blog', href: '/', title: 'Blog' },
+  { text: 'Guestbook', href: '/', title: 'Guestbook' },
+  {
+    text: 'Connect',
+    href: 'https://linkedin.com/in/rimzzlabs',
+    title: 'Get in touch',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+  },
+]
+---
+
+<footer
+  class='w-11/12 max-w-5xl lg:flex lg:items-center lg:justify-between mx-auto py-8 border-t border-dashed'
+>
+  <h3 class='text-xl max-lg:pb-4 lg:text-lg font-bold text-neutral-400'>
+    <span class='sr-only'>Rizki Maulana Citra - </span>rimzzlabs.com
+  </h3>
+
+  <nav class='flex lg:items-center lg:justify-center gap-x-2'>
+    {
+      links.map(({ text, ...args }) => (
+        <a {...args} class='font-medium text-neutral-500 hover:text-neutral-300 transition'>
+          {text}
+        </a>
+      ))
+    }
+  </nav>
+</footer>

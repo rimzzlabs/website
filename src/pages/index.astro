@@ -1,29 +1,40 @@
 ---
-import Hero from "@/modules/home/hero.astro";
-import { SEO } from "astro-seo";
-import { AstroFont } from "astro-font";
-import "@/styles/global.css";
+import Hero from '@/modules/home/hero.astro'
+import Introduction from '@/modules/home/introduction.astro'
+import JourneyPartOne from '@/modules/home/journey-part-one.astro'
+import JourneyPartTwo from '@/modules/home/journey-part-two.astro'
+import JourneyPartThree from '@/modules/home/journey-part-three.astro'
+import JourneyPartFour from '@/modules/home/journey-part-four.astro'
+import JourneyGoesOn from '@/modules/home/journey-goes-on.astro'
+import Footer from '@/modules/common/footer.astro'
 
-const title = "Rizki Maulana Citra - rimzzlabs";
+import { SEO } from 'astro-seo'
+import { AstroFont } from 'astro-font'
+import { WavyBackground } from '@/components/ui/wavy-background'
+import '@/styles/global.css'
+import { TracingBeam } from '@/components/ui/tracing-beam'
+
+const title = 'Rizki Maulana Citra - rimzzlabs'
 const description =
-  "Something is coming, stay tuned for my next website, with different technology and code!";
+  'A dedicated Software Engineer and UI specialist. I create intuitive, smooth, and visually appealing user interfaces that engage and delight users.'
 const image =
-  "https://res.cloudinary.com/rizkicitra/image/upload/v1695991700/rizkicitra.dev/me.webp";
+  'https://res.cloudinary.com/rizkicitra/image/upload/v1695991700/rizkicitra.dev/me.webp'
 ---
 
-<html lang="en">
+<html lang='en'>
   <head>
+    <meta charset='utf-8' />
     <AstroFont
       config={[
         {
-          name: "Manrope",
+          name: 'Manrope',
           src: [],
           googleFontsURL:
-            "https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap",
+            'https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap',
           preload: true,
-          display: "swap",
-          selector: "body",
-          fallback: "sans-serif",
+          display: 'swap',
+          selector: 'body',
+          fallback: 'sans-serif',
         },
       ]}
     />
@@ -33,38 +44,53 @@ const image =
       openGraph={{
         basic: {
           title,
-          type: "blog",
+          type: 'blog',
           image,
         },
       }}
       twitter={{
-        creator: "@jonasmerlins1",
+        creator: '@jonasmerlins1',
       }}
       extend={{
         // extending the default link tags
-        link: [{ rel: "icon", href: "/favicon.svg" }],
+        link: [{ rel: 'icon', href: '/favicon.svg' }],
         // extending the default meta tags
         meta: [
           {
-            name: "twitter:image",
+            name: 'twitter:image',
             content: image,
           },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: description },
+          { name: 'twitter:title', content: title },
+          { name: 'twitter:description', content: description },
+          { name: 'viewport', content: 'width=device-width' },
+          { name: 'generator', content: Astro.generator },
+          {
+            name: 'keywords',
+            content:
+              'rizki m citra,rizki maulana citra,rizki citra,rimzzlabs,rimzzlabs.com,rizkicitra,rizkicitra.dev, rizki developer, rizki github',
+          },
         ],
       }}
-    />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="keywords"
-      content="rizki m citra,rizki maulana citra,rizki citra,rimzzlabs,rimzzlabs.com,rizkicitra,rizkicitra.dev, rizki developer, rizki github"
     />
   </head>
   <body>
     <main>
-      <Hero />
+      <TracingBeam client:idle>
+        <Hero />
+        <Introduction />
+        <JourneyPartOne />
+        <JourneyPartTwo />
+        <JourneyPartThree />
+        <JourneyPartFour />
+        <WavyBackground
+          containerClassName='h-40 overflow-x-clip'
+          canvasHeight={160}
+          waveWidth={40}
+          client:visible
+        />
+        <JourneyGoesOn />
+        <Footer />
+      </TracingBeam>
     </main>
   </body>
 </html>

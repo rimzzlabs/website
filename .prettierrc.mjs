@@ -16,6 +16,7 @@ export default {
         trailingComma: "all",
         arrowParens: "always",
         endOfLine: "auto",
+        bracketSpacing: true,
       },
     },
   ],

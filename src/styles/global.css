@@ -31,12 +31,16 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+    --radius: 0.75rem;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+  }
+  html {
+    color-scheme: dark;
   }
   body {
     @apply bg-background text-foreground antialiased font-primary;
