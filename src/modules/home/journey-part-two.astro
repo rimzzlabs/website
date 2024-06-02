@@ -1,14 +1,18 @@
 ---
 import Pre from '@/components/pre.astro'
 import { Image } from 'astro:assets'
+import { getCloudinaryImage } from '@/lib/utils'
+
+let imgUrl = getCloudinaryImage('rimzzlabs/past-desktop-pc')
+let imgCaption = 'A blurry picture of mouse and keyboard on my first desktop PC'
 ---
 
-<section class='flex flex-col lg:h-svh lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
+<section class='flex flex-col lg:h-screen lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
   <div class='w-full pb-6 sm:pb-8 lg:pb-0 lg:pr-40'>
     <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>Journey - Part 2</h2>
 
     <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
-      <Pre>Well, well, let see how it started.</Pre>
+      <Pre>It keeps getting better each days.</Pre>
 
       <p class='text-neutral-400 font-medium'>
         I did not have a computer back then, so learning programming is only possible when I am at
@@ -51,13 +55,13 @@ import { Image } from 'astro:assets'
       height={480}
       loading='lazy'
       decoding='async'
-      class='lg:ml-auto h-80 w-full lg:w-96 md:h-auto object-cover rounded'
-      src='https://res.cloudinary.com/rizkicitra/image/upload/v1717281198/mirror-selfie.jpg'
-      alt='A mirror selfie of Rizki, wearing white shirt with sage green Jacket.'
-      title='A mirror selfie of Rizki, wearing white shirt with sage green Jacket.'
+      class='lg:ml-auto h-80 w-full lg:w-96 object-cover rounded'
+      src={imgUrl}
+      alt={imgCaption}
+      title={imgCaption}
     />
     <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
-      <em>A mirror selfie of Rizki, wearing white shirt with sage green Jacket.</em>
+      <em>{imgCaption}</em>
     </figcaption>
   </figure>
 </section>

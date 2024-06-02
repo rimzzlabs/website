@@ -1,0 +1,12 @@
+---
+import { FlipWords } from '@/components/ui/flip-words'
+let words = ['Progresses', 'Continues', 'Resumes', 'Presists', 'Advances']
+---
+
+<section class='w-11/12 mx-auto max-w-5xl'>
+  <div class='border-r border-neutral-700 h-20 w-1/2 my-4'></div>
+
+  <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl text-center text-balance'>
+    The Story <FlipWords className='text-white' client:visible words={words} />
+  </h2>
+</section>

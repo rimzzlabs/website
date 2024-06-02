@@ -1,0 +1,67 @@
+---
+import Pre from '@/components/pre.astro'
+import { Image } from 'astro:assets'
+import { getCloudinaryImage } from '@/lib/utils'
+
+let imgUrl = getCloudinaryImage('rimzzlabs/scenery-village')
+let imgCaption =
+  "A landscape of my village, contains a house, ricefields, and a mountain behind it, on the left, my family is walking in line to go to our relatives' place."
+---
+
+<section class='flex flex-col lg:h-screen lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
+  <div class='w-full pb-6 sm:pb-8 lg:pb-0 lg:pr-40'>
+    <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>Journey - Part 0</h2>
+
+    <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+      <p class='text-neutral-400 font-medium'>
+        I was raised by a small family near Pulosari Mountain. I have a sister, but as you can
+        expect from me, I will not mention her a lot here. To protect her privacy.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        I was raised in a small town called <strong>Kadu Huni</strong> It is a very good place, fresh
+        air, rice fields, rivers, you named it, everything is beautiful.
+      </p>
+
+      <Pre>See the landscape picture?. The scenery is just like a heaven if you asked me.</Pre>
+
+      <p class='text-neutral-400 font-medium'>
+        My mother is a religious person, she teaches me about religion, manner, ethic, discipline,
+        and more. And I am proud to have her by my side. She cooks delicious food, she is quite a
+        strict person.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        On the other hand, My father is a hard-worker, he do not talks a lot, but I always think he
+        understand his family, and he is really smart.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        My father once worked at Playstation store in Mangga Dua Glodok. He fixes broken stuff,
+        memory card of Playstation 2, The Controller, and of course the Playstation itself. When it
+        comes to my father, he works well with electronic, and he also can speak English.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        From my point of view, I really glad I was raised by them, I got my moms pretty face,
+        discipline, and manner from her, while also got my father's intelligence.
+      </p>
+    </div>
+  </div>
+
+  <figure class='w-full lg:max-w-sm'>
+    <Image
+      width={1332}
+      height={999}
+      loading='lazy'
+      decoding='async'
+      class='lg:ml-auto h-56 sm:h-72 lg:h-64 w-full object-cover rounded'
+      src={imgUrl}
+      alt={imgCaption}
+      title={imgCaption}
+    />
+    <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
+      <em>{imgCaption}</em>
+    </figcaption>
+  </figure>
+</section>

@@ -1,22 +1,26 @@
 ---
 import Pre from '@/components/pre.astro'
 import { Image } from 'astro:assets'
+import { getCloudinaryImage } from '@/lib/utils'
+
+let imgUrl = getCloudinaryImage('rimzzlabs/potrait-flannel')
+let imgCaption = 'A photo of Rizki wearing white flannel'
 ---
 
-<section class='flex flex-col lg:h-svh lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
+<section class='flex flex-col lg:h-screen lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
   <figure class='max-lg:w-full'>
     <Image
       width={512}
       height={480}
       loading='lazy'
       decoding='async'
-      class='lg:mr-auto h-80 w-full lg:w-96 md:h-auto object-cover rounded'
-      src='https://res.cloudinary.com/rizkicitra/image/upload/v1717281198/mirror-selfie.jpg'
-      alt='A mirror selfie of Rizki, wearing white shirt with sage green Jacket.'
-      title='A mirror selfie of Rizki, wearing white shirt with sage green Jacket.'
+      class='lg:mr-auto h-80 w-full lg:w-96 object-cover rounded'
+      src={imgUrl}
+      alt={imgCaption}
+      title={imgCaption}
     />
     <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
-      <em>A mirror selfie of Rizki, wearing white shirt with sage green Jacket.</em>
+      <em>{imgCaption}</em>
     </figcaption>
   </figure>
 
@@ -54,6 +58,11 @@ import { Image } from 'astro:assets'
         Awesome school, friends, and experience. Might be hard to forget about it, I hope my
         memories can always keep it.
       </p>
+
+      <Pre>
+        I did not have a single photo when I graduated from high school, so I will just put my
+        potrait.
+      </Pre>
     </div>
   </div>
 </section>

@@ -5,7 +5,6 @@ import JourneyPartOne from '@/modules/home/journey-part-one.astro'
 import JourneyPartTwo from '@/modules/home/journey-part-two.astro'
 import JourneyPartThree from '@/modules/home/journey-part-three.astro'
 import JourneyPartFour from '@/modules/home/journey-part-four.astro'
-import JourneyGoesOn from '@/modules/home/journey-goes-on.astro'
 import Footer from '@/modules/common/footer.astro'
 
 import { SEO } from 'astro-seo'
@@ -13,6 +12,9 @@ import { AstroFont } from 'astro-font'
 import { WavyBackground } from '@/components/ui/wavy-background'
 import '@/styles/global.css'
 import { TracingBeam } from '@/components/ui/tracing-beam'
+import JourneyPartZero from '@/modules/home/journey-part-zero.astro'
+import JourneyContinues from '@/modules/home/journey-continues.astro'
+import JourneyContinuesWord from '@/modules/home/journey-continues-word.astro'
 
 const title = 'Rizki Maulana Citra - rimzzlabs'
 const description =
@@ -78,17 +80,19 @@ const image =
       <TracingBeam client:idle>
         <Hero />
         <Introduction />
+        <JourneyPartZero />
         <JourneyPartOne />
         <JourneyPartTwo />
         <JourneyPartThree />
         <JourneyPartFour />
         <WavyBackground
-          containerClassName='h-40 overflow-x-clip'
-          canvasHeight={160}
-          waveWidth={40}
+          containerClassName='h-44 overflow-x-clip'
+          canvasHeight={176}
+          waveWidth={20}
           client:visible
         />
-        <JourneyGoesOn />
+        <JourneyContinues />
+        <JourneyContinuesWord />
         <Footer />
       </TracingBeam>
     </main>
