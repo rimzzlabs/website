@@ -30,7 +30,8 @@ import { Image } from 'astro:assets'
 
   <figure class='max-lg:w-full'>
     <Image
-      inferSize
+      width={512}
+      height={480}
       loading='lazy'
       decoding='async'
       class='lg:ml-auto h-96 lg:h-80 w-full lg:w-96 object-cover rounded'
