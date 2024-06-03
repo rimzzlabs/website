@@ -1,0 +1,28 @@
+---
+import { Link } from '@/components/ui/link'
+
+let menu = [
+  { text: 'Home', href: '/', title: 'Homepage' },
+  { text: 'Blog', href: '/blog', title: 'Blog' },
+]
+---
+
+<header class='fixed top-0 inset-x-0 z-50 h-16 bg-neutral-950'>
+  <div class='max-w-5xl mx-auto w-11/12 h-full flex items-center'>
+    <p
+      class='font-semibold text-lg text-transparent bg-gradient-to-b bg-clip-text from-neutral-100 to bg-neutral-800'
+    >
+      rimzzlabs.com
+    </p>
+
+    <nav class='ml-auto inline-flex items-center gap-x-2'>
+      {
+        menu.map(({ text, ...args }) => (
+          <Link variant='link' className='px-0' {...args}>
+            {text}
+          </Link>
+        ))
+      }
+    </nav>
+  </div>
+</header>

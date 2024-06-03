@@ -5,6 +5,7 @@ import { SEO } from 'astro-seo'
 import Footer from './footer.astro'
 import { Calendar } from 'lucide-astro'
 import { format } from 'date-fns'
+import Navbar from './navbar.astro'
 
 type Props = {
   frontmatter: {
@@ -62,7 +63,8 @@ let publishedAtISO = new Date(frontmatter.publishedAt).toISOString()
   </head>
 
   <body>
-    <main>
+    <Navbar />
+    <main id='content'>
       <section class='pt-20 pb-6 w-11/12 mx-auto max-w-5xl border-b border-neutral-800'>
         <h1
           class='text-5xl pb-4 md:pb-8 lg:pb-10 lg:text-6xl text-balance font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-800'
