@@ -77,7 +77,11 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors],
+  plugins: [
+    require("@tailwindcss/typography")({ target: "modern" }),
+    require("tailwindcss-animate"),
+    addVariablesForColors,
+  ],
 };
 
 function addVariablesForColors({ addBase, theme }) {

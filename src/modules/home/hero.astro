@@ -1,7 +1,8 @@
 ---
 import { BackgroundBeams } from '@/components/ui/background-beams'
-import { ReadCvButton } from './read-cv-button'
-import { AboutMebutton } from './about-me-button'
+import { ButtonReadCv } from './button-read-cv'
+import { ButtonAboutMe } from './button-about-me'
+import { ButtonReadBlog } from './button-read-blog'
 ---
 
 <section class='h-screen bg-neutral-950 relative flex items-center justify-center'>
@@ -17,11 +18,13 @@ import { AboutMebutton } from './about-me-button'
       appealing user interfaces that engage and delight users.
     </p>
 
-    <div class='flex items-center justify-center gap-x-4'>
-      <ReadCvButton />
+    <div class='flex items-center justify-center gap-x-4 pb-4'>
+      <ButtonReadCv />
 
-      <AboutMebutton client:load />
+      <ButtonAboutMe client:load />
     </div>
+
+    <ButtonReadBlog />
   </div>
 
   <BackgroundBeams client:idle />

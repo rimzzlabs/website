@@ -15,6 +15,7 @@
     "commit": "cz"
   },
   "dependencies": {
+    "@astrojs/mdx": "^3.0.1",
     "@astrojs/react": "^3.4.0",
     "@astrojs/tailwind": "^5.1.0",
     "@radix-ui/react-slot": "^1.0.2",
@@ -24,19 +25,23 @@
     "class-variance-authority": "^0.7.0",
     "cloudinary-build-url": "^0.2.4",
     "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.2.9",
     "lucide-astro": "^0.381.0",
     "lucide-react": "^0.381.0",
+    "radash": "^12.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.33.4",
     "simplex-noise": "^4.0.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.3",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "ts-pattern": "^5.1.2"
   },
   "devDependencies": {
     "@cld-apis/types": "^0.1.6",
+    "@tailwindcss/typography": "^0.5.13",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "commitizen": "^4.3.0",

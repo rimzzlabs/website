@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function ReadCvButton() {
+export function ButtonReadCv() {
   return (
     <Button asChild className="max-md:order-2 group">
       <a

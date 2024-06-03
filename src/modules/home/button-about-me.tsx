@@ -1,7 +1,7 @@
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function AboutMebutton() {
+export function ButtonAboutMe() {
   const onClick = () => {
     console.info("I clicked");
     window.scrollTo({ top: window.innerHeight, behavior: "smooth" });

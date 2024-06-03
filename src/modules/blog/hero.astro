@@ -1,0 +1,49 @@
+---
+import { BackgroundBeams } from '@/components/ui/background-beams'
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Link } from '@/components/ui/link'
+import { ChevronRight } from 'lucide-astro'
+
+let posts = await Astro.glob('@/pages/blog/*.mdx')
+
+let featuredPosts = posts.filter(
+  (post) => post.frontmatter.featured && post.frontmatter.status === 'published',
+)
+---
+
+<section class='h-screen bg-neutral-950 relative flex items-center justify-center'>
+  <div class='w-11/12 max-w-3xl mx-auto relative z-10 text-center'>
+    <h1
+      class='text-5xl pb-2 md:pb-4 lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-800'
+    >
+      <span class='sr-only'>Rizki Maulana Citra - rimzzzlabs</span>/blog
+    </h1>
+
+    <p class='font-medium text-balance text-neutral-500 pb-4'>
+      Sometimes I write blog about technology, software engineering, and topic that I find
+      interesting to write about. Each post can have up to 10K words, so if you are interested, feel
+      free to read my blog.
+    </p>
+
+    <div class='flex max-lg:flex-col items-center gap-4 text-start pt-4'>
+      {
+        featuredPosts.map((post) => (
+          <Card>
+            <CardHeader>
+              <CardTitle>{post.frontmatter.title}</CardTitle>
+            </CardHeader>
+
+            <CardFooter className='justify-end'>
+              <Link href={post.url as string} variant='secondary'>
+                Read
+                <ChevronRight size='1rem' />
+              </Link>
+            </CardFooter>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+
+  <BackgroundBeams client:load />
+</section>

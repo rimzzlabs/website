@@ -1,0 +1,91 @@
+---
+import '@/styles/global.css'
+import { AstroFont } from 'astro-font'
+import { SEO } from 'astro-seo'
+import Footer from './footer.astro'
+import { Calendar } from 'lucide-astro'
+import { format } from 'date-fns'
+
+type Props = {
+  frontmatter: {
+    title: string
+    description: string
+    keywords: Array<string>
+    featured: boolean
+    status: 'draft' | 'published'
+    publishedAt: string
+  }
+}
+
+let { frontmatter } = Astro.props
+
+let publishedAt = format(frontmatter.publishedAt, 'dd MMMM, yyyy')
+let publishedAtISO = new Date(frontmatter.publishedAt).toISOString()
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <AstroFont
+      config={[
+        {
+          name: 'Manrope',
+          src: [],
+          googleFontsURL:
+            'https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap',
+          preload: true,
+          display: 'swap',
+          selector: 'body',
+          fallback: 'sans-serif',
+        },
+      ]}
+    />
+    <SEO
+      title={frontmatter.title}
+      description={frontmatter.description}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: 'icon', href: '/favicon.svg' }],
+        // extending the default meta tags
+        meta: [
+          { name: 'twitter:title', content: frontmatter.title },
+          { name: 'twitter:description', content: frontmatter.description },
+          { name: 'viewport', content: 'width=device-width' },
+          { name: 'generator', content: Astro.generator },
+          {
+            name: 'keywords',
+            content: frontmatter.keywords.join(', '),
+          },
+        ],
+      }}
+    />
+  </head>
+
+  <body>
+    <main>
+      <section class='pt-20 pb-6 w-11/12 mx-auto max-w-5xl border-b border-neutral-800'>
+        <h1
+          class='text-5xl pb-4 md:pb-8 lg:pb-10 lg:text-6xl text-balance font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-800'
+        >
+          {frontmatter.title}
+        </h1>
+
+        <div
+          title={`Published at ${publishedAt}`}
+          class='inline-flex items-center gap-x-2 text-neutral-400 font-medium'
+        >
+          <Calendar size='1rem' />
+          <time datetime={publishedAtISO}>{publishedAt}</time>
+        </div>
+      </section>
+
+      <section class='w-11/12 max-w-5xl mx-auto'>
+        <article class='prose prose-invert py-20'>
+          <slot />
+        </article>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>
