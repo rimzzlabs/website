@@ -11,9 +11,7 @@ let featuredPosts = select(
   posts,
   (post) => post,
   (post) => post.frontmatter.featured && post.frontmatter.status === 'published',
-).toSorted((a, b) =>
-  new Date(a.frontmatter.createdAt) > new Date(b.frontmatter.createdAt) ? 1 : 0,
-);
+).sort((a, b) => (new Date(a.frontmatter.createdAt) > new Date(b.frontmatter.createdAt) ? 1 : 0));
 ---
 
 <section
