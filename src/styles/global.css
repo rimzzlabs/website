@@ -43,6 +43,6 @@
     color-scheme: dark;
   }
   body {
-    @apply bg-background text-foreground antialiased font-primary;
+    @apply bg-background text-foreground antialiased font-primary scroll-pt-0;
   }
 }

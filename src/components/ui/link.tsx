@@ -1,9 +1,8 @@
 import React, { type PropsWithChildren } from "react";
 import { Button, type ButtonProps } from "./button";
 
-export type LinkProps = {
-  href: string;
-} & ButtonProps;
+export type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> &
+  ButtonProps;
 
 export const Link = ({
   href,

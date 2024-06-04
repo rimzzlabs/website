@@ -1,0 +1,17 @@
+---
+import Layout from '@/modules/common/layout.astro';
+import Hero from '@/modules/writings/hero.astro';
+import Footer from '@/modules/common/footer.astro';
+import Navbar from '@/modules/common/navbar.astro';
+
+let title = 'Writings - rimzzlabs.com';
+let description = 'Read my personal Writing.';
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+  <main>
+    <Hero />
+  </main>
+  <Footer />
+</Layout>
