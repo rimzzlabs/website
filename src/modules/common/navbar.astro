@@ -1,19 +1,16 @@
 ---
-import { Link } from '@/components/ui/link';
 import { cn } from '@/lib/utils';
 import NavbarLinkItem from './navbar-link-item.astro';
+import { menu } from '@/variables';
 
-let menu = [
-  { text: 'Home', href: '/', title: 'Homepage' },
-  { text: 'Writings', href: '/writings', title: 'Writings' },
-];
+let navbarMenu = menu.filter((item) => !item.external);
 ---
 
 <header
   class={cn(
     'fixed top-0 inset-x-0 z-50 h-16 bg-neutral-950',
     'supports-[backdrop-filter:blur(1px)]:backdrop-blur',
-    'supports-[backdrop-filter:blur(1px)]:bg-neutral-950/50',
+    'supports-[backdrop-filter:blur(1px)]:bg-neutral-950/10',
   )}
 >
   <div class='max-w-5xl mx-auto w-11/12 h-full flex items-center'>
@@ -26,7 +23,7 @@ let menu = [
     </a>
 
     <nav class='ml-auto inline-flex items-center gap-x-2'>
-      {menu.map((args) => <NavbarLinkItem {...args} />)}
+      {navbarMenu.map((args) => <NavbarLinkItem {...args} />)}
     </nav>
   </div>
 </header>

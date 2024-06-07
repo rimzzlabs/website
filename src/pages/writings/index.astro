@@ -1,17 +1,19 @@
 ---
-import Layout from '@/modules/common/layout.astro';
+import SharedLayout from '@/modules/layout/shared.astro';
 import Hero from '@/modules/writings/hero.astro';
 import Footer from '@/modules/common/footer.astro';
 import Navbar from '@/modules/common/navbar.astro';
+import AllWriting from '@/modules/writings/all-writing.astro';
 
 let title = 'Writings - rimzzlabs.com';
 let description = 'Read my personal Writing.';
 ---
 
-<Layout title={title} description={description}>
+<SharedLayout title={title} description={description}>
   <Navbar />
   <main>
     <Hero />
+    <AllWriting />
   </main>
   <Footer />
-</Layout>
+</SharedLayout>

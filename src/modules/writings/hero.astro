@@ -1,56 +1,20 @@
 ---
 import { BackgroundBeams } from '@/components/ui/background-beams';
-import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Link } from '@/components/ui/link';
-import { ChevronRight } from 'lucide-astro';
-import { select } from 'radash';
-
-let posts = await Astro.glob('@/pages/writings/*.mdx');
-
-let featuredPosts = select(
-  posts,
-  (post) => post,
-  (post) => post.frontmatter.featured && post.frontmatter.status === 'published',
-).sort((a, b) => (new Date(a.frontmatter.createdAt) > new Date(b.frontmatter.createdAt) ? 1 : 0));
 ---
 
 <section
-  class='md:h-screen max-sm:py-28 max-md:py-20 bg-neutral-950 relative flex items-center justify-center'
+  class='md:h-screen max-sm:py-24 max-md:py-20 bg-neutral-950 relative flex items-center justify-center'
 >
   <div class='w-11/12 max-w-3xl mx-auto relative z-10 text-center'>
     <h1
-      class='text-5xl pb-2 md:pb-4 lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-800'
+      class='text-6xl pb-2 md:pb-4 lg:pb-6 lg:text-8xl 2xl:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-800'
     >
       <span class='sr-only'>Rizki Maulana Citra - rimzzzlabs - </span>/writings
     </h1>
-
     <p class='font-medium text-balance text-neutral-500 pb-4'>
-      Sometimes I write about technology, software engineering, and topic that I find interesting to
-      write about. Each post can have up to 10K words, so if you are interested, feel free to read.
+      I write honest post about anything I find interesting, most of it about programming on the
+      web. All the words I write are not affiliated to any organization.
     </p>
-
-    <div class='flex max-lg:flex-col items-center gap-4 text-start pt-4'>
-      {
-        featuredPosts.map((post) => (
-          <Card>
-            <CardHeader>
-              <CardTitle className='text-neutral-300'>{post.frontmatter.title}</CardTitle>
-            </CardHeader>
-
-            <CardFooter className='justify-end'>
-              <Link
-                href={post.url as string}
-                variant='secondary'
-                className='group text-neutral-400 gap-x-1.5'
-              >
-                Read
-                <ChevronRight size='1rem' class='group-hover:translate-x-1 transition' />
-              </Link>
-            </CardFooter>
-          </Card>
-        ))
-      }
-    </div>
   </div>
 
   <BackgroundBeams client:load />

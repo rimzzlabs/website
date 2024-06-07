@@ -1,21 +1,21 @@
 ---
-import Hero from '@/modules/home/hero.astro'
-import Introduction from '@/modules/home/introduction.astro'
-import JourneyPartOne from '@/modules/home/journey-part-one.astro'
-import JourneyPartTwo from '@/modules/home/journey-part-two.astro'
-import JourneyPartThree from '@/modules/home/journey-part-three.astro'
-import JourneyPartFour from '@/modules/home/journey-part-four.astro'
-import Footer from '@/modules/common/footer.astro'
+import Hero from '@/modules/home/hero.astro';
+import Introduction from '@/modules/home/introduction.astro';
+import JourneyPartOne from '@/modules/home/journey-part-one.astro';
+import JourneyPartTwo from '@/modules/home/journey-part-two.astro';
+import JourneyPartThree from '@/modules/home/journey-part-three.astro';
+import JourneyPartFour from '@/modules/home/journey-part-four.astro';
+import Footer from '@/modules/common/footer.astro';
 
-import { WavyBackground } from '@/components/ui/wavy-background'
-import { TracingBeam } from '@/components/ui/tracing-beam'
-import JourneyPartZero from '@/modules/home/journey-part-zero.astro'
-import JourneyContinues from '@/modules/home/journey-continues.astro'
-import JourneyContinuesWord from '@/modules/home/journey-continues-word.astro'
-import Layout from '@/modules/common/layout.astro'
+import { WavyBackground } from '@/components/ui/wavy-background';
+import { TracingBeam } from '@/components/ui/tracing-beam';
+import JourneyPartZero from '@/modules/home/journey-part-zero.astro';
+import JourneyContinues from '@/modules/home/journey-continues.astro';
+import JourneyContinuesWord from '@/modules/home/journey-continues-word.astro';
+import SharedLayout from '@/modules/layout/shared.astro';
 ---
 
-<Layout>
+<SharedLayout>
   <TracingBeam client:idle>
     <main>
       <Hero />
@@ -36,4 +36,4 @@ import Layout from '@/modules/common/layout.astro'
     </main>
     <Footer />
   </TracingBeam>
-</Layout>
+</SharedLayout>

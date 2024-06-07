@@ -1,16 +1,23 @@
 ---
 import { Link } from '@/components/ui/link';
 import { cn } from '@/lib/utils';
+import type { TMenu } from '@/variables';
+import { match, P } from 'ts-pattern';
 
-type Props = {
-  href: string;
-  text: string;
-  title: string;
-};
+type Props = TMenu;
 
 let { text, ...props } = Astro.props;
 
-let isPathnameMatch = Astro.url.pathname.endsWith(props.href);
+let isPathnameMatch = match([Astro.url.pathname, props.href] as const)
+  .with(
+    P.when(([pathname, href]) => pathname === '/' && href === '/'),
+    () => true,
+  )
+  .with(
+    P.when(([pathname, href]) => href !== '/' && pathname.includes(href)),
+    () => true,
+  )
+  .otherwise(() => false);
 ---
 
 <Link

@@ -1,0 +1,21 @@
+---
+import { sort } from 'radash';
+import CardWriting from './card-writing.astro';
+import type { TWritingFrontmatter } from '@/@types/mdx';
+
+let posts = await Astro.glob<TWritingFrontmatter>('@/pages/writings/*.mdx');
+
+let sortedPosts = sort(posts, (post) => new Date(post.frontmatter.publishedAt).getTime(), true);
+---
+
+<section class='w-11/12 max-w-3xl mx-auto pb-20'>
+  <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>My Writings</h2>
+  <p class='font-medium text-balance text-neutral-500 pb-4'>
+    Sometimes I write about technology, software engineering, and topic that I find interesting to
+    write about. Each post can have up to 10K words, so if you are interested, feel free to read.
+  </p>
+
+  <div class='space-y-4'>
+    {sortedPosts.map((post) => <CardWriting {...post} />)}
+  </div>
+</section>

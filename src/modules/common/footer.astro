@@ -1,15 +1,5 @@
 ---
-let links = [
-  { text: 'Home', href: '/', title: 'Home' },
-  { text: 'Blog', href: '/blog', title: 'Blog' },
-  {
-    text: 'Connect',
-    href: 'https://linkedin.com/in/rimzzlabs',
-    title: 'Get in touch',
-    target: '_blank',
-    rel: 'noopener noreferrer',
-  },
-];
+import { menu } from '@/variables';
 ---
 
 <footer
@@ -25,7 +15,7 @@ let links = [
 
   <nav class='flex lg:items-center lg:justify-center gap-x-2'>
     {
-      links.map(({ text, ...args }) => (
+      menu.map(({ text, ...args }) => (
         <a {...args} class='font-medium text-neutral-400 hover:text-neutral-300 transition'>
           {text}
         </a>

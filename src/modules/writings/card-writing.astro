@@ -1,0 +1,41 @@
+---
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from '@/components/ui/link';
+import type { MDXInstance } from 'astro';
+import { formatDate } from '@/lib/date';
+import { Calendar, ChevronRight, Clock } from 'lucide-astro';
+import type { TWritingFrontmatter } from '@/@types/mdx';
+
+type Props = MDXInstance<TWritingFrontmatter>;
+let { frontmatter, url } = Astro.props;
+
+let publishedAt = formatDate(frontmatter.publishedAt);
+let publishedAtISO = new Date(frontmatter.publishedAt).toISOString();
+let readingTime = frontmatter.readingTime.text;
+---
+
+<Card>
+  <CardHeader>
+    <CardTitle className='text-neutral-300'>{frontmatter.title}</CardTitle>
+  </CardHeader>
+
+  <CardFooter className='justify-between'>
+    <div class='inline-flex items-center gap-x-2 text-neutral-400'>
+      <div class='inline-flex items-center gap-x-1.5'>
+        <Calendar size='0.875rem' />
+        <time datetime={publishedAtISO} class='text-sm font-medium'> {publishedAt}</time>
+      </div>
+
+      <div class='span'>-</div>
+      <div class='inline-flex items-center gap-x-1.5'>
+        <Clock size='0.875rem' />
+        <span class='text-sm font-medium'>{readingTime}</span>
+      </div>
+    </div>
+
+    <Link href={url as string} variant='secondary' className='group text-neutral-400 gap-x-1.5'>
+      Read
+      <ChevronRight size='1rem' class='group-hover:translate-x-1 transition' />
+    </Link>
+  </CardFooter>
+</Card>
