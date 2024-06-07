@@ -20,13 +20,14 @@ let readingTime = frontmatter.readingTime.text;
   </CardHeader>
 
   <CardFooter className='justify-between'>
-    <div class='inline-flex items-center gap-x-2 text-neutral-400'>
+    <div class='inline-flex max-md:flex-col md:items-center gap-x-2 text-neutral-400'>
       <div class='inline-flex items-center gap-x-1.5'>
         <Calendar size='0.875rem' />
         <time datetime={publishedAtISO} class='text-sm font-medium'> {publishedAt}</time>
       </div>
 
-      <div class='span'>-</div>
+      <div class='max-md:hidden'>-</div>
+
       <div class='inline-flex items-center gap-x-1.5'>
         <Clock size='0.875rem' />
         <span class='text-sm font-medium'>{readingTime}</span>

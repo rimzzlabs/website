@@ -3,13 +3,11 @@ import '@/styles/global.css';
 import { AstroFont } from 'astro-font';
 import { SEO } from 'astro-seo';
 import Footer from '@/modules/common/footer.astro';
-import { Calendar, Facebook, Twitter } from 'lucide-astro';
+import { Calendar } from 'lucide-astro';
 import { format } from 'date-fns';
 import Navbar from '@/modules/common/navbar.astro';
-import { Button } from '@/components/ui/button';
 import type { TWritingFrontmatter } from '@/@types/mdx';
 import { ReadingTime } from '@/modules/writings/reading-time';
-import { Link } from '@/components/ui/link';
 import ShareButtons from './share-buttons.astro';
 
 type Props = {
