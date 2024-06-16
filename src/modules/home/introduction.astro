@@ -1,5 +1,6 @@
 ---
 import Pre from '@/components/pre.astro';
+import { Link } from '@/components/ui/link';
 import { Image } from 'astro:assets';
 ---
 
@@ -27,25 +28,36 @@ import { Image } from 'astro:assets';
 
     <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
       <Pre>
-        You asked for it, it looks like you are interested in my story, please read my cv if you
-        prefer my career journey only.
+        You asked for it, it looks like you are interested in my story, please read my <Link
+          variant='link'
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://read.cv/rimzzlabs'
+          className='p-0 w-auto h-auto'
+        >
+          resume</Link
+        > if you prefer just my career path.
       </Pre>
       <p class='text-neutral-400 font-medium'>
         My name is Rizki Maulana Citra, you can call me <code
           class='bg-secondary text-secondary-foreground py-0.5 px-1 rounded'
           >Rizki, Iki-or Citra</code
-        >. I am currently a citizen of NKRI and a Software Engineer.
-      </p>
+        >. I am currently a citizen of NKRI and a Software Engineer at
+        <Link
+          variant='link'
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://bitwyre.com'
+          className='p-0 w-auto h-auto text-inherit text-base underline'
+        >
+          Bitwyre</Link
+        >
 
-      <p class='text-neutral-400 font-medium'>
-        You will read my personal journey, I will not expect anything from you after you read my
-        journey, it is up to you how you judge me based on this read, but it is a story anyway and I
-        believe humans change from time to time.
-      </p>
-
-      <p class='text-neutral-400 font-medium'>
-        I declared that I am freely writing this journey on behalf of myself and no danger
-        circumstances were affected nor organization were affiliated.
+        <p class='text-neutral-400 font-medium'>
+          You are going to read my personal journey, I do not expect anything from you after reading
+          my journey, it is up to you how you judge me based on this reading, but it is still a
+          story and I believe that people change from time to time.
+        </p>
       </p>
     </div>
   </div>
