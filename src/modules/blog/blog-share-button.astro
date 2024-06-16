@@ -1,16 +1,20 @@
 ---
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link';
+import { objectToURIComponent } from '@/lib/utils';
 import { Facebook, Share, Twitter } from 'lucide-astro';
 
-let url = Astro.url.href;
+type Props = {
+  authorUsername: string;
+};
 
-let twitterQueryString = Object.entries({
-  text: 'Hey, check this cool writings from rimzzlabs!',
+let url = Astro.url.href;
+let { authorUsername } = Astro.props;
+
+let twitterQueryString = objectToURIComponent({
   url,
-})
-  .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-  .join('&');
+  text: `Hey, check this cool writings from ${authorUsername}!`,
+});
 
 let twitterShareUrl = `https://x.com/intent/tweet?${twitterQueryString}`;
 let facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
@@ -50,13 +54,16 @@ let facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURI
   </Button>
 </div>
 
-<script>
+<script is:inline async defer>
   let button = document.querySelector('.share-btn');
 
   if (button instanceof HTMLButtonElement) {
+    if (!('navigator' in window && 'share' in window.navigator && 'canShare' in window.navigator)) {
+      button.remove();
+    }
     button.addEventListener('click', () => {
       let url = window.location.href;
-      let payload: ShareData = {
+      let payload = {
         url,
         text: 'Hey!, check this cool writings by rimzzlabs!',
         title: 'Hey!, check this cool writings by rimzzlabs',

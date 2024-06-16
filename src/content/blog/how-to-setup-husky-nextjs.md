@@ -1,13 +1,10 @@
 ---
-layout: "@/modules/layout/writings/index.astro"
-title: 'How To Setup Husky, Lint Staged, And Commitizen On A Next.js Project'
-description: 'Coding is not just writing lines of code, we often end up do everything manually, so why not use some tools that help us achieve our goals? This article will show you how to setup Husky, Lint Staged, And Conventional Commit With Next.js'
-publishedAt: '03/23/2022'
-status: 'published'
+title: "How To Setup Husky, Lint Staged, And Commitizen On A Next.js Project"
+description: "Coding is not just writing lines of code, we often end up do everything manually, so why not use some tools that help us achieve our goals? This article will show you how to setup Husky, Lint Staged, And Conventional Commit With Next.js"
+publishedAt: "03/23/2022"
+status: "published"
 featured: false
-tags:
-  - dev experience
-  - next.js
+author: rimzzlabs
 keywords:
   - husky nextjs
   - husky lint staged
@@ -27,6 +24,8 @@ keywords:
   - nextjs reactjs
   - setup developer experience
   - setup developer experience nextjs
+relatedPosts:
+  - improving-performance-in-react
 ---
 
 ## Introduction
@@ -102,7 +101,7 @@ Commitizen are very helpful when you want to make a commit, instead of writing y
 
 Here's what it looks like when you run `cz` instead of git commit, it would generate a prompt to help you choose your commit message:
 
-![Commitizen](https://ik.imagekit.io/mlnzyx/attachment/commitizen_Qkfrd4tze.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648026254029 'Commitizen Prompt on terminal')
+![Commitizen](https://ik.imagekit.io/mlnzyx/attachment/commitizen_Qkfrd4tze.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648026254029 "Commitizen Prompt on terminal")
 
 > Tip: click the image to see it more clearly
 
@@ -139,12 +138,12 @@ const config = {
   printWidth: 120,
   singleQuote: true,
   jsxSingleQuote: true,
-  trailingComma: 'none',
-  arrowParens: 'always',
-  endOfLine: 'auto',
-}
+  trailingComma: "none",
+  arrowParens: "always",
+  endOfLine: "auto",
+};
 
-module.exports = config
+module.exports = config;
 ```
 
 > If you are familiar with it, just change the config file to match with your own preference
@@ -242,8 +241,13 @@ But this way I want to show you with lint-staged object in package.json, so let'
   "dependencies": {},
   "devDependencies": {},
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --config ./.prettierrc.js --write"],
-    "**/*.{css,scss,md,html,json}": ["prettier --config ./.prettierrc.js --write"]
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc.js --write"
+    ],
+    "**/*.{css,scss,md,html,json}": [
+      "prettier --config ./.prettierrc.js --write"
+    ]
   }
 }
 ```
@@ -292,8 +296,13 @@ The above command does three things for you:
   "dependencies": {},
   "devDependencies": {},
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --config ./.prettierrc.js --write"],
-    "**/*.{css,scss,md,html,json}": ["prettier --config ./.prettierrc.js --write"]
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc.js --write"
+    ],
+    "**/*.{css,scss,md,html,json}": [
+      "prettier --config ./.prettierrc.js --write"
+    ]
   },
   "config": {
     "commitizen": {

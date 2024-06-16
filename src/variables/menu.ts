@@ -7,10 +7,10 @@ export type TMenu = {
 
 export const menu: Array<TMenu> = [
   { text: "Home", href: "/", title: "Homepage" },
-  { text: "Writings", href: "/writings", title: "Writings" },
+  { text: "Blog", href: "/blog", title: "Blog" },
   {
     text: "Connect",
-    href: "https://linkeding.com/in/rimzzlabs",
+    href: "https://linkedin.com/in/rimzzlabs",
     title: "Connect",
     external: true,
   },

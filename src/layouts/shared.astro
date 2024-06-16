@@ -1,4 +1,6 @@
 ---
+import Footer from '@/modules/common/footer.astro';
+import Navbar from '@/modules/common/navbar.astro';
 import '@/styles/global.css';
 import { AstroFont } from 'astro-font';
 import { SEO } from 'astro-seo';
@@ -41,6 +43,7 @@ let {
 } = Astro.props;
 
 let keywordsContent = keywords.join(',');
+let pathname = Astro.url.pathname;
 ---
 
 <html lang='en'>
@@ -95,6 +98,8 @@ let keywordsContent = keywords.join(',');
   </head>
 
   <body>
+    {pathname !== '/' && <Navbar />}
     <slot />
+    <Footer />
   </body>
 </html>

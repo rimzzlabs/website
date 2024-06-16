@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BlogListCard from './blog-list-card.astro';
+
+let blogPosts = await getCollection('blog', (post) =>
+  import.meta.env.PROD ? post.data.status === 'published' : true,
+);
+---
+
+<section class='py-20 max-md:pt-10 max-w-3xl mx-auto w-11/12'>
+  <h2
+    class='text-3xl lg:text-4xl 2xl:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-800'
+  >
+    All posts
+  </h2>
+
+  <p class='text-neutral-400 font-medium pt-2 md:pt-4 text-balance'>
+    All posts are available to read, if you got anytime, feel free to check them out.
+  </p>
+
+  <div class='pt-10 grid gap-4'>
+    {blogPosts.map((blog) => <BlogListCard {...blog} />)}
+  </div>
+</section>

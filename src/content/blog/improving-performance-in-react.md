@@ -1,13 +1,10 @@
 ---
-layout: "@/modules/layout/writings/index.astro"
-title: 'Improving Performance in React with These 3 Techniques'
+title: "Improving Performance in React with These 3 Techniques"
 description: "A slow or unresponsive app can frustrate users and lead to a poor user experience. In today's competitive market, it's more important than ever to ensure that your app is delivering the best possible experience to your users."
-publishedAt: '12/25/2022'
-status: 'published'
+publishedAt: "12/25/2022"
+status: "published"
 featured: false
-tags:
-  - react.js
-  - user experience
+author: rimzzlabs
 keywords:
   - improve performance
   - react
@@ -88,16 +85,16 @@ To implement code splitting in your React application, you can use `React.lazy` 
 Here's an example of how you might use `React.lazy` and `React.Suspense` in your application:
 
 ```tsx title="App.tsx" showLineNumbers
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy } from "react";
 
-const MyComponent = lazy(() => import('./MyComponent'))
+const MyComponent = lazy(() => import("./MyComponent"));
 
 export default function App() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <MyComponent />
     </Suspense>
-  )
+  );
 }
 ```
 
@@ -116,16 +113,16 @@ One of the benefits of using Vite.js for code splitting is that it allows you to
 Let's split vendors' code from our code, take a look at this code:
 
 ```ts title="vite.config.ts" showLineNumbers
-import { dependencies } from './package.json'
+import { dependencies } from "./package.json";
 
-const exclVendors = ['react', 'react-router-dom', 'react-dom']
+const exclVendors = ["react", "react-router-dom", "react-dom"];
 function renderChunks(deps: Record<string, string>) {
-  let chunks = {}
+  let chunks = {};
   Object.keys(deps).forEach((key) => {
-    if (exclVendors.includes(key)) return
-    chunks[key] = [key]
-  })
-  return chunks
+    if (exclVendors.includes(key)) return;
+    chunks[key] = [key];
+  });
+  return chunks;
 }
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -139,7 +136,7 @@ export default defineConfig({
       },
     },
   },
-})
+});
 ```
 
 In this code, the `renderChunks` function is being used to create an object with keys for each dependency, and values that include the dependency name. This allows you to create a chunk for each dependency, which can then be code split.
@@ -198,7 +195,7 @@ The memoized value is **only recomputed if one of the dependencies listed in the
 Take a look at this basic syntax for the `React.useMemo` hook:
 
 ```tsx
-const value = useMemo(() => computedExpensiveValue(buzz, fizz), [buzz, fizz])
+const value = useMemo(() => computedExpensiveValue(buzz, fizz), [buzz, fizz]);
 ```
 
 In this example, the `computedExpensiveValue` function is called with arguments `buzz` and `fizz`, and **the result is memoized**. The memoized value **will only be recomputed if the values of `buzz` or `fizz` change**.
@@ -206,19 +203,21 @@ In this example, the `computedExpensiveValue` function is called with arguments 
 Another example to use `React.useMemo` is for filtering and sorting large data sets: Let's say you have a list of products that you want to display in a component, and you want to allow the user to filter and sort the list based on various criteria. You could use the `useMemo` hook to memoize the filtered and sorted version of the list, like so:
 
 ```tsx title="@/components/product-list.tsx" showLineNumbers
-import { useMemo } from 'react'
+import { useMemo } from "react";
 
 export const ProductList = ({ products, filter, sortBy }) => {
   // Memoize the filtered and sorted version of the product list
   const filteredAndSortedProducts = useMemo(() => {
     // Filter the products based on the filter criteria
-    let filteredProducts = products
+    let filteredProducts = products;
     if (filter) {
-      filteredProducts = filteredProducts.filter((product) => product.name.includes(filter))
+      filteredProducts = filteredProducts.filter((product) =>
+        product.name.includes(filter),
+      );
     }
     // Sort the products based on the sortBy criteria
-    return filteredProducts.sort((a, b) => a[sortBy] > b[sortBy])
-  }, [products, filter, sortBy])
+    return filteredProducts.sort((a, b) => a[sortBy] > b[sortBy]);
+  }, [products, filter, sortBy]);
 
   return (
     <ul>
@@ -226,8 +225,8 @@ export const ProductList = ({ products, filter, sortBy }) => {
         <li key={product.id}>{product.name}</li>
       ))}
     </ul>
-  )
-}
+  );
+};
 ```
 
 In this example, the `ProductList` component filters and sorts the products list based on the filter and `sortBy` props, and stores the result in a memoized value. This can help to improve the performance of the component by **avoiding unnecessary recalculations** of the filtered and sorted list every time the component re-renders.
@@ -254,8 +253,8 @@ Take a look at this basic syntax of the `useCallback` hook:
 
 ```tsx showLineNumbers
 const callback = useCallback(() => {
-  doSomething(longitude, latitude)
-}, [longitude, latitude])
+  doSomething(longitude, latitude);
+}, [longitude, latitude]);
 ```
 
 In this example, the callback function is created using the `useCallback` hook, and it will **only be re-created if the values of `longitude` or `latitude` change**.
@@ -265,16 +264,16 @@ Another example to use `React.useCallback` is by passing callbacks to deeply nes
 Let's say you have a parent component that renders a list of items, and each item has a delete button that calls a delete callback when clicked. You could use the `useCallback` hook to create a memoized version of the delete callback and pass it down to the child component like this:
 
 ```tsx title="@/components/parent-component.tsx" showLineNumbers
-import { useCallback } from 'react'
+import { useCallback } from "react";
 
 const ParentComponent = ({ items, onDelete }) => {
   // Create a memoized version of the onDelete callback
   const handleDelete = useCallback(
     (itemId) => {
-      onDelete(itemId)
+      onDelete(itemId);
     },
     [onDelete],
-  )
+  );
 
   return (
     <ul>
@@ -282,8 +281,8 @@ const ParentComponent = ({ items, onDelete }) => {
         <ChildComponent key={item.id} item={item} onDelete={handleDelete} />
       ))}
     </ul>
-  )
-}
+  );
+};
 ```
 
 In this example, the `ParentComponent` function component renders a list of ChildComponent components and passes each component a callback function for deleting items. The `useCallback` hook is used to create a memoized version of the callback function, which helps improve the performance of the `ParentComponent` component by **avoiding unnecessary re-creations of the function**. The `ChildComponent` components can then use the callback function to delete the corresponding item when the delete button is clicked.
@@ -305,14 +304,14 @@ There are a few situations where it might not be the best choice to use this hoo
 Here's an example of how you might use `React.memo`:
 
 ```tsx title="@/components/my-component.tsx" showLineNumbers
-import { memo } from 'react'
+import { memo } from "react";
 
 const MyComponent = ({ name }) => {
-  console.log('Render MyComponent')
-  return <div>Hello, {name}!</div>
-}
+  console.log("Render MyComponent");
+  return <div>Hello, {name}!</div>;
+};
 
-export default memo(MyComponent)
+export default memo(MyComponent);
 ```
 
 In this example, the `MyComponent` component renders a greeting with the name prop. By wrapping the component with `React.memo`, you can tell React to only re-render the component if the name prop has hanged. This can help improve the performance of your app by avoiding unnecessary re-renders of the component.
@@ -337,10 +336,10 @@ We've looked at several techniques for optimizing the performance of a React.js 
 
 Here are a few additional tips for optimizing the performance of your React.js app:
 
-- Use the [React Developer Tools](https://beta.reactjs.org/learn/react-developer-tools 'react dev tools browser extension link') browser extension to profile your app and identify performance bottlenecks.
+- Use the [React Developer Tools](https://beta.reactjs.org/learn/react-developer-tools "react dev tools browser extension link") browser extension to profile your app and identify performance bottlenecks.
 
-- Consider using a performance monitoring tool like [LogRocket](https://logrocket.com/ 'log rocket official website') to track the performance of your app over time.
+- Consider using a performance monitoring tool like [LogRocket](https://logrocket.com/ "log rocket official website") to track the performance of your app over time.
 
-- Consider using a state management like [Jotai](https://jotai.org 'Jotai official website') or [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction 'Zustand official documentation website') to easily manage your app's state.
+- Consider using a state management like [Jotai](https://jotai.org "Jotai official website") or [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction "Zustand official documentation website") to easily manage your app's state.
 
 Thank you for reading this blog post! I hope you found it helpful. See you in my next post!

@@ -1,0 +1,15 @@
+---
+import SharedLayout from '@/layouts/shared.astro';
+import BlogList from '@/modules/blog/blog-list.astro';
+import Hero from '@/modules/blog/hero.astro';
+
+let title = 'Blog - rimzzlabs.com';
+let description = 'Read my personal Writing.';
+---
+
+<SharedLayout title={title} description={description}>
+  <main>
+    <Hero />
+    <BlogList />
+  </main>
+</SharedLayout>

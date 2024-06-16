@@ -15,11 +15,26 @@ import { menu } from '@/variables';
 
   <nav class='flex lg:items-center lg:justify-center gap-x-2'>
     {
-      menu.map(({ text, ...args }) => (
-        <a {...args} class='font-medium text-neutral-400 hover:text-neutral-300 transition'>
-          {text}
-        </a>
-      ))
+      menu.map(({ text, ...args }) => {
+        if (args.external) {
+          return (
+            <a
+              {...args}
+              target='_blank'
+              rel='noopener noreferrer'
+              class='font-medium text-neutral-400 hover:text-neutral-300 transition'
+            >
+              {text}
+            </a>
+          );
+        }
+
+        return (
+          <a {...args} class='font-medium text-neutral-400 hover:text-neutral-300 transition'>
+            {text}
+          </a>
+        );
+      })
     }
   </nav>
 </footer>
