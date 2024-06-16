@@ -22,8 +22,10 @@ let { Content } = await entry.render();
 let { data } = await getEntry('authors', entry.data.author.id);
 
 let title = entry.data.title;
+let slug = entry.slug;
 let publishedAt = formatDate(entry.data.publishedAt);
 let publishedAtISO = new Date(entry.data.publishedAt).toISOString();
+
 let authorUsername = data.username;
 let authorFullName = data.fullName;
 let authorUrl = data.url;
@@ -64,7 +66,8 @@ let authorUrl = data.url;
           </Link>
         </div>
       </div>
-      <BlogShareButton {authorUsername} />
+
+      <BlogShareButton authorUsername={authorUsername} slug={slug} />
     </div>
   </section>
 

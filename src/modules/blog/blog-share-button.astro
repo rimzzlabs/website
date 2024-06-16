@@ -3,13 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link';
 import { objectToURIComponent } from '@/lib/utils';
 import { Facebook, Share, Twitter } from 'lucide-astro';
+import { P, match } from 'ts-pattern';
 
 type Props = {
   authorUsername: string;
+  slug: string;
 };
 
-let url = Astro.url.href;
-let { authorUsername } = Astro.props;
+let { authorUsername, slug } = Astro.props;
+let url = match(Astro.site?.origin)
+  .with(P.nullish, () => `https://rimzzlabs.com/blog/${slug}`)
+  .otherwise((origin) => `${origin}/blog/${slug}`);
 
 let twitterQueryString = objectToURIComponent({
   url,
