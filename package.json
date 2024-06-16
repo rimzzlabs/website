@@ -30,6 +30,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.2.9",
+    "jotai": "^2.8.3",
     "lucide-astro": "^0.381.0",
     "lucide-react": "^0.381.0",
     "mdast-util-to-string": "^4.0.0",

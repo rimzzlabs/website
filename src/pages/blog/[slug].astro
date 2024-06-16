@@ -7,6 +7,7 @@ import { Calendar, User } from 'lucide-astro';
 import BlogShareButton from '@/modules/blog/blog-share-button.astro';
 import { getEntry } from 'astro:content';
 import { Link } from '@/components/ui/link';
+import { BlogReaction } from '@/modules/blog/blog-reaction';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
@@ -71,7 +72,7 @@ let authorUrl = data.url;
     </div>
   </section>
 
-  <section class='w-11/12 max-w-5xl mx-auto pt-4 lg:pt-8 pb-8 lg:pb-20'>
+  <section class='w-11/12 max-w-5xl mx-auto pt-4 lg:pt-8 pb-8 lg:pb-16'>
     <article class='prose prose-invert'>
       <Content />
     </article>
