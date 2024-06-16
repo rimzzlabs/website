@@ -8,7 +8,7 @@ export default {
       files: "*.astro",
       options: {
         parser: "astro",
-        semi: false,
+        semi: true,
         tabWidth: 2,
         printWidth: 100,
         singleQuote: true,
@@ -16,6 +16,7 @@ export default {
         trailingComma: "all",
         arrowParens: "always",
         endOfLine: "auto",
+        bracketSpacing: true,
       },
     },
   ],

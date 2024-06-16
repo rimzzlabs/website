@@ -1,0 +1,40 @@
+---
+import { menu } from '@/variables';
+---
+
+<footer
+  class='w-11/12 max-w-5xl lg:flex lg:items-center lg:justify-between mx-auto py-10 lg:py-8 border-t border-dashed'
+>
+  <a href='/' title='Homepage'>
+    <h3
+      class='text-xl max-lg:pb-4 lg:text-lg font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-600'
+    >
+      <span class='sr-only'>Rizki Maulana Citra - </span>rimzzlabs.com
+    </h3>
+  </a>
+
+  <nav class='flex lg:items-center lg:justify-center gap-x-2'>
+    {
+      menu.map(({ text, ...args }) => {
+        if (args.external) {
+          return (
+            <a
+              {...args}
+              target='_blank'
+              rel='noopener noreferrer'
+              class='font-medium text-neutral-400 hover:text-neutral-300 transition'
+            >
+              {text}
+            </a>
+          );
+        }
+
+        return (
+          <a {...args} class='font-medium text-neutral-400 hover:text-neutral-300 transition'>
+            {text}
+          </a>
+        );
+      })
+    }
+  </nav>
+</footer>

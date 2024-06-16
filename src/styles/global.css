@@ -31,6 +31,7 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+    --radius: 0.75rem;
   }
 }
 
@@ -38,7 +39,10 @@
   * {
     @apply border-border;
   }
+  html {
+    color-scheme: dark;
+  }
   body {
-    @apply bg-background text-foreground antialiased font-primary;
+    @apply bg-background text-foreground antialiased font-primary scroll-pt-0;
   }
 }

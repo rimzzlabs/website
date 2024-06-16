@@ -1,0 +1,84 @@
+---
+import { Button } from '@/components/ui/button';
+import { Link } from '@/components/ui/link';
+import { objectToURIComponent } from '@/lib/utils';
+import { Facebook, Share, Twitter } from 'lucide-astro';
+import { P, match } from 'ts-pattern';
+
+type Props = {
+  authorUsername: string;
+  slug: string;
+};
+
+let { authorUsername, slug } = Astro.props;
+let url = match(Astro.site?.origin)
+  .with(P.nullish, () => `https://rimzzlabs.com/blog/${slug}`)
+  .otherwise((origin) => `${origin}/blog/${slug}`);
+
+let twitterQueryString = objectToURIComponent({
+  url,
+  text: `Hey, check this cool writings from ${authorUsername}!`,
+});
+
+let twitterShareUrl = `https://x.com/intent/tweet?${twitterQueryString}`;
+let facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+---
+
+<div class='inline-flex max-sm:-mt-1.5 sm:items-center'>
+  <Link
+    href={twitterShareUrl}
+    target='_blank'
+    rel='noopener noreferrer'
+    size='iconSm'
+    variant='ghost'
+    className='inline-flex items-center gap-x-2 text-neutral-400 font-medium'
+  >
+    <Twitter size='1rem' />
+    <span class='sr-only'>Share on X</span>
+  </Link>
+  <Link
+    href={facebookShareUrl}
+    target='_blank'
+    rel='noopener noreferrer'
+    size='iconSm'
+    variant='ghost'
+    className='inline-flex items-center gap-x-2 text-neutral-400 font-medium'
+  >
+    <Facebook size='1rem' />
+    <span class='sr-only'>Share on Facebook</span>
+  </Link>
+
+  <Button
+    variant='ghost'
+    size='iconSm'
+    className='inline-flex items-center gap-x-2 text-neutral-400 font-medium share-btn'
+  >
+    <Share size='1rem' />
+    <span class='sr-only'>Share</span>
+  </Button>
+</div>
+
+<script is:inline async defer>
+  let button = document.querySelector('.share-btn');
+
+  if (button instanceof HTMLButtonElement) {
+    if (!('navigator' in window && 'share' in window.navigator && 'canShare' in window.navigator)) {
+      button.remove();
+    }
+    button.addEventListener('click', () => {
+      let url = window.location.href;
+      let payload = {
+        url,
+        text: 'Hey!, check this cool writings by rimzzlabs!',
+        title: 'Hey!, check this cool writings by rimzzlabs',
+      };
+
+      if ('navigator' in window && 'share' in window.navigator && 'canShare' in window.navigator) {
+        let canShare = window.navigator.canShare(payload);
+        if (canShare) {
+          window.navigator.share(payload);
+        }
+      }
+    });
+  }
+</script>

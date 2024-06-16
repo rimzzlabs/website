@@ -1,70 +1,37 @@
 ---
-import Hero from "@/modules/home/hero.astro";
-import { SEO } from "astro-seo";
-import { AstroFont } from "astro-font";
-import "@/styles/global.css";
+import Hero from '@/modules/home/hero.astro';
+import Introduction from '@/modules/home/introduction.astro';
+import JourneyPartOne from '@/modules/home/journey-part-one.astro';
+import JourneyPartTwo from '@/modules/home/journey-part-two.astro';
+import JourneyPartThree from '@/modules/home/journey-part-three.astro';
+import JourneyPartFour from '@/modules/home/journey-part-four.astro';
 
-const title = "Rizki Maulana Citra - rimzzlabs";
-const description =
-  "Something is coming, stay tuned for my next website, with different technology and code!";
-const image =
-  "https://res.cloudinary.com/rizkicitra/image/upload/v1695991700/rizkicitra.dev/me.webp";
+import { WavyBackground } from '@/components/ui/wavy-background';
+import { TracingBeam } from '@/components/ui/tracing-beam';
+import JourneyPartZero from '@/modules/home/journey-part-zero.astro';
+import JourneyContinues from '@/modules/home/journey-continues.astro';
+import JourneyContinuesWord from '@/modules/home/journey-continues-word.astro';
+import SharedLayout from '@/layouts/shared.astro';
 ---
 
-<html lang="en">
-  <head>
-    <AstroFont
-      config={[
-        {
-          name: "Manrope",
-          src: [],
-          googleFontsURL:
-            "https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap",
-          preload: true,
-          display: "swap",
-          selector: "body",
-          fallback: "sans-serif",
-        },
-      ]}
-    />
-    <SEO
-      title={title}
-      description={description}
-      openGraph={{
-        basic: {
-          title,
-          type: "blog",
-          image,
-        },
-      }}
-      twitter={{
-        creator: "@jonasmerlins1",
-      }}
-      extend={{
-        // extending the default link tags
-        link: [{ rel: "icon", href: "/favicon.svg" }],
-        // extending the default meta tags
-        meta: [
-          {
-            name: "twitter:image",
-            content: image,
-          },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: description },
-        ],
-      }}
-    />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <meta
-      name="keywords"
-      content="rizki m citra,rizki maulana citra,rizki citra,rimzzlabs,rimzzlabs.com,rizkicitra,rizkicitra.dev, rizki developer, rizki github"
-    />
-  </head>
-  <body>
+<SharedLayout>
+  <TracingBeam client:load>
     <main>
       <Hero />
+      <Introduction />
+      <JourneyPartZero />
+      <JourneyPartOne />
+      <JourneyPartTwo />
+      <JourneyPartThree />
+      <JourneyPartFour />
+      <WavyBackground
+        containerClassName='h-44 overflow-x-clip'
+        canvasHeight={176}
+        waveWidth={20}
+        client:visible
+      />
+      <JourneyContinues />
+      <JourneyContinuesWord />
     </main>
-  </body>
-</html>
+  </TracingBeam>
+</SharedLayout>

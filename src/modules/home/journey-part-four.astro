@@ -1,0 +1,68 @@
+---
+import Pre from '@/components/pre.astro'
+import { Image } from 'astro:assets'
+
+import { getCloudinaryImage } from '@/lib/utils'
+
+let imgUrl = getCloudinaryImage('rimzzlabs/today-desktop-pc')
+let imgCaption = 'A picture of my current desktop workstation'
+---
+
+<section class='flex flex-col lg:h-screen lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
+  <div class='w-full pb-6 sm:pb-8 lg:pb-0 lg:pr-40'>
+    <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>Journey - Part 4</h2>
+
+    <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+      <p class='text-neutral-400 font-medium'>
+        After I graduated from High School, I wanted to help my family, so I started to look for a
+        full-time job, I tried to apply regular 9-5 job, but nothing came in.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        Foolish me, I forgot about who I am back then, I studied Software Engineering at High School
+        just to work at fast food restaurant, a very unwise choise of life.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        So I was thinking, how about sharpen my skills?. Then I started to hunt for a free paid
+        course. It was a collaboration program between <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://idcamp.ioh.co.id/'
+          class='border-b border-dashed border-neutral-300'>IDCamp</a
+        >
+        and
+        <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://dicoding.com'
+          class='border-b border-dashed border-neutral-300'>Dicoding</a
+        > who helps me improving my skills.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        Started on 2019, IDCamp offers coding scholarship from basic to expert level. It was a very
+        good program. I really love it, awesome experience. Then I finished my course and got my
+        first certificate of completion.
+      </p>
+
+      <Pre> From that moment, I promised to myself to never waste any opportunity. </Pre>
+    </div>
+  </div>
+
+  <figure class='w-full lg:max-w-sm'>
+    <Image
+      width={1078}
+      height={808}
+      loading='lazy'
+      decoding='async'
+      class='lg:ml-auto h-56 sm:h-72 lg:h-64 w-full'
+      src={imgUrl}
+      alt={imgCaption}
+      title={imgCaption}
+    />
+    <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
+      <em>{imgCaption}</em>
+    </figcaption>
+  </figure>
+</section>

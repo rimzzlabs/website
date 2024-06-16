@@ -1,0 +1,29 @@
+---
+import { cn } from '@/lib/utils';
+import NavbarLinkItem from './navbar-link-item.astro';
+import { menu } from '@/variables';
+
+let navbarMenu = menu.filter((item) => !item.external);
+---
+
+<header
+  class={cn(
+    'fixed top-0 inset-x-0 z-50 h-16 bg-neutral-950',
+    'supports-[backdrop-filter:blur(1px)]:backdrop-blur',
+    'supports-[backdrop-filter:blur(1px)]:bg-neutral-950/10',
+  )}
+>
+  <div class='max-w-5xl mx-auto w-11/12 h-full flex items-center'>
+    <a
+      href='/'
+      title='Homepage'
+      class='font-semibold text-lg text-transparent bg-gradient-to-b bg-clip-text from-neutral-100 to-neutral-600'
+    >
+      rimzzlabs.com
+    </a>
+
+    <nav class='ml-auto inline-flex items-center gap-x-2'>
+      {navbarMenu.map((args) => <NavbarLinkItem {...args} />)}
+    </nav>
+  </div>
+</header>

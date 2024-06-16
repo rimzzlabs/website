@@ -1,0 +1,67 @@
+---
+import Pre from '@/components/pre.astro'
+import { Image } from 'astro:assets'
+import { getCloudinaryImage } from '@/lib/utils'
+
+let imgUrl = getCloudinaryImage('rimzzlabs/past-desktop-pc')
+let imgCaption = 'A blurry picture of mouse and keyboard on my first desktop PC'
+---
+
+<section class='flex flex-col lg:h-screen lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
+  <div class='w-full pb-6 sm:pb-8 lg:pb-0 lg:pr-40'>
+    <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>Journey - Part 2</h2>
+
+    <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+      <Pre>It keeps getting better each days.</Pre>
+
+      <p class='text-neutral-400 font-medium'>
+        I did not have a computer back then, so learning programming is only possible when I am at
+        the school.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        So I started to get a job on social media, trying to do everyhting I can to get paid, like
+        following airdrop campaign.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        After a few months of hardwork doing small this and that. I finally got my first computer
+        desktop. Yes! you read it right, I built my own computer desktop with the help of youtube.
+        It is incredible how the internet work, right?.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        But the obstacle did not stop here, I have the computer now, but now I do not have a proper
+        internet connection. You see, -I live in the mountain foot of Pulosari, It is a countryside,
+        Internet Service Provider has not reached our area yet.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        So in order to learn programming on youtube, I leave my town and find a coffe shop that has
+        Wi-Fi connection, and downloaded all youtube videos about programming, and then watch it
+        locally at home.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        That is how a <em>self-taught-poor-countryside-boy</em>
+        <strong>(me)</strong> learned programming.
+      </p>
+    </div>
+  </div>
+
+  <figure class='max-lg:w-full'>
+    <Image
+      width={512}
+      height={480}
+      loading='lazy'
+      decoding='async'
+      class='lg:ml-auto h-80 w-full lg:w-96 object-cover rounded'
+      src={imgUrl}
+      alt={imgCaption}
+      title={imgCaption}
+    />
+    <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
+      <em>{imgCaption}</em>
+    </figcaption>
+  </figure>
+</section>

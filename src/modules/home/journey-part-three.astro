@@ -1,0 +1,68 @@
+---
+import Pre from '@/components/pre.astro'
+import { Image } from 'astro:assets'
+import { getCloudinaryImage } from '@/lib/utils'
+
+let imgUrl = getCloudinaryImage('rimzzlabs/potrait-flannel')
+let imgCaption = 'A photo of Rizki wearing white flannel'
+---
+
+<section class='flex flex-col lg:h-screen lg:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
+  <figure class='max-lg:w-full'>
+    <Image
+      width={512}
+      height={480}
+      loading='lazy'
+      decoding='async'
+      class='lg:mr-auto h-80 w-full lg:w-96 object-cover rounded'
+      src={imgUrl}
+      alt={imgCaption}
+      title={imgCaption}
+    />
+    <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
+      <em>{imgCaption}</em>
+    </figcaption>
+  </figure>
+
+  <div class='w-full pt-6 sm:pt-8 lg:pt-0 lg:pl-40'>
+    <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>Journey - Part 3</h2>
+
+    <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+      <p class='text-neutral-400 font-medium'>
+        I was on 11th grade and it was 2019. But then <a
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://www.who.int/health-topics/coronavirus'
+          class='border-b border-dashed border-neutral-300'>Covid-19</a
+        > started to spread in Indonesia, and the government started to shut down all outdoor activities
+        to minimize the spread, of course including educational area, which involve outdoor activities.
+      </p>
+
+      <Pre>Whoever started Covid-19, I hope God forgives them for their action.</Pre>
+
+      <p class='text-neutral-400 font-medium'>
+        You did not read that wrong, I am technically on school for only 1.5 Years. But we humans
+        adapt, so we started to study online, which still be used as of today because of it is
+        efficiency.
+      </p>
+
+      <Pre>With this treasure I summon.... Being adapt.</Pre>
+
+      <p class='text-neutral-400 font-medium'>
+        It was 2021 and then I finally graduated from SMK Negeri 8 Pandeglang. I was majoring on <em
+          >Rekayasa Perangkat Lunak</em
+        > -or Software Engineering.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        Awesome school, friends, and experience. Might be hard to forget about it, I hope my
+        memories can always keep it.
+      </p>
+
+      <Pre>
+        I did not have a single photo when I graduated from high school, so I will just put my
+        potrait.
+      </Pre>
+    </div>
+  </div>
+</section>

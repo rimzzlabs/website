@@ -1,0 +1,64 @@
+---
+import Pre from '@/components/pre.astro';
+import { Link } from '@/components/ui/link';
+import { Image } from 'astro:assets';
+---
+
+<section
+  class='flex flex-col lg:h-screen lg:flex-row items-center w-11/12 max-lg:pt-10 pb-20 mx-auto max-w-5xl'
+>
+  <figure class='max-lg:w-full'>
+    <Image
+      width={512}
+      height={480}
+      loading='lazy'
+      decoding='async'
+      class='lg:mr-auto h-96 lg:h-80 w-full lg:w-96 object-cover rounded'
+      src='https://res.cloudinary.com/rizkicitra/image/upload/v1717282063/potrait.jpg'
+      alt='A potrait of Rizki'
+      title='A potrait of Rizki'
+    />
+    <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
+      <em>A potrait of Rizki</em>
+    </figcaption>
+  </figure>
+
+  <div class='w-full pt-6 sm:pt-8 lg:pt-0 lg:pl-40'>
+    <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>About me</h2>
+
+    <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+      <Pre>
+        You asked for it, it looks like you are interested in my story, please read my <Link
+          variant='link'
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://read.cv/rimzzlabs'
+          className='p-0 w-auto h-auto'
+        >
+          resume</Link
+        > if you prefer just my career path.
+      </Pre>
+      <p class='text-neutral-400 font-medium'>
+        My name is Rizki Maulana Citra, you can call me <code
+          class='bg-secondary text-secondary-foreground py-0.5 px-1 rounded'
+          >Rizki, Iki-or Citra</code
+        >. I am currently a citizen of NKRI and a Software Engineer at
+        <Link
+          variant='link'
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://bitwyre.com'
+          className='p-0 w-auto h-auto text-inherit text-base underline'
+        >
+          Bitwyre</Link
+        >
+
+        <p class='text-neutral-400 font-medium'>
+          You are going to read my personal journey, I do not expect anything from you after reading
+          my journey, it is up to you how you judge me based on this reading, but it is still a
+          story and I believe that people change from time to time.
+        </p>
+      </p>
+    </div>
+  </div>
+</section>
