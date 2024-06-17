@@ -1,10 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import BlogListCard from './blog-list-card.astro';
+import { sort } from 'radash';
 
 let blogPosts = await getCollection('blog', (post) =>
   import.meta.env.PROD ? post.data.status === 'published' : true,
 );
+let sortedBlogPosts = sort(blogPosts, (blog) => new Date(blog.data.publishedAt).getTime(), true);
 ---
 
 <section class='py-20 max-md:pt-10 max-w-3xl mx-auto w-11/12'>
@@ -19,6 +21,6 @@ let blogPosts = await getCollection('blog', (post) =>
   </p>
 
   <div class='pt-10 grid gap-4'>
-    {blogPosts.map((blog) => <BlogListCard {...blog} />)}
+    {sortedBlogPosts.map((blog) => <BlogListCard {...blog} />)}
   </div>
 </section>
