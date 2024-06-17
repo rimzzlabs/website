@@ -5,19 +5,25 @@ import '@/styles/global.css';
 import { AstroFont } from 'astro-font';
 import { SEO } from 'astro-seo';
 import type { SEOProps } from 'astro-seo';
+import { buildImageUrl } from 'cloudinary-build-url';
 
 type Props = {
   title?: string;
   description?: string;
   openGraph?: SEOProps['openGraph'];
   keywords?: Array<string>;
+  hideFooter?: boolean;
+  hideNavbar?: boolean;
 };
 
 let defaultTitle = 'Rizki Maulana Citra - rimzzlabs';
 let defaultDescription =
   'A dedicated Software Engineer and UI specialist. I create intuitive, smooth, and visually appealing user interfaces that engage and delight users.';
 let defaultOpenGraphBasic = {
-  image: 'https://res.cloudinary.com/rizkicitra/image/upload/v1695991700/rizkicitra.dev/me.webp',
+  image: buildImageUrl('rimzzlabs/og', {
+    cloud: { cloudName: 'rizkicitra' },
+    transformations: { quality: 100, format: 'webp' },
+  }),
   title: 'rimzzlabs.com',
   type: 'website',
 };
@@ -40,6 +46,8 @@ let {
   description = defaultDescription,
   title = defaultTitle,
   keywords = defaultKeywords,
+  hideNavbar,
+  hideFooter,
 } = Astro.props;
 
 let keywordsContent = keywords.join(',');
@@ -98,8 +106,8 @@ let pathname = Astro.url.pathname;
   </head>
 
   <body>
-    {pathname !== '/' && <Navbar />}
+    {!hideNavbar && (pathname !== '/' ? <Navbar /> : null)}
     <slot />
-    <Footer />
+    {!hideFooter && <Footer />}
   </body>
 </html>
