@@ -1,0 +1,22 @@
+---
+import { BackgroundBeams } from '@/components/ui/background-beams';
+import NotFoundButtons from './buttons.astro';
+---
+
+<section class='h-screen bg-neutral-950 relative flex items-center justify-center'>
+  <div class='w-11/12 max-w-3xl mx-auto relative z-10 text-center'>
+    <h1
+      class='text-6xl text-balance pb-2 md:pb-4 lg:text-7xl 2xl:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-neutral-100 to-neutral-800'
+    >
+      The void have tried to lure you
+    </h1>
+
+    <p class='font-medium text-balance text-neutral-500 pb-4'>
+      The page your were looking for is not found, if you think this is a mistake, please reach me
+      out, so I can fix this as soon as possible.
+    </p>
+
+    <NotFoundButtons />
+  </div>
+  <BackgroundBeams client:idle />
+</section>

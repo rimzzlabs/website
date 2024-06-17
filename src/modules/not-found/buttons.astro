@@ -1,0 +1,22 @@
+---
+import { Link } from '@/components/ui/link';
+import { ChevronLeft, Contact, Home, Send } from 'lucide-astro';
+---
+
+<div class='flex items-center justify-center gap-x-4'>
+  <Link href='/' className='gap-x-2'>
+    <Home size='1rem' />
+    Home
+  </Link>
+
+  <Link
+    href='https://linkedin.com/in/rimzzlabs'
+    target='_blank'
+    rel='noopener noreferrer'
+    variant='secondary'
+    className='gap-x-2'
+  >
+    <Send size='1rem' />
+    Let me know
+  </Link>
+</div>

@@ -1,0 +1,14 @@
+---
+import SharedLayout from '@/layouts/shared.astro';
+import NotFoundHero from '@/modules/not-found/hero.astro';
+import NotFoundButtons from '@/modules/not-found/buttons.astro';
+---
+
+<SharedLayout
+  hideFooter
+  hideNavbar
+  title='You have lost - page not found'
+  description='The page you were looking for is not found, please contact me if you think this is a mistake, I will gladly fix it as soon as possible.'
+>
+  <NotFoundHero />
+</SharedLayout>
