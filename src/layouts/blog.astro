@@ -34,9 +34,7 @@ let keywords = data.keywords.join(', ');
       title={title}
       description={description}
       extend={{
-        // extending the default link tags
         link: [{ rel: 'icon', href: '/favicon.svg' }],
-        // extending the default meta tags
         meta: [
           { name: 'twitter:title', content: title },
           { name: 'twitter:description', content: description },
@@ -46,6 +44,8 @@ let keywords = data.keywords.join(', ');
             name: 'keywords',
             content: keywords,
           },
+          { name: 'author', content: data.author.id },
+          { name: 'publisher', content: 'https://rimzzlabs.com' },
         ],
       }}
     />
