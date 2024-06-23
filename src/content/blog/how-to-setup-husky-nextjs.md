@@ -26,6 +26,7 @@ keywords:
   - setup developer experience nextjs
 relatedPosts:
   - improving-performance-in-react
+  - jotai-state-manager
 ---
 
 ## Introduction

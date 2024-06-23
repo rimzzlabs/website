@@ -7,7 +7,8 @@ import { Calendar, User } from 'lucide-astro';
 import BlogShareButton from '@/modules/blog/blog-share-button.astro';
 import { getEntry } from 'astro:content';
 import { Link } from '@/components/ui/link';
-import { BlogReaction } from '@/modules/blog/blog-reaction';
+import { P, match } from 'ts-pattern';
+import BlogListCard from '@/modules/blog/blog-list-card.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
@@ -21,6 +22,9 @@ let { entry } = Astro.props;
 
 let { Content } = await entry.render();
 let { data } = await getEntry('authors', entry.data.author.id);
+let relatedPosts = await match(entry.data.relatedPosts)
+  .with(P.nullish, () => Promise.resolve([]))
+  .otherwise((posts) => Promise.all(posts.map(async (post) => await getEntry('blog', post.slug))));
 
 let title = entry.data.title;
 let slug = entry.slug;
@@ -77,4 +81,20 @@ let authorUrl = data.url;
       <Content />
     </article>
   </section>
+
+  {
+    relatedPosts.length > 0 && (
+      <section class='w-11/12 max-w-5xl mx-auto pt-4 lg:pt-8 pb-8 lg:pb-16'>
+        <h2 class='text-3xl lg:text-4xl font-bold text-neutral-200'>
+          <span class='sr-only'>Related Posts</span>You might like
+        </h2>
+
+        <div class='grid lg:grid-cols-2 gap-4 pt-4'>
+          {relatedPosts.map((post) => (
+            <BlogListCard {...post} />
+          ))}
+        </div>
+      </section>
+    )
+  }
 </BlogLayout>

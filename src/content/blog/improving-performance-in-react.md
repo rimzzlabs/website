@@ -26,6 +26,9 @@ keywords:
   - React.useMemo
   - memoization in react
   - improving performance in react app
+relatedPosts:
+  - how-to-setup-husky-nextjs
+  - jotai-state-manager
 ---
 
 ## Introduction

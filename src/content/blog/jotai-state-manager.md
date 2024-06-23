@@ -18,6 +18,8 @@ keywords:
   - state
   - primitive state
   - primitive state management
+relatedPosts:
+  - jotai-recipes
 ---
 
 ## Introduction
