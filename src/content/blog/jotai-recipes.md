@@ -13,6 +13,9 @@ keywords:
   - reactjs
   - state management
   - state manager
+relatedPosts:
+  - jotai-state-manager
+  - improving-performance-in-react
 ---
 
 ## Introduction
@@ -21,7 +24,7 @@ Jotai takes an atomic approach to global React state management. By combining at
 
 This solves the extra re-render issue of React context, eliminates the need for memoization, and provides a similar developer experience to signals while maintaining a **_declarative programming model_**.
 
-> If you don't know about Jotai, I have a [blog post about jotai](https://rizkicitra.dev/blog/jotai-awesome-state-management) explained you can read, feel free to check it out!
+> If you don't know about Jotai, I have a [blog post about jotai](/blog/jotai-state-manager) explained you can read, feel free to check it out!
 
 To update a state with Jotai, I can simply use built-in Jotai `setter` like so:
 
@@ -331,6 +334,4 @@ export const latestPostAtoms = atom((get) => {
 });
 ```
 
-I think that's all I can think of; I probably have used more than those recipes, but I can't remember them. Maybe in another post.
-
-What about yours? If you have anything interesting to share about recipes in Jotai, you can comment below! Thanks for reading!
+I think that's all I can think of; I probably have used more than those recipes, but I can't remember them. Maybe in another post, thank you for reading this post!
