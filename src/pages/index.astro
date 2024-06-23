@@ -10,7 +10,7 @@ import { WavyBackground } from '@/components/ui/wavy-background';
 import { TracingBeam } from '@/components/ui/tracing-beam';
 import JourneyPartZero from '@/modules/home/journey-part-zero.astro';
 import JourneyContinues from '@/modules/home/journey-continues.astro';
-import JourneyContinuesWord from '@/modules/home/journey-continues-word.astro';
+import { JourneyContinuesWords } from '@/modules/home/journey-continues-words';
 import SharedLayout from '@/layouts/shared.astro';
 ---
 
@@ -31,7 +31,7 @@ import SharedLayout from '@/layouts/shared.astro';
         client:visible
       />
       <JourneyContinues />
-      <JourneyContinuesWord />
+      <JourneyContinuesWords client:visible />
     </main>
   </TracingBeam>
 </SharedLayout>
