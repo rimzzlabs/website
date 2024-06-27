@@ -6,7 +6,7 @@ export function JourneyContinuesWords() {
   let words = ["Progresses", "Continues", "Resumes", "Presists", "Advances"];
   let word = words[index];
 
-  const separate = {
+  let separate = {
     hidden: { opacity: 0, y: 0 },
     visible: (custom: number) => ({
       opacity: 1,
@@ -16,7 +16,7 @@ export function JourneyContinuesWords() {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    let interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
     }, 3000);
 

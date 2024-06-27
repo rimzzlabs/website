@@ -5,7 +5,7 @@ export type TMenu = {
   external?: boolean;
 };
 
-export const menu: Array<TMenu> = [
+export let menu: Array<TMenu> = [
   { text: "Home", href: "/", title: "Homepage" },
   { text: "Blog", href: "/blog", title: "Blog" },
   {
