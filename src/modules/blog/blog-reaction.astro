@@ -1,0 +1,18 @@
+---
+import { reactionButtons } from '@/variables';
+import { BlogReactionItem } from './blog-reaction-item';
+
+export const prerender = false;
+---
+
+<section class='w-11/12 max-w-5xl mx-auto pt-10 pb-20'>
+  <h2 class='text-center text-2xl mb-4 lg:text-3xl font-semibold text-neutral-400'>
+    <span class='sr-only'>Reaction - </span>
+    <span class='title' title='Short for: What do you think?'> wdyt </span>
+    ?
+  </h2>
+
+  <div class='flex items-center justify-center gap-x-2'>
+    {reactionButtons.map((reaction) => <BlogReactionItem client:only='react' {...reaction} />)}
+  </div>
+</section>

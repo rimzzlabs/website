@@ -9,6 +9,7 @@ import { getEntry } from 'astro:content';
 import { Link } from '@/components/ui/link';
 import { P, match } from 'ts-pattern';
 import BlogListCard from '@/modules/blog/blog-list-card.astro';
+import BlogReaction from '@/modules/blog/blog-reaction.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
@@ -81,6 +82,8 @@ let authorUrl = data.url;
       <Content />
     </article>
   </section>
+
+  <BlogReaction />
 
   {
     relatedPosts.length > 0 && (
