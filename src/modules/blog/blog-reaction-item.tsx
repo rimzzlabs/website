@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TReactionButton } from "@/variables";
 import { useReaction } from "@/hooks/reaction";
+import { init } from "emoji-mart";
+import data from "@emoji-mart/data";
+import { match } from "ts-pattern";
+init(data);
 
 export function BlogReactionItem(props: Readonly<TReactionButton>) {
   let { postReaction, reactionCount, disabled, emojiRef } = useReaction(
@@ -9,6 +13,11 @@ export function BlogReactionItem(props: Readonly<TReactionButton>) {
   );
 
   let onClickReaction = async () => await postReaction(props.reaction);
+  let emojiId = match(props.reaction)
+    .with("star_struck", () => "star-struck")
+    .with("love", () => "heart")
+    .with("like", () => "+1")
+    .otherwise((id) => id);
 
   return (
     <div className="relative">
@@ -20,7 +29,10 @@ export function BlogReactionItem(props: Readonly<TReactionButton>) {
         size="icon"
       >
         <span className="sr-only">{props.alt}</span>
-        <span ref={emojiRef}>{props.emoji}</span>
+        <span ref={emojiRef}>
+          {/* @ts-ignore */}
+          <em-emoji id={emojiId} size="1em"></em-emoji>
+        </span>
       </Button>
 
       <AnimatePresence>
