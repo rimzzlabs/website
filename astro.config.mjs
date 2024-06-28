@@ -17,18 +17,9 @@ export default defineConfig({
       optimize: true,
     }),
     sitemap({
-      priority: 0.7,
-      changefreq: "weekly",
+      priority: 1,
+      changefreq: "daily",
       lastmod: new Date(),
-      serialize(item) {
-        if (item.url === "https://rimzzlabs.com/") {
-          item.priority = 1;
-        }
-        if (/\/blog\/([^/]+)/.test(item.url)) {
-          item.priority = 0.9;
-        }
-        return item;
-      },
     }),
   ],
   devToolbar: {
