@@ -12,6 +12,7 @@ type Props = {
   description?: string;
   openGraph?: SEOProps['openGraph'];
   keywords?: Array<string>;
+  robots?: string;
   hideFooter?: boolean;
   hideNavbar?: boolean;
 };
@@ -35,6 +36,8 @@ let defaultKeywords = [
   'rizki citra',
   'rimzzlabs',
   'rimzzlabs.com',
+  'rimzzlabs website',
+  'rimzzlabs posts',
   'rizkicitra',
   'rizkicitra.dev',
   'rizki developer',
@@ -46,14 +49,16 @@ let defaultKeywords = [
   'software engineer',
   'UI engineer',
 ];
+let defaultRobots = 'index, follow';
 
 let {
-  openGraph = defaultOpenGraph,
-  description = defaultDescription,
-  title = defaultTitle,
-  keywords = defaultKeywords,
   hideNavbar,
   hideFooter,
+  robots = defaultRobots,
+  openGraph = defaultOpenGraph,
+  title = defaultTitle,
+  description = defaultDescription,
+  keywords = defaultKeywords,
 } = Astro.props;
 
 let keywordsContent = keywords.join(',');
@@ -90,9 +95,7 @@ let pathname = Astro.url.pathname;
         title: openGraph.basic.title,
       }}
       extend={{
-        // extending the default link tags
         link: [{ rel: 'icon', href: '/favicon.svg' }],
-        // extending the default meta tags
         meta: [
           {
             name: 'twitter:image',
@@ -100,11 +103,16 @@ let pathname = Astro.url.pathname;
           },
           { name: 'twitter:title', content: title },
           { name: 'twitter:description', content: description },
-          { name: 'viewport', content: 'width=device-width' },
           { name: 'generator', content: Astro.generator },
+          { name: 'keywords', content: keywordsContent },
+          { name: 'robots', content: robots },
           {
-            name: 'keywords',
-            content: keywordsContent,
+            name: 'viewport',
+            content: 'width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover',
+          },
+          {
+            name: 'googlebot',
+            content: 'index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1',
           },
         ],
       }}
