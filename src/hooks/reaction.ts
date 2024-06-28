@@ -1,12 +1,11 @@
 import {
-  initializeUserReactionAtom,
   updateUserReactionCounterAtom,
   userReactionAtom,
 } from "@/state/reaction";
 import type { TReactionResponseSchema } from "@/validations/reaction";
 import { animate } from "framer-motion";
 import { useAtomValue, useSetAtom } from "jotai/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { P, match } from "ts-pattern";
 
 let getReactions = async () => {
@@ -27,7 +26,6 @@ export function useReaction(reaction: string) {
   );
 
   let userReaction = useAtomValue(userReactionAtom);
-  let initializeUserReaction = useSetAtom(initializeUserReactionAtom);
   let updateUserReactionCounter = useSetAtom(updateUserReactionCounterAtom);
 
   let slug = window.location.pathname.split("/blog/")[1];
@@ -73,12 +71,6 @@ export function useReaction(reaction: string) {
     updateUserReactionCounter({ reaction, slug });
     setReactionCount(count);
   };
-
-  useEffect(() => {
-    if (data) {
-      initializeUserReaction({ data: data, slug });
-    }
-  }, [data, slug]);
 
   return { getReactions, postReaction, reactionCount, disabled, emojiRef };
 }

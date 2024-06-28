@@ -1,6 +1,5 @@
 import { atomWithStorage } from "jotai/utils";
 import { atom } from "jotai";
-import type { TReactionResponseSchema } from "@/validations/reaction";
 
 export type TUserReactionAtomState = {
   [slug: string]: {
@@ -28,24 +27,5 @@ export let updateUserReactionCounterAtom = atom(
         [reactionType]: (userReaction[postSlug]?.[reactionType] || 0) + 1,
       },
     });
-  },
-);
-
-export let initializeUserReactionAtom = atom(
-  null,
-  (get, set, args: { slug: string; data: TReactionResponseSchema["data"] }) => {
-    let userReaction = get(userReactionAtom);
-    let postSlug = args?.slug?.toLowerCase();
-    if (!postSlug || !args?.data) return;
-
-    let incomingReactions = args.data.reactions.reduce(
-      (reactions, { reaction, count }) => {
-        reactions[reaction] = count;
-        return reactions;
-      },
-      {} as Record<string, number>,
-    );
-
-    set(userReactionAtom, { ...userReaction, [postSlug]: incomingReactions });
   },
 );
