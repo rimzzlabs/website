@@ -1,5 +1,6 @@
+import type { TSendReactionSchema } from "@/validations/reaction";
 import { db } from "db";
-import { reactionTable, type TReactionTableInsert } from "db/schema";
+import { reactionTable } from "db/schema";
 import { count, eq } from "drizzle-orm";
 
 export async function selectReaction(slug: string) {
@@ -9,14 +10,12 @@ export async function selectReaction(slug: string) {
     .where(eq(reactionTable.slug, slug))
     .groupBy(reactionTable.reaction);
 }
+export type TSelectReaction = Awaited<ReturnType<typeof selectReaction>>;
 
-export async function insertReaction(
-  slug: string,
-  reaction: TReactionTableInsert["reaction"],
-) {
+export async function insertReaction(payload: TSendReactionSchema) {
   let res = await db
     .insert(reactionTable)
-    .values({ reaction, slug })
+    .values(payload)
     .returning({ id: reactionTable.id });
 
   return res[0].id;

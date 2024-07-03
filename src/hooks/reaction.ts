@@ -1,21 +1,21 @@
+import type { TSelectReaction } from "@/service/reaction";
 import {
   updateUserReactionCounterAtom,
   userReactionAtom,
 } from "@/state/reaction";
-import type { TReactionResponseSchema } from "@/validations/reaction";
+import { getData } from "@/utils/http";
+import type { TResponse } from "@/utils/req-res";
 import { animate } from "framer-motion";
 import { useAtomValue, useSetAtom } from "jotai/react";
 import { useRef, useState } from "react";
 import { P, match } from "ts-pattern";
 
-let getReactions = async () => {
-  let slug = window.location.pathname.split("/blog/")[1];
-  return await fetch(`/api/reaction?slug=${slug}`).then(
-    (r) => r.json() as unknown as TReactionResponseSchema,
-  );
-};
+let slug = window.location.pathname.split("/blog/")[1];
+let res = await getData<
+  TResponse<{ reactions: TSelectReaction; slug: string }>
+>(`/api/reaction?slug=${slug}`);
 
-let { data } = await getReactions();
+let data = res.data;
 
 export function useReaction(reaction: string) {
   let emojiRef = useRef<HTMLSpanElement | null>(null);
@@ -60,7 +60,10 @@ export function useReaction(reaction: string) {
       headers: { "Content-Type": "application/json" },
     });
 
-    let { data } = await getReactions();
+    let { data } = await getData<
+      TResponse<{ reactions: TSelectReaction; slug: string }>
+    >(`/api/reaction?slug=${slug}`);
+
     let count = match(data)
       .with(P.nullish, () => 0)
       .otherwise(
@@ -72,5 +75,5 @@ export function useReaction(reaction: string) {
     setReactionCount(count);
   };
 
-  return { getReactions, postReaction, reactionCount, disabled, emojiRef };
+  return { postReaction, reactionCount, disabled, emojiRef };
 }
