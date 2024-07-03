@@ -1,5 +1,6 @@
-import { createResponse, createResponseInit } from "@/service/common";
 import { selectReaction } from "@/service/reaction";
+import { composeResponse, composeResponseHeaders } from "@/utils/req-res";
+import { getCollection } from "astro:content";
 import { tryit } from "radash";
 
 export const prerender = false;
@@ -7,32 +8,36 @@ export const prerender = false;
 export async function GET(ctx: { params: URL; request: Request }) {
   let url = new URL(ctx.request.url);
   let slug = url.searchParams.get("slug");
-
   if (!slug) {
-    let responseInit = createResponseInit(400);
+    return Response.json(
+      composeResponse("error", { message: "Missing slug" }),
+      composeResponseHeaders(400),
+    );
+  }
 
-    return new Response(
-      createResponse("error", { message: "Invalid slug" }),
-      responseInit,
+  let posts = await getCollection("blog", (post) =>
+    import.meta.env.PROD ? post.data.status === "published" : true,
+  );
+  let findPost = posts.find((post) => post.slug.includes(slug ?? ""));
+  if (!findPost) {
+    return Response.json(
+      composeResponse("error", { message: "Post not found" }),
+      composeResponseHeaders(404),
     );
   }
 
   let [error, reactions] = await tryit(selectReaction)(slug);
-
   if (error && !reactions) {
-    let responseInit = createResponseInit(500);
-    return new Response(
-      createResponse("error", { message: "Server error" }),
-      responseInit,
+    return Response.json(
+      composeResponse("error", { message: "Internal server error" }),
+      composeResponseHeaders(500),
     );
   }
 
-  let responseInit = createResponseInit(200);
-  return new Response(
-    createResponse("success", {
-      message: "fetch success, \\uWu//`",
+  return Response.json(
+    composeResponse("success", {
+      message: "Reactions fetched successfully!",
       data: { slug, reactions },
     }),
-    responseInit,
   );
 }

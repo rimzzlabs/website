@@ -9,4 +9,10 @@ export let ReactionResponseSchema = z.object({
   }),
 });
 
+export let sendReactionSchema = z.object({
+  slug: z.string({ message: "Slug is required" }),
+  reaction: z.enum(["like", "love", "eyes", "star_struck", "rocket"]),
+});
+
+export type TSendReactionSchema = z.infer<typeof sendReactionSchema>;
 export type TReactionResponseSchema = z.infer<typeof ReactionResponseSchema>;

@@ -1,54 +1,47 @@
-import { createResponseInit } from "@/service/common";
 import { insertReaction } from "@/service/reaction";
-import { safeParseJSON } from "@/utils/server";
-import { z } from "astro/zod";
+import {
+  composeResponse,
+  composeResponseHeaders,
+  safeParseJSON,
+} from "@/utils/req-res";
+import { transformZodIssuesToMessage } from "@/utils/validation";
+import { sendReactionSchema } from "@/validations/reaction";
 import { tryit } from "radash";
 
 export const prerender = false;
 
 export async function POST({ request }: { request: Request }) {
   let body = await safeParseJSON(request);
-  let check = z.object({
-    slug: z.string({ message: "Slug is required" }),
-    reaction: z.enum(["like", "love", "eyes", "star_struck", "rocket"]),
-  });
+  if (!body) {
+    return Response.json(
+      composeResponse("error", { message: "Missing body payload" }),
+      composeResponseHeaders(400),
+    );
+  }
 
-  let parsed = check.safeParse(body);
-
+  let parsed = sendReactionSchema.safeParse(body);
   if (parsed.error) {
-    let errors = parsed.error.errors.map((err) => ({
-      message: err.message,
-      key: err.path,
-    }));
-    let responseInit = createResponseInit(400);
-
-    return new Response(
-      JSON.stringify({
-        errors,
-        status: "error",
+    return Response.json(
+      composeResponse("error", {
+        message: transformZodIssuesToMessage(parsed.error.issues),
       }),
-      responseInit,
+      composeResponseHeaders(400),
     );
   }
 
-  let [error, id] = await tryit(insertReaction)(
-    parsed.data.slug,
-    parsed.data.reaction,
-  );
-
+  let [error, id] = await tryit(insertReaction)(parsed.data);
   if (error) {
-    let responseInit = createResponseInit(500);
-
-    return new Response(
-      JSON.stringify({ status: "error", message: error.message }),
-      responseInit,
+    return Response.json(
+      composeResponse("error", { message: "Internal server error" }),
+      composeResponseHeaders(500),
     );
   }
 
-  let responseInit = createResponseInit(201);
-
-  return new Response(
-    JSON.stringify({ status: "success", message: "Reacted! `uWu`", id }),
-    responseInit,
+  return Response.json(
+    composeResponse("success", {
+      message: "Reacted! \\uwu//",
+      data: { id },
+    }),
+    composeResponseHeaders(201),
   );
 }
