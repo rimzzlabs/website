@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+---
+
+<section class='w-11/12 max-md:pt-10 pb-20 mx-auto max-w-5xl'>
+  <div class='flex flex-col-reverse md:flex-row items-center'>
+    <div class='w-full pt-6 sm:pt-8 md:pt-0 lg:pr-40 pb-6 md:pb-10'>
+      <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>What Motivates Me?</h2>
+
+      <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+        <p class='text-neutral-400 font-medium'>
+          I enjoy tackling complex problems and finding effective solutions. It&apos;s rewarding to
+          break down challenges and see the impact of my work.
+        </p>
+
+        <p class='text-neutral-400 font-medium'>
+          Software development allows for creativity. There&apos;s room to innovate and think
+          outside the box. Building software that improves lives or simplifies processes is
+          rewarding.
+        </p>
+        <p class='text-neutral-400 font-medium'>
+          Knowing my contribution can have an impact keeps me motivated. The technology field is
+          moving fast, so there&apos;s always something new to learn. This growth keeps things
+          interesting.
+        </p>
+      </div>
+    </div>
+
+    <figure class='grow-0 shrink-0'>
+      <Image
+        width={500}
+        height={500}
+        loading='lazy'
+        src='/motivate.gif'
+        class='size-96'
+        alt='Person looking at the phone'
+      />
+      <figcaption class='sr-only'>
+        <em>Illustration from https://storyset.com</em>
+      </figcaption>
+    </figure>
+  </div>
+
+  <h3 class='text-2xl pb-6 md:pb-8 font-bold 2xl:text-3xl text-balance'>
+    The Most Valuable Thing <span class='sr-only'>in My Life is Time</span>
+  </h3>
+
+  <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+    <p class='text-neutral-400 font-medium'>
+      I was born in a small rural village, far from the luxuries of the city. I thought it was
+      great. Until I found out that there are many people who want to capitalize on the resource we
+      live in.
+    </p>
+
+    <p class='text-neutral-400 font-medium'>
+      To prevent this from happening, I&apos;m going to work hard to get the money and actually
+      bought all the fields in my birth village to keep it from the bad people.
+    </p>
+
+    <p class='text-neutral-400 font-medium'>
+      However, I have always dreamed of a village, but with technology in it, we don&apos;t have to
+      turn a rice field into a factory that produces smoke 24/7/365. Rather, we use other methods to
+      utilize the resource to preserve nature.
+    </p>
+  </div>
+</section>

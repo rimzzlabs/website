@@ -1,17 +1,13 @@
 ---
 import Hero from '@/modules/home/hero.astro';
 import Introduction from '@/modules/home/introduction.astro';
-import JourneyPartOne from '@/modules/home/journey-part-one.astro';
-import JourneyPartTwo from '@/modules/home/journey-part-two.astro';
-import JourneyPartThree from '@/modules/home/journey-part-three.astro';
-import JourneyPartFour from '@/modules/home/journey-part-four.astro';
 
-import { WavyBackground } from '@/components/ui/wavy-background';
 import { TracingBeam } from '@/components/ui/tracing-beam';
-import JourneyPartZero from '@/modules/home/journey-part-zero.astro';
-import JourneyContinues from '@/modules/home/journey-continues.astro';
-import { JourneyContinuesWords } from '@/modules/home/journey-continues-words';
+import TodaySection from '@/modules/home/today-section.astro';
 import SharedLayout from '@/layouts/shared.astro';
+import MotivateSection from '@/modules/home/motivate-section.astro';
+import SoftwareEngineeringSection from '@/modules/home/softeng-section.astro';
+import LanguageSection from '@/modules/home/language-section.astro';
 ---
 
 <SharedLayout>
@@ -19,19 +15,10 @@ import SharedLayout from '@/layouts/shared.astro';
     <main>
       <Hero />
       <Introduction />
-      <JourneyPartZero />
-      <JourneyPartOne />
-      <JourneyPartTwo />
-      <JourneyPartThree />
-      <JourneyPartFour />
-      <WavyBackground
-        containerClassName='h-44 overflow-x-clip'
-        canvasHeight={176}
-        waveWidth={20}
-        client:visible
-      />
-      <JourneyContinues />
-      <JourneyContinuesWords client:visible />
+      <SoftwareEngineeringSection />
+      <LanguageSection />
+      <MotivateSection />
+      <TodaySection />
     </main>
   </TracingBeam>
 </SharedLayout>

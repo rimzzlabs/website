@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+---
+
+<section class='w-11/12 max-md:pt-10 pb-20 mx-auto max-w-5xl'>
+  <div class='flex flex-col-reverse md:flex-row items-center pb-6 md:pb-10'>
+    <div class='w-full pt-6 sm:pt-8 md:pt-0 lg:pr-40'>
+      <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>What is Software Engineering?</h2>
+
+      <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+        <p class='text-neutral-400 font-medium'>
+          Software engineering is basically about building software in a structured way. Think of it
+          like building a house: you have to plan the layout, use the right materials, and make sure
+          it&apos;s safe and functional.
+        </p>
+
+        <p class='text-neutral-400 font-medium'>
+          In short, good software engineering ensures that the software is built right and continues
+          to work well over time, making life easier for users.
+        </p>
+      </div>
+    </div>
+
+    <figure class='shrink-0 grow-0'>
+      <Image
+        src='/softeng.gif'
+        class='size-96'
+        width={500}
+        height={500}
+        alt='Person looking at the phone'
+      />
+      <figcaption class='sr-only'>
+        <em>Illustration from https://storyset.com</em>
+      </figcaption>
+    </figure>
+  </div>
+</section>

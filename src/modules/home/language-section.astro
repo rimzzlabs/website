@@ -1,0 +1,65 @@
+---
+import Pre from '@/components/pre.astro';
+import { Image } from 'astro:assets';
+
+let languages = [
+  ['JavaScript', ''],
+  ['TypeScript', ''],
+  ['ReScript', '🧪'],
+  ['Rust', '🧪'],
+  ['Elixir', '🧪'],
+  ['Kotlin', '🧪'],
+];
+---
+
+<section class='w-11/12 max-md:pt-10 pb-20 mx-auto max-w-5xl'>
+  <div class='flex flex-col md:flex-row items-center'>
+    <figure class='shrink-0 grow-0'>
+      <Image
+        loading='lazy'
+        src='/language.gif'
+        width={500}
+        height={500}
+        class='size-96 object-contain'
+        alt='Person looking at the phone'
+      />
+
+      <figcaption class='sr-only'>
+        <em>Illustration from https://storyset.com</em>
+      </figcaption>
+    </figure>
+
+    <div class='w-full pt-6 sm:pt-8 md:pt-0 lg:pl-40 pb-6 md:pb-10'>
+      <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl text-balance'>
+        Programming Languages
+      </h2>
+
+      <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+        <p class='text-neutral-400 font-medium'>
+          Programming languages are the foundation of software. They are used to write instructions
+          that computers can understand.
+        </p>
+
+        <ul
+          class='list-["👉"] list-inside grid grid-cols-2 xl:grid-cols-3 text-neutral-400 font-medium'
+        >
+          {
+            languages.map(([lang, exp]) => (
+              <li>
+                {lang}
+                {exp}
+              </li>
+            ))
+          }
+        </ul>
+
+        <Pre>🧪 Indication that I am still new in the learning process. </Pre>
+
+        <p class='text-neutral-400 font-medium'>
+          Not every problem can be solved with hammer, a programming language is still a tool, I
+          don&apos;t pick side, and I tried to use it wisely.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
