@@ -21,39 +21,17 @@ import { Image } from 'astro:assets';
       </div>
     </div>
 
-    <Image
-      src='/softeng.gif'
-      class='size-96 shrink-0 grow-0'
-      width={500}
-      height={500}
-      alt='Person looking at the phone'
-    />
-  </div>
-
-  <h3 class='text-2xl pb-6 md:pb-8 font-bold 2xl:text-3xl text-balance'>
-    Software Engineering Past-Present
-  </h3>
-
-  <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
-    <p class='text-neutral-400 font-medium'>
-      The history of software engineering began in the <strong>1940s</strong> and <strong
-        >1950s</strong
-      > with early computers, where programming was done primarily in machine code or assembly language
-      with little formal structure.
-    </p>
-
-    <p class='text-neutral-400 font-medium'>
-      The term <strong>&quot;software engineering&quot;</strong> was coined in the <strong
-        >1960s</strong
-      > during a <strong>NATO</strong> conference to emphasize the need for more organized approaches
-      as early programming languages such as <strong>FORTRAN</strong> and <strong>COBOL</strong> were
-      developed.
-    </p>
-
-    <p class='text-neutral-400 font-medium'>
-      Today, software engineering continues to evolve with trends such as machine learning,
-      artificial intelligence, and the growing importance of security and ethical considerations in
-      software development.
-    </p>
+    <figure class='shrink-0 grow-0'>
+      <Image
+        src='/softeng.gif'
+        class='size-96'
+        width={500}
+        height={500}
+        alt='Person looking at the phone'
+      />
+      <figcaption class='sr-only'>
+        <em>Illustration from https://storyset.com</em>
+      </figcaption>
+    </figure>
   </div>
 </section>

@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+---
+
+<section class='flex flex-col md:flex-row items-center w-11/12 py-20 mx-auto max-w-5xl'>
+  <div class='w-full'>
+    <h2 class='text-4xl pb-6 md:pb-8 font-bold 2xl:text-5xl'>Today</h2>
+
+    <div class='max-w-2xl text-neutral-100 space-y-4 md:space-y-6'>
+      <p class='text-neutral-400 font-medium'>
+        I am currently working at <a
+          target='_blank'
+          rel='noopener noreferrrer'
+          href='https://bitwyre.id'
+          class='border-b border-neutral-300 text-neutral-50'>Bitwyre</a
+        >, a centralized crypto spot and exchange trading platform. It is a great place so far and
+        the colleagues are nice. Great team and productive workflow.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        I progressively learn new things and keep myself up to date with the latest trends in
+        technology. While keeping myself sane with black coffee.
+      </p>
+
+      <p class='text-neutral-400 font-medium'>
+        <strong class='cursor-help' title='Sundanese, Thank you in English'
+          ><em>Hatur nuhun</em></strong
+        > for visiting my website, let&apos;s keep in touch. You can also email me directly at <a
+          href='mailto:rimzzlabs@proton.me?s=hi'
+          target='_blank'
+          title='email Rizki Citra'
+          rel='noopener noreferrer'
+          class='border-b border-neutral-300 text-neutral-50'>rimzzlabs@proton.me</a
+        >.
+      </p>
+    </div>
+  </div>
+
+  <figure class='pt-6 px-4 md:px-0 sm:pt-8 md:pt-0 lg:pl-40 max-lg:w-full'>
+    <Image
+      width={749}
+      height={999}
+      loading='lazy'
+      decoding='async'
+      class='lg:mr-auto h-72 object-center lg:object-bottom sm:w-60 md:w-96 object-cover rounded'
+      src='https://res.cloudinary.com/rizkicitra/image/upload/v1729523748/rimzzlabs/potrait-bitwyre.jpg'
+      alt='A potrait of Rizki wearing black Bitwyre T Shirt'
+      title='A potrait of Rizki wearing black Bitwyre T Shirt'
+    />
+    <figcaption class='text-sm font-medium text-neutral-400 pt-2'>
+      <em>A potrait of Rizki wearing black Bitwyre T Shirt</em>
+    </figcaption>
+  </figure>
+</section>
