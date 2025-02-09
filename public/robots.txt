@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://rimzzlabs.com/sitemap-index.xml
+Sitemap: https://rimzzlabs.com/sitemap-0.xml
