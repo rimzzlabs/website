@@ -1,0 +1,83 @@
+---
+import Container from '@/components/Container.astro';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
+import SubTitle from '@/components/ui/SubTitle.astro';
+import Title from '@/components/ui/Title.astro';
+import RootLayout from '@/layouts/RootLayout.astro';
+import { formatDate } from '@/lib/date';
+
+let latestUpdate = new Date();
+let fmtLatestUpdate = formatDate(latestUpdate);
+let latestUpdateISO = latestUpdate.toISOString();
+---
+
+<RootLayout>
+  <header>
+    <Container className='pb-10 pt-5'>
+      <Title className='pb-4'>Now — What&apos;s Happening?</Title>
+
+      <p>
+        This is a <ExternalLink href='https://nownownow.com/about'>now page</ExternalLink>. It shows
+        you what I am doing lately. Though, I might forgot to update this page in the future.
+      </p>
+    </Container>
+  </header>
+
+  <section>
+    <Container className='pb-10'>
+      <SubTitle className='pb-4'> Latest Update </SubTitle>
+
+      <div class='border-l pl-2'>
+        <span class='border-l-4 border-primary pl-2 text-sm font-semibold'>
+          <time class='leading-none' datetime={latestUpdateISO}>{fmtLatestUpdate}</time>
+        </span>
+
+        <p>
+          I&apos;m currently fasting for Ramadan. Thank God I still given the time to meet another
+          Ramadan, I wish this years Ramadan be great for all of us.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <section>
+    <Container className='pb-10'>
+      <SubTitle className='pb-4'>Work</SubTitle>
+      <p class='sr-only pb-2.5'>How to stay relevant?</p>
+      <ul class='list-disc pl-6'>
+        <li>
+          I&apos;m currently working for <ExternalLink href='https://bitwyre.id'
+            >Bitwyre</ExternalLink
+          > as a Fontend Engineer.
+        </li>
+
+        <li>Building a POS System for my own grocery store <em>(in the future)</em>.</li>
+      </ul>
+    </Container>
+  </section>
+
+  <section>
+    <Container className='pb-10'>
+      <SubTitle className='pb-4'>Learn</SubTitle>
+      <ul class='list-disc pl-6'>
+        <li>Deepen functional programming (I really love FP).</li>
+        <li>Deepen native development skills with Kotlin (Android) and Swift (iOS).</li>
+        <li>Learning System Development with Rust.</li>
+        <li>Understanding Law, Taxes, and Construction Work for myself.</li>
+      </ul>
+    </Container>
+  </section>
+
+  <section>
+    <Container>
+      <SubTitle className='pb-4'>Contact</SubTitle>
+
+      <p>
+        If you need personal recommendation about movies, or a great <em>tempeh</em> recipe. Feel free
+        to contact me at <ExternalLink href='mailto:rimzzlabs@proton.me'
+          >rimzzlabs@proton.me</ExternalLink
+        >
+      </p>
+    </Container>
+  </section>
+</RootLayout>

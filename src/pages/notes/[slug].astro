@@ -1,0 +1,35 @@
+---
+import Container from '@/components/Container.astro';
+import Title from '@/components/ui/Title.astro';
+import RootLayout from '@/layouts/RootLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate, dateToISO } from '@/lib/date';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+let { entry } = Astro.props;
+let { Content } = await entry.render();
+let note = entry.data;
+---
+
+<RootLayout seo={{ title: note.title, description: note.description, keywords: note.keywords }}>
+  <header>
+    <Container className='border-border border-b pb-4 pt-5'>
+      <Title className='text-balance pb-4'>{note.title}</Title>
+      <div class='inline-flex items-center gap-x-2 text-sm font-medium'>
+        <span>Published</span>
+        <time datetime={dateToISO(note.publishedAt)}>{formatDate(note.publishedAt)}</time>
+      </div>
+    </Container>
+  </header>
+
+  <article class='prose mx-auto w-11/12 max-w-2xl pt-6 dark:prose-invert'>
+    <Content />
+  </article>
+</RootLayout>

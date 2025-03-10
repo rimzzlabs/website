@@ -1,0 +1,81 @@
+---
+import '@/styles/global.css';
+import '@fontsource-variable/lora';
+import serifFont from '@fontsource-variable/lora/files/lora-latin-wght-normal.woff2?url';
+
+import { SEO } from 'astro-seo';
+import Navbar from '@/components/Navbar.astro';
+import Footer from '@/components/Footer.astro';
+import BlurryBlob from '@/components/BlurryBlob.astro';
+import defaultSeo from '@/configs/seo';
+
+type Props = {
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: Array<string>;
+  };
+  skipNavAndFooter?: boolean;
+};
+
+let { seo, skipNavAndFooter = false } = Astro.props;
+
+let title = seo?.title ?? defaultSeo.title;
+let description = seo?.description ?? defaultSeo.description;
+let keywords = seo?.keywords ?? defaultSeo.keywords;
+
+let keywordsContent = keywords.join(',');
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='generator' content={Astro.generator} />
+    <SEO
+      title={title}
+      description={description}
+      twitter={{
+        title,
+        description,
+        creator: '@rimzzlabs',
+        site: 'rimzzlabs.com',
+      }}
+      extend={{
+        link: [
+          { rel: 'icon', href: '/favicon.svg' },
+          { rel: 'sitemap', href: '/sitemap-index.xml' },
+        ],
+        meta: [
+          { name: 'author', content: 'rimzzlabs.com' },
+          { name: 'publisher', content: 'rimzzlabs.com' },
+          { name: 'generator', content: Astro.generator },
+          { name: 'keywords', content: keywordsContent },
+          { name: 'robots', content: 'index, follow' },
+          {
+            name: 'viewport',
+            content: 'width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover',
+          },
+          {
+            name: 'googlebot',
+            content: 'index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1',
+          },
+        ],
+      }}
+    />
+    <link rel='preload' as='font' type='font/woff2' href={serifFont} crossorigin='anonymous' />
+  </head>
+  <body class='antialiased'>
+    {!skipNavAndFooter && <Navbar />}
+
+    <main class='min-h-[calc(100vh-12.5rem)]'>
+      <slot />
+    </main>
+
+    {!skipNavAndFooter && <Footer />}
+
+    <BlurryBlob />
+  </body>
+</html>

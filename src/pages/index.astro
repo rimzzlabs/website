@@ -1,24 +1,146 @@
 ---
-import Hero from '@/modules/home/hero.astro';
-import Introduction from '@/modules/home/introduction.astro';
+import Container from '@/components/Container.astro';
+import Title from '@/components/ui/Title.astro';
+import SubTitle from '@/components/ui/SubTitle.astro';
+import RootLayout from '@/layouts/RootLayout.astro';
+import Link from '@/components/ui/Link.astro';
+import { getCollection } from 'astro:content';
+import ExternalLink from '@/components/ui/ExternalLink.astro';
 
-import { TracingBeam } from '@/components/ui/tracing-beam';
-import TodaySection from '@/modules/home/today-section.astro';
-import SharedLayout from '@/layouts/shared.astro';
-import MotivateSection from '@/modules/home/motivate-section.astro';
-import SoftwareEngineeringSection from '@/modules/home/softeng-section.astro';
-import LanguageSection from '@/modules/home/language-section.astro';
+let notes = await getCollection('notes', (post) =>
+  import.meta.env.PROD ? post.data.status === 'published' : true,
+);
+let sortedNotes = notes
+  .slice(0)
+  .sort((a, b) =>
+    new Date(a.data.publishedAt).getTime() < new Date(b.data.publishedAt).getTime() ? 1 : -1,
+  );
 ---
 
-<SharedLayout>
-  <TracingBeam client:load>
-    <main>
-      <Hero />
-      <Introduction />
-      <SoftwareEngineeringSection />
-      <LanguageSection />
-      <MotivateSection />
-      <TodaySection />
-    </main>
-  </TracingBeam>
-</SharedLayout>
+<RootLayout>
+  <header class='pt-5'>
+    <Container className='pb-10'>
+      <Title className='pb-4'>
+        <span class='sr-only'>Rizki Maulana Citra, also known as Rizki Citra - </span>rimzzlabs
+      </Title>
+
+      <p>
+        A dedicated Software Engineer. I create intuitive, smooth, and visually appealing user
+        interfaces that engage and delight users.
+      </p>
+    </Container>
+  </header>
+
+  <section>
+    <Container className='pb-10 text-justify'>
+      <SubTitle className='pb-4 text-start'> What Motivates Me In Software Engineering? </SubTitle>
+
+      <p class='pb-2.5'>
+        Software engineering allows me to do meaningful work that aligns with my values. I can
+        contribute to the greater good.
+      </p>
+
+      <p class='pb-2.5'>
+        Software engineering means building software in a structured way: plan the layout, use the
+        right materials, and make sure it's safe and functional.
+      </p>
+
+      <p class='pb-2.5'>
+        There's room to innovate and think outside the box. Building software that improves lives or
+        simplifies processes is rewarding.
+      </p>
+
+      <p class='pb-2.5'>
+        The technology field is moving fast, so there's always something new to learn. This growth
+        keeps things interesting.
+      </p>
+    </Container>
+  </section>
+
+  <section>
+    <Container className='pb-10 text-justify'>
+      <SubTitle className='pb-4 text-start'> What&apos;s UI Engineer? </SubTitle>
+
+      <p class='pb-2.5'>
+        I mostly work in the Frontend Ecosystem, whether it&apos;s web applications, or mobile
+        applications. Though I'm mostly into the web ecosystem, especially <ExternalLink
+          href='https://react.dev'>React</ExternalLink
+        >.
+      </p>
+
+      <p class='pb-2.5'>
+        I use React because (so far) to me, it&apos;s one of the tool that <em>makes sense</em>
+        to build functional user interfaces. It&apos;s just a simple JavaScript function that returns
+        HTML (JSX) and then renders it on the page.
+      </p>
+
+      <p class='5 pb-2'>Let&apos;s back to the question: What&apos;s UI Engineer?</p>
+
+      <blockquote
+        cite='https://www.indeed.com/career-advice/finding-a-job/ui-engineer'
+        class='text-muted-foreground border-l-4 pl-2.5'
+      >
+        <em>
+          UI Engineer, a person who designs websites and applications with the end-user in mind.
+        </em>
+      </blockquote>
+
+      <p class='py-2.5'>
+        To sum it up, it's a job where you develop and maintain cross-platform apps based on
+        <strong>user-centered design</strong>. And as an engineer, I should be able to think and act
+        like a real user.
+      </p>
+
+      <p class='pb-2.5'>
+        In short; <strong>here&apos;s how it works</strong>: I am going to demand a nice piece of
+        user interface, excellent user experience, smooth transition, and so on.
+      </p>
+
+      <p class='pb-2.5'>
+        because here&apos;s what they might think: <strong
+          >&quot;while using your product, you should serve us well, and if you did not served us
+          well, I&apos;m just gonna buy it from another place&quot;</strong
+        >.
+      </p>
+    </Container>
+  </section>
+
+  <section>
+    <Container className='pb-10 text-justify'>
+      <SubTitle className='pb-4 text-start'>What&apos;s Your Side Quest?</SubTitle>
+
+      <p class='pb-2.5'>
+        I progressively learn new things and keep myself up to date with the latest trends in
+        technology. While keeping myself sane with black coffee.
+      </p>
+
+      <p>
+        Apart from my main job, I like to travel in search of nature, ride my motorbike, talk to my
+        cats, and sometimes read philosophical books.
+      </p>
+    </Container>
+  </section>
+
+  <section>
+    <Container>
+      <SubTitle className='pb-4'>Notes</SubTitle>
+
+      <p class='pb-2.5'>Though I rarely update them, you might find them interesting to read.</p>
+
+      <ul class='list-disc pl-6'>
+        {
+          sortedNotes.map((n) => (
+            <li>
+              <Link
+                class='hove:text-orange-800 underline hover:dark:text-orange-500'
+                href={`/notes/${n.slug}`}
+              >
+                {n.data.title}
+              </Link>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </section>
+</RootLayout>

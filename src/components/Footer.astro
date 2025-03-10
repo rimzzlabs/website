@@ -1,0 +1,30 @@
+---
+import Container from './Container.astro';
+import nav from '@/configs/nav';
+import ExternalLink from './ui/ExternalLink.astro';
+import Link from './ui/Link.astro';
+---
+
+<footer>
+  <Container className='pb-8 pt-20'>
+    <nav class='flex items-center justify-center gap-3'>
+      {
+        nav.footer.map((item) => {
+          if ('external' in item) {
+            return (
+              <ExternalLink class='text-muted-foreground no-underline' href={item.href}>
+                {item.label}
+              </ExternalLink>
+            );
+          }
+
+          return (
+            <Link class='text-muted-foreground' href={item.href}>
+              {item.label}
+            </Link>
+          );
+        })
+      }
+    </nav>
+  </Container>
+</footer>

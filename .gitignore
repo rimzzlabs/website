@@ -38,3 +38,6 @@ next-env.d.ts
 
 # Contentlayer
 .contentlayer
+
+# build output
+dist
