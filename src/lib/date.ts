@@ -1,6 +1,28 @@
-import { format } from "date-fns";
+export function formatDate(date: string | Date | number) {
+  try {
+    let fmt = new Intl.DateTimeFormat("en-gb", {
+      day: "numeric",
+      weekday: "long",
+      month: "short",
+      year: "numeric",
+    });
 
-export const formatDate = (
-  date: string | Date | number,
-  formatStr = "dd MMMM yyyy",
-) => format(date, formatStr);
+    return fmt.format(new Date(date));
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.info("Invalid date value, or Intl.Config value");
+    }
+    return "-";
+  }
+}
+
+export function dateToISO(date: string | Date | number) {
+  try {
+    return new Date(date).toISOString();
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.info("Invalid date value");
+    }
+    return "-";
+  }
+}

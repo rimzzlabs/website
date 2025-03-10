@@ -1,14 +1,23 @@
 ---
-import SharedLayout from '@/layouts/shared.astro';
-import NotFoundHero from '@/modules/not-found/hero.astro';
-import NotFoundButtons from '@/modules/not-found/buttons.astro';
+import Container from '@/components/Container.astro';
+import Link from '@/components/ui/Link.astro';
+import Title from '@/components/ui/Title.astro';
+import RootLayout from '@/layouts/RootLayout.astro';
+
+let title = '404 Resource Not Found';
+let description = 'My apologize, but the resource you were looking for is not found';
 ---
 
-<SharedLayout
-  hideFooter
-  hideNavbar
-  title='You have lost - page not found'
-  description='The page you were looking for is not found, please contact me if you think this is a mistake, I will gladly fix it as soon as possible.'
->
-  <NotFoundHero />
-</SharedLayout>
+<RootLayout skipNavAndFooter seo={{ title, description }}>
+  <section class='grid h-[calc(100vh-4rem)] place-items-center'>
+    <Container className='text-center'>
+      <Title className='pb-4'>{title}</Title>
+      <p class='pb-3'>{description}</p>
+      <Link
+        href='/'
+        class='items-center rounded-lg bg-primary px-3 py-1.5 text-sm text-primary-foreground'
+        >&crarr; Back</Link
+      >
+    </Container>
+  </section>
+</RootLayout>

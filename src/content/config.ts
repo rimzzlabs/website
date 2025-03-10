@@ -1,6 +1,6 @@
 import { defineCollection, reference, z } from "astro:content";
 
-let blogSchema = z.object({
+let noteSchema = z.object({
   title: z.string(),
   description: z.string(),
   keywords: z.array(z.string()),
@@ -8,7 +8,6 @@ let blogSchema = z.object({
   status: z.enum(["published", "draft"]),
   featured: z.boolean(),
   author: reference("authors"),
-  relatedPosts: z.array(reference("blog")).optional(),
 });
 
 let authorsSchema = z.object({
@@ -17,9 +16,9 @@ let authorsSchema = z.object({
   url: z.string(),
 });
 
-let blogCollection = defineCollection({
+let notesSchema = defineCollection({
   type: "content",
-  schema: blogSchema,
+  schema: noteSchema,
 });
 
 let authorsCollection = defineCollection({
@@ -27,8 +26,8 @@ let authorsCollection = defineCollection({
   schema: authorsSchema,
 });
 
-export type TBlogSchema = z.infer<typeof blogSchema>;
+export type TNoteSchema = z.infer<typeof noteSchema>;
 export let collections = {
-  blog: blogCollection,
+  notes: notesSchema,
   authors: authorsCollection,
 };

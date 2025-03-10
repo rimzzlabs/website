@@ -4,45 +4,36 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --radius: 0.75rem;
+    --background: 20 5.9% 90%;
+    --foreground: 12 6.5% 15.1%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 20 14% 4%;
+    --border: 24 5% 64%;
+    --muted: 24 5.4% 63.9%;
+    --muted-foreground: 33.3 5.5% 32.4%;
   }
-}
 
-@layer base {
+  .dark {
+    --background: 24 9.8% 10%;
+    --foreground: 60 4.8% 95.9%;
+    --border: 30 6.3% 25.1%;
+    --muted: 33.3 5.5% 32.4%;
+    --muted-foreground: 24 5.7% 82.9%;
+  }
+
   * {
     @apply border-border;
   }
-  html {
-    color-scheme: dark;
-  }
+
   body {
-    @apply bg-background text-foreground antialiased font-primary scroll-pt-0;
+    @apply bg-background font-serif text-foreground antialiased;
+  }
+
+  .prose :is(p, h1, h2, h3, h4, h5, h6, a, em, strong) {
+    @apply text-foreground;
+  }
+
+  .prose blockquote {
+    @apply border-border;
   }
 }

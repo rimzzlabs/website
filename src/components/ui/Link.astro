@@ -1,0 +1,11 @@
+---
+import { cn } from '@/lib/utils';
+
+type Props = astroHTML.JSX.AnchorHTMLAttributes;
+
+let props = Astro.props;
+---
+
+<a {...props} class={cn('font-medium leading-none transition', props.class)}>
+  <slot />
+</a>

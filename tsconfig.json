@@ -3,6 +3,7 @@
   "extends": "astro/tsconfigs/base",
   "compilerOptions": {
     "strict": true,
+    "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
