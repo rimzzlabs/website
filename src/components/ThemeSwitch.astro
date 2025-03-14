@@ -36,6 +36,8 @@
 </button>
 
 <script is:inline>
+  let html = document.documentElement;
+
   function getTheme() {
     let localStorageTheme = localStorage?.getItem('app.theme') ?? '';
 
@@ -44,20 +46,22 @@
     return 'light';
   }
 
-  function main() {
+  function prepareTheme() {
     let theme = getTheme();
-
-    let html = document.documentElement;
-    let button = document.querySelector('#theme-switch');
 
     if (theme === 'light') {
       html.classList.remove('dark');
     } else {
       html.classList.add('dark');
     }
+  }
+
+  function main() {
+    prepareTheme();
+
+    let button = document.querySelector('#theme-switch');
 
     function onClickTheme() {
-      console.info('I RUN');
       html.classList.toggle('dark');
     }
 
@@ -71,6 +75,10 @@
     button?.addEventListener('click', onClickTheme);
   }
 
-  document.addEventListener('astro:after-swap', main);
+  function onAfterSwap() {
+    prepareTheme();
+  }
+
+  document.addEventListener('astro:after-swap', onAfterSwap);
   main();
 </script>

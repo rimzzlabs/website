@@ -2,8 +2,6 @@
 import '@/styles/global.css';
 import '@fontsource-variable/lora';
 import serifFont from '@fontsource-variable/lora/files/lora-latin-wght-normal.woff2?url';
-import image from '@/assets/me.jpg?url';
-
 import { SEO, type SEOProps } from 'astro-seo';
 import { ClientRouter } from 'astro:transitions';
 
@@ -12,6 +10,8 @@ import Footer from '@/components/Footer.astro';
 import SkipButton from '@/components/SkipButton.astro';
 import BlurryBlob from '@/components/BlurryBlob.astro';
 import defaultSeo from '@/configs/seo';
+import { getImage } from 'astro:assets';
+import image from '@/assets/me.jpg';
 
 type Props = {
   seo?: {
@@ -23,10 +23,18 @@ type Props = {
   skipNavAndFooter?: boolean;
 };
 
+let optimizedImage = await getImage({
+  src: image,
+  format: 'webp',
+  width: 280,
+  height: 280,
+});
+
 let { seo, skipNavAndFooter = false } = Astro.props;
 
 let title = seo?.title ?? defaultSeo.title;
 let description = seo?.description ?? defaultSeo.description;
+let pathname = Astro.url.pathname;
 
 let keywordsContent = seo?.keywords
   ? seo.keywords.concat(defaultSeo.keywords).join(',')
@@ -56,19 +64,19 @@ let article: NonNullable<SEOProps['openGraph']>['article'] = seo?.article
         description,
         creator: '@rimzzlabs',
         site: 'rimzzlabs.com',
-        image: '/og-image.jpg',
+        image: '/og-image.png',
         imageAlt: 'rimzzlabs.com',
         card: 'summary_large_image',
       }}
       openGraph={{
         article,
-        basic: { title, image: '/og-image.jpg', type: seo?.article ? 'article' : 'website' },
+        basic: { title, image: '/og-image.png', type: seo?.article ? 'article' : 'website' },
         image: {
           alt: 'rimzzlabs.com',
           height: 700,
           width: 1280,
-          type: 'image/jpg',
-          url: '/og-image',
+          type: 'image/png',
+          url: '/og-image.png',
         },
         optional: { locale: 'en', description, siteName: 'rimzzlabs' },
       }}
@@ -95,7 +103,7 @@ let article: NonNullable<SEOProps['openGraph']>['article'] = seo?.article
       }}
     />
     <link rel='preload' as='font' type='font/woff2' href={serifFont} crossorigin='anonymous' />
-    <link rel='preload' as='image' type='image/jpg' href={image} />
+    {pathname === '/' && <link rel='preload' href={optimizedImage.src} as='image' />}
     <ClientRouter />
   </head>
   <body class='antialiased'>
