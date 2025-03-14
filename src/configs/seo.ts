@@ -1,6 +1,6 @@
 const title = "Rizki Maulana Citra - rimzzlabs";
 const description =
-  "A dedicated Software Engineer and UI specialist. I create intuitive, smooth, and visually appealing user interfaces that engage and delight users.";
+  "A dedicated UI Software Engineer. I create intuitive, smooth, and visually appealing UI that engage and delight users.";
 const keywords = [
   "rizki m citra",
   "rizki maulana citra",

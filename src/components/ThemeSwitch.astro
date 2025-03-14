@@ -15,6 +15,7 @@
 </style>
 
 <button
+  transition:persist=''
   id='theme-switch'
   class='inline-flex size-9 cursor-pointer items-center justify-center rounded-xl transition'
 >
@@ -34,39 +35,42 @@
   <span class='sr-only'>Switch Theme</span>
 </button>
 
-<script async is:inline>
-  function onClickEvent() {
-    const element = document.documentElement;
+<script is:inline>
+  function getTheme() {
+    let localStorageTheme = localStorage?.getItem('app.theme') ?? '';
 
-    const isDark = element.classList.contains('dark');
-    element.classList[isDark ? 'remove' : 'add']('dark');
-    localStorage.setItem('app.theme', isDark ? 'dark' : 'light');
+    if (['dark', 'light'].includes(localStorageTheme)) return localStorageTheme;
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    return 'light';
   }
 
-  let button = document.getElementById('theme-switch');
-  if (button) {
-    button.addEventListener('click', onClickEvent);
-  }
+  function main() {
+    let theme = getTheme();
 
-  function getThemePreference() {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('app.theme')) {
-      return localStorage.getItem('app.theme');
+    let html = document.documentElement;
+    let button = document.querySelector('#theme-switch');
+
+    if (theme === 'light') {
+      html.classList.remove('dark');
+    } else {
+      html.classList.add('dark');
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
 
-  let isDark = getThemePreference() === 'dark';
+    function onClickTheme() {
+      console.info('I RUN');
+      html.classList.toggle('dark');
+    }
 
-  document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
-
-  if (typeof localStorage !== 'undefined') {
     let observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains('dark');
+      let isDark = html.classList.contains('dark');
       localStorage.setItem('app.theme', isDark ? 'dark' : 'light');
     });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
+
+    observer?.observe(html, { attributes: true, attributeFilter: ['class'] });
+
+    button?.addEventListener('click', onClickTheme);
   }
+
+  document.addEventListener('astro:after-swap', main);
+  main();
 </script>

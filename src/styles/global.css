@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .text-title {
+    @apply text-4xl font-bold;
+  }
+
+  .text-sub-title {
+    @apply text-2xl font-bold;
+  }
+}
+
 @layer base {
   :root {
     --background: 20 5.9% 90%;
@@ -35,5 +45,9 @@
 
   .prose blockquote {
     @apply border-border;
+  }
+
+  :is(a, button) {
+    @apply focus-visible:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:transition;
   }
 }

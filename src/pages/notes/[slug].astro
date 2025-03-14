@@ -1,6 +1,5 @@
 ---
 import Container from '@/components/Container.astro';
-import Title from '@/components/ui/Title.astro';
 import RootLayout from '@/layouts/RootLayout.astro';
 import { getCollection } from 'astro:content';
 import { formatDate, dateToISO } from '@/lib/date';
@@ -16,12 +15,22 @@ export async function getStaticPaths() {
 let { entry } = Astro.props;
 let { Content } = await entry.render();
 let note = entry.data;
+let published_time = dateToISO(note.publishedAt);
 ---
 
-<RootLayout seo={{ title: note.title, description: note.description, keywords: note.keywords }}>
+<RootLayout
+  seo={{
+    title: `${note.title} - rimzzlabs notes`,
+    description: note.description,
+    keywords: note.keywords,
+    article: { published_time, tags: note.keywords },
+  }}
+>
   <header>
-    <Container className='border-border border-b pb-4 pt-5'>
-      <Title className='text-balance pb-4'>{note.title}</Title>
+    <Container className='border-b border-border pb-4 pt-5'>
+      <h1 transition:name='title' class='text-title text-balance pb-4'>
+        {note.title}
+      </h1>
       <div class='inline-flex items-center gap-x-2 text-sm font-medium'>
         <span>Published</span>
         <time datetime={dateToISO(note.publishedAt)}>{formatDate(note.publishedAt)}</time>

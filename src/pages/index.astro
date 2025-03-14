@@ -1,11 +1,17 @@
 ---
 import Container from '@/components/Container.astro';
-import Title from '@/components/ui/Title.astro';
-import SubTitle from '@/components/ui/SubTitle.astro';
 import RootLayout from '@/layouts/RootLayout.astro';
 import Link from '@/components/ui/Link.astro';
 import { getCollection } from 'astro:content';
 import ExternalLink from '@/components/ui/ExternalLink.astro';
+import { getImage, Image } from 'astro:assets';
+import image from '@/assets/me.jpg';
+const optimizedImage = await getImage({
+  src: image,
+  format: 'webp',
+  width: 280,
+  height: 280,
+});
 
 let notes = await getCollection('notes', (post) =>
   import.meta.env.PROD ? post.data.status === 'published' : true,
@@ -20,20 +26,39 @@ let sortedNotes = notes
 <RootLayout>
   <header class='pt-5'>
     <Container className='pb-10'>
-      <Title className='pb-4'>
+      <figure class='relative max-w-max'>
+        <div
+          class='absolute inset-4 -z-10 hidden bg-gradient-to-br from-primary to-violet-500 blur-3xl supports-[filter:blur(0)]:block'
+        >
+        </div>
+        <Image
+          draggable='false'
+          src={optimizedImage.options.src as string}
+          width={optimizedImage.attributes.width}
+          height={optimizedImage.attributes.height}
+          class='aspect-square w-40 select-none object-cover transition hover:brightness-75'
+          alt="Rizki's potrait, behind him a white desktop setup of his workspace"
+        />
+        <figcaption class='sr-only'>
+          Rizki&apos;s potrait, behind him a white desktop setup of his workspace
+        </figcaption>
+      </figure>
+      <h1 class='text-title pb-4' transition:name='title'>
         <span class='sr-only'>Rizki Maulana Citra, also known as Rizki Citra - </span>rimzzlabs
-      </Title>
+      </h1>
 
       <p>
-        A dedicated Software Engineer. I create intuitive, smooth, and visually appealing user
-        interfaces that engage and delight users.
+        A dedicated UI Software Engineer. I create intuitive, smooth, and visually appealing UI that
+        engage and delight users.
       </p>
     </Container>
   </header>
 
   <section>
     <Container className='pb-10 text-justify'>
-      <SubTitle className='pb-4 text-start'> What Motivates Me In Software Engineering? </SubTitle>
+      <h2 transition:name='3rd' class='text-sub-title pb-4 text-start'>
+        What Motivates Me In Software Engineering?
+      </h2>
 
       <p class='pb-2.5'>
         Software engineering allows me to do meaningful work that aligns with my values. I can
@@ -59,7 +84,7 @@ let sortedNotes = notes
 
   <section>
     <Container className='pb-10 text-justify'>
-      <SubTitle className='pb-4 text-start'> What&apos;s UI Engineer? </SubTitle>
+      <h2 transition:name='4th' class='text-sub-title pb-4 text-start'>What&apos;s UI Engineer?</h2>
 
       <p class='pb-2.5'>
         I mostly work in the Frontend Ecosystem, whether it&apos;s web applications, or mobile
@@ -78,7 +103,7 @@ let sortedNotes = notes
 
       <blockquote
         cite='https://www.indeed.com/career-advice/finding-a-job/ui-engineer'
-        class='text-muted-foreground border-l-4 pl-2.5'
+        class='border-l-4 pl-2.5 text-muted-foreground'
       >
         <em>
           UI Engineer, a person who designs websites and applications with the end-user in mind.
@@ -98,7 +123,7 @@ let sortedNotes = notes
 
       <p class='pb-2.5'>
         because here&apos;s what they might think: <strong
-          >&quot;while using your product, you should serve us well, and if you did not served us
+          >&quot;while using your product, you should serve me well, and if you did not served me
           well, I&apos;m just gonna buy it from another place&quot;</strong
         >.
       </p>
@@ -107,7 +132,7 @@ let sortedNotes = notes
 
   <section>
     <Container className='pb-10 text-justify'>
-      <SubTitle className='pb-4 text-start'>What&apos;s Your Side Quest?</SubTitle>
+      <h2 class='text-sub-title pb-4 text-start'>What&apos;s My Side Quest?</h2>
 
       <p class='pb-2.5'>
         I progressively learn new things and keep myself up to date with the latest trends in
@@ -123,7 +148,7 @@ let sortedNotes = notes
 
   <section>
     <Container>
-      <SubTitle className='pb-4'>Notes</SubTitle>
+      <h2 transition:name='2nd' class='text-sub-title pb-4'>Notes</h2>
 
       <p class='pb-2.5'>Though I rarely update them, you might find them interesting to read.</p>
 
@@ -132,7 +157,7 @@ let sortedNotes = notes
           sortedNotes.map((n) => (
             <li>
               <Link
-                class='hove:text-orange-800 underline hover:dark:text-orange-500'
+                class='underline hover:text-orange-600 hover:dark:text-orange-500'
                 href={`/notes/${n.slug}`}
               >
                 {n.data.title}

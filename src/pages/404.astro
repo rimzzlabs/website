@@ -1,7 +1,6 @@
 ---
 import Container from '@/components/Container.astro';
 import Link from '@/components/ui/Link.astro';
-import Title from '@/components/ui/Title.astro';
 import RootLayout from '@/layouts/RootLayout.astro';
 
 let title = '404 Resource Not Found';
@@ -11,7 +10,7 @@ let description = 'My apologize, but the resource you were looking for is not fo
 <RootLayout skipNavAndFooter seo={{ title, description }}>
   <section class='grid h-[calc(100vh-4rem)] place-items-center'>
     <Container className='text-center'>
-      <Title className='pb-4'>{title}</Title>
+      <h1 class='text-title pb-4'>{title}</h1>
       <p class='pb-3'>{description}</p>
       <Link
         href='/'

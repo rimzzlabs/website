@@ -1,8 +1,6 @@
 ---
 import Container from '@/components/Container.astro';
 import ExternalLink from '@/components/ui/ExternalLink.astro';
-import SubTitle from '@/components/ui/SubTitle.astro';
-import Title from '@/components/ui/Title.astro';
 import RootLayout from '@/layouts/RootLayout.astro';
 import { formatDate } from '@/lib/date';
 
@@ -14,7 +12,7 @@ let latestUpdateISO = latestUpdate.toISOString();
 <RootLayout>
   <header>
     <Container className='pb-10 pt-5'>
-      <Title className='pb-4'>Now — What&apos;s Happening?</Title>
+      <h1 class='text-title pb-4' transition:name='title'>Now — What&apos;s Happening?</h1>
 
       <p>
         This is a <ExternalLink href='https://nownownow.com/about'>now page</ExternalLink>. It shows
@@ -25,7 +23,7 @@ let latestUpdateISO = latestUpdate.toISOString();
 
   <section>
     <Container className='pb-10'>
-      <SubTitle className='pb-4'> Latest Update </SubTitle>
+      <h2 transition:name='2nd' class='text-sub-title pb-4'>Latest Update</h2>
 
       <div class='border-l pl-2'>
         <span class='border-l-4 border-primary pl-2 text-sm font-semibold'>
@@ -42,7 +40,7 @@ let latestUpdateISO = latestUpdate.toISOString();
 
   <section>
     <Container className='pb-10'>
-      <SubTitle className='pb-4'>Work</SubTitle>
+      <h2 transition:name='3rd' class='text-sub-title pb-4'>Work</h2>
       <p class='sr-only pb-2.5'>How to stay relevant?</p>
       <ul class='list-disc pl-6'>
         <li>
@@ -58,7 +56,7 @@ let latestUpdateISO = latestUpdate.toISOString();
 
   <section>
     <Container className='pb-10'>
-      <SubTitle className='pb-4'>Learn</SubTitle>
+      <h2 transition:name='4th' class='text-sub-title pb-4'>Learn</h2>
       <ul class='list-disc pl-6'>
         <li>Deepen functional programming (I really love FP).</li>
         <li>Deepen native development skills with Kotlin (Android) and Swift (iOS).</li>
@@ -70,7 +68,7 @@ let latestUpdateISO = latestUpdate.toISOString();
 
   <section>
     <Container>
-      <SubTitle className='pb-4'>Contact</SubTitle>
+      <h2 class='text-sub-title pb-4'>Contact</h2>
 
       <p>
         If you need personal recommendation about movies, or a great <em>tempeh</em> recipe. Feel free
