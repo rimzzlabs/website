@@ -3,7 +3,6 @@ import '@/styles/global.css';
 import '@fontsource-variable/lora';
 import serifFont from '@fontsource-variable/lora/files/lora-latin-wght-normal.woff2?url';
 import { SEO, type SEOProps } from 'astro-seo';
-import { ClientRouter } from 'astro:transitions';
 
 import Navbar from '@/components/Navbar.astro';
 import Footer from '@/components/Footer.astro';
@@ -104,7 +103,6 @@ let article: NonNullable<SEOProps['openGraph']>['article'] = seo?.article
     />
     <link rel='preload' as='font' type='font/woff2' href={serifFont} crossorigin='anonymous' />
     {pathname === '/' && <link rel='preload' href={optimizedImage.src} as='image' />}
-    <ClientRouter />
   </head>
   <body class='antialiased'>
     <SkipButton />
@@ -117,5 +115,27 @@ let article: NonNullable<SEOProps['openGraph']>['article'] = seo?.article
     {!skipNavAndFooter && <Footer />}
 
     <BlurryBlob />
+    <script is:inline>
+      const getThemePreference = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('app.theme')) {
+          return localStorage.getItem('app.theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      const isDark = getThemePreference() === 'dark';
+      document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+
+      if (typeof localStorage !== 'undefined') {
+        const observer = new MutationObserver(() => {
+          const isDark = document.documentElement.classList.contains('dark');
+          localStorage.setItem('app.theme', isDark ? 'dark' : 'light');
+        });
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class'],
+        });
+      }
+    </script>
   </body>
 </html>

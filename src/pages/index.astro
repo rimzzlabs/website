@@ -43,11 +43,11 @@ let sortedNotes = notes
           Rizki&apos;s potrait, behind him a white desktop setup of his workspace
         </figcaption>
       </figure>
-      <h1 class='text-title pb-4' transition:name='title'>
+      <h1 class='text-title sr-only'>
         <span class='sr-only'>Rizki Maulana Citra, also known as Rizki Citra - </span>rimzzlabs
       </h1>
 
-      <p>
+      <p class='pt-4'>
         A passionate, and dedicated UI Software Engineer. I create intuitive, smooth, and visually
         appealing user interfaces that engage and delight users.
       </p>
@@ -56,9 +56,7 @@ let sortedNotes = notes
 
   <section>
     <Container className='pb-10 text-justify'>
-      <h2 transition:name='3rd' class='text-sub-title pb-4 text-start'>
-        What Motivates Me In Software Engineering?
-      </h2>
+      <h2 class='text-sub-title pb-4 text-start'>What Motivates Me In Software Engineering?</h2>
 
       <p class='pb-2.5'>
         Software engineering allows me to do meaningful work that aligns with my values. I can
@@ -84,11 +82,12 @@ let sortedNotes = notes
 
   <section>
     <Container className='pb-10 text-justify'>
-      <h2 transition:name='4th' class='text-sub-title pb-4 text-start'>What&apos;s UI Engineer?</h2>
+      <h2 class='text-sub-title pb-4 text-start'>What&apos;s UI Engineer?</h2>
 
       <p class='pb-2.5'>
         I mostly work in the Frontend Ecosystem, whether it&apos;s web applications, or mobile
         applications. Though I'm mostly into the web ecosystem, especially <ExternalLink
+          title={`Open official React Website on a new tab`}
           href='https://react.dev'>React</ExternalLink
         >.
       </p>
@@ -148,7 +147,7 @@ let sortedNotes = notes
 
   <section>
     <Container>
-      <h2 transition:name='2nd' class='text-sub-title pb-4'>Notes</h2>
+      <h2 class='text-sub-title pb-4'>Notes</h2>
 
       <p class='pb-2.5'>Though I rarely update them, you might find them interesting to read.</p>
 
@@ -157,6 +156,7 @@ let sortedNotes = notes
           sortedNotes.map((n) => (
             <li>
               <Link
+                title={`Read notes about "${n.data.title}"`}
                 class='underline hover:text-orange-600 hover:dark:text-orange-500'
                 href={`/notes/${n.slug}`}
               >

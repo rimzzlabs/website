@@ -12,14 +12,22 @@ import Link from './ui/Link.astro';
         nav.footer.map((item) => {
           if ('external' in item) {
             return (
-              <ExternalLink class='text-muted-foreground no-underline' href={item.href}>
+              <ExternalLink
+                title={`Open link to "${item.label}" on a new tab`}
+                class='text-muted-foreground no-underline'
+                href={item.href}
+              >
                 {item.label}
               </ExternalLink>
             );
           }
 
           return (
-            <Link class='text-muted-foreground' href={item.href}>
+            <Link
+              class='text-muted-foreground'
+              title={`Navigate to ${item.label} page`}
+              href={item.href}
+            >
               {item.label}
             </Link>
           );

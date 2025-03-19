@@ -9,7 +9,7 @@
     "dev": "astro sync && astro dev",
     "start": "astro sync && astro dev",
     "build": "astro sync && astro build",
-    "preview": "astro sync && preview",
+    "preview": "astro preview",
     "sync": "astro sync",
     "astro:add": "astro add",
     "prepare": "husky",
