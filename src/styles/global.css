@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+	--breakpoint-ssm: 25rem;
+}
+
 @theme inline {
 	--font-sans:
 		"Rubik", ui-sans-serif, system-ui, -apple-system,
@@ -107,6 +111,10 @@
 @layer utilities {
 	.container-fluid {
 		@apply max-w-5xl mx-auto w-11/12;
+	}
+	.cover-img {
+		image-rendering: -webkit-optimize-contrast;
+		image-rendering: crisp-edges;
 	}
 }
 

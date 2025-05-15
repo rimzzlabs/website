@@ -1,4 +1,4 @@
-import { ChevronDown, Loader, MonitorIcon, Moon, MoonStarIcon, SunIcon } from 'lucide-react'
+import { Loader, MonitorIcon, Moon, MoonStarIcon, SunIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import {
 	DropdownMenu,
