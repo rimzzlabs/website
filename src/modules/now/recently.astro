@@ -1,0 +1,45 @@
+---
+import info from "@/configs/info.json";
+
+let formatDate = (date: string) =>
+  new Date(date).toLocaleDateString("en-ID", {
+    day: "numeric",
+    month: "short",
+    weekday: "short",
+    year: "numeric",
+  });
+let dateToISO = (date: string) => new Date(date).toISOString();
+
+let sortedNow = info.now.toSorted((a, b) => {
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
+---
+
+<section class="container-fluid py-10">
+  <h2 class="text-3xl text-balance font-bold pb-10 sm:text-4xl lg:text-5xl">
+    What's Happening
+  </h2>
+
+  <div class="border-l-2 border-muted">
+    {
+      sortedNow.map((nowItem) => (
+        <div class="pl-10 not-last-of-type:pb-10 max-w-3xl relative group">
+          <p class="text-muted-foreground text-xs sm:text-sm font-light">
+            <time datetime={dateToISO(nowItem.date)}>
+              {formatDate(nowItem.date)}
+            </time>
+          </p>
+          <h3 class="text-lg sm:text-xl text-balance lg:text-2xl font-semibold pb-4">
+            {nowItem.title}
+          </h3>
+
+          <p class="text-sm lg:text-base text-muted-foreground text-balance">
+            {nowItem.description}
+          </p>
+
+          <div class="size-3 rounded-full absolute -left-1.5 top-px bg-gradient-to-r from-orange-500 to-yellow-500" />
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,23 @@
+---
+import { RetroGrid } from "@/components/ui/retro-grid";
+---
+
+<header class="relative h-[calc(100svh-14rem)] py-16 sm:py-28 lg:py-32">
+  <div class="relative z-[1] container-fluid">
+    <h1
+      class="text-4xl leading-none sm:text-5xl lg:text-6xl 2xl:text-7xl font-bold text-balance"
+    >
+      Works Experience <span class="sr-only"
+        >See Rizki Citra or rimzzlabs past projects</span
+      >
+    </h1>
+
+    <p class="lg:text-lg font-medium max-w-4xl py-4 lg:py-6">
+      As a software engineer, I have had the privilege of working on a wide
+      range of projects, a simple landing page for a startup, end even a complex
+      real-time system.
+    </p>
+  </div>
+
+  <RetroGrid client:load />
+</header>

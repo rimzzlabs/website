@@ -1,73 +1,21 @@
 ---
-import Container from '@/components/Container.astro';
-import ExternalLink from '@/components/ui/ExternalLink.astro';
-import RootLayout from '@/layouts/RootLayout.astro';
-import nowJSON from '../../json/now.json';
-import { formatDate } from '@/lib/date';
-import { Htmr } from '@/components/Htmr';
-
-let fmtLatestUpdate = formatDate(nowJSON.latest.datetime);
-let latestUpdateISO = nowJSON.latest.datetime;
+import BentoLinks from "@/components/bento-links.astro";
+import Seo from "@/components/seo.astro";
+import RootLayout from "@/layouts/root-layout.astro";
+import Hero from "@/modules/now/hero.astro";
+import Recently from "@/modules/now/recently.astro";
 ---
 
 <RootLayout>
-  <header>
-    <Container className='pb-10 pt-5'>
-      <h1 class='text-title pb-4'>Now — What&apos;s Happening?</h1>
+  <Seo
+    slot="metadata"
+    title="See What Rizki Citra is Recently up to"
+    description="See what I is recently up to by visiting my now page"
+  />
 
-      <p>
-        This is a <ExternalLink
-          title={`Open "nownow" website on a new tab`}
-          href='https://nownownow.com/about'>now page</ExternalLink
-        >. It shows you what I am doing lately. Though, I might forgot to update this page later in
-        the future. <em class='text-sm font-medium'>(I certainly hope not)</em>
-      </p>
-    </Container>
-  </header>
-
-  <section>
-    <Container className='pb-10'>
-      <h2 class='text-sub-title pb-4'>Latest Update</h2>
-
-      <div class='border-l pl-2'>
-        <span class='border-l-4 border-primary pl-2 text-sm font-semibold'>
-          <time class='leading-none' datetime={latestUpdateISO}>{fmtLatestUpdate}</time>
-        </span>
-
-        <p>
-          {nowJSON.latest.description}
-        </p>
-      </div>
-    </Container>
-  </section>
-
-  <section>
-    <Container className='pb-10'>
-      <h2 class='text-sub-title pb-4'>Work</h2>
-      <p class='sr-only pb-2.5'>How to stay relevant?</p>
-      <ul class='list-disc pl-6'>
-        {
-          nowJSON.work.map((anHtml) => (
-            <li>
-              <Htmr anHtml={anHtml} />
-            </li>
-          ))
-        }
-      </ul>
-    </Container>
-  </section>
-
-  <section>
-    <Container>
-      <h2 class='text-sub-title pb-4'>Contact</h2>
-
-      <p>
-        If you&apos;re interested in teaming up to build something great, or just want to chat, feel
-        free to send me an email at <ExternalLink
-          title='Click to send an email to rimzzlabs directly at "hello@rimzzlabs.com"'
-          href='mailto:hello@rimzzlabs.com'>hello@rimzzlabs.com</ExternalLink
-        >, I&apos;ll get back to you as soon as I see your email!
-      </p>
-    </Container>
-  </section>
+  <main>
+    <Hero />
+    <Recently />
+    <BentoLinks />
+  </main>
 </RootLayout>

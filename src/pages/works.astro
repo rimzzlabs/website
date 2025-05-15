@@ -1,0 +1,17 @@
+---
+import Seo from "@/components/seo.astro";
+import RootLayout from "@/layouts/root-layout.astro";
+import Hero from "@/modules/works/hero.astro";
+---
+
+<RootLayout>
+  <Seo
+    slot="metadata"
+    title="See What Rizki Citra is Recently Working on"
+    description="See what projects I recently working on"
+  />
+
+  <main>
+    <Hero />
+  </main>
+</RootLayout>

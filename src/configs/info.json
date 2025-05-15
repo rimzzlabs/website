@@ -1,0 +1,20 @@
+{
+	"isAvailableForWork": false,
+	"now": [
+		{
+			"date": "2025-04-30",
+			"title": "Legal Rights",
+			"description": "I have already 20+ years old. So I think it's the best time to understand my rights."
+		},
+		{
+			"date": "2025-05-1",
+			"title": "Philosophical and Self-Improvement Books",
+			"description": "Self-improvement books and philosophies are always amuse me. Philosophy can align with Software Engineering, while Self-Improvement really helps me to become a better person."
+		},
+		{
+			"date": "2025-05-10",
+			"title": "Apple Ecosystem?",
+			"description": "I decided to learn Swift and iOS development. It's a very interesting topic, and I'm very interested in Apple ecosystem."
+		}
+	]
+}
