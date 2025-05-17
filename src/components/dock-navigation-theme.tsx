@@ -1,11 +1,11 @@
 import { Loader, MonitorIcon, Moon, MoonStarIcon, SunIcon } from 'lucide-react'
-import { Button } from '../ui/button'
+import { Button } from './ui/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
+} from './ui/dropdown-menu'
 import { useIsClient } from '@/hooks/use-is-client'
 import { match, P } from 'ts-pattern'
 import { useState } from 'react'
@@ -16,7 +16,7 @@ let availableThemes = [
 	{ label: 'System', value: 'system', icon: MonitorIcon },
 ]
 
-export function NavbarTheme() {
+export function DockNavigationTheme() {
 	let isClient = useIsClient()
 	let [themeValue, setThemeValue] = useState(() => {
 		if (import.meta.env.SSR === false) {
@@ -71,7 +71,7 @@ export function NavbarTheme() {
 				</Button>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent align='end'>
+			<DropdownMenuContent align='end' side='top' sideOffset={12} alignOffset={-12}>
 				{availableThemes.map((theme) => (
 					<DropdownMenuItem key={theme.value} onClick={onChangeTheme(theme.value)}>
 						<theme.icon size='1em' /> {theme.label}

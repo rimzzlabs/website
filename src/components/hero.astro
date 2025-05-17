@@ -1,0 +1,26 @@
+---
+import { RetroGrid } from "@/components/ui/retro-grid";
+interface Props {
+  description: string;
+}
+
+let { description } = Astro.props;
+---
+
+<header class="relative h-[calc(100vh-14rem)] py-16 sm:py-28 lg:py-32">
+  <div class="relative z-[1] container-fluid">
+    <h1
+      class="text-4xl leading-none sm:text-5xl lg:text-6xl 2xl:text-7xl font-bold text-balance"
+    >
+      <slot name="title" />
+    </h1>
+
+    <p class="lg:text-lg max-w-4xl py-4 lg:py-6">
+      {description}
+    </p>
+
+    <slot />
+  </div>
+
+  <RetroGrid client:load />
+</header>

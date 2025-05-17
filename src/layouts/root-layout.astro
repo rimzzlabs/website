@@ -1,6 +1,6 @@
 ---
 import Footer from "@/components/footer/footer.astro";
-import Navbar from "@/components/navbar/navbar.astro";
+import { DockNavigation } from "@/components/dock-navigation";
 import ThemeWatcher from "@/components/theme-watcher.astro";
 ---
 
@@ -11,7 +11,7 @@ import ThemeWatcher from "@/components/theme-watcher.astro";
   </head>
   <body>
     <ThemeWatcher />
-    <Navbar />
+    <DockNavigation client:load />
     <slot />
     <Footer />
   </body>

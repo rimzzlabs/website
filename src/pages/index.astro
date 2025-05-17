@@ -2,9 +2,13 @@
 import Seo from "@/components/seo.astro";
 import RootLayout from "@/layouts/root-layout.astro";
 import ToolsMarquee from "@/modules/home/tools-marquee.astro";
-import Hero from "@/modules/home/hero.astro";
+import Hero from "@/components/hero.astro";
 import Journey from "@/modules/home/journey.astro";
 import BentoLinks from "@/components/bento-links.astro";
+import { Delightful } from "@/components/delightful";
+import info from "@/configs/info.json";
+import { Button, ButtonLink } from "@/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
 ---
 
 <RootLayout>
@@ -15,7 +19,35 @@ import BentoLinks from "@/components/bento-links.astro";
   />
 
   <main>
-    <Hero />
+    <Hero
+      description="Software engineering lets me create impactful, innovative solutions that align with my values and improve lives. It's structured, rewarding, and always evolving—keeping things exciting and full of growth."
+    >
+      <Fragment slot="title">
+        <span class="sr-only">Rizki Citra or Rimzzlabs is a</span> Passionate Frontend
+        Software Engineer. Crafting <Delightful client:load />
+        User Interfaces.
+      </Fragment>
+
+      <div class="inline-flex gap-2">
+        {
+          info.isAvailableForWork && (
+            <Button className="relative w-36 h-9">
+              <span class="absolute z-[1] rounded-md justify-center bg-primary inset-0.5 text-primary-foreground inline-flex items-center gap-2">
+                Open to work <Sparkles />
+              </span>
+              <span class="absolute -inset-px bg-gradient-to-r from-orange-500 to-violet-500 animate-pulse rounded-lg" />
+            </Button>
+          )
+        }
+
+        <ButtonLink href="/now" variant="secondary" className="group">
+          See what&apos;s new <ArrowRight
+            className="group-hover:translate-x-1 transition"
+          />
+        </ButtonLink>
+      </div>
+    </Hero>
+
     <ToolsMarquee />
     <Journey />
     <BentoLinks />

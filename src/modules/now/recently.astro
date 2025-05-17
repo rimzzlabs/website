@@ -1,18 +1,18 @@
 ---
-import info from '@/configs/info.json'
+import info from "@/configs/info.json";
 
 let formatDate = (date: string) =>
-	new Date(date).toLocaleDateString('en-ID', {
-		day: 'numeric',
-		month: 'short',
-		weekday: 'short',
-		year: 'numeric',
-	})
-let dateToISO = (date: string) => new Date(date).toISOString()
+  new Date(date).toLocaleDateString("en-ID", {
+    day: "numeric",
+    month: "short",
+    weekday: "short",
+    year: "numeric",
+  });
+let dateToISO = (date: string) => new Date(date).toISOString();
 
 let sortedNow = info.now.slice(0).sort((a, b) => {
-	return new Date(b.date).getTime() - new Date(a.date).getTime()
-})
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
 ---
 
 <section class="container-fluid py-10">
@@ -37,7 +37,7 @@ let sortedNow = info.now.slice(0).sort((a, b) => {
             {nowItem.description}
           </p>
 
-          <div class="size-3 rounded-full absolute -left-1.5 top-px bg-gradient-to-r from-orange-500 to-yellow-500" />
+          <div class="size-3 rounded-full absolute left-[-0.4375rem] top-px bg-gradient-to-r from-orange-500 to-yellow-500" />
         </div>
       ))
     }

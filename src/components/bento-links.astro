@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import nowPage from "@/assets/now-page.webp";
+import worksPage from "@/assets/works-page.webp";
 import { Image } from "astro:assets";
 
 let cardItems = [
@@ -17,7 +18,7 @@ let cardItems = [
   {
     title: "Work Experience",
     description: "See full working experience I have",
-    image: nowPage,
+    image: worksPage,
   },
   {
     title: "Read My Notes",
@@ -49,10 +50,11 @@ let cardItems = [
             </CardDescription>
           </CardHeader>
 
-          <figure class="absolute inset-0 group-hover:-translate-y-10 transition group-hover:scale-110 origin-center">
+          <figure class="absolute inset-0 group-hover:-translate-y-10 group-hover:-translate-x-5 transition origin-center">
             <Image
               loading="lazy"
               alt="Now Page"
+              priority={false}
               src={cardItem.image}
               class="size-full object-cover object-top"
             />

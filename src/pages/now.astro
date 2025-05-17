@@ -2,7 +2,7 @@
 import BentoLinks from "@/components/bento-links.astro";
 import Seo from "@/components/seo.astro";
 import RootLayout from "@/layouts/root-layout.astro";
-import Hero from "@/modules/now/hero.astro";
+import Hero from "@/components/hero.astro";
 import Recently from "@/modules/now/recently.astro";
 ---
 
@@ -14,7 +14,15 @@ import Recently from "@/modules/now/recently.astro";
   />
 
   <main>
-    <Hero />
+    <Hero
+      description='Most websites have an "about" link that leads to a page sharing background information about the person or business, often called an "about page." Similarly, there&apos;s usually a "contact" link directing visitors to details on how to reach out, known as a "contact page." Likewise, some websites feature a "now" link, which takes you to a page describing what the person is currently focusing on in their life, and this is simply referred to as a "now page."'
+    >
+      <Fragment slot="title">
+        Now — What's Happening? <span class="sr-only"
+          >See what Rizki Citra or rimzzlabs is recently up to</span
+        >
+      </Fragment>
+    </Hero>
     <Recently />
     <BentoLinks />
   </main>
