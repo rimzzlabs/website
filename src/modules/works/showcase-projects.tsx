@@ -2,11 +2,11 @@ import { Timeline, type TimelineEntry } from '@/components/ui/timeline'
 import { TimelineSubHeading } from '@/components/ui/timeline-sub-heading'
 import { TimelineText } from '@/components/ui/timeline-text'
 import { TimelineImage } from '@/components/ui/timeline-image'
-import gethired from '@/assets/gethired.webp?url'
-import globaltix from '@/assets/globaltix.webp?url'
-import mofi from '@/assets/mofi.webp?url'
-import bitwyreSpotTrading from '@/assets/spot-trading.webp?url'
-import bitwyreWeb from '@/assets/bitwyre-web.webp?url'
+import gethired from '@/assets/gethired.webp'
+import globaltix from '@/assets/globaltix.webp'
+import mofi from '@/assets/mofi.webp'
+import bitwyreSpotTrading from '@/assets/spot-trading.webp'
+import bitwyreWeb from '@/assets/bitwyre-web.webp'
 
 const SHOWCASE_PROJECTS = [
 	{
@@ -19,10 +19,10 @@ const SHOWCASE_PROJECTS = [
 					user-friendly to deliver a smooth and engaging experience for users.
 				</TimelineText>
 				<TimelineImage
-					src={bitwyreWeb}
+					src={bitwyreWeb.src}
+					width={bitwyreWeb.width}
+					height={bitwyreWeb.height}
 					alt='Bitwyre Spot Trading'
-					width={1280}
-					height={640}
 					className='w-full my-5 h-44 lg:h-60 aspect-video rounded-xl object-cover'
 				/>
 				<TimelineText>
@@ -54,10 +54,10 @@ const SHOWCASE_PROJECTS = [
 				</TimelineText>
 
 				<TimelineImage
-					src={bitwyreSpotTrading}
+					src={bitwyreSpotTrading.src}
+					width={bitwyreSpotTrading.width}
+					height={bitwyreSpotTrading.height}
 					alt='Bitwyre Spot Trading'
-					width={1280}
-					height={640}
 					className='w-full my-5 h-44 lg:h-60 aspect-video rounded-xl object-cover'
 				/>
 				<TimelineText>
@@ -81,10 +81,10 @@ const SHOWCASE_PROJECTS = [
 					Moladin&apos;s Collateral Financing.
 				</TimelineText>
 				<TimelineImage
-					src={mofi}
+					src={mofi.src}
 					alt='mofi website'
-					width={1280}
-					height={640}
+					width={mofi.width}
+					height={mofi.height}
 					className='w-full my-5 h-44 lg:h-72 aspect-video rounded-xl object-cover'
 				/>
 				<TimelineText>
@@ -113,9 +113,9 @@ const SHOWCASE_PROJECTS = [
 				</TimelineText>
 
 				<TimelineImage
-					src={globaltix}
-					width={1280}
-					height={640}
+					src={globaltix.src}
+					width={globaltix.width}
+					height={globaltix.height}
 					alt='GlobalTIX website'
 					className='w-full my-5 h-44 lg:h-72 aspect-video rounded-xl object-cover'
 				/>
@@ -147,9 +147,9 @@ const SHOWCASE_PROJECTS = [
 				</TimelineText>
 
 				<TimelineImage
-					src={gethired}
-					width={1280}
-					height={640}
+					src={gethired.src}
+					width={gethired.width}
+					height={gethired.height}
 					alt='Gethired website'
 					className='w-full my-5 h-44 lg:h-72 aspect-video rounded-xl object-cover'
 				/>
