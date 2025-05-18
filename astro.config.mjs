@@ -9,6 +9,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://rimzzlabs.com',
 	vite: {
 		plugins: [tailwindcss()],
 	},
@@ -17,5 +18,9 @@ export default defineConfig({
 		shikiConfig: { theme: 'vitesse-dark', wrap: true },
 		rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
 	},
-	integrations: [mdx(), sitemap(), react()],
+	integrations: [
+		mdx(),
+		sitemap({ priority: 1, changefreq: 'daily', lastmod: new Date() }),
+		react(),
+	],
 })
