@@ -5,10 +5,9 @@ import ToolsMarquee from "@/modules/home/tools-marquee.astro";
 import Hero from "@/components/hero.astro";
 import Journey from "@/modules/home/journey.astro";
 import BentoLinks from "@/components/bento-links.astro";
-import { Delightful } from "@/components/delightful";
 import info from "@/configs/info.json";
-import { Button, ButtonLink } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ButtonLink } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import { HiringFormButton } from "@/components/hiring-form/hiring-form-button";
 
 let title = "Rizki Citra, Frontend Software Engineer";
@@ -23,8 +22,10 @@ let description =
     <Hero {description}>
       <Fragment slot="title">
         <span class="sr-only">{title}</span> Passionate Frontend Software Engineer.
-        Crafting <Delightful client:load />
-        User Interfaces.
+        Crafting <span
+          class="relative bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent"
+          >Delightful</span
+        > User Interfaces.
       </Fragment>
 
       <div class="inline-flex gap-2">
