@@ -42,18 +42,14 @@ let reversedIcons = [
 ---
 
 <section class="container-fluid relative py-10">
-  <Marquee
-    pauseOnHover
-    client:visible
-    className="[--duration:20s] [--gap:2rem]"
-  >
+  <Marquee pauseOnHover client:load className="[--duration:20s] [--gap:2rem]">
     {icons.map((icon) => <i class={cn(icon, "text-5xl")} />)}
   </Marquee>
 
   <Marquee
     reverse
     pauseOnHover
-    client:visible
+    client:load
     className="[--duration:23s] [--gap:2rem]"
   >
     {reversedIcons.map((icon) => <i class={cn(icon, "text-5xl")} />)}

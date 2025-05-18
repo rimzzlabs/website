@@ -4,6 +4,7 @@ import { DockNavigation } from "@/components/dock-navigation";
 import ThemeWatcher from "@/components/theme-watcher.astro";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
+import SkipButton from "@/components/skip-button.astro";
 interface Props {
   scrollSmooth?: boolean;
 }
@@ -18,9 +19,12 @@ let { scrollSmooth = false } = Astro.props;
   </head>
   <body>
     <ThemeWatcher />
+    <SkipButton />
     <DockNavigation client:load />
-    <slot />
+    <main id="main">
+      <slot />
+    </main>
     <Footer />
-    <Toaster client:visible />
+    <Toaster client:load />
   </body>
 </html>

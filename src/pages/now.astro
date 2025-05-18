@@ -4,22 +4,21 @@ import Seo from "@/components/seo.astro";
 import RootLayout from "@/layouts/root-layout.astro";
 import Hero from "@/components/hero.astro";
 import HappeningNow from "@/modules/now/happening-now.astro";
-let title = "Now: Check out what Rizki Citra is doing now.";
+
+let title = "Now: Check Out What Rizki Citra is doing now.";
 let description = `Most websites have a link that says "about." Clicking on "about" will take you to a page with information about the person or business. This page is often called an "about page." There is usually a "Contact" link that takes visitors to a page with information on how to contact the company. Some websites have a "now" link. When you click on it, you see a page describing what the person is currently focusing on in their life. This page is simply called a "now page."`;
 ---
 
 <RootLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <main>
-    <Hero {description}>
-      <Fragment slot="title">
-        Now — What's Happening? <span class="sr-only"
-          >Check out what Rizki Citra is doing now.</span
-        >
-      </Fragment>
-    </Hero>
-    <HappeningNow />
-    <BentoLinks />
-  </main>
+  <Hero {description}>
+    <Fragment slot="title">
+      Now — What's Happening? <span class="sr-only"
+        >Check out what Rizki Citra is doing now.</span
+      >
+    </Fragment>
+  </Hero>
+  <HappeningNow />
+  <BentoLinks />
 </RootLayout>

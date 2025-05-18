@@ -16,25 +16,23 @@ let description =
 <RootLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <main>
-    <Hero {description}>
-      <Fragment slot="title">
-        <span class="sr-only">View Rizki Citra&apos;s</span>Latest Resume</Fragment
+  <Hero {description}>
+    <Fragment slot="title">
+      <span class="sr-only">View Rizki Citra&apos;s</span>Latest Resume</Fragment
+    >
+
+    <div class="inline-flex items-center gap-2">
+      {info.isAvailableForWork && <HiringFormButton client:load />}
+      <ButtonLink
+        variant={info.isAvailableForWork ? "outline" : "default"}
+        href="/attachments/resume-rimzzlabs.pdf"
+        className="lg:h-11"
       >
+        View Resume
+        <ArrowUpRight />
+      </ButtonLink>
+    </div>
+  </Hero>
 
-      <div class="inline-flex items-center gap-2">
-        {info.isAvailableForWork && <HiringFormButton client:load />}
-        <ButtonLink
-          variant={info.isAvailableForWork ? "outline" : "default"}
-          href="/attachments/resume-rimzzlabs.pdf"
-          className="lg:h-11"
-        >
-          View Resume
-          <ArrowUpRight />
-        </ButtonLink>
-      </div>
-    </Hero>
-
-    <BentoLinks />
-  </main>
+  <BentoLinks />
 </RootLayout>

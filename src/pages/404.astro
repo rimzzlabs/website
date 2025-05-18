@@ -17,16 +17,14 @@ let description =
     description="You might entered a wrong url, or the page you were looking for simply does not exist. If you think this is a mistake, please send me an email with the attachment, I will gladly fix the issue."
   />
 
-  <main>
-    <Hero {description}>
-      <Fragment slot="title">
-        {title}
-      </Fragment>
+  <Hero {description}>
+    <Fragment slot="title">
+      {title}
+    </Fragment>
 
-      <ButtonLink href="/">
-        <CornerDownLeftIcon className="mr-2" />
-        Back to Home
-      </ButtonLink>
-    </Hero>
-  </main>
+    <ButtonLink href="/">
+      <CornerDownLeftIcon className="mr-2" />
+      Back to Home
+    </ButtonLink>
+  </Hero>
 </RootLayout>

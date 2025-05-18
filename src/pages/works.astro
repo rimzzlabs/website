@@ -13,14 +13,12 @@ let description =
 <RootLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <main>
-    <Hero {description}>
-      <Fragment slot="title">
-        Work Experience
-        <span class="sr-only">See Rizki Citra or rimzzlabs past projects</span>
-      </Fragment>
-    </Hero>
-    <Showcase />
-    <BentoLinks />
-  </main>
+  <Hero {description}>
+    <Fragment slot="title">
+      Work Experience
+      <span class="sr-only">See Rizki Citra or rimzzlabs past projects</span>
+    </Fragment>
+  </Hero>
+  <Showcase />
+  <BentoLinks />
 </RootLayout>

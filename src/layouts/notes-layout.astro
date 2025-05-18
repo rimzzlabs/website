@@ -35,52 +35,49 @@ let publishedTime = dateToISO(publishedAt);
     keywords={keywords}
     article={{ tags: keywords, publishedTime, authors: [] }}
   />
-  <main>
-    <div class="relative">
-      <header class="container-fluid pt-12 lg:pt-24 pb-6 lg:pb-12">
-        <h1
-          class="text-4xl leading-none sm:text-5xl lg:text-7xl tracking-tight font-bold text-balance pb-8 lg:pb-16"
-        >
-          {title}
-        </h1>
-
-        <div class="flex gap-2 text-muted-foreground items-center">
-          <div class="inline-flex items-center gap-x-2 text-sm font-medium">
-            <span class="max-md:sr-only">Published on</span>
-            <time datetime={dateToISO(publishedAt)}
-              >{formatDate(publishedAt)}</time
-            >
-          </div>
-
-          <div class="h-px w-4 bg-muted-foreground"></div>
-
-          <div class="inline-flex items-center gap-x-2 text-sm font-medium">
-            <span
-              ><span class="max-md:sr-only">Written by</span> {author.id}</span
-            >
-          </div>
-        </div>
-      </header>
-
-      <DotPattern
-        glow
-        client:load
-        className="[mask-image:radial-gradient(300px_circle_at_center,var(--background),transparent)]"
-      />
-    </div>
-
-    <section
-      class="container-fluid sm:flex sm:flex-row-reverse sm:justify-between py-10"
-    >
-      <NotesToc client:load headings={headings} />
-
-      <article
-        class="prose dark:prose-invert [&_:is(h2,h3,h4,h5,h6)]:scroll-mt-10 flex-1"
+  <div class="relative">
+    <header class="container-fluid pt-12 lg:pt-24 pb-6 lg:pb-12">
+      <h1
+        class="text-4xl leading-none sm:text-5xl lg:text-7xl tracking-tight font-bold text-balance pb-8 lg:pb-16"
       >
-        <Content />
-      </article>
-    </section>
+        {title}
+      </h1>
 
-    <slot />
-  </main>
+      <div class="flex gap-2 text-muted-foreground items-center">
+        <div class="inline-flex items-center gap-x-2 text-sm font-medium">
+          <span class="max-md:sr-only">Published on</span>
+          <time datetime={dateToISO(publishedAt)}
+            >{formatDate(publishedAt)}</time
+          >
+        </div>
+
+        <div class="h-px w-4 bg-muted-foreground"></div>
+
+        <div class="inline-flex items-center gap-x-2 text-sm font-medium">
+          <span><span class="max-md:sr-only">Written by</span> {author.id}</span
+          >
+        </div>
+      </div>
+    </header>
+
+    <DotPattern
+      glow
+      client:load
+      className="[mask-image:radial-gradient(300px_circle_at_center,var(--background),transparent)]"
+    />
+  </div>
+
+  <section
+    class="container-fluid sm:flex sm:flex-row-reverse sm:justify-between py-10"
+  >
+    <NotesToc client:load headings={headings} />
+
+    <article
+      class="prose dark:prose-invert [&_:is(h2,h3,h4,h5,h6)]:scroll-mt-10 flex-1"
+    >
+      <Content />
+    </article>
+  </section>
+
+  <slot />
 </RootLayout>

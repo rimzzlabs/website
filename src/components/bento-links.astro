@@ -50,47 +50,47 @@ let cardItems = [
 
 <section class="container-fluid py-10">
   <h2 class="text-3xl pb-10 text-balance font-bold sm:text-4xl lg:text-5xl">
-    Checkout Other Pages
+    Check Out Other Pages
   </h2>
   <div
     class="grid auto-rows-[9rem] sm:auto-rows-[10rem] lg:auto-rows-[16rem] gap-1 lg:gap-2.5 grid-cols-5"
   >
     {
       cardItems.map((cardItem) => (
-        <Card className="group col-span-3 relative py-0 overflow-hidden first-of-type:col-span-2 last-of-type:col-span-2">
-          <CardHeader className="relative z-[1] p-4 mt-auto transition">
+        <Card className="group col-span-3 relative py-0 first-of-type:col-span-2 last-of-type:col-span-2">
+          <CardHeader className="relative z-[1] p-4 mt-auto">
             <CardTitle>{cardItem.title}</CardTitle>
             <CardDescription className="max-md:sr-only">
               {cardItem.description}
             </CardDescription>
           </CardHeader>
 
-          <figure class="absolute dark:hidden -inset-1 group-hover:translate-y-4 group-hover:-translate-x-1 group-hover:scale-110 transition origin-center">
+          <figure class="absolute dark:hidden inset-0 rounded-xl overflow-hidden">
             <Image
               loading="lazy"
               alt="Now Page"
               priority={false}
               src={cardItem.image}
-              class="size-full object-cover object-top-left"
+              class="size-full object-cover object-top-left group-hover:translate-y-4 group-hover:-translate-x-1 group-hover:scale-110 transition origin-center"
             />
           </figure>
 
-          <figure class="absolute hidden dark:block -inset-1 group-hover:translate-y-4 group-hover:-translate-x-1 group-hover:scale-110 transition origin-center">
+          <figure class="absolute hidden dark:block inset-0 rounded-xl overflow-hidden">
             <Image
               loading="lazy"
               alt="Now Page"
               priority={false}
               src={cardItem.imageDark}
-              class="size-full object-cover object-top-left"
+              class="size-full object-cover object-top-left group-hover:translate-y-4 group-hover:-translate-x-1 group-hover:scale-110 transition origin-center"
             />
           </figure>
 
-          <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 from-20%" />
+          <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 from-20% rounded-xl" />
 
-          <ArrowUpRight className="stroke-foreground absolute bottom-4 right-4 translate-12 opacity-0 transition group-hover:translate-0 group-hover:opacity-100" />
+          <ArrowUpRight className="stroke-foreground absolute bottom-4 right-4 opacity-0 transition group-hover:translate-0 group-hover:-translate-y-2 group-hover:opacity-100" />
 
           <a
-            class="absolute inset-0 z-[1]"
+            class="absolute inset-0 z-[1] rounded-xl focus-visible:ring outline-none transition"
             title={`Go to ${cardItem.title}`}
             href={cardItem.pathname}
           >

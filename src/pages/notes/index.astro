@@ -28,14 +28,12 @@ let notesList = pipe(
     description="Read my notes about what I've learned, and how I learned them through my journey as a front-end software engineer. These notes provide insights into how I approach to problem-solving, my technical skills, and my overall progress to software development"
   />
 
-  <main>
-    <Hero
-      description="Read my notes about what I've learned, and how I learned them through my journey as a front-end software engineer. These notes provide insights into how I approach to problem-solving, my technical skills, and my overall progress to software development"
-    >
-      <Fragment slot="title"> Writing Notes</Fragment>
-    </Hero>
+  <Hero
+    description="Read my notes about what I've learned, and how I learned them through my journey as a front-end software engineer. These notes provide insights into how I approach to problem-solving, my technical skills, and my overall progress to software development"
+  >
+    <Fragment slot="title"> Writing Notes</Fragment>
+  </Hero>
 
-    <NotesCards notes={notesList} />
-    <BentoLinks />
-  </main>
+  <NotesCards notes={notesList} />
+  <BentoLinks />
 </RootLayout>
