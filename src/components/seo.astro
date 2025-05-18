@@ -1,0 +1,132 @@
+---
+import "@fontsource-variable/rubik";
+import "@/styles/global.css";
+import { SEO, type SEOProps } from "astro-seo";
+import { match, P } from "ts-pattern";
+import { pipe, S, F, A } from "@mobily/ts-belt";
+import Logo from "@/assets/logo.svg";
+import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
+import { getImage } from "astro:assets";
+
+interface Props {
+  title?: string;
+  description: string;
+  article?: Partial<NonNullable<SEOProps["openGraph"]>["article"]>;
+  image?: Required<NonNullable<SEOProps["openGraph"]>["image"]>;
+  keywords?: string[];
+}
+
+let defaultKeywords = [
+  "rizki m citra",
+  "rizki maulana citra",
+  "rizki citra",
+  "rimzzlabs",
+  "rimzzlabs.com",
+  "rimzzlabs website",
+  "rimzzlabs posts",
+  "rizkicitra",
+  "rizkicitra.dev",
+  "rizki developer",
+  "rizki github",
+  "rizki software engineer",
+  "rizki citra frontend",
+  "rizki m citra frontend developer",
+  "frontend developer",
+  "software engineer",
+  "UI engineer",
+];
+
+let { title: _title, description, article, ...props } = Astro.props;
+
+let type = article ? "article" : "website";
+let keywords = match(props.keywords)
+  .with(P.array(), (kw) => pipe(kw, A.join(",")))
+  .otherwise(() => A.join(defaultKeywords, ","));
+let title = match(_title)
+  .with(P.string, S.append(" | rimzzlabs"))
+  .otherwise(() => "Rizki Citra, Frontend Software Engineer | rimzzlabs");
+
+let ogImage = match(props.image)
+  .with(P.not(P.nullish), F.identity)
+  .otherwise(
+    () =>
+      ({
+        height: 700,
+        width: 1280,
+        type: "image/webp",
+        url: "/og-image.webp",
+        secureUrl: "/og-image.web",
+        alt: "Rizki Citra, Frontend Software Engineer",
+      }) satisfies Props["image"]
+  );
+
+let image = await getImage({
+  src: Logo,
+  format: "webp",
+  width: 128,
+  height: 128,
+});
+---
+
+<SEO
+  {title}
+  {description}
+  openGraph={{
+    article,
+    image: ogImage,
+    optional: {
+      description,
+      locale: "en",
+      determiner: type,
+      siteName: "rimzzlabs",
+    },
+    basic: { title, type, image: ogImage.url.toString() },
+  }}
+  twitter={{
+    title,
+    description,
+    image: ogImage.url.toString(),
+    card: "summary_large_image",
+    creator: "@rimzzlabs",
+    site: "@rimzzlabs",
+    imageAlt: "Rizki Citra, Frontend Software Engineer",
+  }}
+  extend={{
+    link: [
+      { rel: "sitemap", href: "/sitemap-index.xml" },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      {
+        rel: "preaload",
+        as: "image",
+        type: "image/webp",
+        href: image.src,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: rubikFont,
+        crossorigin: "anonymous",
+      },
+    ],
+    meta: [
+      { name: "keywords", content: keywords },
+      { name: "author", content: "Rizki Citra" },
+      { name: "publisher", content: "Cloudflare" },
+      { name: "generator", content: Astro.generator },
+      { name: "keywords", content: keywords },
+      { name: "robots", content: "index, follow" },
+      {
+        name: "viewport",
+        content:
+          "width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover",
+      },
+      {
+        name: "googlebot",
+        content:
+          "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
+      },
+    ],
+  }}
+/>

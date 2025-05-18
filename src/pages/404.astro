@@ -1,22 +1,32 @@
 ---
-import Container from '@/components/Container.astro';
-import Link from '@/components/ui/Link.astro';
-import RootLayout from '@/layouts/RootLayout.astro';
+import Hero from "@/components/hero.astro";
+import Seo from "@/components/seo.astro";
+import { ButtonLink } from "@/components/ui/button";
+import RootLayout from "@/layouts/root-layout.astro";
+import { CornerDownLeftIcon } from "lucide-react";
 
-let title = '404 Resource Not Found';
-let description = 'My apologize, but the resource you were looking for is not found';
+let title = "404 Not Found, Unable to Find the Requested Resource";
+let description =
+  "You might entered a wrong url, or the page you were looking for simply does not exist. If you think this is a mistake and want me to fix it, please send me an email with the attachment, I will gladly fix the issue.";
 ---
 
-<RootLayout seo={{ title, description }}>
-  <section class='grid h-[calc(100vh-4rem)] place-items-center'>
-    <Container className='text-center'>
-      <h1 class='text-title pb-4'>{title}</h1>
-      <p class='pb-3'>{description}</p>
-      <Link
-        href='/'
-        class='items-center rounded-lg bg-primary px-3 py-1.5 text-sm text-primary-foreground transition hover:bg-primary/50'
-        >&crarr; Back</Link
-      >
-    </Container>
-  </section>
+<RootLayout>
+  <Seo
+    slot="metadata"
+    title="404 Not Found"
+    description="You might entered a wrong url, or the page you were looking for simply does not exist. If you think this is a mistake, please send me an email with the attachment, I will gladly fix the issue."
+  />
+
+  <main>
+    <Hero {description}>
+      <Fragment slot="title">
+        {title}
+      </Fragment>
+
+      <ButtonLink href="/">
+        <CornerDownLeftIcon className="mr-2" />
+        Back to Home
+      </ButtonLink>
+    </Hero>
+  </main>
 </RootLayout>

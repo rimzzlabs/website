@@ -1,0 +1,51 @@
+---
+import { dateToISO, formatDate } from "@/lib/date";
+import type { RenderedContent } from "astro:content";
+import type { InferEntrySchema } from "astro:content";
+
+interface Props {
+  notes: ReadonlyArray<{
+    id: string;
+    body?: string;
+    collection: "notes";
+    data: InferEntrySchema<"notes">;
+    rendered?: RenderedContent;
+    filePath?: string;
+  }>;
+}
+
+let { notes } = Astro.props;
+---
+
+<section class="container-fluid py-10">
+  <h2 class="text-3xl text-balance font-bold sm:text-4xl lg:text-5xl pb-10">
+    Notes
+  </h2>
+  <div class="border-l-2 border-muted">
+    {
+      notes.map((note) => (
+        <div class="pl-10 not-last-of-type:pb-10 max-w-xl relative group">
+          <p class="text-muted-foreground text-xs sm:text-sm font-light">
+            <time datetime={dateToISO(note.data.publishedAt)}>
+              {formatDate(note.data.publishedAt)}
+            </time>
+          </p>
+
+          <h3 class="text-lg sm:text-xl text-balance lg:text-2xl font-semibold pb-4">
+            {note.data.title}
+          </h3>
+
+          <div class="size-3 rounded-full absolute left-[-0.4375rem] top-px bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:scale-150 group-hover:rotate-180 transition duration-300" />
+
+          <a
+            title={note.data.title}
+            href={`/notes/${note.id}`}
+            class="absolute inset-0"
+          >
+            <span class="sr-only">{note.data.title}</span>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</section>

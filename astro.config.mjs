@@ -1,26 +1,21 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import react from "@astrojs/react";
-import mdx from "@astrojs/mdx";
+import { defineConfig } from 'astro/config'
 
-import sitemap from "@astrojs/sitemap";
+import tailwindcss from '@tailwindcss/vite'
+import mdx from '@astrojs/mdx'
+import sitemap from '@astrojs/sitemap'
+import react from '@astrojs/react'
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://rimzzlabs.com",
-  markdown: {
-    syntaxHighlight: "shiki",
-    shikiConfig: { theme: "vitesse-dark", wrap: true },
-  },
-  integrations: [
-    tailwind(),
-    react(),
-    mdx(),
-    sitemap({
-      priority: 1,
-      changefreq: "daily",
-      lastmod: new Date(),
-    }),
-  ],
-  output: "static",
-});
+	vite: {
+		plugins: [tailwindcss()],
+	},
+	markdown: {
+		syntaxHighlight: 'shiki',
+		shikiConfig: { theme: 'vitesse-dark', wrap: true },
+		rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+	},
+	integrations: [mdx(), sitemap(), react()],
+})

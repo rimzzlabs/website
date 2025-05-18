@@ -1,172 +1,46 @@
 ---
-import Container from '@/components/Container.astro';
-import RootLayout from '@/layouts/RootLayout.astro';
-import Link from '@/components/ui/Link.astro';
-import { getCollection } from 'astro:content';
-import ExternalLink from '@/components/ui/ExternalLink.astro';
-import { getImage, Image } from 'astro:assets';
-import image from '@/assets/me.jpg';
-const optimizedImage = await getImage({
-  src: image,
-  format: 'webp',
-  width: 280,
-  height: 280,
-});
+import Seo from "@/components/seo.astro";
+import RootLayout from "@/layouts/root-layout.astro";
+import ToolsMarquee from "@/modules/home/tools-marquee.astro";
+import Hero from "@/components/hero.astro";
+import Journey from "@/modules/home/journey.astro";
+import BentoLinks from "@/components/bento-links.astro";
+import { Delightful } from "@/components/delightful";
+import info from "@/configs/info.json";
+import { Button, ButtonLink } from "@/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { HiringFormButton } from "@/components/hiring-form/hiring-form-button";
 
-let notes = await getCollection('notes', (post) =>
-  import.meta.env.PROD ? post.data.status === 'published' : true,
-);
-let sortedNotes = notes
-  .slice(0)
-  .sort((a, b) =>
-    new Date(a.data.publishedAt).getTime() < new Date(b.data.publishedAt).getTime() ? 1 : -1,
-  );
+let title = "Rizki Citra, Frontend Software Engineer";
+let description = "";
 ---
 
 <RootLayout>
-  <header class='pt-5'>
-    <Container className='pb-10'>
-      <figure class='relative max-w-max'>
-        <div
-          class='absolute inset-4 -z-10 hidden bg-gradient-to-br from-primary to-violet-500 blur-3xl supports-[filter:blur(0)]:block'
-        >
-        </div>
-        <Image
-          draggable='false'
-          src={optimizedImage.options.src as string}
-          width={optimizedImage.attributes.width}
-          height={optimizedImage.attributes.height}
-          class='aspect-square w-40 select-none object-cover transition hover:brightness-75'
-          alt="Rizki's potrait, behind him a white desktop setup and a single monitor of his workspace"
-          title="Rizki's potrait, behind him a white desktop setup and a single monitor of his workspace"
-        />
-        <figcaption class='sr-only'>
-          Rizki&apos;s potrait, behind him a white desktop setup of his workspace
-        </figcaption>
-      </figure>
-      <h1 class='text-title sr-only'>
-        Rizki Maulana Citra, also known as Rizki Citra a.k.a rimzzlabs
-      </h1>
+  <Seo slot="metadata" {title} {description} />
 
-      <p class='pt-4'>
-        A passionate, and dedicated Frontend Software Engineer. I create intuitive, smooth, and
-        visually appealing user interfaces that engage and delight users.
-      </p>
-    </Container>
-  </header>
+  <main>
+    <Hero
+      description="Software engineering lets me create impactful, innovative solutions that align with my values and improve lives. It's structured, rewarding, and always evolving—keeping things exciting and full of growth."
+    >
+      <Fragment slot="title">
+        <span class="sr-only">{title}</span> Passionate Frontend Software Engineer.
+        Crafting <Delightful client:load />
+        User Interfaces.
+      </Fragment>
 
-  <section>
-    <Container className='pb-10 text-justify'>
-      <h2 class='text-sub-title pb-4 text-start'>What Motivates Me In Software Engineering?</h2>
+      <div class="inline-flex gap-2">
+        {info.isAvailableForWork && <HiringFormButton client:load />}
 
-      <p class='pb-2.5'>
-        Software engineering allows me to do meaningful work that aligns with my values. I can
-        contribute to the greater good.
-      </p>
+        <ButtonLink href="/now" variant="outline" className="group lg:h-10">
+          See what&apos;s new <ArrowRight
+            className="group-hover:translate-x-1 transition"
+          />
+        </ButtonLink>
+      </div>
+    </Hero>
 
-      <p class='pb-2.5'>
-        Software engineering means building software in a structured way: plan the layout, use the
-        right materials, and make sure it's safe and functional.
-      </p>
-
-      <p class='pb-2.5'>
-        There's room to innovate and think outside the box. Building software that improves lives or
-        simplifies processes is rewarding.
-      </p>
-
-      <p class='pb-2.5'>
-        The technology field is moving fast, so there's always something new to learn. This growth
-        keeps things interesting.
-      </p>
-    </Container>
-  </section>
-
-  <section>
-    <Container className='pb-10 text-justify'>
-      <h2 class='text-sub-title pb-4 text-start'>What&apos;s UI Engineer?</h2>
-
-      <p class='pb-2.5'>
-        I mostly work in the Frontend Ecosystem, whether it&apos;s web applications, or mobile
-        applications. Though I'm mostly into the web ecosystem, especially <ExternalLink
-          title={`Open official React Website on a new tab`}
-          href='https://react.dev'>React</ExternalLink
-        >.
-      </p>
-
-      <p class='pb-2.5'>
-        I use React because (so far) to me, it&apos;s one of the tool that <em>makes sense</em>
-        to build functional user interfaces. It&apos;s just a simple JavaScript function that returns
-        HTML (JSX) and then renders it on the page.
-      </p>
-
-      <p class='5 pb-2'>Let&apos;s back to the question: What&apos;s UI Engineer?</p>
-
-      <blockquote
-        cite='https://www.indeed.com/career-advice/finding-a-job/ui-engineer'
-        class='border-l-4 pl-2.5 text-muted-foreground'
-      >
-        <em>
-          UI Engineer, a person who designs websites and applications with the end-user in mind.
-        </em>
-      </blockquote>
-
-      <p class='py-2.5'>
-        To sum it up, it's a job where you develop and maintain cross-platform apps based on
-        <strong>user-centered design</strong>. And as an engineer, I should be able to think and act
-        like a real user.
-      </p>
-
-      <p class='pb-2.5'>
-        In short; <strong>here&apos;s how it works</strong>: I am going to demand a nice piece of
-        user interface, excellent user experience, smooth transition, and so on.
-      </p>
-
-      <p class='pb-2.5'>
-        because here&apos;s what they might think: <strong
-          >&quot;while using your product, you should serve me well, and if you did not served me
-          well, I&apos;m just gonna buy it from another place&quot;</strong
-        >.
-      </p>
-    </Container>
-  </section>
-
-  <section>
-    <Container className='pb-10 text-justify'>
-      <h2 class='text-sub-title pb-4 text-start'>What&apos;s My Side Quest?</h2>
-
-      <p class='pb-2.5'>
-        I progressively learn new things and keep myself up to date with the latest trends in
-        technology. While keeping myself sane with black coffee.
-      </p>
-
-      <p>
-        Apart from my main job, I like to travel in search of nature, ride my motorbike, talk to my
-        cats, and sometimes read philosophical books.
-      </p>
-    </Container>
-  </section>
-
-  <section>
-    <Container>
-      <h2 class='text-sub-title pb-4'>Notes</h2>
-
-      <p class='pb-2.5'>Though I rarely update them, you might find them interesting to read.</p>
-
-      <ul class='list-disc pl-6'>
-        {
-          sortedNotes.map((n) => (
-            <li>
-              <Link
-                title={`Read notes about "${n.data.title}"`}
-                class='underline hover:text-orange-600 hover:dark:text-orange-500'
-                href={`/notes/${n.slug}`}
-              >
-                {n.data.title}
-              </Link>
-            </li>
-          ))
-        }
-      </ul>
-    </Container>
-  </section>
+    <ToolsMarquee />
+    <Journey />
+    <BentoLinks />
+  </main>
 </RootLayout>

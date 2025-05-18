@@ -1,0 +1,30 @@
+<Fragment></Fragment>
+
+<script is:inline>
+  function loadScript() {
+    function getThemePreference() {
+      let localTheme = localStorage.getItem("app.theme");
+      let systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+      if (!localTheme) return { theme: systemTheme, source: "system" };
+
+      return { theme: localTheme, source: "storage" };
+    }
+    let themePreference = getThemePreference();
+    let isDarkMode = themePreference.theme === "dark";
+    document.documentElement.classList.toggle("dark", isDarkMode);
+
+    let obs = new MutationObserver(() => {
+      let isDark = document.documentElement.classList.contains("dark");
+      localStorage.setItem("app.theme", isDark ? "dark" : "light");
+    });
+    obs.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
+
+  loadScript();
+</script>

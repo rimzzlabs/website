@@ -1,0 +1,40 @@
+---
+import Hero from "@/components/hero.astro";
+import { HiringFormButton } from "@/components/hiring-form/hiring-form-button";
+import Seo from "@/components/seo.astro";
+import { ButtonLink } from "@/components/ui/button";
+import RootLayout from "@/layouts/root-layout.astro";
+import { ArrowUpRight } from "lucide-react";
+import info from "@/configs/info.json";
+import BentoLinks from "@/components/bento-links.astro";
+
+let title = "View Rizki Citra's Latest Resume";
+let description =
+  "I make it a point to update my resume once a year to ensure it reflects my latest skills, experiences, and accomplishments. This practice helps me maintain a clear and accurate record of my professional journey, while also allowing me to refine how I present my work to potential collaborators or employers. If you’d like to learn more about my qualifications, you can download my latest resume";
+---
+
+<RootLayout>
+  <Seo slot="metadata" {title} {description} />
+
+  <main>
+    <Hero {description}>
+      <Fragment slot="title">
+        <span class="sr-only">View Rizki Citra&apos;s</span>Latest Resume</Fragment
+      >
+
+      <div class="inline-flex items-center gap-2">
+        {info.isAvailableForWork && <HiringFormButton client:load />}
+        <ButtonLink
+          variant={info.isAvailableForWork ? "outline" : "default"}
+          href="/attachments/resume-rimzzlabs.pdf"
+          className="lg:h-11"
+        >
+          View Resume
+          <ArrowUpRight />
+        </ButtonLink>
+      </div>
+    </Hero>
+
+    <BentoLinks />
+  </main>
+</RootLayout>

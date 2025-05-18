@@ -1,0 +1,70 @@
+---
+import "devicon/devicon.min.css";
+import { Marquee } from "@/components/ui/marquee";
+import { cn } from "@/lib/utils";
+
+let icons = [
+  "devicon-html5-plain colored",
+  "devicon-css3-plain colored",
+  "devicon-javascript-plain colored",
+  "devicon-typescript-plain colored",
+  "devicon-sass-original colored",
+  "devicon-tailwindcss-original colored",
+  "devicon-react-original colored",
+  "devicon-redux-original colored",
+  "devicon-reactrouter-plain-wordmark colored",
+  "devicon-nextjs-plain",
+  "devicon-svelte-plain colored",
+  "devicon-vuejs-plain colored",
+  "devicon-angularjs-plain colored",
+  "devicon-markdown-original",
+  "devicon-jamstack-original colored",
+  "devicon-jest-plain colored",
+  "devicon-socketio-original",
+];
+
+let reversedIcons = [
+  "devicon-git-plain colored",
+  "devicon-github-plain",
+  "devicon-gitlab-plain colored",
+  "devicon-framermotion-original",
+  "devicon-figma-plain colored",
+  "devicon-vscode-plain colored",
+  "devicon-pnpm-plain colored",
+  "devicon-nodejs-plain colored",
+  "devicon-express-original",
+  "devicon-firebase-plain colored",
+  "devicon-supabase-plain colored",
+  "devicon-sqlite-plain colored",
+  "devicon-mysql-plain colored",
+  "devicon-postgresql-plain colored",
+];
+---
+
+<section class="container-fluid relative py-10">
+  <Marquee
+    pauseOnHover
+    client:visible
+    className="[--duration:20s] [--gap:2rem]"
+  >
+    {icons.map((icon) => <i class={cn(icon, "text-5xl")} />)}
+  </Marquee>
+
+  <Marquee
+    reverse
+    pauseOnHover
+    client:visible
+    className="[--duration:23s] [--gap:2rem]"
+  >
+    {reversedIcons.map((icon) => <i class={cn(icon, "text-5xl")} />)}
+  </Marquee>
+
+  <div
+    class="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"
+  >
+  </div>
+</section>

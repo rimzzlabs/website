@@ -1,0 +1,41 @@
+---
+import BentoLinks from "@/components/bento-links.astro";
+import Hero from "@/components/hero.astro";
+import Seo from "@/components/seo.astro";
+import RootLayout from "@/layouts/root-layout.astro";
+import NotesCards from "@/modules/notes/notes-cards.astro";
+import { A, pipe } from "@mobily/ts-belt";
+import { getCollection } from "astro:content";
+
+let notes = await getCollection("notes");
+
+let notesList = pipe(
+  notes,
+  A.filter((note) => {
+    if (import.meta.env.PROD) return note.data.status === "published";
+    return true;
+  }),
+  A.sort((a, b) =>
+    new Date(b.data.publishedAt) > new Date(a.data.publishedAt) ? 1 : 0
+  )
+);
+---
+
+<RootLayout>
+  <Seo
+    slot="metadata"
+    title="Read Rizki Citra's Notes"
+    description="Read my notes about what I've learned, and how I learned them through my journey as a front-end software engineer. These notes provide insights into how I approach to problem-solving, my technical skills, and my overall progress to software development"
+  />
+
+  <main>
+    <Hero
+      description="Read my notes about what I've learned, and how I learned them through my journey as a front-end software engineer. These notes provide insights into how I approach to problem-solving, my technical skills, and my overall progress to software development"
+    >
+      <Fragment slot="title"> Writing Notes</Fragment>
+    </Hero>
+
+    <NotesCards notes={notesList} />
+    <BentoLinks />
+  </main>
+</RootLayout>

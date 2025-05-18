@@ -1,28 +1,47 @@
-![](https://res.cloudinary.com/rizkicitra/image/upload/q_100,f_webp/rimzzlabs/og "OG Image")
+# Astro Starter Kit: Minimal
 
-# Website
+```sh
+pnpm create astro@latest -- --template minimal
+```
 
-A personal website built with [Astro](https://github.com/withastro/astro), contains some pages and a few blog posts, blog posts update from weekly to monthly.
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
 
-Found bugs? file an issue and start writing your PR.
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-## Infrastructure
+## 🚀 Project Structure
 
-Some libraries and UI frameworks I am using to build the website. If you unfamiliar with one of the tools I mentioned below, you should at least tried once.
+Inside of your Astro project, you'll see the following folders and files:
 
-- [Astro](https://github.com/withastro/astro)
-- Astro Integrations:
-  - [React](https://github.com/facebook/react)
-  - [MDX](https://github.com/mdx-js/mdx)
-  - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
-  - [Radix UI Primitives](https://github.com/radix-ui/primitives)
-  - [Shadcn UI](https://github.com/shadcn-ui/ui)
-- Utilities:
-  - [Jotai](https://github.com/pmndrs/jotai)
-  - [Radash](https://github.com/sodiray/radash)
-  - [date-fns](https://github.com/date-fns/date-fns)
-- UI Animation:
-  - [Framer Motion](https://github.com/framer/motion)
-  - [Aceternity UI](https://ui.aceternity.com/)
-- Other:
-  - [Cloudinary (Image Service)](https://cloudinary.com)
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
+
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+
+Any static assets, like images, can be placed in the `public/` directory.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `pnpm install`             | Installs dependencies                            |
+| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
+| `pnpm build`           | Build your production site to `./dist/`          |
+| `pnpm preview`         | Preview your build locally, before deploying     |
+| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
