@@ -12,16 +12,15 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { HiringFormButton } from "@/components/hiring-form/hiring-form-button";
 
 let title = "Rizki Citra, Frontend Software Engineer";
-let description = "";
+let description =
+  "Software engineering lets me create impactful, innovative solutions that align with my values and improve lives. It's structured, rewarding, and always evolving—keeping things exciting and full of growth.";
 ---
 
 <RootLayout>
   <Seo slot="metadata" {title} {description} />
 
   <main>
-    <Hero
-      description="Software engineering lets me create impactful, innovative solutions that align with my values and improve lives. It's structured, rewarding, and always evolving—keeping things exciting and full of growth."
-    >
+    <Hero {description}>
       <Fragment slot="title">
         <span class="sr-only">{title}</span> Passionate Frontend Software Engineer.
         Crafting <Delightful client:load />
