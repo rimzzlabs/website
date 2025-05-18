@@ -14,7 +14,7 @@ import { withSonnerPromise } from '@/lib/async'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import Turnstile from 'react-turnstile'
-import { sendHiringEmail } from '@/lib/emaijs'
+import { sendHiringEmail } from '@/lib/emailjs'
 
 let hiringSchema = z.object({
 	fullName: z.string().min(1, 'Full name is required').max(100, 'Full name is too long'),

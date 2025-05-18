@@ -28,7 +28,7 @@ let description =
       </Fragment>
 
       <div class="inline-flex gap-2">
-        {info.isAvailableForWork && <HiringFormButton client:load />}
+        {info.isAvailableForWork && <HiringFormButton client:visible />}
 
         <ButtonLink href="/now" variant="outline" className="group lg:h-10">
           See what&apos;s new <ArrowRight
