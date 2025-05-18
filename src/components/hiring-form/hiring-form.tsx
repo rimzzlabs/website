@@ -15,6 +15,7 @@ import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import Turnstile from 'react-turnstile'
 import { sendHiringEmail } from '@/lib/emailjs'
+import { PUBLIC_CF_TURNSTILE_SITE_KEY } from 'astro:env/client'
 
 let hiringSchema = z.object({
 	fullName: z.string().min(1, 'Full name is required').max(100, 'Full name is too long'),
@@ -42,15 +43,17 @@ export function HiringForm(props: HiringFormProps) {
 	let onSubmit = form.handleSubmit(
 		withSonnerPromise(
 			async (values) => {
+				props.onClose()
 				let status = await sendHiringEmail(values)
 				if (status !== 200) throw new Error('Failed to send email')
-				form.reset()
-				props.onClose()
 			},
 			{
 				loading: 'Sending email',
 				success: 'Email sent successfully',
 				error: 'Failed to send email',
+				onSettled: () => {
+					form.reset()
+				},
 			},
 		),
 	)
@@ -95,7 +98,7 @@ export function HiringForm(props: HiringFormProps) {
 							<FormControl>
 								<Input placeholder='john.doe@me.com' {...field} />
 							</FormControl>
-							<FormDescription>It&apos;s only used to get back to you.</FormDescription>
+							<FormDescription>It&apos;s only used to reply your message.</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -125,7 +128,7 @@ export function HiringForm(props: HiringFormProps) {
 					render={({ field }) => (
 						<FormItem>
 							<Turnstile
-								sitekey='0x4AAAAAABdxcUSg5qX0n-wm'
+								sitekey={PUBLIC_CF_TURNSTILE_SITE_KEY}
 								onSuccess={() => field.onChange(true)}
 								onError={() => field.onChange(false)}
 								appearance='execute'

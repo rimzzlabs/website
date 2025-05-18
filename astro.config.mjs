@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config'
+import { defineConfig, envField } from 'astro/config'
 
 import tailwindcss from '@tailwindcss/vite'
 import mdx from '@astrojs/mdx'
@@ -10,6 +10,12 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://rimzzlabs.com',
+	env: {
+		schema: {
+			PUBLIC_CF_TURNSTILE_SITE_KEY: envField.string({ context: 'client', access: 'public' }),
+			PUBLIC_EMAILJS_KEY: envField.string({ context: 'client', access: 'public' }),
+		},
+	},
 	vite: {
 		plugins: [tailwindcss()],
 	},
