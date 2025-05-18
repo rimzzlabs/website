@@ -1,14 +1,19 @@
 ---
 import { RetroGrid } from "@/components/ui/retro-grid";
+import { cn } from "@/lib/utils";
 interface Props {
   description: string;
+  className?: string;
 }
 
-let { description } = Astro.props;
+let { description, className } = Astro.props;
 ---
 
 <header
-  class="relative h-[calc(100vh-14rem)] pt-32 sm:pt-40 lg:pt-32 pb-16 sm:pb-28 lg:pb-32"
+  class={cn(
+    "relative h-[calc(100vh-14rem)] pt-32 sm:pt-40 lg:pt-32 pb-16 sm:pb-28 lg:pb-32",
+    className
+  )}
 >
   <RetroGrid client:load />
 

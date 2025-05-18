@@ -4,6 +4,7 @@ import RootLayout from "@/layouts/root-layout.astro";
 import ToolsMarquee from "@/modules/home/tools-marquee.astro";
 import Hero from "@/components/hero.astro";
 import Journey from "@/modules/home/journey.astro";
+import { Delightful } from "@/modules/home/delightful";
 import BentoLinks from "@/components/bento-links.astro";
 import info from "@/configs/info.json";
 import { ButtonLink } from "@/components/ui/button";
@@ -18,29 +19,25 @@ let description =
 <RootLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <main id="main">
-    <Hero {description}>
-      <Fragment slot="title">
-        <span class="sr-only">{title}</span> Passionate Frontend Software Engineer.
-        Crafting <span
-          class="relative bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent"
-          >Delightful</span
-        > User Interfaces.
-      </Fragment>
+  <Hero {description}>
+    <Fragment slot="title">
+      <span class="sr-only">{title}</span> Passionate Frontend Software Engineer.
+      Crafting <Delightful />
+      User Interfaces.
+    </Fragment>
 
-      <div class="inline-flex gap-2">
-        {info.isAvailableForWork && <HiringFormButton client:visible />}
+    <div class="inline-flex gap-2">
+      {info.isAvailableForWork && <HiringFormButton client:visible />}
 
-        <ButtonLink href="/now" variant="outline" className="group lg:h-10">
-          See what&apos;s new <ArrowRight
-            className="group-hover:translate-x-1 transition"
-          />
-        </ButtonLink>
-      </div>
-    </Hero>
+      <ButtonLink href="/now" variant="outline" className="group lg:h-10">
+        See what&apos;s new <ArrowRight
+          className="group-hover:translate-x-1 transition"
+        />
+      </ButtonLink>
+    </div>
+  </Hero>
 
-    <ToolsMarquee />
-    <Journey />
-    <BentoLinks />
-  </main>
+  <ToolsMarquee />
+  <Journey />
+  <BentoLinks />
 </RootLayout>

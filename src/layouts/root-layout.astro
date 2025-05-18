@@ -25,6 +25,6 @@ let { scrollSmooth = false } = Astro.props;
       <slot />
     </main>
     <Footer />
-    <Toaster client:idle />
+    <Toaster client:idle={{ timeout: 5000 }} />
   </body>
 </html>
