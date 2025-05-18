@@ -9,6 +9,7 @@ import { Delightful } from "@/components/delightful";
 import info from "@/configs/info.json";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { HiringFormButton } from "@/components/hiring-form/hiring-form-button";
 
 let title = "Rizki Citra, Frontend Software Engineer";
 let description = "";
@@ -28,16 +29,7 @@ let description = "";
       </Fragment>
 
       <div class="inline-flex gap-2">
-        {
-          info.isAvailableForWork && (
-            <Button className="relative w-36 h-9 lg:h-10 overflow-hidden">
-              <span class="absolute z-[1] rounded-sm justify-center bg-primary inset-0.5 text-primary-foreground inline-flex items-center gap-2">
-                Open to work <Sparkles />
-              </span>
-              <span class="animate-[spin_5s_ease-out_infinite] absolute rounded-lg left-0.5 inset-y-0.5 right-0 bg-gradient-to-r from-orange-500 to-violet-500" />
-            </Button>
-          )
-        }
+        {info.isAvailableForWork && <HiringFormButton client:load />}
 
         <ButtonLink href="/now" variant="outline" className="group lg:h-10">
           See what&apos;s new <ArrowRight

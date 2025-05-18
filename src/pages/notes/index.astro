@@ -1,4 +1,5 @@
 ---
+import BentoLinks from "@/components/bento-links.astro";
 import Hero from "@/components/hero.astro";
 import Seo from "@/components/seo.astro";
 import RootLayout from "@/layouts/root-layout.astro";
@@ -10,7 +11,10 @@ let notes = await getCollection("notes");
 
 let notesList = pipe(
   notes,
-  A.filter((note) => note.data.status === "published"),
+  A.filter((note) => {
+    if (import.meta.env.PROD) return note.data.status === "published";
+    return true;
+  }),
   A.sort((a, b) =>
     new Date(b.data.publishedAt) > new Date(a.data.publishedAt) ? 1 : 0
   )
@@ -31,12 +35,7 @@ let notesList = pipe(
       <Fragment slot="title"> Writing Notes</Fragment>
     </Hero>
 
-    <section class="container-fluid">
-      <h2 class="text-3xl text-balance font-bold sm:text-4xl lg:text-5xl">
-        Notes
-      </h2>
-
-      <NotesCards notes={notesList} />
-    </section>
+    <NotesCards notes={notesList} />
+    <BentoLinks />
   </main>
 </RootLayout>

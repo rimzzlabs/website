@@ -11,6 +11,8 @@ import workPage from "@/assets/work-page.webp";
 import workPageDark from "@/assets/work-page-dark.webp";
 import notesPage from "@/assets/notes-page.webp";
 import notesPageDark from "@/assets/notes-page-dark.webp";
+import resumePage from "@/assets/resume-page.webp";
+import resumePageDark from "@/assets/resume-page-dark.webp";
 import { Image } from "astro:assets";
 import { ArrowUpRight } from "lucide-react";
 
@@ -39,8 +41,8 @@ let cardItems = [
   {
     title: "View Resume",
     description: "Interested in my resume? view my resume",
-    image: nowPage,
-    imageDark: nowPageDark,
+    image: resumePage,
+    imageDark: resumePageDark,
     pathname: "/resume",
   },
 ];
@@ -88,7 +90,7 @@ let cardItems = [
           <ArrowUpRight className="stroke-foreground absolute bottom-4 right-4 translate-12 opacity-0 transition group-hover:translate-0 group-hover:opacity-100" />
 
           <a
-            class="absolute inset-0"
+            class="absolute inset-0 z-[1]"
             title={`Go to ${cardItem.title}`}
             href={cardItem.pathname}
           >

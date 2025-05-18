@@ -1,12 +1,12 @@
 ---
 import Hero from "@/components/hero.astro";
+import { HiringFormButton } from "@/components/hiring-form/hiring-form-button";
 import Seo from "@/components/seo.astro";
 import { ButtonLink } from "@/components/ui/button";
 import RootLayout from "@/layouts/root-layout.astro";
-import NotesCards from "@/modules/notes/notes-cards.astro";
-import { A, pipe } from "@mobily/ts-belt";
-import { getCollection } from "astro:content";
-import { Download } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import info from "@/configs/info.json";
+import BentoLinks from "@/components/bento-links.astro";
 
 let title = "View Rizki Citra's Latest Resume";
 let description =
@@ -22,10 +22,19 @@ let description =
         <span class="sr-only">View Rizki Citra&apos;s</span>Latest Resume</Fragment
       >
 
-      <ButtonLink href="/attachment/resume-rimzzlabs.pdf">
-        <Download />
-        Download
-      </ButtonLink>
+      <div class="inline-flex items-center gap-2">
+        {info.isAvailableForWork && <HiringFormButton client:load />}
+        <ButtonLink
+          variant={info.isAvailableForWork ? "outline" : "default"}
+          href="/attachments/resume-rimzzlabs.pdf"
+          className="lg:h-11"
+        >
+          View Resume
+          <ArrowUpRight />
+        </ButtonLink>
+      </div>
     </Hero>
+
+    <BentoLinks />
   </main>
 </RootLayout>

@@ -3,51 +3,26 @@ import { NAVIGATIONS, SOCIALS, OTHERS } from "../navigations";
 ---
 
 <footer
-  class="container-fluid py-10 flex flex-col md:pr-10 md:flex-row md:items-start md:justify-between"
+  class="container-fluid pt-10 pb-40 md:pb-10 flex flex-col md:pr-10 md:flex-row md:items-start md:justify-between"
 >
   <p class="font-semibold text-muted-foreground">
     &copy; {new Date().getFullYear()} - rimzzlabs.com
   </p>
 
-  <div class="flex items-start justify-between gap-8 max-md:pt-10">
+  <div class="grid grid-cols-3 gap-8 max-md:pt-10">
     <div>
-      <p class="font-semibold">Resources</p>
+      <p class="font-semibold">Website</p>
       <nav class="inline-flex flex-col">
         {
-          OTHERS.map((item) => (
+          NAVIGATIONS.filter((item) => item.pathname !== "/").map((item) => (
             <a
               title={item.label}
               href={item.pathname}
-              target={item.pathname.includes("http") ? "_blank" : undefined}
-              rel={
-                item.pathname.includes("http")
-                  ? "noopener noreferrer"
-                  : undefined
-              }
               class="text-sm font-medium text-muted-foreground"
             >
               {item.label}
             </a>
           ))
-        }
-      </nav>
-    </div>
-
-    <div>
-      <p class="font-semibold">Website</p>
-      <nav class="inline-flex flex-col">
-        {
-          NAVIGATIONS.filter((item) => item.pathname !== "/resume").map(
-            (item) => (
-              <a
-                title={item.label}
-                href={item.pathname}
-                class="text-sm font-medium text-muted-foreground"
-              >
-                {item.label}
-              </a>
-            )
-          )
         }
       </nav>
     </div>
@@ -62,6 +37,29 @@ import { NAVIGATIONS, SOCIALS, OTHERS } from "../navigations";
               target="_blank"
               href={item.pathname}
               rel="noopener noreferrer"
+              class="text-sm font-medium text-muted-foreground"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div>
+      <p class="font-semibold">Resources</p>
+      <nav class="inline-flex flex-col">
+        {
+          OTHERS.map((item) => (
+            <a
+              title={item.label}
+              href={item.pathname}
+              target={item.pathname.includes("http") ? "_blank" : undefined}
+              rel={
+                item.pathname.includes("http")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               class="text-sm font-medium text-muted-foreground"
             >
               {item.label}

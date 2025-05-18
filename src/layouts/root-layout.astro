@@ -3,6 +3,7 @@ import Footer from "@/components/footer/footer.astro";
 import { DockNavigation } from "@/components/dock-navigation";
 import ThemeWatcher from "@/components/theme-watcher.astro";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 interface Props {
   scrollSmooth?: boolean;
 }
@@ -20,5 +21,6 @@ let { scrollSmooth = false } = Astro.props;
     <DockNavigation client:load />
     <slot />
     <Footer />
+    <Toaster client:visible />
   </body>
 </html>

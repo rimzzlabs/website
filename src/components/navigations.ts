@@ -15,6 +15,6 @@ export const SOCIALS = [
 ]
 
 export const OTHERS = [
-	{ label: 'Resume', pathname: '/resume' },
+	{ label: 'Resume', pathname: '/attachments/resume-rimzzlabs.pdf' },
 	{ label: 'Source Code', pathname: 'https://github.com/rimzzlabs/website' },
 ]
