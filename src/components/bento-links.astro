@@ -6,29 +6,42 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import nowPage from "@/assets/now-page.webp";
-import worksPage from "@/assets/works-page.webp";
+import nowPageDark from "@/assets/now-page-dark.webp";
+import workPage from "@/assets/work-page.webp";
+import workPageDark from "@/assets/work-page-dark.webp";
+import notesPage from "@/assets/notes-page.webp";
+import notesPageDark from "@/assets/notes-page-dark.webp";
 import { Image } from "astro:assets";
+import { ArrowUpRight } from "lucide-react";
 
 let cardItems = [
   {
-    title: "See what's new",
+    title: "Happening now",
     description: "See what I is recently up to",
     image: nowPage,
+    imageDark: nowPageDark,
+    pathname: "/now",
   },
   {
     title: "Work Experience",
     description: "See full working experience I have",
-    image: worksPage,
+    image: workPage,
+    imageDark: workPageDark,
+    pathname: "/works",
   },
   {
-    title: "Read My Notes",
+    title: "Read Notes",
     description: "Read my notes about what I've learned",
-    image: nowPage,
+    image: notesPage,
+    imageDark: notesPageDark,
+    pathname: "/notes",
   },
   {
-    title: "Download Resume",
+    title: "View Resume",
     description: "Interested in my resume? view my resume",
     image: nowPage,
+    imageDark: nowPageDark,
+    pathname: "/resume",
   },
 ];
 ---
@@ -43,24 +56,44 @@ let cardItems = [
     {
       cardItems.map((cardItem) => (
         <Card className="group col-span-3 relative py-0 overflow-hidden first-of-type:col-span-2 last-of-type:col-span-2">
-          <CardHeader className="relative z-[1] p-4 mt-auto dark:text-background transition">
+          <CardHeader className="relative z-[1] p-4 mt-auto transition">
             <CardTitle>{cardItem.title}</CardTitle>
-            <CardDescription className="max-md:sr-only dark:text-muted">
+            <CardDescription className="max-md:sr-only">
               {cardItem.description}
             </CardDescription>
           </CardHeader>
 
-          <figure class="absolute inset-0 group-hover:-translate-y-10 group-hover:-translate-x-5 transition origin-center">
+          <figure class="absolute dark:hidden -inset-1 group-hover:translate-y-4 group-hover:-translate-x-1 group-hover:scale-110 transition origin-center">
             <Image
               loading="lazy"
               alt="Now Page"
               priority={false}
               src={cardItem.image}
-              class="size-full object-cover object-top"
+              class="size-full object-cover object-top-left"
             />
           </figure>
 
-          <div class="absolute inset-0 bg-gradient-to-t from-stone-50 via-stone-100" />
+          <figure class="absolute hidden dark:block -inset-1 group-hover:translate-y-4 group-hover:-translate-x-1 group-hover:scale-110 transition origin-center">
+            <Image
+              loading="lazy"
+              alt="Now Page"
+              priority={false}
+              src={cardItem.imageDark}
+              class="size-full object-cover object-top-left"
+            />
+          </figure>
+
+          <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 from-20%" />
+
+          <ArrowUpRight className="stroke-foreground absolute bottom-4 right-4 translate-12 opacity-0 transition group-hover:translate-0 group-hover:opacity-100" />
+
+          <a
+            class="absolute inset-0"
+            title={`Go to ${cardItem.title}`}
+            href={cardItem.pathname}
+          >
+            <span class="sr-only">{cardItem.title}</span>
+          </a>
         </Card>
       ))
     }

@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.prose span.icon-link {
+	@apply before:content-['#'] before:absolute before:-right-6 before:top-1 before:px-1 before:opacity-0 before:transition before:text-[0.9em] before:text-orange-600;
+}
+
+.prose :is(h2, h3, h4, h5, h6) {
+	@apply relative max-w-max;
+}
+
+.prose :is(h2, h3, h4, h5, h6):hover span.icon-link::before {
+	@apply opacity-100;
+}

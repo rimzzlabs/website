@@ -2,9 +2,15 @@
 import Footer from "@/components/footer/footer.astro";
 import { DockNavigation } from "@/components/dock-navigation";
 import ThemeWatcher from "@/components/theme-watcher.astro";
+import { cn } from "@/lib/utils";
+interface Props {
+  scrollSmooth?: boolean;
+}
+
+let { scrollSmooth = false } = Astro.props;
 ---
 
-<html lang="en">
+<html class={cn(scrollSmooth ? "scroll-smooth" : undefined)} lang="en">
   <head>
     <meta charset="utf-8" />
     <slot name="metadata" />

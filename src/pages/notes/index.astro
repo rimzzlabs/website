@@ -1,0 +1,42 @@
+---
+import Hero from "@/components/hero.astro";
+import Seo from "@/components/seo.astro";
+import RootLayout from "@/layouts/root-layout.astro";
+import NotesCards from "@/modules/notes/notes-cards.astro";
+import { A, pipe } from "@mobily/ts-belt";
+import { getCollection } from "astro:content";
+
+let notes = await getCollection("notes");
+
+let notesList = pipe(
+  notes,
+  A.filter((note) => note.data.status === "published"),
+  A.sort((a, b) =>
+    new Date(b.data.publishedAt) > new Date(a.data.publishedAt) ? 1 : 0
+  )
+);
+---
+
+<RootLayout>
+  <Seo
+    slot="metadata"
+    title="Read Rizki Citra's Notes"
+    description="Read my notes about what I've learned, and how I learned them through my journey as a front-end software engineer. These notes provide insights into how I approach to problem-solving, my technical skills, and my overall progress to software development"
+  />
+
+  <main>
+    <Hero
+      description="Read my notes about what I've learned, and how I learned them through my journey as a front-end software engineer. These notes provide insights into how I approach to problem-solving, my technical skills, and my overall progress to software development"
+    >
+      <Fragment slot="title"> Writing Notes</Fragment>
+    </Hero>
+
+    <section class="container-fluid">
+      <h2 class="text-3xl text-balance font-bold sm:text-4xl lg:text-5xl">
+        Notes
+      </h2>
+
+      <NotesCards notes={notesList} />
+    </section>
+  </main>
+</RootLayout>

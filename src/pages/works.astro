@@ -4,23 +4,20 @@ import Seo from "@/components/seo.astro";
 import RootLayout from "@/layouts/root-layout.astro";
 import Hero from "@/components/hero.astro";
 import Showcase from "@/modules/works/showcase.astro";
+
+let title = "Work Experience: See What Rizki Citra is Recently Working on";
+let description =
+  "This page showcases the projects I've worked on throughout my career as a front-end software engineer. Each project showcases my technical abilities, my approach to solving problems, and my dedication to providing functional, user-focused solutions";
 ---
 
 <RootLayout>
-  <Seo
-    slot="metadata"
-    title="See What Rizki Citra is Recently Working on"
-    description="See what projects I recently working on"
-  />
+  <Seo slot="metadata" {title} {description} />
 
   <main>
-    <Hero
-      description="This page showcases the projects I've worked on throughout my career as a front-end software engineer. Each project showcases my technical abilities, my approach to solving problems, and my dedication to providing functional, user-focused solutions."
-    >
+    <Hero {description}>
       <Fragment slot="title">
-        Works Experience <span class="sr-only"
-          >See Rizki Citra or rimzzlabs past projects</span
-        >
+        Work Experience
+        <span class="sr-only">See Rizki Citra or rimzzlabs past projects</span>
       </Fragment>
     </Hero>
     <Showcase />

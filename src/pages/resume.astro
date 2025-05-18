@@ -1,0 +1,31 @@
+---
+import Hero from "@/components/hero.astro";
+import Seo from "@/components/seo.astro";
+import { ButtonLink } from "@/components/ui/button";
+import RootLayout from "@/layouts/root-layout.astro";
+import NotesCards from "@/modules/notes/notes-cards.astro";
+import { A, pipe } from "@mobily/ts-belt";
+import { getCollection } from "astro:content";
+import { Download } from "lucide-react";
+
+let title = "View Rizki Citra's Latest Resume";
+let description =
+  "I make it a point to update my resume once a year to ensure it reflects my latest skills, experiences, and accomplishments. This practice helps me maintain a clear and accurate record of my professional journey, while also allowing me to refine how I present my work to potential collaborators or employers. If you’d like to learn more about my qualifications, you can download my latest resume";
+---
+
+<RootLayout>
+  <Seo slot="metadata" {title} {description} />
+
+  <main>
+    <Hero {description}>
+      <Fragment slot="title">
+        <span class="sr-only">View Rizki Citra&apos;s</span>Latest Resume</Fragment
+      >
+
+      <ButtonLink href="/attachment/resume-rimzzlabs.pdf">
+        <Download />
+        Download
+      </ButtonLink>
+    </Hero>
+  </main>
+</RootLayout>

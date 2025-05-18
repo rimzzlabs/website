@@ -9,38 +9,37 @@ import { Delightful } from "@/components/delightful";
 import info from "@/configs/info.json";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+
+let title = "Rizki Citra, Frontend Software Engineer";
+let description = "";
 ---
 
 <RootLayout>
-  <Seo
-    slot="metadata"
-    title="Rizki Citra, Frontend Software Engineer"
-    description="A passionate, and dedicated Frontend Software Engineer. I create intuitive, smooth, and visually appealing user interfaces that engage and delight users."
-  />
+  <Seo slot="metadata" {title} {description} />
 
   <main>
     <Hero
       description="Software engineering lets me create impactful, innovative solutions that align with my values and improve lives. It's structured, rewarding, and always evolving—keeping things exciting and full of growth."
     >
       <Fragment slot="title">
-        <span class="sr-only">Rizki Citra or Rimzzlabs is a</span> Passionate Frontend
-        Software Engineer. Crafting <Delightful client:load />
+        <span class="sr-only">{title}</span> Passionate Frontend Software Engineer.
+        Crafting <Delightful client:load />
         User Interfaces.
       </Fragment>
 
       <div class="inline-flex gap-2">
         {
           info.isAvailableForWork && (
-            <Button className="relative w-36 h-9">
-              <span class="absolute z-[1] rounded-md justify-center bg-primary inset-0.5 text-primary-foreground inline-flex items-center gap-2">
+            <Button className="relative w-36 h-9 lg:h-10 overflow-hidden">
+              <span class="absolute z-[1] rounded-sm justify-center bg-primary inset-0.5 text-primary-foreground inline-flex items-center gap-2">
                 Open to work <Sparkles />
               </span>
-              <span class="absolute -inset-px bg-gradient-to-r from-orange-500 to-violet-500 animate-pulse rounded-lg" />
+              <span class="animate-[spin_5s_ease-out_infinite] absolute rounded-lg left-0.5 inset-y-0.5 right-0 bg-gradient-to-r from-orange-500 to-violet-500" />
             </Button>
           )
         }
 
-        <ButtonLink href="/now" variant="secondary" className="group">
+        <ButtonLink href="/now" variant="outline" className="group lg:h-10">
           See what&apos;s new <ArrowRight
             className="group-hover:translate-x-1 transition"
           />

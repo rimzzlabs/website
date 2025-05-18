@@ -16,6 +16,7 @@ export function DockNavigation() {
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<a
+									title={item.label}
 									href={item.pathname}
 									className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), 'size-12')}
 								>

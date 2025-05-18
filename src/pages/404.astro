@@ -1,35 +1,32 @@
 ---
-import Seo from '@/components/seo.astro'
-import { ButtonLink } from '@/components/ui/button'
-import { RetroGrid } from '@/components/ui/retro-grid'
-import RootLayout from '@/layouts/root-layout.astro'
-import { CornerDownLeftIcon } from 'lucide-react'
+import Hero from "@/components/hero.astro";
+import Seo from "@/components/seo.astro";
+import { ButtonLink } from "@/components/ui/button";
+import RootLayout from "@/layouts/root-layout.astro";
+import { CornerDownLeftIcon } from "lucide-react";
+
+let title = "404 Not Found, Unable to Find the Requested Resource";
+let description =
+  "You might entered a wrong url, or the page you were looking for simply does not exist. If you think this is a mistake and want me to fix it, please send me an email with the attachment, I will gladly fix the issue.";
 ---
 
 <RootLayout>
   <Seo
     slot="metadata"
     title="404 Not Found"
-    description="The page you are looking for does not exist."
+    description="You might entered a wrong url, or the page you were looking for simply does not exist. If you think this is a mistake, please send me an email with the attachment, I will gladly fix the issue."
   />
 
-  <header class="relative h-[calc(100vh-14rem)] grid place-items-center">
-    <div class="relative z-[1] justify-center container-fluid text-center">
-      <h1
-        class="text-4xl leading-none sm:text-5xl lg:text-6xl 2xl:text-7xl font-bold text-balance"
-      >
-        404 Not Found
-      </h1>
+  <main>
+    <Hero {description}>
+      <Fragment slot="title">
+        {title}
+      </Fragment>
 
-      <p class="lg:text-lg max-w-4xl mx-auto py-4 lg:py-6">
-        The page you are looking for does not exist.
-      </p>
-
-      <ButtonLink href="/" variant="secondary" className="group">
-        Back Home <CornerDownLeftIcon />
+      <ButtonLink href="/">
+        <CornerDownLeftIcon className="mr-2" />
+        Back to Home
       </ButtonLink>
-    </div>
-
-    <RetroGrid client:load />
-  </header>
+    </Hero>
+  </main>
 </RootLayout>

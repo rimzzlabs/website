@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+import NotesLayout from "@/layouts/notes-layout.astro";
+import BentoLinks from "@/components/bento-links.astro";
+
+export async function getStaticPaths() {
+  const notes = await getCollection("notes");
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note, headings: note.rendered },
+  }));
+}
+
+let { note } = Astro.props;
+---
+
+<NotesLayout note={note}>
+  <BentoLinks />
+</NotesLayout>

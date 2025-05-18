@@ -1,14 +1,5 @@
 ---
-import { getImage, Image } from "astro:assets";
-import Logo from "@/assets/logo.svg";
 import { NAVIGATIONS, SOCIALS, OTHERS } from "../navigations";
-
-let image = await getImage({
-  src: Logo,
-  format: "webp",
-  width: 128,
-  height: 128,
-});
 ---
 
 <footer
@@ -25,6 +16,7 @@ let image = await getImage({
         {
           OTHERS.map((item) => (
             <a
+              title={item.label}
               href={item.pathname}
               target={item.pathname.includes("http") ? "_blank" : undefined}
               rel={
@@ -48,6 +40,7 @@ let image = await getImage({
           NAVIGATIONS.filter((item) => item.pathname !== "/resume").map(
             (item) => (
               <a
+                title={item.label}
                 href={item.pathname}
                 class="text-sm font-medium text-muted-foreground"
               >
@@ -65,6 +58,7 @@ let image = await getImage({
         {
           SOCIALS.map((item) => (
             <a
+              title={item.label}
               target="_blank"
               href={item.pathname}
               rel="noopener noreferrer"
