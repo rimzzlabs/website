@@ -29,7 +29,7 @@ let reversedIcons = [
 ];
 ---
 
-<section class="container-fluid relative py-10">
+<section class="container-fluid relative pb-10 pt-32">
   <Marquee pauseOnHover client:idle className="[--duration:4s] [--gap:2rem]">
     {icons.map((icon) => <i class={cn(icon, "text-5xl")} />)}
   </Marquee>

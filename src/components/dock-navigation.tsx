@@ -54,7 +54,17 @@ export function DockNavigation() {
 				))}
 				<Separator orientation='vertical' className='h-full' />
 				<DockIcon>
-					<DockNavigationTheme />
+					<Tooltip>
+						<TooltipTrigger asChild>
+							{/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+							<div role='button' tabIndex={-1}>
+								<DockNavigationTheme />
+							</div>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>Theme</p>
+						</TooltipContent>
+					</Tooltip>
 				</DockIcon>
 			</Dock>
 		</div>

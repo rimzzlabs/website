@@ -17,6 +17,9 @@ export default defineConfig({
 		},
 	},
 	vite: {
+		server: {
+			allowedHosts: ['d31e-66-96-225-68.ngrok-free.app'],
+		},
 		plugins: [tailwindcss()],
 	},
 	markdown: {

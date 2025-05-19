@@ -1,5 +1,5 @@
 import { Loader, MonitorIcon, Moon, MoonStarIcon, SunIcon } from 'lucide-react'
-import { Button } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -63,15 +63,13 @@ export function DockNavigationTheme() {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button size='icon' variant='ghost' className='size-12'>
-					{icon}
+			<DropdownMenuTrigger className={buttonVariants({ variant: 'ghost', size: 'icon-lg' })}>
+				{icon}
 
-					<span className='sr-only'>Change theme</span>
-				</Button>
+				<span className='sr-only'>Change theme</span>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent align='end' side='top' sideOffset={12} alignOffset={-12}>
+			<DropdownMenuContent className='z-[99999]' align='end' sideOffset={12} alignOffset={-12}>
 				{availableThemes.map((theme) => (
 					<DropdownMenuItem key={theme.value} onClick={onChangeTheme(theme.value)}>
 						<theme.icon size='1em' /> {theme.label}
