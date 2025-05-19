@@ -53,7 +53,7 @@ export function DockNavigationTheme() {
 
 	if (!isClient) {
 		return (
-			<Button size='icon' variant='ghost'>
+			<Button size='icon' variant='ghost' className='size-12'>
 				<Loader className='animate-spin size-4' />
 
 				<span className='sr-only'>Change theme</span>
@@ -64,7 +64,7 @@ export function DockNavigationTheme() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button size='icon' variant='ghost'>
+				<Button size='icon' variant='ghost' className='size-12'>
 					{icon}
 
 					<span className='sr-only'>Change theme</span>

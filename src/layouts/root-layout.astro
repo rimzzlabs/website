@@ -20,11 +20,11 @@ let { scrollSmooth = false } = Astro.props;
   <body>
     <ThemeWatcher />
     <SkipButton />
-    <DockNavigation client:idle />
+    <DockNavigation client:load />
     <main id="main">
       <slot />
     </main>
     <Footer />
-    <Toaster client:idle={{ timeout: 5000 }} />
+    <Toaster client:load />
   </body>
 </html>
