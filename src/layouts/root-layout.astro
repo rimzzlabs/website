@@ -1,10 +1,14 @@
 ---
+import "@/styles/global.css";
+import "@fontsource-variable/rubik/wght.css";
 import Footer from "@/components/footer/footer.astro";
 import { DockNavigation } from "@/components/dock-navigation";
 import ThemeWatcher from "@/components/theme-watcher.astro";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import SkipButton from "@/components/skip-button.astro";
+import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
+
 interface Props {
   scrollSmooth?: boolean;
 }
@@ -15,8 +19,16 @@ let { scrollSmooth = false } = Astro.props;
 <html class={cn(scrollSmooth ? "scroll-smooth" : undefined)} lang="en">
   <head>
     <meta charset="utf-8" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+      href={rubikFont}
+    />
     <slot name="metadata" />
   </head>
+
   <body>
     <ThemeWatcher />
     <SkipButton />

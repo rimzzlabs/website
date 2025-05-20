@@ -1,12 +1,7 @@
 ---
-import "@fontsource-variable/rubik";
-import "@/styles/global.css";
 import { SEO, type SEOProps } from "astro-seo";
 import { match, P } from "ts-pattern";
 import { pipe, S, F, A } from "@mobily/ts-belt";
-import Logo from "@/assets/logo.svg";
-import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
-import { getImage } from "astro:assets";
 
 interface Props {
   title?: string;
@@ -59,13 +54,6 @@ let ogImage = match(props.image)
         alt: "Rizki Citra, Frontend Software Engineer",
       }) satisfies Props["image"]
   );
-
-let image = await getImage({
-  src: Logo,
-  format: "webp",
-  width: 128,
-  height: 128,
-});
 ---
 
 <SEO
@@ -95,20 +83,6 @@ let image = await getImage({
     link: [
       { rel: "sitemap", href: "/sitemap-index.xml" },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-      {
-        rel: "preaload",
-        as: "image",
-        type: "image/webp",
-        href: image.src,
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "preload",
-        as: "font",
-        type: "font/woff2",
-        href: rubikFont,
-        crossorigin: "anonymous",
-      },
     ],
     meta: [
       { name: "keywords", content: keywords },

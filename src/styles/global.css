@@ -196,3 +196,9 @@
 		@apply bg-background text-foreground subpixel-antialiased font-sans;
 	}
 }
+
+@font-face {
+	src: inherit;
+	font-family: "devicon";
+	display: swap;
+}
