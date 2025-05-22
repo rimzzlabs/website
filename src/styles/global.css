@@ -200,5 +200,5 @@
 @font-face {
 	src: inherit;
 	font-family: "devicon";
-	display: swap;
+	display: swap !important;
 }
