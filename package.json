@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "astro preferences disable devToolbar && astro sync && astro dev",
-		"build": "astro build",
+		"build": "astro sync && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
 		"sync": "astro sync",

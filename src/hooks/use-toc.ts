@@ -1,4 +1,3 @@
-import { A } from '@mobily/ts-belt'
 import { useEffect, useState } from 'react'
 
 export function useToc(headings: Array<string>) {
@@ -14,7 +13,7 @@ export function useToc(headings: Array<string>) {
 					}
 				}
 			},
-			{ rootMargin: '-5% 0px -89% 0px', threshold: 0.3 },
+			{ rootMargin: '-5% 0px -46% 0px', threshold: 0.3 },
 		)
 
 		for (let heading of headings) {
