@@ -2,19 +2,14 @@
 	"isAvailableForWork": false,
 	"now": [
 		{
-			"date": "2025-04-30",
-			"title": "Construction Work",
-			"description": "I recently came across a friend who is currently working on a construction project. It might sound like a boring topic, but I'm very interested in construction and architecture."
+			"date": "2025-05-06",
+			"title": "Eid al-Adha",
+			"description": "It's one of the main festivals in Islam, we're cooking beef and chicken with the family."
 		},
 		{
-			"date": "2025-05-1",
-			"title": "Philosophical and Self-Improvement Books",
-			"description": "Self-improvement books and philosophies are always amuse me. Philosophy can align with Software Engineering, while Self-Improvement really helps me to become a better person."
-		},
-		{
-			"date": "2025-05-10",
-			"title": "Entering Apple Ecosystem",
-			"description": "I recently got my new Macbook, and I decided to learn Swift and iOS development. It's a very interesting topic, and I'm very interested in Apple ecosystem."
+			"date": "2025-05-9",
+			"title": "Swift Closure",
+			"description": "Closure is one of the fundamental concept in Swift, I recently read about it, and I'm going to learn more about it."
 		}
 	]
 }
