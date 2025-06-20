@@ -2,14 +2,14 @@
 	"isAvailableForWork": false,
 	"now": [
 		{
-			"date": "2025-06-06",
-			"title": "Eid al-Adha",
-			"description": "It's one of the main festivals in Islam, we're cooking beef and chicken for the family."
+			"date": "2025-06-21",
+			"title": "DIY Ice Coffee",
+			"description": "I'm saving money by making my own iced coffee at home. It's also easy to make! The only drawback is that it doesn't taste as strong as coffee from a coffee shop. But I still like it."
 		},
 		{
-			"date": "2025-06-9",
+			"date": "2025-06-20",
 			"title": "Swift Closure",
-			"description": "Closure is one of the fundamental concept in Swift, I recently read about it, and I'm going to learn more about it."
+			"description": "It's a bit difficult for me to understand this concept. Yet this really interesting."
 		}
 	]
 }
