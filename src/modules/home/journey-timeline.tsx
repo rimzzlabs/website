@@ -104,23 +104,12 @@ const JOURNEY_TIMELINE_ITEMS = [
 					fast-paced crypto world.
 				</TimelineText>
 
-				<div className='grid grid-cols-7 gap-1'>
-					<TimelineImage
-						src={finalAssignment1.src}
-						width={finalAssignment1.width}
-						height={finalAssignment1.height}
-						className='h-24 ssm:h-32 lg:h-44 object-center'
-						containerClassName='col-span-4'
-						alt='A potrait of Rizki celebrating with his girlfriend and her friend, because they passed their thesis defense.'
-						title='A potrait of Rizki celebrating with his girlfriend and her friend, because they passed their thesis defense.'
-					/>
-
+				<div className='grid grid-cols-2 gap-1'>
 					<TimelineImage
 						src={finalAssignment0.src}
 						width={finalAssignment0.width}
 						height={finalAssignment0.height}
 						className='h-24 ssm:h-32 lg:h-44 object-bottom'
-						containerClassName='col-span-3'
 						alt="Interviewing local shop for Rizki's final assignment"
 						title="Interviewing local shop for Rizki's final assignment"
 					/>
@@ -130,19 +119,8 @@ const JOURNEY_TIMELINE_ITEMS = [
 						width={graduation0.width}
 						height={graduation0.height}
 						className='h-28 lg:h-44 object-left-bottom'
-						containerClassName='col-span-3'
 						alt="Rizki's graduation potrait with his Mother and his Sister"
 						title="Rizki's graduation potrait with his Mother and his Sister"
-					/>
-
-					<TimelineImage
-						src={graduation1.src}
-						width={graduation1.width}
-						height={graduation1.height}
-						className='h-28 lg:h-44'
-						containerClassName='col-span-4'
-						alt='All students graduation landscape'
-						title='All students graduation landscape'
 					/>
 				</div>
 
