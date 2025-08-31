@@ -50,7 +50,7 @@ export function Lightbox(props: LigthboxProps) {
 										src={image.src}
 										alt={image.alt}
 										fetchPriority='low'
-										className=' h-[32rem] lg:h-[36rem] lg:w-full object-center lg:object-scale-down object-contain'
+										className=' h-8- lg:h-[36rem] lg:w-full object-center lg:object-scale-down object-contain'
 									/>
 								</CarouselItem>
 							))}
