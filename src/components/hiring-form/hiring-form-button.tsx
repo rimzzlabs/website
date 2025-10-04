@@ -39,7 +39,7 @@ export function HiringFormButton() {
 
 				<HiringForm onClose={() => setOpen(false)}>
 					{(isPending) => (
-						<AlertDialogFooter>
+						<AlertDialogFooter className='flex-col'>
 							<Button disabled={isPending}>Submit</Button>
 
 							<AlertDialogCancel asChild>

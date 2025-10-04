@@ -61,40 +61,42 @@ export function HiringForm(props: HiringFormProps) {
 	return (
 		<Form {...form}>
 			<form onSubmit={onSubmit} className='grid gap-5'>
-				<FormField
-					name='fullName'
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel asterisk>Full name</FormLabel>
-							<FormControl>
-								<Input placeholder='John Doe' autoComplete='name' {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<div className='grid grid-cols-2 lg:grid-cols-1 gap-4 max-lg:items-start'>
+					<FormField
+						name='fullName'
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel asterisk>Full name</FormLabel>
+								<FormControl>
+									<Input placeholder='John Doe' autoComplete='name' {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<FormField
-					name='company'
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Company name</FormLabel>
-							<FormControl>
-								<Input placeholder='e.g. Acme Inc' {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+					<FormField
+						name='company'
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Company name</FormLabel>
+								<FormControl>
+									<Input placeholder='e.g. Acme Inc' {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
 
 				<FormField
 					name='email'
 					control={form.control}
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Email address</FormLabel>
+							<FormLabel asterisk>Email address</FormLabel>
 							<FormControl>
 								<Input placeholder='john.doe@me.com' {...field} />
 							</FormControl>
@@ -109,10 +111,10 @@ export function HiringForm(props: HiringFormProps) {
 					control={form.control}
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Message</FormLabel>
+							<FormLabel asterisk>Message</FormLabel>
 							<FormControl>
 								<Textarea
-									className='h-36 resize-none'
+									className='max-h-32 resize-none'
 									placeholder='Hello Rizki, I would like to talk with you about...'
 									{...field}
 								/>
