@@ -1,4 +1,5 @@
-import { Sparkles } from 'lucide-react'
+import type { Dispatch, SetStateAction } from 'react'
+
 import {
 	AlertDialog,
 	AlertDialogCancel,
@@ -7,26 +8,18 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger,
 } from '../ui/alert-dialog'
 import { Button } from '../ui/button'
 import { HiringForm } from './hiring-form'
-import { useState } from 'react'
 
-export function HiringFormButton() {
-	let [open, setOpen] = useState(false)
+type HiringFormButtonLessProps = {
+	open: boolean
+	onOpenChange: Dispatch<SetStateAction<boolean>>
+}
 
+export function HiringFormButtonLess(props: HiringFormButtonLessProps) {
 	return (
-		<AlertDialog open={open} onOpenChange={setOpen}>
-			<AlertDialogTrigger asChild>
-				<Button className='relative w-36 h-9 lg:h-10 overflow-hidden'>
-					<span className='absolute z-[1] rounded-sm justify-center bg-primary inset-0.5 text-primary-foreground inline-flex items-center gap-2'>
-						Open to work <Sparkles />
-					</span>
-					<span className='animate-[spin_5s_ease-out_infinite] absolute rounded-lg left-0.5 inset-y-0.5 right-0 bg-gradient-to-r from-orange-500 to-violet-500' />
-				</Button>
-			</AlertDialogTrigger>
-
+		<AlertDialog open={props.open} onOpenChange={props.onOpenChange}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Send me an email</AlertDialogTitle>
@@ -36,7 +29,7 @@ export function HiringFormButton() {
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 
-				<HiringForm onClose={() => setOpen(false)}>
+				<HiringForm onClose={() => props.onOpenChange(false)}>
 					{(isPending) => (
 						<AlertDialogFooter className='flex-col'>
 							<Button disabled={isPending}>Submit</Button>

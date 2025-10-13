@@ -2,14 +2,14 @@
 	"isAvailableForWork": true,
 	"now": [
 		{
-			"date": "2025-06-21",
-			"title": "DIY Ice Coffee",
-			"description": "I'm saving money by making my own iced coffee at home. It's also easy to make! The only drawback is that it doesn't taste as strong as coffee from a coffee shop. But I still like it."
+			"date": "2025-10-13",
+			"title": "Open to Work",
+			"description": "I'm currently open to work. You can send me an email and I'll get back to you as soon as possible."
 		},
 		{
-			"date": "2025-06-20",
-			"title": "Swift Closure",
-			"description": "It's a bit difficult for me to understand this concept. Yet this really interesting."
+			"date": "2025-10-10",
+			"title": "Decentralized Crypto Exchange",
+			"description": "Currently developing a decentralized crypto exchange using web3 technologies. This project will allow users to trade cryptocurrencies directly on the blockchain, removing the need for intermediaries and enhancing security."
 		}
 	]
 }

@@ -19,7 +19,7 @@ import { PUBLIC_CF_TURNSTILE_SITE_KEY } from 'astro:env/client'
 
 let hiringSchema = z.object({
 	fullName: z.string().min(1, 'Full name is required').max(100, 'Full name is too long'),
-	company: z.string().optional(),
+	company: z.string().min(1, 'Company name is required').max(100, 'Company name is too long'),
 	email: z.string().min(1, 'Email is required').email('Invalid email'),
 	message: z.string().min(1, 'Message is required').max(2000, 'Message is too long'),
 	captchaVerified: z

@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { buttonVariants } from './ui/button'
 import { Separator } from './ui/separator'
 import { DockNavigationTheme } from './dock-navigation-theme'
+import { DockNavigationOpenToWork } from './dock-navigation-open-to-work'
 
 let homeNav = NAVIGATIONS.find((nav) => nav.pathname === '/')
 
@@ -53,6 +54,8 @@ export function DockNavigation() {
 					</DockIcon>
 				))}
 				<Separator orientation='vertical' className='h-full' />
+				<DockNavigationOpenToWork />
+
 				<DockIcon>
 					<Tooltip>
 						<TooltipTrigger asChild>
