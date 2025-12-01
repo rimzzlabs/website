@@ -1,15 +1,10 @@
 {
-	"isAvailableForWork": true,
+	"isAvailableForWork": false,
 	"now": [
 		{
-			"date": "2025-10-13",
-			"title": "Open to Work",
-			"description": "I'm currently open to work. You can send me an email and I'll get back to you as soon as possible."
-		},
-		{
-			"date": "2025-10-10",
-			"title": "Decentralized Crypto Exchange",
-			"description": "Currently developing a decentralized crypto exchange using web3 technologies. This project will allow users to trade cryptocurrencies directly on the blockchain, removing the need for intermediaries and enhancing security."
+			"date": "2025-12-2",
+			"title": "Building something related with AI",
+			"description": "Currently building something related with AI, the people here are amazing. Perhaps I am going to write some notes about it in the future."
 		}
 	]
 }
