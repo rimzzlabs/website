@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
+import Footer from "./footer.astro";
 ---
 
 <html lang="en">
@@ -17,8 +18,9 @@ import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-nor
   </head>
 
   <body>
-    <main id="main">
+    <main id="main" class="flex-1 shrink-0">
       <slot />
     </main>
+    <Footer />
   </body>
 </html>

@@ -1,0 +1,60 @@
+---
+import { ArrowUpRight } from "lucide-react";
+import Link from "./link.astro";
+import Section from "./section.astro";
+
+let year = new Date().getFullYear();
+
+let connects = [
+  { label: "GitHub", href: "https://github.com/rimzzlabs" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/rimzzlabs" },
+  { label: "Facebook", href: "https://facebook.com/rimzzlabs" },
+];
+
+let resources = [
+  {
+    label: "Resume",
+    href: "/attachments/resume-rizki-citra.pdf",
+    external: true,
+  },
+  { label: "Source Code", href: "https://github.com/rimzzlabs/website" },
+];
+
+let items = [
+  { label: "Connect", links: connects },
+  { label: "Resource", links: resources },
+];
+---
+
+<footer>
+  <Section
+    class="border-t pt-10 pb-40 flex flex-col lg:flex-row lg:items-start gap-4"
+  >
+    <h3 class="text-sm">&copy; {year} - rimzzlabs.com</h3>
+
+    <div class="grid gap-4 lg:grid-cols-2 max-lg:pt-6 lg:ml-auto">
+      {
+        items.map((item) => (
+          <div>
+            <h3 class="text-sm font-medium pb-3">{item.label}</h3>
+            <div class="grid">
+              {item.links.map((link) => (
+                <Link
+                  size="unstyled"
+                  variant="unstyled"
+                  href={link.href}
+                  rel="noopener"
+                  target="_blank"
+                  class="gap-2 hover:underline py-1 justify-normal text-muted-foreground"
+                >
+                  {link.label}
+                  <ArrowUpRight className="size-3 max-lg:ml-auto" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+</footer>

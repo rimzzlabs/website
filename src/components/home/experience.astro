@@ -1,0 +1,85 @@
+---
+import { ArrowUpRight } from "lucide-react";
+import Section from "../shared/section.astro";
+
+const experiences = [
+  {
+    title: "Software Engineer",
+    company: "Kolosal AI",
+    url: "https://kolosal.ai",
+    period: "Nov 2025 - Present",
+    summary: "Building AI products with a small, sharp team.",
+  },
+  {
+    title: "Software Engineer (Frontend)",
+    company: "Bitwyre",
+    url: "https://bitwyre.com",
+    period: "Feb 2024 - Nov 2025",
+    summary:
+      "Shipped the frontend for a global crypto, web3 and trading platform.",
+  },
+  {
+    title: "Frontend Developer",
+    company: "Skyshi Digital Indonesia",
+    url: "https://skyshi.com",
+    period: "Apr 2022 - Feb 2024",
+    summary:
+      "Built fast, accessible React and Next.js apps for local and international clients.",
+  },
+  {
+    title: "Frontend Developer Intern",
+    company: "Skyshi Digital Indonesia",
+    url: "https://skyshi.com",
+    period: "Jan 2022 - Mar 2022",
+    summary: "Cut my teeth on internal products with React, Vue and Chakra UI.",
+  },
+];
+---
+
+<Section class="py-10">
+  <h2 class="text-pretty text-2xl font-bold tracking-tight">
+    <span class="sr-only">My </span>Experience
+  </h2>
+  <p class="text-balance pt-3 pb-6 text-muted-foreground">
+    A quick ledger of where I've worked and what I shipped. The longer story
+    lives further down.
+  </p>
+
+  <ol class="divide-y divide-border">
+    {
+      experiences.map((job) => (
+        <li class="group grid gap-y-1.5 py-6 sm:grid-cols-[11rem_1fr] sm:gap-x-8">
+          <p class="flex items-center gap-1.5 pt-0.5 text-sm tabular-nums text-muted-foreground">
+            {job.period}
+
+            <span
+              aria-hidden="true"
+              class="size-1.5 shrink-0 rounded-full bg-emerald-500 hidden group-first-of-type:inline-block motion-safe:animate-pulse"
+            />
+          </p>
+          <div>
+            <p class="font-semibold tracking-tight text-pretty">
+              {job.title}
+              <span class="font-normal text-muted-foreground"> · </span>
+              <a
+                href={job.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group font-medium underline-offset-4 hover:underline"
+              >
+                {job.company}
+                <ArrowUpRight
+                  aria-hidden
+                  className="size-3 inline-block align-text-top invisible group-hover:visible"
+                />
+              </a>
+            </p>
+            <p class="pt-1 text-[0.9375rem] text-muted-foreground">
+              {job.summary}
+            </p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>

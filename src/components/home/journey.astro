@@ -1,8 +1,9 @@
 ---
+import Section from "../shared/section.astro";
 import { JourneyTimeline } from "./journey-timeline";
 ---
 
-<section class="max-lg:w-[87%] mx-auto max-w-3xl py-10">
+<Section class="py-10">
   <h2 class="text-pretty text-2xl font-bold pb-4 tracking-tight">
     <span class="sr-only">My Journey in Software Engineering - </span>Archive
   </h2>
@@ -12,4 +13,4 @@ import { JourneyTimeline } from "./journey-timeline";
   </p>
 
   <JourneyTimeline client:visible />
-</section>
+</Section>

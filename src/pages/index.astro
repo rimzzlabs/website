@@ -1,10 +1,9 @@
 ---
-import "@/styles/global.css";
-import { ArrowUpRight, Paperclip } from "lucide-react";
+import Experience from "@/components/home/experience.astro";
+import Hero from "@/components/home/hero.astro";
 import Journey from "@/components/home/journey.astro";
 import Skill from "@/components/home/skill.astro";
 import AppLayout from "@/components/shared/app-layout.astro";
-import Link from "@/components/shared/link.astro";
 import Seo from "@/components/shared/seo.astro";
 
 let title = "Rizki Citra, Software Engineer";
@@ -15,34 +14,8 @@ let description =
 <AppLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <section class="max-lg:w-[87%] mx-auto max-w-3xl py-20">
-    <h1 class="text-3xl leading-none font-bold text-pretty">
-      <span class="sr-only">Rizki Citra,</span> Passionate Software Engineer. Crafting
-      Delightful <span class="sr-only">User Interfaces</span>UIs.
-    </h1>
-
-    <p class="text-balance pt-4">
-      <span class="sr-only">Why software engineering? </span>Software
-      engineering allows me to create innovative solutions that align with my
-      values and make a meaningful impact.
-    </p>
-    <p class="text-balance pt-2">
-      Its blend of structure, problem solving, and continuous evolution keeps me
-      engaged and growing.
-    </p>
-
-    <div class="inline-flex items-center gap-2 pt-4">
-      <Link href="https://cal.com/rimzzlabs" rel="noopener" target="_blank">
-        Let&apos;s Talk <ArrowUpRight />
-      </Link>
-
-      <Link href="/resume" variant="secondary">
-        Resume <Paperclip />
-      </Link>
-    </div>
-  </section>
-
+  <Hero />
+  <Experience />
   <Skill />
-
   <Journey />
 </AppLayout>

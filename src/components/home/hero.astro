@@ -1,0 +1,34 @@
+---
+import { ArrowUpRight, Paperclip } from "lucide-react";
+import Link from "../shared/link.astro";
+import Section from "../shared/section.astro";
+---
+
+<Section class="py-20">
+  <h1
+    class="text-3xl md:text-4xl lg:text-5xl xl:text-[55px] leading-none font-bold text-pretty"
+  >
+    <span class="sr-only">Rizki Citra,</span> Passionate Software Engineer, Crafting
+    Delightful <span class="sr-only">User Interfaces</span>UIs.
+  </h1>
+
+  <p class="text-balance xl:text-lg pt-4">
+    <span class="sr-only">Why software engineering? </span>Software engineering
+    allows me to create innovative solutions that align with my values and make
+    a meaningful impact.
+  </p>
+  <p class="text-balance xl:text-lg pt-2">
+    Its blend of structure, problem solving, and continuous evolution keeps me
+    engaged and growing.
+  </p>
+
+  <div class="inline-flex items-center gap-2 pt-4">
+    <Link href="https://cal.com/rimzzlabs" rel="noopener" target="_blank">
+      Let&apos;s Talk <ArrowUpRight />
+    </Link>
+
+    <Link href="/resume" variant="secondary">
+      Resume <Paperclip />
+    </Link>
+  </div>
+</Section>

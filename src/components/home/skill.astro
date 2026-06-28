@@ -34,6 +34,7 @@ import {
   Vite,
   Vuedotjs,
 } from "@thesvg/react";
+import Section from "../shared/section.astro";
 
 const domains = [
   {
@@ -93,7 +94,7 @@ const domains = [
 ];
 ---
 
-<section class="max-lg:w-[87%] mx-auto max-w-3xl py-10">
+<Section class="py-10">
   <h2 class="text-pretty text-2xl font-bold tracking-tight">
     <span class="sr-only">My </span>Skills
   </h2>
@@ -132,4 +133,4 @@ const domains = [
       ))
     }
   </dl>
-</section>
+</Section>
