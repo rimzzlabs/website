@@ -1,0 +1,24 @@
+---
+import "@/styles/global.css";
+import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+      href={rubikFont}
+    />
+    <slot name="metadata" />
+  </head>
+
+  <body>
+    <main id="main">
+      <slot />
+    </main>
+  </body>
+</html>

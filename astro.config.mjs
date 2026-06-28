@@ -1,35 +1,32 @@
-import { defineConfig, envField } from 'astro/config'
-
-import tailwindcss from '@tailwindcss/vite'
-import mdx from '@astrojs/mdx'
-import sitemap from '@astrojs/sitemap'
-import react from '@astrojs/react'
-import rehypeSlug from 'rehype-slug'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, envField, fontProviders } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://rimzzlabs.com',
+	site: "https://rimzzlabs.com",
+	fonts: [
+		{
+			provider: fontProviders.fontsource(),
+			name: "Rubik",
+			cssVariable: "--font-sans",
+			display: "swap",
+			formats: ["woff2", "woff"],
+		},
+	],
 	env: {
 		schema: {
-			PUBLIC_CF_TURNSTILE_SITE_KEY: envField.string({ context: 'client', access: 'public' }),
-			PUBLIC_EMAILJS_KEY: envField.string({ context: 'client', access: 'public' }),
+			PUBLIC_CF_TURNSTILE_SITE_KEY: envField.string({
+				context: "client",
+				access: "public",
+			}),
 		},
 	},
+	devToolbar: { enabled: false },
+	integrations: [react(), sitemap({ priority: 1, changefreq: "daily", lastmod: new Date() })],
+
 	vite: {
-		server: {
-			allowedHosts: ['d31e-66-96-225-68.ngrok-free.app'],
-		},
 		plugins: [tailwindcss()],
 	},
-	markdown: {
-		syntaxHighlight: 'shiki',
-		shikiConfig: { theme: 'vitesse-dark', wrap: true },
-		rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
-	},
-	integrations: [
-		mdx(),
-		sitemap({ priority: 1, changefreq: 'daily', lastmod: new Date() }),
-		react(),
-	],
-})
+});

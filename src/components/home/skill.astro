@@ -1,0 +1,135 @@
+---
+import {
+  Astro as AstroIcon,
+  Claude,
+  ClaudeCode,
+  Cloudflare,
+  ConventionalCommits,
+  Docker,
+  Drizzle,
+  Express,
+  Figma,
+  Git,
+  GithubActions,
+  Hono,
+  Kotlin,
+  Motion,
+  Nestjs,
+  Netlify,
+  Nextdotjs,
+  Pnpm,
+  Postgresql,
+  Prisma,
+  React,
+  Reactnative,
+  ReactQuery,
+  Redis,
+  Rescript,
+  SemanticRelease,
+  Supabase,
+  Swift,
+  Trpc,
+  Typescript,
+  Vercel,
+  Vite,
+  Vuedotjs,
+} from "@thesvg/react";
+
+const domains = [
+  {
+    label: "Frontend",
+    items: [
+      { name: "TypeScript", Icon: Typescript },
+      { name: "ReScript", Icon: Rescript },
+      { name: "React", Icon: React },
+      { name: "Next.js", Icon: Nextdotjs },
+      { name: "Vue.js", Icon: Vuedotjs },
+      { name: "Astro", Icon: AstroIcon },
+      { name: "React Native", Icon: Reactnative },
+      { name: "Swift", Icon: Swift },
+      { name: "Kotlin", Icon: Kotlin },
+      { name: "TanStack Query", Icon: ReactQuery },
+      { name: "Motion", Icon: Motion },
+    ],
+  },
+
+  {
+    label: "Backend",
+    items: [
+      { name: "Hono", Icon: Hono },
+      { name: "NestJS", Icon: Nestjs },
+      { name: "Express", Icon: Express },
+      { name: "tRPC", Icon: Trpc },
+      { name: "PostgreSQL", Icon: Postgresql },
+      { name: "Redis", Icon: Redis },
+      { name: "Drizzle", Icon: Drizzle },
+      { name: "Prisma", Icon: Prisma },
+      { name: "Supabase", Icon: Supabase },
+      { name: "Docker", Icon: Docker },
+      { name: "Cloudflare", Icon: Cloudflare },
+    ],
+  },
+  {
+    label: "General Tooling",
+    items: [
+      { name: "Git", Icon: Git },
+      { name: "GitHub Actions", Icon: GithubActions },
+      { name: "Conventional Commits", Icon: ConventionalCommits },
+      { name: "semantic-release", Icon: SemanticRelease },
+      { name: "pnpm", Icon: Pnpm },
+      { name: "Vite", Icon: Vite },
+      { name: "Vercel", Icon: Vercel },
+      { name: "Netlify", Icon: Netlify },
+      { name: "Figma", Icon: Figma },
+    ],
+  },
+  {
+    label: "Agentic Coding",
+    items: [
+      { name: "Claude", Icon: Claude },
+      { name: "Claude Code", Icon: ClaudeCode },
+    ],
+  },
+];
+---
+
+<section class="max-lg:w-[87%] mx-auto max-w-3xl py-10">
+  <h2 class="text-pretty text-2xl font-bold tracking-tight">
+    <span class="sr-only">My </span>Skills
+  </h2>
+  <p class="text-balance pt-3 text-muted-foreground">
+    Tools come and go, and every so often something new promises to make this
+    craft obsolete. I've learned not to bet against it.
+  </p>
+  <p class="text-balance pt-2 pb-6 text-muted-foreground">
+    What keeps me going is curiosity, going deep where it counts while staying
+    broad enough to adapt, and the habit of growing with whatever comes next.
+  </p>
+
+  <dl class="divide-y divide-border">
+    {
+      domains.map((domain) => (
+        <div class="grid gap-y-3 py-6 sm:grid-cols-[7.5rem_1fr] sm:gap-x-8">
+          <dt class="pt-0.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {domain.label}
+          </dt>
+          <dd>
+            <ul class="flex flex-wrap gap-x-5 gap-y-3.5">
+              {domain.items.map(({ name, Icon }) => (
+                <li class="group inline-flex items-center gap-2">
+                  <Icon
+                    aria-hidden="true"
+                    className="size-5 shrink-0 transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-0.5"
+                  />
+                  <span class="text-[0.9375rem] font-medium tracking-tight text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+                    {name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

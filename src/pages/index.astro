@@ -1,43 +1,48 @@
 ---
-import Seo from "@/components/seo.astro";
-import RootLayout from "@/layouts/root-layout.astro";
-import ToolsMarquee from "@/modules/home/tools-marquee.astro";
-import Hero from "@/components/hero.astro";
-import Journey from "@/modules/home/journey.astro";
-import { Delightful } from "@/modules/home/delightful";
-import BentoLinks from "@/components/bento-links.astro";
-import info from "@/configs/info.json";
-import { ButtonLink } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { HiringFormButton } from "@/components/hiring-form/hiring-form-button";
+import "@/styles/global.css";
+import { ArrowUpRight, Paperclip } from "lucide-react";
+import Journey from "@/components/home/journey.astro";
+import Skill from "@/components/home/skill.astro";
+import AppLayout from "@/components/shared/app-layout.astro";
+import Link from "@/components/shared/link.astro";
+import Seo from "@/components/shared/seo.astro";
 
-let title = "Rizki Citra, Frontend Software Engineer";
+let title = "Rizki Citra, Software Engineer";
 let description =
   "Software engineering lets me create impactful, innovative solutions that align with my values and improve lives. It's structured, rewarding, and always evolving—keeping things exciting and full of growth.";
 ---
 
-<RootLayout>
+<AppLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <Hero {description}>
-    <Fragment slot="title">
-      <span class="sr-only">{title}</span> Passionate Frontend Software Engineer.
-      Crafting <Delightful />
-      User Interfaces.
-    </Fragment>
+  <section class="max-lg:w-[87%] mx-auto max-w-3xl py-20">
+    <h1 class="text-3xl leading-none font-bold text-pretty">
+      <span class="sr-only">Rizki Citra,</span> Passionate Software Engineer. Crafting
+      Delightful <span class="sr-only">User Interfaces</span>UIs.
+    </h1>
 
-    <div class="inline-flex gap-2">
-      {info.isAvailableForWork && <HiringFormButton client:visible />}
+    <p class="text-balance pt-4">
+      <span class="sr-only">Why software engineering? </span>Software
+      engineering allows me to create innovative solutions that align with my
+      values and make a meaningful impact.
+    </p>
+    <p class="text-balance pt-2">
+      Its blend of structure, problem solving, and continuous evolution keeps me
+      engaged and growing.
+    </p>
 
-      <ButtonLink href="/now" variant="outline" className="group lg:h-10">
-        See what&apos;s new <ArrowRight
-          className="group-hover:translate-x-1 transition"
-        />
-      </ButtonLink>
+    <div class="inline-flex items-center gap-2 pt-4">
+      <Link href="https://cal.com/rimzzlabs" rel="noopener" target="_blank">
+        Let&apos;s Talk <ArrowUpRight />
+      </Link>
+
+      <Link href="/resume" variant="secondary">
+        Resume <Paperclip />
+      </Link>
     </div>
-  </Hero>
+  </section>
 
-  <ToolsMarquee />
+  <Skill />
+
   <Journey />
-  <BentoLinks />
-</RootLayout>
+</AppLayout>
