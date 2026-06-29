@@ -2,8 +2,8 @@ import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { ChevronDownIcon } from "lucide-react";
 import { type HTMLMotionProps, motion } from "motion/react";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useMotionEnabled } from "@/hooks/use-motion";
 import { INSTANT, SPRING } from "@/lib/motion";
-import { useMotionEnabled } from "@/lib/stores/motion";
 import { cn } from "@/lib/utils";
 
 const AccordionItemOpenContext = createContext(false);

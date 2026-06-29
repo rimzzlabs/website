@@ -3,15 +3,15 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "./link.astro";
 import Section from "./section.astro";
 
-let year = new Date().getFullYear();
+const year = new Date().getFullYear();
 
-let connects = [
+const connects = [
   { label: "GitHub", href: "https://github.com/rimzzlabs" },
   { label: "LinkedIn", href: "https://linkedin.com/in/rimzzlabs" },
   { label: "Facebook", href: "https://facebook.com/rimzzlabs" },
 ];
 
-let resources = [
+const resources = [
   {
     label: "Resume",
     href: "/attachments/resume-rizki-citra.pdf",
@@ -20,7 +20,7 @@ let resources = [
   { label: "Source Code", href: "https://github.com/rimzzlabs/website" },
 ];
 
-let items = [
+const items = [
   { label: "Connect", links: connects },
   { label: "Resource", links: resources },
 ];
@@ -28,9 +28,9 @@ let items = [
 
 <footer>
   <Section
-    class="border-t pt-10 pb-40 flex flex-col lg:flex-row lg:items-start gap-4"
+    class="border-t pt-10 pb-28 flex flex-col lg:flex-row lg:items-start gap-4"
   >
-    <h3 class="text-sm">&copy; {year} - rimzzlabs.com</h3>
+    <h3 class="text-sm font-medium">&copy; {year} - rimzzlabs.com</h3>
 
     <div class="grid gap-4 lg:grid-cols-2 max-lg:pt-6 lg:ml-auto">
       {

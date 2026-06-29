@@ -24,6 +24,13 @@ export default defineConfig({
 		},
 	},
 	devToolbar: { enabled: false },
+	// Authorize the thesvg.org CDN so its remote brand icons can be used with the
+	// <Image /> component. https://docs.astro.build/en/guides/images/#authorizing-remote-images
+	// These are SVGs, so use the no-op service to pass them through as-is rather
+	// than rasterizing them through Sharp (which would blur the vector icons).
+	image: {
+		domains: ["thesvg.org"],
+	},
 	integrations: [react(), sitemap({ priority: 1, changefreq: "daily", lastmod: new Date() })],
 
 	vite: {

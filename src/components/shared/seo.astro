@@ -11,7 +11,7 @@ interface Props {
   keywords?: string[];
 }
 
-let defaultKeywords = [
+const defaultKeywords = [
   "rizki m citra",
   "rizki maulana citra",
   "rizki citra",
@@ -31,17 +31,17 @@ let defaultKeywords = [
   "UI engineer",
 ];
 
-let { title: _title, description, article, ...props } = Astro.props;
+const { title: _title, description, article, ...props } = Astro.props;
 
-let type = article ? "article" : "website";
-let keywords = match(props.keywords)
+const type = article ? "article" : "website";
+const keywords = match(props.keywords)
   .with(P.array(), (kw) => pipe(kw, A.join(",")))
   .otherwise(() => A.join(defaultKeywords, ","));
-let title = match(_title)
+const title = match(_title)
   .with(P.string, S.append(" | rimzzlabs"))
   .otherwise(() => "Rizki Citra, Software Engineer | rimzzlabs");
 
-let ogImage = match(props.image)
+const ogImage = match(props.image)
   .with(P.not(P.nullish), F.identity)
   .otherwise(
     () =>

@@ -1,7 +1,10 @@
 ---
 import "@/styles/global.css";
 import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
+import { Dock } from "./dock/dock";
 import Footer from "./footer.astro";
+
+const pathname = Astro.url.pathname;
 ---
 
 <html lang="en">
@@ -14,10 +17,23 @@ import Footer from "./footer.astro";
       crossorigin="anonymous"
       href={rubikFont}
     />
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem("theme") || "system";
+          const dark =
+            theme === "dark" ||
+            (theme === "system" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+        } catch {}
+      })();
+    </script>
     <slot name="metadata" />
   </head>
 
   <body>
+    <Dock client:only="react" pathname={pathname} />
     <main id="main" class="flex-1 shrink-0">
       <slot />
     </main>

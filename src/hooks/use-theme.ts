@@ -1,42 +1,35 @@
-import { useCallback, useSyncExternalStore } from "react";
+import { useStore } from "@nanostores/react";
+import { useEffect } from "react";
+import { $theme, type Theme } from "@/lib/stores/theme";
 
-export function useTheme() {
-	const subscribe = useCallback((onChange: () => void) => {
-		const obs = new MutationObserver(onChange);
-		obs.observe(document.documentElement, { attributeFilter: ["class"], attributes: true });
-
-		return () => {
-			obs.disconnect();
-		};
-	}, []);
-
-	const getServerSnapShot = useCallback(() => {
-		return null;
-	}, []);
-
-	const getSnapshot = useCallback(() => {
-		return document.documentElement.classList.contains("dark") ? "dark" : "light";
-	}, []);
-
-	return useSyncExternalStore(subscribe, getSnapshot, getServerSnapShot);
+function prefersDark() {
+	return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
-export function useSystemTheme() {
-	const subscribe = useCallback((onChange: () => void) => {
-		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", onChange);
+function applyTheme(theme: Theme) {
+	const dark = theme === "dark" || (theme === "system" && prefersDark());
+	document.documentElement.classList.toggle("dark", dark);
+}
 
-		return () => {
-			window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", onChange);
-		};
-	}, []);
+/** Reads the stored theme preference (not the resolved light/dark value). */
+export function useTheme() {
+	return useStore($theme);
+}
 
-	const getServerSnapShot = useCallback(() => {
-		return null;
-	}, []);
+/**
+ * Keeps the `<html>` `.dark` class in sync with the stored theme, tracking OS
+ * changes while the preference is `"system"`. Mount once (in the dock).
+ */
+export function useThemeSync() {
+	const theme = useStore($theme);
 
-	const getSnapshot = useCallback(() => {
-		return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-	}, []);
+	useEffect(() => {
+		applyTheme(theme);
+		if (theme !== "system") return;
 
-	return useSyncExternalStore(subscribe, getSnapshot, getServerSnapShot);
+		const mq = window.matchMedia("(prefers-color-scheme: dark)");
+		const onChange = () => applyTheme("system");
+		mq.addEventListener("change", onChange);
+		return () => mq.removeEventListener("change", onChange);
+	}, [theme]);
 }

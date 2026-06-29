@@ -1,108 +1,110 @@
 ---
-import {
-  Astro as AstroIcon,
-  Claude,
-  ClaudeCode,
-  Cloudflare,
-  ConventionalCommits,
-  Docker,
-  Drizzle,
-  Express,
-  Figma,
-  Git,
-  GithubActions,
-  Hono,
-  Kotlin,
-  Motion,
-  Nestjs,
-  Netlify,
-  Nextdotjs,
-  Pnpm,
-  Postgresql,
-  Prisma,
-  React,
-  Reactnative,
-  ReactQuery,
-  Redis,
-  Rescript,
-  SemanticRelease,
-  Supabase,
-  Swift,
-  Trpc,
-  Typescript,
-  Vercel,
-  Vite,
-  Vuedotjs,
-} from "@thesvg/react";
+import { Image } from "astro:assets";
 import Section from "../shared/section.astro";
 
-const domains = [
+const CDN = "https://thesvg.org/icons";
+const icon = (slug: string, variant = "default") =>
+  `${CDN}/${slug}/${variant}.svg`;
+
+/**
+ * Brand icons are served from the thesvg.org CDN (authorized in astro.config.mjs)
+ * so we can pick the variant that stays legible on both themes:
+ *
+ * - "color"  — full-colour `default`, reads well on light and dark.
+ * - "swap"   — `light`/`dark` variants toggled by the active theme (logos whose
+ *              default is near-white or low-contrast on one theme).
+ * - "invertDark"  — dark/black logo with no light variant; `dark:invert` flips it
+ *                   to light on the dark theme.
+ * - "invertLight" — white logo with no dark variant; inverted on the light theme.
+ */
+type Mode = "color" | "swap" | "invertDark" | "invertLight";
+
+const domains: {
+  label: string;
+  items: { name: string; slug: string; mode?: Mode }[];
+}[] = [
   {
     label: "Frontend",
     items: [
-      { name: "TypeScript", Icon: Typescript },
-      { name: "ReScript", Icon: Rescript },
-      { name: "React", Icon: React },
-      { name: "Next.js", Icon: Nextdotjs },
-      { name: "Vue.js", Icon: Vuedotjs },
-      { name: "Astro", Icon: AstroIcon },
-      { name: "React Native", Icon: Reactnative },
-      { name: "Swift", Icon: Swift },
-      { name: "Kotlin", Icon: Kotlin },
-      { name: "TanStack Query", Icon: ReactQuery },
-      { name: "Motion", Icon: Motion },
+      { name: "TypeScript", slug: "typescript" },
+      { name: "ReScript", slug: "rescript" },
+      { name: "React", slug: "react" },
+      { name: "Next.js", slug: "nextdotjs", mode: "invertDark" },
+      { name: "Vue.js", slug: "vuedotjs" },
+      { name: "Astro", slug: "astro", mode: "invertLight" },
+      { name: "React Native", slug: "reactnative" },
+      { name: "Swift", slug: "swift" },
+      { name: "Kotlin", slug: "kotlin" },
+      { name: "TanStack Query", slug: "react-query" },
+      { name: "Motion", slug: "motion" },
     ],
   },
 
   {
     label: "Backend",
     items: [
-      { name: "Hono", Icon: Hono },
-      { name: "NestJS", Icon: Nestjs },
-      { name: "Express", Icon: Express },
-      { name: "tRPC", Icon: Trpc },
-      { name: "PostgreSQL", Icon: Postgresql },
-      { name: "Redis", Icon: Redis },
-      { name: "Drizzle", Icon: Drizzle },
-      { name: "Prisma", Icon: Prisma },
-      { name: "Supabase", Icon: Supabase },
-      { name: "Docker", Icon: Docker },
-      { name: "Cloudflare", Icon: Cloudflare },
+      { name: "Hono", slug: "hono" },
+      { name: "NestJS", slug: "nestjs" },
+      { name: "Express", slug: "express", mode: "invertDark" },
+      { name: "tRPC", slug: "trpc" },
+      { name: "PostgreSQL", slug: "postgresql" },
+      { name: "Redis", slug: "redis" },
+      { name: "Drizzle", slug: "drizzle" },
+      { name: "Prisma", slug: "prisma", mode: "swap" },
+      { name: "Supabase", slug: "supabase" },
+      { name: "Docker", slug: "docker" },
+      { name: "Cloudflare", slug: "cloudflare" },
     ],
   },
   {
     label: "General Tooling",
     items: [
-      { name: "Git", Icon: Git },
-      { name: "GitHub Actions", Icon: GithubActions },
-      { name: "Conventional Commits", Icon: ConventionalCommits },
-      { name: "semantic-release", Icon: SemanticRelease },
-      { name: "pnpm", Icon: Pnpm },
-      { name: "Vite", Icon: Vite },
-      { name: "Vercel", Icon: Vercel },
-      { name: "Netlify", Icon: Netlify },
-      { name: "Figma", Icon: Figma },
+      { name: "Git", slug: "git" },
+      { name: "GitHub Actions", slug: "github-actions" },
+      { name: "Conventional Commits", slug: "conventional-commits" },
+      {
+        name: "semantic-release",
+        slug: "semantic-release",
+        mode: "invertDark",
+      },
+      { name: "pnpm", slug: "pnpm" },
+      { name: "Vite", slug: "vite" },
+      { name: "Vercel", slug: "vercel", mode: "swap" },
+      { name: "Netlify", slug: "netlify" },
+      { name: "Figma", slug: "figma" },
     ],
   },
   {
     label: "Agentic Coding",
     items: [
-      { name: "Claude", Icon: Claude },
-      { name: "Claude Code", Icon: ClaudeCode },
+      { name: "Claude Code", slug: "claude-code" },
+      { name: "Ollama", slug: "ollama", mode: "swap" },
+      { name: "Open Code", slug: "opencode", mode: "invertDark" },
+      { name: "Cursor", slug: "cursor", mode: "swap" },
+      { name: "Continue", slug: "continue" },
     ],
   },
 ];
+
+const iconBase =
+  "size-5 shrink-0 transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-0.5";
+const invertClass: Record<Mode, string> = {
+  color: "",
+  swap: "",
+  invertDark: " dark:invert",
+  invertLight: " invert dark:invert-0",
+};
 ---
 
 <Section class="py-10">
   <h2 class="text-pretty text-2xl font-bold tracking-tight">
     <span class="sr-only">My </span>Skills
   </h2>
-  <p class="text-balance pt-3 text-muted-foreground">
+  <p class="text-balance pt-3">
     Tools come and go, and every so often something new promises to make this
     craft obsolete. I've learned not to bet against it.
   </p>
-  <p class="text-balance pt-2 pb-6 text-muted-foreground">
+  <p class="text-balance pt-2 pb-6">
     What keeps me going is curiosity, going deep where it counts while staying
     broad enough to adapt, and the habit of growing with whatever comes next.
   </p>
@@ -116,12 +118,37 @@ const domains = [
           </dt>
           <dd>
             <ul class="flex flex-wrap gap-x-5 gap-y-3.5">
-              {domain.items.map(({ name, Icon }) => (
+              {domain.items.map(({ name, slug, mode = "color" }) => (
                 <li class="group inline-flex items-center gap-2">
-                  <Icon
-                    aria-hidden="true"
-                    className="size-5 shrink-0 transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-0.5"
-                  />
+                  {mode === "swap" ? (
+                    <>
+                      <Image
+                        src={icon(slug, "light")}
+                        alt=""
+                        aria-hidden="true"
+                        width={20}
+                        height={20}
+                        class={`${iconBase} dark:hidden`}
+                      />
+                      <Image
+                        src={icon(slug, "dark")}
+                        alt=""
+                        aria-hidden="true"
+                        width={20}
+                        height={20}
+                        class={`${iconBase} hidden dark:block`}
+                      />
+                    </>
+                  ) : (
+                    <Image
+                      src={icon(slug)}
+                      alt=""
+                      aria-hidden="true"
+                      width={20}
+                      height={20}
+                      class={`${iconBase}${invertClass[mode]}`}
+                    />
+                  )}
                   <span class="text-[0.9375rem] font-medium tracking-tight text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
                     {name}
                   </span>

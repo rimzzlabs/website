@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
+import { useMotionEnabled } from "@/hooks/use-motion";
 import { INSTANT, SPRING } from "@/lib/motion";
-import { useMotionEnabled } from "@/lib/stores/motion";
 import {
 	AccordionContent,
 	AccordionItem,
@@ -80,10 +80,12 @@ function Descriptions({ items }: { items: Array<string> }) {
 }
 
 export function JourneyTimelineItem(props: TProps) {
+	const motionEnabled = useMotionEnabled();
+
 	return (
 		<AccordionItem
 			value={props.year}
-			className="relative before:absolute before:w-5 before:h-0.5 before:bg-neutral-300 before:left-0 before:top-7.5 border-none"
+			className="group relative before:absolute before:w-5 before:h-0.5 before:bg-taupe-300 dark:before:bg-taupe-800 before:left-0 before:top-7.5 border-none"
 		>
 			<AccordionTrigger className="group py-4 text-xl font-semibold sticky top-0 pl-6 pr-4">
 				<span className="text-muted-foreground">{props.year}</span>{" "}
@@ -96,9 +98,16 @@ export function JourneyTimelineItem(props: TProps) {
 				<Descriptions items={props.descriptions} />
 			</AccordionContent>
 
+			<span
+				aria-hidden
+				data-safe-motion={motionEnabled}
+				className="absolute -left-2.25 top-5.25 hidden size-5 rounded-full bg-emerald-500/75 group-first-of-type:block group-first-of-type:data-[safe-motion=true]:animate-ping"
+			/>
+
 			<div
 				aria-hidden
-				className="absolute -left-1.5 top-[1.4688rem] size-3.5 rounded-xl border-2 border-neutral-300 bg-background"
+				data-safe-motion={motionEnabled}
+				className="absolute -left-1.5 top-[1.4688rem] size-3.5 rounded-xl border-2 border-taupe-300 dark:border-taupe-800 bg-background group-first-of-type:bg-emerald-500 group-first-of-type:data-[safe-motion=true]:animate-in"
 			/>
 		</AccordionItem>
 	);
