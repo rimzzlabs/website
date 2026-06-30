@@ -1,7 +1,10 @@
+import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField, fontProviders } from "astro/config";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from "rehype-slug";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,7 +34,19 @@ export default defineConfig({
 	image: {
 		domains: ["thesvg.org"],
 	},
-	integrations: [react(), sitemap({ priority: 1, changefreq: "daily", lastmod: new Date() })],
+	markdown: {
+		syntaxHighlight: "shiki",
+		shikiConfig: {
+			themes: { light: "github-light", dark: "vitesse-dark" },
+			wrap: true,
+		},
+		rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+	},
+	integrations: [
+		react(),
+		mdx(),
+		sitemap({ priority: 1, changefreq: "daily", lastmod: new Date() }),
+	],
 
 	vite: {
 		plugins: [tailwindcss()],

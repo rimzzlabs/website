@@ -1,0 +1,55 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import { NotesToc } from "@/components/notes/notes-toc";
+import AppLayout from "@/components/shared/app-layout.astro";
+import Section from "@/components/shared/section.astro";
+import Seo from "@/components/shared/seo.astro";
+import { dateToISO, formatDate } from "@/lib/date";
+
+export async function getStaticPaths() {
+	const notes = await getCollection("notes");
+	return notes.map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const { Content, headings } = await render(note);
+const author = await getEntry(note.data.author);
+
+const { title, description, keywords, publishedAt } = note.data;
+const publishedTime = dateToISO(publishedAt);
+const authorName = author?.data.fullName ?? note.data.author.id;
+---
+
+<AppLayout>
+  <Seo
+    slot="metadata"
+    {title}
+    {description}
+    keywords={keywords}
+    article={{ tags: keywords, publishedTime, authors: [authorName] }}
+  />
+
+  <Section class="py-10 lg:py-16">
+    <header class="pb-8">
+      <h1
+        class="text-3xl font-bold tracking-tight text-balance sm:text-4xl lg:text-5xl"
+      >
+        {title}
+      </h1>
+      <div class="flex items-center gap-2 pt-6 text-sm text-muted-foreground">
+        <time datetime={publishedTime}>{formatDate(publishedAt)}</time>
+        <span aria-hidden="true" class="size-1 rounded-full bg-muted-foreground"></span>
+        <span>{authorName}</span>
+      </div>
+    </header>
+
+    <div class="sm:flex sm:flex-row-reverse sm:justify-between sm:gap-10">
+      <NotesToc client:load headings={headings} />
+      <article
+        class="prose prose-stone max-w-2xl flex-1 dark:prose-invert"
+      >
+        <Content />
+      </article>
+    </div>
+  </Section>
+</AppLayout>

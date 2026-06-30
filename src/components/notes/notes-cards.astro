@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { dateToISO, formatDate } from "@/lib/date";
+
+interface Props {
+	notes: Array<CollectionEntry<"notes">>;
+}
+
+const { notes } = Astro.props;
+---
+
+<ul class="border-l-2 border-border">
+  {
+    notes.map((note) => (
+      <li class="group relative max-w-xl pl-8 not-last:pb-8">
+        <span
+          aria-hidden="true"
+          class="absolute -left-[0.4375rem] top-1 size-3 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 transition duration-300 group-hover:rotate-180 group-hover:scale-150"
+        />
+        <p class="text-xs font-light text-muted-foreground sm:text-sm">
+          <time datetime={dateToISO(note.data.publishedAt)}>
+            {formatDate(note.data.publishedAt)}
+          </time>
+        </p>
+        <h2 class="text-lg font-semibold tracking-tight text-balance sm:text-xl">
+          {note.data.title}
+        </h2>
+        <p class="pt-1 text-sm text-muted-foreground">{note.data.description}</p>
+        <a
+          href={`/notes/${note.id}`}
+          title={note.data.title}
+          class="absolute inset-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <span class="sr-only">{note.data.title}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import NotesCards from "@/components/notes/notes-cards.astro";
+import AppLayout from "@/components/shared/app-layout.astro";
+import Section from "@/components/shared/section.astro";
+import Seo from "@/components/shared/seo.astro";
+
+const notes = await getCollection("notes");
+
+const published = notes
+	.filter((note) => (import.meta.env.PROD ? note.data.status === "published" : true))
+	.sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+const title = "Notes";
+const description =
+	"Notes on what I've learned and how I learned it as a frontend software engineer — problem-solving, technical deep-dives, and the occasional recipe.";
+---
+
+<AppLayout>
+  <Seo slot="metadata" {title} {description} />
+
+  <Section class="py-10">
+    <h1 class="text-pretty text-2xl font-bold tracking-tight">Notes</h1>
+    <p class="text-balance pt-3 pb-8 text-muted-foreground">{description}</p>
+
+    <NotesCards notes={published} />
+  </Section>
+</AppLayout>
