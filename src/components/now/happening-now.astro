@@ -1,0 +1,34 @@
+---
+import { dateToISO, formatDate } from "@/lib/date";
+
+const now = [
+	{
+		date: "2025-12-02",
+		title: "Building something related with AI",
+		description:
+			"Currently building something related with AI at Kolosal AI, the people here are amazing. I expect I'll write some notes about it down the line.",
+	},
+];
+
+const sorted = now.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+
+<ul class="border-l-2 border-border">
+  {
+    sorted.map((item) => (
+      <li class="group relative max-w-3xl pl-8 not-last:pb-8">
+        <span
+          aria-hidden="true"
+          class="absolute -left-[0.4375rem] top-1 size-3 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500"
+        />
+        <p class="text-xs font-light text-muted-foreground sm:text-sm">
+          <time datetime={dateToISO(item.date)}>{formatDate(item.date)}</time>
+        </p>
+        <h2 class="text-lg font-semibold tracking-tight text-balance sm:text-xl">
+          {item.title}
+        </h2>
+        <p class="pt-1 text-sm text-muted-foreground">{item.description}</p>
+      </li>
+    ))
+  }
+</ul>

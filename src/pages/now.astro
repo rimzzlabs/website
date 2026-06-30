@@ -1,0 +1,21 @@
+---
+import HappeningNow from "@/components/now/happening-now.astro";
+import AppLayout from "@/components/shared/app-layout.astro";
+import Section from "@/components/shared/section.astro";
+import Seo from "@/components/shared/seo.astro";
+
+const title = "Now";
+const description =
+	"Most sites have an /about page. This is my /now page — a snapshot of what I'm focused on at this point in my life. Inspired by nownownow.com.";
+---
+
+<AppLayout>
+  <Seo slot="metadata" {title} {description} />
+
+  <Section class="py-10">
+    <h1 class="text-pretty text-2xl font-bold tracking-tight">Now</h1>
+    <p class="text-balance pt-3 pb-8 text-muted-foreground">{description}</p>
+
+    <HappeningNow />
+  </Section>
+</AppLayout>
