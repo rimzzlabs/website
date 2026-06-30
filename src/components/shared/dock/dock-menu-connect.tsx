@@ -1,8 +1,12 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
 import { ArrowUpRight, CalendarClock, FileText, Handshake } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLinkItem } from "../../ui/dropdown-menu";
-import { Tooltip, TooltipContent } from "../../ui/tooltip";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuLinkItem,
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { itemClass } from "./constants";
 
 /** Merged "get in touch" menu: schedule a meeting + résumé. */

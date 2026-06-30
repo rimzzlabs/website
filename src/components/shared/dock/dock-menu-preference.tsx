@@ -2,9 +2,6 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
 import { useStore } from "@nanostores/react";
 import { Monitor, Moon, SlidersHorizontal, Sun, Zap, ZapOff } from "lucide-react";
-import { useTheme } from "@/hooks/use-theme";
-import { $motionPreference } from "@/lib/stores/motion";
-import { $theme } from "@/lib/stores/theme";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,8 +9,11 @@ import {
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
-} from "../../ui/dropdown-menu";
-import { Tooltip, TooltipContent } from "../../ui/tooltip";
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
+import { useTheme } from "@/hooks/use-theme";
+import { $motionPreference } from "@/lib/stores/motion";
+import { $theme } from "@/lib/stores/theme";
 import { itemClass } from "./constants";
 
 export function DockMenuPreference() {

@@ -1,6 +1,6 @@
 import { RestrictToWindow } from "@dnd-kit/dom/modifiers";
 import { useDraggable } from "@dnd-kit/react";
-import { Grip, HomeIcon } from "lucide-react";
+import { Grip, HomeIcon, NotebookText, Radio } from "lucide-react";
 import { motion } from "motion/react";
 import { useMotionEnabled } from "@/hooks/use-motion";
 import { INSTANT, SPRING } from "@/lib/motion";
@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 import { HIDE_BTN_CLASS, HIDE_ICON, itemClass, POSITION_CLASS, TOGGLE_BASE } from "./constants";
 import { DockLink } from "./dock-link";
 import { DockMenuConnect } from "./dock-menu-connect";
+import { DockMenuPages } from "./dock-menu-pages";
 import { DockMenuPreference } from "./dock-menu-preference";
 
 export function DockBar({
@@ -98,6 +99,22 @@ export function DockBar({
 					<li>
 						<DockLink href="/" label="Home" current={isHome} onClick={handleHomeClick}>
 							<HomeIcon className="size-4" />
+						</DockLink>
+					</li>
+
+					<li className="sm:hidden">
+						<DockMenuPages pathname={pathname} />
+					</li>
+
+					<li className="max-sm:hidden">
+						<DockLink href="/notes" label="Notes" current={pathname.startsWith("/notes")}>
+							<NotebookText className="size-4" />
+						</DockLink>
+					</li>
+
+					<li className="max-sm:hidden">
+						<DockLink href="/now" label="Now" current={pathname.startsWith("/now")}>
+							<Radio className="size-4" />
 						</DockLink>
 					</li>
 
