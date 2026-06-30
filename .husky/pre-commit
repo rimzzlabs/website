@@ -1,0 +1,10 @@
+echo 'RUNNING GIT HOOKS'
+
+pnpm lint-staged ||
+  (
+    echo 'FAILED LINTING & FORMATTING STAGED CHANGES, SOME FILES WERE ERRORS'
+    false
+  )
+
+
+echo 'NO ERROR FOUND, COMITTING CHANGES'

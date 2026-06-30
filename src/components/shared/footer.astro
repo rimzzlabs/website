@@ -1,0 +1,84 @@
+---
+import { ArrowUpRight } from "lucide-react";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import Link from "./link.astro";
+import Section from "./section.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).footer;
+
+const year = new Date().getFullYear();
+
+const connects = [
+  { label: "GitHub", href: "https://github.com/rimzzlabs" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/rimzzlabs" },
+  { label: "Facebook", href: "https://facebook.com/rimzzlabs" },
+];
+
+const resources = [
+  {
+    label: t.resume,
+    href: "/attachments/resume-rizki-citra.pdf",
+    external: true,
+  },
+  { label: t.sourceCode, href: "https://github.com/rimzzlabs/website" },
+];
+
+const items = [
+  { label: t.connect, links: connects },
+  { label: t.resource, links: resources },
+];
+---
+
+<footer>
+  <Section
+    data-footer="true"
+    class="border-t pt-10 pb-28 flex flex-col lg:flex-row lg:items-start gap-4"
+  >
+    <h3 class="text-sm font-medium">&copy; {year} - rimzzlabs.com</h3>
+
+    <div class="grid gap-4 lg:grid-cols-2 max-lg:pt-6 lg:ml-auto">
+      {
+        items.map((item) => (
+          <div>
+            <h3 class="text-sm font-medium pb-3">{item.label}</h3>
+            <div class="grid">
+              {item.links.map((link) => (
+                <Link
+                  size="unstyled"
+                  variant="unstyled"
+                  href={link.href}
+                  rel="noopener"
+                  target="_blank"
+                  class="gap-2 hover:underline py-1 justify-normal text-muted-foreground"
+                >
+                  {link.label}
+                  <ArrowUpRight className="size-3 max-lg:ml-auto" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+</footer>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const footer = document.querySelector("[data-footer=true]");
+    console.info(footer);
+    if (footer) {
+      const isPostPage = window.location.pathname.includes("/notes/");
+      if (isPostPage) {
+        console.info(isPostPage);
+        footer.classList.add("max-w-5xl");
+      }
+    }
+  });
+</script>

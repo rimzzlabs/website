@@ -1,0 +1,16 @@
+---
+import NoteArticle from "@/components/notes/note-article.astro";
+import { getNotes } from "@/lib/notes";
+
+export async function getStaticPaths() {
+	const notes = await getNotes("id");
+	return notes.map(({ slug, note, translated }) => ({
+		params: { slug },
+		props: { note, translated },
+	}));
+}
+
+const { note, translated } = Astro.props;
+---
+
+<NoteArticle lang="id" note={note} translated={translated} />

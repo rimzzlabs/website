@@ -1,0 +1,8 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "rimzzlabs-web",
+	// Static Astro output; functions/ runs as Pages Functions alongside it.
+	// The runtime Node version (build toolchain) is pinned separately in .nvmrc.
+	"pages_build_output_dir": "./dist",
+	"compatibility_date": "2026-06-30"
+}

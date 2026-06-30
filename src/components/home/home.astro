@@ -1,0 +1,28 @@
+---
+import AppLayout from "@/components/shared/app-layout.astro";
+import Seo from "@/components/shared/seo.astro";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import Archive from "./archive.astro";
+import Experience from "./experience.astro";
+import Hero from "./hero.astro";
+import Notes from "./notes.astro";
+import Skill from "./skill.astro";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).homeSeo;
+---
+
+<AppLayout>
+  <Seo slot="metadata" title={t.title} description={t.description} />
+
+  <Hero lang={lang} />
+  <Experience lang={lang} />
+  <Skill lang={lang} />
+  <Notes lang={lang} />
+  <Archive lang={lang} />
+</AppLayout>

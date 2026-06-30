@@ -1,0 +1,83 @@
+---
+import { getEntry, render } from "astro:content";
+import { NotesToc } from "@/components/notes/notes-toc";
+import AppLayout from "@/components/shared/app-layout.astro";
+import Seo from "@/components/shared/seo.astro";
+import { DotPattern } from "@/components/ui/dot-pattern";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import { dateToISO, formatDate } from "@/lib/date";
+import type { Note } from "@/lib/notes";
+
+interface Props {
+	lang: Lang;
+	note: Note;
+	translated: boolean;
+}
+
+const { lang, note, translated } = Astro.props;
+const t = getDictionary(lang).notesPage;
+
+const { Content, headings } = await render(note);
+const author = await getEntry(note.data.author);
+
+const { title, description, keywords, publishedAt } = note.data;
+const publishedTime = dateToISO(publishedAt);
+const authorName = author?.data.fullName ?? note.data.author.id;
+---
+
+<AppLayout>
+  <Seo
+    slot="metadata"
+    {title}
+    {description}
+    keywords={keywords}
+    article={{ tags: keywords, publishedTime, authors: [authorName] }}
+  />
+
+  <div class="relative">
+    <header class="container-fluid pt-12 pb-6 lg:pt-24 lg:pb-12">
+      <h1
+        class="text-4xl leading-none font-bold tracking-tight text-balance pb-8 sm:text-5xl lg:pb-16 lg:text-7xl"
+      >
+        {title}
+      </h1>
+
+      <div class="flex items-center gap-2 text-muted-foreground">
+        <div class="inline-flex items-center gap-x-2 text-sm font-medium">
+          <span class="max-md:sr-only">{t.publishedOn}</span>
+          <time datetime={publishedTime}>{formatDate(publishedAt, lang)}</time>
+        </div>
+
+        <div class="h-px w-4 bg-muted-foreground"></div>
+
+        <div class="inline-flex items-center gap-x-2 text-sm font-medium">
+          <span><span class="max-md:sr-only">{t.writtenBy}</span> {authorName}</span>
+        </div>
+      </div>
+
+      {
+        !translated && (
+          <p class="mt-6 rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
+            {t.notTranslated}
+          </p>
+        )
+      }
+    </header>
+
+    <DotPattern
+      glow
+      client:load
+      className="mask-[radial-gradient(300px_circle_at_center,var(--background),transparent)]"
+    />
+  </div>
+
+  <section
+    class="container-fluid py-10 sm:flex sm:flex-row-reverse sm:justify-between"
+  >
+    <NotesToc client:load headings={headings} label={t.onThisPage} />
+    <article class="prose prose-stone flex-1 dark:prose-invert">
+      <Content />
+    </article>
+  </section>
+</AppLayout>

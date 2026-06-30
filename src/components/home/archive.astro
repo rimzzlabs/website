@@ -1,0 +1,24 @@
+---
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import Section from "../shared/section.astro";
+import { ArchiveTimeline } from "./archive/archive-timeline";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).archive;
+---
+
+<Section class="py-10">
+  <h2 class="text-pretty text-2xl font-bold pb-4 tracking-tight">
+    <span class="sr-only">{t.headingSr}</span>{t.heading}
+  </h2>
+  <p class="text-balance pb-4">
+    {t.intro}
+  </p>
+
+  <ArchiveTimeline client:idle lang={lang} />
+</Section>

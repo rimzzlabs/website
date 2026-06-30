@@ -1,19 +1,16 @@
 ---
-import { getCollection } from "astro:content";
-import NotesLayout from "@/layouts/notes-layout.astro";
-import BentoLinks from "@/components/bento-links.astro";
+import NoteArticle from "@/components/notes/note-article.astro";
+import { getNotes } from "@/lib/notes";
 
 export async function getStaticPaths() {
-  const notes = await getCollection("notes");
-  return notes.map((note) => ({
-    params: { slug: note.id },
-    props: { note, headings: note.rendered },
-  }));
+	const notes = await getNotes("en");
+	return notes.map(({ slug, note, translated }) => ({
+		params: { slug },
+		props: { note, translated },
+	}));
 }
 
-let { note } = Astro.props;
+const { note, translated } = Astro.props;
 ---
 
-<NotesLayout note={note}>
-  <BentoLinks />
-</NotesLayout>
+<NoteArticle lang="en" note={note} translated={translated} />

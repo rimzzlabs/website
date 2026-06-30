@@ -1,30 +1,5 @@
 ---
-import Hero from "@/components/hero.astro";
-import Seo from "@/components/seo.astro";
-import { ButtonLink } from "@/components/ui/button";
-import RootLayout from "@/layouts/root-layout.astro";
-import { CornerDownLeftIcon } from "lucide-react";
-
-let title = "404 Not Found, Unable to Find the Requested Resource";
-let description =
-  "You might entered a wrong url, or the page you were looking for simply does not exist. If you think this is a mistake and want me to fix it, please send me an email with the attachment, I will gladly fix the issue.";
+import NotFoundContent from "@/components/shared/not-found-content.astro";
 ---
 
-<RootLayout>
-  <Seo
-    slot="metadata"
-    title="404 Not Found"
-    description="You might entered a wrong url, or the page you were looking for simply does not exist. If you think this is a mistake, please send me an email with the attachment, I will gladly fix the issue."
-  />
-
-  <Hero {description}>
-    <Fragment slot="title">
-      {title}
-    </Fragment>
-
-    <ButtonLink href="/">
-      <CornerDownLeftIcon className="mr-2" />
-      Back to Home
-    </ButtonLink>
-  </Hero>
-</RootLayout>
+<NotFoundContent lang="en" />

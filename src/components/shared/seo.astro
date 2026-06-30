@@ -1,0 +1,132 @@
+---
+import { A, F, pipe, S } from "@mobily/ts-belt";
+import { SEO, type SEOProps } from "astro-seo";
+import { match, P } from "ts-pattern";
+import { getDictionary } from "@/i18n/dictionary";
+import { getLangFromPath, localizePath } from "@/i18n/utils";
+
+interface Props {
+	title?: string;
+	description: string;
+	article?: Partial<NonNullable<SEOProps["openGraph"]>["article"]>;
+	image?: Required<NonNullable<SEOProps["openGraph"]>["image"]>;
+	keywords?: string[];
+}
+
+const defaultKeywords = [
+	"rizki m citra",
+	"rizki maulana citra",
+	"rizki citra",
+	"rimzzlabs",
+	"rimzzlabs.com",
+	"rimzzlabs website",
+	"rimzzlabs posts",
+	"rizkicitra",
+	"rizkicitra.dev",
+	"rizki developer",
+	"rizki github",
+	"rizki software engineer",
+	"rizki citra frontend",
+	"rizki m citra frontend developer",
+	"frontend developer",
+	"software engineer",
+	"UI engineer",
+];
+
+const { title: _title, description, article, ...props } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const lang = getLangFromPath(pathname);
+const dict = getDictionary(lang);
+// Match Astro's directory build format (trailing slash) so hreflang URLs line up with canonicals.
+const withTrailingSlash = (p: string) => (p.endsWith("/") ? p : `${p}/`);
+const canonical = new URL(pathname, Astro.site).href;
+const enHref = new URL(withTrailingSlash(localizePath(pathname, "en")), Astro.site).href;
+const idHref = new URL(withTrailingSlash(localizePath(pathname, "id")), Astro.site).href;
+const languageAlternates = [
+	{ hrefLang: "en", href: enHref },
+	{ hrefLang: "id", href: idHref },
+	{ hrefLang: "x-default", href: enHref },
+];
+const altOgLocale = lang === "en" ? "id_ID" : "en_US";
+
+const type = article ? "article" : "website";
+const keywords = match(props.keywords)
+	.with(P.array(), (kw) => pipe(kw, A.join(",")))
+	.otherwise(() => A.join(defaultKeywords, ","));
+const title = match(_title)
+	.with(P.string, S.append(" | rimzzlabs"))
+	.otherwise(() => "Rizki Citra, Software Engineer | rimzzlabs");
+
+// Open Graph requires absolute URLs; build them from the configured `site`.
+const ogImageUrl = new URL("/og-image.png", Astro.site).href;
+const ogImage = match(props.image)
+	.with(P.not(P.nullish), F.identity)
+	.otherwise(
+		() =>
+			({
+				height: 700,
+				width: 1280,
+				type: "image/png",
+				url: ogImageUrl,
+				secureUrl: ogImageUrl,
+				alt: "Rizki Citra, Software Engineer",
+			}) satisfies Props["image"],
+	);
+---
+
+<SEO
+  {title}
+  {description}
+  {canonical}
+  {languageAlternates}
+  openGraph={{
+    article,
+    image: ogImage,
+    optional: {
+      description,
+      locale: dict.ogLocale,
+      determiner: type,
+      siteName: "rimzzlabs",
+    },
+    basic: { title, type, image: ogImage.url.toString() },
+  }}
+  twitter={{
+    title,
+    description,
+    image: ogImage.url.toString(),
+    card: "summary_large_image",
+    creator: "@rimzzlabs",
+    site: "@rimzzlabs",
+    imageAlt: "Rizki Citra, Software Engineer",
+  }}
+  extend={{
+    link: [
+      { rel: "sitemap", href: "/sitemap-index.xml" },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", sizes: "48x48", href: "/favicon-48.png" },
+      { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96.png" },
+      { rel: "shortcut icon", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
+    ],
+    meta: [
+      { property: "og:locale:alternate", content: altOgLocale },
+      { name: "keywords", content: keywords },
+      { name: "author", content: "Rizki Citra" },
+      { name: "publisher", content: "Rizki Citra" },
+      { name: "generator", content: Astro.generator },
+      { name: "robots", content: "index, follow" },
+      {
+        name: "viewport",
+        content:
+          "width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover",
+      },
+      {
+        name: "googlebot",
+        content:
+          "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
+      },
+    ],
+  }}
+/>

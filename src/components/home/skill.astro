@@ -1,0 +1,169 @@
+---
+import { Image } from "astro:assets";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import Section from "../shared/section.astro";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).skill;
+
+const CDN = "https://thesvg.org/icons";
+const icon = (slug: string, variant = "default") => `${CDN}/${slug}/${variant}.svg`;
+
+/**
+ * Brand icons are served from the thesvg.org CDN (authorized in astro.config.mjs)
+ * so we can pick the variant that stays legible on both themes:
+ *
+ * - "color"  — full-colour `default`, reads well on light and dark.
+ * - "swap"   — `light`/`dark` variants toggled by the active theme (logos whose
+ *              default is near-white or low-contrast on one theme).
+ * - "invertDark"  — dark/black logo with no light variant; `dark:invert` flips it
+ *                   to light on the dark theme.
+ * - "invertLight" — white logo with no dark variant; inverted on the light theme.
+ */
+type Mode = "color" | "swap" | "invertDark" | "invertLight";
+
+const domains: {
+	label: keyof typeof t.domains;
+	items: { name: string; slug: string; mode?: Mode }[];
+}[] = [
+	{
+		label: "Frontend",
+		items: [
+			{ name: "TypeScript", slug: "typescript" },
+			{ name: "ReScript", slug: "rescript" },
+			{ name: "React", slug: "react" },
+			{ name: "Next.js", slug: "nextdotjs", mode: "invertDark" },
+			{ name: "Vue.js", slug: "vuedotjs" },
+			{ name: "Astro", slug: "astro", mode: "invertLight" },
+			{ name: "React Native", slug: "reactnative" },
+			{ name: "Swift", slug: "swift" },
+			{ name: "Kotlin", slug: "kotlin" },
+			{ name: "TanStack Query", slug: "react-query" },
+			{ name: "Motion", slug: "motion" },
+		],
+	},
+
+	{
+		label: "Backend",
+		items: [
+			{ name: "Hono", slug: "hono" },
+			{ name: "NestJS", slug: "nestjs" },
+			{ name: "Express", slug: "express", mode: "invertDark" },
+			{ name: "tRPC", slug: "trpc" },
+			{ name: "PostgreSQL", slug: "postgresql" },
+			{ name: "Redis", slug: "redis" },
+			{ name: "Drizzle", slug: "drizzle" },
+			{ name: "Prisma", slug: "prisma", mode: "swap" },
+			{ name: "Supabase", slug: "supabase" },
+			{ name: "Docker", slug: "docker" },
+			{ name: "Cloudflare", slug: "cloudflare" },
+		],
+	},
+	{
+		label: "General Tooling",
+		items: [
+			{ name: "Git", slug: "git" },
+			{ name: "GitHub Actions", slug: "github-actions" },
+			{ name: "Conventional Commits", slug: "conventional-commits" },
+			{
+				name: "semantic-release",
+				slug: "semantic-release",
+				mode: "invertDark",
+			},
+			{ name: "pnpm", slug: "pnpm" },
+			{ name: "Vite", slug: "vite" },
+			{ name: "Vercel", slug: "vercel", mode: "swap" },
+			{ name: "Netlify", slug: "netlify" },
+			{ name: "Figma", slug: "figma" },
+		],
+	},
+	{
+		label: "Agentic Coding",
+		items: [
+			{ name: "Claude Code", slug: "claude-code" },
+			{ name: "Ollama", slug: "ollama", mode: "swap" },
+			{ name: "Open Code", slug: "opencode", mode: "invertDark" },
+			{ name: "Cursor", slug: "cursor", mode: "swap" },
+			{ name: "Continue", slug: "continue" },
+		],
+	},
+];
+
+const iconBase =
+	"size-5 shrink-0 transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-0.5";
+const invertClass: Record<Mode, string> = {
+	color: "",
+	swap: "",
+	invertDark: " dark:invert",
+	invertLight: " invert dark:invert-0",
+};
+---
+
+<Section class="py-10">
+  <h2 class="text-pretty text-2xl font-bold tracking-tight">
+    <span class="sr-only">{t.headingSr}</span>{t.heading}
+  </h2>
+  <p class="text-balance pt-3">
+    {t.p1}
+  </p>
+  <p class="text-balance pt-2 pb-6">
+    {t.p2}
+  </p>
+
+  <dl class="divide-y divide-border">
+    {
+      domains.map((domain) => (
+        <div class="grid gap-y-3 py-6 sm:grid-cols-[7.5rem_1fr] sm:gap-x-8">
+          <dt class="pt-0.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {t.domains[domain.label]}
+          </dt>
+          <dd>
+            <ul class="flex flex-wrap gap-x-5 gap-y-3.5">
+              {domain.items.map(({ name, slug, mode = "color" }) => (
+                <li class="group inline-flex items-center gap-2">
+                  {mode === "swap" ? (
+                    <>
+                      <Image
+                        src={icon(slug, "light")}
+                        alt=""
+                        aria-hidden="true"
+                        width={20}
+                        height={20}
+                        class={`${iconBase} dark:hidden`}
+                      />
+                      <Image
+                        src={icon(slug, "dark")}
+                        alt=""
+                        aria-hidden="true"
+                        width={20}
+                        height={20}
+                        class={`${iconBase} hidden dark:block`}
+                      />
+                    </>
+                  ) : (
+                    <Image
+                      src={icon(slug)}
+                      alt=""
+                      aria-hidden="true"
+                      width={20}
+                      height={20}
+                      class={`${iconBase}${invertClass[mode]}`}
+                    />
+                  )}
+                  <span class="text-[0.9375rem] font-medium tracking-tight text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+                    {name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</Section>

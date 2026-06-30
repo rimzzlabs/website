@@ -1,0 +1,50 @@
+---
+import "@/styles/global.css";
+import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
+import { getLangFromPath } from "@/i18n/utils";
+import { Dock } from "./dock/dock";
+import Footer from "./footer.astro";
+
+interface Props {
+	bareWrapper?: boolean;
+}
+
+const { bareWrapper = false } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const lang = getLangFromPath(pathname);
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+      href={rubikFont}
+    />
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem("theme") || "system";
+          const dark =
+            theme === "dark" ||
+            (theme === "system" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+        } catch {}
+      })();
+    </script>
+    <slot name="metadata" />
+  </head>
+
+  <body>
+    {!bareWrapper && <Dock client:only="react" pathname={pathname} lang={lang} />}
+    <main id="main">
+      <slot />
+    </main>
+    {!bareWrapper && <Footer lang={lang} />}
+  </body>
+</html>

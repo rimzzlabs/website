@@ -1,0 +1,38 @@
+---
+import { ArrowUpRight } from "lucide-react";
+import { HappeningNow } from "@/components/now/happening-now";
+import AppLayout from "@/components/shared/app-layout.astro";
+import Section from "@/components/shared/section.astro";
+import Seo from "@/components/shared/seo.astro";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).now;
+---
+
+<AppLayout>
+  <Seo slot="metadata" title={t.seoTitle} description={t.seoDescription} />
+
+  <Section class="pt-12 pb-16 lg:pt-24">
+    <h1
+      class="text-4xl leading-none font-bold tracking-tight text-balance sm:text-5xl lg:text-7xl"
+    >
+      {t.heading}
+    </h1>
+    <p
+      class="max-w-2xl pt-6 pb-6 text-pretty text-muted-foreground lg:pt-8 lg:pb-12 lg:text-lg"
+    >
+      {t.introLead}{" "}
+      <a href="https://nownownow.com" target="_blank" rel="noopener">
+        nownownow.com <ArrowUpRight className="inline-block align-top size-3" />
+      </a>.
+    </p>
+
+    <HappeningNow client:idle lang={lang} />
+  </Section>
+</AppLayout>
