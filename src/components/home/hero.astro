@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRight, Paperclip } from "lucide-react";
+import { ArrowUpRight, Paperclip, Speech } from "lucide-react";
 import Link from "../shared/link.astro";
 import Section from "../shared/section.astro";
 ---
@@ -24,11 +24,17 @@ import Section from "../shared/section.astro";
 
   <div class="inline-flex items-center gap-2 pt-4">
     <Link href="https://cal.com/rimzzlabs" rel="noopener" target="_blank">
-      Let&apos;s Talk <ArrowUpRight />
+      <Speech /> Let&apos;s Talk <ArrowUpRight className="size-3" />
+      <span class="sr-only"
+        >(Allow you to schedule a meeting with Rizki on cal.com)</span
+      >
     </Link>
 
     <Link href="/attachments/resume-rizki-citra.pdf" variant="secondary">
-      Resume <Paperclip />
+      <Paperclip />
+      <span class="sr-only">See my </span>Résumé <ArrowUpRight
+        className="size-3"
+      />
     </Link>
   </div>
 </Section>
