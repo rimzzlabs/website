@@ -1,0 +1,57 @@
+---
+import { getCollection } from "astro:content";
+import { ArrowRight } from "lucide-react";
+import { dateToISO, formatDate } from "@/lib/date";
+import Section from "../shared/section.astro";
+
+const notes = await getCollection("notes");
+const latest = notes
+  .filter((note) => (import.meta.env.PROD ? note.data.status === "published" : true))
+  .sort(
+    (a, b) =>
+      new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime(),
+  )
+  .slice(0, 3);
+---
+
+<Section class="py-10">
+  <h2 class="text-pretty text-2xl font-bold pb-4 tracking-tight">
+    <span class="sr-only">Read my </span>Notes
+  </h2>
+  <p class="text-balance pb-6">
+    A few things I've written while building for the web — and what I picked up
+    along the way.
+  </p>
+
+  <ul class="divide-y divide-border">
+    {
+      latest.map((note) => (
+        <li class="group relative max-w-2xl py-6 first:pt-0">
+          <p class="text-xs font-light text-muted-foreground sm:text-sm">
+            <time datetime={dateToISO(note.data.publishedAt)}>
+              {formatDate(note.data.publishedAt)}
+            </time>
+          </p>
+          <h3 class="pt-1 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-xl">
+            {note.data.title}
+          </h3>
+          <p class="pt-1 text-sm text-muted-foreground">{note.data.description}</p>
+          <a
+            href={`/notes/${note.id}`}
+            title={note.data.title}
+            class="absolute inset-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <span class="sr-only">{note.data.title}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <a
+    href="/notes"
+    class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+  >
+    Read all notes <ArrowRight className="size-4" />
+  </a>
+</Section>
