@@ -41,6 +41,8 @@ const title = match(_title)
   .with(P.string, S.append(" | rimzzlabs"))
   .otherwise(() => "Rizki Citra, Software Engineer | rimzzlabs");
 
+// Open Graph requires absolute URLs; build them from the configured `site`.
+const ogImageUrl = new URL("/og-image.png", Astro.site).href;
 const ogImage = match(props.image)
   .with(P.not(P.nullish), F.identity)
   .otherwise(
@@ -48,9 +50,9 @@ const ogImage = match(props.image)
       ({
         height: 700,
         width: 1280,
-        type: "image/webp",
-        url: "/og-image.webp",
-        secureUrl: "/og-image.web",
+        type: "image/png",
+        url: ogImageUrl,
+        secureUrl: ogImageUrl,
         alt: "Rizki Citra, Software Engineer",
       }) satisfies Props["image"],
   );
@@ -83,13 +85,17 @@ const ogImage = match(props.image)
     link: [
       { rel: "sitemap", href: "/sitemap-index.xml" },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", sizes: "48x48", href: "/favicon-48.png" },
+      { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96.png" },
+      { rel: "shortcut icon", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
     ],
     meta: [
       { name: "keywords", content: keywords },
       { name: "author", content: "Rizki Citra" },
-      { name: "publisher", content: "Cloudflare" },
+      { name: "publisher", content: "Rizki Citra" },
       { name: "generator", content: Astro.generator },
-      { name: "keywords", content: keywords },
       { name: "robots", content: "index, follow" },
       {
         name: "viewport",
