@@ -1,0 +1,635 @@
+# Instincts generated from https://github.com/rimzzlabs/website
+# Generated: 2026-06-30T14:43:01.141Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: website-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat, chore, docs, refactor
+
+## Evidence
+
+- 23 commits analyzed
+- Detected conventional commit pattern
+- Examples: chore: initial redesign, feat(home): add experience section and extract page sections
+
+---
+id: website-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Commit Length
+
+## Action
+
+Write moderate-length commit messages (~51 characters)
+
+## Evidence
+
+- Average commit message length: 51 chars
+- Based on 23 commits
+
+---
+id: website-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: website-import-alias
+trigger: "when importing modules"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Import Alias
+
+## Action
+
+Use path aliases (@/, ~/) instead of relative imports
+
+## Evidence
+
+- Import analysis shows alias pattern
+- Example: import { x } from '@/lib/x'
+
+---
+id: website-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: website-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: assets, components, configs, content, hooks
+
+---
+id: website-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: website-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~25x per month
+- Files: src/components/home/*, src/components/shared/*, src/components/ui/*
+
+---
+id: website-workflow-feature-development-section-or-component
+trigger: "when doing feature development section or component"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Workflow Feature Development Section Or Component
+
+## Action
+
+Follow the feature-development-section-or-component workflow:
+1. Create new component(s) under src/components/[area]/ or src/components/ui/
+2. If needed, add supporting modules/hooks under src/modules/ or src/hooks/
+3. Update shared layout or wrapper components (e.g., app-layout.astro, section.astro, footer.astro)
+4. Wire new component(s) into relevant page(s) under src/pages/
+5. Update styles in src/styles/global.css or similar
+6. If needed, update config or content files (e.g., src/content.config.ts, src/content/...)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: src/components/[area]/*.astro, src/components/[area]/*.tsx, src/components/ui/*.tsx
+
+---
+id: website-workflow-feature-enhancement-or-refactor
+trigger: "when doing feature enhancement or refactor"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Workflow Feature Enhancement Or Refactor
+
+## Action
+
+Follow the feature-enhancement-or-refactor workflow:
+1. Modify one or more component files under src/components/[area]/ or src/components/ui/
+2. Update shared layout or wrapper components if needed
+3. Update relevant page(s) under src/pages/
+4. Adjust styles or utility files as needed
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: src/components/[area]/*.astro, src/components/[area]/*.tsx, src/components/ui/*.tsx
+
+---
+id: website-workflow-add-or-enhance-shared-ui-primitive
+trigger: "when doing add or enhance shared ui primitive"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Workflow Add Or Enhance Shared Ui Primitive
+
+## Action
+
+Follow the add-or-enhance-shared-ui-primitive workflow:
+1. Create or update a primitive component under src/components/ui/
+2. Update feature or section components to use the new/updated primitive
+3. Update styles if needed
+4. Test integration in relevant pages
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: src/components/ui/*.tsx, src/components/[area]/*.astro, src/components/[area]/*.tsx
+
+---
+id: website-workflow-add-or-update-content-collection
+trigger: "when doing add or update content collection"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Workflow Add Or Update Content Collection
+
+## Action
+
+Follow the add-or-update-content-collection workflow:
+1. Add or update content files under src/content/[collection]/
+2. Update src/content.config.ts to register or configure the collection
+3. Update or create rendering components under src/components/[area]/
+4. Wire into relevant pages under src/pages/
+5. Update styles if needed
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: src/content.config.ts, src/content/**/*.mdx, src/content/**/*.json
+
+---
+id: website-workflow-add-or-enhance-edge-functionality
+trigger: "when doing add or enhance edge functionality"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Workflow Add Or Enhance Edge Functionality
+
+## Action
+
+Follow the add-or-enhance-edge-functionality workflow:
+1. Create or update function files under functions/
+2. If needed, update supporting config or index files (e.g., astro.config.mjs, notes-index.json.ts)
+3. Test integration with static and dynamic routes
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: functions/**/*.ts, astro.config.mjs, src/pages/**/*.ts
+
+---
+id: website-workflow-add-or-update-documentation
+trigger: "when doing add or update documentation"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/rimzzlabs/website
+---
+
+# Website Workflow Add Or Update Documentation
+
+## Action
+
+Follow the add-or-update-documentation workflow:
+1. Create or update markdown documentation files in the repo root
+2. If needed, update package.json scripts or related config
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: AGENTS.md, CLAUDE.md, package.json
+
+---
+id: website-coding-file-naming
+trigger: "When creating or renaming files in the codebase"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Coding File Naming
+
+## Action
+
+Use camelCase for file names
+
+## Evidence
+
+- Pattern in files: src/components/home/experience.astro, src/hooks/useMotion.ts
+
+---
+id: website-coding-function-naming
+trigger: "When defining new functions"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Coding Function Naming
+
+## Action
+
+Name functions using camelCase
+
+## Evidence
+
+- Pattern in files: src/hooks/useMotion.ts
+- src/modules/keyboardNavigation.tsx
+
+---
+id: website-coding-class-naming
+trigger: "When creating new classes"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Coding Class Naming
+
+## Action
+
+Name classes using PascalCase
+
+## Evidence
+
+- Pattern in files: src/modules/SomeClass.tsx
+
+---
+id: website-coding-constant-naming
+trigger: "When defining constants"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Coding Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in files: src/configs/constants.ts
+
+---
+id: website-coding-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Coding Import Style
+
+## Action
+
+Use alias-based import paths
+
+## Evidence
+
+- Pattern in files: src/components/home/experience.astro (import ... from '@/hooks/useMotion')
+
+---
+id: website-coding-export-style
+trigger: "When exporting functions or components"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Coding Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in files: src/hooks/useMotion.ts (export function useMotion...)
+
+---
+id: website-testing-location
+trigger: "When adding or updating tests"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Testing Location
+
+## Action
+
+Place test files in a separate test directory
+
+## Evidence
+
+- Pattern in architecture: testLocation: 'separate'
+
+---
+id: website-testing-feature-tests
+trigger: "When implementing a new feature"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Testing Feature Tests
+
+## Action
+
+Add tests for the feature after implementation
+
+## Evidence
+
+- Workflow: feature-development (commitSequence includes 'Add tests for feature')
+
+---
+id: website-git-commit-format
+trigger: "When making a commit"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Git Commit Format
+
+## Action
+
+Use conventional commit prefixes: feat, chore, docs, refactor
+
+## Evidence
+
+- Pattern in commits: 'feat(home): add experience section...', 'chore: initial redesign'
+
+---
+id: website-git-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Git Commit Length
+
+## Action
+
+Keep commit messages around 51 characters on average
+
+## Evidence
+
+- Pattern in commits: averageLength: 51
+
+---
+id: website-workflow-feature-development-section-or-component
+trigger: "When adding a new section, feature, or major UI component"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Workflow Feature Development Section Or Component
+
+## Action
+
+Follow the steps: create new component(s) under src/components/[area]/ or src/components/ui/, add supporting modules/hooks if needed, update shared layout, wire into pages, update styles, update config/content if needed
+
+## Evidence
+
+- Workflow: feature-development-section-or-component
+- Commits: feat(home): add experience section...
+- Files: src/components/home/experience.astro
+
+---
+id: website-workflow-feature-enhancement-or-refactor
+trigger: "When improving or reorganizing an existing feature, section, or component"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Workflow Feature Enhancement Or Refactor
+
+## Action
+
+Modify component files, update shared layout if needed, update relevant pages, adjust styles/utilities as needed
+
+## Evidence
+
+- Workflow: feature-enhancement-or-refactor
+- Commits: refactor(home): refine hero CTAs...
+- Files: src/components/home/hero.astro
+
+---
+id: website-workflow-add-or-enhance-shared-ui-primitive
+trigger: "When introducing or upgrading a base UI building block"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Workflow Add Or Enhance Shared Ui Primitive
+
+## Action
+
+Create or update primitive in src/components/ui/, update feature components to use it, update styles if needed, test integration
+
+## Evidence
+
+- Workflow: add-or-enhance-shared-ui-primitive
+- Files: src/components/ui/*.tsx
+
+---
+id: website-workflow-add-or-update-content-collection
+trigger: "When adding new content types or updating content-driven sections"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Workflow Add Or Update Content Collection
+
+## Action
+
+Add/update content files under src/content, update src/content.config.ts, update/create rendering components, wire into pages, update styles if needed
+
+## Evidence
+
+- Workflow: add-or-update-content-collection
+- Files: src/content/**/*.mdx, src/content.config.ts
+
+---
+id: website-workflow-add-or-enhance-edge-functionality
+trigger: "When implementing or refining edge/serverless logic"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Workflow Add Or Enhance Edge Functionality
+
+## Action
+
+Create/update function files under functions/, update supporting config/index files if needed, test integration with routes
+
+## Evidence
+
+- Workflow: add-or-enhance-edge-functionality
+- Files: functions/**/*.ts, astro.config.mjs
+
+---
+id: website-workflow-add-or-update-documentation
+trigger: "When documenting workflows, conventions, or adding project guides"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: rimzzlabs/website
+---
+
+# Website Workflow Add Or Update Documentation
+
+## Action
+
+Create/update markdown docs in repo root, update package.json scripts/config if needed
+
+## Evidence
+
+- Workflow: add-or-update-documentation
+- Commits: docs: add AGENTS.md and CLAUDE.md
+- Files: AGENTS.md, CLAUDE.md
+
