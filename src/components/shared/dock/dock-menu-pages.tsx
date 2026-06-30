@@ -9,13 +9,18 @@ import {
 	DropdownMenuLinkItem,
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import { localizePath, stripLocale } from "@/i18n/utils";
 import { cn } from "@/lib/utils";
 import { itemClass } from "./constants";
 
 /** Mobile-only dropdown of the standalone pages (Notes, Now). */
-export function DockMenuPages({ pathname }: { pathname: string }) {
-	const onNotes = pathname.startsWith("/notes");
-	const onNow = pathname.startsWith("/now");
+export function DockMenuPages({ pathname, lang }: { pathname: string; lang: Lang }) {
+	const nav = getDictionary(lang).nav;
+	const path = stripLocale(pathname);
+	const onNotes = path.startsWith("/notes");
+	const onNow = path.startsWith("/now");
 
 	return (
 		<DropdownMenu modal={false}>
@@ -26,7 +31,7 @@ export function DockMenuPages({ pathname }: { pathname: string }) {
 							render={
 								<button
 									type="button"
-									aria-label="Available pages"
+									aria-label={nav.availablePages}
 									className={cn(itemClass, (onNotes || onNow) && "bg-muted text-foreground")}
 								>
 									<Files className="size-4" />
@@ -35,17 +40,23 @@ export function DockMenuPages({ pathname }: { pathname: string }) {
 						/>
 					}
 				/>
-				<TooltipContent>Pages</TooltipContent>
+				<TooltipContent>{nav.pages}</TooltipContent>
 			</Tooltip>
 
 			<DropdownMenuContent>
 				<DropdownMenuGroup>
-					<DropdownMenuLabel>Available Pages</DropdownMenuLabel>
-					<DropdownMenuLinkItem href="/notes" aria-current={onNotes ? "page" : undefined}>
-						<NotebookText className="size-4" /> Notes
+					<DropdownMenuLabel>{nav.availablePages}</DropdownMenuLabel>
+					<DropdownMenuLinkItem
+						href={localizePath("/notes", lang)}
+						aria-current={onNotes ? "page" : undefined}
+					>
+						<NotebookText className="size-4" /> {nav.notes}
 					</DropdownMenuLinkItem>
-					<DropdownMenuLinkItem href="/now" aria-current={onNow ? "page" : undefined}>
-						<Radio className="size-4" /> Now
+					<DropdownMenuLinkItem
+						href={localizePath("/now", lang)}
+						aria-current={onNow ? "page" : undefined}
+					>
+						<Radio className="size-4" /> {nav.now}
 					</DropdownMenuLinkItem>
 				</DropdownMenuGroup>
 			</DropdownMenuContent>

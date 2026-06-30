@@ -3,6 +3,9 @@ import { useDraggable } from "@dnd-kit/react";
 import { Grip, HomeIcon, NotebookText, Radio } from "lucide-react";
 import { motion } from "motion/react";
 import { useMotionEnabled } from "@/hooks/use-motion";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import { localizePath, stripLocale } from "@/i18n/utils";
 import { INSTANT, SPRING } from "@/lib/motion";
 import type { DockPosition } from "@/lib/stores/dock";
 import { cn } from "@/lib/utils";
@@ -15,17 +18,21 @@ import { DockMenuPreference } from "./dock-menu-preference";
 
 export function DockBar({
 	pathname,
+	lang,
 	position,
 	folded,
 	onCollapse,
 }: {
 	pathname: string;
+	lang: Lang;
 	position: DockPosition;
 	folded: boolean;
 	onCollapse: () => void;
 }) {
 	const motionEnabled = useMotionEnabled();
-	const isHome = pathname === "/";
+	const nav = getDictionary(lang).nav;
+	const path = stripLocale(pathname);
+	const isHome = path === "/";
 	const HideIcon = HIDE_ICON[position];
 
 	const { ref, handleRef, isDragging } = useDraggable({
@@ -85,51 +92,64 @@ export function DockBar({
 									<button
 										ref={handleRef}
 										type="button"
-										aria-label="Drag to reposition the dock"
+										aria-label={nav.dragToMove}
 										className={cn(itemClass, "cursor-grab touch-none active:cursor-grabbing")}
 									>
 										<Grip className="size-4" />
 									</button>
 								}
 							/>
-							<TooltipContent>Drag to move</TooltipContent>
+							<TooltipContent>{nav.dragToMove}</TooltipContent>
 						</Tooltip>
 					</li>
 
 					<li>
-						<DockLink href="/" label="Home" current={isHome} onClick={handleHomeClick}>
+						<DockLink
+							href={localizePath("/", lang)}
+							label={nav.home}
+							current={isHome}
+							onClick={handleHomeClick}
+						>
 							<HomeIcon className="size-4" />
 						</DockLink>
 					</li>
 
 					<li className="sm:hidden">
-						<DockMenuPages pathname={pathname} />
+						<DockMenuPages pathname={pathname} lang={lang} />
 					</li>
 
 					<li className="max-sm:hidden">
-						<DockLink href="/notes" label="Notes" current={pathname.startsWith("/notes")}>
+						<DockLink
+							href={localizePath("/notes", lang)}
+							label={nav.notes}
+							current={path.startsWith("/notes")}
+						>
 							<NotebookText className="size-4" />
 						</DockLink>
 					</li>
 
 					<li className="max-sm:hidden">
-						<DockLink href="/now" label="Now" current={pathname.startsWith("/now")}>
+						<DockLink
+							href={localizePath("/now", lang)}
+							label={nav.now}
+							current={path.startsWith("/now")}
+						>
 							<Radio className="size-4" />
 						</DockLink>
 					</li>
 
 					<li>
-						<DockMenuConnect />
+						<DockMenuConnect lang={lang} />
 					</li>
 
 					<li>
-						<DockMenuPreference />
+						<DockMenuPreference lang={lang} />
 					</li>
 				</ul>
 
 				<button
 					type="button"
-					aria-label="Hide dock"
+					aria-label={nav.hideDock}
 					onClick={onCollapse}
 					className={cn("absolute", TOGGLE_BASE, HIDE_BTN_CLASS[position])}
 				>

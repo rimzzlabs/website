@@ -1,38 +1,42 @@
 ---
 import { ArrowUpRight, Paperclip, Speech } from "lucide-react";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
 import Link from "../shared/link.astro";
 import Section from "../shared/section.astro";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).hero;
 ---
 
 <Section class="py-20">
   <h1
     class="text-3xl md:text-4xl lg:text-5xl xl:text-[55px] leading-none font-bold text-pretty"
   >
-    <span class="sr-only">Rizki Citra,</span> Passionate Software Engineer, Crafting
-    Delightful <span class="sr-only">User Interfaces</span>UIs.
+    <span class="sr-only">{t.srName}</span> {t.titleLead}
+    <span class="sr-only">{t.srUi}</span>{t.titleUi}
   </h1>
 
   <p class="text-balance xl:text-lg pt-4">
-    <span class="sr-only">Why software engineering? </span>Software engineering
-    allows me to create innovative solutions that align with my values and make
-    a meaningful impact.
+    <span class="sr-only">{t.srWhy}</span>{t.p1}
   </p>
   <p class="text-balance xl:text-lg pt-2">
-    Its blend of structure, problem solving, and continuous evolution keeps me
-    engaged and growing.
+    {t.p2}
   </p>
 
   <div class="inline-flex items-center gap-2 pt-4">
     <Link href="https://cal.com/rimzzlabs" rel="noopener" target="_blank">
-      <Speech /> Let&apos;s Talk <ArrowUpRight className="size-3" />
-      <span class="sr-only"
-        >(Allow you to schedule a meeting with Rizki on cal.com)</span
-      >
+      <Speech /> {t.talk} <ArrowUpRight className="size-3" />
+      <span class="sr-only">{t.talkSr}</span>
     </Link>
 
     <Link href="/attachments/resume-rimzzlabs.pdf" variant="secondary">
       <Paperclip />
-      <span class="sr-only">See my </span>Résumé <ArrowUpRight
+      <span class="sr-only">{t.resumeSr}</span>{t.resume} <ArrowUpRight
         className="size-3"
       />
     </Link>

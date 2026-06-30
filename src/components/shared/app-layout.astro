@@ -1,19 +1,21 @@
 ---
 import "@/styles/global.css";
 import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
+import { getLangFromPath } from "@/i18n/utils";
 import { Dock } from "./dock/dock";
 import Footer from "./footer.astro";
 
 interface Props {
-  bareWrapper?: boolean;
+	bareWrapper?: boolean;
 }
 
 const { bareWrapper = false } = Astro.props;
 
 const pathname = Astro.url.pathname;
+const lang = getLangFromPath(pathname);
 ---
 
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <link
@@ -39,10 +41,10 @@ const pathname = Astro.url.pathname;
   </head>
 
   <body>
-    {!bareWrapper && <Dock client:only="react" pathname={pathname} />}
+    {!bareWrapper && <Dock client:only="react" pathname={pathname} lang={lang} />}
     <main id="main">
       <slot />
     </main>
-    {!bareWrapper && <Footer />}
+    {!bareWrapper && <Footer lang={lang} />}
   </body>
 </html>

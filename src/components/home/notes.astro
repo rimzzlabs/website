@@ -1,45 +1,45 @@
 ---
-import { getCollection } from "astro:content";
 import { ArrowRight } from "lucide-react";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import { localizePath } from "@/i18n/utils";
 import { dateToISO, formatDate } from "@/lib/date";
+import { getNotes } from "@/lib/notes";
 import Section from "../shared/section.astro";
 
-const notes = await getCollection("notes");
-const latest = notes
-  .filter((note) =>
-    import.meta.env.PROD ? note.data.status === "published" : true,
-  )
-  .sort(
-    (a, b) =>
-      new Date(b.data.publishedAt).getTime() -
-      new Date(a.data.publishedAt).getTime(),
-  )
-  .slice(0, 3);
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).homeNotes;
+
+const latest = (await getNotes(lang)).slice(0, 3);
+const notesBase = localizePath("/notes", lang);
 ---
 
 <Section class="py-10">
   <h2 class="text-pretty text-2xl font-bold pb-4 tracking-tight">
-    <span class="sr-only">Read my </span>Notes
+    <span class="sr-only">{t.headingSr}</span>{t.heading}
   </h2>
   <p class="text-balance pb-6">
-    A few things I've written while building for the web — and what I picked up
-    along the way.
+    {t.intro}
   </p>
 
   <ul class="divide-y divide-border">
     {
-      latest.map((note) => (
+      latest.map(({ slug, note }) => (
         <li class="group relative max-w-2xl py-4 first:pt-0">
           <p class="text-xs font-light text-muted-foreground">
             <time datetime={dateToISO(note.data.publishedAt)}>
-              {formatDate(note.data.publishedAt)}
+              {formatDate(note.data.publishedAt, lang)}
             </time>
           </p>
           <h3 class="pt-1 font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-lg">
             {note.data.title}
           </h3>
           <a
-            href={`/notes/${note.id}`}
+            href={`${notesBase}/${slug}`}
             title={note.data.title}
             class="absolute inset-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
@@ -51,9 +51,9 @@ const latest = notes
   </ul>
 
   <a
-    href="/notes"
+    href={notesBase}
     class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
   >
-    Read all notes <ArrowRight className="size-4" />
+    {t.readAll} <ArrowRight className="size-4" />
   </a>
 </Section>

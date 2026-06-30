@@ -1,48 +1,32 @@
 ---
 import { ArrowUpRight } from "lucide-react";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
 import Section from "../shared/section.astro";
 
-const experiences = [
-  {
-    title: "Software Engineer",
-    company: "Kolosal AI",
-    url: "https://kolosal.ai",
-    period: "Nov 2025 - Present",
-    summary: "Building AI products with a small, sharp team.",
-  },
-  {
-    title: "Software Engineer (Frontend)",
-    company: "Bitwyre",
-    url: "https://bitwyre.com",
-    period: "Feb 2024 - Nov 2025",
-    summary:
-      "Shipped the frontend for a global crypto, web3 and trading platform.",
-  },
-  {
-    title: "Frontend Developer",
-    company: "Skyshi Digital Indonesia",
-    url: "https://skyshi.com",
-    period: "Apr 2022 - Feb 2024",
-    summary:
-      "Built fast, accessible React and Next.js apps for local and international clients.",
-  },
-  {
-    title: "Frontend Developer Intern",
-    company: "Skyshi Digital Indonesia",
-    url: "https://skyshi.com",
-    period: "Jan 2022 - Mar 2022",
-    summary: "Cut my teeth on internal products with React, Vue and Chakra UI.",
-  },
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).experience;
+
+const companies: Array<{ key: keyof typeof t.items; company: string; url: string }> = [
+	{ key: "kolosal", company: "Kolosal AI", url: "https://kolosal.ai" },
+	{ key: "bitwyre", company: "Bitwyre", url: "https://bitwyre.com" },
+	{ key: "skyshi-fe", company: "Skyshi Digital Indonesia", url: "https://skyshi.com" },
+	{ key: "skyshi-intern", company: "Skyshi Digital Indonesia", url: "https://skyshi.com" },
 ];
+
+const experiences = companies.map(({ key, company, url }) => ({ company, url, ...t.items[key] }));
 ---
 
 <Section class="py-10">
   <h2 class="text-pretty text-2xl font-bold tracking-tight">
-    <span class="sr-only">My </span>Experience
+    <span class="sr-only">{t.headingSr}</span>{t.heading}
   </h2>
   <p class="text-balance pt-3 pb-6">
-    A quick ledger of where I've worked and what I shipped. The longer story
-    lives further down.
+    {t.intro}
   </p>
 
   <ol class="divide-y divide-border">
@@ -84,14 +68,14 @@ const experiences = [
   </ol>
 
   <p class="text-muted-foreground pt-4">
-    You can see a complete profile on {" "}
+    {t.resumeLead}{" "}
     <a
       href="/attachments/resume-rimzzlabs.pdf"
       target="_blank"
       rel="noopener"
       class="underline hover:text-foreground transition-colors"
     >
-      my Résumé<span class="span sr-only">See it here</span>
+      {t.resumeLink}<span class="span sr-only">{t.resumeLinkSr}</span>
       <ArrowUpRight className="inline size-3 align-text-top" />
     </a>
   </p>

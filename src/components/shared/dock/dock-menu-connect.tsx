@@ -7,10 +7,13 @@ import {
 	DropdownMenuLinkItem,
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
 import { itemClass } from "./constants";
 
 /** Merged "get in touch" menu: schedule a meeting + résumé. */
-export function DockMenuConnect() {
+export function DockMenuConnect({ lang }: { lang: Lang }) {
+	const t = getDictionary(lang).nav.connect;
 	return (
 		<DropdownMenu modal={false}>
 			<Tooltip>
@@ -18,14 +21,14 @@ export function DockMenuConnect() {
 					render={
 						<MenuPrimitive.Trigger
 							render={
-								<button type="button" aria-label="Get in touch" className={itemClass}>
+								<button type="button" aria-label={t.trigger} className={itemClass}>
 									<Handshake className="size-4" />
 								</button>
 							}
 						/>
 					}
 				/>
-				<TooltipContent>Get in touch</TooltipContent>
+				<TooltipContent>{t.trigger}</TooltipContent>
 			</Tooltip>
 
 			<DropdownMenuContent align="end" className="min-w-16">
@@ -35,7 +38,7 @@ export function DockMenuConnect() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<CalendarClock className="size-4" /> Schedule a call{" "}
+					<CalendarClock className="size-4" /> {t.scheduleCall}{" "}
 					<ArrowUpRight className="size-3 -ml-1" />
 				</DropdownMenuLinkItem>
 				<DropdownMenuLinkItem
@@ -44,7 +47,7 @@ export function DockMenuConnect() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<FileText className="size-4" /> Résumé <ArrowUpRight className="size-3 -ml-1" />
+					<FileText className="size-4" /> {t.resume} <ArrowUpRight className="size-3 -ml-1" />
 				</DropdownMenuLinkItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

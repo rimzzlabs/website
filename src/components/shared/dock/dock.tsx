@@ -4,6 +4,7 @@ import { useDockPosition } from "@/hooks/use-dock-position";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { useMotionEnabled } from "@/hooks/use-motion";
 import { useThemeSync } from "@/hooks/use-theme";
+import type { Lang } from "@/i18n/config";
 import { $dockPosition, isDockPosition } from "@/lib/stores/dock";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "../../ui/tooltip";
@@ -11,7 +12,7 @@ import { DockBar } from "./dock-bar";
 import { DockPill } from "./dock-pill";
 import { DockZone } from "./dock-zone";
 
-export function Dock({ pathname }: { pathname: string }) {
+export function Dock({ pathname, lang }: { pathname: string; lang: Lang }) {
 	useThemeSync();
 
 	const position = useDockPosition();
@@ -45,6 +46,7 @@ export function Dock({ pathname }: { pathname: string }) {
 						<DockZone id="right" className="right-0" />
 						<DockBar
 							pathname={pathname}
+							lang={lang}
 							position={position}
 							folded={folded}
 							onCollapse={() => setCollapsed(true)}

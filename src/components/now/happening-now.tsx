@@ -1,30 +1,20 @@
 import { useMotionEnabled } from "@/hooks/use-motion";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
 import { dateToISO, formatDate } from "@/lib/date";
 
-const now = [
-	{
-		date: "2026-06-30",
-		title: "Building an interactive canvas with SpacetimeDB",
-		description:
-			"Architecting the frontend for complex apps that bring together a real-time interactive canvas and AI.",
-	},
-	{
-		date: "2025-12-02",
-		title: "Building something related with AI",
-		description:
-			"Currently building something related with AI at Kolosal AI, the people here are amazing. I expect I'll write some notes about it down the line.",
-	},
-];
-
-export function HappeningNow() {
+export function HappeningNow({ lang }: { lang: Lang }) {
 	const motionEnabled = useMotionEnabled();
-	const sorted = [...now].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+	const items = getDictionary(lang).now.items;
+	const sorted = Object.entries(items).sort(
+		([a], [b]) => new Date(b).getTime() - new Date(a).getTime(),
+	);
 
 	return (
 		<ul className="relative before:absolute before:top-3 before:bottom-3 before:left-0 before:w-0.5 before:bg-taupe-300 dark:before:bg-taupe-800">
-			{sorted.map((item) => (
+			{sorted.map(([date, item]) => (
 				<li
-					key={item.date}
+					key={date}
 					className="group relative pl-6 not-last:pb-10 before:absolute before:top-2.75 before:left-0 before:h-0.5 before:w-5 before:bg-taupe-300 dark:before:bg-taupe-800"
 				>
 					<span
@@ -38,7 +28,7 @@ export function HappeningNow() {
 					/>
 
 					<p className="text-xs font-light text-muted-foreground sm:text-sm">
-						<time dateTime={dateToISO(item.date)}>{formatDate(item.date)}</time>
+						<time dateTime={dateToISO(date)}>{formatDate(date, lang)}</time>
 					</p>
 					<h2 className="pt-1 text-lg font-semibold tracking-tight text-balance sm:text-xl">
 						{item.title}

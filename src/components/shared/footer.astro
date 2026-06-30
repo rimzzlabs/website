@@ -1,7 +1,16 @@
 ---
 import { ArrowUpRight } from "lucide-react";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
 import Link from "./link.astro";
 import Section from "./section.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).footer;
 
 const year = new Date().getFullYear();
 
@@ -13,21 +22,22 @@ const connects = [
 
 const resources = [
   {
-    label: "Résumé",
+    label: t.resume,
     href: "/attachments/resume-rizki-citra.pdf",
     external: true,
   },
-  { label: "Source Code", href: "https://github.com/rimzzlabs/website" },
+  { label: t.sourceCode, href: "https://github.com/rimzzlabs/website" },
 ];
 
 const items = [
-  { label: "Connect", links: connects },
-  { label: "Resource", links: resources },
+  { label: t.connect, links: connects },
+  { label: t.resource, links: resources },
 ];
 ---
 
 <footer>
   <Section
+    data-footer="true"
     class="border-t pt-10 pb-28 flex flex-col lg:flex-row lg:items-start gap-4"
   >
     <h3 class="text-sm font-medium">&copy; {year} - rimzzlabs.com</h3>
@@ -58,3 +68,17 @@ const items = [
     </div>
   </Section>
 </footer>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const footer = document.querySelector("[data-footer=true]");
+    console.info(footer);
+    if (footer) {
+      const isPostPage = window.location.pathname.includes("/notes/");
+      if (isPostPage) {
+        console.info(isPostPage);
+        footer.classList.add("max-w-5xl");
+      }
+    }
+  });
+</script>

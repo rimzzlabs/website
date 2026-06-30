@@ -26,7 +26,7 @@ function nestHeadings(headings: Array<MarkdownHeading>): Array<NestedHeading> {
 	return roots;
 }
 
-export function NotesToc({ headings }: { headings: Array<MarkdownHeading> }) {
+export function NotesToc({ headings, label }: { headings: Array<MarkdownHeading>; label: string }) {
 	const inView = useToc(headings.map((heading) => heading.slug));
 	const nested = useMemo(() => nestHeadings(headings), [headings]);
 	const motionEnabled = useMotionEnabled();
@@ -41,7 +41,7 @@ export function NotesToc({ headings }: { headings: Array<MarkdownHeading> }) {
 	return (
 		<aside className="max-w-max pl-14 max-sm:hidden">
 			<div className="sticky top-8 right-0">
-				<h3 className="pb-4 text-lg font-semibold">On this page</h3>
+				<h3 className="pb-4 text-lg font-semibold">{label}</h3>
 				<nav className="relative overflow-y-hidden">
 					<ul className="list-outside border-l-2 text-left">
 						{nested.map((heading) => (

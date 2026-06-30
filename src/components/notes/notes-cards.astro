@@ -1,21 +1,25 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { Lang } from "@/i18n/config";
+import { localizePath } from "@/i18n/utils";
 import { dateToISO, formatDate } from "@/lib/date";
+import type { LocalizedNote } from "@/lib/notes";
 
 interface Props {
-	notes: Array<CollectionEntry<"notes">>;
+	notes: Array<LocalizedNote>;
+	lang: Lang;
 }
 
-const { notes } = Astro.props;
+const { notes, lang } = Astro.props;
+const notesBase = localizePath("/notes", lang);
 ---
 
 <ul class="divide-y divide-border">
   {
-    notes.map((note) => (
+    notes.map(({ slug, note }) => (
       <li class="group relative max-w-2xl py-6 first:pt-0">
         <p class="text-xs font-light text-muted-foreground sm:text-sm">
           <time datetime={dateToISO(note.data.publishedAt)}>
-            {formatDate(note.data.publishedAt)}
+            {formatDate(note.data.publishedAt, lang)}
           </time>
         </p>
         <h2 class="pt-1 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-xl">
@@ -23,7 +27,7 @@ const { notes } = Astro.props;
         </h2>
         <p class="pt-1 text-sm text-muted-foreground">{note.data.description}</p>
         <a
-          href={`/notes/${note.id}`}
+          href={`${notesBase}/${slug}`}
           title={note.data.title}
           class="absolute inset-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
