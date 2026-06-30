@@ -3,8 +3,9 @@
 	"type": "module",
 	"version": "0.0.2",
 	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build",
+		"dev": "astro sync && astro dev",
+		"build": "astro sync && astro build",
+		"preview": "astro preview",
 		"check": "astro check",
 		"lint": "biome check",
 		"format": "biome check --write",
