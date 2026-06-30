@@ -6,10 +6,13 @@ import Section from "../shared/section.astro";
 
 const notes = await getCollection("notes");
 const latest = notes
-  .filter((note) => (import.meta.env.PROD ? note.data.status === "published" : true))
+  .filter((note) =>
+    import.meta.env.PROD ? note.data.status === "published" : true,
+  )
   .sort(
     (a, b) =>
-      new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime(),
+      new Date(b.data.publishedAt).getTime() -
+      new Date(a.data.publishedAt).getTime(),
   )
   .slice(0, 3);
 ---
@@ -26,16 +29,15 @@ const latest = notes
   <ul class="divide-y divide-border">
     {
       latest.map((note) => (
-        <li class="group relative max-w-2xl py-6 first:pt-0">
-          <p class="text-xs font-light text-muted-foreground sm:text-sm">
+        <li class="group relative max-w-2xl py-4 first:pt-0">
+          <p class="text-xs font-light text-muted-foreground">
             <time datetime={dateToISO(note.data.publishedAt)}>
               {formatDate(note.data.publishedAt)}
             </time>
           </p>
-          <h3 class="pt-1 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-xl">
+          <h3 class="pt-1 font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-lg">
             {note.data.title}
           </h3>
-          <p class="pt-1 text-sm text-muted-foreground">{note.data.description}</p>
           <a
             href={`/notes/${note.id}`}
             title={note.data.title}
@@ -50,7 +52,7 @@ const latest = notes
 
   <a
     href="/notes"
-    class="mt-6 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+    class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
   >
     Read all notes <ArrowRight className="size-4" />
   </a>
