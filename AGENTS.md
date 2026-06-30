@@ -68,6 +68,7 @@ There is no test suite. Verify with `pnpm check`; also `pnpm build` when touchin
 ### UI & animation
 
 - Build UI on **Base UI**; add primitives with `pnpm dlx shadcn add <name>` (style is `base-vega`). Decline overwrites of customized files like `button.tsx`.
+- **A `DropdownMenuLabel` must live inside a group** — it renders Base UI's `Menu.GroupLabel`, which needs a `Menu.Group` ancestor for context. Wrap the label + its items in `DropdownMenuGroup` (plain items, e.g. `dock-menu-pages`) or `DropdownMenuRadioGroup` (radio items, e.g. `dock-menu-preference`); a bare label crashes with `MenuGroupContext is missing`. A menu with no label (e.g. `dock-menu-connect`) needs no group.
 - **All animation uses `motion/react` and must respect the motion preference.** Gate with `useMotionEnabled()` (`@/hooks/use-motion`) and use `SPRING` when enabled / `INSTANT` when not (`@/lib/motion`) — this combines the user's stored choice with OS `prefers-reduced-motion`. Library popups (drawer, alert-dialog) are gated the same way (animations disabled via class overrides when motion is off).
 - Tailwind v4 utilities only. Theme is the `.dark` class, applied before paint by an inline script in `app-layout.astro` and kept in sync by `useThemeSync`.
 
