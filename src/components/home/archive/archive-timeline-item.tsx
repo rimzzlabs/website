@@ -44,13 +44,13 @@ export function ArchiveTimelineItem(props: ArchiveTimelineItemProps) {
 			<span
 				aria-hidden
 				data-safe-motion={motionEnabled}
-				className="absolute -left-2.25 top-5.25 hidden size-5 rounded-full bg-emerald-500/75 group-first-of-type:block group-first-of-type:data-[safe-motion=true]:animate-ping"
+				className="absolute -left-2.25 top-5.25 hidden size-5 rounded-full bg-orange-500/75 group-first-of-type:block group-first-of-type:data-[safe-motion=true]:animate-ping"
 			/>
 
 			<div
 				aria-hidden
 				data-safe-motion={motionEnabled}
-				className="absolute -left-1.5 top-[1.4688rem] size-3.5 rounded-xl border-2 border-taupe-300 dark:border-taupe-800 bg-background group-first-of-type:bg-emerald-500 group-first-of-type:data-[safe-motion=true]:animate-in"
+				className="absolute -left-1.5 top-[1.4688rem] size-3.5 rounded-xl border-2 border-taupe-300 dark:border-taupe-800 bg-background group-first-of-type:bg-orange-500 group-first-of-type:data-[safe-motion=true]:animate-in"
 			/>
 		</AccordionItem>
 	);

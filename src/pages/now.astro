@@ -1,5 +1,5 @@
 ---
-import HappeningNow from "@/components/now/happening-now.astro";
+import { HappeningNow } from "@/components/now/happening-now";
 import AppLayout from "@/components/shared/app-layout.astro";
 import Section from "@/components/shared/section.astro";
 import Seo from "@/components/shared/seo.astro";
@@ -12,10 +12,16 @@ const description =
 <AppLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <Section class="py-10">
-    <h1 class="text-pretty text-2xl font-bold tracking-tight">Now</h1>
-    <p class="text-balance pt-3 pb-8 text-muted-foreground">{description}</p>
+  <Section class="pt-12 pb-16 lg:pt-24">
+    <h1
+      class="text-4xl leading-none font-bold tracking-tight text-balance sm:text-5xl lg:text-7xl"
+    >
+      Now
+    </h1>
+    <p class="max-w-2xl pt-6 pb-6 text-pretty text-muted-foreground lg:pt-8 lg:pb-12 lg:text-lg">
+      {description}
+    </p>
 
-    <HappeningNow />
+    <HappeningNow client:idle />
   </Section>
 </AppLayout>
