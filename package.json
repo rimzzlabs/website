@@ -3,8 +3,12 @@
 	"type": "module",
 	"version": "0.0.2",
 	"scripts": {
-		"commit": "cz",
 		"dev": "astro dev",
+		"build": "astro build",
+		"check": "astro check",
+		"lint": "biome check",
+		"format": "biome check --write",
+		"commit": "cz",
 		"ui:add": "pnpm dlx shadcn add",
 		"prepare": "husky"
 	},
