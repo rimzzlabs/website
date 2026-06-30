@@ -3,6 +3,12 @@ import { dateToISO, formatDate } from "@/lib/date";
 
 const now = [
 	{
+		date: "2026-06-30",
+		title: "Building an interactive canvas with SpacetimeDB",
+		description:
+			"Architecting the frontend for complex apps that bring together a real-time interactive canvas and AI.",
+	},
+	{
 		date: "2025-12-02",
 		title: "Building something related with AI",
 		description:
@@ -19,16 +25,16 @@ export function HappeningNow() {
 			{sorted.map((item) => (
 				<li
 					key={item.date}
-					className="group relative pl-6 not-last:pb-10 before:absolute before:top-3 before:left-0 before:h-0.5 before:w-5 before:bg-taupe-300 dark:before:bg-taupe-800"
+					className="group relative pl-6 not-last:pb-10 before:absolute before:top-2.75 before:left-0 before:h-0.5 before:w-5 before:bg-taupe-300 dark:before:bg-taupe-800"
 				>
 					<span
 						aria-hidden
 						data-safe-motion={motionEnabled}
-						className="absolute -left-2.25 top-[0.125rem] hidden size-5 rounded-full bg-orange-500/75 group-first-of-type:block group-first-of-type:data-[safe-motion=true]:animate-ping"
+						className="absolute -left-2.25 top-0.5 hidden size-5 rounded-full bg-orange-500/75 group-first-of-type:block group-first-of-type:data-[safe-motion=true]:animate-ping"
 					/>
 					<span
 						aria-hidden
-						className="absolute -left-1.5 top-[0.3125rem] size-3.5 rounded-xl border-2 border-taupe-300 bg-background group-first-of-type:border-orange-500 group-first-of-type:bg-orange-500 dark:border-taupe-800"
+						className="absolute -left-1.5 top-1.25 size-3.5 rounded-xl border-2 border-taupe-300 bg-background group-first-of-type:border-orange-500 group-first-of-type:bg-orange-500 dark:border-taupe-800"
 					/>
 
 					<p className="text-xs font-light text-muted-foreground sm:text-sm">

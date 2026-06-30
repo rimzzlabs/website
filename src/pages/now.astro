@@ -1,4 +1,5 @@
 ---
+import { ArrowUpRight } from "lucide-react";
 import { HappeningNow } from "@/components/now/happening-now";
 import AppLayout from "@/components/shared/app-layout.astro";
 import Section from "@/components/shared/section.astro";
@@ -6,7 +7,7 @@ import Seo from "@/components/shared/seo.astro";
 
 const title = "Now";
 const description =
-	"Most sites have an /about page. This is my /now page — a snapshot of what I'm focused on at this point in my life. Inspired by nownownow.com.";
+  "Most sites have an /about page. This is my /now page — a snapshot of what I'm focused on at this point in my life. Inspired by nownownow.com.";
 ---
 
 <AppLayout>
@@ -16,10 +17,16 @@ const description =
     <h1
       class="text-4xl leading-none font-bold tracking-tight text-balance sm:text-5xl lg:text-7xl"
     >
-      Now
+      What I'm Up To
     </h1>
-    <p class="max-w-2xl pt-6 pb-6 text-pretty text-muted-foreground lg:pt-8 lg:pb-12 lg:text-lg">
-      {description}
+    <p
+      class="max-w-2xl pt-6 pb-6 text-pretty text-muted-foreground lg:pt-8 lg:pb-12 lg:text-lg"
+    >
+      Most sites have an /about page. This is my /now page — a snapshot of what
+      I'm focused on at this point in my life. Inspired by{" "}
+      <a href="https://nownownow.com" target="_blank" rel="noopener">
+        nownownow.com <ArrowUpRight className="inline-block align-top size-3" />
+      </a>.
     </p>
 
     <HappeningNow client:idle />
