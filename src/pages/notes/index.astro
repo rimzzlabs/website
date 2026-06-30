@@ -19,9 +19,15 @@ const description =
 <AppLayout>
   <Seo slot="metadata" {title} {description} />
 
-  <Section class="py-10">
-    <h1 class="text-pretty text-2xl font-bold tracking-tight">Notes</h1>
-    <p class="text-balance pt-3 pb-8 text-muted-foreground">{description}</p>
+  <Section class="pt-12 pb-16 lg:pt-24">
+    <h1
+      class="text-4xl leading-none font-bold tracking-tight text-balance sm:text-5xl lg:text-7xl"
+    >
+      Notes
+    </h1>
+    <p class="max-w-2xl pt-6 pb-6 text-pretty text-muted-foreground lg:pt-8 lg:pb-12 lg:text-lg">
+      {description}
+    </p>
 
     <NotesCards notes={published} />
   </Section>

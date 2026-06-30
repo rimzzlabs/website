@@ -9,20 +9,16 @@ interface Props {
 const { notes } = Astro.props;
 ---
 
-<ul class="border-l-2 border-border">
+<ul class="divide-y divide-border">
   {
     notes.map((note) => (
-      <li class="group relative max-w-xl pl-8 not-last:pb-8">
-        <span
-          aria-hidden="true"
-          class="absolute -left-[0.4375rem] top-1 size-3 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 transition duration-300 group-hover:rotate-180 group-hover:scale-150"
-        />
+      <li class="group relative max-w-2xl py-6 first:pt-0">
         <p class="text-xs font-light text-muted-foreground sm:text-sm">
           <time datetime={dateToISO(note.data.publishedAt)}>
             {formatDate(note.data.publishedAt)}
           </time>
         </p>
-        <h2 class="text-lg font-semibold tracking-tight text-balance sm:text-xl">
+        <h2 class="pt-1 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-xl">
           {note.data.title}
         </h2>
         <p class="pt-1 text-sm text-muted-foreground">{note.data.description}</p>

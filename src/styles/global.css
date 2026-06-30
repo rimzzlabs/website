@@ -144,6 +144,11 @@
 	}
 }
 
+/* Wider reading container for long-form pages (notes). */
+@utility container-fluid {
+	@apply mx-auto w-11/12 max-w-5xl;
+}
+
 /* Notes (markdown) — autolink heading anchors from rehype-autolink-headings */
 .prose :is(h2, h3, h4, h5, h6) {
 	@apply relative max-w-max scroll-mt-24;

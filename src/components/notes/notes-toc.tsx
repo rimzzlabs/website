@@ -1,5 +1,6 @@
 import type { MarkdownHeading } from "astro";
 import { useMemo } from "react";
+import { useMotionEnabled } from "@/hooks/use-motion";
 import { useToc } from "@/hooks/use-toc";
 import { NotesTocItem } from "./notes-toc-item";
 import { NotesTocProgress } from "./notes-toc-progress";
@@ -28,6 +29,14 @@ function nestHeadings(headings: Array<MarkdownHeading>): Array<NestedHeading> {
 export function NotesToc({ headings }: { headings: Array<MarkdownHeading> }) {
 	const inView = useToc(headings.map((heading) => heading.slug));
 	const nested = useMemo(() => nestHeadings(headings), [headings]);
+	const motionEnabled = useMotionEnabled();
+
+	function handleNavigate(slug: string) {
+		const target = document.getElementById(slug);
+		if (!target) return;
+		target.scrollIntoView({ behavior: motionEnabled ? "smooth" : "auto" });
+		history.replaceState(null, "", `#${slug}`);
+	}
 
 	return (
 		<aside className="max-w-max pl-14 max-sm:hidden">
@@ -36,7 +45,12 @@ export function NotesToc({ headings }: { headings: Array<MarkdownHeading> }) {
 				<nav className="relative overflow-y-hidden">
 					<ul className="list-outside border-l-2 text-left">
 						{nested.map((heading) => (
-							<NotesTocItem key={heading.slug} heading={heading} inView={inView} />
+							<NotesTocItem
+								key={heading.slug}
+								heading={heading}
+								inView={inView}
+								onNavigate={handleNavigate}
+							/>
 						))}
 					</ul>
 					<NotesTocProgress inView={inView} />
