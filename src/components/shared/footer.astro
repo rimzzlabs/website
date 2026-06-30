@@ -72,11 +72,9 @@ const items = [
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     const footer = document.querySelector("[data-footer=true]");
-    console.info(footer);
     if (footer) {
-      const isPostPage = window.location.pathname.includes("/notes/");
+      const isPostPage = /\/notes\/[^/]+/.test(window.location.pathname);
       if (isPostPage) {
-        console.info(isPostPage);
         footer.classList.add("max-w-5xl");
       }
     }
