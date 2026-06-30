@@ -1,33 +1,16 @@
 import type { ImageMetadata } from "astro";
-import { X } from "lucide-react";
 import { useState } from "react";
-import { useMotionEnabled } from "@/hooks/use-motion";
 import { cn } from "@/lib/utils";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from "../../ui/carousel";
-import {
-	Drawer,
-	DrawerClose,
-	DrawerContent,
-	DrawerDescription,
-	DrawerTitle,
-} from "../../ui/drawer";
+import { ArchiveCarouselPopup } from "./archive-carousel-popup";
 
 export type Photo = { image: ImageMetadata; alt: string };
 
 /**
  * Bento grid of a timeline's photos: uniform cropped tiles, with the first tile
- * widened on odd counts so the grid stays gap-free. Tapping one opens a drawer
- * with a carousel of all the year's photos (uncropped), starting on the tapped
- * image. Carousel motion is gated by the user's animation preference.
+ * widened on odd counts so the grid stays gap-free. Tapping a tile morphs it
+ * (shared `layoutId`) into the carousel popup on that photo.
  */
 export function ArchivePhotos({ photos, label }: { photos: Array<Photo>; label: string }) {
-	const motionEnabled = useMotionEnabled();
 	const [index, setIndex] = useState<number | null>(null);
 
 	const wideFirst = photos.length % 2 === 1;
@@ -57,52 +40,12 @@ export function ArchivePhotos({ photos, label }: { photos: Array<Photo>; label: 
 				))}
 			</div>
 
-			<Drawer
-				open={index !== null}
-				onOpenChange={(open) => {
-					if (!open) setIndex(null);
-				}}
-			>
-				<DrawerContent>
-					<DrawerTitle className="sr-only">{label} — photos</DrawerTitle>
-					<DrawerDescription className="sr-only">
-						Swipe or use the arrow buttons to browse the photos.
-					</DrawerDescription>
-
-					<DrawerClose
-						aria-label="Close"
-						className="absolute top-3 right-3 z-10 flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-					>
-						<X className="size-4" />
-					</DrawerClose>
-
-					<div className="px-12 py-6">
-						<Carousel
-							key={index ?? "closed"}
-							opts={{
-								startIndex: index ?? 0,
-								loop: true,
-								duration: motionEnabled ? undefined : 0,
-							}}
-							className="mx-auto w-full max-w-2xl"
-						>
-							<CarouselContent>
-								{photos.map((photo) => (
-									<CarouselItem key={photo.image.src} className="flex items-center justify-center">
-										<img
-											src={photo.image.src}
-											alt={photo.alt}
-											className="max-h-[70vh] w-auto rounded-lg object-contain"
-										/>
-									</CarouselItem>
-								))}
-							</CarouselContent>
-							<CarouselPrevious className="left-2" />
-							<CarouselNext className="right-2" />
-						</Carousel>
-					</div>
-				</DrawerContent>
-			</Drawer>
+			<ArchiveCarouselPopup
+				photos={photos}
+				label={label}
+				index={index}
+				onClose={() => setIndex(null)}
+			/>
 		</>
 	);
 }

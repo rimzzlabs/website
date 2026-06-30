@@ -12,7 +12,6 @@
 		"@astrojs/react": "^6.0.0",
 		"@astrojs/sitemap": "^3.7.3",
 		"@base-ui/react": "^1.6.0",
-		"@biomejs/biome": "^2.5.1",
 		"@dnd-kit/abstract": "^0.5.0",
 		"@dnd-kit/collision": "^0.5.0",
 		"@dnd-kit/dom": "^0.5.0",
@@ -44,6 +43,7 @@
 	},
 	"devDependencies": {
 		"@astrojs/ts-plugin": "^1.10.9",
+		"@biomejs/biome": "^2.5.1",
 		"@commitlint/cli": "^21.1.0",
 		"@commitlint/config-conventional": "^21.1.0",
 		"@commitlint/cz-commitlint": "^21.1.0",

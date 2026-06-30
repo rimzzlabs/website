@@ -102,11 +102,11 @@ export function DockBar({
 					</li>
 
 					<li>
-						<DockMenuPreference />
+						<DockMenuConnect />
 					</li>
 
 					<li>
-						<DockMenuConnect />
+						<DockMenuPreference />
 					</li>
 				</ul>
 

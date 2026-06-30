@@ -58,7 +58,7 @@ const timelines: Array<{
 		photos: [
 			{ image: festPass, alt: "Rizki's festival pass for Coinfest Asia" },
 			{ image: coinfest1, alt: "Rizki with the Indodax mascot" },
-			{ image: coinfest0, alt: "Rizki with the Indodax mascot" },
+			{ image: coinfest0, alt: "Rizki with the Bitwyre team" },
 			{ image: coinfest2, alt: "Rizki's portrait with the Mandala Chain team" },
 			{ image: finalAssignment0, alt: "Interviewing a local shop for Rizki's final assignment" },
 			{ image: graduation0, alt: "Rizki's graduation portrait with his mother and sister" },
@@ -73,8 +73,8 @@ const timelines: Array<{
 			"I juggled the full-time job, university, and a little Facebook freelancing with a friend, wrapping those projects in three months without dropping anything. Looking back, I'm surprised how much fit into one year.",
 		],
 		photos: [
-			{ image: rebuild1, alt: "Rizki's second PC build, next to a laptop" },
-			{ image: rebuild0, alt: "Rizki's second PC build parts" },
+			{ image: rebuild1, alt: "Rizki's second PC build parts" },
+			{ image: rebuild0, alt: "Rizki's second PC build, next to a laptop" },
 			{ image: rebuild3, alt: "Dual-booting Windows with EndeavourOS" },
 			{ image: rebuild2, alt: "Rizki's second PC build, final look" },
 		],

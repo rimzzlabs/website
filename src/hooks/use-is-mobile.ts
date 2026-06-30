@@ -13,7 +13,12 @@ function subscribe(onSnapshot: () => void) {
 		window.matchMedia(BREAKPPOINT).removeEventListener("change", onSnapshot);
 	};
 }
+
+function getServerSnapshot() {
+	return false;
+}
+
 /** True below Tailwind's `sm` breakpoint (640px). */
 export function useIsMobile() {
-	return useSyncExternalStore(subscribe, getSnapshot);
+	return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
