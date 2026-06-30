@@ -238,6 +238,13 @@ export const en = {
 		backHome: "Back home",
 		orHeadTo: "Or head to",
 	},
+
+	noteNotFound: {
+		seoTitle: "404 — Note not found",
+		description: "Rizki hasn't written this note yet, or it's been archived or removed.",
+		heading: "Note not found",
+		didYouMean: "Did you mean",
+	},
 };
 
 export type Dictionary = typeof en;

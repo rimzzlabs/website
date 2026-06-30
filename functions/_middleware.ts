@@ -50,9 +50,11 @@ export async function onRequest(context: MiddlewareContext): Promise<Response> {
 	const response = await next();
 
 	const wantsHtml = request.headers.get("accept")?.includes("text/html");
-	// `/notes/*` 404s are owned by functions/notes/[[slug]].ts (the "did you mean" page);
+	// `/notes/*` and `/id/notes/*` 404s are owned by the per-locale note functions
+	// (functions/notes + functions/id/notes — the branded "did you mean" page);
 	// don't replace them with the global 404.
-	if (response.status === 404 && wantsHtml && !url.pathname.startsWith("/notes/")) {
+	const isNotesRoute = url.pathname.startsWith("/notes/") || url.pathname.startsWith("/id/notes/");
+	if (response.status === 404 && wantsHtml && !isNotesRoute) {
 		// Astro emits the root 404 as `/404.html` but localized pages use the directory
 		// format, so the Indonesian 404 lives at `/id/404/index.html`.
 		const isId = url.pathname === "/id" || url.pathname.startsWith("/id/");

@@ -11,6 +11,7 @@ interface Props {
 	article?: Partial<NonNullable<SEOProps["openGraph"]>["article"]>;
 	image?: Required<NonNullable<SEOProps["openGraph"]>["image"]>;
 	keywords?: string[];
+	noindex?: boolean;
 }
 
 const defaultKeywords = [
@@ -33,7 +34,12 @@ const defaultKeywords = [
 	"UI engineer",
 ];
 
-const { title: _title, description, article, ...props } = Astro.props;
+const { title: _title, description, article, noindex, ...props } = Astro.props;
+
+const robots = noindex ? "noindex, follow" : "index, follow";
+const googlebot = noindex
+	? "noindex, follow"
+	: "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1";
 
 const pathname = Astro.url.pathname;
 const lang = getLangFromPath(pathname);
@@ -116,17 +122,13 @@ const ogImage = match(props.image)
       { name: "author", content: "Rizki Citra" },
       { name: "publisher", content: "Rizki Citra" },
       { name: "generator", content: Astro.generator },
-      { name: "robots", content: "index, follow" },
+      { name: "robots", content: robots },
       {
         name: "viewport",
         content:
           "width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover",
       },
-      {
-        name: "googlebot",
-        content:
-          "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
-      },
+      { name: "googlebot", content: googlebot },
     ],
   }}
 />
