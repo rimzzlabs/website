@@ -39,6 +39,26 @@ export function DockBar({
 		window.scrollTo({ top: 0, behavior: motionEnabled ? "smooth" : "auto" });
 	}
 
+	/** Roving arrow-key navigation across the dock controls; Escape leaves the dock. */
+	function handleNavKeyDown(event: React.KeyboardEvent<HTMLElement>) {
+		if (event.key === "Escape") {
+			(document.activeElement as HTMLElement | null)?.blur();
+			return;
+		}
+		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+
+		const items = Array.from(
+			event.currentTarget.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"),
+		).filter((el) => el.offsetParent !== null);
+		const current = items.indexOf(document.activeElement as HTMLElement);
+		if (current === -1) return;
+
+		event.preventDefault();
+		const delta = event.key === "ArrowRight" ? 1 : -1;
+		const next = Math.min(Math.max(current + delta, 0), items.length - 1);
+		items[next]?.focus();
+	}
+
 	return (
 		<div
 			ref={ref}
@@ -51,6 +71,7 @@ export function DockBar({
 		>
 			<motion.nav
 				aria-label="Primary"
+				onKeyDown={handleNavKeyDown}
 				initial={motionEnabled && !isDragging ? { opacity: 0, y: 16 } : false}
 				animate={folded ? { opacity: 0, y: 32 } : { opacity: 1, y: 0 }}
 				transition={motionEnabled ? SPRING : INSTANT}
