@@ -10,11 +10,19 @@ import { localizePath } from "@/i18n/utils";
 
 interface Props {
 	lang: Lang;
+	seoTitle?: string;
+	heading?: string;
+	description?: string;
+	noindex?: boolean;
 }
 
-const { lang } = Astro.props;
+const { lang, seoTitle, heading, description, noindex } = Astro.props;
 const t = getDictionary(lang).notFound;
 const nav = getDictionary(lang).nav;
+
+const resolvedSeoTitle = seoTitle ?? t.seoTitle;
+const resolvedHeading = heading ?? t.heading;
+const resolvedDescription = description ?? t.description;
 
 const homeHref = localizePath("/", lang);
 const notesHref = localizePath("/notes", lang);
@@ -22,7 +30,12 @@ const nowHref = localizePath("/now", lang);
 ---
 
 <AppLayout bareWrapper>
-  <Seo slot="metadata" title={t.seoTitle} description={t.description} />
+  <Seo
+    slot="metadata"
+    title={resolvedSeoTitle}
+    description={resolvedDescription}
+    noindex={noindex}
+  />
 
   <div
     class="relative isolate flex min-h-screen items-center justify-center overflow-hidden px-6 py-16"
@@ -34,9 +47,13 @@ const nowHref = localizePath("/now", lang);
         404
       </p>
       <h1 class="pt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-        {t.heading}
+        {resolvedHeading}
       </h1>
-      <p class="pt-3 text-balance text-muted-foreground">{t.description}</p>
+      <p class="pt-3 text-balance text-muted-foreground">
+        {resolvedDescription}
+      </p>
+
+      <slot name="suggestion" />
 
       <div class="flex flex-col items-center gap-4 pt-8">
         <Link href={homeHref} class="gap-2">

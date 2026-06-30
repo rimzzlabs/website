@@ -238,4 +238,11 @@ export const id: Dictionary = {
 		backHome: "Kembali ke beranda",
 		orHeadTo: "Atau menuju ke",
 	},
+
+	noteNotFound: {
+		seoTitle: "404 — Catatan tidak ditemukan",
+		description: "Rizki belum menulis catatan ini, atau catatan ini telah diarsipkan atau dihapus.",
+		heading: "Catatan tidak ditemukan",
+		didYouMean: "Mungkin maksud Anda",
+	},
 };

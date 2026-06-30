@@ -1,0 +1,32 @@
+---
+import NotFoundContent from "@/components/shared/not-found-content.astro";
+import { getDictionary } from "@/i18n/dictionary";
+
+// Prerendered note-not-found page served by the `/notes/*` edge function
+// (functions/notes/[[slug]].ts) with HTTP 404. The function reveals the
+// suggestion paragraph and fills the `__SUGGESTION_*` tokens when it has a
+// fuzzy match; otherwise the paragraph stays hidden.
+const t = getDictionary("en").noteNotFound;
+---
+
+<NotFoundContent
+  lang="en"
+  noindex
+  seoTitle={t.seoTitle}
+  heading={t.heading}
+  description={t.description}
+>
+  <p
+    data-suggestion
+    hidden
+    slot="suggestion"
+    class="pt-3 text-balance text-muted-foreground"
+  >
+    {t.didYouMean}{" "}
+    <a
+      href="__SUGGESTION_HREF__"
+      class="font-medium text-foreground underline-offset-4 hover:underline"
+      >__SUGGESTION_TITLE__</a
+    >?
+  </p>
+</NotFoundContent>
