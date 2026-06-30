@@ -1,0 +1,56 @@
+---
+import { ArrowLeft } from "lucide-react";
+import AppLayout from "@/components/shared/app-layout.astro";
+import Link from "@/components/shared/link.astro";
+import Seo from "@/components/shared/seo.astro";
+import { DotPattern } from "@/components/ui/dot-pattern";
+
+const description =
+  "The page you're looking for doesn't exist, or it may have moved.";
+---
+
+<AppLayout bareWrapper>
+  <Seo slot="metadata" title="404 — Page not found" {description} />
+
+  <div
+    class="relative isolate flex min-h-screen items-center justify-center overflow-hidden px-6 py-16"
+  >
+    <div class="relative z-10 flex max-w-md flex-col items-center text-center">
+      <p
+        class="text-8xl leading-none font-bold tracking-tighter text-muted-foreground/30 sm:text-9xl"
+      >
+        404
+      </p>
+      <h1 class="pt-2 text-2xl font-bold tracking-tight sm:text-3xl">
+        Page not found
+      </h1>
+      <p class="pt-3 text-balance text-muted-foreground">{description}</p>
+
+      <div class="flex flex-col items-center gap-4 pt-8">
+        <Link href="/" class="gap-2">
+          <ArrowLeft /> Back home
+        </Link>
+        <p class="text-sm text-muted-foreground">
+          Or head to{" "}
+          <a
+            href="/notes"
+            class="font-medium text-foreground underline-offset-4 hover:underline"
+            >Notes</a
+          >
+          <span aria-hidden="true"> · </span>
+          <a
+            href="/now"
+            class="font-medium text-foreground underline-offset-4 hover:underline"
+            >Now</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <DotPattern
+      glow
+      client:idle
+      className="-z-10 mask-[radial-gradient(420px_circle_at_center,var(--background),transparent)]"
+    />
+  </div>
+</AppLayout>

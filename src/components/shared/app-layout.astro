@@ -4,6 +4,12 @@ import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-nor
 import { Dock } from "./dock/dock";
 import Footer from "./footer.astro";
 
+interface Props {
+  bareWrapper?: boolean;
+}
+
+const { bareWrapper = false } = Astro.props;
+
 const pathname = Astro.url.pathname;
 ---
 
@@ -33,10 +39,10 @@ const pathname = Astro.url.pathname;
   </head>
 
   <body>
-    <Dock client:only="react" pathname={pathname} />
-    <main id="main" class="flex-1 shrink-0">
+    {!bareWrapper && <Dock client:only="react" pathname={pathname} />}
+    <main id="main">
       <slot />
     </main>
-    <Footer />
+    {!bareWrapper && <Footer />}
   </body>
 </html>
