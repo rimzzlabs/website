@@ -1,0 +1,16 @@
+{
+  "version": "2.0",
+  "technicalLevel": "technical",
+  "preferredStyle": {
+    "verbosity": "moderate",
+    "codeComments": true,
+    "explanations": true
+  },
+  "domains": [
+    "typescript",
+    "astro",
+    "react"
+  ],
+  "suggestedBy": "ecc-tools-repo-analysis",
+  "createdAt": "2026-06-30T14:43:01.141Z"
+}
