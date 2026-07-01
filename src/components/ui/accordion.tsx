@@ -1,7 +1,7 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { ChevronDownIcon } from "lucide-react";
 import { type HTMLMotionProps, motion } from "motion/react";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 import { useMotionEnabled } from "@/hooks/use-motion";
 import { INSTANT, SPRING } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -114,11 +114,13 @@ interface AccordionContentPanelProps {
  * Renders the base-ui panel as a `motion.div` that animates its height. The inner
  * content's own entrance (fades, slides, stagger) is left to the consumer.
  *
- * base-ui drives unmount/`hidden` off CSS animation-end events, which never fire
- * for a JS animation — so we use `keepMounted`, strip its `hidden` attribute, and
- * re-apply `hidden` ourselves only after the collapse finishes (deferred hidden).
- * This keeps collapsed content out of the a11y tree and tab order without cutting
- * the animation short.
+ * base-ui drives unmount/`hidden` (display:none) off CSS animation-end events,
+ * which never fire for a JS animation — and a display:none panel drops its content
+ * from the rendered DOM that image crawlers read (the archive photos live in here).
+ * So we `keepMounted`, strip base-ui's `hidden`, and collapse purely by animating
+ * height to 0. When closed the panel is marked `inert`, which keeps its content out
+ * of the a11y tree and tab order (as `hidden` did) while leaving the markup
+ * rendered and crawlable.
  */
 function AccordionContentPanel({
 	panelProps,
@@ -128,22 +130,14 @@ function AccordionContentPanel({
 	children,
 }: AccordionContentPanelProps) {
 	const { hidden: _baseHidden, style, ...rest } = panelProps;
-	const [collapsed, setCollapsed] = useState(!open);
-
-	useEffect(() => {
-		if (open) setCollapsed(false);
-	}, [open]);
 
 	return (
 		<motion.div
 			{...(rest as HTMLMotionProps<"div">)}
-			hidden={collapsed || undefined}
+			inert={!open || undefined}
 			initial={false}
 			animate={{ height: open ? "auto" : 0 }}
 			transition={motionEnabled ? SPRING : INSTANT}
-			onAnimationComplete={() => {
-				if (!open) setCollapsed(true);
-			}}
 			style={{ overflow: "hidden", ...style }}
 			className="text-sm"
 		>

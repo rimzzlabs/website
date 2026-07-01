@@ -14,7 +14,7 @@ export function ArchiveCarousel({
 	startIndex,
 }: {
 	photos: Array<Photo>;
-	startIndex: number;
+	startIndex?: number;
 }) {
 	const motionEnabled = useMotionEnabled();
 
@@ -25,11 +25,15 @@ export function ArchiveCarousel({
 		>
 			<CarouselContent>
 				{photos.map((photo) => (
-					<CarouselItem key={photo.image.src} className="flex items-center justify-center">
+					<CarouselItem key={photo.src} className="flex items-center justify-center">
 						<figure className="w-full">
 							<img
-								src={photo.image.src}
+								src={photo.src}
+								srcSet={photo.srcSet}
+								sizes="364px"
 								alt={photo.alt}
+								width={photo.width}
+								height={photo.height}
 								className="max-h-[70vh] w-auto rounded-lg object-contain md:max-h-[60vh]"
 							/>
 							<figcaption className="pt-2 text-sm text-muted-foreground">{photo.alt}</figcaption>
