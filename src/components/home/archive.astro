@@ -2,6 +2,7 @@
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import Section from "../shared/section.astro";
+import { getOptimizedImagesByYear } from "./archive/archive-optimized";
 import { ArchiveTimeline } from "./archive/archive-timeline";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getDictionary(lang).archive;
+const images = await getOptimizedImagesByYear();
 ---
 
 <Section class="py-10">
@@ -20,5 +22,5 @@ const t = getDictionary(lang).archive;
     {t.intro}
   </p>
 
-  <ArchiveTimeline client:idle lang={lang} />
+  <ArchiveTimeline client:idle lang={lang} images={images} />
 </Section>

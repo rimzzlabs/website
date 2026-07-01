@@ -1,11 +1,25 @@
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog";
+import { AnimatePresence, motion } from "motion/react";
 import type * as React from "react";
+import { createContext, useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { useMotionEnabled } from "@/hooks/use-motion";
+import { INSTANT, SPRING_FAST, SPRING_POP } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-function AlertDialog({ ...props }: AlertDialogPrimitive.Root.Props) {
-	return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
+// The dialog is unmounted while closed, so exit animations need `AnimatePresence`
+// to see the `open` state. `AlertDialog` forwards it through context to
+// `AlertDialogContent`, which drives the Base UI popup with `motion.div` via the
+// `render` prop (Base UI is headless) — no CSS keyframes; the motion preference
+// swaps the springs for INSTANT.
+const AlertDialogOpenContext = createContext(false);
+
+function AlertDialog({ open = false, ...props }: AlertDialogPrimitive.Root.Props) {
+	return (
+		<AlertDialogOpenContext.Provider value={open}>
+			<AlertDialogPrimitive.Root data-slot="alert-dialog" open={open} {...props} />
+		</AlertDialogOpenContext.Provider>
+	);
 }
 
 function AlertDialogTrigger({ ...props }: AlertDialogPrimitive.Trigger.Props) {
@@ -16,43 +30,61 @@ function AlertDialogPortal({ ...props }: AlertDialogPrimitive.Portal.Props) {
 	return <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />;
 }
 
-function AlertDialogOverlay({ className, ...props }: AlertDialogPrimitive.Backdrop.Props) {
-	const motionEnabled = useMotionEnabled();
-	return (
-		<AlertDialogPrimitive.Backdrop
-			data-slot="alert-dialog-overlay"
-			className={cn(
-				"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
-				!motionEnabled && "animate-none!",
-				className,
-			)}
-			{...props}
-		/>
-	);
-}
-
 function AlertDialogContent({
 	className,
 	size = "default",
+	children,
 	...props
 }: AlertDialogPrimitive.Popup.Props & {
 	size?: "default" | "sm";
 }) {
+	const open = useContext(AlertDialogOpenContext);
 	const motionEnabled = useMotionEnabled();
+	// Bouncy pop on the way in; a smooth, non-bouncy settle on the way out so the
+	// exit doesn't feel rubbery.
+	const pop = motionEnabled ? SPRING_POP : INSTANT;
+	const smooth = motionEnabled ? SPRING_FAST : INSTANT;
+
 	return (
-		<AlertDialogPortal>
-			<AlertDialogOverlay />
-			<AlertDialogPrimitive.Popup
-				data-slot="alert-dialog-content"
-				data-size={size}
-				className={cn(
-					"group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full -translate-x-1/2 -translate-y-1/2 gap-6 rounded-xl bg-popover p-6 text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
-					!motionEnabled && "animate-none!",
-					className,
-				)}
-				{...props}
-			/>
-		</AlertDialogPortal>
+		<AnimatePresence>
+			{open && (
+				<AlertDialogPortal keepMounted>
+					<AlertDialogPrimitive.Backdrop
+						data-slot="alert-dialog-overlay"
+						className="fixed inset-0 isolate z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs"
+						render={
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+								transition={smooth}
+							/>
+						}
+					/>
+					<div className="pointer-events-none fixed inset-0 z-50 grid place-items-center p-4">
+						<AlertDialogPrimitive.Popup
+							data-slot="alert-dialog-content"
+							data-size={size}
+							className={cn(
+								"group/alert-dialog-content pointer-events-auto relative grid w-full gap-6 rounded-xl bg-popover p-6 text-popover-foreground ring-1 ring-foreground/10 outline-none data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg",
+								className,
+							)}
+							render={
+								<motion.div
+									initial={{ opacity: 0, scale: 0.95 }}
+									animate={{ opacity: 1, scale: 1 }}
+									exit={{ opacity: 0, scale: 0.96, transition: smooth }}
+									transition={pop}
+								/>
+							}
+							{...props}
+						>
+							{children}
+						</AlertDialogPrimitive.Popup>
+					</div>
+				</AlertDialogPortal>
+			)}
+		</AnimatePresence>
 	);
 }
 
@@ -157,7 +189,6 @@ export {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogMedia,
-	AlertDialogOverlay,
 	AlertDialogPortal,
 	AlertDialogTitle,
 	AlertDialogTrigger,

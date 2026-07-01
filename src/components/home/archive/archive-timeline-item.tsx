@@ -29,12 +29,10 @@ export function ArchiveTimelineItem(props: ArchiveTimelineItemProps) {
 				<ContentTitle year={props.year} title={props.title} />
 				{props.photos.length > 0 ? (
 					<div className="flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start">
-						<div className="order-2 lg:order-1">
+						<div>
 							<ArchiveDescriptions items={props.descriptions} />
 						</div>
-						<div className="order-1 lg:order-2">
-							<ArchivePhotos photos={props.photos} label={`${props.year}, ${props.title}`} />
-						</div>
+						<ArchivePhotos photos={props.photos} label={`${props.year}, ${props.title}`} />
 					</div>
 				) : (
 					<ArchiveDescriptions items={props.descriptions} />

@@ -55,6 +55,9 @@ export default defineConfig({
 			changefreq: "daily",
 			lastmod: new Date(),
 			i18n: { defaultLocale: "en", locales: { en: "en", id: "id" } },
+			// The image sitemap is emitted by its own endpoint and advertised in
+			// robots.txt; keep it out of the page sitemap.
+			filter: (page) => !page.endsWith("/sitemap-images.xml"),
 		}),
 	],
 

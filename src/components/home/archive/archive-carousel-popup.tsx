@@ -29,18 +29,19 @@ const description = "Swipe or use the arrow buttons to browse the photos.";
  * screens. Controlled by the tapped photo index (`null` = closed).
  */
 export function ArchiveCarouselPopup({
+	open,
 	photos,
 	label,
 	index,
 	onClose,
 }: {
+	open: boolean;
 	photos: Array<Photo>;
 	label: string;
-	index: number | null;
+	index?: number;
 	onClose: () => void;
 }) {
 	const isMobile = useIsMobile();
-	const open = index !== null;
 
 	function onOpenChange(next: boolean) {
 		if (!next) onClose();
@@ -58,7 +59,7 @@ export function ArchiveCarouselPopup({
 						</DrawerClose>
 					</DrawerHeader>
 					<div className="px-12 py-6">
-						<ArchiveCarousel key={index ?? "closed"} photos={photos} startIndex={index ?? 0} />
+						<ArchiveCarousel key={index ?? "closed"} photos={photos} startIndex={index} />
 					</div>
 				</DrawerContent>
 			</Drawer>
@@ -76,7 +77,7 @@ export function ArchiveCarouselPopup({
 					</AlertDialogCancel>
 				</AlertDialogHeader>
 				<div className="px-12 py-6">
-					<ArchiveCarousel key={index ?? "closed"} photos={photos} startIndex={index ?? 0} />
+					<ArchiveCarousel key={index ?? "closed"} photos={photos} startIndex={index} />
 				</div>
 			</AlertDialogContent>
 		</AlertDialog>

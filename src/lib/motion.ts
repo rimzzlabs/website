@@ -22,6 +22,17 @@ export const SPRING_FAST: Transition = {
 };
 
 /**
+ * Springy pop for popups that appear at rest (e.g. the photo lightbox): a small
+ * `bounce` lets the scale overshoot ~1 and settle for a slick feel — kept low so
+ * it reads as lively, not rubbery. Not for height/collapse (use `SPRING`).
+ */
+export const SPRING_POP: Transition = {
+	type: "spring",
+	bounce: 0.28,
+	visualDuration: 0.32,
+};
+
+/**
  * Used when motion is disabled (user preference or prefers-reduced-motion):
  * snaps to the target value with no animation.
  */
