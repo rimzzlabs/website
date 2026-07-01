@@ -110,7 +110,7 @@ export const id: Dictionary = {
 			"Saya memulai perjalanan rekayasa perangkat lunak pada 2019, dan sejak itu saya selalu bersemangat menciptakan karya yang berarti. Tapi masih banyak yang bisa dikenang.",
 		timeline: {
 			"2026": {
-				title: "Yang Sedang Terjadi",
+				title: "Sekarang",
 				descriptions: [
 					"Saya masih di Kolosal AI, semakin dalam membangun produk AI. Setelah bertahun-tahun di web lalu kripto, ini adalah ruang yang paling cepat bergerak yang pernah saya geluti; rasanya berbenah setiap beberapa bulan.",
 					"Tidak ada rangkuman rapi untuk babak yang masih ditulis. Untuk sekarang saya fokus penuh: mengerjakan yang baik, belajar cepat, dan melihat ke mana arahnya.",
@@ -118,7 +118,7 @@ export const id: Dictionary = {
 				photoAlts: [],
 			},
 			"2025": {
-				title: "Bergabung dengan Kolosal AI",
+				title: "Kolosal AI",
 				descriptions: [
 					"Sekitar November saya bergabung dengan Kolosal AI dan keluar dari dunia kripto dan web3 menuju sesuatu yang baru: kecerdasan buatan. Lompatan lagi, menukar bidang yang sudah saya kuasai dengan yang bergerak pada kecepatan yang sama sekali berbeda.",
 					"Minggu-minggu pertama adalah soal menemukan pijakan bersama tim yang benar-benar hebat, di ruang yang sebelumnya hanya saya amati dari luar. Cepat terasa seperti tempat yang saya harapkan. Lebih lanjut lain kali.",
@@ -126,7 +126,7 @@ export const id: Dictionary = {
 				photoAlts: [],
 			},
 			"2024": {
-				title: "Bergabung dengan Bitwyre",
+				title: "Bitwyre",
 				descriptions: [
 					"Saya tertarik pada kripto, web3, dan trading sejak akhir 2023, banyak bertanya kepada teman yang sudah lama berkecimpung di bidang itu. Pada Februari 2024 saya meninggalkan Skyshi Digital Indonesia untuk mencari sesuatu yang baru.",
 					"Keesokan harinya, teman yang sama mengenalkan saya ke Bitwyre, perusahaan kripto, web3, dan trading. Saya langsung melamar, berwawancara dengan CTO dan CEO mereka, dan bergabung dengan tim Engineering sebagai Software Engineer (Frontend). Minat pribadi diam-diam menjadi profesi.",
@@ -144,7 +144,7 @@ export const id: Dictionary = {
 				],
 			},
 			"2023": {
-				title: "Keseimbangan Hidup dan Kerja",
+				title: "Work-Life Balance",
 				descriptions: [
 					"Saya terus membangun sebagai Frontend Developer di Skyshi. Yang paling menonjol adalah moladinfinance.com untuk Moladin, dirilis dalam sekitar lima minggu, diikuti serangkaian proyek klien yang terikat NDA.",
 					"Di sela itu, saya membangun ulang PC rakitan saya bagian demi bagian. Setelah setahun hanya dengan laptop, kembali ke setup yang layak dengan layar lebih besar dan ergonomi lebih baik terasa seperti kemewahan.",
@@ -158,7 +158,7 @@ export const id: Dictionary = {
 				],
 			},
 			"2022": {
-				title: "Kerja Penuh + Kuliah",
+				title: "Kuliah + Full Time",
 				descriptions: [
 					"Akhir Desember 2021 saya diterima sebagai intern di Skyshi Digital Indonesia, sebuah studio di Gamping, Yogyakarta. Kami bekerja sepenuhnya remote, kebiasaan masa pandemi yang dipertahankan perusahaan.",
 					"Minggu-minggu pertama menegangkan tanpa pengalaman profesional sama sekali, tapi saya cepat menemukan ritme, ikut berkontribusi pada gethired.id, platform internal untuk melatih keterampilan siap kerja.",
@@ -188,7 +188,7 @@ export const id: Dictionary = {
 				],
 			},
 			"2019": {
-				title: "Tempat Semuanya Bermula",
+				title: "Kala Itu",
 				descriptions: [
 					"Mengingatnya kembali, ini tahun-tahun emas. Bahkan saat pandemi mulai merayap, ini salah satu masa paling membentuk yang pernah saya alami. Saya belajar Rekayasa Perangkat Lunak di SMKN 8 Pandeglang, dan di sanalah membangun software pertama kali terasa klik.",
 					"Tantangannya, kurikulum tertinggal bertahun-tahun dari yang dipakai industri, jadi saya belajar sisanya sendiri dari YouTube dan sumber gratis online, membangun kebiasaan belajar mandiri yang membawa saya sampai sekarang.",
