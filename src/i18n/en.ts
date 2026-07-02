@@ -30,7 +30,7 @@ export const en = {
 	homeSeo: {
 		title: "Rizki Citra, Software Engineer",
 		description:
-			"Software engineering lets me create impactful, innovative solutions that align with my values and improve lives. It's structured, rewarding, and always evolving—keeping things exciting and full of growth.",
+			"Personal site of Rizki Citra, a software engineer building fast, delightful web and AI products — with notes on frontend engineering along the way.",
 	},
 
 	hero: {
