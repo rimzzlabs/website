@@ -71,14 +71,59 @@ const ogImage = match(props.image)
 	.otherwise(
 		() =>
 			({
-				height: 700,
-				width: 1280,
+				height: 630,
+				width: 1200,
 				type: "image/png",
 				url: ogImageUrl,
 				secureUrl: ogImageUrl,
 				alt: "Rizki Citra, Software Engineer",
 			}) satisfies Props["image"],
 	);
+
+const personId = new URL("/#person", Astro.site).href;
+const websiteId = new URL("/#website", Astro.site).href;
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": personId,
+			name: "Rizki Citra",
+			url: Astro.site?.href,
+			jobTitle: "Software Engineer",
+			image: ogImageUrl,
+			sameAs: [
+				"https://github.com/rimzzlabs",
+				"https://linkedin.com/in/rimzzlabs",
+				"https://x.com/rimzzlabs",
+			],
+		},
+		{
+			"@type": "WebSite",
+			"@id": websiteId,
+			name: "rimzzlabs",
+			url: Astro.site?.href,
+			inLanguage: lang,
+			publisher: { "@id": personId },
+		},
+		{
+			"@type": article ? "Article" : "WebPage",
+			"@id": canonical,
+			url: canonical,
+			name: title,
+			description,
+			inLanguage: lang,
+			isPartOf: { "@id": websiteId },
+			primaryImageOfPage: ogImage.url.toString(),
+			...(article && {
+				headline: title,
+				author: { "@id": personId },
+				datePublished: article.publishedTime,
+				dateModified: article.modifiedTime ?? article.publishedTime,
+			}),
+		},
+	],
+};
 ---
 
 <SEO
@@ -92,7 +137,6 @@ const ogImage = match(props.image)
     optional: {
       description,
       locale: dict.ogLocale,
-      determiner: type,
       siteName: "rimzzlabs",
     },
     basic: { title, type, image: ogImage.url.toString() },
@@ -132,3 +176,7 @@ const ogImage = match(props.image)
     ],
   }}
 />
+<!-- theme-color needs a `media` attribute, which astro-seo's extend.meta can't express -->
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf9" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a09" />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

@@ -32,7 +32,7 @@ export const id: Dictionary = {
 	homeSeo: {
 		title: "Rizki Citra, Software Engineer",
 		description:
-			"Rekayasa perangkat lunak memungkinkan saya menciptakan solusi yang berdampak dan inovatif, selaras dengan nilai-nilai saya serta memperbaiki kehidupan. Terstruktur, memuaskan, dan terus berkembang—membuat semuanya tetap menarik dan penuh pertumbuhan.",
+			"Situs pribadi Rizki Citra, software engineer yang membangun produk web dan AI yang cepat serta menyenangkan — plus catatan seputar frontend.",
 	},
 
 	hero: {
