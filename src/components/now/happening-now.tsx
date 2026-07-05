@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import { useMotionEnabled } from "@/hooks/use-motion";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
@@ -34,6 +35,17 @@ export function HappeningNow({ lang }: { lang: Lang }) {
 						{item.title}
 					</h2>
 					<p className="max-w-2xl pt-1 text-sm text-muted-foreground">{item.description}</p>
+					{"link" in item && (
+						<a
+							href={item.link}
+							target="_blank"
+							rel="noopener"
+							className="inline-flex items-center gap-1 pt-2 text-sm text-muted-foreground hover:underline"
+						>
+							{item.link.replace(/^https?:\/\//, "")}
+							<ArrowUpRight className="size-3" />
+						</a>
+					)}
 				</li>
 			))}
 		</ul>

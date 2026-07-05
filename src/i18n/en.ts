@@ -207,6 +207,12 @@ export const en = {
 		introLead:
 			"Most sites have an /about page. This is my /now page — a snapshot of what I'm focused on at this point in my life. Inspired by",
 		items: {
+			"2026-07-04": {
+				title: "Building an open source ATS resume builder",
+				description:
+					"Apart from my work at Kolosal AI, I'm building Lanjut — an open source, ATS-friendly resume builder. The code is up on GitHub.",
+				link: "https://github.com/rimzzlabs/lanjut",
+			},
 			"2026-06-30": {
 				title: "Building an interactive canvas with SpacetimeDB",
 				description:

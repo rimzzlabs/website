@@ -206,6 +206,12 @@ export const id: Dictionary = {
 		introLead:
 			"Kebanyakan situs punya halaman /about. Ini halaman /now saya — potret apa yang sedang saya fokuskan pada titik ini dalam hidup saya. Terinspirasi dari",
 		items: {
+			"2026-07-04": {
+				title: "Membangun ATS resume builder open source",
+				description:
+					"Di luar pekerjaan saya di Kolosal AI, saya sedang membangun Lanjut — resume builder open source yang ramah ATS. Kodenya tersedia di GitHub.",
+				link: "https://github.com/rimzzlabs/lanjut",
+			},
 			"2026-06-30": {
 				title: "Membangun kanvas interaktif dengan SpacetimeDB",
 				description:
