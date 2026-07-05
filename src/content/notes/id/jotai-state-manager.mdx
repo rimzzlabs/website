@@ -1,0 +1,271 @@
+---
+title: "Jotai, state manager yang elegan untuk developer React"
+description: "Ketika membahas state manager, kata pertama yang mungkin terlintas adalah Redux, tapi kali ini mari kita bahas library state manager lain, memperkenalkan Jotai."
+publishedAt: "07/08/2022"
+status: "published"
+featured: true
+author: rimzzlabs
+keywords:
+  - react
+  - hooks
+  - jotai hooks
+  - state mangement
+  - react state management
+  - jotai
+  - jotai state manager
+  - jotai react
+  - jotai state
+  - state
+  - primitive state
+  - primitive state management
+relatedPosts:
+  - jotai-recipes
+---
+
+## Pendahuluan
+
+Jotai adalah state manager yang luar biasa untuk React. **Tidak ada re-render tambahan**, state berada di dalam React, dan kamu mendapatkan manfaat penuh dari suspense dan concurrent features. Jotai bisa diskalakan mulai dari sekadar pengganti `React.useState` hingga aplikasi skala besar dengan kebutuhan kompleks.
+
+> Jotai memakai pendekatan bottom-up untuk state management React dengan model atomik yang terinspirasi dari Recoil. State dibangun dengan mengombinasikan atom, dan render dioptimalkan berdasarkan dependency antar atom. Ini menyelesaikan masalah re-render berlebih pada React context dan menghilangkan kebutuhan teknik memoization.
+
+Dulu, saya mulai belajar Frontend Web Development, dan ada banyak sekali yang bisa dipelajari. Salah satu topik terpenting dalam Frontend development adalah state management.
+
+## Memakai Jotai
+
+Di React, saya bisa mendeklarasikan state dengan `useState`.
+
+```tsx
+const [count, setCount] = useState(0);
+```
+
+Masalahnya, ketika aplikasi saya semakin besar, state tersebut harus diteruskan lewat props komponen. Di sinilah `React context` bisa membantu.
+
+Tapi React context bukan solusi yang _luar biasa_ menurut saya. Saya harus membungkus komponen di dalam provider-nya, yang mungkin sudah kamu kenal sebagai **Provider Hell**. React context juga membuat komponen saya re-render setiap kali state berubah.
+
+Jotai di sisi lain terasa seperti useState. Saya tidak perlu membungkus aplikasi dengan Provider, dan Jotai juga memakai pendekatan atomik, pendekatan yang belakangan sudah saya terapkan di banyak hal _(komponen, style, service, dan lainnya)_.
+
+### Mendeklarasikan State di File Store
+
+Di Jotai, saya bisa mendeklarasikan state aplikasi dengan atom.
+
+```ts title="@/store/atom.ts" showLineNumbers
+import { atom } from "jotai";
+
+type User = {
+  username: string;
+  gender: "male" | "female";
+  website: string;
+};
+
+export const userAtom = atom<User | null>(null);
+```
+
+Lalu saya bisa memakai state tersebut di komponen saya.
+
+```tsx showLineNumbers
+import { userAtom } from "@/store/atom";
+
+import { useAtom } from "jotai";
+
+const [user, setUser] = useAtom(userAtom);
+```
+
+Variabel user berisi data user, atau `null` jika tidak ada user yang login. Lalu apa fungsi `setUser`? setUser sama seperti `setState` di React, fungsi untuk mengubah state.
+
+Sama seperti setState React, setUser bisa menerima fungsi atau state baru. Saya bisa mengganti state dengan state baru, seperti ini.
+
+```tsx showLineNumbers
+import { userAtom } from "@/store/atom";
+
+import { useAtom } from "jotai";
+
+const [user, setUser] = useAtom(userAtom);
+
+// replace with newer state
+const updateUser = () =>
+  setUser({ name: "Foo", gender: "male", website: "foo.com" });
+```
+
+Atau mungkin saya hanya ingin mengubah properti tertentu saja. Dalam konteks ini, saya sudah mendeklarasikan **type User** sebelumnya, yaitu object berisi properti **name**, **gender**, dan **website**.
+
+```tsx showLineNumbers
+import { userAtom } from "@/store/atom";
+
+import { useAtom } from "jotai";
+
+const [user, setUser] = useAtom(userAtom);
+
+// modify only name property
+const updateUser = () =>
+  setUser((prevState) => ({ ...prevState, name: "FooBizz" }));
+```
+
+Pada fungsi `updateUser`, saya mengubah properti name menjadi **FooBizz**. Itulah penggunaan dasar Jotai.
+
+Terlihat kan? Persis seperti useState biasa, dan saya juga bisa memakai state User ini di komponen lain, cukup praktis😎.
+
+### Persistent State
+
+Kadang ketika saya refresh browser, state aplikasi saya juga ikut ter-reset, padahal saya ingin state tersebut tetap tersimpan. Solusinya adalah persistent state.
+
+Jotai dilengkapi berbagai utilitas siap pakai, misalnya `atomWithStorage` yang tidak hanya menyimpan state saya tapi juga menyimpannya ke localStorage. Ini disebut persistent state karena state tersimpan di localStorage, dan setiap kali saya mengubah state, localStorage-nya juga ikut diperbarui.
+
+Ini sangat berguna untuk state yang perlu disimpan di localStorage, seperti **Theme**.
+
+```tsx {2,9,13-14} title="@/store/atom.ts" showLineNumbers
+import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+
+type User = {
+  username: string;
+  gender: "male" | "female";
+  website: string;
+};
+type Theme = "dark" | "light";
+
+export const userAtom = atom<User | null>(null);
+
+// atomWithStorage(localStorage key, initial value)
+export const themeAtom = atomWithStorage<Theme>("theme", "light");
+```
+
+Saya meng-export atom state baru dengan utilitas `atomWithStorage()`. Fungsi ini menerima 3 argumen, dua argumen pertama wajib, argumen terakhir opsional. Argumen pertama adalah key localStorage, argumen kedua adalah nilai awal untuk state tersebut.
+
+Lalu bagaimana cara memakai state ini? Sama seperti sebelumnya, saya bisa membaca dan mengubah state ini persis seperti useState biasa.
+
+```tsx showLineNumbers
+import { themeAtom } from "@/store/atom";
+
+import { useAtom } from "jotai";
+
+const [theme, setTheme] = useAtom(themeAtom);
+```
+
+## Perbandingan Dengan Library Lain
+
+Mari bandingkan Jotai dengan library lain. Perbandingan ini berdasarkan website resmi Jotai.
+
+### Jotai vs Zustand
+
+Jotai mirip Recoil. Sedangkan [Zustand](https://github.com/pmndrs/zustand "Zustand Repository") mirip Redux.
+
+Perbedaan utamanya ada pada model state. Zustand memakai single store (meskipun kamu bisa membuat beberapa store terpisah), sedangkan Jotai terdiri dari atom-atom primitif yang bisa dikomposisikan bersama. Dalam hal ini, ini soal mental model dalam pemrograman.
+
+Jotai bisa jadi pengganti useState+useContext. Alih-alih membuat banyak context, atom-atom ini berbagi satu context besar.
+
+Zustand adalah external store, dan hook-nya berfungsi menghubungkan dunia luar dengan dunia React.
+
+#### Kapan Harus Beralih
+
+- Jika kamu butuh pengganti useState+useContext, Jotai cocok dipakai.
+- Jika kamu ingin mengubah state dari luar React, Zustand lebih baik.
+- Jika code splitting penting bagimu, Jotai akan bekerja dengan baik.
+- Jika kamu lebih suka Redux devtools, Zustand pilihan yang tepat.
+- Jika kamu ingin memanfaatkan Suspense, Jotai adalah pilihannya.
+
+### Apa Bedanya Jotai Dengan Recoil?
+
+#### Developer
+
+- Jotai dikembangkan secara kolektif oleh beberapa developer di organisasi Poimandres (dulu bernama react-spring).
+- Recoil dikembangkan oleh tim di Facebook.
+
+#### Basis
+
+- Jotai berfokus pada API primitif agar mudah dipelajari, dan bersifat unopinionated. (Filosofi yang sama dengan Zustand)
+- Recoil full-featured untuk aplikasi besar dengan kebutuhan kompleks.
+
+#### Perbedaan Teknis
+
+- Jotai bergantung pada referential identity dari object atom.
+- Recoil bergantung pada string key dari atom.
+
+#### Kapan Memakai Yang Mana
+
+- Jika kamu ingin belajar hal baru, keduanya sama-sama bisa dipakai.
+- Jika kamu suka Zustand, Jotai juga akan terasa menyenangkan.
+- Jika aplikasimu sangat membutuhkan state serialization (menyimpan state ke storage, server, atau URL), Recoil punya fitur yang bagus untuk itu.
+- Jika kamu butuh alternatif React Context, Jotai punya fitur yang cukup.
+- Jika kamu ingin membuat library baru, Jotai bisa memberi primitif yang baik sebagai referensi.
+- Selain itu, keduanya cukup mirip dari segi tujuan umum dan teknik dasarnya.
+
+## Memakainya Dengan React
+
+Saya bisa menyimpan state aplikasi di setiap komponen, tapi saya juga bisa membuat store di file terpisah. Saya lebih suka membuat file baru di dalam folder store, contohnya seperti ini.
+
+```tsx title="@/store/atom.ts" showLineNumbers
+import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+
+type Theme = "light" | "dark";
+type User = {
+  name: string;
+  gender: "male" | "female";
+  website: string;
+};
+
+export const userAtom = atom<User | null>(null);
+
+export const themeAtom = atomWithStorage<Theme>("theme", "light");
+```
+
+### Membaca dan Mengubah State
+
+Saya bisa membaca dan mengubah state di setiap komponen seperti ini.
+
+```tsx title="@/components/DarkModeToggle.tsx" showLineNumbers
+import * as atoms from "@/store/atom";
+
+import { useAtom } from "atom";
+
+export default function DarkModeToggle() {
+  const [theme, setTheme] = useAtom(atoms.themeAtom);
+
+  const toggleTheme = setTheme((prev) => (prev === "light" ? "dark" : "light"));
+
+  return <button onClick={toggleTheme}>Current theme is {theme}</button>;
+}
+```
+
+Tapi saya lebih suka membuat custom hooks. Contohnya, untuk mengelola state theme, saya bisa membuat custom hooks untuk berpindah antara dark mode dan light mode.
+
+```tsx title="@/hooks/useDarkMode.ts" showLineNumbers
+import * as atoms from "@/store";
+
+import { useAtom } from "jotai";
+import { useEffect } from "react";
+
+const useDarkMode = () => {
+  const [theme, setTheme] = useAtom(atoms.themeAtom);
+
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+    document.documentElement.style.colorScheme = theme;
+  }, [theme]);
+
+  return { theme, toggleTheme };
+};
+
+export default useDarkMode;
+```
+
+Lalu saya bisa merefaktor komponen **DarkModeToggle** di atas menjadi seperti ini:
+
+```tsx {4,6} title="@/components/DarkModeToggle.tsx" showLineNumbers
+import useDarkMode from "@/hooks/useDarkMode";
+
+export default function DarkModeToggle() {
+  const { theme, toggleTheme } = useDarkMode();
+
+  return <button onClick={toggleTheme}>Current theme is {theme}</button>;
+}
+```
+
+Terlihat kan, sangat simpel. Kamu juga bisa membaca dokumentasi lengkap Jotai [di sini](https://jotai.org "Jotai official website").
+
+Konsep inti dan referensi API-nya sangat mudah dipelajari. Cek juga [kursus gratis](https://egghead.io/courses/manage-application-state-with-jotai-atoms-2c3a29f0 "Jotai free course") Jotai ini.
+
+Sekian, terima kasih sudah membaca blog ini, semoga kamu mendapat wawasan lebih tentang Jotai setelah membaca artikel ini. Sampai jumpa di artikel berikutnya👋.

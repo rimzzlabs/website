@@ -1,0 +1,340 @@
+---
+title: "Tingkatkan Performa React Dengan 3 Teknik Ini"
+description: "Aplikasi yang lambat atau tidak responsif bisa membuat pengguna frustrasi dan menyebabkan pengalaman pengguna yang buruk. Di pasar yang kompetitif saat ini, memastikan aplikasimu memberikan pengalaman terbaik bagi pengguna menjadi lebih penting dari sebelumnya."
+publishedAt: "12/25/2022"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - improve performance
+  - react
+  - react.js
+  - performance
+  - code-splitting
+  - react app
+  - lazy
+  - loading
+  - lazy loading
+  - react performance
+  - code splitting react app
+  - vitejs
+  - memoization
+  - usememo
+  - usecallback
+  - React.memo
+  - React.useCallback
+  - React.useMemo
+  - memoization in react
+  - improving performance in react app
+relatedPosts:
+  - how-to-setup-husky-nextjs
+  - jotai-state-manager
+---
+
+## Pendahuluan
+
+> Bacaan panjang, silakan duduk santai dan nikmati 🍻.
+
+React.js adalah library JavaScript populer untuk membangun user interface, dikenal karena fleksibilitas dan performanya. Dengan React.js, kamu bisa membuat komponen yang bisa dipakai ulang, sehingga memudahkan pembuatan dan pemeliharaan aplikasi yang kompleks.
+
+> Halo! Saya sarankan kamu mencoba contoh kode langsung sambil membaca artikel ini. Silakan lanjutkan membaca. Semangat ✌️.
+
+React.js dibuat oleh Facebook dan sejak itu menjadi salah satu pilihan paling populer untuk front-end development, berkat kemampuannya menangani aplikasi kompleks dan dinamis dengan mudah.
+
+Di dalam aplikasi React.js, komponen adalah building block yang membentuk user interface. Komponen-komponen ini bisa disusun bersama membentuk hierarki pohon komponen, dengan root komponen mewakili keseluruhan aplikasi.
+
+Ketika state atau props _(singkatan dari properties)_ sebuah komponen berubah, React.js secara efisien memperbarui DOM untuk merefleksikan perubahan tersebut. Ini membuat aplikasi React.js tetap cepat dan responsif, bahkan saat menangani data dalam jumlah besar.
+
+Namun, seiring bertambahnya kompleksitas dan skala aplikasi React.js, developer perlu mengambil langkah untuk mengoptimalkan performanya. Ini termasuk teknik seperti **code-splitting**, yang membantu mengurangi ukuran bundle awal yang dimuat browser, dan **memoization**, yang membantu meningkatkan efisiensi pemanggilan fungsi dengan menyimpan cache hasilnya.
+
+Di artikel ini, kita akan membahas **code-splitting**, memoization dengan `React.memo`, `React.useMemo`, dan `React.useCallback`. Baik kamu baru mengenal React.js maupun developer berpengalaman yang ingin meningkatkan performa aplikasimu, artikel ini cocok untukmu.
+
+## Mengoptimalkan Performa
+
+Dalam membangun aplikasi web, performa adalah hal yang krusial. Aplikasi yang lambat atau tidak responsif bisa membuat pengguna frustrasi dan menyebabkan **user experience** yang buruk. Di pasar yang kompetitif saat ini, memastikan aplikasimu memberikan pengalaman terbaik bagi pengguna menjadi lebih penting dari sebelumnya.
+
+Tapi performa _bukan hanya soal kepuasan pengguna_. Performa juga bisa berdampak langsung pada bisnis. Misalnya, jika aplikasimu terlalu lama untuk dimuat, pengguna mungkin meninggalkannya sebelum sempat melihat apa yang bisa ditawarkan aplikasi tersebut. Ini bisa menyebabkan hilangnya pelanggan dan pendapatan. Sebaliknya, aplikasi yang cepat dan responsif bisa membuat pengguna tetap terlibat dan lebih mungkin kembali lagi.
+
+Performa tetap menjadi pertimbangan penting untuk aplikasi web apa pun. Berikut beberapa alasan kenapa kamu harus peduli dengan performa aplikasi React.js kamu:
+
+- **User Experience:** Aplikasi yang lambat atau tidak responsif bisa membuat pengguna frustrasi, yang bisa menyebabkan mereka meninggalkan aplikasi sepenuhnya. Sebaliknya, aplikasi yang cepat dan mulus bisa meningkatkan pengalaman pengguna secara keseluruhan dan membuat mereka terus kembali.
+
+- **SEO:** Di lanskap digital saat ini, website atau aplikasimu perlu memiliki ranking yang baik di hasil mesin pencari. Salah satu faktor yang mempengaruhi ranking adalah kecepatan loading situsmu. Jika aplikasi React.js kamu lambat dimuat, ini bisa merusak ranking mesin pencari dan menyulitkan pengguna menemukan aplikasimu.
+
+- **Conversion Rates:** Aplikasi yang lambat juga bisa berdampak pada keuntungan bisnismu. Berbagai studi menunjukkan bahwa waktu loading yang lebih cepat bisa menghasilkan conversion rate yang lebih tinggi, artinya lebih banyak pengguna yang melakukan tindakan yang diinginkan (seperti melakukan pembelian).
+
+- **Scalability:** Seiring bertambahnya kompleksitas dan skala aplikasi React.js kamu, penting untuk memastikan aplikasi tersebut mampu menangani beban yang meningkat. Mengoptimalkan performa aplikasimu bisa membantu memastikan aplikasi tetap stabil dan scalable seiring pertumbuhannya.
+
+Singkatnya, mengoptimalkan performa aplikasi React.js kamu penting baik untuk kepuasan pengguna maupun keberhasilan bisnismu. Di bagian selanjutnya, kita akan membahas teknik-teknik lanjutan untuk mencapai hal tersebut.
+
+## Code-Splitting
+
+Code-splitting adalah teknik yang memungkinkan developer memecah kode mereka menjadi bagian atau bundle yang lebih kecil dan mudah dikelola. Bundle-bundle ini kemudian bisa dimuat sesuai kebutuhan, bukan sekaligus saat aplikasi pertama kali dimuat.
+
+Ini bisa membantu meningkatkan performa aplikasi React.js dengan mengurangi ukuran bundle awal yang harus diunduh browser, sehingga aplikasi bisa dimuat lebih cepat.
+
+Code-splitting sangat berguna untuk aplikasi besar dan kompleks yang memiliki banyak kode, karena memungkinkan developer memecah kode menjadi bagian-bagian kecil yang bisa dimuat sesuai kebutuhan. Ini bisa membantu mengurangi ukuran keseluruhan aplikasi, yang bisa meningkatkan performa dan mempermudah pemeliharaan.
+
+Ada beberapa cara untuk menerapkan code-splitting di aplikasi React.js, seperti menggunakan komponen `React.lazy` dan `React.Suspense`, atau menggunakan tool seperti [Vite.js](https://vitejs.dev).
+
+### Suspending Komponen
+
+Untuk menerapkan code splitting di aplikasi React kamu, kamu bisa memakai `React.lazy` dan `React.suspense`.
+
+`React.lazy` memungkinkanmu melakukan dynamic import terhadap sebuah komponen, sehingga komponen tersebut hanya dimuat saat dibutuhkan. Ini dilakukan memakai fungsi `import()`, yang mengembalikan promise yang resolve ke module yang kamu import.
+
+`React.suspense` adalah higher-order component yang bisa kamu pakai untuk membungkus dynamic import di dalam komponen `<Suspense>`. Ini akan menampilkan komponen fallback selagi kode untuk komponen yang di-dynamic-import sedang dimuat.
+
+Berikut contoh cara memakai `React.lazy` dan `React.Suspense` di aplikasimu:
+
+```tsx title="App.tsx" showLineNumbers
+import { Suspense, lazy } from "react";
+
+const MyComponent = lazy(() => import("./MyComponent"));
+
+export default function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MyComponent />
+    </Suspense>
+  );
+}
+```
+
+Pada contoh ini, komponen `MyComponent` tidak akan dimuat sampai dibutuhkan, dan komponen fallback akan ditampilkan selagi kode untuk `MyComponent` sedang dimuat. Ini bisa membantu meningkatkan performa aplikasimu karena hanya memuat kode yang dibutuhkan.
+
+### Bundling Dengan Vite.js
+
+> Untuk membaca lebih lanjut tentang Vite.js, silakan [ikuti tautan ini tentang Vite.js](https://vitejs.dev/guide)
+
+Selain memakai `React.lazy` dan `React.suspense`, cara lain untuk menerapkan code splitting di aplikasi React kamu adalah dengan memakai tool bernama Vite.js sebagai frontend tooling.
+
+Vite.js adalah build tool yang ringan, sederhana, dan cepat, dirancang khusus untuk aplikasi JavaScript modern. Vite.js memakai Rollup di bawahnya, artinya kamu bisa memakai semua teknik code-splitting yang sama seperti yang kamu pakai dengan Rollup di project Vite.js kamu.
+
+Salah satu keuntungan memakai Vite.js untuk code splitting adalah kamu bisa dengan mudah memecah kode menjadi berbagai chunk, termasuk memisahkan kode vendor dari kode kamu sendiri. Ini bisa membantu meningkatkan performa aplikasimu karena hanya memuat kode yang dibutuhkan pada saat tertentu, bukan memuat semuanya sekaligus di awal.
+
+Mari pisahkan kode vendor dari kode kita, lihat kode berikut:
+
+```ts title="vite.config.ts" showLineNumbers
+import { dependencies } from "./package.json";
+
+const exclVendors = ["react", "react-router-dom", "react-dom"];
+function renderChunks(deps: Record<string, string>) {
+  let chunks = {};
+  Object.keys(deps).forEach((key) => {
+    if (exclVendors.includes(key)) return;
+    chunks[key] = [key];
+  });
+  return chunks;
+}
+// https://vitejs.dev/config/
+export default defineConfig({
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          ...renderChunks(dependencies),
+        },
+      },
+    },
+  },
+});
+```
+
+Pada kode ini, fungsi `renderChunks` dipakai untuk membuat object dengan key untuk setiap dependency, dan value yang berisi nama dependency tersebut. Ini memungkinkanmu membuat chunk untuk setiap dependency, yang kemudian bisa di-code-split.
+
+Kamu mungkin memperhatikan ada array vendor yang dikecualikan di dalam kode tersebut. Array ini dipakai untuk menentukan dependency mana yang tidak boleh dimasukkan ke proses code-splitting.
+
+Dalam kasus ini, array tersebut berisi `react`, `react-router-dom`, dan `react-dom`, yang merupakan dependency inti React yang tidak dimasukkan ke proses code-splitting. Ini karena dependency tersebut kemungkinan besar dipakai di seluruh aplikasimu, sehingga tidak menguntungkan untuk memecahnya menjadi chunk terpisah.
+
+Sementara itu, dependency lainnya ditambahkan ke object `rollupOptions`, yang dipakai untuk mengonfigurasi proses code-splitting. Dependency-dependency ini akan dipecah menjadi chunk terpisah dan dimuat sesuai kebutuhan, bukan sekaligus. Ini bisa membantu meningkatkan performa aplikasimu karena hanya memuat kode yang dibutuhkan pada saat tertentu.
+
+Secara keseluruhan, dengan mengecualikan dependency tertentu dari proses code splitting dan menambahkan sisanya ke object `rollupOptions`, kamu bisa efektif mengatur code splitting di project Vite.js kamu dan meningkatkan performa aplikasi React.js kamu.
+
+Jenis komponen apa yang cocok dipakai dengan `React.lazy`, dan jenis komponen apa yang sebaiknya tidak di-lazy-load?
+
+Ada beberapa jenis komponen yang cocok untuk code-splitting dengan `React.lazy`. Misalnya, jika ada fitur yang hanya dipakai di satu halaman aplikasi, fitur tersebut bisa di-code-split menjadi chunk terpisah yang hanya dimuat ketika pengguna membuka halaman itu.
+
+Berikut beberapa jenis komponen yang cocok untuk code-splitting dengan `React.lazy`:
+
+- Komponen yang hanya dibutuhkan di route atau area tertentu di aplikasi. Misalnya, jika ada fitur yang hanya dipakai di satu halaman aplikasimu, fitur tersebut bisa di-code-split menjadi chunk terpisah yang hanya dimuat ketika pengguna membuka halaman itu.
+- Komponen yang besar atau kompleks, dan mungkin butuh waktu lama untuk dimuat. Memecah komponen ini menjadi chunk yang lebih kecil bisa membantu mengurangi waktu loading awal aplikasimu.
+- Komponen yang jarang dipakai atau hanya dipakai oleh sedikit pengguna. Dalam kasus ini, code-splitting bisa membantu mengurangi ukuran keseluruhan aplikasimu dan meningkatkan performa untuk mayoritas pengguna.
+
+Di sisi lain, beberapa jenis komponen mungkin bukan kandidat yang baik untuk code-splitting dengan `React.lazy`:
+
+- Komponen yang dibutuhkan segera pada saat initial load. Jika sebuah komponen sangat penting untuk render awal aplikasimu, komponen tersebut mungkin bukan kandidat yang baik untuk code-splitting, karena pengguna harus menunggu komponen itu dimuat sebelum aplikasi bisa dipakai.
+- Komponen yang kecil dan sederhana, dan mungkin tidak memberikan manfaat performa yang signifikan jika di-code-split. Dalam kasus ini, akan lebih efisien membiarkan komponen tersebut tetap di bundle utama dan menghindari overhead dari dynamic import.
+
+Secara umum, penting untuk mengevaluasi trade-off code-splitting dengan cermat saat memutuskan komponen mana yang perlu dipecah. Code-splitting bisa menjadi tool yang ampuh untuk meningkatkan performa aplikasi React, tapi penting untuk mempertimbangkan kebutuhan spesifik aplikasimu sebelum menerapkannya.
+
+## Memoization
+
+Memoization adalah teknik yang membantu mempercepat aplikasimu dengan menyimpan hasil dari pemanggilan fungsi yang mahal dan mengembalikannya ketika input yang sama muncul kembali. Ini sangat berguna untuk fungsi yang sering dipanggil dengan argumen yang sama, karena menghemat waktu tanpa perlu menghitung ulang hasilnya setiap kali.
+
+Dalam konteks React, memoization bisa dipakai untuk membuat functional component berjalan lebih efisien. Secara default, React akan me-render ulang functional component setiap kali props atau state komponen berubah. Ini bisa menjadi masalah jika komponen sering dipanggil dengan props yang sama, karena akan menyebabkan re-render yang tidak perlu. Memoization bisa membantu mengatasi masalah ini dengan "mengingat" komponen tersebut dan hanya me-render ulang jika props-nya benar-benar berubah.
+
+Ada beberapa cara memakai memoization di aplikasi React. Salah satunya memakai hook `React.useMemo`, fitur bawaan React yang memungkinkanmu memoize sebuah value. Lalu ada hook `React.useCallback`, fitur bawaan React lainnya, tapi hook ini memoize sebuah fungsi, bukan value. Terakhir, ada `React.memo`, juga fitur bawaan React, tapi bedanya bukan fungsi melainkan _Higher Order Component_ yang memungkinkanmu memoize sebuah komponen.
+
+Memoization ibarat caching di aplikasi React.js kamu. Berikut beberapa alasan kenapa memoization penting di aplikasi React.js:
+
+- **Performa yang lebih baik**: Seperti disebutkan sebelumnya, memoization bisa membantu meningkatkan performa aplikasimu dengan menghindari re-render yang tidak perlu pada functional component. Ini sangat berguna untuk komponen yang sering dipanggil dengan props yang sama, karena bisa menghemat banyak waktu dan resource dengan menghindari perhitungan ulang hasil komponen.
+
+- **User experience yang lebih baik**: Dengan mengoptimalkan performa aplikasimu, kamu bisa meningkatkan pengalaman pengguna secara keseluruhan. Waktu loading yang lebih cepat dan transisi yang lebih mulus antar layar bisa membuat aplikasimu terasa lebih responsif dan menyenangkan untuk dipakai.
+
+- **Kompleksitas yang berkurang**: Memoization juga bisa membantu mengurangi kompleksitas kode dengan memungkinkanmu menulis komponen yang lebih sederhana dan deklaratif. Tanpa memoization, kamu mungkin harus menulis logic yang lebih rumit untuk menghindari re-render yang tidak perlu, yang bisa membuat kodemu lebih sulit dipahami dan dipelihara.
+
+### React.useMemo
+
+Hook useMemo adalah hook bawaan React yang memungkinkanmu memoize sebuah value. Hook ini menerima sebuah fungsi sebagai argumen dan **mengembalikan versi memoized** dari value yang dikembalikan fungsi tersebut.
+
+Value yang di-memoize **hanya dihitung ulang jika salah satu dependency yang tercantum di argumen kedua hook tersebut berubah**. Ini berguna untuk mengoptimalkan performa functional component dengan menghindari perhitungan ulang yang tidak perlu terhadap value yang mahal.
+
+Lihat sintaks dasar hook `React.useMemo` berikut:
+
+```tsx
+const value = useMemo(() => computedExpensiveValue(buzz, fizz), [buzz, fizz]);
+```
+
+Pada contoh ini, fungsi `computedExpensiveValue` dipanggil dengan argumen `buzz` dan `fizz`, dan **hasilnya di-memoize**. Value yang di-memoize **hanya akan dihitung ulang jika nilai `buzz` atau `fizz` berubah**.
+
+Contoh lain pemakaian `React.useMemo` adalah untuk memfilter dan mengurutkan data set yang besar. Misalnya kamu punya daftar produk yang ingin ditampilkan di sebuah komponen, dan kamu ingin memungkinkan pengguna memfilter serta mengurutkan daftar tersebut berdasarkan berbagai kriteria. Kamu bisa memakai hook `useMemo` untuk memoize versi hasil filter dan urutan dari daftar tersebut, seperti ini:
+
+```tsx title="@/components/product-list.tsx" showLineNumbers
+import { useMemo } from "react";
+
+export const ProductList = ({ products, filter, sortBy }) => {
+  // Memoize the filtered and sorted version of the product list
+  const filteredAndSortedProducts = useMemo(() => {
+    // Filter the products based on the filter criteria
+    let filteredProducts = products;
+    if (filter) {
+      filteredProducts = filteredProducts.filter((product) =>
+        product.name.includes(filter),
+      );
+    }
+    // Sort the products based on the sortBy criteria
+    return filteredProducts.sort((a, b) => a[sortBy] > b[sortBy]);
+  }, [products, filter, sortBy]);
+
+  return (
+    <ul>
+      {filteredAndSortedProducts.map((product) => (
+        <li key={product.id}>{product.name}</li>
+      ))}
+    </ul>
+  );
+};
+```
+
+Pada contoh ini, komponen `ProductList` memfilter dan mengurutkan daftar produk berdasarkan props filter dan `sortBy`, lalu menyimpan hasilnya sebagai value yang di-memoize. Ini bisa membantu meningkatkan performa komponen dengan **menghindari perhitungan ulang yang tidak perlu** terhadap daftar yang sudah difilter dan diurutkan setiap kali komponen re-render.
+
+### Jangan useMemo Semua Hal
+
+`React.useMemo` adalah hook yang memungkinkanmu mengoptimalkan performa functional component dengan memoize value yang mahal untuk dihitung. Tapi ada beberapa situasi di mana hook ini bukan pilihan terbaik:
+
+- Jika value yang kamu hitung _sangat sederhana_ atau _murah untuk dihitung_, mungkin tidak sepadan dengan overhead tambahan dari memakai `React.useMemo`. Dalam kasus ini, peningkatan performanya mungkin tidak sebanding dengan kode tambahan yang dibutuhkan.
+
+- Jika value yang kamu hitung hanya dipakai sekali atau beberapa kali saja di dalam komponen, mungkin tidak sepadan dengan overhead tambahan dari memakai `React.useMemo`. Dalam kasus ini, peningkatan performanya mungkin tidak cukup signifikan untuk membenarkan kode tambahan tersebut.
+
+- Jika value yang kamu hitung bergantung pada props yang sangat sering berubah, `React.useMemo` mungkin tidak bisa mengikuti perubahan tersebut dan kamu bisa berakhir dengan data yang basi. Dalam kasus ini, pertimbangkan memakai teknik optimasi lain, seperti `React.useEffect` atau `React.useReducer`, untuk **menghindari perhitungan ulang yang tidak perlu**.
+
+`React.useMemo` adalah cara yang baik untuk meningkatkan performa aplikasi React kamu, kecuali value yang kamu hitung sangat sederhana atau murah untuk dihitung, hanya dipakai beberapa kali di dalam komponen, atau bergantung pada props yang sering berubah. Tapi di kebanyakan kasus lain, `React.useMemo` bisa menjadi cara yang sangat berguna untuk mengoptimalkan performa functional component kamu.
+
+## React.useCallback
+
+Hook `useCallback` adalah hook bawaan React yang memungkinkanmu membuat versi memoized dari sebuah callback function. Hook ini menerima sebuah fungsi dan array dependency sebagai argumen, dan **mengembalikan versi memoized dari fungsi tersebut yang hanya berubah jika salah satu dependency-nya berubah**.
+
+Ini berguna untuk mengoptimalkan performa functional component dengan **menghindari pembuatan ulang** callback function yang tidak perlu.
+
+Lihat sintaks dasar hook `useCallback` berikut:
+
+```tsx showLineNumbers
+const callback = useCallback(() => {
+  doSomething(longitude, latitude);
+}, [longitude, latitude]);
+```
+
+Pada contoh ini, callback function dibuat memakai hook `useCallback`, dan fungsi tersebut **hanya akan dibuat ulang jika nilai `longitude` atau `latitude` berubah**.
+
+Contoh lain pemakaian `React.useCallback` adalah dengan meneruskan callback ke komponen yang berada jauh di dalam hierarki. Jika kamu punya hierarki komponen yang kompleks dan ingin meneruskan callback function ke komponen anak, kamu bisa memakai hook `useCallback` untuk menghindari pembuatan ulang callback function yang tidak perlu. Ini bisa membantu meningkatkan performa aplikasimu dengan menghindari re-render yang tidak perlu pada komponen anak.
+
+Misalnya kamu punya komponen parent yang me-render daftar item, dan setiap item memiliki tombol hapus yang memanggil callback hapus saat diklik. Kamu bisa memakai hook `useCallback` untuk membuat versi memoized dari callback hapus tersebut dan meneruskannya ke komponen anak seperti ini:
+
+```tsx title="@/components/parent-component.tsx" showLineNumbers
+import { useCallback } from "react";
+
+const ParentComponent = ({ items, onDelete }) => {
+  // Create a memoized version of the onDelete callback
+  const handleDelete = useCallback(
+    (itemId) => {
+      onDelete(itemId);
+    },
+    [onDelete],
+  );
+
+  return (
+    <ul>
+      {items.map((item) => (
+        <ChildComponent key={item.id} item={item} onDelete={handleDelete} />
+      ))}
+    </ul>
+  );
+};
+```
+
+Pada contoh ini, komponen fungsi `ParentComponent` me-render daftar komponen ChildComponent dan meneruskan callback function untuk menghapus item ke setiap komponen. Hook `useCallback` dipakai untuk membuat versi memoized dari callback function tersebut, yang membantu meningkatkan performa komponen `ParentComponent` dengan **menghindari pembuatan ulang fungsi yang tidak perlu**. Komponen `ChildComponent` kemudian bisa memakai callback function tersebut untuk menghapus item terkait saat tombol hapus diklik.
+
+Ada beberapa situasi di mana hook ini bukan pilihan terbaik, berikut beberapa alasannya:
+
+- Jika callback function sangat sederhana atau murah untuk dibuat, kemungkinan tidak masuk akal untuk memakai `React.useCallback`. Overhead tambahannya mungkin tidak sepadan dalam kasus ini.
+
+- Jika callback function hanya dipakai beberapa kali di dalam komponen, mungkin tidak sepadan untuk memakai `React.useCallback`. Peningkatan performanya mungkin tidak cukup signifikan dalam kasus ini.
+
+- Jika callback function bergantung pada props yang sangat sering berubah, `React.useCallback` mungkin tidak bisa mengikuti perubahan tersebut dan kamu bisa berakhir dengan fungsi yang basi. Dalam kasus ini, pertimbangkan memakai teknik optimasi lain.
+
+## React.memo
+
+`React.memo` adalah cara untuk mengoptimalkan performa functional component di React dengan **mencegah komponen tersebut re-render secara tidak perlu**. Caranya dengan **"mengingat"** komponen tersebut, artinya komponen hanya akan re-render jika props-nya benar-benar berubah.
+
+Berikut contoh cara memakai `React.memo`:
+
+```tsx title="@/components/my-component.tsx" showLineNumbers
+import { memo } from "react";
+
+const MyComponent = ({ name }) => {
+  console.log("Render MyComponent");
+  return <div>Hello, {name}!</div>;
+};
+
+export default memo(MyComponent);
+```
+
+Pada contoh ini, komponen `MyComponent` me-render sebuah greeting dengan props name. Dengan membungkus komponen tersebut memakai `React.memo`, kamu memberitahu React untuk hanya me-render ulang komponen jika props name berubah. Ini bisa membantu meningkatkan performa aplikasimu dengan menghindari re-render yang tidak perlu pada komponen tersebut.
+
+Kamu bisa memakai `React.memo` untuk mengoptimalkan performa functional component apa pun yang tidak perlu re-render setiap kali props-nya berubah. Ini cara yang sederhana dan efektif untuk meningkatkan performa aplikasi React kamu.
+
+Pada dasarnya, `React.memo` adalah cara untuk mengoptimalkan performa functional component dengan **menghindari re-render yang tidak perlu**. Tapi ada beberapa situasi di mana ini bukan pilihan terbaik:
+
+- Jika komponen tidak memiliki perhitungan atau props yang mahal _(misalnya `object` atau `array` yang besar)_, mungkin tidak banyak manfaat performa dari memakai `React.memo`. Dalam kasus ini, overhead dari memakai `React.memo` bisa lebih lambat dibanding sekadar me-render ulang komponen.
+
+- Jika komponen memiliki banyak state atau props, memakai `React.memo` justru bisa membuat komponen lebih lambat, karena HOC ini harus membandingkan seluruh state dan props di setiap update. Dalam kasus ini, akan lebih efisien memakai hook `React.useMemo` atau hook `React.useReducer` untuk mengoptimalkan performa komponen.
+
+- Jika komponen di-update sangat sering _(misalnya setiap tick dari sebuah timer)_, memakai `React.memo` mungkin tidak efisien, karena _HOC_ tersebut harus membandingkan props sebelumnya dan sekarang di setiap update. Dalam kasus ini, akan lebih efisien memakai class component atau hook `React.useReducer` untuk mengoptimalkan performa komponen.
+
+Semoga ini membantu memberi gambaran kapan sebaiknya kamu memakai atau tidak memakai `React.memo` untuk mengoptimalkan performa.
+
+## Penutup
+
+Kita sudah membahas beberapa teknik untuk mengoptimalkan performa aplikasi React.js, termasuk memoization, code-splitting, dan lainnya. Dengan memakai teknik-teknik ini, kamu bisa meningkatkan performa aplikasimu dan memberikan pengalaman yang lebih baik bagi penggunamu.
+
+Berikut beberapa tips tambahan untuk mengoptimalkan performa aplikasi React.js kamu:
+
+- Pakai ekstensi browser [React Developer Tools](https://beta.reactjs.org/learn/react-developer-tools "react dev tools browser extension link") untuk melakukan profiling aplikasimu dan mengidentifikasi bottleneck performa.
+
+- Pertimbangkan memakai tool performance monitoring seperti [LogRocket](https://logrocket.com/ "log rocket official website") untuk melacak performa aplikasimu seiring waktu.
+
+- Pertimbangkan memakai state management seperti [Jotai](https://jotai.org "Jotai official website") atau [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction "Zustand official documentation website") untuk mengelola state aplikasimu dengan mudah.
+
+Terima kasih sudah membaca artikel ini! Semoga bermanfaat. Sampai jumpa di artikel berikutnya!

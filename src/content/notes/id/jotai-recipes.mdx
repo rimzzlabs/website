@@ -1,0 +1,337 @@
+---
+title: "Jotai Recipes Yang Sering Saya Pakai Di Project"
+description: "Untuk membaca dan mengubah state di aplikasi kita dengan Jotai, kita perlu memakai paradigma bernama Recipes. Sekarang mari lihat bagaimana kita bisa memanfaatkan konsep tersebut untuk membaca dan mengubah state dengan Jotai"
+publishedAt: "09/30/2023"
+status: "published"
+featured: true
+author: rimzzlabs
+keywords:
+  - react
+  - jotai
+  - hooks
+  - jotai recipes
+  - reactjs
+  - state management
+  - state manager
+relatedPosts:
+  - jotai-state-manager
+  - improving-performance-in-react
+---
+
+## Pendahuluan
+
+Jotai memakai pendekatan atomik untuk global state management di React. Dengan mengombinasikan atom, render dioptimalkan secara otomatis berdasarkan dependency antar atom.
+
+Ini menyelesaikan masalah re-render berlebih pada React context, menghilangkan kebutuhan memoization, dan memberikan developer experience yang mirip signals sambil tetap mempertahankan **_model pemrograman deklaratif_**.
+
+> Jika belum tahu tentang Jotai, ada [artikel tentang jotai](/notes/jotai-state-manager) yang menjelaskannya, silakan baca.
+
+Untuk memperbarui state dengan Jotai, cukup pakai `setter` bawaan Jotai seperti ini:
+
+```tsx showLineNumbers title="app.tsx"
+import { atom, useAtom } from "jotai";
+
+const atomFruit = atom("mango");
+
+export default function App() {
+  const [fruit, setFruit] = useAtom(atomFruit);
+
+  return <button onClick={() => setFruit("orange")}>{fruit}</button>;
+}
+```
+
+Penggunaan dasar Jotai, cukup sederhana.
+
+## Derived Value
+
+Sebelum membahas apa itu _recipes_ di Jotai, perlu dipahami dulu konsep derived atau computed value.
+
+Derived atau computed value adalah nilai yang diperoleh dari nilai lain lewat logika, transformasi, atau perhitungan tertentu.
+
+Dalam pemrograman, derived atau computed value sering dipakai untuk menyederhanakan kode, mengenkapsulasi logika, dan membuat manipulasi data berdasarkan nilai yang sudah ada menjadi lebih praktis.
+
+```tsx title="App.tsx" showLineNumbers
+export default function App() {
+  const { user } = useUser();
+  const isUserAdmin = user.role === "admin";
+
+  if (isUserAdmin) {
+    return <p>You are admin</p>;
+  }
+
+  return <p>Just a normal user</p>;
+}
+```
+
+Pada contoh di atas, dicek apakah user adalah admin atau bukan. Jika admin, komponen me-render **"You are admin"**, jika bukan, komponen me-render **"Just a normal user"**.
+
+Kondisi untuk me-render UI berbeda ke client memakai derived value `isUserAdmin`.
+
+Derived value sudah dipakai di sini.
+
+## Derived Atoms
+
+Lanjut ke derived atoms. Derived atoms konsepnya sama seperti sebelumnya. Perlu dilihat dulu nilai sebelumnya, lalu diproses dengan logika atau perhitungan tertentu.
+
+```ts title="@/atoms.ts" showLineNumbers
+import { atom } from "jotai";
+
+type TUserRole = "admin" | "user";
+type TUser = {
+  name: string;
+  role: Role;
+};
+
+const userAtom = atom<TUser>({ name: "Rizki", role: "user" });
+
+const isUserAdminAtom = atom((get) => get(userAtom).role === "admin");
+```
+
+Contoh di atas menunjukkan cara membuat derived value dari atom sebelumnya, mirip dengan yang ditulis sebelumnya memakai `React.useState`.
+
+Di Jotai, ini disebut recipes. Atom bisa dikomposisikan ke atom lain, atau atom baru bisa dibuat berdasarkan atom sebelumnya untuk menghasilkan nilai atau atom baru.
+
+Jotai memungkinkan pembuatan derived value ini dengan pendekatan deklaratif tanpa perlu mengelola relasi state yang kompleks secara eksplisit.
+
+## Recipes
+
+Recipes pada dasarnya adalah derived atoms. Derived atoms biasanya terdiri dari dua prinsip.
+
+Atom `read-only` menerima atom lain sebagai input dan mengubah nilainya lewat perhitungan yang dilakukan oleh sebuah fungsi. Nilai yang berubah ini bisa dipakai untuk menandai hasil komputasi atau modifikasi dari nilai atom asli sebagai derived value.
+
+Atom `write-only` berfungsi menerima nilai baru lewat mekanisme penulisan, seperti `callback`. Nilai baru ini kemudian bisa dipakai untuk memicu action tertentu atau memperbarui atom di dalam atom `write-only` tersebut.
+
+Sekarang konsep ini sudah dipahami, mari buat beberapa recipes.
+
+### 0. Compose Recipes
+
+Composing atom adalah cara mentransformasi atom lewat beberapa pemanggilan fungsi. Nilai yang dikembalikan harus bisa diprediksi dan tidak memiliki side effect.
+
+```ts title="@/atoms/compose.ts" showLineNumbers
+import type { PrimitiveAtom } from "jotai";
+
+type ComposeAtomFn<T> = (value: PrimitiveAtom<T>) => PrimitiveAtom<T>;
+
+export function composePrimitiveAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
+  return (value: PrimitiveAtom<T>) => {
+    return fns.reduce((currentValue, fun) => fun(currentValue), value);
+  };
+}
+```
+
+### 1. Boolean Recipes
+
+Switch. Semua orang butuh boolean value, jadi mari buat boolean recipes.
+
+Biasanya boolean value dikelola dengan React.useState untuk menangani state open atau closed, seperti sidebar atau dialog. Tapi bagaimana jika ini bisa dikemas dengan baik memakai Jotai?
+
+```ts title="@/atoms/boolean.ts" showLineNumbers
+import type { PrimitiveAtom } from "jotai";
+
+export function openAtom(boolAtom: PrimitiveAtom<boolean>) {
+  return atom(null, (_, set) => set(boolAtom, true));
+}
+
+export function closeAtom(boolAtom: PrimitiveAtom<boolean>) {
+  return atom(null, (_, set) => set(boolAtom, false));
+}
+
+export function toggleAtom(boolAtom: PrimitiveAtom<boolean>) {
+  return atom(null, (get, set) => set(boolAtom, !get(boolAtom)));
+}
+```
+
+Dengan snippet tersebut, handler untuk mengelola state `open/closed` bisa dibuat.
+
+```ts title="@/atoms/sidebar.ts" showLineNumbers
+import { openAtom, closeAtom, toggleAtom } from "@/atoms/boolean";
+
+import { atom } from "jotai";
+
+export const sidebarAtom = atom(false);
+export const openSidebarAtom = openAtom(sidebarAtom);
+export const closeSidebarAtom = closeAtom(sidebarAtom);
+export const toggleSidebarAtom = toggleAtom(sidebarAtom);
+```
+
+Penjelasan kode di atas: `openSidebarAtom`, `closeSidebarAtom`, dan `toggleSidebarAtom` adalah atom `write-only`, artinya ini adalah handler untuk mengubah `sidebarAtom`, dengan gaya Jotai.
+
+Sekarang lihat cara memakai atom-atom tersebut.
+
+Pada komponen sidebar, komponen ini bisa mengamati nilai `sidebarAtom` dan me-render UI sesuai nilainya. Komponen ini juga bisa menutup sidebar itu sendiri.
+
+```tsx title="@/components/sidebar.tsx" showLineNumbers
+import { sidebarAtom, closeSidebarAtom } from "@/atoms/sidebar";
+
+import { Drawer } from "@mantine/core";
+import { useAtomValue, useSetAtom } from "jotai";
+
+export function Sidebar() {
+  const isSidebarOpen = useAtomValue(sidebarAtom);
+  const closeSidebar = useSetAtom(closeSidebarAtom);
+
+  return <Drawer opened={isSidebarOpen} onClose={closeSidebar} />;
+}
+```
+
+Lalu, pada komponen tombol yang memicu state `open/closed` sidebar, tombol tersebut mungkin diletakkan di komponen `<Header />`.
+
+```tsx title="@/components/header.tsx" showLineNumbers
+import { openSidebarAtom } from "@/atoms/sidebar";
+
+import { useSetAtom } from "jotai";
+import { MenuIcon } from "lucide-react";
+
+export function Header() {
+  const openSidebar = useSetAtom(openSidebarAtom);
+  return (
+    <header>
+      // other content might be here
+      <button onClick={openSidebar}>
+        <MenuIcon />
+      </button>
+    </header>
+  );
+}
+```
+
+### 2. String Recipes
+
+String recipes biasanya berupa atom `read-only`. String atom diambil lalu ditransformasi menjadi nilai string baru.
+
+Ini sangat membantu ketika bekerja dengan string value, misalnya mengubah string menjadi lowercase, [encoding string ke URI component](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent "Encoding URI Component"), dan sebagainya.
+
+```ts title="@/atoms/string.ts" showLineNumbers
+import type { PrimitiveAtom } from "jotai";
+
+export function upperCaseAtom(stringAtom: PrimitiveAtom<string>) {
+  return atom((get) => get(stringAtom).toUpperCase());
+}
+
+export function lowerCaseAtom(stringAtom: PrimitiveAtom<string>) {
+  return atom((get) => get(stringAtom).toUpperCase());
+}
+```
+
+Encoding string ke URI component.
+
+```ts title="@/atoms/string.ts" showLineNumbers
+import type { PrimitiveAtom } from "jotai";
+
+export function encodeURIAtom(stringAtom: PrimitiveAtom<string>) {
+  return atom((get) => encodeURIComponent(get(stringAtom)));
+}
+```
+
+### 3. Number Recipes
+
+Memanipulasi angka dengan atom sangat mudah. Mulai dari matematika dasar.
+
+```ts title="@/atoms/number.ts" showLineNumbers
+import type { PrimitiveAtom } from "jotai";
+
+export function addAtom(numberAtom: PrimitiveAtom<number>) {
+  return atom((get) => get(numberAtom) + 1);
+}
+export function multiplyAtom(numberAtom: PrimitiveAtom<number>) {
+  return atom((get) => get(numberAtom) * 2);
+}
+export function divideAtom(numberAtom: PrimitiveAtom<number>) {
+  return atom((get) => get(numberAtom) / 2);
+}
+export function minusAtom(numberAtom: PrimitiveAtom<number>) {
+  return atom((get) => get(numberAtom) - 1);
+}
+```
+
+Selanjutnya, angka bisa ditransformasi menjadi nilai yang terformat dengan baik, misalnya memformat angka menjadi mata uang.
+
+```ts title="@/atoms/number.ts" showLineNumbers
+import type { PrimitiveAtom } from "jotai";
+
+export function formatNumberAtom(numberAtom: PrimitiveAtom<number>) {
+  return atom((get) => {
+    const fmt = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    return fmt.format(get(numberAtom));
+  });
+}
+```
+
+### 4. Array Recipes
+
+Mulai dengan array recipes dasar. Ada array berisi daftar object, dan array tersebut harus difilter berdasarkan input pengguna.
+
+```ts title="@/atoms/array.ts" showLineNumbers
+import { atom } from "jotai";
+
+export const inputAtom = atom("");
+export const clearInputAtom = composeAtom(
+  lowerCaseAtom,
+  noSpaceStringAtom,
+)(inputAtom);
+export const foodsAtom = atom([]);
+export const filteredFoodsAtom = atom((get) => {
+  const search = get(clearInputAtom);
+  const foods = get(foodsAtom);
+
+  if (search === "") return foods;
+  return foods.filter((food) => {
+    return food.name
+      .toLowerCase()
+      .replace(/\s+/g, "")
+      .includes(search.toLowerCase().replace(/\s+/g, ""));
+  });
+});
+```
+
+Dengan begitu, `filteredFoodsAtom` akan memfilter `foodsAtom` berdasarkan nilai `inputAtom` yang diberikan pengguna.
+
+Fungsi murni untuk membersihkan string juga bisa dibuat.
+
+```ts title="@/util/clearstring"
+export const clearString = (s: string) => s.toLowerCase().replace(/\s+/g, "");
+```
+
+Sekarang, mari refactor `filteredFoodsAtom`.
+
+```ts {12-16} title="@/atoms.ts" showLineNumbers
+import { clearString } from "@/utils/clearString";
+
+import { atom } from "jotai";
+
+export const inputAtom = atom("");
+export const foodsAtom = atom([]);
+export const filteredFoodsAtom = atom((get) => {
+  const search = get(inputAtom);
+  const foods = get(foodsAtom);
+
+  if (search === "") return foods;
+  return foods.filter((food) => {
+    const clearSearch = clearString(search);
+    const clearName = clearString(food.name);
+    return clearName.includes(clearSearch);
+  });
+});
+```
+
+Contoh lain adalah mengurutkan array. Array recipes di Jotai sama seperti cara deklaratif biasa untuk mengubah data.
+
+Mengurutkan array atom mudah, sama seperti contoh sebelumnya, cukup diurutkan.
+
+```ts title="@/atoms.ts" showLineNumbers
+import { compareDesc } from "date-fns";
+import { atom } from "jotai";
+
+export const postAtoms = atom([]);
+
+export const latestPostAtoms = atom((get) => {
+  const posts = get(postAtoms);
+
+  return posts.slice(0).sort((a, b) => compareDesc(a, b));
+});
+```
+
+Itu semua recipes yang bisa dijelaskan di sini. Kemungkinan ada recipes lain yang pernah dipakai namun tidak teringat saat ini. Mungkin akan dibahas di artikel lain.

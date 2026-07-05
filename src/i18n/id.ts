@@ -10,39 +10,39 @@ export const id: Dictionary = {
 	nav: {
 		home: "Beranda",
 		notes: "Catatan",
-		now: "Saat Ini",
+		now: "Now",
 		dragToMove: "Geser untuk memindahkan",
 		hideDock: "Sembunyikan dock",
 		pages: "Halaman",
 		availablePages: "Halaman Tersedia",
 		preferences: "Preferensi",
 		theme: { label: "Tema", system: "Sistem", light: "Terang", dark: "Gelap" },
-		animations: { label: "Animasi", system: "Sistem", on: "Aktif", off: "Nonaktif" },
+		animations: { label: "Animasi", system: "Sistem", on: "Aktif", off: "Mati" },
 		language: { label: "Bahasa", en: "Inggris", id: "Indonesia" },
 		connect: { trigger: "Hubungi saya", scheduleCall: "Jadwalkan panggilan", resume: "Résumé" },
 	},
 
 	footer: {
-		connect: "Terhubung",
+		connect: "Berteman",
 		resource: "Sumber",
 		resume: "Résumé",
-		sourceCode: "Source Code",
+		sourceCode: "Kode Sumber",
 	},
 
 	homeSeo: {
 		title: "Rizki Citra, Software Engineer",
 		description:
-			"Situs pribadi Rizki Citra, software engineer yang membangun produk web dan AI yang cepat serta menyenangkan — plus catatan seputar frontend.",
+			"Situs pribadi Rizki Citra, software engineer yang membangun produk yang intuitif; yang cepat serta menyenangkan — plus catatan seputar perangkat lunak.",
 	},
 
 	hero: {
 		srName: "Rizki Citra,",
-		titleLead: "Seorang Software Engineer. Merancang UI yang menyenangkan.",
+		titleLead: "Seorang Insinyur Prangkat Lunak. Pengembang UI Intuitif.",
 		srUi: "",
 		titleUi: "",
 		srWhy: "Kenapa rekayasa perangkat lunak? ",
 		p1: "Rekayasa perangkat lunak memungkinkan saya menciptakan solusi inovatif yang selaras dengan nilai-nilai saya dan memberi dampak yang berarti.",
-		p2: "Perpaduan antara struktur, pemecahan masalah, dan evolusi yang terus berlanjut membuat saya tetap terlibat dan bertumbuh.",
+		p2: "Perpaduan antara struktur, pemecahan masalah, dan evolusi yang terus berlanjut membuat saya tetap aktif dan tumbuh.",
 		talk: "Mari Bicara",
 		talkSr: "(Memungkinkan Anda menjadwalkan pertemuan dengan Rizki di cal.com)",
 		resume: "Résumé",
@@ -72,7 +72,7 @@ export const id: Dictionary = {
 				title: "Frontend Developer",
 				period: "Apr 2022 - Feb 2024",
 				summary:
-					"Membangun aplikasi React dan Next.js yang cepat dan aksesibel untuk klien lokal maupun internasional.",
+					"Membangun aplikasi Web yang cepat dan intuitif untuk klien lokal maupun internasional.",
 			},
 			"skyshi-intern": {
 				title: "Frontend Developer Intern",
@@ -85,8 +85,8 @@ export const id: Dictionary = {
 	skill: {
 		heading: "Keahlian",
 		headingSr: "",
-		p1: "Tools datang dan pergi, dan sesekali sesuatu yang baru menjanjikan untuk membuat keahlian ini usang. Saya belajar untuk tidak meremehkannya.",
-		p2: "Yang membuat saya terus maju adalah rasa ingin tahu—mendalami yang penting sambil tetap cukup luas untuk beradaptasi, serta kebiasaan bertumbuh bersama apa pun yang datang berikutnya.",
+		p1: "Tools datang dan pergi, dan sesekali sesuatu yang baru membuat keahlian lama usang. Saya belajar untuk tidak terlalu terpaku pada itu.",
+		p2: "Yang membuat saya terus tumbuh adalah rasa ingin tahu — mendalami hal yang penting sambil tetap cukup leluasa untuk beradaptasi, serta kebiasaan bertumbuh apa pun yang akan datang kedepannya.",
 		domains: {
 			Frontend: "Frontend",
 			Backend: "Backend",
@@ -99,7 +99,7 @@ export const id: Dictionary = {
 		heading: "Catatan",
 		headingSr: "Baca ",
 		intro:
-			"Beberapa hal yang saya tulis saat membangun untuk web — dan apa yang saya pelajari di sepanjang jalan.",
+			"Beberapa hal yang saya pelajari kadang saya tulis disini. Walaupun kadang tidak sempat untuk menulis semuanya.",
 		readAll: "Baca semua catatan",
 	},
 
@@ -107,7 +107,7 @@ export const id: Dictionary = {
 		heading: "Arsip",
 		headingSr: "Perjalanan Saya di Rekayasa Perangkat Lunak - ",
 		intro:
-			"Saya memulai perjalanan rekayasa perangkat lunak pada 2019, dan sejak itu saya selalu bersemangat menciptakan karya yang berarti. Tapi masih banyak yang bisa dikenang.",
+			"Saya memulai perjalanan di software pada tahun 2019, dan sejak itu saya selalu ingin menciptakan karya yang berarti. Tapi masih banyak yang bisa dikenang.",
 		timeline: {
 			"2026": {
 				title: "Sekarang",
@@ -120,19 +120,19 @@ export const id: Dictionary = {
 			"2025": {
 				title: "Kolosal AI",
 				descriptions: [
-					"Sekitar November saya bergabung dengan Kolosal AI dan keluar dari dunia kripto dan web3 menuju sesuatu yang baru: kecerdasan buatan. Lompatan lagi, menukar bidang yang sudah saya kuasai dengan yang bergerak pada kecepatan yang sama sekali berbeda.",
-					"Minggu-minggu pertama adalah soal menemukan pijakan bersama tim yang benar-benar hebat, di ruang yang sebelumnya hanya saya amati dari luar. Cepat terasa seperti tempat yang saya harapkan. Lebih lanjut lain kali.",
+					"Sekitar bulan November, saya bergabung dengan Kolosal AI, menuju sesuatu yang baru: Akal Imitasi atau AI. Sebuah lompatan (lagi), menukar bidang yang sudah saya kuasai dengan yang bergerak pada kecepatan informasi yang sangat berbeda.",
+					"Minggu-minggu pertama adalah soal menemukan sesuatu yang searah bersama tim yang benar-benar hebat.",
 				],
 				photoAlts: [],
 			},
 			"2024": {
 				title: "Bitwyre",
 				descriptions: [
-					"Saya tertarik pada kripto, web3, dan trading sejak akhir 2023, banyak bertanya kepada teman yang sudah lama berkecimpung di bidang itu. Pada Februari 2024 saya meninggalkan Skyshi Digital Indonesia untuk mencari sesuatu yang baru.",
-					"Keesokan harinya, teman yang sama mengenalkan saya ke Bitwyre, perusahaan kripto, web3, dan trading. Saya langsung melamar, berwawancara dengan CTO dan CEO mereka, dan bergabung dengan tim Engineering sebagai Software Engineer (Frontend). Minat pribadi diam-diam menjadi profesi.",
-					"Bitwyre adalah dunia yang berbeda, dengan rekan dari Kanada, AS, India, Eropa, dan lainnya. Bahasa Inggris adalah bahasa ketiga saya, tapi itu tak pernah menghalangi kami membangun bersama lintas zona waktu.",
-					"Agustus itu kami terbang ke Coinfest Asia di Bali, sepekan yang memadukan konferensi dengan hackathon internal kecil di sebuah vila. Sama-sama soal koneksi baru, ide segar, dan bukti bahwa saya bisa mengikuti laju kripto.",
-					"Menjelang akhir 2024 saya juga lulus, menutup babak tiga tahun kuliah. Bukan kampus terbesar atau paling bergengsi, tapi memberi saya fondasi untuk berkembang dan keyakinan untuk terus maju.",
+					"Sejak 2023 lalu, saya sebenarnya sudah tertarik pada kripto, web3, dan trading, saya selalu banyak bertanya kepada teman yang sudah lama berkecimpung di bidang itu. Pada Februari 2024 saya meninggalkan Skyshi Digital Indonesia untuk mencari sesuatu yang baru dibidang software.",
+					"Keesokan harinya, teman saya mengenalkan saya ke Bitwyre, perusahaan kripto, web3, dan trading. Saya langsung melamar, interview dengan CTO dan CEO mereka, dan bergabung dengan tim Engineering sebagai Software Engineer (Frontend).",
+					"Bitwyre adalah dunia yang berbeda, dengan rekan dari Kanada, AS, India, Eropa, dan lainnya. Bahasa Inggris adalah bahasa ketiga saya, tapi itu tidak pernah menghalangi proses saya dalam membangun produk bersama dengan lintas zona waktu.",
+					"Pada bulan Agustus itu kami terbang ke Coinfest Asia di Bali, event yang memadukan konferensi dengan hackathon internal kecil di sebuah vila.",
+					"Menjelang akhir 2024 saya juga lulus dari kuliah di AMIK Serang, menutup babak perkuliahan. Bukan kampus terbesar atau paling bergengsi, tapi memberi saya fondasi untuk berkembang dan keyakinan untuk terus maju.",
 				],
 				photoAlts: [
 					"Festival pass Rizki untuk Coinfest Asia",
@@ -146,9 +146,9 @@ export const id: Dictionary = {
 			"2023": {
 				title: "Work-Life Balance",
 				descriptions: [
-					"Saya terus membangun sebagai Frontend Developer di Skyshi. Yang paling menonjol adalah moladinfinance.com untuk Moladin, dirilis dalam sekitar lima minggu, diikuti serangkaian proyek klien yang terikat NDA.",
-					"Di sela itu, saya membangun ulang PC rakitan saya bagian demi bagian. Setelah setahun hanya dengan laptop, kembali ke setup yang layak dengan layar lebih besar dan ergonomi lebih baik terasa seperti kemewahan.",
-					"Saya menyeimbangkan pekerjaan penuh waktu, kuliah, dan sedikit freelance Facebook bersama teman, menyelesaikan proyek-proyek itu dalam tiga bulan tanpa ada yang terbengkalai. Mengingatnya kembali, saya heran betapa banyak yang muat dalam setahun.",
+					"Saya terus bekerja sebagai Frontend Developer di Skyshi. Yang paling menonjol adalah moladinfinance.com untuk Moladin, dirilis sekitar lima minggu setelah commit pertama, diikuti serangkaian proyek klien yang terikat NDA.",
+					"Di sela itu, saya membangun ulang PC rakitan saya secara bertahap. Setelah setahun hanya dengan laptop, kembali ke setup yang layak dengan layar lebih besar dan ergonomi terasa seperti kemewahan.",
+					"Saya menyeimbangkan pekerjaan penuh waktu, kuliah, dan sedikit freelance Facebook bersama teman, menyelesaikan proyek-proyek itu dalam tiga bulan tanpa ada yang terbengkalai. Mengingatnya kembali, saya pun heran betapa banyak yang terjadi hanya dalam setahun.",
 				],
 				photoAlts: [
 					"Komponen rakitan PC kedua Rizki",
@@ -160,26 +160,26 @@ export const id: Dictionary = {
 			"2022": {
 				title: "Kuliah + Full Time",
 				descriptions: [
-					"Akhir Desember 2021 saya diterima sebagai intern di Skyshi Digital Indonesia, sebuah studio di Gamping, Yogyakarta. Kami bekerja sepenuhnya remote, kebiasaan masa pandemi yang dipertahankan perusahaan.",
-					"Minggu-minggu pertama menegangkan tanpa pengalaman profesional sama sekali, tapi saya cepat menemukan ritme, ikut berkontribusi pada gethired.id, platform internal untuk melatih keterampilan siap kerja.",
-					"Tiga bulan kemudian, mereka mempekerjakan saya penuh waktu sebagai Frontend Developer dan memindahkan saya ke proyek eksternal yang sering terikat NDA. Dari intern menjadi karyawan tetap adalah tonggak karier pertama saya, diraih sambil tetap mengikuti kuliah.",
+					"Akhir Desember 2021 saya diterima sebagai magang di Skyshi Digital Indonesia, sebuah perusahaan software yang berlokasikan di Gamping, Yogyakarta. Kami bekerja sepenuhnya remote, karena sudah menjadi kebiasaan pasca pandemi.",
+					"Minggu-minggu pertama menegangkan tanpa pengalaman profesional sama sekali, tapi saya cepat menemukan ritme team, ikut berkontribusi pada gethired.id, platform internal untuk melatih keterampilan siap kerja.",
+					"Tiga bulan kemudian, mereka mempekerjakan saya penuh waktu sebagai Frontend Developer dan memindahkan saya ke proyek eksternal yang sering terikat NDA. Dari magang menjadi karyawan tetap adalah tonggak karier pertama saya, diraih sambil mengikuti perkuliahan karyawan.",
 				],
 				photoAlts: ["Setup laptop Rizki di kafe dengan es kopi", "Potret Rizki bekerja dari kafe"],
 			},
 			"2021": {
 				title: "Akademik",
 				descriptions: [
-					"Ini tahun saya mulai serius dengan software. Masih dalam pembatasan pandemi, saya mendalami dasar-dasar HTML, CSS, dan JavaScript lewat belajar mandiri dan apa pun yang bisa saya temukan online.",
-					"Pada Mei celahnya jelas: pengetahuan tanpa pengalaman formal menyulitkan untuk diterima kerja. Maka saya bersandar pada struktur, dan akhir 2021 saya diterima di Diploma Manajemen Informatika.",
-					"Di sela kuliah saya terus merilis proyek-proyek kecil agar tetap tajam. Setahun disiplin yang meletakkan fondasi bagi semua yang datang setelahnya.",
+					"Ini tahun saya mulai serius dengan software. Keadaan waktu itu masih pandemi, saya mendalami dasar-dasar HTML, CSS, dan JavaScript lewat belajar mandiri dan apa pun yang bisa saya temukan online.",
+					"Pada Mei waktu itu jelas: pengetahuan tanpa pengalaman formal ternyata menyulitkan untuk diterima kerja. Maka saya ikut pada struktur, dan akhir 2021 saya diterima di AMIK Serang, perguruan tinggi tingkat D3.",
+					"Di sela kuliah, saya terus merilis proyek-proyek kecil agar tetap mengasah skill. Setahun disiplin yang mengasah fondasi bagi hal yang akan datang setelahnya.",
 				],
 				photoAlts: ["Swafoto Rizki, jaket masih basah usai hujan", "Laptop pertama Rizki"],
 			},
 			"2020": {
 				title: "Pandemi",
 				descriptions: [
-					"Setahun ke dalam pandemi, rumah menjadi ruang kelas. Saya di tahun terakhir SMA, gelisah dan ingin melakukan sesuatu dengan waktu saya.",
-					"Maka saya mulai mengambil pekerjaan freelance kecil di sekitar kampung untuk sedikit uang. Pertengahan 2020 saya cukup menabung untuk mulai membeli komponen PC, satu per satu, kapan pun saya mampu membeli yang berikutnya.",
+					"Sudah sekitar satu tahun sejak pandemi, rumah menjadi ruang kelas pribadi. di tahun terakhir saya ketika SMK, Saya banyak menghabiskan waktu didepan komputer.",
+					"Disisi lain saya juga mengambil pekerjaan sampingan dan pekerjaan kecil-kecilan demi bisa makan dan menghidupi keseharian saya.",
 				],
 				photoAlts: [
 					"Sebuah keyboard dan mouse",
@@ -190,7 +190,7 @@ export const id: Dictionary = {
 			"2019": {
 				title: "Kala Itu",
 				descriptions: [
-					"Mengingatnya kembali, ini tahun-tahun emas. Bahkan saat pandemi mulai merayap, ini salah satu masa paling membentuk yang pernah saya alami. Saya belajar Rekayasa Perangkat Lunak di SMKN 8 Pandeglang, dan di sanalah membangun software pertama kali terasa klik.",
+					"Mengingatnya kembali, ini tahun-tahun yang indah. Bahkan saat pandemi mulai merayap, ini salah satu masa paling membentuk yang pernah saya alami. Saya belajar Rekayasa Perangkat Lunak di SMKN 8 Pandeglang, dan di sanalah membangun software pertama kali terasa menyenangkan.",
 					"Tantangannya, kurikulum tertinggal bertahun-tahun dari yang dipakai industri, jadi saya belajar sisanya sendiri dari YouTube dan sumber gratis online, membangun kebiasaan belajar mandiri yang membawa saya sampai sekarang.",
 				],
 				photoAlts: ["Suasana ruang kelas", "Laboratorium komputer di masa itu"],
@@ -201,15 +201,15 @@ export const id: Dictionary = {
 	now: {
 		seoTitle: "Saat Ini",
 		seoDescription:
-			"Kebanyakan situs punya halaman /about. Ini halaman /now saya — potret apa yang sedang saya fokuskan pada titik ini dalam hidup saya. Terinspirasi dari nownownow.com.",
+			"Kebanyakan situs punya halaman /about. Ini halaman /now saya, potret apa yang sedang saya fokuskan pada titik ini dalam hidup saya. Terinspirasi dari nownownow.com.",
 		heading: "Apa yang Sedang Saya Kerjakan",
 		introLead:
 			"Kebanyakan situs punya halaman /about. Ini halaman /now saya — potret apa yang sedang saya fokuskan pada titik ini dalam hidup saya. Terinspirasi dari",
 		items: {
 			"2026-07-04": {
-				title: "Membangun ATS resume builder open source",
+				title: "Membangun ATS resume builder sumber terbuka",
 				description:
-					"Di luar pekerjaan saya di Kolosal AI, saya sedang membangun Lanjut — resume builder open source yang ramah ATS. Kodenya tersedia di GitHub.",
+					"Di luar pekerjaan saya di Kolosal AI, saya sedang membangun Lanjut — resume builder sumber terbuka yang ramah sistem ATS. Kodenya tersedia di GitHub.",
 				link: "https://github.com/rimzzlabs/lanjut",
 			},
 			"2026-06-30": {
@@ -229,7 +229,7 @@ export const id: Dictionary = {
 		seoTitle: "Catatan",
 		title: "Catatan",
 		description:
-			"Catatan tentang apa yang saya pelajari dan bagaimana saya mempelajarinya sebagai frontend software engineer — pemecahan masalah, pembahasan teknis mendalam, dan sesekali resep praktis.",
+			"Catatan tentang apa yang saya pelajari dan bagaimana saya mempelajarinya sebagai insinyur — problem solving, pembahasan teknis mendalam, dan sesekali resep praktis.",
 		publishedOn: "Diterbitkan pada",
 		writtenBy: "Ditulis oleh",
 		onThisPage: "Di halaman ini",
