@@ -1,0 +1,333 @@
+---
+title: "Cara Setup Husky, Lint Staged, Dan Commitizen Di Project Next.js"
+description: "Coding bukan sekadar menulis baris kode, kita sering harus mengerjakan semuanya secara manual. Jadi kenapa tidak memakai tools yang bisa membantu mencapai tujuan tersebut? Artikel ini akan menunjukkan cara setup Husky, Lint Staged, dan Conventional Commit dengan Next.js"
+publishedAt: "03/23/2022"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - husky nextjs
+  - husky lint staged
+  - nextjs husky lint-staged
+  - how to setup husky
+  - how to setup husky lint staged
+  - how to setup nextjs
+  - husky lint staged commitizen
+  - commitizen
+  - commitizen nextjs
+  - commitizen reactjs
+  - conventional commit setup
+  - husky setup
+  - lint staged nextjs
+  - lint staged reactjs
+  - lint staged setup
+  - nextjs reactjs
+  - setup developer experience
+  - setup developer experience nextjs
+relatedPosts:
+  - improving-performance-in-react
+  - jotai-state-manager
+---
+
+## Pendahuluan
+
+Sebagai developer, kita suka bekerja dengan Git, sebuah version control system yang membuat kode kita tetap terlacak dan memastikan tidak ada perubahan yang terlewat untuk di-commit.
+
+Tapi ada satu masalah dengan Git: ketika bekerja dengan banyak developer, kita sering harus melakukan merge terhadap perubahan masing-masing. Di situlah merge conflict muncul. Jika konfliknya memang berasal dari perbedaan logika kode, wajar kita harus mengubahnya lagi. Tapi ada kasus di mana konflik hanya disebabkan oleh perbedaan code style, misalnya single quote vs double quote. Cukup merepotkan, bukan?
+
+### Git Hooks
+
+Seperti banyak Version Control System lain, Git punya cara untuk menjalankan script custom ketika event tertentu terjadi. Ada dua kelompok hook ini: client-side dan server-side.
+
+Client-side hook dipicu oleh operasi seperti commit dan merge, sedangkan server-side hook berjalan pada operasi jaringan seperti menerima push commit. Hook ini bisa dipakai untuk berbagai keperluan.
+
+Misalnya begini: saya punya satu project dengan 2 orang di dalamnya, kami membangun fitur di branch yang berbeda-beda. Suatu saat ketika saya commit, ternyata ada type error di dalam kode dan saya tidak tahu penyebabnya. Solusinya, saya ingin menjalankan linter sebelum commit, sehingga error tersebut bisa diperbaiki lebih dulu sebelum commit benar-benar terjadi.
+
+Tapi melakukannya secara manual tentu merepotkan, jadi saya butuh tool yang bisa menjalankan script linter secara otomatis sebelum commit dibuat.
+
+## Husky
+
+Apa itu [Husky](https://typicode.github.io/husky)? Dari yang saya pahami:
+
+> Husky improves your commits and more 🐶 woof!
+
+Seperti dijelaskan sebelumnya soal Git Hooks, kita bisa memakai hook tersebut untuk menjalankan script custom sebelum action tertentu terjadi. Husky membuat proses ini jauh lebih mudah digunakan dan sangat membantu pekerjaan sehari-hari.
+
+### Fitur
+
+Husky menawarkan beberapa fitur:
+
+- Zero dependencies dan ringan (`6 kB`)
+- Ditenagai oleh fitur Git modern (`core.hooksPath`)
+- Mengikuti best practice [npm](https://docs.npmjs.com/cli/v7/using-npm/scripts#best-practices) dan [yarn](https://yarnpkg.com/advanced/lifecycle-scripts#a-note-about-postinstall) terkait auto install
+- Pesan yang ramah pengguna
+- Instalasi opsional
+- Seperti Husky 4, mendukung:
+  - macOS, Linux, dan Windows
+  - Git GUI
+  - Custom directory
+  - Monorepo
+
+## Lint Staged
+
+[Lint Staged](https://github.com/okonet/lint-staged) menjalankan linter terhadap file yang sudah di-staging di git, agar tidak ada kode buruk 💩 yang lolos masuk ke codebase. Jadi ketika kamu menjalankan perintah berikut, script ini akan berjalan otomatis:
+
+```bash showLineNumbers
+$ git commit
+
+✔ Preparing lint-staged...
+❯ Running tasks for staged files...
+  ❯ packages/frontend/.lintstagedrc.json — 1 file
+    ↓ *.js — no files [SKIPPED]
+    ❯ *.{json,md} — 1 file
+      ⠹ prettier --write
+  ↓ packages/backend/.lintstagedrc.json — 2 files
+    ❯ *.js — 2 files
+      ⠼ eslint --fix
+    ↓ *.{json,md} — no files [SKIPPED]
+◼ Applying modifications from tasks...
+◼ Cleaning up temporary files...
+```
+
+> Linting lebih masuk akal kalau dijalankan sebelum commit dilakukan. Dengan begitu, tidak ada error yang masuk ke repository dan code style tetap terjaga. Tapi menjalankan proses lint pada seluruh project itu lambat, dan hasil lint-nya pun bisa jadi tidak relevan. Pada akhirnya, kamu hanya perlu me-lint file yang akan di-commit saja.
+
+## Conventional Commit Dengan Commitizen
+
+Berkolaborasi dengan developer lain cukup menyenangkan, tapi ketika bekerja dalam tim, kamu harus memastikan kode tetap bersih dan mengikuti aturan tim, di mana beberapa tim menerapkannya lebih ketat dari yang lain. Karena itu, pesan commit kamu juga harus jelas dan mudah dipahami.
+
+Di sinilah kita membutuhkan [Commitizen](https://commitizen-tools.github.io/commitizen/), untuk memastikan pesan commit jelas secara konteks dan mudah dipahami oleh developer lain.
+
+Commitizen sangat membantu saat kamu ingin membuat commit. Alih-alih menulis pesan sendiri, tool ini akan menuntunmu menulis pesan berdasarkan aturan tim dan konteks, seperti `feat`, `fix`, dan `chore`.
+
+Berikut tampilannya saat kamu menjalankan `cz` alih-alih `git commit`. Tool ini akan memunculkan prompt yang membantumu memilih pesan commit:
+
+![Commitizen](https://ik.imagekit.io/mlnzyx/attachment/commitizen_Qkfrd4tze.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648026254029 "Commitizen Prompt on terminal")
+
+> Tip: klik gambar di atas untuk melihatnya lebih jelas
+
+## Setup Project Next.js
+
+Sebelum memakai tools apa pun, kita perlu menginstal Next.js dan membuat project baru. Jalankan perintah berikut di terminal:
+
+```bash
+yarn create next-app my-app
+```
+
+Perintah ini akan membuat project Next.js baru lengkap dengan template default. Kamu bisa mulai mengedit kode di sana, tapi artikel ini tidak membahas cara mengedit kode itu sendiri, jadi kita lewati bagian itu dan lanjut ke tools yang ingin kita gunakan.
+
+## Setup Eslint Dan Prettier
+
+Sebelum lanjut, metode yang saya jelaskan di sini juga memakai 2 tools penting, yaitu [eslint](https://eslint.org/) dan [prettier](https://prettier.io/).
+
+Mari kita setup kedua tools tersebut. Kita akan menginstal prettier dan eslint, lalu menambahkan file konfigurasinya ke dalam project. Jalankan perintah berikut di terminal:
+
+```bash
+yarn add prettier -D && npx eslint --init
+```
+
+Perintah di atas akan menginstal prettier sebagai devDependencies, sekaligus menginisialisasi eslint untuk project kamu. Kamu akan diminta membuat beberapa pilihan tergantung jenis project yang kamu punya. Jika memakai TypeScript, pilih **typescript react**, jika tidak, pilih javascript react.
+
+Eslint akan menginstal dependency yang dibutuhkan lalu membuat file konfigurasi. Jika hasilnya berupa file `.json`, sebaiknya ubah menjadi file `.js` dan sesuaikan kodenya mengikuti format `.js`.
+
+Selanjutnya, buat file baru di root project dengan nama `.prettierrc.js`, lalu tempelkan konfigurasi berikut ke dalamnya:
+
+```js title=".prettierrc.js" showLineNumbers
+const config = {
+  semi: false,
+  tabWidth: 2,
+  printWidth: 120,
+  singleQuote: true,
+  jsxSingleQuote: true,
+  trailingComma: "none",
+  arrowParens: "always",
+  endOfLine: "auto",
+};
+
+module.exports = config;
+```
+
+> Jika sudah familiar, silakan ubah konfigurasi ini sesuai preferensi kamu sendiri
+
+## Setup Husky
+
+Selanjutnya, mari instal Husky sebagai Git Hooks kita dengan menjalankan perintah berikut di terminal:
+
+```bash
+yarn add husky -D
+```
+
+Setelah instalasi selesai, jalankan perintah untuk setup husky:
+
+```bash
+husky install
+```
+
+Perintah ini akan membuat folder baru di root direktori bernama `/.husky`. Buka folder tersebut lalu buat file baru bernama `pre-commit` di dalam direktori `/.husky`, sehingga strukturnya akan menjadi seperti ini:
+
+```bash
+/.husky
+/pre-commit
+|- /_
+|-|
+  |- /.gitignore
+  |- /husky.sh
+```
+
+Di dalam file `pre-commit`, tempelkan kode berikut:
+
+```bash title=".husky/pre-commit" showLineNumbers
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo '🏗️👷 Styling your project before committing👷‍♂️🏗️'
+echo 'please be patient, this may take a while...'
+
+# Check ESLint Standards
+yarn lint ||
+(
+    echo '🔨❌ Yoo, you have a problem in your code. Check linter 🔨❌
+          Run yarn lint, add changes and try commit again.';
+    false;
+)
+
+echo '🎉 No error found: committing this now.... ✨🚀🏄‍♂️🍻'
+
+npx lint-staged
+```
+
+Kode di atas akan berjalan di terminal sebelum Git membuat commit. Pertama, dua baris pesan akan dicetak, lalu perintah `yarn lint` dijalankan. Jika perintah tersebut gagal, pesan _*🔨❌ Yoo, you have...*_ akan muncul dan sisa proses langsung dibatalkan karena kode `false` dieksekusi.
+
+Jika linting berhasil dan tidak ada error, pesan sukses akan dicetak lalu script `npx lint-staged` dijalankan untuk memformat kode dengan prettier.
+
+Buat script baru di dalam `package.json` agar perintah ini otomatis berjalan setiap kali project diinstal:
+
+```json {5} title="./package.json" showLineNumbers
+{
+  "name": "app name",
+  "version": "0.0.0",
+  "scripts": {
+    "postinstall": "husky install"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
+```
+
+## Setup Lint Staged
+
+Selanjutnya kita perlu menginstal dan mengonfigurasi Lint Staged agar linter berjalan sebelum commit. Caranya sangat mudah, cukup jalankan perintah berikut di terminal untuk menginstalnya:
+
+```bash
+yarn add lint-staged -D
+```
+
+Setelah instalasi selesai, mari buat konfigurasi untuk lint-staged. Lint-staged menawarkan beberapa cara konfigurasi:
+
+- Object `lint-staged` di dalam `package.json`
+- File `.lintstagedrc` dalam format JSON atau YAML, atau bisa juga eksplisit dengan ekstensi file:
+  - `.lintstagedrc.json`
+  - `.lintstagedrc.yaml`
+  - `.lintstagedrc.yml`
+
+Di artikel ini saya akan menunjukkan cara memakai object lint-staged di dalam package.json:
+
+```json title="./package.json" {9-12}
+{
+  "name": "app name",
+  "version": "0.0.0",
+  "scripts": {
+    "postinstall": "husky install"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc.js --write"
+    ],
+    "**/*.{css,scss,md,html,json}": [
+      "prettier --config ./.prettierrc.js --write"
+    ]
+  }
+}
+```
+
+## Setup Commitizen
+
+Commitizen membantu merapikan pesan commit. Biasanya ketika saya melakukan perubahan pada kode, saya ingin melacak dengan jelas apa yang sudah saya lakukan.
+
+Cara paling mudah untuk setup Commitizen adalah lewat CLI-nya. Langkah pertama adalah membuat repo kamu **Commitizen friendly**, jadi mari instal CLI Commitizen terlebih dahulu. Kamu bisa menginstalnya secara global atau lokal, tapi saya lebih suka instalasi global. Jalankan perintah berikut di terminal:
+
+```bash
+yarn global add commitizen
+```
+
+Jika memakai npm, kamu bisa menginstalnya dengan perintah berikut:
+
+```bash
+npm install commitizen -g
+```
+
+Selanjutnya, inisialisasi project kamu untuk memakai adapter cz-conventional-changelog dengan mengetik:
+
+```bash
+commitizen init cz-conventional-changelog --save-dev --save-exact
+```
+
+Atau jika memakai Yarn:
+
+```bash
+commitizen init cz-conventional-changelog --yarn --dev --exact
+```
+
+Perintah di atas melakukan tiga hal:
+
+- Menginstal `cz-conventional-changelog adapter`
+- Menyimpannya ke dalam dependencies atau devDependencies di `package.json`
+- Menambahkan key `config.commitizen` ke root `package.json` kamu seperti berikut:
+
+```json {13-17} title="./package.json" showLineNumbers
+{
+  "name": "app name",
+  "version": "0.0.0",
+  "scripts": {
+    "postinstall": "husky install"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc.js --write"
+    ],
+    "**/*.{css,scss,md,html,json}": [
+      "prettier --config ./.prettierrc.js --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}
+```
+
+Sekarang kamu sudah siap memakai perintah `cz` untuk membuat commit, dan tool ini akan menuntunmu memilih pesan commit yang tepat.
+
+## Ringkasan
+
+Kita sudah sampai di akhir, mari rangkum apa yang sudah dilakukan:
+
+- **Husky**
+
+  Membantu setup Git Hooks dengan lebih mudah.
+
+- **Lint Staged**
+
+  Membantu menjalankan task tertentu sebelum commit dilakukan, memastikan kode tetap bersih dan terformat dengan baik.
+
+- **Commitizen**
+
+  Membantu merapikan pesan commit, memastikan pesan tersebut jelas dan mudah dipahami.
+
+Sekian, semoga artikel ini membantu kamu memulai. Sampai jumpa di artikel berikutnya!
