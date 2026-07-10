@@ -1,0 +1,188 @@
+---
+title: "Introducing Lanjut. ATS-Friendly Resume Builder"
+description: "ATS-Friendly resume has become one of industry's standard for modern days. But many people find difficulty to create it, so I ship Lanjut. An ATS-Friendly resume builder."
+publishedAt: "06/07/2026"
+status: "draft"
+featured: true
+author: rimzzlabs
+keywords:
+  - ATS Resume Builder
+  - ATS Resume
+  - rimzzlabs ATS Resume Builder
+  - Free ATS Resume Builder
+  - Rizki Citra
+  - Local ATS Resume Builder
+---
+
+ATS-Friendly resume has become one of industry's standard for most company in modern days. But many people find difficulty to create it, especially in Indonesia.
+
+In software engineering, we always rely on information, as it is one of the element of Software. But it's not just it, the information also must provide clarity.
+
+That's what resume do, it must provide clear information about the candidate, both their skills and their background. So companies could match their culture with this candidate.
+
+## Before ATS-Friendly
+
+Let me remind you how applying for a job in Indonesia looked like, not so long ago.
+
+You go to the photocopy shop and buy a _brown folder_. Inside it: a _**handwritten application letter**_, your _**CV**_, a legalized copy of your _**ijazah**_ (a certificate of completing academic), _**SKCK**_(Certificate of Good Conduct) from the police, _**kartu kuning**_(Job Seeker Card) from the local office, and a **_3x4 photo with red background_**. Then you bring the folder to a job fair, or you hand it directly to the security guard at the company's front gate.
+
+Some of those papers even expire. If you don't get hired within a few months, you queue at the police office again.
+
+Then everything moved online. Email, [Jobstreet](https://jobstreet.com), [LinkedIn](https://linkedin.com). It sounds like progress, and it is. But now one job posting can receive hundreds or thousands of applicants. No human reads all of that. So companies let software read it first, and that software is called an ATS, Applicant Tracking System.
+
+The bureaucracy never really disappeared. It just changed form. The gatekeeper used to be paperwork. Now the gatekeeper is a parser.
+
+## The Ghosting
+
+You send your resume. One week, nothing. One month, nothing. Not even a rejection email.
+
+_We_ call it _ghosting_, but most of the time nobody actually decided to ignore you. Your resume just never reached a human. The ATS tried to extract your name, your experience, your skills into its database, and it failed halfway.
+
+I've seen this happen with the popular templates. Two columns, icons for the phone number, a skill bar chart. It looks great to us. But a parser reads text in a linear order, so the two columns get mixed together, and your work experience ends up glued to your hobbies. The system marks you as incomplete, and you never learn why.
+
+That's the cruel part. You did the work, you had the skills, and you got filtered out by a formatting problem you couldn't see.
+
+## Culture in Company
+
+Why is there **"culture"** in a company? And why does each company see this differently?
+
+A company is just people working together for years. Over time they build habits: how they make decisions, how they handle mistakes, how fast they move. That accumulation is the culture. A three-person startup and a fifty-year-old bank can hire for the exact same role and still look for very different people.
+
+So when a company reads your resume, they're not only checking if you can do the job. They're guessing whether you can work the way they work. That's why the same resume can be rejected in one place and celebrated in another.
+
+### Should I Fit-in?
+
+Honestly? Not always.
+
+Culture fit works in both directions. If a company rejects you because of how they read your background, maybe you also just avoided a place where you would be miserable. A rejection is not always a judgment of your skill. Sometimes it's just a mismatch.
+
+But here's what I believe: the matching should fail for the right reason. It should fail because you and the company genuinely don't fit, not because a parser scrambled your resume. You deserve to be rejected by a human, not by a bug.
+
+## Why I Build Lanjut
+
+So I looked at the existing tools, and I didn't like what I found.
+
+The popular resume builders usually do one of two things. They lock the ATS-safe templates behind a subscription, or they give you free templates that look beautiful and parse terribly. Either way you lose. And almost all of them store your resume on their servers, which means your career history, your phone number, your address, lives in someone else's database.
+
+Think about who needs a resume builder the most: someone who doesn't have a job yet. Charging them monthly for the privilege of applying to jobs felt wrong to me.
+
+So I built Lanjut. The name is an Indonesian word that means **"continue"**, which is conveniently also what **"resume"** means.
+
+### Philosophy
+
+Lanjut stands on three ideas.
+
+First, structure is locked, presentation is free. You cannot add tables, columns, or floating text boxes, because those break parsing. But typography, spacing, color, that's all yours. The constraint is not a limitation, it's the whole point. Every design decision that could hurt your parseability is simply not available to make.
+
+Second, your data is yours. Everything lives in your browser's local storage. There is no account, no sign up, no server that ever sees your resume content. Close the tab, come back tomorrow, it's still there. On your machine, nowhere else.
+
+Third, clarity over decoration. A resume is information, and information must provide clarity. Everything else is negotiable.
+
+## How I build Lanjut
+
+I built it in a strict order, and the order mattered.
+
+Data schema and storage first. Then the state layer on top of it. Then the **editing experience**. Then, and only then, the visual themes. Export came last, together **with validation**.
+
+Why this order? Because the whole promise of **Lanjut** is that **presentation can never corrupt structure**. If I had started from the pretty templates, the structure would have bent to serve the visuals. By building the data layer first, **the templates had no choice but to respect it**.
+
+### Lanjut Architecture
+
+The stack is [Next.js](https://nextjs.org) with the **App Router**, deployed on [Cloudflare](https://cloudflare.com) through [open-next](https://opennext.js.org). But Cloudflare only serves the app; **no resume data ever touches a server function or API route**.
+
+State lives in [zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction), and every change syncs to [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) with a _debounce_. That's the entire persistence story. No **database bill**, **no backup service**, and **no leak surface**.
+
+The rich text fields use [TipTap](https://tiptap.dev), but with a **deliberately** tiny extension set: **bold**, **italic**, **bullet list**, **ordered list**, **link**. That's it. If a formatting option could confuse a parser, it doesn't exist in the editor.
+
+There are **six templates**, and all of them render the exact same **linear block sequence**. Switching templates changes fonts and spacing, never the reading order. The document shape is versioned too, with a **forward-only migration ladder**, and every document gets snapshotted before migration. If a migration can't parse your data, it keeps the original and does nothing. Your resume is never blanked by an update.
+
+### The Structure
+
+This is how the codebase looks like. I trimmed it to the important parts:
+
+```text
+src/
+├── app/[locale]/            # routes; the editor lives under /platform
+├── components/
+│   ├── editor/              # the editing experience
+│   │   ├── rich-text/       # TipTap, with the tiny extension set
+│   │   ├── templates/       # the six templates
+│   │   ├── docx/ pdf/       # export renderers
+│   │   └── editor-sections/ # one folder per resume section
+│   ├── platform/            # the library: your resumes.
+│   └── ui/                  # shadcn primitives
+├── hooks/                   # use-resume-document, etc.
+├── i18n/                    # English and Indonesian
+└── lib/
+    ├── resume/              # the document: types, factory, migrations
+    ├── db/                  # IndexedDB: schema, repository
+    ├── store/               # zustand stores + debounced persistence
+    └── forms/               # validation schemas
+```
+
+The most important rule here is the **dependency direction**. `lib/resume` defines what a resume _is_, it doesn't know anything about storage or [React](https://react.dev). `lib/db` knows how to save that document, but it doesn't know anything about the UI. `lib/store` sits on top of both, and it's the only layer the components can talk to. Templates and export renderers live in `components`, at the very end of the chain. They can read the document, but they can never change what a document is.
+
+And if you read the tree from bottom to top, it's the same build order I mentioned before. Document, storage, state, editor, templates, and export at the very end. So the promise of **presentation can never corrupt structure** is not just words in this post. It's literally the folder structure.
+
+### How The State Lives
+
+Your resume lives in two places. In memory with [zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction) while the tab is open, and in [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) when it's not. The whole job of the persistence layer is to keep these two in sync.
+
+Every edit goes through one function in the store. It clones the open document, applies your change, updates the UI right away, and then _schedules_ a write instead of writing directly:
+
+```ts
+updateOpen(recipe) {
+  const draft = structuredClone(get().open)
+  recipe(draft)
+  draft.updatedAt = new Date().toISOString()
+  set({ open: draft })
+  scheduleOpenResumePersist() // the only bridge to disk
+}
+```
+
+The bridge is just one [debounced](https://developer.mozilla.org/en-US/docs/Glossary/Debounce) write. If you type fast, all of those keystrokes collapse into **one** IndexedDB `put`, around 500ms after you stop typing:
+
+```ts
+const controlled = F.makeControlledDebounce(() => void persistOpenNow(), {
+  delay: 500,
+  leading: false,
+});
+```
+
+But [debounce](https://developer.mozilla.org/en-US/docs/Glossary/Debounce) alone is dangerous. What if you close the tab 400ms after your last keystroke? That's why the pending write gets **flushed** on [`visibilitychange`](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API) and [`pagehide`](https://developer.mozilla.org/en-US/docs/Web/API/Window/pagehide_event), and also before you switch to another resume. So in the worst case, you only lose whatever you typed in the last half second.
+
+Reading also has a safety net. When a document comes back from [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), it goes through a **forward-only migration ladder** first, and the raw document gets snapshotted to a `backups` store before any migration runs. If a document can't be migrated, it stays untouched on disk and shows up as unreadable. It's never overwritten.
+
+So that's the story of the state. [Zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction) is the truth while the tab is open, [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) is the truth when it's closed, and they're never more than 500ms apart. There's no third place. No server cache, no cloud sync, nothing to leak.
+
+### Agentic Coding
+
+I didn't build Lanjut alone. I built it with [Claude Code](https://claude.com/claude-code). And to be clear, this is not "AI wrote my app".
+
+I learned quickly that an agent is only as good as the rules you write down. So most of my work moved one level up, from writing code to writing **constraints**. Lanjut's repo has an `AGENTS.md` that contains the two-layer rule, the migration rules (never blank a document that can't be parsed), and one line that I care about the most, _no resume content is sent to any server, confirm this on every PR touching data flow_. Claude reads that file on every session. Funny enough, when I asked for a feature that breaks the rule, it pushed back using my own rules.
+
+Before building anything big, I also asked the agent to **grill me** first. Not writing code, just questioning my plan. What happens if a migration fails halfway? What happens if two tabs edit the same resume? Why debounce and not write-through? Most of the design decisions in the previous two sections came from those conversations, before a single line of code exists.
+
+After that, Claude typed a lot, and I reviewed. It wrote the code, but every decision inside the code is mine.
+
+So no, agentic coding didn't replace my judgment. It forced me to write my judgment down. Every constraint in this post exists as a plain text file in the repository, and that's why the agent could move fast without breaking the promise.
+
+## Why It's Free
+
+Two reasons, one practical and one personal.
+
+**The practical one**: it costs me almost nothing to run. There's no server-side storage, no accounts, no database. Cloudflare serves static-ish pages and your browser does the rest. When your infrastructure bill is close to zero, a paywall is just greed.
+
+**The personal one**: the people who need this tool are looking for a job. Some of them are fresh graduates, some just got laid off. I'm not going to stand between them and their next opportunity with a checkout page.
+
+It's also open source, under [AGPL](https://en.wikipedia.org/wiki/GNU_Affero_General_Public_License). If you don't trust my claim that your data never leaves the browser, you don't have to. [Read the code](https://github.com/rimzzlabs/lanjut).
+
+## What's Next?
+
+Lanjut is not finished, and honestly a resume builder _never is_.
+
+The near-term list: more templates, section reordering, and keeping the export output tested against real ATS parsers, not just my own validation script. I also want to keep listening. If something breaks or a section type you need is missing, open an issue on [GitHub](https://github.com/rimzzlabs/lanjut/issues).
+
+But the core **promise will not change**. **Free**, **local**, **parseable**. If a feature request asks me to trade parseability for decoration, the answer stays no, no matter how nice it would look.
+
+That's Lanjut. You can try it right now at [lanjut.rimzzlabs.com](https://lanjut.rimzzlabs.com), and if this note made you curious about how it works, [see the source code](https://github.com/rimzzlabs/lanjut). I hope it helps you land somewhere good.

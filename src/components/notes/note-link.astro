@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { ArrowUpRight } from "lucide-react";
+
+type Props = HTMLAttributes<"a">;
+
+const { href: _href, ...rest } = Astro.props;
+const isExternal = typeof _href === "string" && _href.startsWith("https://");
+const href = isExternal ? `${_href}?utm_source=rimzzlabs.com` : _href;
+---
+
+{
+  isExternal ? (
+    <a {href} target="_blank" rel="noopener" {...rest}>
+      <slot />
+      <ArrowUpRight
+        className="inline size-3.5 align-[-0.125em]"
+        aria-hidden="true"
+      />
+    </a>
+  ) : (
+    <a {href} {...rest}>
+      <slot />
+    </a>
+  )
+}

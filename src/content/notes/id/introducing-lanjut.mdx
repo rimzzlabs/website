@@ -1,0 +1,188 @@
+---
+title: "Memperkenalkan Lanjut. ATS-Friendly Resume Builder"
+description: "Resume ATS-Friendly sudah menjadi salah satu standar industri di masa sekarang. Tapi banyak orang kesulitan membuatnya, jadi saya merilis Lanjut. Sebuah resume builder yang ATS-Friendly."
+publishedAt: "06/07/2026"
+status: "draft"
+featured: true
+author: rimzzlabs
+keywords:
+  - ATS Resume Builder
+  - ATS Resume
+  - rimzzlabs ATS Resume Builder
+  - Free ATS Resume Builder
+  - Rizki Citra
+  - Local ATS Resume Builder
+---
+
+Resume ATS-Friendly sudah menjadi salah satu standar industri di kebanyakan perusahaan masa kini. Tapi banyak orang kesulitan membuatnya, apalagi di Indonesia.
+
+Di rekayasa perangkat lunak, kita selalu bergantung pada informasi, karena informasi adalah salah satu elemen dari software. Tapi bukan cuma itu, informasinya juga harus memberikan kejelasan.
+
+Itulah tugas resume, dia harus memberikan informasi yang jelas tentang kandidat, baik skill maupun latar belakangnya. Supaya perusahaan bisa mencocokkan budaya mereka dengan kandidat tersebut.
+
+## Sebelum ATS-Friendly
+
+Biar saya ingatkan lagi seperti apa melamar kerja di Indonesia, belum lama ini.
+
+Kamu pergi ke tempat fotokopi dan membeli _map cokelat_. Isinya: **surat lamaran tulis tangan**, **CV** kamu, fotokopi **ijazah** yang sudah dilegalisir, **SKCK** dari kepolisian, **kartu kuning** dari dinas setempat, dan **foto 3x4 dengan latar merah**. Lalu map itu kamu bawa ke job fair, atau kamu serahkan langsung ke satpam di gerbang depan perusahaan.
+
+Beberapa berkas itu bahkan ada masa berlakunya. Kalau dalam beberapa bulan kamu belum diterima kerja, kamu antre lagi di kantor polisi.
+
+Lalu semuanya pindah ke online. Email, [Jobstreet](https://jobstreet.com), [LinkedIn](https://linkedin.com). Kedengarannya seperti kemajuan, dan memang iya. Tapi sekarang satu lowongan bisa menerima ratusan bahkan ribuan pelamar. Tidak ada manusia yang membaca semua itu. Jadi perusahaan membiarkan software yang membacanya lebih dulu, dan software itu bernama ATS, Applicant Tracking System.
+
+Birokrasinya tidak pernah benar-benar hilang. Dia cuma berubah bentuk. Dulu penjaga gerbangnya adalah berkas. Sekarang penjaga gerbangnya adalah parser.
+
+## Ghosting
+
+Kamu kirim resume. Satu minggu, tidak ada kabar. Satu bulan, tidak ada kabar. Bahkan email penolakan pun tidak ada.
+
+_Kita_ menyebutnya _ghosting_, tapi besar kemungkinan tidak ada orang yang benar-benar memutuskan untuk mengabaikanmu. Resume kamu memang tidak pernah sampai ke manusia. ATS mencoba mengekstrak nama, pengalaman, dan skill kamu ke dalam database-nya, lalu gagal di tengah jalan.
+
+Saya sering melihat ini terjadi pada template-template populer. Dua kolom, ikon untuk nomor telepon, bar chart untuk skill. Terlihat bagus di mata kita. Tapi parser membaca teks secara berurutan, jadi dua kolom itu tercampur, dan pengalaman kerja kamu menempel dengan hobi kamu. Sistem menandai kamu sebagai tidak lengkap, dan kamu tidak pernah tahu kenapa.
+
+Itu bagian kejamnya. Kamu sudah berusaha, kamu punya skill-nya, tapi kamu tersaring keluar karena masalah format yang tidak bisa kamu lihat.
+
+## Budaya di Perusahaan
+
+Kenapa ada **"budaya"** di sebuah perusahaan? Dan kenapa setiap perusahaan melihatnya berbeda-beda?
+
+Perusahaan itu sebenarnya cuma sekumpulan orang yang bekerja bersama selama bertahun-tahun. Seiring waktu mereka membangun kebiasaan: cara mengambil keputusan, cara menangani kesalahan, seberapa cepat mereka bergerak. Akumulasi itulah yang disebut budaya. Startup beranggota tiga orang dan bank berumur lima puluh tahun bisa merekrut untuk posisi yang sama persis, tapi mencari orang yang sangat berbeda.
+
+Jadi ketika perusahaan membaca resume kamu, mereka tidak cuma mengecek apakah kamu bisa mengerjakan pekerjaannya. Mereka juga menebak apakah kamu bisa bekerja dengan cara mereka bekerja. Itulah kenapa resume yang sama bisa ditolak di satu tempat dan dirayakan di tempat lain.
+
+### Haruskah _Saya_ Menyesuaikan Diri?
+
+Sejujurnya? Tidak selalu.
+
+Kecocokan budaya itu bekerja dua arah. Kalau perusahaan menolak kamu karena cara mereka membaca latar belakangmu, mungkin kamu juga baru saja terhindar dari tempat yang akan membuatmu tersiksa. Penolakan tidak selalu berarti penilaian atas skill kamu. Kadang itu cuma soal tidak cocok.
+
+Tapi ini yang saya percaya: pencocokan itu harus gagal karena alasan yang benar. Gagal karena kamu dan perusahaannya memang tidak cocok, bukan karena parser mengacak resume kamu. Kamu berhak ditolak oleh manusia, bukan oleh bug.
+
+## Kenapa Saya Membangun Lanjut
+
+Jadi saya coba lihat-lihat tools yang sudah ada, dan jujur saja, saya kurang suka dengan apa yang saya temukan.
+
+Resume builder yang populer biasanya begini. Template yang aman untuk ATS dikunci di balik _subscription_, atau kamu dikasih template gratis yang kelihatan cantik tapi hasil parsing-nya berantakan. Dua-duanya bikin kamu rugi. Dan hampir semuanya menyimpan resume kamu di _server_ mereka. Artinya riwayat karier, nomor telepon, sampai alamat rumah kamu ada di _database_ orang lain.
+
+Coba pikir, siapa yang paling butuh resume builder? Orang yang lagi cari kerja. Masa iya mereka harus bayar bulanan cuma supaya bisa melamar kerja? Buat saya itu rasanya salah.
+
+Jadi saya buat Lanjut. Namanya saya ambil dari kata **"lanjut"** yang artinya meneruskan, dan kebetulan, itu juga arti harfiah dari kata **"resume"**.
+
+### Filosofi
+
+Lanjut berdiri di atas tiga ide.
+
+Pertama, struktur dikunci, presentasi bebas. Kamu tidak bisa menambahkan tabel, kolom, atau text box melayang, karena semua itu merusak parsing. Tapi tipografi, spacing, warna, itu semua milikmu. Batasan ini bukan kekurangan, justru itu intinya. Setiap keputusan desain yang bisa merusak parseability memang tidak tersedia untuk dipilih.
+
+Kedua, datamu adalah milikmu. Semuanya hidup di penyimpanan lokal browser kamu. Tidak ada akun, tidak ada sign up, tidak ada server yang pernah melihat isi resume kamu. Tutup tab-nya, kembali besok, masih ada. Di perangkatmu, tidak di tempat lain.
+
+Ketiga, kejelasan di atas dekorasi. Resume adalah informasi, dan informasi harus memberikan kejelasan. Selain itu, semuanya bisa dinegosiasikan.
+
+## Bagaimana Saya Membangun Lanjut
+
+Saya membangunnya dengan urutan yang ketat, dan urutannya penting.
+
+Skema data dan penyimpanan dulu. Lalu layer state di atasnya. Lalu **pengalaman menyunting**. Setelah itu, dan hanya setelah itu, tema visualnya. Export datang paling akhir, bersama **dengan validasi**.
+
+Kenapa urutannya begitu? Karena seluruh janji **Lanjut** adalah **presentasi tidak boleh merusak struktur**. Kalau saya mulai dari template yang cantik, strukturnya pasti bengkok demi melayani visual. Dengan membangun layer data lebih dulu, **template tidak punya pilihan selain menghormatinya**.
+
+### Arsitektur Lanjut
+
+Stack-nya adalah [Next.js](https://nextjs.org) dengan **App Router**, di-deploy ke [Cloudflare](https://cloudflare.com) melalui [open-next](https://opennext.js.org). Tapi Cloudflare hanya menyajikan aplikasinya; **tidak ada data resume yang pernah menyentuh server function atau API route**.
+
+State hidup di [zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction), dan setiap perubahan disinkronkan ke [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) dengan _debounce_. Itu saja cerita persistensinya. Tidak ada **tagihan database**, **tidak ada layanan backup**, dan **tidak ada celah kebocoran**.
+
+Field rich text memakai [TipTap](https://tiptap.dev), tapi dengan set extension yang **sengaja** dibuat kecil: **bold**, **italic**, **bullet list**, **ordered list**, **link**. Itu saja. Kalau sebuah opsi format bisa membingungkan parser, opsi itu tidak ada di editornya.
+
+Ada **enam template**, dan semuanya me-_render_ **urutan blok linear** yang sama persis. Ganti template hanya mengubah _font_ dan _spacing_, tidak pernah mengubah urutan baca. Bentuk dokumennya juga punya versi. Kalau bentuknya berubah, dokumen lama akan **dinaikkan versinya secara bertahap, satu arah, tanpa pernah turun kembali**, dan setiap dokumen di-_snapshot_ dulu sebelum migrasi. Kalau migrasi tidak bisa membaca datamu, dia menyimpan yang asli dan tidak melakukan apa-apa. Resume kamu tidak akan pernah dikosongkan oleh update.
+
+### Strukturnya
+
+Seperti ini bentuk codebase-nya. Saya pangkas ke bagian yang penting saja:
+
+```text
+src/
+├── app/[locale]/            # routes; editor-nya ada di /platform
+├── components/
+│   ├── editor/              # pengalaman menyunting
+│   │   ├── rich-text/       # TipTap, dengan set extension kecil
+│   │   ├── templates/       # enam template
+│   │   ├── docx/ pdf/       # renderer export
+│   │   └── editor-sections/ # satu folder per bagian resume
+│   ├── platform/            # library: daftar resume kamu.
+│   └── ui/                  # primitif shadcn
+├── hooks/                   # use-resume-document, dll.
+├── i18n/                    # Inggris dan Indonesia
+└── lib/
+    ├── resume/              # dokumennya: types, factory, migrations
+    ├── db/                  # IndexedDB: schema, repository
+    ├── store/               # zustand store + persistensi debounce
+    └── forms/               # skema validasi
+```
+
+Aturan paling penting di sini adalah **arah _dependency_**. `lib/resume` mendefinisikan resume itu _apa_, dia tidak tahu apa-apa soal penyimpanan atau [React](https://react.dev). `lib/db` tahu cara menyimpan dokumen itu, tapi tidak tahu apa-apa soal _User Interface_. `lib/store` berada di atas keduanya, dan dialah satu-satunya layer yang boleh diajak bicara oleh _components_. Template dan _renderer export_ hidup di `components`, di ujung paling akhir rantai. Mereka bisa membaca dokumen, tapi tidak akan pernah bisa mengubah definisi dokumen itu sendiri.
+
+Dan kalau kamu baca _tree_-nya dari bawah ke atas, itu urutan _build_ yang sama seperti yang saya sebutkan sebelumnya. Dokumen, penyimpanan, _state_, _editor_, template, dan _export_ di paling akhir. Jadi janji **presentasi tidak boleh merusak struktur** bukan sekadar kata-kata di tulisan ini. Itu benar-benar struktur foldernya.
+
+### Bagaimana State-nya Hidup
+
+Resume kamu hidup di dua tempat. Di memori dengan [zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction) selama tab terbuka, dan di [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) saat tidak. Seluruh tugas _layer_ persistensi adalah menjaga keduanya tetap sinkron.
+
+Setiap perubahan yang kamu buat akan melewati satu fungsi di store. Fungsi ini meng-_clone_ dokumen yang sedang terbuka, menerapkan perubahanmu, dan langsung memperbarui _User Interface_. Tapi dia tidak langsung menyimpan ke IndexedDB, dia cuma _menjadwalkan_ penyimpanannya:
+
+```ts
+updateOpen(recipe) {
+  const draft = structuredClone(get().open)
+  recipe(draft)
+  draft.updatedAt = new Date().toISOString()
+  set({ open: draft })
+  scheduleOpenResumePersist() // satu-satunya jembatan ke disk
+}
+```
+
+Jembatannya cuma satu penyimpanan yang di-_[debounce](https://developer.mozilla.org/en-US/docs/Glossary/Debounce)_. Kalau kamu mengetik cepat, semua ketikan itu menyatu jadi **satu** `put` IndexedDB, sekitar 500ms setelah kamu berhenti mengetik:
+
+```ts
+const controlled = F.makeControlledDebounce(() => void persistOpenNow(), {
+  delay: 500,
+  leading: false,
+});
+```
+
+Tapi _[debounce](https://developer.mozilla.org/en-US/docs/Glossary/Debounce)_ saja berbahaya. Bagaimana kalau kamu menutup tab 400ms setelah ketikan terakhir? Karena itu penyimpanan yang tertunda akan di-**_flush_** saat _[`visibilitychange`](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)_ dan _[`pagehide`](https://developer.mozilla.org/en-US/docs/Web/API/Window/pagehide_event)_, dan juga sebelum kamu pindah ke resume lain. Jadi di kasus terburuk, kamu hanya kehilangan apa yang kamu ketik dalam setengah detik terakhir.
+
+Membaca juga punya sistem pengaman. Saat dokumen kembali dari [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), dia **dinaikkan dulu ke versi bentuk yang terbaru secara bertahap**, dan dokumen mentahnya di-_snapshot_ ke store _`backups`_ sebelum migrasi apa pun berjalan. Kalau dokumen tidak bisa dimigrasikan, dia tetap utuh di disk dan muncul sebagai tidak terbaca. Tidak pernah ditimpa.
+
+Jadi begitulah cerita _state_-nya. State dipegang oleh [Zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction) selama tab terbuka, lalu dipegang oleh [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) saat tab tertutup, dan jarak keduanya tidak pernah lebih dari 500ms. Tidak ada tempat ketiga. Tidak ada _cache_ di _server_, tidak ada sinkronisasi ke _cloud_, tidak ada yang bocor.
+
+### _Agentic Coding_
+
+Saya tidak membangun Lanjut sendirian. Saya membangunnya bersama [Claude Code](https://claude.com/claude-code). Dan biar jelas, ini bukan "AI yang menulis aplikasi saya".
+
+Saya cepat belajar bahwa _agent_ hanya sebagus aturan yang kamu tuliskan. Jadi sebagian besar pekerjaan saya naik satu level, dari menulis kode menjadi menulis **batasan**. _Repository_ Lanjut punya `AGENTS.md` yang berisi aturan dua layer, aturan migrasi (jangan pernah mengosongkan dokumen yang tidak bisa dibaca), dan satu baris yang paling saya pedulikan, _tidak ada isi resume yang dikirim ke server mana pun, konfirmasi ini di setiap PR yang menyentuh alur data_. Claude membaca file itu di setiap sesi. Lucunya, saat saya minta fitur yang melanggar aturan itu, dia menolak dengan memakai aturan saya sendiri.
+
+Sebelum membangun sesuatu yang besar, saya juga meminta agent untuk **menginterogasi saya** dulu. Bukan menulis kode, cuma mempertanyakan rencana saya. Apa yang terjadi kalau migrasi gagal di tengah jalan? Apa yang terjadi kalau dua tab menyunting resume yang sama? Kenapa debounce dan bukan write-through? Sebagian besar keputusan desain di dua bagian sebelumnya lahir dari percakapan-percakapan itu, sebelum satu baris kode pun ada.
+
+Setelah itu, Claude mengetik banyak sekali, dan saya me-review. Dia yang menulis kodenya, tapi setiap keputusan di dalam kode itu milik saya.
+
+Jadi tidak, _agentic coding_ tidak menggantikan penilaian saya. Dia memaksa saya menuliskan penilaian saya. Setiap batasan di tulisan ini ada sebagai file teks biasa di repository, dan karena itulah agent bisa bergerak cepat tanpa melanggar janjinya.
+
+## Kenapa Gratis
+
+Dua alasan, satu praktis dan satu personal.
+
+**Yang praktis**: biaya menjalankannya hampir nol. Tidak ada penyimpanan di sisi server, tidak ada akun, tidak ada database. Cloudflare menyajikan halaman yang nyaris statis dan sisanya dikerjakan browser kamu. Kalau tagihan infrastrukturmu mendekati nol, paywall itu cuma keserakahan.
+
+**Yang personal**: orang-orang yang butuh tool ini sedang mencari kerja. Sebagian fresh graduate, sebagian baru saja kena layoff. Saya tidak akan berdiri di antara mereka dan kesempatan berikutnya dengan halaman checkout.
+
+Lanjut juga _open source_, di bawah lisensi [AGPL](https://en.wikipedia.org/wiki/GNU_Affero_General_Public_License). Kalau kamu tidak percaya klaim saya bahwa datamu tidak pernah meninggalkan browser, kamu tidak harus percaya. [Baca kodenya](https://github.com/rimzzlabs/lanjut).
+
+## Selanjutnya Apa?
+
+Lanjut belum selesai, dan jujur saja resume _builder_ itu _tidak akan pernah selesai_.
+
+Daftar jangka pendeknya: lebih banyak template, pengurutan ulang section, dan menjaga hasil export tetap diuji terhadap parser ATS sungguhan, bukan cuma script validasi saya sendiri. Saya juga ingin terus mendengarkan. Kalau ada yang rusak atau tipe section yang kamu butuhkan belum ada, buka issue di [GitHub](https://github.com/rimzzlabs/lanjut/issues).
+
+Tapi **janji intinya tidak akan berubah**. **Gratis**, **lokal**, **bisa di-parse**. Kalau sebuah permintaan fitur meminta saya menukar parseability demi dekorasi, jawabannya tetap tidak, sebagus apa pun tampilannya.
+
+Itulah Lanjut. Kamu bisa mencobanya sekarang di [lanjut.rimzzlabs.com](https://lanjut.rimzzlabs.com), dan kalau tulisan ini membuatmu penasaran bagaimana cara kerjanya, [lihat kodenya](https://github.com/rimzzlabs/lanjut). Semoga Lanjut membantumu mendapatkan pekerjaan di tempat yang baik.
