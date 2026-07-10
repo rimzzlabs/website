@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import type React from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import { useMotionEnabled } from "@/hooks/use-motion";
@@ -13,6 +12,13 @@ interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
 	className?: string;
 	glow?: boolean;
 }
+
+/**
+ * Dots that pulse in glow mode. A fixed count (not one per grid cell) so the
+ * animation cost stays constant on any viewport; the pulse itself is pure CSS,
+ * keeping the main thread idle for Lighthouse's quiescence check.
+ */
+const TWINKLE_COUNT = 60;
 
 /** Animated/static SVG dot-pattern background; the glow pulse respects the motion preference. */
 export function DotPattern({
@@ -46,22 +52,28 @@ export function DotPattern({
 
 	const cols = Math.ceil(dimensions.width / width);
 	const rows = Math.ceil(dimensions.height / height);
-	const dots = Array.from({ length: cols * rows }, (_, i) => {
-		const col = i % cols;
-		const row = Math.floor(i / cols);
-		return {
-			x: col * width + cx,
-			y: row * height + cy,
-			delay: Math.random() * 5,
-			duration: Math.random() * 3 + 2,
-		};
-	});
+	const cells = cols * rows;
+	const twinkleCells = new Set<number>();
+	if (animateGlow && cells > 0) {
+		while (twinkleCells.size < Math.min(TWINKLE_COUNT, cells)) {
+			twinkleCells.add(Math.floor(Math.random() * cells));
+		}
+	}
+	const twinkles = [...twinkleCells].map((cell) => ({
+		x: (cell % cols) * width + cx,
+		y: Math.floor(cell / cols) * height + cy,
+		delay: Math.random() * 5,
+		duration: Math.random() * 3 + 2,
+	}));
 
 	return (
 		<svg
 			ref={containerRef}
 			aria-hidden="true"
-			className={cn("pointer-events-none absolute inset-0 h-full w-full", className)}
+			className={cn(
+				"pointer-events-none absolute inset-0 h-full w-full text-neutral-400/80",
+				className,
+			)}
 			{...props}
 		>
 			<defs>
@@ -69,28 +81,20 @@ export function DotPattern({
 					<stop offset="0%" stopColor="currentColor" stopOpacity="1" />
 					<stop offset="100%" stopColor="currentColor" stopOpacity="0" />
 				</radialGradient>
+				<pattern id={`${id}-pattern`} width={width} height={height} patternUnits="userSpaceOnUse">
+					<circle cx={cx} cy={cy} r={cr} fill={glow ? `url(#${id}-gradient)` : "currentColor"} />
+				</pattern>
 			</defs>
-			{dots.map((dot) => (
-				<motion.circle
+			<rect width="100%" height="100%" fill={`url(#${id}-pattern)`} />
+			{twinkles.map((dot) => (
+				<circle
 					key={`${dot.x}-${dot.y}`}
 					cx={dot.x}
 					cy={dot.y}
 					r={cr}
-					fill={glow ? `url(#${id}-gradient)` : "currentColor"}
-					className="text-neutral-400/80"
-					initial={glow ? { opacity: 0.4, scale: 1 } : {}}
-					animate={animateGlow ? { opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] } : {}}
-					transition={
-						animateGlow
-							? {
-									duration: dot.duration,
-									repeat: Number.POSITIVE_INFINITY,
-									repeatType: "reverse",
-									delay: dot.delay,
-									ease: "easeInOut",
-								}
-							: {}
-					}
+					fill={`url(#${id}-gradient)`}
+					className="dot-twinkle"
+					style={{ animationDelay: `${dot.delay}s`, animationDuration: `${dot.duration}s` }}
 				/>
 			))}
 		</svg>

@@ -41,7 +41,7 @@ export function NotesToc({ headings, label }: { headings: Array<MarkdownHeading>
 	return (
 		<aside className="max-w-max pl-14 max-sm:hidden">
 			<div className="sticky top-8 right-0">
-				<h3 className="pb-4 text-lg font-semibold">{label}</h3>
+				<h2 className="pb-4 text-lg font-semibold">{label}</h2>
 				<nav className="relative overflow-y-hidden">
 					<ul className="list-outside border-l-2 text-left">
 						{nested.map((heading) => (
