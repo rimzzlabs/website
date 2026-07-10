@@ -149,6 +149,25 @@
 	@apply mx-auto w-11/12 max-w-5xl;
 }
 
+/* Dot-pattern glow pulse — CSS-driven so the animation never occupies the JS
+   main thread (Lighthouse quiescence would time out on JS-driven loops). */
+@keyframes dot-twinkle {
+	0%,
+	100% {
+		opacity: 0.4;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.5);
+	}
+}
+.dot-twinkle {
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: dot-twinkle 3s ease-in-out infinite;
+}
+
 /* Notes (markdown) — autolink heading anchors from rehype-autolink-headings */
 .prose :is(h2, h3, h4, h5, h6) {
 	@apply relative max-w-max scroll-mt-24;
