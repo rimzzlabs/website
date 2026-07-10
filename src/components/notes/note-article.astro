@@ -71,7 +71,7 @@ const authorName = author?.data.fullName ?? note.data.author.id;
 
     <DotPattern
       glow
-      client:load
+      client:idle
       className="mask-[radial-gradient(300px_circle_at_center,var(--background),transparent)]"
     />
   </div>
@@ -79,7 +79,7 @@ const authorName = author?.data.fullName ?? note.data.author.id;
   <section
     class="container-fluid py-10 sm:flex sm:flex-row-reverse sm:justify-between"
   >
-    <NotesToc client:load headings={headings} label={t.onThisPage} />
+    <NotesToc client:idle headings={headings} label={t.onThisPage} />
     <article class="prose prose-stone flex-1 dark:prose-invert">
       <Content components={{ a: NoteLink }} />
     </article>

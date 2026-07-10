@@ -42,7 +42,7 @@ export default defineConfig({
 	markdown: {
 		syntaxHighlight: "shiki",
 		shikiConfig: {
-			themes: { light: "github-light", dark: "vitesse-dark" },
+			themes: { light: "github-light-default", dark: "github-dark-default" },
 			wrap: true,
 		},
 		rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
