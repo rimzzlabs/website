@@ -172,11 +172,14 @@
 .prose :is(h2, h3, h4, h5, h6) {
 	@apply relative max-w-max scroll-mt-24;
 }
-.prose span.icon-link {
-	@apply before:absolute before:-right-6 before:top-1 before:px-1 before:text-[0.9em] before:text-orange-600 before:opacity-0 before:transition before:content-['#'];
-}
-.prose :is(h2, h3, h4, h5, h6):hover span.icon-link::before {
-	@apply opacity-100;
+
+@media (hover: hover) {
+	.prose span.icon-link {
+		@apply before:absolute before:-right-6 before:top-1 before:px-1 before:text-[0.9em] before:text-orange-600 before:opacity-0 before:transition before:content-['#'];
+	}
+	.prose :is(h2, h3, h4, h5, h6):hover span.icon-link::before {
+		@apply opacity-100;
+	}
 }
 
 /* Notes (markdown) — Shiki dual theme: use the dark palette under .dark */
