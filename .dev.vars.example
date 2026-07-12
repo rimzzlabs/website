@@ -1,0 +1,27 @@
+# Runtime secrets for the Cloudflare Pages Function (functions/api/contact.ts),
+# read by `wrangler pages dev`. Copy to `.dev.vars` and fill in. These are server
+# side only — never exposed to the browser — so real secrets go here, not in .env.
+#
+# In production these are set in the Cloudflare Pages project
+# (Settings -> Environment variables / Secrets), not from this file.
+
+# Resend API key. Create one at:
+#   https://resend.com/api-keys
+RESEND_KEY=
+
+# Cloudflare Turnstile SECRET key (the private half of the same widget as the
+# PUBLIC_CF_TURNSTILE_SITE_KEY in .env). Copy it from your widget at:
+#   https://dash.cloudflare.com/?to=/:account/turnstile
+# Local testing dummy that always passes: 1x0000000000000000000000000000000AA
+#   https://developers.cloudflare.com/turnstile/troubleshooting/testing/
+CF_TURNSTILE_SECRET_KEY=
+
+# The "from" address on the email. Must be on a domain you've verified in Resend:
+#   https://resend.com/domains
+# Before verifying a domain you can use Resend's sandbox sender for testing:
+#   onboarding@resend.dev   (note: it only delivers to your own Resend account email)
+# A display name is optional, e.g. "rimzzlabs.com <noreply@rimzzlabs.com>".
+CONTACT_FROM_EMAIL=
+
+# Where contact messages are delivered — your own inbox. Any address works.
+CONTACT_TO_EMAIL=

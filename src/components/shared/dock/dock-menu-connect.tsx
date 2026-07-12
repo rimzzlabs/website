@@ -1,17 +1,19 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
-import { ArrowUpRight, CalendarClock, FileText, Handshake } from "lucide-react";
+import { ArrowUpRight, CalendarClock, Handshake, Send } from "lucide-react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuItem,
 	DropdownMenuLinkItem,
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
+import { $contactOpen } from "@/lib/stores/contact";
 import { itemClass } from "./constants";
 
-/** Merged "get in touch" menu: schedule a meeting + résumé. */
+/** Merged "get in touch" menu: schedule a call + send an email. */
 export function DockMenuConnect({ lang }: { lang: Lang }) {
 	const t = getDictionary(lang).nav.connect;
 	return (
@@ -41,14 +43,9 @@ export function DockMenuConnect({ lang }: { lang: Lang }) {
 					<CalendarClock className="size-4" /> {t.scheduleCall}{" "}
 					<ArrowUpRight className="size-3 -ml-1" />
 				</DropdownMenuLinkItem>
-				<DropdownMenuLinkItem
-					className="text-sm"
-					href="/attachments/resume-rimzzlabs.pdf"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<FileText className="size-4" /> {t.resume} <ArrowUpRight className="size-3 -ml-1" />
-				</DropdownMenuLinkItem>
+				<DropdownMenuItem className="text-sm" onClick={() => $contactOpen.set(true)}>
+					<Send className="size-4" /> {t.sendEmail}
+				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

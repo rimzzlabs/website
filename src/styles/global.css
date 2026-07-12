@@ -182,6 +182,12 @@
 	}
 }
 
+/* Contact rich-text editor — Tiptap Placeholder extension (aligns with the caret) */
+.ProseMirror p.is-editor-empty:first-child::before {
+	content: attr(data-placeholder);
+	@apply pointer-events-none float-left h-0 text-muted-foreground;
+}
+
 /* Notes (markdown) — Shiki dual theme: use the dark palette under .dark */
 .dark .astro-code,
 .dark .astro-code span {
