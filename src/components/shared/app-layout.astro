@@ -1,7 +1,9 @@
 ---
 import "@/styles/global.css";
+import { PUBLIC_CF_TURNSTILE_SITE_KEY } from "astro:env/client";
 import rubikFont from "@fontsource-variable/rubik/files/rubik-latin-ext-wght-normal.woff2?url";
 import { getLangFromPath } from "@/i18n/utils";
+import { ContactDialog } from "./contact/contact-dialog";
 import { Dock } from "./dock/dock";
 import Footer from "./footer.astro";
 
@@ -42,6 +44,15 @@ const lang = getLangFromPath(pathname);
 
   <body>
     {!bareWrapper && <Dock client:only="react" pathname={pathname} lang={lang} />}
+    {
+      !bareWrapper && (
+        <ContactDialog
+          client:idle
+          lang={lang}
+          siteKey={PUBLIC_CF_TURNSTILE_SITE_KEY}
+        />
+      )
+    }
     <main id="main">
       <slot />
     </main>

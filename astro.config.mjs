@@ -62,6 +62,12 @@ export default defineConfig({
 	],
 
 	vite: {
+		build: {
+			// The only chunk over the default 500 kB is the contact form's rich-text
+			// editor (Tiptap + ProseMirror), which is lazy-loaded on dialog open and
+			// never in the critical path — so the warning here is a false positive.
+			chunkSizeWarningLimit: 600,
+		},
 		plugins: [tailwindcss()],
 	},
 });
