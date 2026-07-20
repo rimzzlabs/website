@@ -5,20 +5,36 @@ import { getDictionary } from "@/i18n/dictionary";
 import Section from "../shared/section.astro";
 
 interface Props {
-	lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
 const t = getDictionary(lang).experience;
 
-const companies: Array<{ key: keyof typeof t.items; company: string; url: string }> = [
-	{ key: "kolosal", company: "Kolosal AI", url: "https://kolosal.ai" },
-	{ key: "bitwyre", company: "Bitwyre", url: "https://bitwyre.com" },
-	{ key: "skyshi-fe", company: "Skyshi Digital Indonesia", url: "https://skyshi.com" },
-	{ key: "skyshi-intern", company: "Skyshi Digital Indonesia", url: "https://skyshi.com" },
+const companies: Array<{
+  key: keyof typeof t.items;
+  company: string;
+  url: string;
+}> = [
+  { key: "kolosal", company: "Kolosal AI", url: "https://kolosal.ai" },
+  { key: "bitwyre", company: "Bitwyre", url: "https://bitwyre.com" },
+  {
+    key: "skyshi-fe",
+    company: "Skyshi Digital Indonesia",
+    url: "https://skyshi.com",
+  },
+  {
+    key: "skyshi-intern",
+    company: "Skyshi Digital Indonesia",
+    url: "https://skyshi.com",
+  },
 ];
 
-const experiences = companies.map(({ key, company, url }) => ({ company, url, ...t.items[key] }));
+const experiences = companies.map(({ key, company, url }) => ({
+  company,
+  url,
+  ...t.items[key],
+}));
 ---
 
 <Section class="py-10">
@@ -70,7 +86,7 @@ const experiences = companies.map(({ key, company, url }) => ({ company, url, ..
   <p class="text-muted-foreground pt-4">
     {t.resumeLead}{" "}
     <a
-      href="/attachments/resume-rimzzlabs.pdf"
+      href="/attachments/rizki_citra_resume.pdf"
       target="_blank"
       rel="noopener"
       class="underline hover:text-foreground transition-colors"
