@@ -102,15 +102,17 @@ export const id: Dictionary = {
 			"Catatan singkat tentang tempat saya bekerja dan apa yang saya kerjakan. Cerita lengkapnya ada di bawah.",
 		resumeLead: "Anda bisa melihat profil lengkapnya di",
 		resumeLink: "Résumé saya",
-		resumeLinkSr: "Lihat di sini",
+		resumeLinkSr: ", lihat di sini",
+		resumeToolLead: "Saya membuat résumé ini dengan",
+		resumeToolTail: ", 100% gratis dan open source.",
 		items: {
 			kolosal: {
-				title: "Software Engineer",
+				title: "Frontend Engineer",
 				period: "Nov 2025 - Sekarang",
-				summary: "Membangun produk AI bersama tim kecil yang tajam.",
+				summary: "Membangun produk AI bersama tim kecil tapi keren.",
 			},
 			bitwyre: {
-				title: "Software Engineer (Frontend)",
+				title: "Frontend Engineer",
 				period: "Feb 2024 - Nov 2025",
 				summary: "Mengembangkan frontend untuk platform kripto, web3, dan trading global.",
 			},

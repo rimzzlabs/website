@@ -94,17 +94,19 @@ export const en = {
 		headingSr: "My ",
 		intro:
 			"A quick ledger of where I've worked and what I shipped. The longer story lives further down.",
-		resumeLead: "You can see a complete profile on",
-		resumeLink: "my Résumé",
-		resumeLinkSr: "See it here",
+		resumeLead: "You can see a complete profile in my",
+		resumeLink: "résumé",
+		resumeLinkSr: ", see it here",
+		resumeToolLead: "I created my resume with",
+		resumeToolTail: ", it's 100% free and open source. Try it out!",
 		items: {
 			kolosal: {
-				title: "Software Engineer",
+				title: "Frontend Engineer",
 				period: "Nov 2025 - Present",
 				summary: "Building AI products with a small, sharp team.",
 			},
 			bitwyre: {
-				title: "Software Engineer (Frontend)",
+				title: "Frontend Engineer",
 				period: "Feb 2024 - Nov 2025",
 				summary: "Shipped the frontend for a global crypto, web3 and trading platform.",
 			},
