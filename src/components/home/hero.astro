@@ -7,7 +7,7 @@ import Section from "../shared/section.astro";
 import { TalkButton } from "./talk-button/talk-button";
 
 interface Props {
-	lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
@@ -33,7 +33,12 @@ const t = getDictionary(lang).hero;
   <div class="inline-flex items-center gap-2 pt-4">
     <TalkButton lang={lang} client:load />
 
-    <Link href="/attachments/resume-rimzzlabs.pdf" variant="secondary">
+    <Link
+      rel="noopener"
+      target="_blank"
+      variant="secondary"
+      href="/attachments/rizki_citra_resume.pdf"
+    >
       <Paperclip />
       <span class="sr-only">{t.resumeSr}</span>{t.resume}
       <ArrowUpRight className="size-3" />
