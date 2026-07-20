@@ -83,16 +83,28 @@ const experiences = companies.map(({ key, company, url }) => ({
     }
   </ol>
 
-  <p class="text-muted-foreground pt-4">
-    {t.resumeLead}{" "}
-    <a
-      href="/attachments/rizki_citra_resume.pdf"
-      target="_blank"
-      rel="noopener"
-      class="underline hover:text-foreground transition-colors"
-    >
-      {t.resumeLink}<span class="span sr-only">{t.resumeLinkSr}</span>
-      <ArrowUpRight className="inline size-3 align-text-top" />
-    </a>
-  </p>
+  <blockquote
+    class="border-l-4 border-l-accent-foreground pl-2 text-sm text-muted-foreground max-w-xl"
+  >
+    <p class="text-muted-foreground">
+      {t.resumeLead}{" "}
+      <a
+        href="/attachments/rizki_citra_resume.pdf"
+        target="_blank"
+        rel="noopener"
+        class="underline hover:text-foreground transition-colors"
+      >
+        {t.resumeLink}<span class="sr-only">{t.resumeLinkSr}</span>
+        <ArrowUpRight className="inline size-3 align-text-top" />
+      </a>{" "}{t.resumeToolLead}{" "}
+      <a
+        rel="noopener"
+        target="_blank"
+        href="https://lanjut.rimzzlabs.com"
+        class="underline hover:text-foreground transition-colors"
+      >
+        Lanjut <ArrowUpRight className="inline size-3.5 align-text-top" />
+      </a>{t.resumeToolTail}
+    </p>
+  </blockquote>
 </Section>
