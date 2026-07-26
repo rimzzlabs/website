@@ -1,28 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Send, XIcon } from "lucide-react";
+import { AtSign, CheckCircle2, Send, Tag, User2, XIcon } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { useContactForm } from "@/hooks/use-contact-form";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import type { Dictionary } from "@/i18n/en";
-import { cn } from "@/lib/utils";
 import { RichTextEditor } from "./rich-text-editor";
 import { Turnstile } from "./turnstile";
 
 type ContactCopy = Dictionary["contact"];
 type FormValues = z.infer<ReturnType<typeof buildSchema>>;
-
-const fieldClass = cn(
-	"h-8 w-full rounded-lg border border-input bg-background px-3 text-sm shadow-xs outline-none",
-	"transition-[color,box-shadow] placeholder:text-muted-foreground/70",
-	"focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
-	"aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
-);
-const labelClass = "text-sm font-medium";
-const errorClass = "text-xs text-destructive";
 
 function buildSchema(t: ContactCopy) {
 	return z.object({
@@ -88,54 +80,60 @@ export function ContactForm({
 	return (
 		<form onSubmit={onSubmit} noValidate className="grid gap-4">
 			<div className="grid gap-4 sm:grid-cols-2">
-				<div className="grid gap-1.5">
-					<label htmlFor="contact-name" className={labelClass}>
-						{t.nameLabel}
-					</label>
-					<input
-						id="contact-name"
-						placeholder={t.namePlaceholder}
-						autoComplete="name"
-						aria-invalid={errors.name ? true : undefined}
-						className={fieldClass}
-						{...register("name")}
-					/>
-					{errors.name && <p className={errorClass}>{errors.name.message}</p>}
-				</div>
+				<Field data-invalid={errors.name ? true : undefined}>
+					<FieldLabel htmlFor="contact-name">{t.nameLabel}</FieldLabel>
+					<InputGroup>
+						<InputGroupAddon>
+							<User2 />
+						</InputGroupAddon>
+						<InputGroupInput
+							id="contact-name"
+							placeholder={t.namePlaceholder}
+							autoComplete="name"
+							aria-invalid={errors.name ? true : undefined}
+							{...register("name")}
+						/>
+					</InputGroup>
+					<FieldError errors={[errors.name]} />
+				</Field>
 
-				<div className="grid gap-1.5">
-					<label htmlFor="contact-email" className={labelClass}>
-						{t.emailLabel}
-					</label>
-					<input
-						id="contact-email"
-						type="email"
-						placeholder={t.emailPlaceholder}
-						autoComplete="email"
-						aria-invalid={errors.email ? true : undefined}
-						className={fieldClass}
-						{...register("email")}
-					/>
-					{errors.email && <p className={errorClass}>{errors.email.message}</p>}
-				</div>
+				<Field data-invalid={errors.email ? true : undefined}>
+					<FieldLabel htmlFor="contact-email">{t.emailLabel}</FieldLabel>
+					<InputGroup>
+						<InputGroupAddon>
+							<AtSign />
+						</InputGroupAddon>
+						<InputGroupInput
+							id="contact-email"
+							type="email"
+							placeholder={t.emailPlaceholder}
+							autoComplete="email"
+							aria-invalid={errors.email ? true : undefined}
+							{...register("email")}
+						/>
+					</InputGroup>
+					<FieldError errors={[errors.email]} />
+				</Field>
 			</div>
 
-			<div className="grid gap-1.5">
-				<label htmlFor="contact-subject" className={labelClass}>
-					{t.subjectLabel}
-				</label>
-				<input
-					id="contact-subject"
-					placeholder={t.subjectPlaceholder}
-					aria-invalid={errors.subject ? true : undefined}
-					className={fieldClass}
-					{...register("subject")}
-				/>
-				{errors.subject && <p className={errorClass}>{errors.subject.message}</p>}
-			</div>
+			<Field data-invalid={errors.subject ? true : undefined}>
+				<FieldLabel htmlFor="contact-subject">{t.subjectLabel}</FieldLabel>
+				<InputGroup>
+					<InputGroupAddon>
+						<Tag />
+					</InputGroupAddon>
+					<InputGroupInput
+						id="contact-subject"
+						placeholder={t.subjectPlaceholder}
+						aria-invalid={errors.subject ? true : undefined}
+						{...register("subject")}
+					/>
+				</InputGroup>
+				<FieldError errors={[errors.subject]} />
+			</Field>
 
-			<div className="grid gap-1.5">
-				<span className={labelClass}>{t.messageLabel}</span>
+			<Field data-invalid={errors.bodyText ? true : undefined}>
+				<FieldLabel>{t.messageLabel}</FieldLabel>
 				<RichTextEditor
 					ariaLabel={t.messageLabel}
 					placeholder={t.messagePlaceholder}
@@ -146,16 +144,16 @@ export function ContactForm({
 						setValue("bodyText", text, { shouldValidate: Boolean(errors.bodyText) });
 					}}
 				/>
-				{errors.bodyText && <p className={errorClass}>{errors.bodyText.message}</p>}
-			</div>
+				<FieldError errors={[errors.bodyText]} />
+			</Field>
 
-			<div className="grid gap-1.5">
+			<Field>
 				<Turnstile
 					siteKey={siteKey}
 					onToken={(token) => setValue("token", token, { shouldValidate: Boolean(errors.token) })}
 				/>
-				{status === "error" && <p className={errorClass}>{t.errorBody}</p>}
-			</div>
+				{status === "error" && <FieldError>{t.errorBody}</FieldError>}
+			</Field>
 
 			<div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
 				<Button type="button" variant="outline" onClick={onClose} disabled={submitting}>
