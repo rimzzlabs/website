@@ -11,9 +11,9 @@ import { dateToISO, formatDate } from "@/lib/date";
 import type { Note } from "@/lib/notes";
 
 interface Props {
-  lang: Lang;
-  note: Note;
-  translated: boolean;
+	lang: Lang;
+	note: Note;
+	translated: boolean;
 }
 
 const { lang, note, translated } = Astro.props;
@@ -47,7 +47,9 @@ const authorName = author?.data.fullName ?? note.data.author.id;
       <div class="flex items-center gap-2 text-muted-foreground">
         <div class="inline-flex items-center gap-x-2 text-sm font-medium">
           <span class="max-md:sr-only">{t.publishedOn}</span>
-          <time datetime={publishedTime}>{formatDate(publishedAt, lang)}</time>
+          <time datetime={publishedTime}
+            >{formatDate({ date: publishedAt, lang })}</time
+          >
         </div>
 
         <div class="h-px w-4 bg-muted-foreground"></div>

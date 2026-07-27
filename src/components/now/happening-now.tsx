@@ -29,7 +29,7 @@ export function HappeningNow({ lang }: { lang: Lang }) {
 					/>
 
 					<p className="text-xs font-light text-muted-foreground sm:text-sm">
-						<time dateTime={dateToISO(date)}>{formatDate(date, lang)}</time>
+						<time dateTime={dateToISO(date)}>{formatDate({ date, lang })}</time>
 					</p>
 					<h2 className="pt-1 text-lg font-semibold tracking-tight text-balance sm:text-xl">
 						{item.title}

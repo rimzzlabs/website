@@ -8,7 +8,7 @@ import { getNotes } from "@/lib/notes";
 import Section from "../shared/section.astro";
 
 interface Props {
-	lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
@@ -32,7 +32,7 @@ const notesBase = localizePath("/notes", lang);
         <li class="group relative max-w-2xl py-4 first:pt-0">
           <p class="text-xs font-light text-muted-foreground">
             <time datetime={dateToISO(note.data.publishedAt)}>
-              {formatDate(note.data.publishedAt, lang)}
+              {formatDate({ date: note.data.publishedAt, lang })}
             </time>
           </p>
           <h3 class="pt-1 font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-lg">
@@ -54,6 +54,7 @@ const notesBase = localizePath("/notes", lang);
     href={notesBase}
     class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
   >
-    {t.readAll} <ArrowRight className="size-4" />
+    {t.readAll}
+    <ArrowRight className="size-4" />
   </a>
 </Section>
