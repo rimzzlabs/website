@@ -5,6 +5,7 @@ import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import Archive from "./archive.astro";
 import Experience from "./experience.astro";
+import Guestbook from "./guestbook/guestbook.astro";
 import Hero from "./hero.astro";
 import Notes from "./notes.astro";
 import Skill from "./skill.astro";
@@ -24,5 +25,6 @@ const t = getDictionary(lang).homeSeo;
   <Experience lang={lang} />
   <Skill lang={lang} />
   <Notes lang={lang} />
+  <Guestbook lang={lang} />
   <Archive lang={lang} />
 </AppLayout>

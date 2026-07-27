@@ -54,7 +54,7 @@ function DrawerContent({ className, children, ...props }: DrawerPrimitive.Popup.
 					)}
 					{...props}
 				>
-					<div className="mx-auto mt-4 h-1.5 w-[100px] shrink-0 rounded-full bg-muted" />
+					<div className="mx-auto mt-4 h-1.5 w-25 shrink-0 rounded-full bg-muted" />
 					<DrawerPrimitive.Content className="w-full">{children}</DrawerPrimitive.Content>
 				</DrawerPrimitive.Popup>
 			</DrawerPrimitive.Viewport>

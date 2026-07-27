@@ -1,0 +1,30 @@
+---
+import { PUBLIC_CF_TURNSTILE_SITE_KEY } from "astro:env/client";
+import Section from "@/components/shared/section.astro";
+import type { Lang } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionary";
+import { GuestbookButton } from "./guestbook-button";
+import { GuestbookFeed } from "./guestbook-feed";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDictionary(lang).guestbook;
+---
+
+<Section>
+  <div class="flex justify-between">
+    <div>
+      <h2 class="text-pretty text-2xl font-bold pb-4 tracking-tight">
+        {t.heading}
+      </h2>
+      <p class="text-balance pb-4">{t.description}</p>
+    </div>
+
+    <GuestbookButton client:visible lang={lang} siteKey={PUBLIC_CF_TURNSTILE_SITE_KEY} />
+  </div>
+
+  <GuestbookFeed client:visible lang={lang} />
+</Section>

@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { sanitizeHtml } from "../_lib/sanitize-html";
+import { verifyTurnstile } from "../_lib/turnstile";
 
 // Cloudflare Pages Function backing the contact form (POST /api/contact). The
 // site is static, so delivery runs here at the edge: validate → verify Turnstile
@@ -37,20 +38,6 @@ function escapeHtml(value: string): string {
 		.replace(/</g, "&lt;")
 		.replace(/>/g, "&gt;")
 		.replace(/"/g, "&quot;");
-}
-
-async function verifyTurnstile(secret: string, token: string, ip: string | null): Promise<boolean> {
-	const form = new FormData();
-	form.append("secret", secret);
-	form.append("response", token);
-	if (ip) form.append("remoteip", ip);
-
-	const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-		method: "POST",
-		body: form,
-	});
-	const result = (await response.json()) as { success?: boolean };
-	return result.success === true;
 }
 
 export async function onRequestPost(context: ContactContext): Promise<Response> {

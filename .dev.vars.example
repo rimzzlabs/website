@@ -25,3 +25,10 @@ CONTACT_FROM_EMAIL=
 
 # Where contact messages are delivered — your own inbox. Any address works.
 CONTACT_TO_EMAIL=
+
+# --- Guestbook (functions/api/guestbook.ts) ---
+# Reuses RESEND_KEY and CF_TURNSTILE_SECRET_KEY above. The "new comment"
+# notification falls back to CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL when these
+# are blank, so they're optional — set them only to route guestbook mail apart.
+GUESTBOOK_FROM_EMAIL=
+GUESTBOOK_NOTIFY_TO=

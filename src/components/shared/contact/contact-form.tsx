@@ -3,6 +3,7 @@ import { AtSign, CheckCircle2, Send, Tag, User2, XIcon } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Turnstile } from "@/components/shared/turnstile";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
@@ -11,7 +12,6 @@ import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import type { Dictionary } from "@/i18n/en";
 import { RichTextEditor } from "./rich-text-editor";
-import { Turnstile } from "./turnstile";
 
 type ContactCopy = Dictionary["contact"];
 type FormValues = z.infer<ReturnType<typeof buildSchema>>;
