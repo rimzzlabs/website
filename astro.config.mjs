@@ -1,3 +1,4 @@
+import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -58,7 +59,7 @@ export default defineConfig({
 			themes: { light: "github-light-default", dark: "github-dark-default" },
 			wrap: true,
 		},
-		rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+		processor: unified({ rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] }),
 	},
 	integrations: [
 		react(),
