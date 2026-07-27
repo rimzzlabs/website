@@ -106,6 +106,7 @@ export const id: Dictionary = {
 		postingAs: "Menulis sebagai",
 		signOut: "Keluar",
 		verified: "Terverifikasi",
+		verifiedTooltip: "Pengunjung terverifikasi",
 		writtenBy: "Ditulis oleh ",
 		successBody: "Terima kasih sudah mengisi buku tamu!",
 		errorBody: "Pesan Anda gagal dikirim. Silakan coba lagi sebentar.",

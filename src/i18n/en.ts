@@ -99,6 +99,7 @@ export const en = {
 		postingAs: "Posting as",
 		signOut: "Sign out",
 		verified: "Verified",
+		verifiedTooltip: "A verified, signed-in visitor",
 		writtenBy: "Written by ",
 		successBody: "Thanks for signing the guestbook!",
 		errorBody: "Your message couldn't be posted. Please try again in a moment.",

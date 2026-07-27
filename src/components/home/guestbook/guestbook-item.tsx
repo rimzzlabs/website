@@ -17,6 +17,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useDeleteGuestbookComment } from "@/hooks/use-delete-guestbook-comment";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
@@ -71,7 +72,15 @@ export function GuestbookItem(props: {
 				)}
 
 				{isVerified && (
-					<BadgeCheck role="img" aria-label={t.verified} className="size-4 text-primary" />
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger className="cursor-help">
+								<BadgeCheck role="img" aria-label={t.verified} className="size-4 text-primary" />
+							</TooltipTrigger>
+
+							<TooltipContent>{t.verifiedTooltip}</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				)}
 
 				<span className="ml-auto text-xs text-muted-foreground">
