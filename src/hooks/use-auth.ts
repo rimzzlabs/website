@@ -9,10 +9,10 @@ export function useAuth() {
 	const session = authClient.useSession();
 
 	function login(provider: AuthProvider) {
-		authClient.signIn.social({
-			provider,
-			callbackURL: window.location.pathname + window.location.search,
-		});
+		const returnTo = window.location.pathname + window.location.search;
+		// Denying/canceling consent → come back to the page instead of better-auth's
+		// error page. The ?error param is stripped on load by useClearAuthError().
+		authClient.signIn.social({ provider, callbackURL: returnTo, errorCallbackURL: returnTo });
 	}
 
 	async function signOut() {
