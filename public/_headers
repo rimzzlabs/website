@@ -12,3 +12,9 @@
 # Serve agent skills as markdown, not octet-stream.
 /.well-known/agent-skills/*/SKILL.md
   Content-Type: text/markdown; charset=utf-8
+
+# Markdown variants of pages, served via `Accept: text/markdown` negotiation in
+# functions/_middleware.ts. Direct hits work too, but keep them out of search.
+/md/*
+  Content-Type: text/markdown; charset=utf-8
+  X-Robots-Tag: noindex
