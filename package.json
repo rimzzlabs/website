@@ -4,7 +4,7 @@
 	"version": "0.0.2",
 	"scripts": {
 		"dev": "astro sync && astro dev",
-		"build": "astro sync && astro build",
+		"build": "pnpm guestbook:migrate:remote && astro sync && astro build",
 		"preview": "astro preview",
 		"check": "astro check",
 		"lint": "biome check",
@@ -14,7 +14,7 @@
 		"prepare": "husky",
 		"guestbook:migrate": "wrangler d1 migrations apply guestbook --local",
 		"guestbook:migrate:remote": "wrangler d1 migrations apply guestbook --remote",
-		"guestbook:preview": "wrangler d1 migrations apply guestbook --local && pnpm build && wrangler pages dev dist"
+		"guestbook:preview": "wrangler d1 migrations apply guestbook --local && astro sync && astro build && wrangler pages dev dist"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^7.0.0",
