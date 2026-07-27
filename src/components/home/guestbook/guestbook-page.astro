@@ -10,7 +10,7 @@ import { GuestbookButton } from "./guestbook-button";
 import { GuestbookFeed } from "./guestbook-feed";
 
 interface Props {
-	lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
@@ -22,19 +22,28 @@ const initial = await getRecentCommentsAtBuild(10);
   <Seo slot="metadata" title={t.seoTitle} description={t.description} />
 
   <Section class="pt-12 pb-16 lg:pt-24">
-    <div class="flex items-start justify-between gap-4 pb-8">
+    <div
+      class="flex flex-col gap-6 pb-8 sm:flex-row sm:justify-between sm:gap-4"
+    >
       <div>
         <h1
           class="text-4xl leading-none font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl"
         >
           {t.heading}
         </h1>
-        <p class="max-w-2xl pt-4 text-pretty text-muted-foreground lg:pt-6 lg:text-lg">
+        <p
+          class="max-w-2xl pt-4 text-pretty text-muted-foreground lg:pt-6 lg:text-lg"
+        >
           {t.description}
         </p>
       </div>
 
-      <GuestbookButton client:visible lang={lang} siteKey={PUBLIC_CF_TURNSTILE_SITE_KEY} />
+      <GuestbookButton
+        lang={lang}
+        client:visible
+        className="sm:mt-3"
+        siteKey={PUBLIC_CF_TURNSTILE_SITE_KEY}
+      />
     </div>
 
     <GuestbookFeed

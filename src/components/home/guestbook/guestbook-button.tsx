@@ -14,12 +14,13 @@ import { useClearAuthError } from "@/hooks/use-clear-auth-error";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import { getQueryClient } from "@/lib/query-client";
+import { cn } from "@/lib/utils";
 
 const GuestbookCompose = lazy(() =>
 	import("./guestbook-compose").then((m) => ({ default: m.GuestbookCompose })),
 );
 
-type GuestbookButtonProps = { lang: Lang; siteKey: string };
+type GuestbookButtonProps = { lang: Lang; siteKey: string; className?: string };
 
 export function GuestbookButton(props: GuestbookButtonProps) {
 	const t = getDictionary(props.lang).guestbook;
@@ -29,7 +30,7 @@ export function GuestbookButton(props: GuestbookButtonProps) {
 	return (
 		<QueryClientProvider client={getQueryClient()}>
 			<Dialog open={open} onOpenChange={setOpen}>
-				<DialogTrigger render={<Button />}>
+				<DialogTrigger render={<Button className={cn("max-sm:w-full", props.className)} />}>
 					<Plus />
 					{t.write}
 				</DialogTrigger>
