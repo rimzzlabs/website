@@ -1,0 +1,24 @@
+{
+	"linkset": [
+		{
+			"anchor": "https://rimzzlabs.com/api/guestbook",
+			"service-desc": [
+				{ "href": "https://rimzzlabs.com/openapi.json", "type": "application/json" }
+			],
+			"service-doc": [
+				{
+					"href": "https://rimzzlabs.com/.well-known/agent-skills/guestbook/SKILL.md",
+					"type": "text/markdown"
+				}
+			],
+			"status": [{ "href": "https://rimzzlabs.com/api/health" }]
+		},
+		{
+			"anchor": "https://rimzzlabs.com/api/contact",
+			"service-desc": [
+				{ "href": "https://rimzzlabs.com/openapi.json", "type": "application/json" }
+			],
+			"status": [{ "href": "https://rimzzlabs.com/api/health" }]
+		}
+	]
+}

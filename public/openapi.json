@@ -1,0 +1,316 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "rimzzlabs.com API",
+		"version": "1.0.0",
+		"description": "Public API behind rimzzlabs.com: a guestbook (read open to everyone, writes protected by Cloudflare Turnstile or a browser OAuth session) and a contact form. Advertised for discovery via /.well-known/api-catalog (RFC 9727).",
+		"contact": { "name": "Rizki Citra", "url": "https://rimzzlabs.com" }
+	},
+	"servers": [{ "url": "https://rimzzlabs.com" }],
+	"paths": {
+		"/api/health": {
+			"get": {
+				"operationId": "getHealth",
+				"summary": "API liveness check",
+				"responses": {
+					"200": {
+						"description": "API is up",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": { "status": { "type": "string", "const": "ok" } },
+									"required": ["status"]
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/guestbook": {
+			"get": {
+				"operationId": "listGuestbookComments",
+				"summary": "List guestbook comments, newest first",
+				"parameters": [
+					{
+						"name": "offset",
+						"in": "query",
+						"schema": { "type": "integer", "minimum": 0, "default": 0 }
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"schema": { "type": "integer", "minimum": 1, "maximum": 50, "default": 10 }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "One page of comments. `nextOffset` is null on the last page.",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/GuestbookPage" } }
+						}
+					}
+				}
+			},
+			"post": {
+				"operationId": "createGuestbookComment",
+				"summary": "Post a guestbook comment",
+				"description": "Two modes. Anonymous: send name, message, and a Cloudflare Turnstile token (obtainable only by rendering the Turnstile widget in a real browser); the response sets an HttpOnly `gb_owner` cookie that authorizes later edits/deletes of your own comments. Signed-in (browser session cookie from GitHub/Google OAuth via /api/auth): send only message and optional site; the author name comes from the OAuth profile. Fully headless clients cannot post — this is intentional bot protection; reading is unrestricted.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"oneOf": [
+									{ "$ref": "#/components/schemas/AnonymousCommentInput" },
+									{ "$ref": "#/components/schemas/VerifiedCommentInput" }
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Comment created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": { "item": { "$ref": "#/components/schemas/GuestbookComment" } },
+									"required": ["item"]
+								}
+							}
+						}
+					},
+					"400": { "$ref": "#/components/responses/BadRequest" },
+					"403": {
+						"description": "Turnstile verification failed",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+						}
+					}
+				}
+			}
+		},
+		"/api/guestbook/{id}": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"schema": { "type": "integer", "minimum": 1 }
+				}
+			],
+			"patch": {
+				"operationId": "editGuestbookComment",
+				"summary": "Edit your own comment",
+				"description": "Authorized by the `gb_owner` cookie (anonymous authors) or the OAuth session cookie (verified authors). Anonymous authors may change their name; verified authors keep the provider name.",
+				"security": [{ "ownerCookie": [] }, { "sessionCookie": [] }],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"oneOf": [
+									{ "$ref": "#/components/schemas/AnonymousEditInput" },
+									{ "$ref": "#/components/schemas/VerifiedCommentInput" }
+								]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Updated comment",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": { "item": { "$ref": "#/components/schemas/GuestbookComment" } },
+									"required": ["item"]
+								}
+							}
+						}
+					},
+					"400": { "$ref": "#/components/responses/BadRequest" },
+					"403": { "$ref": "#/components/responses/Forbidden" },
+					"404": { "$ref": "#/components/responses/NotFound" }
+				}
+			},
+			"delete": {
+				"operationId": "deleteGuestbookComment",
+				"summary": "Delete your own comment",
+				"security": [{ "ownerCookie": [] }, { "sessionCookie": [] }],
+				"responses": {
+					"200": {
+						"description": "Deleted",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": { "ok": { "type": "boolean", "const": true } },
+									"required": ["ok"]
+								}
+							}
+						}
+					},
+					"403": { "$ref": "#/components/responses/Forbidden" },
+					"404": { "$ref": "#/components/responses/NotFound" }
+				}
+			}
+		},
+		"/api/contact": {
+			"post": {
+				"operationId": "sendContactMessage",
+				"summary": "Send a message to the site owner",
+				"description": "Delivers an email via the contact form pipeline. Requires a Cloudflare Turnstile token, so it can only be completed from a real browser.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": { "schema": { "$ref": "#/components/schemas/ContactInput" } }
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Message sent",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": { "ok": { "type": "boolean", "const": true } },
+									"required": ["ok"]
+								}
+							}
+						}
+					},
+					"400": { "$ref": "#/components/responses/BadRequest" },
+					"403": {
+						"description": "Turnstile verification failed",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+						}
+					},
+					"502": {
+						"description": "Email delivery failed",
+						"content": {
+							"application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"ownerCookie": {
+				"type": "apiKey",
+				"in": "cookie",
+				"name": "gb_owner",
+				"description": "HttpOnly cookie set when posting an anonymous comment; proves ownership for edits and deletes."
+			},
+			"sessionCookie": {
+				"type": "apiKey",
+				"in": "cookie",
+				"name": "better-auth.session_token",
+				"description": "Browser session established via GitHub or Google OAuth at /api/auth. There is no client-credentials or device flow — sign-in requires a browser."
+			}
+		},
+		"responses": {
+			"BadRequest": {
+				"description": "Invalid JSON or input failed validation",
+				"content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+			},
+			"Forbidden": {
+				"description": "You do not own this comment",
+				"content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+			},
+			"NotFound": {
+				"description": "Comment not found",
+				"content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+			}
+		},
+		"schemas": {
+			"Error": {
+				"type": "object",
+				"properties": { "error": { "type": "string" } },
+				"required": ["error"]
+			},
+			"GuestbookComment": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "integer" },
+					"name": { "type": "string" },
+					"site": { "type": ["string", "null"] },
+					"message": { "type": "string" },
+					"createdAt": { "type": "integer", "description": "Unix epoch milliseconds" },
+					"updatedAt": { "type": ["integer", "null"], "description": "Unix epoch milliseconds" },
+					"authorType": { "type": "string", "enum": ["anon", "github", "google"] },
+					"avatar": { "type": ["string", "null"] },
+					"isOwn": { "type": "boolean" }
+				},
+				"required": [
+					"id",
+					"name",
+					"site",
+					"message",
+					"createdAt",
+					"updatedAt",
+					"authorType",
+					"avatar",
+					"isOwn"
+				]
+			},
+			"GuestbookPage": {
+				"type": "object",
+				"properties": {
+					"items": {
+						"type": "array",
+						"items": { "$ref": "#/components/schemas/GuestbookComment" }
+					},
+					"nextOffset": { "type": ["integer", "null"] }
+				},
+				"required": ["items", "nextOffset"]
+			},
+			"AnonymousCommentInput": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string", "minLength": 1, "maxLength": 100 },
+					"site": { "type": "string", "maxLength": 200 },
+					"message": { "type": "string", "minLength": 1, "maxLength": 500 },
+					"token": { "type": "string", "description": "Cloudflare Turnstile response token" }
+				},
+				"required": ["name", "message", "token"]
+			},
+			"AnonymousEditInput": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string", "minLength": 1, "maxLength": 100 },
+					"site": { "type": "string", "maxLength": 200 },
+					"message": { "type": "string", "minLength": 1, "maxLength": 500 }
+				},
+				"required": ["name", "message"]
+			},
+			"VerifiedCommentInput": {
+				"type": "object",
+				"properties": {
+					"site": { "type": "string", "maxLength": 200 },
+					"message": { "type": "string", "minLength": 1, "maxLength": 500 }
+				},
+				"required": ["message"]
+			},
+			"ContactInput": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string", "minLength": 1, "maxLength": 100 },
+					"email": { "type": "string", "format": "email", "maxLength": 200 },
+					"subject": { "type": "string", "minLength": 1, "maxLength": 200 },
+					"bodyHtml": { "type": "string", "maxLength": 20000 },
+					"bodyText": { "type": "string", "minLength": 1 },
+					"token": { "type": "string", "description": "Cloudflare Turnstile response token" }
+				},
+				"required": ["name", "email", "subject", "bodyText", "token"]
+			}
+		}
+	}
+}
