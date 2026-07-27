@@ -25,3 +25,32 @@ CONTACT_FROM_EMAIL=
 
 # Where contact messages are delivered — your own inbox. Any address works.
 CONTACT_TO_EMAIL=
+
+# --- Guestbook (functions/api/guestbook.ts) ---
+# Reuses RESEND_KEY and CF_TURNSTILE_SECRET_KEY above. The "new comment"
+# notification falls back to CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL when these
+# are blank, so they're optional — set them only to route guestbook mail apart.
+GUESTBOOK_FROM_EMAIL=
+GUESTBOOK_NOTIFY_TO=
+
+# Cloudflare Pages deploy hook. On a new/edited/deleted comment the Function pings
+# this URL so the baked (crawlable) comment snapshot rebuilds — debounced to at
+# most once/minute. Create it at: Pages project -> Settings -> Builds & deployments
+# -> Deploy hooks. Optional; leave blank to skip rebuilds.
+PAGES_DEPLOY_HOOK_URL=
+
+# --- Guestbook auth (better-auth, functions/api/auth/[[all]].ts) ---
+# Secret better-auth uses to sign sessions. Generate one with:
+#   openssl rand -base64 48
+SESSION_SECRET=
+
+# GitHub OAuth app (Settings -> Developer settings -> OAuth Apps). Authorization
+# callback URL: <origin>/api/auth/callback/github (add the localhost one for
+# `wrangler pages dev`). The app needs the user:email scope.
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+# Google OAuth client (Google Cloud Console -> Credentials -> OAuth client ID,
+# type Web application). Authorized redirect URI: <origin>/api/auth/callback/google
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=

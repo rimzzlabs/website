@@ -4,5 +4,16 @@
 	// Static Astro output; functions/ runs as Pages Functions alongside it.
 	// The runtime Node version (build toolchain) is pinned separately in .nvmrc.
 	"pages_build_output_dir": "./dist",
-	"compatibility_date": "2026-06-30"
+	"compatibility_date": "2026-06-30",
+	// better-auth (functions/api/auth) needs Node built-ins (async_hooks, crypto).
+	"compatibility_flags": ["nodejs_compat"],
+	// D1 backing the guestbook (functions/api/guestbook.ts). Schema lives in
+	// migrations/; apply it with `pnpm wrangler d1 migrations apply guestbook`.
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "guestbook",
+			"database_id": "df6ede88-a59b-4e2d-b3cf-20052c17026f"
+		}
+	]
 }
