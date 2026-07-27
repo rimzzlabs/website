@@ -33,6 +33,12 @@ CONTACT_TO_EMAIL=
 GUESTBOOK_FROM_EMAIL=
 GUESTBOOK_NOTIFY_TO=
 
+# Cloudflare Pages deploy hook. On a new/edited/deleted comment the Function pings
+# this URL so the baked (crawlable) comment snapshot rebuilds — debounced to at
+# most once/minute. Create it at: Pages project -> Settings -> Builds & deployments
+# -> Deploy hooks. Optional; leave blank to skip rebuilds.
+PAGES_DEPLOY_HOOK_URL=
+
 # --- Guestbook auth (better-auth, functions/api/auth/[[all]].ts) ---
 # Secret better-auth uses to sign sessions. Generate one with:
 #   openssl rand -base64 48

@@ -58,6 +58,10 @@ export const en = {
 	guestbook: {
 		heading: "Guestbook",
 		description: "Thanks for checking out my site. Leave a review, comment or just say hi.",
+		sectionDescription: "The latest messages from recent visitors.",
+		seoTitle: "Guestbook",
+		previewNote: "Read them all, or leave one of your own.",
+		openGuestbook: "Open the guestbook",
 		write: "Write a message",
 		empty: {
 			title: "No one here yet",
@@ -94,7 +98,7 @@ export const en = {
 		or: "or",
 		postingAs: "Posting as",
 		signOut: "Sign out",
-		verifiedVia: "via",
+		verified: "Verified",
 		writtenBy: "Written by ",
 		successBody: "Thanks for signing the guestbook!",
 		errorBody: "Your message couldn't be posted. Please try again in a moment.",

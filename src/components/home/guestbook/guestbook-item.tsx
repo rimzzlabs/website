@@ -1,4 +1,4 @@
-import { ArrowUpRight, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
 	AlertDialog,
@@ -23,7 +23,11 @@ import { getDictionary } from "@/i18n/dictionary";
 import type { GuestbookComment } from "@/lib/guestbook-schema";
 import { GuestbookEditDialog } from "./guestbook-edit-dialog";
 
-export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) {
+export function GuestbookItem(props: {
+	lang: Lang;
+	comment: GuestbookComment;
+	readOnly?: boolean;
+}) {
 	const t = getDictionary(props.lang).guestbook;
 	const deletion = useDeleteGuestbookComment();
 	const [editOpen, setEditOpen] = useState(false);
@@ -35,14 +39,14 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 
 	const comment = props.comment;
 	const isVerified = comment.authorType !== "anon";
-	const providerLabel = comment.authorType === "github" ? "GitHub" : "Google";
+	const authorId = `gb-author-${comment.id}`;
 
 	function handleDelete() {
 		deletion.mutate(comment.id, { onSuccess: () => setDeleteOpen(false) });
 	}
 
 	return (
-		<article className="py-4">
+		<article className="py-4" aria-labelledby={authorId}>
 			<div className="flex items-center gap-2 pb-2">
 				{isVerified && comment.avatar && (
 					<img src={comment.avatar} alt="" width={24} height={24} className="size-6 rounded-full" />
@@ -50,6 +54,7 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 
 				{comment.site ? (
 					<Button
+						id={authorId}
 						nativeButton={false}
 						render={<a href={comment.site} rel="noopener nofollow" target="_blank" />}
 						variant="unstyled"
@@ -59,16 +64,14 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 						{comment.name} <ArrowUpRight className="size-3 align-text-top" />
 					</Button>
 				) : (
-					<span className="text-sm font-semibold">
+					<span className="text-sm font-semibold" id={authorId}>
 						<span className="sr-only">{t.writtenBy}</span>
 						{comment.name}
 					</span>
 				)}
 
 				{isVerified && (
-					<span className="rounded-full bg-muted px-1.5 py-0.5 text-[0.65rem] font-medium text-muted-foreground">
-						{t.verifiedVia} {providerLabel}
-					</span>
+					<BadgeCheck role="img" aria-label={t.verified} className="size-4 text-primary" />
 				)}
 
 				<span className="ml-auto text-xs text-muted-foreground">
@@ -78,7 +81,7 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 					{comment.updatedAt && <span> · {t.edited}</span>}
 				</span>
 
-				{comment.isOwn && (
+				{!props.readOnly && comment.isOwn && (
 					<DropdownMenu>
 						<DropdownMenuTrigger
 							render={
@@ -104,7 +107,7 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 
 			<blockquote className="text-sm border-l-4 pl-3 text-pretty">{comment.message}</blockquote>
 
-			{comment.isOwn && (
+			{!props.readOnly && comment.isOwn && (
 				<GuestbookEditDialog
 					lang={props.lang}
 					comment={comment}
@@ -113,7 +116,7 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 				/>
 			)}
 
-			{comment.isOwn && (
+			{!props.readOnly && comment.isOwn && (
 				<AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
 					<AlertDialogContent>
 						<AlertDialogHeader>

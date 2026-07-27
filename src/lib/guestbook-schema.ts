@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const GUESTBOOK_LIMITS = { name: 100, site: 200, message: 500 } as const;
 export const AUTHOR_TYPES = ["anon", "github", "google"] as const;
+export type AuthorType = (typeof AUTHOR_TYPES)[number];
 
 export type GuestbookContentMessages = { name: string; message: string };
 export type GuestbookMessages = GuestbookContentMessages & { token: string };

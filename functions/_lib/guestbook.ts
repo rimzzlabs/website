@@ -27,6 +27,7 @@ export interface GuestbookEnv {
 	GUESTBOOK_NOTIFY_TO?: string;
 	CONTACT_FROM_EMAIL?: string;
 	CONTACT_TO_EMAIL?: string;
+	PAGES_DEPLOY_HOOK_URL?: string;
 }
 
 export type AuthorType = "anon" | "github" | "google";
@@ -116,4 +117,20 @@ export function toComment(row: CommentRow, viewer: Viewer): GuestbookCommentDTO 
 
 function toHex(bytes: Uint8Array): string {
 	return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+const REBUILD_LOCK = "https://guestbook.internal/rebuild-lock";
+
+// Ping the Pages deploy hook so the baked (crawlable) comment snapshot refreshes
+// after a write. Debounced via the edge cache so a burst can't spam rebuilds.
+export async function triggerRebuild(env: GuestbookEnv): Promise<void> {
+	if (!env.PAGES_DEPLOY_HOOK_URL) return;
+	const cache = (caches as unknown as { default: Cache }).default;
+	if (await cache.match(REBUILD_LOCK)) return;
+	await cache.put(REBUILD_LOCK, new Response(null, { headers: { "cache-control": "max-age=60" } }));
+	try {
+		await fetch(env.PAGES_DEPLOY_HOOK_URL, { method: "POST" });
+	} catch (error) {
+		console.error("Guestbook rebuild trigger failed:", error);
+	}
 }

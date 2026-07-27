@@ -24,6 +24,19 @@ export default defineConfig({
 				context: "client",
 				access: "public",
 			}),
+			// Build-time only: query D1 over the REST API to bake recent comments
+			// into the static guestbook HTML (crawlable). Optional — falls back to
+			// client fetching when unset.
+			CLOUDFLARE_ACCOUNT_ID: envField.string({
+				context: "server",
+				access: "secret",
+				optional: true,
+			}),
+			CLOUDFLARE_API_TOKEN: envField.string({
+				context: "server",
+				access: "secret",
+				optional: true,
+			}),
 		},
 	},
 	devToolbar: { enabled: false },

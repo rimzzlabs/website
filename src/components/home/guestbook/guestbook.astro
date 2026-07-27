@@ -1,10 +1,12 @@
 ---
-import { PUBLIC_CF_TURNSTILE_SITE_KEY } from "astro:env/client";
+import { ArrowRight } from "lucide-react";
+import Link from "@/components/shared/link.astro";
 import Section from "@/components/shared/section.astro";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
-import { GuestbookButton } from "./guestbook-button";
-import { GuestbookFeed } from "./guestbook-feed";
+import { localizePath } from "@/i18n/utils";
+import { getRecentCommentsAtBuild } from "@/lib/guestbook-build";
+import { GuestbookPreview } from "./guestbook-preview";
 
 interface Props {
 	lang: Lang;
@@ -12,19 +14,26 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = getDictionary(lang).guestbook;
+const href = localizePath("/guestbook", lang);
+const preview = await getRecentCommentsAtBuild(5);
 ---
 
 <Section>
-  <div class="flex justify-between">
-    <div>
-      <h2 class="text-pretty text-2xl font-bold pb-4 tracking-tight">
-        {t.heading}
-      </h2>
-      <p class="text-balance pb-4">{t.description}</p>
-    </div>
+  <h2 class="text-pretty text-2xl font-bold pb-4 tracking-tight">
+    {t.heading}
+  </h2>
+  <p class="text-balance pb-6">{t.sectionDescription}</p>
 
-    <GuestbookButton client:visible lang={lang} siteKey={PUBLIC_CF_TURNSTILE_SITE_KEY} />
+  <GuestbookPreview
+    client:visible
+    lang={lang}
+    comments={preview.items.length > 0 ? preview.items : undefined}
+  />
+
+  <div
+    class="mt-6 flex flex-col gap-3 border-t pt-6 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <p class="text-balance text-sm text-muted-foreground">{t.previewNote}</p>
+    <Link href={href} class="sm:h-8">{t.openGuestbook} <ArrowRight /></Link>
   </div>
-
-  <GuestbookFeed client:visible lang={lang} />
 </Section>

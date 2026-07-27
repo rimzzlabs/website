@@ -15,7 +15,14 @@ const PAGE_SIZE = 10;
 export const guestbookKeys = {
 	all: ["guestbook"] as const,
 	feed: () => [...guestbookKeys.all, "feed"] as const,
+	preview: (limit: number) => [...guestbookKeys.all, "preview", limit] as const,
 };
+
+export async function fetchRecentComments(limit: number): Promise<GuestbookComment[]> {
+	const res = await fetch(`${ENDPOINT}?offset=0&limit=${limit}`);
+	if (!res.ok) throw new Error("guestbook_load_failed");
+	return guestbookPageSchema.parse(await res.json()).items;
+}
 
 async function fetchGuestbookPage(offset: number): Promise<GuestbookPage> {
 	const res = await fetch(`${ENDPOINT}?offset=${offset}&limit=${PAGE_SIZE}`);

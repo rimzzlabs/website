@@ -10,6 +10,7 @@ import {
 	ownsComment,
 	readOwnerToken,
 	toComment,
+	triggerRebuild,
 	type Viewer,
 } from "../../_lib/guestbook";
 
@@ -17,6 +18,7 @@ interface ItemContext {
 	request: Request;
 	env: GuestbookEnv;
 	params: { id: string };
+	waitUntil(promise: Promise<unknown>): void;
 }
 
 const editSchema = guestbookEditSchema({ name: "invalid", message: "invalid" });
@@ -87,6 +89,7 @@ export async function onRequestPatch(context: ItemContext): Promise<Response> {
 		.run();
 
 	const item = toComment({ ...auth.row, name, site, message, updatedAt }, auth.viewer);
+	context.waitUntil(triggerRebuild(context.env));
 	return json({ item }, 200);
 }
 
@@ -98,5 +101,6 @@ export async function onRequestDelete(context: ItemContext): Promise<Response> {
 	if (auth instanceof Response) return auth;
 
 	await context.env.DB.prepare("DELETE FROM comments WHERE id = ?").bind(id).run();
+	context.waitUntil(triggerRebuild(context.env));
 	return json({ ok: true }, 200);
 }

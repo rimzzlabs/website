@@ -17,12 +17,14 @@ import {
 	ownerSetCookie,
 	readOwnerToken,
 	toComment,
+	triggerRebuild,
 } from "../_lib/guestbook";
 import { verifyTurnstile } from "../_lib/turnstile";
 
 interface FunctionContext {
 	request: Request;
 	env: GuestbookEnv;
+	waitUntil(promise: Promise<unknown>): void;
 }
 
 const inputSchema = guestbookInputSchema({ name: "invalid", message: "invalid", token: "invalid" });
@@ -151,6 +153,7 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
 			isOwn: true,
 		};
 		await notify(env, item);
+		context.waitUntil(triggerRebuild(env));
 		return json({ item }, 201);
 	}
 
@@ -192,6 +195,7 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
 		isOwn: true,
 	};
 	await notify(env, item);
+	context.waitUntil(triggerRebuild(env));
 
 	const headers = existingToken ? undefined : { "set-cookie": ownerSetCookie(ownerToken) };
 	return json({ item }, 201, headers);

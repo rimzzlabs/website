@@ -65,6 +65,10 @@ export const id: Dictionary = {
 		heading: "Buku Tamu",
 		description:
 			"Terima kasih sudah mampir ke situs saya. Tinggalkan ulasan, komentar, atau sekadar menyapa.",
+		sectionDescription: "Pesan terbaru dari pengunjung.",
+		seoTitle: "Buku Tamu",
+		previewNote: "Baca semuanya, atau tinggalkan pesanmu.",
+		openGuestbook: "Buka buku tamu",
 		write: "Tulis pesan",
 		empty: {
 			title: "Belum ada siapa-siapa",
@@ -101,7 +105,7 @@ export const id: Dictionary = {
 		or: "atau",
 		postingAs: "Menulis sebagai",
 		signOut: "Keluar",
-		verifiedVia: "via",
+		verified: "Terverifikasi",
 		writtenBy: "Ditulis oleh ",
 		successBody: "Terima kasih sudah mengisi buku tamu!",
 		errorBody: "Pesan Anda gagal dikirim. Silakan coba lagi sebentar.",
