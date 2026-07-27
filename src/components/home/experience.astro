@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import Section from "../shared/section.astro";
+import { EXPERIENCE_COMPANIES } from "./experience-companies";
 
 interface Props {
   lang: Lang;
@@ -11,26 +12,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = getDictionary(lang).experience;
 
-const companies: Array<{
-  key: keyof typeof t.items;
-  company: string;
-  url: string;
-}> = [
-  { key: "kolosal", company: "Kolosal AI", url: "https://kolosal.ai" },
-  { key: "bitwyre", company: "Bitwyre", url: "https://bitwyre.com" },
-  {
-    key: "skyshi-fe",
-    company: "Skyshi Digital Indonesia",
-    url: "https://skyshi.com",
-  },
-  {
-    key: "skyshi-intern",
-    company: "Skyshi Digital Indonesia",
-    url: "https://skyshi.com",
-  },
-];
-
-const experiences = companies.map(({ key, company, url }) => ({
+const experiences = EXPERIENCE_COMPANIES.map(({ key, company, url }) => ({
   company,
   url,
   ...t.items[key],
