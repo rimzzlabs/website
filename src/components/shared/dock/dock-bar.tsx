@@ -1,6 +1,6 @@
 import { RestrictToWindow } from "@dnd-kit/dom/modifiers";
 import { useDraggable } from "@dnd-kit/react";
-import { Grip, HomeIcon, NotebookText, Radio } from "lucide-react";
+import { Grip, HomeIcon, MessagesSquare, NotebookText, Radio } from "lucide-react";
 import { motion } from "motion/react";
 import { useMotionEnabled } from "@/hooks/use-motion";
 import type { Lang } from "@/i18n/config";
@@ -135,6 +135,16 @@ export function DockBar({
 							current={path.startsWith("/now")}
 						>
 							<Radio className="size-4" />
+						</DockLink>
+					</li>
+
+					<li className="max-sm:hidden">
+						<DockLink
+							href={localizePath("/guestbook", lang)}
+							label={nav.guestbook}
+							current={path.startsWith("/guestbook")}
+						>
+							<MessagesSquare className="size-4" />
 						</DockLink>
 					</li>
 

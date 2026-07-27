@@ -9,6 +9,7 @@ export const en = {
 		home: "Home",
 		notes: "Notes",
 		now: "Now",
+		guestbook: "Guestbook",
 		dragToMove: "Drag to move",
 		hideDock: "Hide dock",
 		pages: "Pages",

@@ -11,6 +11,7 @@ export const id: Dictionary = {
 		home: "Beranda",
 		notes: "Catatan",
 		now: "Now",
+		guestbook: "Buku Tamu",
 		dragToMove: "Geser untuk memindahkan",
 		hideDock: "Sembunyikan dock",
 		pages: "Halaman",
