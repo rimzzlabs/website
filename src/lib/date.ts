@@ -1,28 +1,35 @@
+import { TZDateMini } from "@date-fns/tz";
+import { format, formatDistanceToNow, type Locale } from "date-fns";
+import { enGB, id as idID } from "date-fns/locale";
 import { DEFAULT_LOCALE, type Lang } from "@/i18n/config";
 
-const DATE_LOCALE: Record<Lang, string> = {
-	en: "en-GB",
-	id: "id-ID",
+const locales: Record<Lang, Locale> = {
+	en: enGB,
+	id: idID,
 };
 
-const formatters: Record<Lang, Intl.DateTimeFormat> = {
-	en: new Intl.DateTimeFormat(DATE_LOCALE.en, {
-		day: "numeric",
-		weekday: "short",
-		month: "long",
-		year: "numeric",
-	}),
-	id: new Intl.DateTimeFormat(DATE_LOCALE.id, {
-		day: "numeric",
-		weekday: "short",
-		month: "long",
-		year: "numeric",
-	}),
-};
+interface FormatWithTokenConfig {
+	date: string | number | Date;
+	lang: "en" | "id";
+	timeZone?: string;
+}
 
-export function formatDate(date: string | Date | number, lang: Lang = DEFAULT_LOCALE) {
+export function createDateFormat(token: string) {
+	return function formatWithToken(config: FormatWithTokenConfig) {
+		const { date, lang, timeZone } = config;
+
+		try {
+			const value = new TZDateMini(new Date(date), timeZone);
+			return format(value, token, { locale: locales[lang] });
+		} catch {
+			return "-";
+		}
+	};
+}
+
+export function formatRelativeTime(date: string | Date | number, lang: Lang = DEFAULT_LOCALE) {
 	try {
-		return formatters[lang].format(new Date(date));
+		return formatDistanceToNow(new Date(date), { addSuffix: true, locale: locales[lang] });
 	} catch {
 		return "-";
 	}
@@ -35,3 +42,5 @@ export function dateToISO(date: string | Date | number) {
 		return "-";
 	}
 }
+
+export const formatDate = createDateFormat("EEE, d MMMM yyyy");

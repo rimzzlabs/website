@@ -1,5 +1,6 @@
-import { defineCollection, reference, z } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const noteSchema = z.object({
 	title: z.string(),

@@ -1,5 +1,5 @@
 import { ArrowUpRight, BadgeCheck, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -21,8 +21,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useDeleteGuestbookComment } from "@/hooks/use-delete-guestbook-comment";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
+import { createDateFormat, dateToISO, formatRelativeTime } from "@/lib/date";
 import type { GuestbookComment } from "@/lib/guestbook-schema";
 import { GuestbookEditDialog } from "./guestbook-edit-dialog";
+
+const formatDate = createDateFormat("dd, MMM yyyy - hh:mm:ss a");
 
 export function GuestbookItem(props: {
 	lang: Lang;
@@ -33,14 +36,18 @@ export function GuestbookItem(props: {
 	const deletion = useDeleteGuestbookComment();
 	const [editOpen, setEditOpen] = useState(false);
 	const [deleteOpen, setDeleteOpen] = useState(false);
-	const formatter = useMemo(
-		() => new Intl.DateTimeFormat(props.lang, { dateStyle: "medium", timeStyle: "short" }),
-		[props.lang],
-	);
 
 	const comment = props.comment;
 	const isVerified = comment.authorType !== "anon";
 	const authorId = `gb-author-${comment.id}`;
+
+	const timestamp = formatDate({
+		lang: props.lang,
+		timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+		date: props.comment.createdAt,
+	});
+
+	const relativeTime = formatRelativeTime(comment.createdAt, props.lang);
 
 	function handleDelete() {
 		deletion.mutate(comment.id, { onSuccess: () => setDeleteOpen(false) });
@@ -84,9 +91,15 @@ export function GuestbookItem(props: {
 				)}
 
 				<span className="ml-auto text-xs text-muted-foreground">
-					<time dateTime={new Date(comment.createdAt).toISOString()}>
-						{formatter.format(comment.createdAt)}
-					</time>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger className="cursor-help">
+								<time dateTime={dateToISO(comment.createdAt)}>{relativeTime}</time>
+							</TooltipTrigger>
+
+							<TooltipContent>{timestamp}</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 					{comment.updatedAt && <span> · {t.edited}</span>}
 				</span>
 

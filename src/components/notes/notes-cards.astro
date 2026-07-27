@@ -19,13 +19,15 @@ const notesBase = localizePath("/notes", lang);
       <li class="group relative max-w-2xl py-6 first:pt-0">
         <p class="text-xs font-light text-muted-foreground sm:text-sm">
           <time datetime={dateToISO(note.data.publishedAt)}>
-            {formatDate(note.data.publishedAt, lang)}
+            {formatDate({ date: note.data.publishedAt, lang })}
           </time>
         </p>
         <h2 class="pt-1 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-xl">
           {note.data.title}
         </h2>
-        <p class="pt-1 text-sm text-muted-foreground">{note.data.description}</p>
+        <p class="pt-1 text-sm text-muted-foreground">
+          {note.data.description}
+        </p>
         <a
           href={`${notesBase}/${slug}`}
           title={note.data.title}
