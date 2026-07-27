@@ -12,8 +12,9 @@
 		"commit": "cz",
 		"ui:add": "pnpm dlx shadcn add",
 		"prepare": "husky",
-		"guestbook:migrate": "wrangler d1 migrations apply guestbook",
-		"guestbook:preview": "pnpm build && wrangler pages dev dist"
+		"guestbook:migrate": "wrangler d1 migrations apply guestbook --local",
+		"guestbook:migrate:remote": "wrangler d1 migrations apply guestbook --remote",
+		"guestbook:preview": "wrangler d1 migrations apply guestbook --local && pnpm build && wrangler pages dev dist"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^7.0.0",
@@ -40,6 +41,7 @@
 		"@types/react-dom": "^19.2.3",
 		"astro": "^7.0.3",
 		"astro-seo": "^1.1.0",
+		"better-auth": "^1.6.25",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"embla-carousel-react": "^8.6.0",

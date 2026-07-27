@@ -16,6 +16,11 @@ export interface D1Database {
 
 export interface GuestbookEnv {
 	DB: D1Database;
+	SESSION_SECRET: string;
+	GITHUB_CLIENT_ID?: string;
+	GITHUB_CLIENT_SECRET?: string;
+	GOOGLE_CLIENT_ID?: string;
+	GOOGLE_CLIENT_SECRET?: string;
 	RESEND_KEY: string;
 	CF_TURNSTILE_SECRET_KEY: string;
 	GUESTBOOK_FROM_EMAIL?: string;
@@ -24,6 +29,8 @@ export interface GuestbookEnv {
 	CONTACT_TO_EMAIL?: string;
 }
 
+export type AuthorType = "anon" | "github" | "google";
+
 export interface CommentRow {
 	id: number;
 	name: string;
@@ -31,6 +38,9 @@ export interface CommentRow {
 	message: string;
 	createdAt: number;
 	updatedAt: number | null;
+	author_type: AuthorType;
+	author_id: string | null;
+	avatar_url: string | null;
 	owner_hash: string | null;
 }
 
@@ -41,11 +51,15 @@ export type GuestbookCommentDTO = {
 	message: string;
 	createdAt: number;
 	updatedAt: number | null;
+	authorType: AuthorType;
+	avatar: string | null;
 	isOwn: boolean;
 };
 
+export type Viewer = { ownerHash: string | null; sub: string | null };
+
 export const COMMENT_COLUMNS =
-	"id, name, site, message, created_at AS createdAt, updated_at AS updatedAt, owner_hash";
+	"id, name, site, message, created_at AS createdAt, updated_at AS updatedAt, author_type, author_id, avatar_url, owner_hash";
 
 const OWNER_COOKIE = "gb_owner";
 const OWNER_MAX_AGE = 60 * 60 * 24 * 365;
@@ -69,8 +83,7 @@ export function readOwnerToken(request: Request): string | null {
 }
 
 export function mintOwnerToken(): string {
-	const bytes = crypto.getRandomValues(new Uint8Array(32));
-	return toHex(bytes);
+	return toHex(crypto.getRandomValues(new Uint8Array(32)));
 }
 
 export async function hashOwnerToken(token: string): Promise<string> {
@@ -82,7 +95,12 @@ export function ownerSetCookie(token: string): string {
 	return `${OWNER_COOKIE}=${token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${OWNER_MAX_AGE}`;
 }
 
-export function toComment(row: CommentRow, viewerHash: string | null): GuestbookCommentDTO {
+export function ownsComment(row: CommentRow, viewer: Viewer): boolean {
+	if (row.owner_hash != null && row.owner_hash === viewer.ownerHash) return true;
+	return row.author_id != null && viewer.sub != null && row.author_id === viewer.sub;
+}
+
+export function toComment(row: CommentRow, viewer: Viewer): GuestbookCommentDTO {
 	return {
 		id: row.id,
 		name: row.name,
@@ -90,7 +108,9 @@ export function toComment(row: CommentRow, viewerHash: string | null): Guestbook
 		message: row.message,
 		createdAt: row.createdAt,
 		updatedAt: row.updatedAt,
-		isOwn: row.owner_hash != null && row.owner_hash === viewerHash,
+		authorType: row.author_type,
+		avatar: row.avatar_url,
+		isOwn: ownsComment(row, viewer),
 	};
 }
 

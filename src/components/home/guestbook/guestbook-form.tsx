@@ -48,7 +48,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 		<FormProvider {...methods}>
 			<form onSubmit={onSubmit} noValidate>
 				<FieldGroup className="pb-4 gap-4">
-					<GuestbookFields lang={props.lang} idPrefix="guestbook-create" />
+					<GuestbookFields lang={props.lang} idPrefix="guestbook-create" showName />
 
 					<Field>
 						<Turnstile

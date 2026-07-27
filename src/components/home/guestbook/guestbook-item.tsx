@@ -34,6 +34,8 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 	);
 
 	const comment = props.comment;
+	const isVerified = comment.authorType !== "anon";
+	const providerLabel = comment.authorType === "github" ? "GitHub" : "Google";
 
 	function handleDelete() {
 		deletion.mutate(comment.id, { onSuccess: () => setDeleteOpen(false) });
@@ -42,6 +44,10 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 	return (
 		<article className="py-4">
 			<div className="flex items-center gap-2 pb-2">
+				{isVerified && comment.avatar && (
+					<img src={comment.avatar} alt="" width={24} height={24} className="size-6 rounded-full" />
+				)}
+
 				{comment.site ? (
 					<Button
 						nativeButton={false}
@@ -56,6 +62,12 @@ export function GuestbookItem(props: { lang: Lang; comment: GuestbookComment }) 
 					<span className="text-sm font-semibold">
 						<span className="sr-only">{t.writtenBy}</span>
 						{comment.name}
+					</span>
+				)}
+
+				{isVerified && (
+					<span className="rounded-full bg-muted px-1.5 py-0.5 text-[0.65rem] font-medium text-muted-foreground">
+						{t.verifiedVia} {providerLabel}
 					</span>
 				)}
 

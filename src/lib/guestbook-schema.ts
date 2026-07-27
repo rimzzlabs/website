@@ -1,15 +1,22 @@
 import { z } from "zod";
 
 export const GUESTBOOK_LIMITS = { name: 100, site: 200, message: 500 } as const;
+export const AUTHOR_TYPES = ["anon", "github", "google"] as const;
 
 export type GuestbookContentMessages = { name: string; message: string };
 export type GuestbookMessages = GuestbookContentMessages & { token: string };
 
+function verifiedFields(messages: { message: string }) {
+	return {
+		site: z.string().trim().max(GUESTBOOK_LIMITS.site).optional(),
+		message: z.string().trim().min(1, messages.message).max(GUESTBOOK_LIMITS.message),
+	};
+}
+
 function contentFields(messages: GuestbookContentMessages) {
 	return {
 		name: z.string().trim().min(1, messages.name).max(GUESTBOOK_LIMITS.name),
-		site: z.string().trim().max(GUESTBOOK_LIMITS.site).optional(),
-		message: z.string().trim().min(1, messages.message).max(GUESTBOOK_LIMITS.message),
+		...verifiedFields(messages),
 	};
 }
 
@@ -21,8 +28,13 @@ export function guestbookEditSchema(messages: GuestbookContentMessages) {
 	return z.object(contentFields(messages));
 }
 
+export function guestbookVerifiedSchema(messages: { message: string }) {
+	return z.object(verifiedFields(messages));
+}
+
 export type GuestbookInput = z.infer<ReturnType<typeof guestbookInputSchema>>;
 export type GuestbookEditInput = z.infer<ReturnType<typeof guestbookEditSchema>>;
+export type GuestbookVerifiedInput = z.infer<ReturnType<typeof guestbookVerifiedSchema>>;
 
 export const guestbookCommentSchema = z.object({
 	id: z.number(),
@@ -31,6 +43,8 @@ export const guestbookCommentSchema = z.object({
 	message: z.string(),
 	createdAt: z.number(),
 	updatedAt: z.number().nullable(),
+	authorType: z.enum(AUTHOR_TYPES),
+	avatar: z.string().nullable(),
 	isOwn: z.boolean(),
 });
 

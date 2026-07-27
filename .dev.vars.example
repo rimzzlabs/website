@@ -32,3 +32,19 @@ CONTACT_TO_EMAIL=
 # are blank, so they're optional — set them only to route guestbook mail apart.
 GUESTBOOK_FROM_EMAIL=
 GUESTBOOK_NOTIFY_TO=
+
+# --- Guestbook auth (better-auth, functions/api/auth/[[all]].ts) ---
+# Secret better-auth uses to sign sessions. Generate one with:
+#   openssl rand -base64 48
+SESSION_SECRET=
+
+# GitHub OAuth app (Settings -> Developer settings -> OAuth Apps). Authorization
+# callback URL: <origin>/api/auth/callback/github (add the localhost one for
+# `wrangler pages dev`). The app needs the user:email scope.
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+# Google OAuth client (Google Cloud Console -> Credentials -> OAuth client ID,
+# type Web application). Authorized redirect URI: <origin>/api/auth/callback/google
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=

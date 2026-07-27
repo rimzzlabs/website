@@ -12,7 +12,7 @@ import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import type { GuestbookEditInput } from "@/lib/guestbook-schema";
 
-export function GuestbookFields(props: { lang: Lang; idPrefix: string }) {
+export function GuestbookFields(props: { lang: Lang; idPrefix: string; showName: boolean }) {
 	const t = getDictionary(props.lang).guestbook;
 	const {
 		register,
@@ -21,22 +21,24 @@ export function GuestbookFields(props: { lang: Lang; idPrefix: string }) {
 
 	return (
 		<>
-			<Field data-invalid={errors.name ? true : undefined}>
-				<FieldLabel htmlFor={`${props.idPrefix}-name`}>{t.nameLabel}</FieldLabel>
-				<InputGroup>
-					<InputGroupAddon>
-						<User2 />
-					</InputGroupAddon>
-					<InputGroupInput
-						id={`${props.idPrefix}-name`}
-						placeholder={t.namePlaceholder}
-						autoComplete="name"
-						aria-invalid={errors.name ? true : undefined}
-						{...register("name")}
-					/>
-				</InputGroup>
-				<FieldError errors={[errors.name]} />
-			</Field>
+			{props.showName && (
+				<Field data-invalid={errors.name ? true : undefined}>
+					<FieldLabel htmlFor={`${props.idPrefix}-name`}>{t.nameLabel}</FieldLabel>
+					<InputGroup>
+						<InputGroupAddon>
+							<User2 />
+						</InputGroupAddon>
+						<InputGroupInput
+							id={`${props.idPrefix}-name`}
+							placeholder={t.namePlaceholder}
+							autoComplete="name"
+							aria-invalid={errors.name ? true : undefined}
+							{...register("name")}
+						/>
+					</InputGroup>
+					<FieldError errors={[errors.name]} />
+				</Field>
+			)}
 
 			<Field>
 				<FieldLabel htmlFor={`${props.idPrefix}-site`}>{t.siteLabel}</FieldLabel>

@@ -4,6 +4,7 @@ import {
 	type GuestbookEditInput,
 	type GuestbookInput,
 	type GuestbookPage,
+	type GuestbookVerifiedInput,
 	guestbookCommentSchema,
 	guestbookPageSchema,
 } from "./guestbook-schema";
@@ -22,7 +23,9 @@ async function fetchGuestbookPage(offset: number): Promise<GuestbookPage> {
 	return guestbookPageSchema.parse(await res.json());
 }
 
-export async function postGuestbookComment(payload: GuestbookInput): Promise<GuestbookComment> {
+export async function postGuestbookComment(
+	payload: GuestbookInput | GuestbookVerifiedInput,
+): Promise<GuestbookComment> {
 	const res = await fetch(ENDPOINT, {
 		method: "POST",
 		headers: { "content-type": "application/json" },
@@ -35,7 +38,7 @@ export async function postGuestbookComment(payload: GuestbookInput): Promise<Gue
 
 export async function editGuestbookComment(
 	id: number,
-	payload: GuestbookEditInput,
+	payload: GuestbookEditInput | GuestbookVerifiedInput,
 ): Promise<GuestbookComment> {
 	const res = await fetch(`${ENDPOINT}/${id}`, {
 		method: "PATCH",

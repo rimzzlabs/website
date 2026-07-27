@@ -74,7 +74,11 @@ function GuestbookEditForm(props: { lang: Lang; comment: GuestbookComment; onDon
 		<FormProvider {...methods}>
 			<form onSubmit={onSubmit} noValidate>
 				<FieldGroup className="pb-4 gap-4">
-					<GuestbookFields lang={props.lang} idPrefix={`guestbook-edit-${props.comment.id}`} />
+					<GuestbookFields
+						lang={props.lang}
+						idPrefix={`guestbook-edit-${props.comment.id}`}
+						showName={props.comment.authorType === "anon"}
+					/>
 					{mutation.isError && <FieldError>{t.errorBody}</FieldError>}
 				</FieldGroup>
 

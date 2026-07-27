@@ -14,8 +14,8 @@ import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import { getQueryClient } from "@/lib/query-client";
 
-const GuestbookForm = lazy(() =>
-	import("./guestbook-form").then((m) => ({ default: m.GuestbookForm })),
+const GuestbookCompose = lazy(() =>
+	import("./guestbook-compose").then((m) => ({ default: m.GuestbookCompose })),
 );
 
 type GuestbookButtonProps = { lang: Lang; siteKey: string };
@@ -39,7 +39,7 @@ export function GuestbookButton(props: GuestbookButtonProps) {
 					</DialogHeader>
 
 					<Suspense fallback={null}>
-						<GuestbookForm
+						<GuestbookCompose
 							lang={props.lang}
 							siteKey={props.siteKey}
 							onSuccess={() => setOpen(false)}
