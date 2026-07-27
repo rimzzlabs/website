@@ -1,0 +1,14 @@
+# Cloudflare Pages headers (copied to dist/ by Astro from public/).
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+# Agent discovery (RFC 8288 + RFC 9727): advertise the API catalog on every page.
+/*
+  Link: </.well-known/api-catalog>; rel="api-catalog"
+
+# RFC 9727 requires the linkset media type; Pages would otherwise guess none.
+/.well-known/api-catalog
+  Content-Type: application/linkset+json
+
+# Serve agent skills as markdown, not octet-stream.
+/.well-known/agent-skills/*/SKILL.md
+  Content-Type: text/markdown; charset=utf-8

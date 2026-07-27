@@ -1,0 +1,12 @@
+{
+	"$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+	"skills": [
+		{
+			"name": "guestbook",
+			"type": "skill-md",
+			"description": "Read and sign the rimzzlabs.com guestbook. Reading is open to any HTTP client; posting requires a browser (Cloudflare Turnstile or GitHub/Google OAuth).",
+			"url": "/.well-known/agent-skills/guestbook/SKILL.md",
+			"digest": "sha256:f45acfc75162ed02a68186e2e53b011f217d72a25516033f507727feac6e4501"
+		}
+	]
+}
