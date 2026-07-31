@@ -40,7 +40,7 @@ export function GuestbookFields(props: { lang: Lang; idPrefix: string; showName:
 				</Field>
 			)}
 
-			<Field>
+			<Field data-invalid={errors.site ? true : undefined}>
 				<FieldLabel htmlFor={`${props.idPrefix}-site`}>{t.siteLabel}</FieldLabel>
 				<InputGroup>
 					<InputGroupAddon>
@@ -50,9 +50,11 @@ export function GuestbookFields(props: { lang: Lang; idPrefix: string; showName:
 						id={`${props.idPrefix}-site`}
 						className="pl-0"
 						placeholder={t.sitePlaceholder}
+						aria-invalid={errors.site ? true : undefined}
 						{...register("site")}
 					/>
 				</InputGroup>
+				<FieldError errors={[errors.site]} />
 			</Field>
 
 			<Field data-invalid={errors.message ? true : undefined}>

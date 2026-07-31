@@ -18,7 +18,7 @@ export function GuestbookVerifiedForm(props: GuestbookVerifiedFormProps) {
 	const t = getDictionary(props.lang).guestbook;
 	const { signOut } = useAuth();
 	const mutation = useCreateGuestbookComment();
-	const schema = useMemo(() => guestbookVerifiedSchema({ message: t.validation.message }), [t]);
+	const schema = useMemo(() => guestbookVerifiedSchema(t.validation), [t]);
 
 	const methods = useForm<GuestbookVerifiedInput>({
 		resolver: zodResolver(schema),

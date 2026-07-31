@@ -52,10 +52,7 @@ export function GuestbookEditDialog(props: GuestbookEditDialogProps) {
 function GuestbookEditForm(props: { lang: Lang; comment: GuestbookComment; onDone: () => void }) {
 	const t = getDictionary(props.lang).guestbook;
 	const mutation = useEditGuestbookComment();
-	const schema = useMemo(
-		() => guestbookEditSchema({ name: t.validation.name, message: t.validation.message }),
-		[t],
-	);
+	const schema = useMemo(() => guestbookEditSchema(t.validation), [t]);
 
 	const methods = useForm<GuestbookEditInput>({
 		resolver: zodResolver(schema),
