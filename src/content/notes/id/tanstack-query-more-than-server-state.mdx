@@ -308,7 +308,7 @@ interface SalesOverviewConfig {
 
 async function getSales(config: SalesOverviewConfig) {
   const res = await fetch(
-    `https://serverapi.com/api/v1/sales?period=${config.period}&limit=${config.limit}`,
+    `https://ourbackendapi.com/api/v1/sales?period=${config.period}&limit=${config.limit}`,
     { signal: config.signal, headers: { Accept: "application/json" } },
   );
 
