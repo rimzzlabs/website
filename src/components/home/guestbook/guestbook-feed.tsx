@@ -1,4 +1,5 @@
 import { QueryClientProvider } from "@tanstack/react-query";
+import { match, P } from "ts-pattern";
 import { useGuestbookFeed } from "@/hooks/use-guestbook-feed";
 import type { Lang } from "@/i18n/config";
 import type { GuestbookPage } from "@/lib/guestbook-schema";
@@ -21,21 +22,41 @@ export function GuestbookFeed(props: GuestbookFeedProps) {
 function GuestbookFeedStates(props: GuestbookFeedProps) {
 	const query = useGuestbookFeed();
 	const seeded = props.initialPage;
-	const items = query.data ?? seeded?.items ?? [];
 	const hasMore = query.data ? query.hasNextPage : false;
 
-	if (query.status === "pending" && !seeded) return <GuestbookSkeleton />;
-	if (query.status === "error" && !seeded)
-		return <GuestbookError lang={props.lang} onRetry={() => query.refetch()} />;
-	if (items.length === 0) return <GuestbookEmpty lang={props.lang} />;
-
-	return (
-		<GuestbookList
-			lang={props.lang}
-			items={items}
-			hasMore={hasMore}
-			loadingMore={query.isFetchingNextPage}
-			onLoadMore={() => query.fetchNextPage()}
-		/>
-	);
+	return match(seeded)
+		.with(P.not(P.nullish), ({ items }) =>
+			match(items.length)
+				.with(P.number.gt(0), () => (
+					<GuestbookList
+						lang={props.lang}
+						hasMore={hasMore}
+						items={query.data ?? items}
+						loadingMore={query.isFetchingNextPage}
+						onLoadMore={() => query.fetchNextPage()}
+					/>
+				))
+				.otherwise(() => <GuestbookEmpty lang={props.lang} />),
+		)
+		.otherwise(() => {
+			return match(query)
+				.with({ status: "pending" }, () => <GuestbookSkeleton />)
+				.with({ status: "error" }, () => (
+					<GuestbookError lang={props.lang} onRetry={() => query.refetch()} />
+				))
+				.with({ status: "success", data: P.select() }, (items) =>
+					match(items.length)
+						.with(P.number.gt(0), () => (
+							<GuestbookList
+								lang={props.lang}
+								items={items}
+								hasMore={hasMore}
+								loadingMore={query.isFetchingNextPage}
+								onLoadMore={() => query.fetchNextPage()}
+							/>
+						))
+						.otherwise(() => <GuestbookEmpty lang={props.lang} />),
+				)
+				.exhaustive();
+		});
 }

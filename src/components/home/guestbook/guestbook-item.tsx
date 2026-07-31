@@ -1,4 +1,4 @@
-import { ArrowUpRight, BadgeCheck, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, MoreHorizontal, Pencil, Quote, Trash2 } from "lucide-react";
 import { useState } from "react";
 import {
 	AlertDialog,
@@ -19,13 +19,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useDeleteGuestbookComment } from "@/hooks/use-delete-guestbook-comment";
+import { useTimestamp } from "@/hooks/use-timestamp";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
-import { createDateFormat, dateToISO, formatRelativeTime } from "@/lib/date";
+import { dateToISO } from "@/lib/date";
 import type { GuestbookComment } from "@/lib/guestbook-schema";
 import { GuestbookEditDialog } from "./guestbook-edit-dialog";
-
-const formatDate = createDateFormat("dd, MMM yyyy - hh:mm:ss a");
 
 export function GuestbookItem(props: {
 	lang: Lang;
@@ -41,73 +40,27 @@ export function GuestbookItem(props: {
 	const isVerified = comment.authorType !== "anon";
 	const authorId = `gb-author-${comment.id}`;
 
-	const timestamp = formatDate({
-		lang: props.lang,
-		timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-		date: props.comment.createdAt,
-	});
-
-	const relativeTime = formatRelativeTime(comment.createdAt, props.lang);
+	const timestamp = useTimestamp(comment.createdAt, props.lang);
 
 	function handleDelete() {
 		deletion.mutate(comment.id, { onSuccess: () => setDeleteOpen(false) });
 	}
 
 	return (
-		<article className="py-4" aria-labelledby={authorId}>
-			<div className="flex items-center gap-2 pb-2">
-				{isVerified && comment.avatar && (
-					<img src={comment.avatar} alt="" width={24} height={24} className="size-6 rounded-full" />
-				)}
-
-				{comment.site ? (
-					<Button
-						id={authorId}
-						nativeButton={false}
-						render={<a href={comment.site} rel="noopener nofollow" target="_blank" />}
-						variant="unstyled"
-						className="text-sm font-semibold hover:underline p-0 h-auto"
-					>
-						<span className="sr-only">{t.writtenBy}</span>
-						{comment.name} <ArrowUpRight className="size-3 align-text-top" />
-					</Button>
-				) : (
-					<span className="text-sm font-semibold" id={authorId}>
-						<span className="sr-only">{t.writtenBy}</span>
-						{comment.name}
-					</span>
-				)}
-
-				{isVerified && (
-					<TooltipProvider>
-						<Tooltip>
-							<TooltipTrigger className="cursor-help">
-								<BadgeCheck role="img" aria-label={t.verified} className="size-4 text-primary" />
-							</TooltipTrigger>
-
-							<TooltipContent>{t.verifiedTooltip}</TooltipContent>
-						</Tooltip>
-					</TooltipProvider>
-				)}
-
-				<span className="ml-auto text-xs text-muted-foreground">
-					<TooltipProvider>
-						<Tooltip>
-							<TooltipTrigger className="cursor-help">
-								<time dateTime={dateToISO(comment.createdAt)}>{relativeTime}</time>
-							</TooltipTrigger>
-
-							<TooltipContent>{timestamp}</TooltipContent>
-						</Tooltip>
-					</TooltipProvider>
-					{comment.updatedAt && <span> · {t.edited}</span>}
-				</span>
+		<article className="relative rounded-lg border bg-card p-4 sm:p-5" aria-labelledby={authorId}>
+			<div aria-hidden className="w-2 bg-primary/70 left-0 inset-y-0" />
+			<div className="flex items-start gap-2">
+				<Quote aria-hidden="true" className="size-5 fill-primary/20 text-primary/20" />
 
 				{!props.readOnly && comment.isOwn && (
 					<DropdownMenu>
 						<DropdownMenuTrigger
 							render={
-								<Button variant="ghost" size="icon-xs" className="-my-1 text-muted-foreground" />
+								<Button
+									variant="ghost"
+									size="icon-xs"
+									className="-my-1 ml-auto text-muted-foreground"
+								/>
 							}
 						>
 							<MoreHorizontal />
@@ -127,7 +80,66 @@ export function GuestbookItem(props: {
 				)}
 			</div>
 
-			<blockquote className="text-sm border-l-4 pl-3 text-pretty">{comment.message}</blockquote>
+			<blockquote className="mt-1 text-sm leading-relaxed text-pretty italic text-foreground/85">
+				{comment.message}
+			</blockquote>
+
+			<TooltipProvider>
+				<footer className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1">
+					<span aria-hidden="true" className="text-sm text-muted-foreground">
+						—
+					</span>
+
+					{isVerified && comment.avatar && (
+						<img
+							src={comment.avatar}
+							alt=""
+							width={20}
+							height={20}
+							className="size-5 rounded-full"
+						/>
+					)}
+
+					{comment.site ? (
+						<Button
+							id={authorId}
+							nativeButton={false}
+							render={<a href={comment.site} rel="noopener nofollow" target="_blank" />}
+							variant="unstyled"
+							className="h-auto p-0 text-sm font-semibold hover:underline"
+						>
+							<span className="sr-only">{t.writtenBy}</span>
+							{comment.name} <ArrowUpRight className="size-3 align-text-top" />
+						</Button>
+					) : (
+						<span className="text-sm font-semibold" id={authorId}>
+							<span className="sr-only">{t.writtenBy}</span>
+							{comment.name}
+						</span>
+					)}
+
+					{isVerified && (
+						<Tooltip>
+							<TooltipTrigger className="cursor-help">
+								<BadgeCheck role="img" aria-label={t.verified} className="size-4 text-primary" />
+							</TooltipTrigger>
+
+							<TooltipContent>{t.verifiedTooltip}</TooltipContent>
+						</Tooltip>
+					)}
+
+					<span className="text-xs text-muted-foreground italic">
+						<Tooltip>
+							<TooltipTrigger className="cursor-help">
+								<time dateTime={dateToISO(comment.createdAt)}>{timestamp.label}</time>
+							</TooltipTrigger>
+
+							<TooltipContent>{timestamp.full}</TooltipContent>
+						</Tooltip>
+						{comment.updatedAt && <span> · {t.edited}</span>}
+					</span>
+				</footer>
+			</TooltipProvider>
 
 			{!props.readOnly && comment.isOwn && (
 				<GuestbookEditDialog

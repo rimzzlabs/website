@@ -9,7 +9,7 @@ import { getRecentCommentsAtBuild } from "@/lib/guestbook-build";
 import { GuestbookPreview } from "./guestbook-preview";
 
 interface Props {
-	lang: Lang;
+  lang: Lang;
 }
 
 const { lang } = Astro.props;
@@ -34,6 +34,9 @@ const preview = await getRecentCommentsAtBuild(5);
     class="mt-6 flex flex-col gap-3 border-t pt-6 sm:flex-row sm:items-center sm:justify-between"
   >
     <p class="text-balance text-sm text-muted-foreground">{t.previewNote}</p>
-    <Link href={href} class="sm:h-8">{t.openGuestbook} <ArrowRight /></Link>
+    <Link href={href} variant="ghost">
+      {t.openGuestbook}
+      <ArrowRight />
+    </Link>
   </div>
 </Section>

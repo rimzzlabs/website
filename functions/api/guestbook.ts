@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import {
+	API_VALIDATION,
 	guestbookInputSchema,
 	guestbookQuerySchema,
 	guestbookVerifiedSchema,
@@ -27,8 +28,8 @@ interface FunctionContext {
 	waitUntil(promise: Promise<unknown>): void;
 }
 
-const inputSchema = guestbookInputSchema({ name: "invalid", message: "invalid", token: "invalid" });
-const verifiedSchema = guestbookVerifiedSchema({ message: "invalid" });
+const inputSchema = guestbookInputSchema(API_VALIDATION);
+const verifiedSchema = guestbookVerifiedSchema(API_VALIDATION);
 
 function escapeHtml(value: string): string {
 	return value

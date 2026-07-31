@@ -16,15 +16,7 @@ type GuestbookFormProps = { lang: Lang; siteKey: string; onSuccess: () => void }
 export function GuestbookForm(props: GuestbookFormProps) {
 	const t = getDictionary(props.lang).guestbook;
 	const mutation = useCreateGuestbookComment();
-	const schema = useMemo(
-		() =>
-			guestbookInputSchema({
-				name: t.validation.name,
-				message: t.validation.message,
-				token: t.turnstilePending,
-			}),
-		[t],
-	);
+	const schema = useMemo(() => guestbookInputSchema(t.validation), [t]);
 
 	const methods = useForm<GuestbookInput>({
 		resolver: zodResolver(schema),

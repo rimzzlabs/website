@@ -1,4 +1,4 @@
-import { CircleAlert } from "lucide-react";
+import { ArrowUpRight, CircleAlert, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
 	Empty,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/empty";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
-import { ISSUE_URL, PANEL_HEIGHT } from "./guestbook-constants";
+import { ISSUE_URL } from "./guestbook-constants";
 
 type GuestbookErrorProps = { lang: Lang; onRetry: () => void };
 
@@ -18,7 +18,7 @@ export function GuestbookError(props: GuestbookErrorProps) {
 	const t = getDictionary(props.lang).guestbook;
 
 	return (
-		<Empty className={PANEL_HEIGHT}>
+		<Empty className="h-full">
 			<EmptyHeader>
 				<EmptyMedia variant="icon">
 					<CircleAlert />
@@ -28,15 +28,19 @@ export function GuestbookError(props: GuestbookErrorProps) {
 			</EmptyHeader>
 
 			<EmptyContent>
-				<div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-center">
+				<div className="flex flex-col-reverse gap-2 sm:flex-row-reverse sm:justify-center">
 					<Button
 						nativeButton={false}
 						render={<a href={ISSUE_URL} rel="noopener" target="_blank" />}
 						variant="outline"
 					>
 						{t.openIssue}
+						<ArrowUpRight />
 					</Button>
-					<Button onClick={props.onRetry}>{t.retry}</Button>
+					<Button onClick={props.onRetry}>
+						<RefreshCw />
+						{t.retry}
+					</Button>
 				</div>
 			</EmptyContent>
 		</Empty>

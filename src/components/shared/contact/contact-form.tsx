@@ -11,19 +11,33 @@ import { useContactForm } from "@/hooks/use-contact-form";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import type { Dictionary } from "@/i18n/en";
+import { interpolate } from "@/i18n/utils";
 import { RichTextEditor } from "./rich-text-editor";
 
 type ContactCopy = Dictionary["contact"];
 type FormValues = z.infer<ReturnType<typeof buildSchema>>;
 
+const CONTACT_LIMITS = { name: 100, email: 200, subject: 200 } as const;
+
 function buildSchema(t: ContactCopy) {
+	const v = t.validation;
 	return z.object({
-		name: z.string().trim().min(1, t.validation.name).max(100),
-		email: z.email(t.validation.email),
-		subject: z.string().trim().min(1, t.validation.subject).max(200),
+		name: z
+			.string()
+			.trim()
+			.min(1, v.name)
+			.max(CONTACT_LIMITS.name, interpolate(v.nameMax, { max: CONTACT_LIMITS.name })),
+		email: z
+			.email(v.email)
+			.max(CONTACT_LIMITS.email, interpolate(v.emailMax, { max: CONTACT_LIMITS.email })),
+		subject: z
+			.string()
+			.trim()
+			.min(1, v.subject)
+			.max(CONTACT_LIMITS.subject, interpolate(v.subjectMax, { max: CONTACT_LIMITS.subject })),
 		bodyHtml: z.string(),
-		bodyText: z.string().trim().min(1, t.validation.message),
-		token: z.string().min(1, t.turnstilePending),
+		bodyText: z.string().trim().min(1, v.message),
+		token: z.string().min(1, v.token),
 	});
 }
 

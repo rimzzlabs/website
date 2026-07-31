@@ -23,6 +23,14 @@ export function localizePath(pathname: string, target: Lang): string {
 	return base === "/" ? "/id" : `/id${base}`;
 }
 
+/** Fill `{name}` placeholders in a dictionary string; unknown keys are left as-is. */
+export function interpolate(template: string, values: Record<string, string | number>): string {
+	return template.replace(/\{(\w+)\}/g, (match, key) => {
+		const value = values[key];
+		return value === undefined ? match : String(value);
+	});
+}
+
 /** Split a content-collection id of the form `en/some-slug` into its locale and slug. */
 export function parseNoteId(id: string): { lang: Lang; slug: string } {
 	const [maybeLang, ...rest] = id.split("/");

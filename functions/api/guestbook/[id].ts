@@ -1,4 +1,8 @@
-import { guestbookEditSchema, guestbookVerifiedSchema } from "../../../src/lib/guestbook-schema";
+import {
+	API_VALIDATION,
+	guestbookEditSchema,
+	guestbookVerifiedSchema,
+} from "../../../src/lib/guestbook-schema";
 import { getSessionUser } from "../../_lib/auth";
 import {
 	COMMENT_COLUMNS,
@@ -21,8 +25,8 @@ interface ItemContext {
 	waitUntil(promise: Promise<unknown>): void;
 }
 
-const editSchema = guestbookEditSchema({ name: "invalid", message: "invalid" });
-const verifiedSchema = guestbookVerifiedSchema({ message: "invalid" });
+const editSchema = guestbookEditSchema(API_VALIDATION);
+const verifiedSchema = guestbookVerifiedSchema(API_VALIDATION);
 
 function parseId(params: { id: string }): number | null {
 	const id = Number.parseInt(params.id, 10);

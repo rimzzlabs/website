@@ -1,36 +1,70 @@
 import { z } from "zod";
+import { interpolate } from "../i18n/utils";
 
 export const GUESTBOOK_LIMITS = { name: 100, site: 200, message: 500 } as const;
 export const AUTHOR_TYPES = ["anon", "github", "google"] as const;
 export type AuthorType = (typeof AUTHOR_TYPES)[number];
 
-export type GuestbookContentMessages = { name: string; message: string };
-export type GuestbookMessages = GuestbookContentMessages & { token: string };
+/** Localized copy for every rule below — pass `dictionary.guestbook.validation`. */
+export type GuestbookValidation = {
+	name: string;
+	nameMax: string;
+	siteMax: string;
+	message: string;
+	messageMax: string;
+	token: string;
+};
 
-function verifiedFields(messages: { message: string }) {
+/** The API only needs pass/fail; its messages never reach a reader, so they stay untranslated. */
+export const API_VALIDATION: GuestbookValidation = {
+	name: "invalid",
+	nameMax: "invalid",
+	siteMax: "invalid",
+	message: "invalid",
+	messageMax: "invalid",
+	token: "invalid",
+};
+
+function tooLong(template: string, max: number) {
+	return interpolate(template, { max });
+}
+
+function verifiedFields(t: GuestbookValidation) {
 	return {
-		site: z.string().trim().max(GUESTBOOK_LIMITS.site).optional(),
-		message: z.string().trim().min(1, messages.message).max(GUESTBOOK_LIMITS.message),
+		site: z
+			.string()
+			.trim()
+			.max(GUESTBOOK_LIMITS.site, tooLong(t.siteMax, GUESTBOOK_LIMITS.site))
+			.optional(),
+		message: z
+			.string()
+			.trim()
+			.min(1, t.message)
+			.max(GUESTBOOK_LIMITS.message, tooLong(t.messageMax, GUESTBOOK_LIMITS.message)),
 	};
 }
 
-function contentFields(messages: GuestbookContentMessages) {
+function contentFields(t: GuestbookValidation) {
 	return {
-		name: z.string().trim().min(1, messages.name).max(GUESTBOOK_LIMITS.name),
-		...verifiedFields(messages),
+		name: z
+			.string()
+			.trim()
+			.min(1, t.name)
+			.max(GUESTBOOK_LIMITS.name, tooLong(t.nameMax, GUESTBOOK_LIMITS.name)),
+		...verifiedFields(t),
 	};
 }
 
-export function guestbookInputSchema(messages: GuestbookMessages) {
-	return z.object({ ...contentFields(messages), token: z.string().min(1, messages.token) });
+export function guestbookInputSchema(t: GuestbookValidation) {
+	return z.object({ ...contentFields(t), token: z.string().min(1, t.token) });
 }
 
-export function guestbookEditSchema(messages: GuestbookContentMessages) {
-	return z.object(contentFields(messages));
+export function guestbookEditSchema(t: GuestbookValidation) {
+	return z.object(contentFields(t));
 }
 
-export function guestbookVerifiedSchema(messages: { message: string }) {
-	return z.object(verifiedFields(messages));
+export function guestbookVerifiedSchema(t: GuestbookValidation) {
+	return z.object(verifiedFields(t));
 }
 
 export type GuestbookInput = z.infer<ReturnType<typeof guestbookInputSchema>>;
