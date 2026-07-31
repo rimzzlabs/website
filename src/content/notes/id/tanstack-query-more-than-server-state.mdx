@@ -1,0 +1,562 @@
+---
+title: "Tanstack Query Lebih Dari Sekadar Server State"
+description: "Terkadang kita tidak berhati-hati saat mengelola Server-State. Padahal lebih dari sekadar ambil data dari server, menyimpan data, dan atau cache invalidation."
+publishedAt: "08/01/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - Tanstack Query
+---
+
+import { Picture } from "astro:assets";
+import HowSystemWork from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-1.png";
+import HowTanstackQuery from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-2.png";
+import DuplicateRequest from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-3.png";
+import HoistedQueryKey from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-4.png";
+
+Terkadang kita tidak berhati-hati saat mengelola Server-State dengan _Tanstack Query_. Padahal Tanstack Query lebih dari sekadar: ambil data dari _server_, menyimpan data, dan atau _cache invalidation_.
+
+## Pendahuluan
+
+<figure>
+  <Picture
+    priority
+    formats={["webp", "avif"]}
+    src={HowSystemWork}
+    class="w-full border rounded-xl"
+    alt="Bagaimana aplikasi bekerja, server merespon permintaan website"
+  />
+  <figcaption>Bagaimana sistem bekerja secara umum</figcaption>
+</figure>
+
+Website yang penuh dengan interaksi seperti _e-commerce_ (_misalnya: Tokopedia_) tidak hanya menampilkan tulisan dan gambar, melainkan ratusan dan mungkin ribuan interaksi. Interaksi ini mencakup singkronisasi data, preferensi, dan lain sebagainya; misalnya jumlah barang yang disimpan didalam keranjang, wishlist, dan riwayat pesananan.
+
+Semua data itu terikat dengan pengguna. Saat pengguna berbelanja di website Tokopedia menggunakan laptop, pesanan yang sama akan muncul diaplikasi Tokopedia pada ponsel mereka.
+
+Hal inilah yang kita sebut _server state_. Data pengguna akan tersingkron dengan akun mereka. Tidak peduli di _environment_ mana mereka sedang menggunakan aplikasi, baik website maupun ponsel.
+
+## Apa Itu Tanstack Query?
+
+> Saya tidak akan membicarakan Tanstack Query lebih dalam, hanya pengenalan agar konteks dalam tulisan ini lebih jelas.
+
+[Tanstack Query](https://tanstack.com/query) (_atau lebih dikenal dengan React Query_) adalah sebuah _library_ yang digunakan untuk mengelola _server state_.
+
+<figure>
+  <Picture
+    formats={["webp", "avif"]}
+    src={HowTanstackQuery}
+    alt="Peran Tanstack Query pada sistem Frontend"
+    class="w-full border rounded-xl"
+  />
+  <figcaption>Peran Tanstack Query pada aplikasi frontend.</figcaption>
+</figure>
+
+Masalah utama yang diselesaikan Tanstack Query bukan sekadar mengambil data dari _server_, melainkan mengelola seluruh siklus hidup (_lifecycle_) dari data tersebut. Hampir setiap aplikasi modern melakukan operasi seperti mengambil data (_fetch_), membuat data (_create_), memperbarui data (_update_), dan menghapus data (_delete_). Setiap operasi tersebut memiliki berbagai kondisi yang perlu ditangani, misalnya:
+
+- Status _loading_ ketika permintaan sedang berlangsung.
+- Menampilkan _error_ ketika permintaan gagal.
+- Menyimpan hasil _request_ agar tidak selalu melakukan _fetch_ ulang.
+- Menyinkronkan data setelah terjadi perubahan.
+- Melakukan _background refetch_ agar data tetap terbaru.
+- Menghindari _duplicate request_ ketika beberapa komponen meminta data yang sama.
+
+### Sebelum Tanstack Query
+
+Sebagai gambaran betapa banyaknya pekerjaan itu, mari kita coba tangani sendiri satu kasus sederhana dengan `useState` dan `useEffect`: menampilkan daftar karyawan.
+
+Pertama, kita siapkan tiga _state_: data karyawan, status _request_, dan _error_-nya.
+
+```ts
+const [employees, setEmployees] = useState<Array<Employee>>([]);
+const [status, setStatus] = useState<"pending" | "success" | "error">(
+  "pending",
+);
+const [error, setError] = useState<Error | undefined>();
+```
+
+Selanjutnya, kita lakukan _fetch_ di dalam `useEffect`. Setiap kali `offset` atau `limit` berubah, _request_ harus diulang, dan setiap kemungkinan hasilnya harus kita petakan ke _state_ satu per satu.
+
+```ts
+useEffect(() => {
+  setStatus("pending");
+
+  fetch(
+    `https://ourbackendapi.com/api/v1/employee?offset=${offset}&limit=${limit}`,
+  )
+    .then((res) => {
+      if (!res.ok) throw new Error("Terjadi kesalahan");
+      return res.json();
+    })
+    .then((json) => {
+      setEmployees(json.result);
+      setStatus("success");
+    })
+    .catch((error) => {
+      setError(error);
+      setStatus("error");
+    });
+}, [offset, limit]);
+```
+
+Belum selesai. Jika komponen di-_unmount_ atau `offset` berubah saat _request_ masih berjalan, hasil yang datang terlambat bisa menimpa _state_ dengan data yang sudah tidak relevan. Kita butuh `AbortController`, lengkap dengan satu pengecualian agar pembatalan tidak dianggap sebagai _error_:
+
+```ts {2,6,9,14-16}
+useEffect(() => {
+  const ac = new AbortController();
+
+  setStatus("pending");
+
+  fetch(url, { signal: ac.signal })
+    .then(/* ...sama seperti sebelumnya */)
+    .catch((error) => {
+      if (error.name === "AbortError") return;
+      setError(error);
+      setStatus("error");
+    });
+
+  return () => {
+    ac.abort();
+  };
+}, [offset, limit]);
+```
+
+Terakhir, seluruh potongan tadi kita bungkus menjadi sebuah _custom hook_ agar bisa dipakai ulang:
+
+```ts
+interface UseEmployeesProps {
+  offset?: number;
+  limit?: number;
+}
+
+function useEmployees({ offset = 0, limit = 10 }: UseEmployeesProps) {
+  // seluruh state dan effect di atas
+
+  return { employees, status, error };
+}
+```
+
+Perjalanan yang cukup panjang, padahal _hook_ ini baru menangani tiga hal: status _loading_, _error_, dan pembatalan _request_ saat komponen di-_unmount_. Belum lagi _cache_ agar data tidak di-_fetch_ ulang setiap komponen _mount_, deduplikasi ketika dua komponen memanggil _hook_ yang sama, _background revalidation_ agar data tetap segar, hingga _cache invalidation_ setelah data berubah. Setiap tambahan itu berarti lebih banyak kode yang harus kita tulis, uji, dan pelihara sendiri.
+
+Parahnya lagi, tanpa bantuan sebuah _library_, logika seperti ini sering kali tersebar di banyak komponen. Seiring bertambahnya ukuran aplikasi, kode menjadi sulit dipelihara dan rentan menghasilkan perilaku yang tidak konsisten.
+
+Di sinilah Tanstack Query berperan. Ia menyediakan abstraksi untuk mengelola _server state_ sehingga pengembang dapat lebih fokus pada logika bisnis dibandingkan harus memikirkan detail sinkronisasi data dengan _server_.
+
+Tanstack Query sudah lama hadir di ekosistem web. Awalnya dibangun untuk [React](https://react.dev), Tanstack Query berkembang pesat karena _design API_ yang sederhana, fleksibel, dan mudah digunakan.
+
+Seiring waktu, TanStack berkembang menjadi _library agnostic_. Selain React, saat ini Tanstack Query sudah mendukung banyak _framework_ populer lain seperti [Angular](https://angular.dev), [Vue](https://vuejs.org), [Svelte](https://svelte.dev), hingga [Solid](https://solidjs.com).
+
+### Menulis Tanstack Query
+
+Misalkan kita sedang mengembangkan aplikasi _Point of Sales_ (POS). Pada halaman _dashboard_, kita ingin menampilkan ringkasan penjualan selama beberapa periode, misalnya 7 hari, 30 hari, 90 hari, atau 1 tahun terakhir.
+
+Pertama, kita membuat sebuah fungsi yang bertugas mengambil data dari _server_. Fungsi ini tidak mengetahui apa pun tentang React maupun Tanstack Query. Tugasnya hanya mengirim _request_ dan mengembalikan hasilnya.
+
+```ts {4,5,6}
+type SalesPeriod = "7d" | "30d" | "90d" | "365d";
+
+interface SalesOverviewConfig {
+  period: SalesPeriod;
+  limit: number;
+}
+
+async function getSales(config: SalesOverviewConfig) {
+  const res = await fetch(
+    `https://ourbackendapi.com/api/v1/sales?period=${config.period}&limit=${config.limit}`,
+    {
+      headers: {
+        Accept: "application/json",
+      },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error("Terjadi kesalahan");
+  }
+
+  return await res.json();
+}
+```
+
+Selanjutnya fungsi tersebut dapat digunakan Tanstack Query melalui [`useQuery`](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+
+```ts
+const salesQuery = useQuery({
+  queryKey: ["get-sales", period, limit],
+  queryFn: () => getSales({ period, limit }),
+});
+```
+
+Hanya dengan beberapa baris kode, Tanstack Query langsung menangani berbagai hal yang sebelumnya harus kita implementasikan sendiri. Mulai dari status _loading_, _error handling_, penyimpanan _cache_, _background refetch_, hingga sinkronisasi data ketika [`queryKey`](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys) berubah.
+
+Objek `salesQuery` juga menyediakan berbagai informasi mengenai kondisi _request_ yang sedang berlangsung.
+
+```ts
+const { data, error, isPending, isFetching, isSuccess, refetch } = salesQuery;
+```
+
+Sebagai contoh, kita dapat menampilkan indikator _loading_ ketika permintaan masih berlangsung.
+
+```tsx
+if (salesQuery.isPending) return <Spinner />;
+
+return <SalesChart data={salesQuery.data} />;
+```
+
+Sekilas API Tanstack Query terlihat sederhana. Namun, kesederhanaan inilah yang membuatnya menjadi salah satu _library_ paling populer untuk mengelola _server state_. Di balik `useQuery`, terdapat berbagai mekanisme seperti _cache invalidation_, deduplikasi _request_, _stale-while-revalidate_, hingga sinkronisasi antar komponen yang tidak perlu kita implementasikan sendiri.
+
+## Masalah yang Tidak Terlihat
+
+Kode di atas berfungsi dengan baik, lolos _code review_, dan jujur saja, seperti inilah saya menulis _query_ selama bertahun-tahun. Namun jika diperhatikan lebih teliti, ada dua masalah yang bersembunyi di dalamnya.
+
+```ts
+const salesQuery = useQuery({
+  queryKey: ["get-sales", period, limit],
+  queryFn: () => getSales({ period, limit }),
+});
+```
+
+### Nilai yang Di-_hoist_: Sulit Dibaca, Sulit Diprediksi
+
+Perhatikan dari mana `queryFn` mendapatkan `period` dan `limit`. Keduanya tidak diterima sebagai argumen, melainkan di-_hoist_ dari _scope_ komponen melalui _closure_. Sekilas `queryFn` terlihat mandiri, padahal diam-diam ia bergantung pada nilai di luar dirinya.
+
+Ketergantungan tersembunyi seperti ini membuat kode sulit dibaca. Untuk tahu data apa yang sebenarnya diambil, membaca `queryFn` saja tidak cukup. Kita harus menelusuri ke atas: `period` datang dari mana, `limit` diubah oleh siapa, dan apakah nilainya bisa berganti di tengah jalan.
+
+Selain sulit dibaca, nilai yang di-_hoist_ juga membuat perilaku _query_ sulit diprediksi. Bagi Tanstack Query, identitas sebuah _query_ hanyalah `queryKey`-nya. Tanstack Query tidak tahu, dan tidak akan pernah tahu, nilai apa saja yang diam-diam dibaca `queryFn` dari _closure_. Kontrak "jika `queryKey` berubah maka _refetch_" hanya bekerja selama seluruh nilai yang dipakai `queryFn` juga tercantum di dalam `queryKey`. Dan satu-satunya penjaga kontrak itu adalah kedisiplinan kita sendiri.
+
+Analogi sederhananya seperti kotak arsip di gudang. `queryKey` adalah label yang tertempel di kotak, sedangkan hasil `queryFn` adalah isi kotaknya. Tanstack Query tidak pernah membuka kotak untuk memeriksa isinya. Ia hanya membaca label: selama labelnya sama, isinya dianggap sama.
+
+Selama kita disiplin menuliskan nilai yang sama di kedua tempat, tidak ada masalah. Tetapi bayangkan suatu saat kita menambahkan parameter baru, misalnya `branchId` untuk memfilter penjualan per cabang. Jika kita hanya menambahkannya ke `queryFn` dan lupa memperbarui `queryKey`:
+
+```ts
+const salesQuery = useQuery({
+  queryKey: ["get-sales", period, limit],
+  queryFn: () => getSales({ period, limit, branchId }),
+});
+```
+
+Kode ini tetap berjalan tanpa _error_, namun perilakunya salah secara diam-diam. Kita mengubah isi kotak tanpa mengganti labelnya. Ketika kasir cabang Bandung membuka _dashboard_, angka yang tampil justru penjualan cabang Jakarta yang dibuka sebelumnya, karena bagi Tanstack Query labelnya masih sama: `["get-sales", "7d", 10]`.
+
+<figure>
+  <Picture
+    formats={["webp", "avif"]}
+    src={HoistedQueryKey}
+    alt="queryFn membaca period, limit, dan branchId dari closure komponen, sementara Tanstack Query hanya membaca queryKey yang tidak memuat branchId"
+    class="w-full object-cover border rounded-xl"
+  />
+  <figcaption>
+    queryFn diam-diam membaca nilai dari closure, sedangkan Tanstack Query hanya
+    membaca label (queryKey).
+  </figcaption>
+</figure>
+
+Tidak ada pesan _error_, tidak ada peringatan di _console_. _Bug_ seperti ini biasanya baru ketahuan setelah pengguna komplain bahwa datanya "aneh", dan kita menghabiskan waktu memeriksa _backend_ yang sebenarnya baik-baik saja.
+
+### Request yang Tidak Pernah Dibatalkan
+
+<figure>
+  <Picture
+    formats={["webp", "avif"]}
+    src={DuplicateRequest}
+    alt="Duplikasi Request"
+    class="w-full object-cover border rounded-xl"
+  />
+  <figcaption>Duplikasi Request.</figcaption>
+</figure>
+
+Masalah kedua bisa kita saksikan sendiri lewat tab Network di DevTools. Coba ganti periode dari 7 hari ke 30 hari lalu ke 90 hari secara cepat.
+
+Ada tiga _request_ yang berjalan bersamaan, padahal dua di antaranya mengambil data yang tidak akan pernah ditampilkan. Tanstack Query memang cukup pintar untuk mengabaikan hasilnya, tetapi _request_-nya sendiri tetap sampai ke _server_, tetap diproses, dan tetap memakan _bandwidth_ pengguna.
+
+Ibaratnya seperti memesan makanan lalu berganti pilihan dua kali. Yang diantar ke meja memang pesanan terakhir, tetapi dapur tetap memasak ketiganya. Padahal Tanstack Query sudah menyediakan cara untuk membatalkan pesanan yang tidak jadi. Kita saja yang tidak pernah memakainya.
+
+## Memanfaatkan `QueryFunctionContext`
+
+Kabar baiknya, solusi untuk kedua masalah tadi sudah ada di depan mata sejak awal. Setiap kali menulis `queryFn: () => getSales(...)`, tanpa sadar kita membuang sebuah argumen yang selalu dikirim Tanstack Query ke `queryFn`. Argumen tersebut bernama [`QueryFunctionContext`](https://tanstack.com/query/v5/docs/framework/react/guides/query-functions#queryfunctioncontext), dan dua isinya yang paling berguna adalah:
+
+- `queryKey`, yaitu _key_ yang sedang digunakan oleh _query_ tersebut.
+- `signal`, yaitu sebuah [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) yang akan dibatalkan otomatis oleh Tanstack Query.
+
+Dengan memanfaatkan keduanya, kedua masalah di atas selesai sekaligus:
+
+```ts {3,4}
+const salesQuery = useQuery({
+  queryKey: ["get-sales", period, limit] as const,
+  queryFn: (ctx) => {
+    const [, period, limit] = ctx.queryKey;
+    return getSales({ period, limit, signal: ctx.signal });
+  },
+});
+```
+
+### Satu Sumber Kebenaran
+
+Sekarang `queryFn` tidak lagi membaca `period` dan `limit` dari _closure_, melainkan langsung dari `queryKey` melalui _destructuring_. Artinya `queryKey` menjadi satu-satunya sumber kebenaran (_single source of truth_). Isi kotak kini dijamin selalu sesuai dengan labelnya, karena isinya memang dibuat berdasarkan label itu sendiri. Jika suatu saat kita menambahkan `branchId`, satu-satunya cara agar `queryFn` bisa mengaksesnya adalah dengan menambahkannya ke dalam `queryKey` terlebih dahulu. Kita tidak mungkin lagi lupa, karena TypeScript akan langsung protes.
+
+Tambahan `as const` membuat TypeScript menyimpulkan tipe `queryKey` sebagai _tuple_ yang presisi, sehingga hasil _destructuring_ di dalam `queryFn` juga bertipe akurat, bukan sekadar `string | number`.
+
+### Pembatalan Request Otomatis
+
+`ctx.signal` kita teruskan ke `getSales`, lalu `getSales` meneruskannya ke `fetch`:
+
+```ts {4,10}
+interface SalesOverviewConfig {
+  period: SalesPeriod;
+  limit: number;
+  signal?: AbortSignal;
+}
+
+async function getSales(config: SalesOverviewConfig) {
+  const res = await fetch(
+    `https://serverapi.com/api/v1/sales?period=${config.period}&limit=${config.limit}`,
+    { signal: config.signal, headers: { Accept: "application/json" } },
+  );
+
+  if (!res.ok) {
+    throw new Error("Terjadi kesalahan");
+  }
+
+  return await res.json();
+}
+```
+
+Sekarang, ketika `queryKey` berubah atau komponen di-_unmount_ sebelum _request_ selesai, Tanstack Query akan membatalkan `signal` tersebut dan `fetch` langsung menghentikan _request_-nya. Dapur berhenti memasak begitu pesanannya dibatalkan. Jika kita ulangi eksperimen di tab Network tadi, dua _request_ pertama kini berstatus _cancelled_.
+
+Perlu dicatat, `signal` bersifat _opt-in_. Tanstack Query hanya bisa membatalkan _request_ jika kita meneruskan `signal`-nya ke _fetching library_ yang digunakan, baik itu `fetch` bawaan _browser_ maupun [Axios](https://axios-http.com) yang juga menerima opsi `signal`.
+
+## Query Key Factory
+
+Praktik di atas sudah jauh lebih aman, tetapi masih ada satu kelemahan: `queryKey` ditulis sebagai _array literal_ yang tersebar di banyak tempat. Saat kita ingin melakukan _cache invalidation_ setelah sebuah _mutation_, kita harus menulis ulang _array_ yang sama persis:
+
+```ts
+queryClient.invalidateQueries({ queryKey: ["get-sales"] });
+```
+
+Satu salah ketik saja (_misalnya: `"get-sale"` tanpa huruf `s`_), maka _invalidation_ tersebut tidak akan pernah bekerja, lagi-lagi tanpa _error_ apa pun.
+
+Solusinya adalah memusatkan definisi _query key_ dalam sebuah _factory_:
+
+```ts
+const salesKeys = {
+  all: ["sales"] as const,
+  overview: (period: SalesPeriod, limit: number) =>
+    [...salesKeys.all, "overview", period, limit] as const,
+};
+```
+
+Penggunaannya menjadi konsisten di seluruh aplikasi:
+
+```ts
+// Di dalam komponen
+const salesQuery = useQuery({
+  queryKey: salesKeys.overview(period, limit),
+  queryFn: (ctx) => {
+    const [, , period, limit] = ctx.queryKey;
+    return getSales({ period, limit, signal: ctx.signal });
+  },
+});
+
+// Setelah mutation berhasil
+queryClient.invalidateQueries({ queryKey: salesKeys.all });
+```
+
+Karena _key_ dibangun secara hierarkis (`salesKeys.overview` selalu diawali `salesKeys.all`), _invalidation_ pada `salesKeys.all` otomatis mencakup seluruh variasi `period` dan `limit` yang pernah di-_cache_. Tidak ada lagi _magic string_ yang harus diingat.
+
+### Menggunakan `queryOptions`
+
+Sejak versi 5, Tanstack Query menyediakan _helper_ [`queryOptions`](https://tanstack.com/query/v5/docs/framework/react/reference/queryOptions) yang memungkinkan kita memusatkan `queryKey` dan `queryFn` sekaligus dalam satu definisi yang _type-safe_:
+
+```ts
+import { queryOptions } from "@tanstack/react-query";
+
+function salesOverviewOptions(period: SalesPeriod, limit: number) {
+  return queryOptions({
+    queryKey: ["sales", "overview", period, limit] as const,
+    queryFn: (ctx) => {
+      const [, , period, limit] = ctx.queryKey;
+      return getSales({ period, limit, signal: ctx.signal });
+    },
+  });
+}
+```
+
+Definisi ini dapat digunakan kembali di mana saja, mulai dari `useQuery`, `prefetchQuery`, hingga `getQueryData`, dengan tipe data yang selalu konsisten:
+
+```ts
+const salesQuery = useQuery(salesOverviewOptions(period, limit));
+
+// Prefetch di route loader
+queryClient.prefetchQuery(salesOverviewOptions("30d", 10));
+
+// Membaca cache dengan tipe yang sudah diketahui
+const cached = queryClient.getQueryData(
+  salesOverviewOptions(period, limit).queryKey,
+);
+```
+
+### Menggunakan Library Query Key Factory
+
+Jika aplikasi sudah cukup besar dan pola _factory_ manual mulai terasa repetitif, saya biasanya beralih ke [@lukemorales/query-key-factory](https://github.com/lukemorales/query-key-factory). _Library_ ini menyediakan struktur _factory_ yang standar, lengkap dengan _type inference_, dan memungkinkan kita mendefinisikan `queryKey` sekaligus `queryFn` dalam satu tempat. Konsepnya mirip seperti `queryOptions`, namun terorganisir per fitur.
+
+```ts
+import { createQueryKeys } from "@lukemorales/query-key-factory";
+
+export const salesKeys = createQueryKeys("sales", {
+  overview: (period: SalesPeriod, limit: number) => ({
+    queryKey: [period, limit],
+    queryFn: (ctx) => getSales({ period, limit, signal: ctx.signal }),
+  }),
+  detail: (saleId: string) => ({
+    queryKey: [saleId],
+    queryFn: (ctx) => getSaleById({ saleId, signal: ctx.signal }),
+  }),
+});
+```
+
+`createQueryKeys` otomatis menambahkan `"sales"` sebagai awalan setiap _key_. Memanggil `salesKeys.overview("7d", 10)` akan menghasilkan objek berisi `queryKey: ["sales", "overview", "7d", 10]` beserta `queryFn`-nya, sehingga pemakaiannya di komponen menjadi sangat ringkas:
+
+```ts
+const salesQuery = useQuery(salesKeys.overview(period, limit));
+const saleDetailQuery = useQuery(salesKeys.detail(saleId));
+```
+
+Ketika fitur bertambah, setiap _domain_ mendapat _factory_-nya masing-masing, lalu digabungkan menjadi satu objek melalui `mergeQueryKeys`:
+
+```ts
+import { mergeQueryKeys } from "@lukemorales/query-key-factory";
+
+import { salesKeys } from "./sales";
+import { productsKeys } from "./products";
+import { customersKeys } from "./customers";
+
+export const queries = mergeQueryKeys(salesKeys, productsKeys, customersKeys);
+
+// queries.sales.overview(period, limit)
+// queries.products.list()
+// queries.customers.detail(customerId)
+```
+
+Dengan struktur seperti ini, seluruh _query key_ di aplikasi terdokumentasi di satu tempat. Tidak ada lagi pertanyaan "_key_ untuk data ini apa ya?" saat hendak melakukan _invalidation_ dari fitur lain.
+
+## Cache Invalidation yang Lebih Terarah
+
+Setiap kali sebuah _mutation_ berhasil, pertanyaan yang saya ajukan ke diri sendiri selalu sama: data mana saja yang menjadi basi karena perubahan ini? Kembali ke aplikasi POS tadi. Ketika kasir menyelesaikan sebuah transaksi baru, jelas seluruh ringkasan penjualan di _dashboard_ ikut berubah, maka seluruh _query_ milik _domain_ `sales` perlu ditandai basi:
+
+```ts
+const queryClient = useQueryClient();
+
+const createSaleMutation = useMutation({
+  mutationFn: createSale,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: salesKeys._def });
+  },
+});
+```
+
+`salesKeys._def` menghasilkan `["sales"]`. Cara kerja `invalidateQueries` mirip mencari _file_ berdasarkan awalan nama foldernya: seluruh _query_ yang _key_-nya diawali `["sales"]`, baik semua variasi `overview` maupun `detail`, akan ditandai _stale_ dan di-_refetch_. Karena _key_ dibangun secara hierarkis, jawaban dari pertanyaan "data mana yang basi?" tinggal diterjemahkan menjadi seberapa dalam awalan yang kita berikan:
+
+```ts
+// Seluruh query milik domain sales
+queryClient.invalidateQueries({ queryKey: salesKeys._def });
+
+// Hanya seluruh variasi overview (semua period dan limit)
+queryClient.invalidateQueries({ queryKey: salesKeys.overview._def });
+
+// Hanya satu kombinasi yang spesifik
+queryClient.invalidateQueries({
+  queryKey: salesKeys.overview("7d", 10).queryKey,
+  exact: true,
+});
+```
+
+Untuk kasus yang lebih dinamis, [`invalidateQueries`](https://tanstack.com/query/v5/docs/framework/react/guides/query-invalidation) juga menerima `predicate`, yaitu sebuah fungsi yang menyeleksi _query_ satu per satu. Misalnya, hanya membatalkan _cache_ untuk periode pendek karena transaksi baru paling berdampak di sana:
+
+```ts
+queryClient.invalidateQueries({
+  predicate: (query) =>
+    query.queryKey[0] === "sales" &&
+    ["7d", "30d"].includes(query.queryKey[2] as string),
+});
+```
+
+### Tidak Semua Perubahan Butuh Refetch
+
+Satu hal yang sering saya lihat: setiap _mutation_ selalu diakhiri `invalidateQueries`, padahal _server_ sudah mengembalikan data terbarunya di _response_. Dalam kasus itu, melakukan _refetch_ berarti meminta data yang sudah kita pegang. Lebih hemat menuliskannya langsung ke _cache_ dengan [`setQueryData`](https://tanstack.com/query/v5/docs/reference/QueryClient#queryclientsetquerydata):
+
+```ts
+const updateSaleMutation = useMutation({
+  mutationFn: updateSale,
+  onSuccess: (updatedSale) => {
+    queryClient.setQueryData(
+      salesKeys.detail(updatedSale.id).queryKey,
+      updatedSale,
+    );
+    queryClient.invalidateQueries({ queryKey: salesKeys.overview._def });
+  },
+});
+```
+
+Data detail diperbarui seketika tanpa _network request_ tambahan. Sementara itu, data agregat seperti `overview` tetap di-_invalidate_ agar di-_refetch_ dari _server_, karena kita tidak bisa menghitungnya sendiri di _client_.
+
+## Optimistic Update
+
+Pola terakhir yang sering saya pakai adalah [_optimistic update_](https://tanstack.com/query/v5/docs/framework/react/guides/optimistic-updates): memperbarui UI seolah-olah _mutation_ sudah berhasil, tanpa menunggu jawaban _server_. Jika ternyata gagal, perubahan tersebut di-_rollback_.
+
+Perilaku ini sebenarnya sangat manusiawi. Bayangkan kasir yang menerima pembayaran kartu: ia menulis "LUNAS" di nota sambil menunggu mesin EDC memproses. Jika ternyata kartunya ditolak, tulisan tadi dicoret dan pesanan kembali berstatus belum dibayar. Kasir tidak berdiri diam menatap mesin EDC dulu sebelum berani menulis apa pun.
+
+_Optimistic update_ melakukan hal yang sama di level _cache_. Misalnya kasir menandai sebuah pesanan sebagai lunas. Daripada menampilkan _spinner_ selama _request_ berlangsung, statusnya langsung berubah di layar:
+
+```ts
+const markAsPaidMutation = useMutation({
+  mutationFn: markSaleAsPaid,
+  onMutate: async (saleId) => {
+    const saleDetailKey = salesKeys.detail(saleId).queryKey;
+
+    await queryClient.cancelQueries({ queryKey: saleDetailKey });
+
+    const previousSale = queryClient.getQueryData(saleDetailKey);
+
+    queryClient.setQueryData(saleDetailKey, (sale?: Sale) =>
+      sale ? { ...sale, status: "paid" } : sale,
+    );
+
+    return { previousSale };
+  },
+  onError: (_error, saleId, context) => {
+    queryClient.setQueryData(
+      salesKeys.detail(saleId).queryKey,
+      context?.previousSale,
+    );
+  },
+  onSettled: (_data, _error, saleId) => {
+    queryClient.invalidateQueries({
+      queryKey: salesKeys.detail(saleId).queryKey,
+    });
+  },
+});
+```
+
+Empat langkah di kode tersebut persis kebiasaan kasir tadi:
+
+1. **`cancelQueries`** memastikan tidak ada yang mengganggu nota selagi kita menulis. Ia membatalkan _refetch_ yang mungkin sedang berjalan untuk _key_ tersebut, sebab hasil _refetch_ yang datang terlambat bisa menimpa data optimis kita. Inilah alasan lain mengapa meneruskan `signal` ke _fetching library_ itu penting, karena `cancelQueries` bekerja melalui mekanisme `AbortSignal` yang sama.
+2. **`getQueryData`** mengingat isi nota sebelum dicoret-coret. _Snapshot_ ini dikembalikan dari `onMutate` sebagai `context`.
+3. **`onError`** adalah momen kartu ditolak: _snapshot_ tadi dikembalikan ke _cache_, status di layar kembali seperti semula, dan kita bisa menampilkan _toast error_.
+4. **`onSettled`** memastikan _query_ tetap di-_invalidate_ di akhir, apa pun hasilnya, agar catatan kita benar-benar cocok dengan kondisi sebenarnya di _server_.
+
+Perhatikan bahwa seluruh langkah tersebut merujuk _key_ dari _factory_ yang sama. Tanpa _query key factory_, pola ini rentan sekali salah ketik. _Optimistic update_ dengan _key_ yang salah artinya UI berubah, namun _rollback_ tidak bekerja dan data _server_ tidak pernah tersinkron.
+
+Untuk kasus sederhana yang hanya perlu ditampilkan di satu tempat, Tanstack Query v5 juga menawarkan cara yang lebih ringan: membaca [`variables`](https://tanstack.com/query/v5/docs/framework/react/guides/optimistic-updates#via-the-ui) dari `useMutation` dan merendernya langsung selagi `isPending` bernilai `true`, tanpa menyentuh _cache_ sama sekali. Saya memakai pendekatan ini untuk hal-hal seperti menambahkan item ke daftar sementara. Sedangkan pendekatan berbasis _cache_ di atas saya simpan untuk data yang dibaca banyak komponen.
+
+## Penutup
+
+Tanstack Query memang terasa sederhana di permukaan, dan justru karena itulah kita sering berhenti belajar setelah `useQuery` pertama berhasil berjalan. Padahal beberapa kebiasaan kecil ini membuat pengelolaan _server state_ jauh lebih tangguh:
+
+1. Jadikan `queryKey` sebagai satu-satunya sumber kebenaran dengan membacanya kembali melalui `QueryFunctionContext`, bukan dari _closure_.
+2. Teruskan `signal` ke _fetching library_ agar _request_ yang sudah tidak relevan dibatalkan otomatis.
+3. Pusatkan definisi _key_ melalui _query key factory_ atau `queryOptions` agar _cache invalidation_ tidak bergantung pada _magic string_.
+4. Manfaatkan hierarki _key_ untuk mengatur cakupan _invalidation_, dan gunakan `setQueryData` ketika _server_ sudah mengembalikan data terbarunya alih-alih selalu melakukan _refetch_.
+5. Terapkan _optimistic update_ untuk interaksi yang butuh respons instan, lengkap dengan `cancelQueries`, _snapshot_, dan _rollback_-nya.
+
+Semuanya tidak menambah kompleksitas yang berarti, tetapi menghilangkan kelas _bug_ yang paling sulit dilacak: _bug_ yang tidak pernah melempar _error_.
+
+Tulisan ini banyak terinspirasi dari [blog TkDodo](https://tkdodo.eu/blog), _maintainer_ Tanstack Query yang menulis puluhan artikel mendalam seputar _library_ ini. Jika ingin menyelam lebih jauh, mulailah dari sana.
