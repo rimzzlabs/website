@@ -60,6 +60,7 @@ function GuestbookEditForm(props: { lang: Lang; comment: GuestbookComment; onDon
 			name: props.comment.name,
 			site: props.comment.site ?? "",
 			message: props.comment.message,
+			lang: props.lang,
 		},
 	});
 

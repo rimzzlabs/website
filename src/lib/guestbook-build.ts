@@ -1,17 +1,19 @@
 import { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN } from "astro:env/server";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
+import type { Lang } from "../i18n/config";
 import type { AuthorType, GuestbookComment, GuestbookPage } from "./guestbook-schema";
 
 const EMPTY: GuestbookPage = { items: [], nextOffset: null };
 const LOCAL_D1_DIR = ".wrangler/state/v3/d1/miniflare-D1DatabaseObject";
 const SELECT =
-	"SELECT id, name, site, message, created_at AS createdAt, updated_at AS updatedAt, author_type AS authorType, avatar_url AS avatar FROM comments ORDER BY id DESC LIMIT ?";
+	"SELECT id, name, site, message, lang, created_at AS createdAt, updated_at AS updatedAt, author_type AS authorType, avatar_url AS avatar FROM comments ORDER BY id DESC LIMIT ?";
 
 type D1Row = {
 	id: number;
 	name: string;
 	site: string | null;
 	message: string;
+	lang: Lang;
 	createdAt: number;
 	updatedAt: number | null;
 	authorType: AuthorType;
@@ -25,6 +27,7 @@ function toPage(rows: D1Row[], limit: number): GuestbookPage {
 		name: row.name,
 		site: row.site,
 		message: row.message,
+		lang: row.lang,
 		createdAt: row.createdAt,
 		updatedAt: row.updatedAt ?? null,
 		authorType: row.authorType,
