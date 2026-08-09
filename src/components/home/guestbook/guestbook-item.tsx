@@ -39,6 +39,9 @@ export function GuestbookItem(props: {
 	const comment = props.comment;
 	const isVerified = comment.authorType !== "anon";
 	const authorId = `gb-author-${comment.id}`;
+	// Only tag the message when it differs from the page locale — a redundant
+	// lang makes a screen reader announce a language switch that never happened.
+	const messageLang = comment.lang === props.lang ? undefined : comment.lang;
 
 	const timestamp = useTimestamp(comment.createdAt, props.lang);
 
@@ -47,7 +50,10 @@ export function GuestbookItem(props: {
 	}
 
 	return (
-		<article className="relative rounded-lg border bg-card p-4 sm:p-5" aria-labelledby={authorId}>
+		<article
+			className="relative border-b pb-5 pt-2 group-last-of-type/messages:border-none"
+			aria-labelledby={authorId}
+		>
 			<div aria-hidden className="w-2 bg-primary/70 left-0 inset-y-0" />
 			<div className="flex items-start gap-2">
 				<Quote aria-hidden="true" className="size-5 fill-primary/20 text-primary/20" />
@@ -80,7 +86,10 @@ export function GuestbookItem(props: {
 				)}
 			</div>
 
-			<blockquote className="mt-1 text-sm leading-relaxed text-pretty italic text-foreground/85">
+			<blockquote
+				lang={messageLang}
+				className="mt-1 text-sm leading-relaxed text-pretty italic text-foreground/85"
+			>
 				{comment.message}
 			</blockquote>
 

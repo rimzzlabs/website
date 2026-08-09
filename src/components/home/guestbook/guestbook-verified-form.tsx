@@ -22,7 +22,7 @@ export function GuestbookVerifiedForm(props: GuestbookVerifiedFormProps) {
 
 	const methods = useForm<GuestbookVerifiedInput>({
 		resolver: zodResolver(schema),
-		defaultValues: { site: "", message: "" },
+		defaultValues: { site: "", message: "", lang: props.lang },
 	});
 
 	const onSubmit = methods.handleSubmit((values) => {

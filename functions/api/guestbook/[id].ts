@@ -1,3 +1,4 @@
+import type { Lang } from "../../../src/i18n/config";
 import {
 	API_VALIDATION,
 	guestbookEditSchema,
@@ -72,27 +73,32 @@ export async function onRequestPatch(context: ItemContext): Promise<Response> {
 	let name = auth.row.name;
 	let site: string | null;
 	let message: string;
+	// The edit re-stamps the language, because the writer rewrote the message on
+	// the locale they are on now.
+	let lang: Lang;
 	if (auth.row.author_type === "anon") {
 		const parsed = editSchema.safeParse(body);
 		if (!parsed.success) return json({ error: "invalid_input" }, 400);
 		name = parsed.data.name;
 		site = normalizeSite(parsed.data.site);
 		message = parsed.data.message;
+		lang = parsed.data.lang;
 	} else {
 		const parsed = verifiedSchema.safeParse(body);
 		if (!parsed.success) return json({ error: "invalid_input" }, 400);
 		site = normalizeSite(parsed.data.site);
 		message = parsed.data.message;
+		lang = parsed.data.lang;
 	}
 
 	const updatedAt = Date.now();
 	await context.env.DB.prepare(
-		"UPDATE comments SET name = ?, site = ?, message = ?, updated_at = ? WHERE id = ?",
+		"UPDATE comments SET name = ?, site = ?, message = ?, lang = ?, updated_at = ? WHERE id = ?",
 	)
-		.bind(name, site, message, updatedAt, id)
+		.bind(name, site, message, lang, updatedAt, id)
 		.run();
 
-	const item = toComment({ ...auth.row, name, site, message, updatedAt }, auth.viewer);
+	const item = toComment({ ...auth.row, name, site, message, lang, updatedAt }, auth.viewer);
 	context.waitUntil(triggerRebuild(context.env));
 	return json({ item }, 200);
 }

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { LOCALES } from "../i18n/config";
 import { interpolate } from "../i18n/utils";
 
 export const GUESTBOOK_LIMITS = { name: 100, site: 200, message: 500 } as const;
@@ -31,6 +32,8 @@ function tooLong(template: string, max: number) {
 
 function verifiedFields(t: GuestbookValidation) {
 	return {
+		// The locale of the page the writer used — stamped by the form, never typed.
+		lang: z.enum(LOCALES),
 		site: z
 			.string()
 			.trim()
@@ -76,6 +79,7 @@ export const guestbookCommentSchema = z.object({
 	name: z.string(),
 	site: z.string().nullable(),
 	message: z.string(),
+	lang: z.enum(LOCALES),
 	createdAt: z.number(),
 	updatedAt: z.number().nullable(),
 	authorType: z.enum(AUTHOR_TYPES),

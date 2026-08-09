@@ -68,12 +68,13 @@ async function insertComment(
 	row: Omit<CommentRow, "id" | "updatedAt">,
 ): Promise<number> {
 	const { meta } = await env.DB.prepare(
-		"INSERT INTO comments (name, site, message, created_at, author_type, author_id, avatar_url, owner_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO comments (name, site, message, lang, created_at, author_type, author_id, avatar_url, owner_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 	)
 		.bind(
 			row.name,
 			row.site,
 			row.message,
+			row.lang,
 			row.createdAt,
 			row.author_type,
 			row.author_id,
@@ -135,6 +136,7 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
 			name: sessionUser.name,
 			site,
 			message: parsed.data.message,
+			lang: parsed.data.lang,
 			createdAt,
 			author_type: provider,
 			author_id: sessionUser.id,
@@ -147,6 +149,7 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
 			name: sessionUser.name,
 			site,
 			message: parsed.data.message,
+			lang: parsed.data.lang,
 			createdAt,
 			updatedAt: null,
 			authorType: provider,
@@ -177,6 +180,7 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
 		name: parsed.data.name,
 		site,
 		message: parsed.data.message,
+		lang: parsed.data.lang,
 		createdAt,
 		author_type: "anon",
 		author_id: null,
@@ -189,6 +193,7 @@ export async function onRequestPost(context: FunctionContext): Promise<Response>
 		name: parsed.data.name,
 		site,
 		message: parsed.data.message,
+		lang: parsed.data.lang,
 		createdAt,
 		updatedAt: null,
 		authorType: "anon",

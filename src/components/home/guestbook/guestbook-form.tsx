@@ -20,7 +20,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 
 	const methods = useForm<GuestbookInput>({
 		resolver: zodResolver(schema),
-		defaultValues: { name: "", site: "", message: "", token: "" },
+		defaultValues: { name: "", site: "", message: "", token: "", lang: props.lang },
 	});
 	const { handleSubmit, setValue, watch, reset, formState } = methods;
 

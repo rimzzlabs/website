@@ -1,3 +1,5 @@
+import type { Lang } from "../../src/i18n/config";
+
 export interface D1Result<T> {
 	results: T[];
 }
@@ -37,6 +39,7 @@ export interface CommentRow {
 	name: string;
 	site: string | null;
 	message: string;
+	lang: Lang;
 	createdAt: number;
 	updatedAt: number | null;
 	author_type: AuthorType;
@@ -50,6 +53,7 @@ export type GuestbookCommentDTO = {
 	name: string;
 	site: string | null;
 	message: string;
+	lang: Lang;
 	createdAt: number;
 	updatedAt: number | null;
 	authorType: AuthorType;
@@ -60,7 +64,7 @@ export type GuestbookCommentDTO = {
 export type Viewer = { ownerHash: string | null; sub: string | null };
 
 export const COMMENT_COLUMNS =
-	"id, name, site, message, created_at AS createdAt, updated_at AS updatedAt, author_type, author_id, avatar_url, owner_hash";
+	"id, name, site, message, lang, created_at AS createdAt, updated_at AS updatedAt, author_type, author_id, avatar_url, owner_hash";
 
 const OWNER_COOKIE = "gb_owner";
 const OWNER_MAX_AGE = 60 * 60 * 24 * 365;
@@ -107,6 +111,7 @@ export function toComment(row: CommentRow, viewer: Viewer): GuestbookCommentDTO 
 		name: row.name,
 		site: row.site,
 		message: row.message,
+		lang: row.lang,
 		createdAt: row.createdAt,
 		updatedAt: row.updatedAt,
 		authorType: row.author_type,
