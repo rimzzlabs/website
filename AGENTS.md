@@ -8,7 +8,7 @@ This is the canonical guide for agents working in this repo (`CLAUDE.md` points 
 
 Package manager is **pnpm**.
 
-- `pnpm dev` — dev server (`astro dev`)
+- `pnpm dev` — dev server (`astro dev`); also starts `wrangler pages dev` on 8788 for the API in `functions/`
 - `pnpm build` — production build (`astro build`)
 - `pnpm check` — TypeScript + Astro type check (`astro check`); run this to verify changes
 - `pnpm lint` — Biome lint + format check
@@ -84,3 +84,4 @@ There is no test suite. Verify with `pnpm check`; also `pnpm build` when touchin
 - **`.astro/` is generated and gitignored** — never commit it.
 - **`astro:assets` `<Image>` works only in `.astro` files**, not React islands. Inside React use a plain `<img>` (with `width`/`height`); import images as metadata (`import img from "@/assets/x.webp"` → `{ src, width, height }`).
 - **Remote-image builds need Sharp** — `<Image>`/`getImage` over the thesvg CDN requires Sharp, whose build script pnpm skips by default. Enable it with `pnpm approve-builds` (select `sharp`) or `pnpm build` will fail.
+- **The API in `functions/` is not served by `astro dev`** — Pages Functions need the workerd runtime. The `pagesFunctionsDev` Vite plugin (`scripts/pages-functions-dev.mjs`) starts `wrangler pages dev` on port 8788 with the dev server, and `vite.server.proxy` sends `/api` there. Local D1 and `.dev.vars` apply, so the guestbook works in dev. Port 8788 must be free. `pnpm guestbook:preview` still serves the built `dist` when you need the baked snapshot.

@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField, fontProviders } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import { PAGES_FUNCTIONS_PORT, pagesFunctionsDev } from "./scripts/pages-functions-dev.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -76,12 +77,15 @@ export default defineConfig({
 	],
 
 	vite: {
+		server: {
+			proxy: { "/api": { target: `http://127.0.0.1:${PAGES_FUNCTIONS_PORT}` } },
+		},
 		build: {
 			// The only chunk over the default 500 kB is the contact form's rich-text
 			// editor (Tiptap + ProseMirror), which is lazy-loaded on dialog open and
 			// never in the critical path — so the warning here is a false positive.
 			chunkSizeWarningLimit: 600,
 		},
-		plugins: [tailwindcss()],
+		plugins: [tailwindcss(), pagesFunctionsDev()],
 	},
 });
