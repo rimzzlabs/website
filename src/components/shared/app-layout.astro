@@ -6,6 +6,7 @@ import { getLangFromPath } from "@/i18n/utils";
 import { ContactDialog } from "./contact/contact-dialog";
 import { Dock } from "./dock/dock";
 import Footer from "./footer.astro";
+import ViewTransitions from "./view-transitions.astro";
 
 interface Props {
 	bareWrapper?: boolean;
@@ -37,8 +38,21 @@ const lang = getLangFromPath(pathname);
               window.matchMedia("(prefers-color-scheme: dark)").matches);
           document.documentElement.classList.toggle("dark", dark);
         } catch {}
+
+        // Effective motion preference on the document, before paint: view
+        // transitions start before any island can hydrate. `useMotionSync`
+        // keeps it current after hydration.
+        try {
+          const motion = localStorage.getItem("motion-preference");
+          const enabled =
+            motion === "on" ||
+            (motion !== "off" &&
+              !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+          document.documentElement.dataset.motion = enabled ? "on" : "off";
+        } catch {}
       })();
     </script>
+    <ViewTransitions />
     <slot name="metadata" />
   </head>
 

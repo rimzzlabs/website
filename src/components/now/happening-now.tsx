@@ -1,11 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
-import { useMotionEnabled } from "@/hooks/use-motion";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
 import { dateToISO, formatDate } from "@/lib/date";
 
 export function HappeningNow({ lang }: { lang: Lang }) {
-	const motionEnabled = useMotionEnabled();
 	const items = getDictionary(lang).now.items;
 	const sorted = Object.entries(items).sort(
 		([a], [b]) => new Date(b).getTime() - new Date(a).getTime(),
@@ -20,8 +18,7 @@ export function HappeningNow({ lang }: { lang: Lang }) {
 				>
 					<span
 						aria-hidden
-						data-safe-motion={motionEnabled}
-						className="absolute -left-2.25 top-0.5 hidden size-5 rounded-full bg-orange-500/75 group-first-of-type:block group-first-of-type:data-[safe-motion=true]:animate-ping"
+						className="absolute -left-2.25 top-0.5 hidden size-5 rounded-full bg-orange-500/75 group-first-of-type:block group-first-of-type:motion-on:animate-ping"
 					/>
 					<span
 						aria-hidden

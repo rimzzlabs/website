@@ -1,0 +1,55 @@
+---
+// Cross-document (native MPA) view transitions — no client router, so the site
+// stays static. The opt-in lives in `global.css`; this script pairs the note
+// title on both sides of a navigation so it morphs instead of cross-fading.
+//
+// The listeners must run before the first render opportunity of a document, so
+// this is an inline head script rather than a bundled module.
+---
+
+<script is:inline>
+  (() => {
+    const NOTE_PATH = /^(?:\/id)?\/notes\/([^/]+)\/?$/;
+    const NAME = "note-title";
+
+    function slugOf(url) {
+      if (!url) return null;
+      try {
+        return new URL(url, location.href).pathname.match(NOTE_PATH)?.[1] ?? null;
+      } catch {
+        return null;
+      }
+    }
+
+    function morph(transition, slug) {
+      if (document.documentElement.dataset.motion === "off") {
+        transition.skipTransition();
+        return;
+      }
+      if (!slug) return;
+
+      const title = document.querySelector(`[data-note-title="${CSS.escape(slug)}"]`);
+      if (!title) return;
+
+      title.style.viewTransitionName = NAME;
+      transition.finished.finally(() => {
+        title.style.viewTransitionName = "";
+      });
+    }
+
+    // The pair is keyed by the note slug: on a list page it is the card title of
+    // the note being opened, on an article page it is the heading itself. One of
+    // the two URLs carries the slug, so read the destination first.
+    addEventListener("pageswap", (event) => {
+      if (!event.viewTransition) return;
+      const to = event.activation?.entry.url;
+      morph(event.viewTransition, slugOf(to) ?? slugOf(location.href));
+    });
+
+    addEventListener("pagereveal", (event) => {
+      if (!event.viewTransition) return;
+      const from = window.navigation?.activation?.from?.url;
+      morph(event.viewTransition, slugOf(location.href) ?? slugOf(from));
+    });
+  })();
+</script>

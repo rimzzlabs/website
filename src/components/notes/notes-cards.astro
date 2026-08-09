@@ -22,7 +22,10 @@ const notesBase = localizePath("/notes", lang);
             {formatDate({ date: note.data.publishedAt, lang })}
           </time>
         </p>
-        <h2 class="pt-1 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-xl">
+        <h2
+          data-note-title={slug}
+          class="pt-1 text-lg font-semibold tracking-tight text-balance transition-colors group-hover:text-orange-500 sm:text-xl"
+        >
           {note.data.title}
         </h2>
         <p class="pt-1 text-sm text-muted-foreground">

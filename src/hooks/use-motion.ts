@@ -1,5 +1,6 @@
 import { useStore } from "@nanostores/react";
 import { useReducedMotion } from "motion/react";
+import { useEffect } from "react";
 import { $motionPreference } from "@/lib/stores/motion";
 
 /** Whether the user has made an explicit motion choice. */
@@ -18,4 +19,18 @@ export function useMotionEnabled() {
 	if (preference === "on") return true;
 	if (preference === "off") return false;
 	return !prefersReducedMotion;
+}
+
+/**
+ * Mirrors the effective preference onto `<html data-motion>`, which the view
+ * transition script reads — it runs before any island can hydrate, so it cannot
+ * use the store. First-paint application is handled by an inline script in the
+ * document head (see app-layout.astro). Mount once (in the dock).
+ */
+export function useMotionSync() {
+	const enabled = useMotionEnabled();
+
+	useEffect(() => {
+		document.documentElement.dataset.motion = enabled ? "on" : "off";
+	}, [enabled]);
 }

@@ -7,6 +7,7 @@ import Seo from "@/components/shared/seo.astro";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import type { Lang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionary";
+import { parseNoteId } from "@/i18n/utils";
 import { dateToISO, formatDate } from "@/lib/date";
 import type { Note } from "@/lib/notes";
 
@@ -22,6 +23,7 @@ const t = getDictionary(lang).notesPage;
 const { Content, headings } = await render(note);
 const author = await getEntry(note.data.author);
 
+const { slug } = parseNoteId(note.id);
 const { title, description, keywords, publishedAt } = note.data;
 const publishedTime = dateToISO(publishedAt);
 const authorName = author?.data.fullName ?? note.data.author.id;
@@ -39,6 +41,7 @@ const authorName = author?.data.fullName ?? note.data.author.id;
   <div class="relative">
     <header class="container-fluid pt-12 pb-6 lg:pt-24 lg:pb-12">
       <h1
+        data-note-title={slug}
         class="text-4xl leading-none font-bold tracking-tight text-pretty pb-8 sm:text-5xl lg:pb-16 lg:text-7xl"
       >
         {title}

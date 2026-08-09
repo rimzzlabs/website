@@ -7,6 +7,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Animations allowed — the stored preference combined with the OS setting, put
+   on <html> before paint (see app-layout.astro). Prefer this over Tailwind's
+   `motion-safe:`, which sees the OS setting only. Islands must not branch their
+   markup on the preference: it is unknown when the static HTML is built, so the
+   two renders disagree and hydration fails. A missing attribute (no JS) allows
+   animation, which is what the static HTML shows. */
+@custom-variant motion-on (&:is(html:not([data-motion="off"]) *));
+
 @theme {
 	--breakpoint-ssm: 25rem;
 }
@@ -142,6 +150,28 @@
 	html {
 		@apply font-sans;
 	}
+}
+
+/* Native cross-document view transitions. `view-transitions.astro` pairs the
+   note title between a list card and the article heading; everything else uses
+   the default root cross-fade. Motion-off skips the transition in that script. */
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-group(note-title) {
+	animation-duration: 320ms;
+	animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* The two headings differ in size, so the old snapshot is stretched while the
+   box morphs. Fade it out early and let the new one carry most of the move. */
+::view-transition-old(note-title) {
+	animation-duration: 120ms;
+}
+
+::view-transition-new(note-title) {
+	animation-duration: 220ms;
 }
 
 /* Wider reading container for long-form pages (notes). */
