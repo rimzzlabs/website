@@ -2,7 +2,7 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { useState } from "react";
 import { useDockPosition } from "@/hooks/use-dock-position";
 import { useIsMobile } from "@/hooks/use-is-mobile";
-import { useMotionEnabled } from "@/hooks/use-motion";
+import { useMotionEnabled, useMotionSync } from "@/hooks/use-motion";
 import { useThemeSync } from "@/hooks/use-theme";
 import type { Lang } from "@/i18n/config";
 import { $dockPosition, isDockPosition } from "@/lib/stores/dock";
@@ -14,6 +14,7 @@ import { DockZone } from "./dock-zone";
 
 export function Dock({ pathname, lang }: { pathname: string; lang: Lang }) {
 	useThemeSync();
+	useMotionSync();
 
 	const position = useDockPosition();
 	const isMobile = useIsMobile();
