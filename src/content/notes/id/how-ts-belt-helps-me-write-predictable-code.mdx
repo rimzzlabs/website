@@ -1,0 +1,588 @@
+---
+title: "Bagaimana ts-belt Membantu Saya Menulis Kode yang Mudah Diprediksi"
+description: "ts-belt adalah utility library TypeScript buatan Mobily yang memakai pendekatan fungsional. Begini cara Option, Result, dan AsyncResult menggantikan tumpukan pengecekan null dan try/catch di kode LLM yang saya kerjakan sehari-hari."
+publishedAt: "08/09/2026"
+status: "draft"
+featured: false
+author: rimzzlabs
+keywords:
+  - TS-Belt
+  - Functional Programming Frontend
+  - Option
+  - Result
+  - LLM Frontend
+---
+
+import { PlaygroundOption } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-option";
+import { PlaygroundResult } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-result";
+import { PlaygroundMessages } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-messages";
+
+Pertama kali tampilan _chat_ kami mendadak kosong, saya menyalahkan _backend_.
+
+Yang sebenarnya terjadi, model memanggil sebuah _tool_ dan bukan menulis balasan. Saya baru saja menulis ulang bagian _parsing_ pesan dengan ts-belt, semuanya lolos _type check_, dan tetap saja melempar `TypeError` di _production_.
+
+Satu _field_ penyebabnya. `content` bernilai `null` setiap kali model mengembalikan _tool call_, dan _pipeline_ saya memperlakukan `null` itu sebagai nilai yang sah sebelum menyerahkannya ke `.trim()`.
+
+Catatan ini tentang bagian ts-belt yang membuat _bug_ semacam itu berhenti terjadi buat saya. Sekaligus tentang satu celah yang bisa membuat kamu menulis _bug_ yang sama lagi tanpa sadar.
+
+## Pendahuluan
+
+[ts-belt](https://mobily.github.io/ts-belt/) adalah _utility library_ TypeScript buatan [Marcin Dziewulski](https://github.com/mobily), memakai pendekatan _functional programming_ dan merupakan [_utility library_ tercepat](https://mobily.github.io/ts-belt/benchmarks/introduction) yang ada saat ini.
+
+```sh
+npm install @mobily/ts-belt
+```
+
+Isinya dibagi jadi _namespace_ kecil yang diimpor per huruf:
+
+- `A` untuk _array_, `D` untuk objek biasa, `S` untuk _string_, `N` untuk angka, `B` untuk _boolean_.
+- `F` untuk _helper_ fungsi, `G` untuk _type guard_.
+- `O` untuk `Option`, `R` untuk `Result`, dan `AR` untuk `AsyncResult`.
+- `pipe` dan `flow` untuk merangkai semuanya.
+
+[Lodash](https://github.com/lodash/lodash) sebenarnya sudah cukup untuk baris pertama itu. Yang bikin saya tertarik justru sisanya.
+
+> Semua potongan kode di sini berjalan di `4.0.0-rc.5`. Modul `AR` baru ada di v4, jadi kalau kamu masih di v3, semuanya tersedia kecuali bagian _async_-nya.
+
+## Membaca Alur Kode dari Atas ke Bawah
+
+Hampir semua kode setelah ini lewat `pipe`. Itu bisa jalan karena satu keputusan desain yang diulang ts-belt di hampir semua fungsinya, jadi kita bereskan dulu bagian itu.
+
+Nyaris setiap fungsi di ts-belt punya dua _signature_. Berikan datanya lebih dulu maka ia langsung berjalan. Kosongkan datanya maka kamu mendapat fungsi yang masih menunggu data itu.
+
+```ts
+import { A } from "@mobily/ts-belt";
+
+const roles = A.map(messages, (message) => message.role);
+
+const getRoles = A.map((message: ChatMessage) => message.role);
+```
+
+Bentuk kedua ini ada supaya fungsinya bisa dibariskan di dalam `pipe`. `pipe` menerima satu nilai, lalu mengoper hasilnya ke fungsi berikutnya, satu per satu.
+
+```ts
+import { A, S, pipe } from "@mobily/ts-belt";
+
+const roles = pipe(
+  messages,
+  A.map((message) => message.role),
+  A.reject(S.isEmpty),
+  A.uniq,
+);
+```
+
+TypeScript menyimpulkan tipenya di setiap langkah, jadi `A.reject` sudah tahu bahwa yang dihadapinya adalah _string_. Tidak ada objek pembungkus, tidak ada _class_ yang perlu dipelajari, hanya fungsi yang mengoper nilai.
+
+`flow` idenya sama, cuma tanpa nilai awal, jadi yang kamu dapat fungsi siap pakai, bukan hasilnya. `pipe` mentok di sembilan fungsi, lebih dari itu pecah jadi dua.
+
+## Banyaknya Cara Jawaban Model Bisa Kosong
+
+Modul `O` adalah jawaban ts-belt untuk nilai yang belum tentu ada. Supaya kelihatan kenapa itu penting, lihat dulu apa yang sebenarnya dikirim sebuah _chat completion_:
+
+```ts
+type ToolCall = {
+  id: string;
+  function: { name: string; arguments: string };
+};
+
+type ChatMessage = {
+  role: "assistant";
+  content: string | null;
+  tool_calls?: Array<ToolCall>;
+};
+
+type ChatCompletion = {
+  choices: Array<{ message?: ChatMessage; finish_reason: string }>;
+};
+```
+
+Coba hitung ada berapa cara respons itu bisa datang tanpa isi sama sekali.
+
+`choices` bisa kosong. `message` bisa tidak ada ketika _content filter_ menyala. `content` bernilai `null` di setiap _tool call_. Dan ketika model benar-benar menjawab, kadang jawabannya cuma spasi.
+
+Jadi mengambil teks balasannya berakhir seperti ini:
+
+```ts
+const FALLBACK = "Model tidak mengembalikan teks apa pun.";
+
+function getReplyText(completion: ChatCompletion) {
+  if (completion.choices.length === 0) return FALLBACK;
+
+  const message = completion.choices[0].message;
+  if (!message) return FALLBACK;
+
+  if (message.content === null) return FALLBACK;
+
+  const text = message.content.trim();
+  if (text === "") return FALLBACK;
+
+  return text;
+}
+```
+
+Empat pengecekan, empat _early return_, dan _fallback_ yang sama diketik empat kali.
+
+Tidak ada yang salah dengan kode ini. Saya menulis bentuk persis seperti ini selama bertahun-tahun. Tapi pekerjaan sebenarnya adalah "baca balasannya", dan pekerjaan itu terkubur di bawah usaha membuktikan bahwa membacanya aman.
+
+`Option` adalah tempat keempat jenis ketiadaan tadi menjadi satu. Di kebanyakan bahasa, `Option` adalah kotak yang harus kamu buka. Di ts-belt, ia sama sekali bukan kotak:
+
+```ts
+import type { O } from "@mobily/ts-belt";
+
+type ReplyText = O.Option<string>; // string | null | undefined
+```
+
+Cuma itu isinya. `O.Option<A>` didefinisikan sebagai `A | null | undefined`, tidak lebih.
+
+Tidak ada alokasi dan tidak ada pembungkusan. Ini lebih penting daripada kedengarannya. Kamu bisa memakai `O` di satu fungsi tanpa mengubah apa pun di sekitarnya, dan hasilnya bisa langsung dikembalikan ke React atau ke fungsi mana pun yang memang menerima `string | undefined`.
+
+Setiap fungsi ts-belt yang mungkin tidak menemukan apa-apa mengembalikan `Option`:
+
+```ts
+import { A, D, S } from "@mobily/ts-belt";
+
+A.head(completion.choices); // Option<Choice>
+A.getBy(toolCalls, (call) => call.id === id); // Option<ToolCall>
+D.get(headers, "x-request-id"); // Option<string>
+S.search(reply, /\d+/); // Option<number>
+```
+
+Sekarang fungsi yang tadi, ditulis ulang:
+
+```ts
+import { A, O, S, pipe } from "@mobily/ts-belt";
+
+function getReplyText(completion: ChatCompletion) {
+  const text = pipe(
+    completion.choices,
+    A.head,
+    O.flatMap((choice) => O.fromNullable(choice.message)),
+    O.flatMap((message) => O.fromNullable(message.content)),
+    O.map(S.trim),
+    O.filter(S.isNotEmpty),
+  );
+
+  return O.getWithDefault(text, FALLBACK);
+}
+```
+
+Semua pengecekannya hilang, dan _fallback_-nya cuma muncul sekali, di akhir.
+
+Ini bisa jalan karena `O.map`, `O.flatMap`, dan `O.filter` mengikuti satu aturan yang sama. Kalau nilainya ada, jalankan fungsinya. Kalau tidak ada, lewati fungsinya dan teruskan kekosongan itu ke langkah berikutnya.
+
+Jadi kasus `choices` yang kosong tidak pernah butuh `if` sendiri. `A.head` tidak mengembalikan apa-apa, dan semua langkah sesudahnya otomatis ikut dilewati.
+
+Di lapisan komponen, `O.match` adalah cara keluar dari jalur itu sambil menangani kedua kemungkinannya secara eksplisit:
+
+```tsx
+import { O } from "@mobily/ts-belt";
+
+function ReplyBubble(props: { text: O.Option<string> }) {
+  return O.match(
+    props.text,
+    (text) => <p className="reply">{text}</p>,
+    () => <p className="reply-empty">{FALLBACK}</p>,
+  );
+}
+```
+
+### `null` yang Lolos Begitu Saja
+
+Sekarang bagian yang menghabiskan satu sore saya.
+
+Tipenya bilang `Option<A> = A | null | undefined`. Tapi yang terjadi saat program berjalan lain lagi. Di dalam ts-belt, pengecekan ketiadaannya begini:
+
+```ts
+function isNone(x) {
+  return x === void 0;
+}
+```
+
+Cuma `undefined` yang dianggap kosong. `null` diperlakukan sebagai nilai yang sah, lalu diteruskan ke fungsi berikutnya seperti nilai biasa.
+
+Artinya versi ini lolos _type check_ tanpa keluhan sedikit pun, lalu jebol begitu model memanggil _tool_:
+
+```ts
+import { A, O, S, pipe } from "@mobily/ts-belt";
+
+pipe(
+  completion.choices,
+  A.head,
+  O.flatMap((choice) => choice.message),
+  O.flatMap((message) => message.content),
+  O.map(S.trim),
+);
+```
+
+`message.content` bertipe `string | null`, dan TypeScript dengan senang hati menerimanya sebagai `Option<string>`. Tapi ketika isinya `null`, `O.map` menganggapnya `Some`, memanggil `S.trim(null)`, dan lahirlah `TypeError` tadi.
+
+Ini seperti kotak berlabel kosong yang ternyata masih ada isinya, dan labelnya adalah satu-satunya hal yang diperiksa orang.
+
+Coba sendiri di bawah. Pindah ke _tool call_ lalu lihat baris tengahnya tumbang:
+
+<PlaygroundOption client:visible lang="id" />
+
+Perbaikannya cuma satu fungsi. `O.fromNullable` mengubah `null` menjadi `undefined`:
+
+```ts
+import { O } from "@mobily/ts-belt";
+
+O.flatMap((message) => O.fromNullable(message.content));
+```
+
+Kebiasaan yang akhirnya saya pegang: apa pun yang datang dari luar _pipeline_ saya sendiri harus lewat `O.fromNullable` dulu. Respons API, `JSON.parse`, nilai dari _form_, _library_ pihak ketiga. Nilai yang diproduksi ts-belt sendiri, misalnya keluaran `A.head`, sudah bersih.
+
+Aturannya kecil, tapi inilah pembeda antara `Option` yang bisa ditebak dan `Option` yang jadi jebakan.
+
+## Memastikan Bentuk Data yang Datang dari Luar
+
+Apa pun yang dikirim balik oleh model dimulai sebagai `unknown`. `G` adalah modul yang memastikan sebuah nilai itu sebenarnya apa, dan enak dikenali sebelum masuk ke `Result`.
+
+Semua _guard_-nya mempersempit tipe dengan benar selama dipanggil langsung, jadi TypeScript ikut paham:
+
+```ts
+import { G } from "@mobily/ts-belt";
+
+G.isString(value);
+G.isNumber(value);
+G.isObject(value);
+G.isNotNullable(value);
+```
+
+Yang paling sering saya pakai adalah `G.isNotNullable`, karena ia membersihkan sebuah _array_ sekaligus mempersempit tipenya dalam satu langkah:
+
+```ts
+import { A, G, pipe } from "@mobily/ts-belt";
+
+const usages = pipe(
+  completions,
+  A.map((completion) => completion.usage), // Array<Option<Usage>>
+  A.filter(G.isNotNullable), // Array<Usage>
+);
+```
+
+Tanpa _cast_, tanpa `as`, dan _array_ yang keluar benar-benar bersih dari lubang.
+
+## Mengeluarkan Ternary dari Pipeline
+
+`F` adalah modul yang paling lama saya abaikan, dan justru modul inilah yang akhirnya mengeluarkan _ternary_ dari _pipeline_ saya.
+
+Sebuah _ternary_ tidak masalah kalau berdiri sendiri. Masalahnya, ia tidak bisa duduk di dalam `pipe`, jadi begitu kamu butuh satu saja, kamu kembali mengeluarkan nilainya ke sebuah variabel dan rantainya putus.
+
+`F.ifElse` menerima nilainya, sebuah _predicate_, lalu dua cabangnya:
+
+```ts
+import { F } from "@mobily/ts-belt";
+
+const model = F.ifElse(
+  request,
+  (value) => value.premium,
+  F.always("opus"),
+  F.always("haiku"),
+);
+```
+
+`F.always` membuat fungsi yang mengabaikan masukannya dan mengembalikan sebuah konstanta, dan itulah yang dibutuhkan kedua cabang tadi.
+
+Untuk kasus yang jauh lebih sering, yaitu "pakai ini kecuali nilainya tidak ada", ada `F.defaultTo`:
+
+```ts
+import { F } from "@mobily/ts-belt";
+
+const temperature = F.defaultTo(request.temperature, 0.7);
+```
+
+Ia berpatokan pada _nullability_, bukan _truthiness_, jadi angka `0` tetap `0`. Itu masalah klasik `||` yang sudah dibereskan `??`, bedanya yang satu ini bisa ikut dirangkai di dalam `pipe`.
+
+`F.identity` satu lagi yang layak diingat. Ia mengembalikan masukannya apa adanya, dan itu persis yang kamu mau untuk cabang "biarkan saja" pada sebuah `F.ifElse`.
+
+## Menaruh Kegagalan di Tipe Kembalian
+
+`Option` menjawab "ada atau tidak?". Ia tidak bisa memberi tahu _kenapa_ sesuatu tidak ada, dan tidak bisa membawa pesan ke pengguna. Untuk itu ada `Result`.
+
+Lihat sebuah _signature_ biasa:
+
+```ts
+function parseArguments(raw: string): SearchArgs;
+```
+
+Ia menjanjikan argumen. Ia juga bisa melempar _error_, dan tipenya tidak bilang apa-apa soal itu. Apakah kamu butuh `try/catch` hanya bisa diketahui dengan membaca isi fungsinya, dan isi semua fungsi yang dipanggilnya.
+
+Setiap `try/catch` yang kita tulis adalah pengakuan bahwa sebuah tipe telah membohongi kita.
+
+`Result` menaruh kegagalannya di tipe kembalian, tempat _compiler_ bisa melihatnya:
+
+```ts
+import type { R } from "@mobily/ts-belt";
+
+type ParsedArgs = R.Result<SearchArgs, Error>; // Ok<SearchArgs> | Error<Error>
+```
+
+Berbeda dengan `Option`, yang satu ini benar-benar pembungkus. Isinya objek kecil bertanda yang menyimpan nilainya atau _error_-nya, dan kamu tidak bisa membaca nilainya tanpa memutuskan lebih dulu apa yang terjadi kalau nilainya tidak ada.
+
+Mendapatkannya dari kode yang melempar _error_ cuma butuh satu fungsi:
+
+```ts
+import { R } from "@mobily/ts-belt";
+
+const parsed = R.fromExecution(() => JSON.parse(raw) as unknown);
+const answer = await R.fromPromise(callModel(prompt));
+```
+
+`R.fromExecution` menangani apa pun yang sinkron, `R.fromPromise` menangani _promise_, dan keduanya mengembalikan `Result` yang sisi _error_-nya berupa `Error` sungguhan.
+
+### Menumpuk Langkah yang Bisa Gagal
+
+Manfaatnya terasa ketika beberapa langkah bisa gagal secara beruntun.
+
+Ketika model memanggil sebuah _tool_, argumennya datang sebagai _string_ mentah. Ia harus di-_parse_, lalu harus diperiksa, karena tidak ada jaminan model mengisi _field_ yang kita minta.
+
+Percobaan pertama saya untuk bagian pemeriksaan itu adalah tumpukan `G` dengan _early return_ di tiap langkahnya. Jalan, tapi itu satu-satunya bagian yang masih imperatif di _file_ tersebut, dan cukup mengganjal sampai saya coba tulis ulang sebagai `pipe`.
+
+Di situlah saya menabrak tembok.
+
+```ts
+import { G, R, pipe } from "@mobily/ts-belt";
+
+pipe(
+  R.fromPredicate(value, G.isObject, new Error("not an object")),
+  R.map((object) => object.query),
+);
+```
+
+Kode ini tidak bisa di-_compile_, dan alasannya layak diketahui. `R.fromPredicate` di sini menghasilkan `Result<{}, Error>`. _Guard_-nya tetap jalan, tapi hasil penyempitan tipenya hilang di tengah jalan.
+
+`A.filter` adalah pengecualiannya. Ia punya _overload_ khusus yang membawa _type predicate_ sampai ke ujung, dan itulah sebabnya `A.filter(G.isNotNullable)` tadi berhasil mempersempit tipe _array_-nya. `O.filter` dan `R.fromPredicate` tidak punya _overload_ semacam itu, jadi tipe apa pun yang lewat situ keluar sama luasnya seperti waktu masuk.
+
+Jadi `G` gunanya mempersempit tipe nilai yang sudah kamu pegang. Ia tidak bisa mengubah `unknown` jadi sebuah bentuk yang pasti. Untuk itu kamu butuh _schema_, dan di proyek ini saya memang sudah pakai [zod](https://zod.dev):
+
+```ts
+import { R } from "@mobily/ts-belt";
+import { z } from "zod";
+
+const searchArgsSchema = z.object({
+  query: z.string(),
+  limit: z.number().default(10),
+});
+
+type SearchArgs = z.infer<typeof searchArgsSchema>;
+
+function parseArguments(raw: string): R.Result<unknown, Error> {
+  return R.fromExecution(() => JSON.parse(raw) as unknown);
+}
+
+function toSearchArgs(value: unknown) {
+  return R.fromExecution(() => searchArgsSchema.parse(value));
+}
+```
+
+Tumpukan pengecekannya hilang. `searchArgsSchema.parse` melempar _error_ kalau bentuknya salah, `R.fromExecution` menangkapnya, dan yang kembali adalah `Result<SearchArgs, Error>` yang tipenya rapi. Nilai bawaan untuk `limit` pindah ke dalam _schema_, tempat yang memang lebih enak dibaca.
+
+Ini pembagian tugas yang akhirnya saya pakai. zod memutuskan data itu _apa_. ts-belt memutuskan langkah-langkahnya _mengalir_ ke mana.
+
+Dan sekarang kedua bagiannya masing-masing tinggal satu langkah, jadi keduanya nyambung:
+
+```ts
+import { R, pipe } from "@mobily/ts-belt";
+
+function readSearchArgs(toolCall: ToolCall) {
+  return pipe(
+    parseArguments(toolCall.function.arguments),
+    R.flatMap(toSearchArgs),
+    R.mapError((error) => error.message),
+  );
+}
+```
+
+`R.flatMap` menuruti aturan yang sama dengan `O.flatMap`. Kalau yang masuk berupa `Ok`, jalankan langkah berikutnya. Kalau sudah berupa `Error`, lewati langkahnya sama sekali dan teruskan _error_-nya ke bawah tanpa disentuh.
+
+Bayangkan sebuah berkas yang melewati deretan loket. Loket satu mem-_parsing_-nya, loket dua memeriksanya, loket tiga menjalankan pencariannya. Begitu satu loket menolak, berkasnya dapat surat penolakan dan langsung menuju pintu keluar. Loket-loket sesudahnya tidak membuka mapnya, dan tidak ada loket yang perlu bertanya "ini sudah ditolak belum?" di awal meja.
+
+Pertanyaan itulah yang sebenarnya dilakukan `try/catch` di sekeliling setiap langkah.
+
+`R.mapError` di baris terakhir perlu dijelaskan sedikit. Di dalam _pipeline_, _error_-nya berupa `Error` sungguhan, dan itu yang kita mau di _log_. Komponennya cuma butuh _string_. `R.mapError` menerjemahkan yang satu ke yang lain tanpa pernah menyentuh jalur suksesnya.
+
+Satu catatan sekarang setelah zod ikut di rantai ini. `ZodError` menyimpan `message`-nya sebagai _dump_ JSON dari setiap masalah, dan itu tidak terbaca kalau ditaruh di _toast_. `z.prettifyError` yang perlu kamu panggil di situ.
+
+Rusakkan JSON di bawah lalu lihat langkah dua dilewati:
+
+<PlaygroundResult client:visible lang="id" />
+
+### Membukanya di Tempat Hasilnya Dirender
+
+Sebuah `Result` sebaiknya tidak bepergian jauh. Saya menyimpannya di dalam modul yang membuatnya, lalu membukanya di tempat hasilnya dirender:
+
+```tsx
+import { R } from "@mobily/ts-belt";
+
+function ToolCallStatus(props: { result: R.Result<SearchArgs, string> }) {
+  return R.match(
+    props.result,
+    (args) => <p>Mencari {args.query}</p>,
+    (message) => <p role="alert">{message}</p>,
+  );
+}
+```
+
+`R.match` memaksa kedua cabangnya ada. Kamu tidak bisa merender jalur suksesnya lalu diam-diam melupakan yang satunya. Itu kesalahan yang lebih dari sekali saya rilis waktu masih pakai `try/catch` biasa.
+
+## Ketika Separuh Langkahnya Berupa Promise
+
+Ada satu masalah dengan semua yang di atas: di kode _agent_, hampir tidak ada yang sinkron.
+
+Panggilan ke model adalah _promise_. _Tool_-nya adalah _promise_. Di antara keduanya ada _parsing_, yang bukan _promise_. Jadi kamu berakhir dengan satu `await`, lalu sebuah `Result`, lalu `await` lagi, dan _pipeline_ yang sedang kamu bangun berantakan jadi tumpukan variabel perantara.
+
+`AsyncResult` adalah jawaban v4, dan definisinya sesederhana yang kamu harapkan:
+
+```ts
+import type { AR } from "@mobily/ts-belt";
+
+type Turn = AR.AsyncResult<Array<string>, Error>; // Promise<Result<Array<string>, Error>>
+```
+
+Sebuah `AsyncResult<A, B>` adalah `Promise<Result<A, B>>`, dengan kombinator yang sudah kamu kenal. `AR.fold` menerima langkah yang mengembalikan `Result` biasa, `AR.flatMap` menerima langkah yang mengembalikan `AsyncResult` lagi, dan `AR.match` membuka semuanya di akhir.
+
+Artinya satu giliran _agent_, dari _prompt_ sampai jawaban yang dirender, jadi satu ekspresi:
+
+```ts
+import { AR, pipe } from "@mobily/ts-belt";
+
+function runTurn(prompt: string) {
+  return pipe(
+    AR.make(callModel(prompt)),
+    AR.fold(firstToolCall),
+    AR.fold((toolCall) => parseArguments(toolCall.function.arguments)),
+    AR.fold(toSearchArgs),
+    AR.flatMap((args) => AR.make(runSearch(args))),
+    AR.match(
+      (results) => `Ditemukan ${results.length} hasil`,
+      (error) => `Giliran ini gagal: ${error.message}`,
+    ),
+  );
+}
+```
+
+Ada lima hal yang bisa gagal di sana. Modelnya bisa kena _rate limit_, bisa saja tidak memanggil _tool_ sama sekali, argumennya bisa rusak, bentuknya bisa salah, dan pencariannya sendiri bisa mati.
+
+Tidak ada satu pun `try` di seluruh fungsi itu, dan setiap kegagalan tadi mendarat di tempat yang sama lengkap dengan pesannya.
+
+`AR.make` yang membungkus _promise_ biasa jadi `AsyncResult`, sekaligus menangkap _rejection_-nya. Jadi `429` yang dilempar datang sebagai `Error`, bukan meledakkan rantainya.
+
+Langkah yang mencari _tool call_-nya hanyalah pekerjaan `Option` yang diserahkan ke `Result`:
+
+```ts
+import { A, O, R, pipe } from "@mobily/ts-belt";
+
+function firstToolCall(completion: ChatCompletion): R.Result<ToolCall, Error> {
+  const toolCall = pipe(
+    completion.choices,
+    A.head,
+    O.flatMap((choice) => O.fromNullable(choice.message)),
+    O.flatMap((message) => O.fromNullable(message.tool_calls)),
+    O.flatMap(A.head),
+  );
+
+  return R.fromNullable(toolCall, new Error("Model tidak memanggil tool"));
+}
+```
+
+`R.fromNullable` jembatannya. `Option` cuma bisa bilang "tidak ada apa-apa di sini", lalu kamu tempelkan alasannya dan serahkan ke `Result`.
+
+## Merapikan Data Sebelum Dikirim Keluar
+
+`A` untuk _array_ dan `D` untuk objek biasa adalah bagian _library_ yang paling tidak menarik, sekaligus yang paling sering saya pakai.
+
+Sebelum sebuah _prompt_ dikirim, riwayatnya perlu dirapikan. Buang pesan _system_-nya, buang giliran ketika model cuma memanggil _tool_, potong spasinya, singkirkan kolom internalnya, lalu pangkas sampai muat di _context window_.
+
+Ada lima hal di situ, dan jadinya lima baris:
+
+```ts
+import { A, D, O, S, pipe } from "@mobily/ts-belt";
+
+function toPromptMessages(messages: Array<StoredMessage>) {
+  return pipe(
+    messages,
+    A.reject((message) => message.role === "system"),
+    A.filterMap((message) =>
+      pipe(
+        O.fromNullable(message.content),
+        O.map(S.trim),
+        O.filter(S.isNotEmpty),
+        O.map((content) =>
+          D.merge(D.selectKeys(message, ["role"]), { content }),
+        ),
+      ),
+    ),
+    A.take(20),
+  );
+}
+```
+
+`A.filterMap` yang paling layak diingat. Ia mem-_map_ dan mem-_filter_ sekaligus dalam satu jalan, dan penentunya cuma satu: fungsimu mengembalikan sebuah nilai, atau tidak mengembalikan apa-apa.
+
+`D.selectKeys` memilih _field_ yang memang diminta API, jadi `created_at` dan `trace_id` tidak ikut terkirim.
+
+Nyalakan dan matikan langkahnya lalu lihat apa yang dibuang masing-masing:
+
+<PlaygroundMessages client:visible lang="id" />
+
+Menghitung token sepanjang satu sesi bentuknya sama:
+
+```ts
+import { A, G, N, pipe } from "@mobily/ts-belt";
+
+function totalTokens(completions: Array<ChatCompletion>) {
+  return pipe(
+    completions,
+    A.map((completion) => completion.usage),
+    A.filter(G.isNotNullable),
+    A.reduce(0, (sum, usage) =>
+      N.add(sum, usage.prompt_tokens + usage.completion_tokens),
+    ),
+  );
+}
+```
+
+## Apa Konsekuensinya
+
+Saya lebih suka menulis bagian ini daripada membiarkan kamu menemukannya sendiri pas lagi dikejar rilis.
+
+**`null` bukan `None` saat program berjalan.** Yang tadi di atas, dan satu-satunya di daftar ini yang benar-benar bisa bikin _crash_. `O.fromNullable` di setiap perbatasan.
+
+**_Array_ kembali sebagai `readonly`.** `A.map` mengembalikan `readonly T[]`, jadi menugaskannya ke `Array<string>` tidak akan lolos _compile_. Biasanya kamu tinggal menulis _signature_-mu sendiri sebagai `ReadonlyArray<T>` lalu lanjut. Kalau itu terlalu banyak perubahan, ada jalan keluar global yang cukup dideklarasikan sekali, dan ia butuh `skipLibCheck: true`:
+
+```ts
+declare global {
+  namespace Belt {
+    type UseMutableArrays = 1;
+  }
+}
+
+export {};
+```
+
+**Kedua cabang `match` harus sepakat soal tipe kembaliannya.** _Generic_-nya dikunci oleh _callback_ mana pun yang datang duluan, jadi ketika cabang kedua mengembalikan bentuk yang sedikit berbeda, _error_-nya menunjuk ke tempat yang salah. Anotasikan tipe kembaliannya dan masalahnya hilang.
+
+**`R.Error` bukan `Error` milik JavaScript.** Ia wadah yang bisa menampung apa saja, termasuk _string_ biasa. Justru itu gunanya, karena nilai _error_ yang bertipe memang membantu. Tapi kalau kamu `throw` benda ini, _stack trace_ yang kamu dapat benar-benar membingungkan.
+
+**`Option` tidak bisa bersarang.** `Option<Option<string>>` runtuh jadi satu, karena ia _union_ dan bukan kotak. Jadi `D.get(config, "model")` tidak bisa membedakan antara "_key_-nya tidak ada" dan "_key_-nya ada dan isinya `undefined`". Kalau perbedaan itu penting, pakai `Result`.
+
+**Dan harga yang bukan soal teknis.** Sebuah `pipe` berisi enam fungsi baru lebih enak dibaca kalau pembacanya tahu apa itu `flatMap`. Di tim yang belum pernah lihat gaya ini, kodenya bukan jadi lebih jelas, cuma jadi asing. Saya memasukkannya di tempat yang manfaatnya jelas, yaitu apa pun yang menyentuh jaringan atau merapikan data, dan saya biarkan `if` biasa di tempat yang memang sudah paling jelas dibaca.
+
+## Penutup
+
+`if` tidak pernah jadi masalahnya.
+
+Masalahnya, sebuah `if` yang sifatnya berjaga-jaga terlihat persis seperti aturan bisnis. Beberapa bulan kemudian, tidak ada yang bisa membedakan cabang mana yang mewakili kebutuhan nyata dan cabang mana yang cuma ada supaya TypeScript diam.
+
+Yang akhirnya melekat buat saya:
+
+1. Pakai `Option` kalau pertanyaannya cuma "ada atau tidak?", dan `Result` kalau kamu juga berutang alasan ke seseorang.
+2. Lewatkan apa pun dari luar _pipeline_-mu ke `O.fromNullable` sebelum fungsi `O` lain menyentuhnya.
+3. Bungkus kode yang melempar _error_ sekali saja dengan `R.fromExecution` atau `R.fromPromise`, lalu rangkai dengan `R.flatMap` alih-alih menumpuk `try/catch`.
+4. Kalau langkahnya campuran sinkron dan _async_, pakai `AR` daripada membuka bungkusnya di antara setiap `await`.
+5. Simpan `Result` di dalam modul yang membuatnya dan buka dengan `R.match` di batas komponen, supaya kedua cabangnya wajib ada.
+
+Semua ini tidak membuat kemungkinan gagalnya hilang. Yang berubah, kemungkinan itu pindah ke _type signature_ tempat _compiler_ bisa menunjuknya, bukan lagi bersembunyi di badan fungsi yang cuma ketahuan kalau dibaca teliti.
+
+[Dokumentasi ts-belt](https://mobily.github.io/ts-belt/) pendek dan layak dibaca sampai habis. Kalau semua ini baru buat kamu, halaman `Option` dan `Result` adalah dua yang paling penting.
