@@ -57,7 +57,7 @@ export default defineConfig({
 		syntaxHighlight: "shiki",
 		shikiConfig: {
 			themes: { light: "github-light-default", dark: "github-dark-default" },
-			wrap: true,
+			wrap: false,
 		},
 		processor: unified({ rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] }),
 	},
