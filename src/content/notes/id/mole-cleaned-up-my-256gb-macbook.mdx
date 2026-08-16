@@ -167,7 +167,35 @@ Bawaannya memang sengaja konservatif. Selama saya pakai, dia tidak pernah menyen
 
 Dua perintah lagi layak disebut.
 
-`mo status` menampilkan dasbor kesehatan sistem langsung di terminal. Lebih enak dibuka daripada Activity Monitor waktu kipas tiba-tiba ngebut.
+`mo status` menampilkan dasbor kesehatan sistem langsung di terminal. Lebih enak dibuka daripada Activity Monitor waktu kipas tiba-tiba ngebut:
+
+```txt
+☁  ~  mo status
+
+Free   ███░░░░░░░░░░░░░   23.1%
+Swap   ██████████░░░░░░   65.8% 1.3G/2.0G
+Total  6.2 GB / 8.0 GB · Avail 1.8 GB
+
+▥ Disk  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+INTR   ██████████████░░  208G used, 20G free
+EXTR1  ███████████████░  19G used, 495M free
+EXTR2  ███████████████░  19G used, 495M free
+I/O    ▯▯▯▯▯ R 0.6 · ▯▯▯▯▯ W 0 MB/s
+
+◪ Power  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+Level  ████░░░░░░░░░░░░   26.0%
+Health ██████████████░░     89%
+Discharging · 1:56 · Healthy · 275 cycles · 30.7°C
+
+❊ Processes  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+#1     ██░░░░░░░░░░░░░░  18.0%  144.3M esbuild
+#2     ░░░░░░░░░░░░░░░░   5.6%   12.5M coreaudiod
+#3     ░░░░░░░░░░░░░░░░   3.4%  197.2M claude
+
+⇅ Network  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+Down   ▆▅▃▅▃▂▂▃▁▁▁▂▂▃▁▁  2.25 MB/s
+Up     ▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  1.89 MB/s
+```
 
 Lalu ada `mo touchid`, yang mengaktifkan Touch ID untuk `sudo`. Tidak ada hubungannya dengan bersih-bersih, tapi jelas menunjukkan pembuatnya peduli detail. Sekali terbiasa, susah balik ke ketik _password_.
 
