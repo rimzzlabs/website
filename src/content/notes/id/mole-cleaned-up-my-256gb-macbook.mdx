@@ -1,0 +1,178 @@
+---
+title: "Mole Bikin MacBook 256GB Kesayangan Saya Lega Lagi"
+description: "MacBook M1 saya cuma punya penyimpanan 256GB dan tidak pernah lega. macOS cuma bilang pelakunya System Data, tanpa rincian apa pun. Mole, tool terminal yang sederhana, menunjukkan ke mana tiap gigabyte pergi, lalu mengambilnya kembali."
+publishedAt: "08/16/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - Mole
+  - Bersihkan Storage macOS
+  - MacBook Penuh
+  - System Data macOS
+  - MacBook 256GB
+  - mo clean
+---
+
+import { Picture } from "astro:assets";
+
+import { PlaygroundClean } from "@/components/notes/mole-cleaned-up-my-256gb-macbook/playground-clean";
+
+import FirstScan from "@/assets/notes/mole-cleaned-up-my-256gb-macbook/first-scan.png";
+
+MacBook saya M1 Air dengan penyimpanan 256GB. Setahun terakhir, notifikasi "Your disk is almost full" praktis tidak pernah hilang dari hidup saya.
+
+Tiap beberapa minggu ritualnya sama. Kosongkan _trash_, hapus rekaman layar, buang aplikasi yang jarang dibuka. Dapat tiga empat gigabyte, seminggu kemudian habis lagi.
+
+Biang keroknya ada di pengaturan Storage: bagian **System Data**. Puluhan gigabyte, tanpa rincian, tanpa tombol apa pun. macOS tahu persis isinya, tapi tidak mau kasih tahu.
+
+Sampai saya ketemu [Mole](https://github.com/tw93/Mole). Satu malam, dan disk saya lega 12.69 GB. Catatan ini soal apa itu Mole, cara kerjanya, dan kenapa dia tidak akan saya hapus.
+
+## Pendahuluan
+
+Mole adalah _tool_ terminal _open source_ buatan [Tw93](https://github.com/tw93). Bersih-bersih, _uninstall_ aplikasi, analisis disk, optimasi, sampai _monitoring_, semuanya dalam satu _binary_ Go. Perintahnya cuma satu: `mo`.
+
+Pasang lewat Homebrew:
+
+```sh
+brew install mole
+```
+
+Atau lewat skrip instalasi kalau kamu tidak pakai Homebrew:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/tw93/mole/main/install.sh | bash
+```
+
+Selesai. Tidak perlu kasih Full Disk Access ke aplikasi antah-berantah, tidak perlu beli "Mac cleaner" berlangganan dari App Store.
+
+## Satu Perintah untuk Semuanya
+
+Jalankan `mo` tanpa argumen, langsung muncul menu interaktif di terminal. Bisa pakai tombol panah, bisa juga `h`/`j`/`k`/`l` ala Vim. Dari situ saja sudah kelihatan _tool_ ini dibuat oleh orang yang betah di terminal.
+
+Tiap entri menu juga punya _subcommand_-nya sendiri, jadi begitu kamu tahu mau apa, menunya bisa dilewati:
+
+```sh
+mo clean      # pembersihan menyeluruh untuk cache dan file sisa
+mo uninstall  # hapus aplikasi beserta semua miliknya
+mo analyze    # penjelajah isi disk secara visual
+mo purge      # bersihkan artefak build dari proyek
+mo status     # dasbor kesehatan sistem secara live
+```
+
+## Sesederhana Ini Tampilannya
+
+Daripada dijelaskan panjang lebar, lihat saja langsung. Ketik `mo` dan ini yang menyambut kamu:
+
+```txt
+☁  ~  mo
+
+ __  __       _
+|  \/  | ___ | | ___
+| |\/| |/ _ \| |/ _ \
+| |  | | (_) | |  __/  https://mole.fit
+|_|  |_|\___/|_|\___|  Deep clean and optimize your Mac.
+
+➤ 1. Clean        Free up disk space
+  2. Uninstall    Remove apps completely
+  3. Optimize     Refresh caches and services
+  4. Analyze      Explore disk usage
+  5. Status       Monitor system health
+
+↑↓  |  Enter  |  M More  |  V Version  |  T TouchID  |  Q Quit
+```
+
+Dan ini `mo analyze`, penjelajah disknya. Seluruh isi disk dipetakan jadi _bar_ yang proporsional, diurutkan dari yang paling rakus. User Library saya sendiri makan 73.5GB, dan simulator Xcode sebesar 8.5GB itu contoh barang yang tidak pernah kepikiran buat dicari:
+
+```txt
+☁  ~  mo analyze
+
+Analyze Disk  (21.0 GB free)
+Select a location to explore:
+
+ ▶  1. ████████████████████████  54.2%  |  User Library              73.5 GB
+    2. ████████▋                 19.5%  |  Home                      26.5 GB
+    3. █████▍                    12.0%  |  System Library            16.3 GB
+    4. ███▌                       7.9%  |  Applications              10.7 GB
+    5. ██▊                        6.3%  |  Xcode Simulators           8.5 GB
+    6. ▏                        < 0.1%  |  Spotify Cache             49.3 MB
+    7. ▏                        < 0.1%  |  Homebrew Cache            38.4 MB
+    8. ▏                        < 0.1%  |  Docker Data                1.6 MB
+    9. ▏                        < 0.1%  |  System Logs              692.2 kB
+
+↑↓→ | Enter | R Refresh | O Open | P Preview | F File | Esc/Q Quit
+```
+
+Tidak ada jendela Electron, tidak ada dasbor web. Cuma terminal yang menggambar _bar_. Dari sini, saya bahas perintah yang paling berjasa menyelamatkan disk saya.
+
+## Ke Mana Perginya Gigabyte Saya
+
+`mo clean` adalah mode bersih-bersih menyeluruhnya, sekaligus jawaban dari misteri System Data.
+
+Dia menyisir _cache_ aplikasi, _cache_ browser (Chrome, Safari, Firefox), _cache_ perkakas developer seperti Xcode, Node.js, dan npm, log sistem, file sementara, sampai isi _trash_. Semua tempat yang diam-diam diisi macOS tanpa pernah ditunjukkan ke kamu.
+
+Buat mesin developer, _cache_ perkakas developer itu harta karunnya. Xcode paling parah: _derived data_ dan _runtime_ simulator lama numpuk seperti gudang yang tidak pernah dibongkar. _Cache_ npm saya masih menyimpan paket dari proyek yang proyeknya sendiri sudah lama saya hapus.
+
+Sebelum menghapus apa pun, Mole menampilkan tiap kategori lengkap dengan ukurannya, dan kamu yang pilih mana yang dibuang. Ini rincian yang tidak pernah dikasih pengaturan Storage, plus tombol hapusnya sekalian. Begini hasil scan pertama saya:
+
+<figure>
+  <Picture
+    formats={["webp", "avif"]}
+    src={FirstScan}
+    class="w-full border rounded-xl"
+    alt="Hasil scan pertama Mole di MacBook saya, menampilkan kategori System, User essentials, dan App caches beserta ukurannya, dengan ruang kosong 12.69GB di bagian atas"
+  />
+  <figcaption>Scan mo clean pertama saya, dengan 12.69GB ruang kosong di atasnya</figcaption>
+</figure>
+
+Hasil scan yang sama juga bisa kamu mainkan di bawah ini. Nyalakan atau matikan kategorinya dan lihat berapa ruang yang balik:
+
+<PlaygroundClean client:visible lang="id" />
+
+Satu kategori jauh melampaui sisanya. _Cache_ aplikasi sebesar 3.33GB itu persis jenis beban yang diam-diam dibawa System Data tanpa pernah dilaporkan ke kamu.
+
+## Hapus Aplikasi Sampai ke Akarnya
+
+`mo uninstall` menjawab masalah klasik macOS: menyeret aplikasi ke _trash_ tidak benar-benar menghapusnya.
+
+Tiap aplikasi yang kamu hapus dengan cara itu meninggalkan sisa: _preferences_ di `~/Library/Preferences`, _cache_, log, _launch agent_, file pendukung. Satu-satu memang kecil. Tapi setelah bertahun-tahun coba-coba aplikasi, totalnya lumayan untuk disk 256GB.
+
+Mole mencari file bawaan aplikasi di semua lokasi itu dan menghapusnya sekalian. Sisa dari aplikasi yang terlanjur kamu hapus dengan cara lama pun ikut dibersihkan, dan dari situlah sebagian ruang saya balik.
+
+## Kuburan node_modules
+
+`mo purge` dibuat untuk orang seperti saya: folder `~/projects` berisi puluhan eksperimen, dan semuanya masih punya `node_modules` lengkap.
+
+Dia memindai folder proyek kamu, mencari artefak _build_ (`node_modules`, `dist`, `build`, `target` punya Rust, `venv` punya Python), lalu membersihkannya. Kode sumber tidak disentuh sama sekali. Kalau suatu hari kamu balik ke proyek sampingan yang setengah jadi itu, tinggal `npm install` dan semuanya kembali.
+
+Lewat `--paths` kamu bisa menentukan sendiri folder mana saja yang dipindai.
+
+Perintah ini saja sudah cukup jadi alasan pasang Mole. Saya tahu proyek-proyek lama itu ada. Saya cuma tidak pernah sanggup memburu `node_modules`-nya satu per satu.
+
+## Cek Dulu Sebelum Dihapus
+
+_Tool_ bersih-bersih yang jalan dengan `sudo` harus bisa dipercaya dulu, dan di bagian ini Mole kelihatan digarap serius.
+
+Semua perintah yang menghapus sesuatu menerima `--dry-run`: kamu bisa lihat persis apa saja yang akan dibuang tanpa ada satu byte pun yang disentuh.
+
+```sh
+mo clean --dry-run
+```
+
+Selain itu ada validasi _path_, aturan bawaan untuk folder yang dilindungi, _whitelist_ yang bisa kamu atur untuk hal-hal yang tidak boleh disentuh, dan konfirmasi eksplisit untuk aksi yang berisiko. Semua operasinya tercatat di `~/Library/Logs/mole/operations.log`, dan `mo history` menampilkan catatan itu langsung dari _tool_-nya.
+
+Bawaannya memang sengaja konservatif. Selama saya pakai, dia tidak pernah menyentuh dokumen, foto, atau apa pun yang layak disebut data. Hanya _cache_ dan artefak, hal-hal yang bisa dibuat ulang oleh sistem.
+
+## Detail Kecil yang Bikin Betah
+
+Dua perintah lagi layak disebut.
+
+`mo status` menampilkan dasbor kesehatan sistem langsung di terminal. Lebih enak dibuka daripada Activity Monitor waktu kipas tiba-tiba ngebut.
+
+Lalu ada `mo touchid`, yang mengaktifkan Touch ID untuk `sudo`. Tidak ada hubungannya dengan bersih-bersih, tapi jelas menunjukkan pembuatnya peduli detail. Sekali terbiasa, susah balik ke ketik _password_.
+
+## Penutup
+
+MacBook 256GB di tahun 2026 memang harus dirawat aktif, dan macOS hampir tidak kasih alat untuk itu. Mole mengisi celah itu dengan satu _binary_, menu yang bisa dijalankan pakai tombol Vim, dan bawaan yang cukup hati-hati sampai saya berhenti memeriksa ulang setelah pemakaian pertama.
+
+Kalau pengaturan Storage kamu cuma menampilkan System Data raksasa tanpa penjelasan, coba `mo clean --dry-run` dan lihat sendiri isinya. Paling buruk, kamu tutup terminalnya. Paling bagus, MacBook kesayanganmu dapat napas beberapa tahun lagi.
