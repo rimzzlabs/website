@@ -1,0 +1,206 @@
+---
+title: "Mole Cleaned Up My Good Ol' 256GB MacBook"
+description: "My M1 MacBook with 256GB of storage was permanently full, and macOS would only tell me the culprit was System Data. Mole is a dead simple terminal tool that showed me where every gigabyte went, and then got them back."
+publishedAt: "08/16/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - Mole
+  - macOS Cleanup Tool
+  - Free Up Mac Storage
+  - System Data macOS
+  - MacBook 256GB Storage
+  - mo clean
+---
+
+import { Picture } from "astro:assets";
+
+import { PlaygroundClean } from "@/components/notes/mole-cleaned-up-my-256gb-macbook/playground-clean";
+
+import FirstScan from "@/assets/notes/mole-cleaned-up-my-256gb-macbook/first-scan.png";
+
+My MacBook is an M1 Air with 256GB of storage, and for the past year it has lived in a permanent state of "Your disk is almost full."
+
+Every few weeks I'd do the ritual. Empty the trash, delete some screen recordings, offload a few apps I never open. macOS would give me back three or four gigabytes, and a week later they'd be gone again.
+
+The real thief was the bar in Storage settings labeled **System Data**. Tens of gigabytes, no breakdown, no button, no explanation. macOS knows exactly what's in there and simply won't tell you.
+
+Then I found [Mole](https://github.com/tw93/Mole), and one evening later my disk had `12.69 GB` free. This note is about what it is, how it works, and why it's now a permanent resident on my machine.
+
+## Introduction
+
+Mole is an open source terminal tool by [Tw93](https://github.com/tw93) that bundles cleaning, uninstalling, disk analysis, optimization, and monitoring for macOS into one Go binary. The whole thing is a single command called `mo`.
+
+Install it with Homebrew:
+
+```sh
+brew install mole
+```
+
+Or with the install script if you don't use Homebrew:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/tw93/mole/main/install.sh | bash
+```
+
+That's the entire setup. No app to grant Full Disk Access to a mystery vendor, no $30 "Mac cleaner" from the App Store with a subscription attached.
+
+## One Command Opens the Whole Toolbox
+
+Run `mo` with no arguments and you get an interactive menu right in the terminal. Arrow keys work, and so do Vim's `h`/`j`/`k`/`l`, which tells you a lot about who built this.
+
+Each menu entry is also its own subcommand, so once you know what you want, you skip the menu entirely:
+
+```sh
+mo clean      # deep cleanup of caches and leftovers
+mo uninstall  # remove an app and everything it owns
+mo analyze    # visual disk explorer
+mo purge      # clean project build artifacts
+mo status     # live system health dashboard
+```
+
+## What Dead Simple Looks Like
+
+Words undersell this part, so here it is. Type `mo` and this is what greets you:
+
+```txt
+☁  ~  mo
+
+ __  __       _
+|  \/  | ___ | | ___
+| |\/| |/ _ \| |/ _ \
+| |  | | (_) | |  __/  https://mole.fit
+|_|  |_|\___/|_|\___|  Deep clean and optimize your Mac.
+
+➤ 1. Clean        Free up disk space
+  2. Uninstall    Remove apps completely
+  3. Optimize     Refresh caches and services
+  4. Analyze      Explore disk usage
+  5. Status       Monitor system health
+
+↑↓  |  Enter  |  M More  |  V Version  |  T TouchID  |  Q Quit
+```
+
+And this is `mo analyze`, the disk explorer. The whole disk becomes a list of proportional bars, sorted by whoever eats the most. My User Library alone holds 73.5GB, and those 8.5GB of Xcode simulators are exactly the kind of thing you'd never think to look for:
+
+```txt
+☁  ~  mo analyze
+
+Analyze Disk  (21.0 GB free)
+Select a location to explore:
+
+ ▶  1. ████████████████████████  54.2%  |  User Library              73.5 GB
+    2. ████████▋                 19.5%  |  Home                      26.5 GB
+    3. █████▍                    12.0%  |  System Library            16.3 GB
+    4. ███▌                       7.9%  |  Applications              10.7 GB
+    5. ██▊                        6.3%  |  Xcode Simulators           8.5 GB
+    6. ▏                        < 0.1%  |  Spotify Cache             49.3 MB
+    7. ▏                        < 0.1%  |  Homebrew Cache            38.4 MB
+    8. ▏                        < 0.1%  |  Docker Data                1.6 MB
+    9. ▏                        < 0.1%  |  System Logs              692.2 kB
+
+↑↓→ | Enter | R Refresh | O Open | P Preview | F File | Esc/Q Quit
+```
+
+No Electron window, no web dashboard. Just a terminal drawing bars. From here, I'll walk through the commands that actually rescued my disk.
+
+## Where the Missing Gigabytes Were Hiding
+
+`mo clean` is the deep cleanup, and it's the answer to the System Data mystery.
+
+It goes through user app caches, browser caches for Chrome, Safari, and Firefox, developer tool caches from Xcode, Node.js, and npm, system logs, temp files, and the trash. All the places macOS quietly fills up and never shows you.
+
+For a developer machine, the developer tool caches are the jackpot. Xcode alone hoards derived data and old simulator runtimes like it's preparing for winter. My npm cache had packages from projects I deleted two jobs ago.
+
+Mole shows you each category with its size before anything happens, and you pick what goes. It's the breakdown Storage settings refuses to give you, with a delete button attached. This is what my first scan looked like:
+
+<figure>
+  <Picture
+    formats={["webp", "avif"]}
+    src={FirstScan}
+    class="w-full border rounded-xl"
+    alt="Mole's first scan on my MacBook, listing System, User essentials, and App caches categories with their sizes, and 12.69GB of free space at the top"
+  />
+  <figcaption>My first mo clean scan, with 12.69GB free at the top</figcaption>
+</figure>
+
+Here's that same scan as something you can poke at. Toggle a category and watch how much space comes back:
+
+<PlaygroundClean client:visible lang="en" />
+
+One category dwarfs everything else. That 3.33GB of user app cache is exactly the kind of weight System Data carries around without ever telling you.
+
+## Deleting an App Finally Deletes All of It
+
+`mo uninstall` fixes the lie that dragging an app to the trash removes it.
+
+Every app you've ever deleted that way left droppings behind: preferences in `~/Library/Preferences`, caches, logs, launch agents, support files. Individually they're small. After four years of trying apps and deleting them, they're a real slice of a 256GB disk.
+
+Mole finds the app's associated files across all those locations and removes them together with the app. It also cleans up leftovers from apps you already deleted the naive way, which is where a chunk of my recovered space came from.
+
+## The node_modules Graveyard
+
+`mo purge` exists for a very specific kind of person: someone whose `~/projects` folder contains thirty experiments that each have a fully installed `node_modules`.
+
+It scans your project directories for build artifacts (`node_modules`, `dist`, `build`, Rust's `target`, Python's `venv`) and clears them out. The source code stays untouched. If you ever come back to that half-finished side project from 2024, `npm install` will put everything back.
+
+You can point it at your own folders with `--paths`, so it knows where your graveyard actually is.
+
+This one command alone justified the install for me. I knew the old projects were there. I just never had the patience to hunt down every `node_modules` by hand.
+
+## Look Before Anything Gets Deleted
+
+A cleanup tool with `sudo` access needs to earn trust, and this is where Mole is genuinely well designed.
+
+Every destructive command takes `--dry-run`, which shows you exactly what would be removed without touching a byte:
+
+```sh
+mo clean --dry-run
+```
+
+Beyond that, it validates paths, has protected-directory rules baked in, keeps a whitelist you control for things it must never touch, and asks for explicit confirmation on riskier actions. Everything it does is logged to `~/Library/Logs/mole/operations.log`, and `mo history` shows you the log without leaving the tool.
+
+The defaults are conservative on purpose. In everything I ran, it never touched documents, photos, or anything I'd call data. Caches and artifacts only, things the machine can rebuild.
+
+## The Small Touches That Kept It Installed
+
+Two more commands deserve a mention.
+
+`mo status` is a live dashboard of system health right in the terminal. It's a nicer answer to "why are the fans spinning" than opening Activity Monitor:
+
+```txt
+☁  ~  mo status
+
+Free   ███░░░░░░░░░░░░░   23.1%
+Swap   ██████████░░░░░░   65.8% 1.3G/2.0G
+Total  6.2 GB / 8.0 GB · Avail 1.8 GB
+
+▥ Disk  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+INTR   ██████████████░░  208G used, 20G free
+EXTR1  ███████████████░  19G used, 495M free
+EXTR2  ███████████████░  19G used, 495M free
+I/O    ▯▯▯▯▯ R 0.6 · ▯▯▯▯▯ W 0 MB/s
+
+◪ Power  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+Level  ████░░░░░░░░░░░░   26.0%
+Health ██████████████░░     89%
+Discharging · 1:56 · Healthy · 275 cycles · 30.7°C
+
+❊ Processes  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+#1     ██░░░░░░░░░░░░░░  18.0%  144.3M esbuild
+#2     ░░░░░░░░░░░░░░░░   5.6%   12.5M coreaudiod
+#3     ░░░░░░░░░░░░░░░░   3.4%  197.2M claude
+
+⇅ Network  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+Down   ▆▅▃▅▃▂▂▃▁▁▁▂▂▃▁▁  2.25 MB/s
+Up     ▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁  1.89 MB/s
+```
+
+And `mo touchid` configures Touch ID for `sudo`, which has nothing to do with cleaning and everything to do with the author caring about the small stuff. I didn't know I wanted it. Now I can't go back.
+
+## Closing
+
+A 256GB MacBook in 2026 is a machine you have to actively manage, and macOS gives you almost no tools for it. Mole fills that gap with one binary, a menu you can drive with Vim keys, and defaults careful enough that I stopped double-checking it after the first run.
+
+If your Storage settings show a giant System Data bar and nothing else, run `mo clean --dry-run` and see what's actually in there. Worst case, you close the terminal. Best case, your good ol' MacBook gets a few more years.
