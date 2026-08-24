@@ -9,7 +9,7 @@ keywords:
   - Tanstack Query
 ---
 
-import { Picture } from "astro:assets";
+import NoteImage from "@/components/notes/note-image/note-image.astro";
 import HowSystemWork from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-1.png";
 import HowTanstackQuery from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-2.png";
 import DuplicateRequest from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-3.png";
@@ -19,16 +19,13 @@ We are often careless when managing server state with _Tanstack Query_. Yet Tans
 
 ## Introduction
 
-<figure>
-  <Picture
-    priority
-    formats={["webp", "avif"]}
-    src={HowSystemWork}
-    class="w-full border rounded-xl"
-    alt="How an application works, a server responding to requests from a website"
-  />
-  <figcaption>How a system works in general</figcaption>
-</figure>
+<NoteImage
+  lang="en"
+  priority
+  src={HowSystemWork}
+  alt="How an application works, a server responding to requests from a website"
+  caption="How a system works in general"
+/>
 
 A highly interactive website like an e-commerce app (_Tokopedia, for example_) does not just display text and images. It handles hundreds, maybe thousands of interactions. These interactions include data synchronization, preferences, and so on; for example the number of items in your cart, your wishlist, and your order history.
 
@@ -42,15 +39,12 @@ This is what we call server state. The user's data stays in sync with their acco
 
 [Tanstack Query](https://tanstack.com/query) (_better known as React Query_) is a library for managing server state.
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={HowTanstackQuery}
-    alt="The role of Tanstack Query in a frontend system"
-    class="w-full border rounded-xl"
-  />
-  <figcaption>The role of Tanstack Query in a frontend application.</figcaption>
-</figure>
+<NoteImage
+  lang="en"
+  src={HowTanstackQuery}
+  alt="The role of Tanstack Query in a frontend system"
+  caption="The role of Tanstack Query in a frontend application."
+/>
 
 The main problem Tanstack Query solves is not simply fetching data from the server, but managing the entire lifecycle of that data. Almost every modern application performs operations like fetching, creating, updating, and deleting data. Each of those operations comes with conditions we need to handle, for example:
 
@@ -237,32 +231,18 @@ const salesQuery = useQuery({
 
 This code still runs without any error, but it is silently wrong. We changed the contents of the box without changing the label. When a cashier at the Bandung branch opens the dashboard, the numbers on screen are actually the Jakarta branch's sales that were opened earlier, because to Tanstack Query the label is still the same: `["get-sales", "7d", 10]`.
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={HoistedQueryKey}
-    alt="queryFn reads period, limit, and branchId from the component closure, while Tanstack Query only reads the queryKey which does not contain branchId"
-    class="w-full object-cover border rounded-xl"
-  />
-  <figcaption>
-    queryFn quietly reads values from the closure, while Tanstack Query only
-    reads the label (queryKey).
-  </figcaption>
-</figure>
+<NoteImage
+  lang="en"
+  src={HoistedQueryKey}
+  alt="queryFn reads period, limit, and branchId from the component closure, while Tanstack Query only reads the queryKey which does not contain branchId"
+  caption="queryFn quietly reads values from the closure, while Tanstack Query only reads the label (queryKey)."
+/>
 
 No error message, no warning in the console. A bug like this usually only surfaces after users complain that the data looks "weird", and we waste time digging through a backend that was fine all along.
 
 ### Requests That Never Get Cancelled
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={DuplicateRequest}
-    alt="Duplicated requests"
-    class="w-full object-cover border rounded-xl"
-  />
-  <figcaption>Duplicated requests.</figcaption>
-</figure>
+<NoteImage lang="en" src={DuplicateRequest} alt="Duplicated requests" caption="Duplicated requests." />
 
 The second problem is one we can witness ourselves in the Network tab of DevTools. Try switching the period from 7 days to 30 days and then to 90 days quickly.
 

@@ -1,0 +1,98 @@
+---
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+import {
+	NoteImageGallery,
+	type NoteImageSource,
+} from "@/components/notes/note-image/note-image-gallery";
+import type { Lang } from "@/i18n/config";
+
+interface GalleryImageInput {
+	src: ImageMetadata;
+	alt: string;
+}
+
+interface Props {
+	lang: Lang;
+	caption?: string;
+	src?: ImageMetadata;
+	alt?: string;
+	images?: GalleryImageInput[];
+	class?: string;
+	priority?: boolean;
+}
+
+const props = Astro.props;
+
+const inputs: GalleryImageInput[] =
+	props.images ?? (props.src && props.alt ? [{ src: props.src, alt: props.alt }] : []);
+
+if (inputs.length === 0) {
+	throw new Error("NoteImage needs either `src` + `alt` or a non-empty `images` array");
+}
+
+const single = inputs.length === 1;
+const sizes = single ? "(min-width: 48rem) 42rem, 100vw" : "(min-width: 48rem) 21rem, 50vw";
+
+const images: NoteImageSource[] = await Promise.all(
+	inputs.map(async (input) => {
+		const [thumb, full] = await Promise.all([
+			getImage({ src: input.src, widths: [480, 960, 1440], format: "webp" }),
+			getImage({ src: input.src, width: Math.min(1920, input.src.width), format: "webp" }),
+		]);
+		const fullWidth = Math.min(1920, input.src.width);
+		return {
+			alt: input.alt,
+			thumb: {
+				src: thumb.src,
+				srcSet: thumb.srcSet.attribute,
+				sizes,
+				width: input.src.width,
+				height: input.src.height,
+			},
+			full: {
+				src: full.src,
+				width: fullWidth,
+				height: Math.round(input.src.height * (fullWidth / input.src.width)),
+			},
+		};
+	}),
+);
+---
+
+<figure class="not-prose my-6">
+	{
+		/* Client directives are compile-time static, so the hydration strategy
+		   branches on `priority` instead of interpolating the directive. */
+		props.priority ? (
+			<NoteImageGallery
+				client:load
+				images={images}
+				lang={props.lang}
+				caption={props.caption}
+				imageClass={props.class}
+				priority
+			/>
+		) : (
+			<NoteImageGallery
+				client:visible
+				images={images}
+				lang={props.lang}
+				caption={props.caption}
+				imageClass={props.class}
+			/>
+		)
+	}
+	{
+		props.caption && (
+			<figcaption
+				class:list={[
+					single ? "mt-2 text-center text-sm text-pretty text-muted-foreground" : "sr-only",
+				]}
+			>
+				{props.caption}
+			</figcaption>
+		)
+	}
+</figure>
