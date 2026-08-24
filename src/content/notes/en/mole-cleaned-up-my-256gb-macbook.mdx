@@ -14,7 +14,7 @@ keywords:
   - mo clean
 ---
 
-import { Picture } from "astro:assets";
+import NoteImage from "@/components/notes/note-image/note-image.astro";
 
 import { PlaygroundClean } from "@/components/notes/mole-cleaned-up-my-256gb-macbook/playground-clean";
 
@@ -115,15 +115,12 @@ For a developer machine, the developer tool caches are the jackpot. Xcode alone 
 
 Mole shows you each category with its size before anything happens, and you pick what goes. It's the breakdown Storage settings refuses to give you, with a delete button attached. This is what my first scan looked like:
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={FirstScan}
-    class="w-full border rounded-xl"
-    alt="Mole's first scan on my MacBook, listing System, User essentials, and App caches categories with their sizes, and 12.69GB of free space at the top"
-  />
-  <figcaption>My first mo clean scan, with 12.69GB free at the top</figcaption>
-</figure>
+<NoteImage
+  lang="en"
+  src={FirstScan}
+  alt="Mole's first scan on my MacBook, listing System, User essentials, and App caches categories with their sizes, and 12.69GB of free space at the top"
+  caption="My first mo clean scan, with 12.69GB free at the top"
+/>
 
 Here's that same scan as something you can poke at. Toggle a category and watch how much space comes back:
 

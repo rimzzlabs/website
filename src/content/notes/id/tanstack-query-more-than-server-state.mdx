@@ -9,7 +9,7 @@ keywords:
   - Tanstack Query
 ---
 
-import { Picture } from "astro:assets";
+import NoteImage from "@/components/notes/note-image/note-image.astro";
 import HowSystemWork from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-1.png";
 import HowTanstackQuery from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-2.png";
 import DuplicateRequest from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-3.png";
@@ -19,16 +19,13 @@ Terkadang kita tidak berhati-hati saat mengelola Server-State dengan _Tanstack Q
 
 ## Pendahuluan
 
-<figure>
-  <Picture
-    priority
-    formats={["webp", "avif"]}
-    src={HowSystemWork}
-    class="w-full border rounded-xl"
-    alt="Bagaimana aplikasi bekerja, server merespon permintaan website"
-  />
-  <figcaption>Bagaimana sistem bekerja secara umum</figcaption>
-</figure>
+<NoteImage
+  lang="id"
+  priority
+  src={HowSystemWork}
+  alt="Bagaimana aplikasi bekerja, server merespon permintaan website"
+  caption="Bagaimana sistem bekerja secara umum"
+/>
 
 Website yang penuh dengan interaksi seperti _e-commerce_ (_misalnya: Tokopedia_) tidak hanya menampilkan tulisan dan gambar, melainkan ratusan dan mungkin ribuan interaksi. Interaksi ini mencakup singkronisasi data, preferensi, dan lain sebagainya; misalnya jumlah barang yang disimpan didalam keranjang, wishlist, dan riwayat pesananan.
 
@@ -42,15 +39,12 @@ Hal inilah yang kita sebut _server state_. Data pengguna akan tersingkron dengan
 
 [Tanstack Query](https://tanstack.com/query) (_atau lebih dikenal dengan React Query_) adalah sebuah _library_ yang digunakan untuk mengelola _server state_.
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={HowTanstackQuery}
-    alt="Peran Tanstack Query pada sistem Frontend"
-    class="w-full border rounded-xl"
-  />
-  <figcaption>Peran Tanstack Query pada aplikasi frontend.</figcaption>
-</figure>
+<NoteImage
+  lang="id"
+  src={HowTanstackQuery}
+  alt="Peran Tanstack Query pada sistem Frontend"
+  caption="Peran Tanstack Query pada aplikasi frontend."
+/>
 
 Masalah utama yang diselesaikan Tanstack Query bukan sekadar mengambil data dari _server_, melainkan mengelola seluruh siklus hidup (_lifecycle_) dari data tersebut. Hampir setiap aplikasi modern melakukan operasi seperti mengambil data (_fetch_), membuat data (_create_), memperbarui data (_update_), dan menghapus data (_delete_). Setiap operasi tersebut memiliki berbagai kondisi yang perlu ditangani, misalnya:
 
@@ -237,32 +231,18 @@ const salesQuery = useQuery({
 
 Kode ini tetap berjalan tanpa _error_, namun perilakunya salah secara diam-diam. Kita mengubah isi kotak tanpa mengganti labelnya. Ketika kasir cabang Bandung membuka _dashboard_, angka yang tampil justru penjualan cabang Jakarta yang dibuka sebelumnya, karena bagi Tanstack Query labelnya masih sama: `["get-sales", "7d", 10]`.
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={HoistedQueryKey}
-    alt="queryFn membaca period, limit, dan branchId dari closure komponen, sementara Tanstack Query hanya membaca queryKey yang tidak memuat branchId"
-    class="w-full object-cover border rounded-xl"
-  />
-  <figcaption>
-    queryFn diam-diam membaca nilai dari closure, sedangkan Tanstack Query hanya
-    membaca label (queryKey).
-  </figcaption>
-</figure>
+<NoteImage
+  lang="id"
+  src={HoistedQueryKey}
+  alt="queryFn membaca period, limit, dan branchId dari closure komponen, sementara Tanstack Query hanya membaca queryKey yang tidak memuat branchId"
+  caption="queryFn diam-diam membaca nilai dari closure, sedangkan Tanstack Query hanya membaca label (queryKey)."
+/>
 
 Tidak ada pesan _error_, tidak ada peringatan di _console_. _Bug_ seperti ini biasanya baru ketahuan setelah pengguna komplain bahwa datanya "aneh", dan kita menghabiskan waktu memeriksa _backend_ yang sebenarnya baik-baik saja.
 
 ### Request yang Tidak Pernah Dibatalkan
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={DuplicateRequest}
-    alt="Duplikasi Request"
-    class="w-full object-cover border rounded-xl"
-  />
-  <figcaption>Duplikasi Request.</figcaption>
-</figure>
+<NoteImage lang="id" src={DuplicateRequest} alt="Duplikasi Request" caption="Duplikasi Request." />
 
 Masalah kedua bisa kita saksikan sendiri lewat tab Network di DevTools. Coba ganti periode dari 7 hari ke 30 hari lalu ke 90 hari secara cepat.
 

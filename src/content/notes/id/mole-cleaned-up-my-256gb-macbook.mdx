@@ -14,7 +14,7 @@ keywords:
   - mo clean
 ---
 
-import { Picture } from "astro:assets";
+import NoteImage from "@/components/notes/note-image/note-image.astro";
 
 import { PlaygroundClean } from "@/components/notes/mole-cleaned-up-my-256gb-macbook/playground-clean";
 
@@ -115,15 +115,12 @@ Buat mesin developer, _cache_ perkakas developer itu harta karunnya. Xcode palin
 
 Sebelum menghapus apa pun, Mole menampilkan tiap kategori lengkap dengan ukurannya, dan kamu yang pilih mana yang dibuang. Ini rincian yang tidak pernah dikasih pengaturan Storage, plus tombol hapusnya sekalian. Begini hasil scan pertama saya:
 
-<figure>
-  <Picture
-    formats={["webp", "avif"]}
-    src={FirstScan}
-    class="w-full border rounded-xl"
-    alt="Hasil scan pertama Mole di MacBook saya, menampilkan kategori System, User essentials, dan App caches beserta ukurannya, dengan ruang kosong 12.69GB di bagian atas"
-  />
-  <figcaption>Scan mo clean pertama saya, dengan 12.69GB ruang kosong di atasnya</figcaption>
-</figure>
+<NoteImage
+  lang="id"
+  src={FirstScan}
+  alt="Hasil scan pertama Mole di MacBook saya, menampilkan kategori System, User essentials, dan App caches beserta ukurannya, dengan ruang kosong 12.69GB di bagian atas"
+  caption="Scan mo clean pertama saya, dengan 12.69GB ruang kosong di atasnya"
+/>
 
 Hasil scan yang sama juga bisa kamu mainkan di bawah ini. Nyalakan atau matikan kategorinya dan lihat berapa ruang yang balik:
 
