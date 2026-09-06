@@ -1,0 +1,127 @@
+---
+title: "Not Everyone Loves Animation on Your Site"
+description: "Some people don't hate animation, they hate animation that doesn't respect their time. A note on when animation deserves to exist."
+publishedAt: "09/06/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - Animation
+  - Accessibility
+  - prefers-reduced-motion
+---
+
+import NoteImage from "@/components/notes/note-image/note-image.astro";
+
+import { CheckoutMotionDial } from "@/components/notes/not-everyone-loves-animation-on-your-site/checkout-motion-dial";
+import { ReducedMotionDemo } from "@/components/notes/not-everyone-loves-animation-on-your-site/reduced-motion-demo";
+
+import AnimationSpectrum from "@/assets/notes/not-everyone-loves-animation-on-your-site/not-everyone-loves-animation-1-en.png";
+import IntentVsTolerance from "@/assets/notes/not-everyone-loves-animation-on-your-site/not-everyone-loves-animation-2-en.png";
+
+My girlfriend is a huge fan of a K-pop group, and that group is holding a concert in Jakarta at the end of this year. Naturally, she opened the concert site. What greeted her was a different show entirely: almost every element arrived with its own transition, and the page was busy moving before she could read it. To her, none of that motion was necessary. She came to see her idols, not a website.
+
+That moment is why I'm writing this note. Not because the animation was bad. Quite the opposite, it was clearly built with care. But the person in front of the screen never asked to be animated at.
+
+## Introduction
+
+There's one thing people keep getting wrong about those who "hate animation": they don't hate all movement.
+
+I once read a LinkedIn post that captured this exactly. The author was fed up with an app that animated nearly every interaction inside it. Yet in the same post, they said there was one animation they genuinely loved: the splash screen when the app first opens.
+
+Those two reactions don't contradict each other. A logo fading in smoothly while the app gets ready feels natural, because that animation is doing a job: covering a wait that really exists. The animations inside the app weren't covering anything.
+
+What makes people angry is a landing page where every element floats, or a checkout full of choreography when all they want to do is pay. At that point animation stops helping and starts standing in the way.
+
+So this note isn't about how to craft beautiful animation. It's about when animation deserves to exist, and what it means to respect the person on the other side of the screen. In short: it's about respect.
+
+## Animation That Works
+
+Look at the animations people rarely complain about, and you'll notice they share one trait: they answer a question the user actually has.
+
+A _splash screen_ answers "is this app even running?". While the logo moves gently on screen, the app is getting ready behind it. Without that animation, you'd be staring at a blank screen, and a blank screen always feels like a broken app.
+
+A _skeleton_ answers "where's my content?". Those softly pulsing gray boxes tell you two things at once: the data is on its way, and this is roughly the shape it will arrive in. Compare that with a _spinner_, which only says "wait" without telling you what you're waiting for.
+
+A button that shrinks slightly when pressed answers "did my tap register?". A _toast_ sliding in from the corner answers "what just happened?", then leaves on its own once its message is delivered.
+
+Notice the pattern. Every animation above works for the user. They're short, they show up exactly when needed, and they never ask for more attention than the message they carry.
+
+Decorative animation is the opposite: it answers nobody's question. It asks one instead: "cool, right?". And it asks that of someone who's trying to read an article, compare prices, or pay for their stuff.
+
+<NoteImage
+  lang="en"
+  src={AnimationSpectrum}
+  alt="Animation spectrum from answering a question (splash screen, skeleton, button feedback, toast) to demanding attention (parallax, floating elements, checkout choreography)"
+  caption="The further right you go, the more likely your animation annoys someone"
+/>
+
+That doesn't make decorative animation a sin. Some places exist precisely to impress, like a motion designer's portfolio. The trouble starts when this kind of animation shows up where people come to get something done.
+
+## Animation Has a Price
+
+People's tolerance for animation isn't fixed. It drops as their goal gets clearer.
+
+Someone opening a landing page arrives with a question: what is this product, and is it for me. Every element that waits its turn to fade in on scroll delays that answer. Fast scrollers get an even stranger experience: the content seems to chase them, always arriving a beat too late.
+
+At checkout, the goal is as clear as it gets: this person wants to give you money. Their intent is at its highest, and their patience is at its thinnest. Elaborately choreographed step transitions don't feel premium here. They feel like a checkout line that moves slowly.
+
+That doesn't mean checkout should be lifeless. Button feedback and clear status changes matter most right here, because the question is at its most urgent: "did my payment go through?". What has to go is the animation asking "cool, right?".
+
+<NoteImage
+  lang="en"
+  src={IntentVsTolerance}
+  alt="Conceptual chart: user intent rises from browsing to checkout, while tolerance for decorative animation falls"
+  caption="The clearer the user's goal, the less room there is for choreography"
+/>
+
+Don't take my word for it, feel it. The three checkouts below run the exact same flow. The only thing that changes is the motion budget.
+
+<CheckoutMotionDial client:visible lang="en" />
+
+## The User Already Told You
+
+So far this has been about taste and patience. For some people, it's physical.
+
+People with [vestibular disorders](https://www.a11yproject.com/posts/understanding-vestibular-disorders/) can get dizzy or nauseous from movement on screen. _Parallax_, elements that scale as you scroll, and transitions that shift the whole page are the most commonly cited triggers. For them, your animation isn't a minor annoyance. It's a reason to close the tab while fighting off nausea.
+
+That's why every operating system ships a _Reduce Motion_ setting in its accessibility menu. Anyone who turns it on has stated their preference politely, in the right place. And the browser forwards that statement to you through a single media query: [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion).
+
+```css
+.toast {
+  transition:
+    translate 200ms ease-out,
+    opacity 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    transition: opacity 150ms ease-out;
+    translate: none;
+  }
+}
+```
+
+Notice what gets reduced: the movement, not the information. The toast still appears, and its arrival is still visible through _opacity_. The only thing gone is the positional movement, the kind most likely to [trigger dizziness](https://web.dev/articles/prefers-reduced-motion). Reduced motion means reduce, not switch everything off until the app feels broken.
+
+[WCAG](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html) covers this in its "Animation from Interactions" criterion: animation triggered by interaction should be disableable unless it's essential. But to me the reason is simpler than any criterion number: the user already said it. The least you can do is listen.
+
+<ReducedMotionDemo client:visible lang="en" />
+
+## Three Questions
+
+Everything above compresses into three questions. I run through them every time my hands itch to sprinkle `transition` everywhere.
+
+First, **which user question does this animation answer?** If there's no answer, it's decoration. Decoration only belongs on pages people visit to be impressed.
+
+Second, **if I delete this animation, what information is lost?** If nothing is lost, the version without it is the better version. Starting small is always possible, and so is adding more later.
+
+Third, **what happens when _Reduce Motion_ is on?** If you've never checked, the answer is probably "nothing changes". Which means someone's preference is being ignored right now.
+
+## Closing
+
+This note isn't a call to declare war on animation. The right animation is part of the craft that makes an app feel alive.
+
+Once you're done with the "when" and want to get serious about the "how", the person to learn from is [Emil Kowalski](https://emilkowal.ski). He built [sonner](https://sonner.emilkowal.ski), the toast library whose behavior I praised earlier, and he teaches at [animations.dev](https://animations.dev). His writing is technical and deep, exactly what you want once you're sure the animation deserves to exist.
+
+Meanwhile, there's a small experiment you can run tonight: turn on _Reduce Motion_ in your OS, then open a site or app you built yourself. If some information suddenly goes missing, that was an animation doing real work. If what you feel instead is relief, now you know which animations have to go.

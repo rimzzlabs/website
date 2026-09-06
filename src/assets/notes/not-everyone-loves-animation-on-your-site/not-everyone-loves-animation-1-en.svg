@@ -1,0 +1,52 @@
+<svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animation spectrum: from answering a question to demanding attention">
+  <defs>
+    <linearGradient id="spectrum" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFDD00"/>
+      <stop offset="1" stop-color="#57534E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="320" rx="16" fill="#1C1917"/>
+
+  <text x="60" y="80" font-family="system-ui, sans-serif" font-size="15" font-weight="700" letter-spacing="1.5" fill="#FFDD00">ANSWERS A QUESTION</text>
+  <text x="740" y="80" text-anchor="end" font-family="system-ui, sans-serif" font-size="15" font-weight="700" letter-spacing="1.5" fill="#A8A29E">DEMANDS ATTENTION</text>
+
+  <rect x="60" y="110" width="680" height="10" rx="5" fill="url(#spectrum)"/>
+  <line x1="400" y1="104" x2="400" y2="126" stroke="#44403C" stroke-width="2"/>
+
+  <!-- left chips: animation that works -->
+  <g font-family="system-ui, sans-serif" font-size="13" fill="#E7E5E4">
+    <rect x="60" y="156" width="126" height="32" rx="16" fill="none" stroke="#44403C"/>
+    <circle cx="76" cy="172" r="3.5" fill="#FFDD00"/>
+    <text x="88" y="177">splash screen</text>
+
+    <rect x="196" y="156" width="92" height="32" rx="16" fill="none" stroke="#44403C"/>
+    <circle cx="212" cy="172" r="3.5" fill="#FFDD00"/>
+    <text x="224" y="177">skeleton</text>
+
+    <rect x="60" y="198" width="142" height="32" rx="16" fill="none" stroke="#44403C"/>
+    <circle cx="76" cy="214" r="3.5" fill="#FFDD00"/>
+    <text x="88" y="219">button feedback</text>
+
+    <rect x="212" y="198" width="70" height="32" rx="16" fill="none" stroke="#44403C"/>
+    <circle cx="228" cy="214" r="3.5" fill="#FFDD00"/>
+    <text x="240" y="219">toast</text>
+  </g>
+
+  <!-- right chips: animation that demands attention -->
+  <g font-family="system-ui, sans-serif" font-size="13" fill="#A8A29E">
+    <rect x="486" y="156" width="90" height="32" rx="16" fill="none" stroke="#44403C" stroke-dasharray="5 4"/>
+    <circle cx="502" cy="172" r="3.5" fill="#78716C"/>
+    <text x="514" y="177">parallax</text>
+
+    <rect x="586" y="156" width="154" height="32" rx="16" fill="none" stroke="#44403C" stroke-dasharray="5 4"/>
+    <circle cx="602" cy="172" r="3.5" fill="#78716C"/>
+    <text x="614" y="177">floating elements</text>
+
+    <rect x="540" y="198" width="200" height="32" rx="16" fill="none" stroke="#44403C" stroke-dasharray="5 4"/>
+    <circle cx="556" cy="214" r="3.5" fill="#78716C"/>
+    <text x="568" y="219">checkout choreography</text>
+  </g>
+
+  <text x="60" y="282" font-family="system-ui, sans-serif" font-size="13" fill="#78716C">The further right you go, the fewer user questions get answered.</text>
+</svg>
