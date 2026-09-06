@@ -1,0 +1,127 @@
+---
+title: "Tidak Semua Orang Suka Animasi di Website Kamu"
+description: "Sebagian orang tidak benci animasi, mereka benci animasi yang tidak menghormati waktunya. Catatan soal kapan animasi pantas ada."
+publishedAt: "09/06/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - Animation
+  - Accessibility
+  - prefers-reduced-motion
+---
+
+import NoteImage from "@/components/notes/note-image/note-image.astro";
+
+import { CheckoutMotionDial } from "@/components/notes/not-everyone-loves-animation-on-your-site/checkout-motion-dial";
+import { ReducedMotionDemo } from "@/components/notes/not-everyone-loves-animation-on-your-site/reduced-motion-demo";
+
+import AnimationSpectrum from "@/assets/notes/not-everyone-loves-animation-on-your-site/not-everyone-loves-animation-1.png";
+import IntentVsTolerance from "@/assets/notes/not-everyone-loves-animation-on-your-site/not-everyone-loves-animation-2.png";
+
+Pacar saya penggemar berat sebuah grup K-pop, dan grup itu akan konser di Jakarta akhir tahun ini. Jelas dia buka situs konsernya. Yang menyambutnya malah pertunjukan lain: hampir tiap elemen masuk dengan transisinya sendiri, dan halamannya sibuk bergerak sebelum sempat dibaca. Buat dia, semua gerakan itu tidak perlu. Dia cuma mau nonton idolanya, bukan nonton _website_.
+
+Kejadian itu yang bikin saya menulis catatan ini. Bukan karena animasinya jelek. Justru sebaliknya, animasinya niat banget. Tapi orang yang duduk di depan layar tidak pernah minta dianimasikan.
+
+## Pendahuluan
+
+Ada satu hal yang sering salah dipahami soal orang yang "tidak suka animasi": mereka bukan benci semua gerakan.
+
+Saya pernah baca postingan di LinkedIn yang persis menggambarkan ini. Penulisnya kesal dengan aplikasi yang memberi animasi ke hampir semua interaksi di dalamnya. Tapi di postingan yang sama, dia bilang ada satu animasi yang justru dia suka: _splash screen_ waktu aplikasinya pertama dibuka.
+
+Dua reaksi itu tidak bertentangan. Logo yang muncul halus selama aplikasi menyiapkan diri terasa wajar, karena animasinya sedang bekerja, menutupi waktu tunggu yang memang ada. Animasi di dalam aplikasinya tidak sedang menutupi apa-apa.
+
+Yang bikin mereka kesal adalah _landing page_ yang tiap elemennya melayang, atau proses _checkout_ yang penuh koreografi padahal mereka cuma mau bayar. Di titik itu animasi berhenti membantu dan mulai menghalangi.
+
+Jadi catatan ini bukan soal cara membuat animasi yang bagus. Ini soal kapan animasi pantas ada, dan apa artinya menghormati orang yang ada di sisi lain layar. Singkatnya: ini soal _respect_.
+
+## Animasi yang Bekerja
+
+Kalau kamu perhatikan animasi yang jarang dikeluhkan orang, semuanya punya satu kesamaan: animasi itu sedang menjawab pertanyaan yang memang ada di kepala pengguna.
+
+_Splash screen_ menjawab "aplikasinya jalan tidak, ya?". Selama logo bergerak halus di layar, aplikasi sedang menyiapkan diri di belakang. Tanpa animasi itu, yang kamu tatap adalah layar kosong, dan layar kosong selalu terasa seperti aplikasi yang rusak.
+
+_Skeleton_ menjawab "kontennya mana?". Kotak abu-abu yang berkedip pelan memberi tahu kamu dua hal sekaligus: datanya sedang diambil, dan nanti bentuknya kira-kira seperti ini. Bandingkan dengan _spinner_ yang cuma bilang "tunggu", tanpa kasih tahu apa yang sedang ditunggu.
+
+Tombol yang mengecil sedikit waktu ditekan menjawab "ketukan saya masuk tidak?". _Toast_ yang muncul dari sudut layar menjawab "barusan terjadi apa?", lalu pergi sendiri setelah tugasnya selesai.
+
+Perhatikan polanya. Semua animasi di atas bekerja untuk pengguna. Durasinya singkat, muncul tepat saat dibutuhkan, dan tidak minta diperhatikan lebih lama dari pesan yang dibawanya.
+
+Animasi dekoratif kebalikannya: dia tidak menjawab pertanyaan siapa-siapa. Dia justru bertanya, "keren kan?". Dan pertanyaan itu diajukan ke orang yang sedang mau baca artikel, bandingkan harga, atau bayar belanjaan.
+
+<NoteImage
+  lang="id"
+  src={AnimationSpectrum}
+  alt="Spektrum animasi dari menjawab pertanyaan (splash screen, skeleton, feedback tombol, toast) sampai minta perhatian (parallax, elemen melayang, koreografi checkout)"
+  caption="Semakin ke kanan, semakin besar kemungkinan animasi kamu mengganggu orang"
+/>
+
+Bukan berarti animasi dekoratif haram. Ada tempat di mana orang memang datang untuk terkesan, misalnya situs portofolio seorang _motion designer_. Masalah muncul waktu animasi jenis ini dipasang di tempat orang datang untuk menyelesaikan sesuatu.
+
+## Animasi Ada Harganya
+
+Toleransi orang terhadap animasi tidak tetap. Dia bergerak turun mengikuti seberapa jelas tujuan mereka saat itu.
+
+Orang yang membuka _landing page_ datang dengan pertanyaan: produk ini apa, dan cocok tidak buat saya. Tiap elemen yang baru muncul setelah di-_scroll_, menunggu giliran _fade in_ satu per satu, menunda jawaban itu. Pengguna yang _scroll_-nya cepat malah dapat pengalaman aneh: kontennya seperti lari dikejar, selalu telat semunculan.
+
+Di _checkout_, tujuannya sudah sejelas-jelasnya: orang ini mau kasih kamu uang. Niatnya paling tinggi, kesabarannya paling tipis. Transisi antar langkah yang penuh koreografi tidak terasa premium di sini. Dia terasa seperti antrean kasir yang jalannya pelan.
+
+Bukan berarti _checkout_ harus mati gaya. Feedback tombol dan perubahan status yang jelas justru paling dibutuhkan di sini, karena pertanyaannya paling genting: "pembayaran saya masuk tidak?". Yang harus pergi adalah animasi yang menjawab "keren kan?" tadi.
+
+<NoteImage
+  lang="id"
+  src={IntentVsTolerance}
+  alt="Grafik konseptual: niat pengguna naik dari lihat-lihat sampai checkout, sementara toleransi terhadap animasi dekoratif turun"
+  caption="Semakin jelas tujuan pengguna, semakin kecil ruang untuk koreografi"
+/>
+
+Daripada percaya kata saya, rasakan sendiri. Ketiga versi _checkout_ di bawah ini alurnya sama persis, yang beda cuma porsi animasinya.
+
+<CheckoutMotionDial client:visible lang="id" />
+
+## Pengguna Sudah Bilang
+
+Sejauh ini kita bicara soal selera dan kesabaran. Tapi buat sebagian orang, urusannya fisik.
+
+Orang dengan [gangguan vestibular](https://www.a11yproject.com/posts/understanding-vestibular-disorders/) bisa pusing atau mual karena gerakan di layar. _Parallax_, elemen yang membesar mengikuti _scroll_, dan transisi yang menggeser seluruh halaman adalah pemicu yang paling sering disebut. Buat mereka, animasi kamu bukan gangguan kecil. Dia alasan untuk menutup tab sambil menahan mual.
+
+Karena itu tiap sistem operasi punya pengaturan _Reduce Motion_ di menu aksesibilitasnya. Orang yang menyalakannya sudah menyatakan preferensinya baik-baik, di tempat yang benar. Dan _browser_ meneruskan pernyataan itu ke kamu lewat satu _media query_: [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion).
+
+```css
+.toast {
+  transition:
+    translate 200ms ease-out,
+    opacity 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    transition: opacity 150ms ease-out;
+    translate: none;
+  }
+}
+```
+
+Perhatikan: yang dikurangi gerakannya, bukan informasinya. _Toast_-nya tetap muncul dan tetap bisa dilihat perubahannya lewat _opacity_. Yang hilang cuma perpindahan posisinya, jenis gerakan yang paling berpotensi [memicu pusing](https://web.dev/articles/prefers-reduced-motion). _Reduce motion_ artinya kurangi, bukan matikan semua sampai aplikasi terasa rusak.
+
+[WCAG](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html) menyebut ini di kriteria "Animation from Interactions": animasi yang dipicu interaksi harus bisa dinonaktifkan, kecuali animasinya memang esensial. Tapi buat saya alasannya lebih sederhana dari nomor kriteria: orangnya sudah bilang. Masa tidak didengarkan.
+
+<ReducedMotionDemo client:visible lang="id" />
+
+## Tiga Pertanyaan
+
+Semua argumen di atas bisa diringkas jadi tiga pertanyaan. Saya pakai ini tiap kali tangan sudah gatal menambah `transition` ke mana-mana.
+
+Pertama, **animasi ini menjawab pertanyaan pengguna yang mana?** Kalau jawabannya tidak ada, berarti dia dekorasi. Dekorasi hanya pantas di halaman yang memang didatangi orang untuk terkesan.
+
+Kedua, **kalau animasinya dihapus, informasi apa yang hilang?** Kalau tidak ada yang hilang, versi tanpa animasi adalah versi yang lebih baik. Mulai dari sedikit itu selalu bisa, menambah belakangan juga selalu bisa.
+
+Ketiga, **apa yang terjadi waktu _Reduce Motion_ aktif?** Kalau kamu belum pernah mengeceknya, kemungkinan besar jawabannya "tidak ada yang berubah". Dan itu artinya ada orang yang preferensinya sedang kamu abaikan.
+
+## Penutup
+
+Catatan ini bukan ajakan untuk memusuhi animasi. Animasi yang tepat justru bagian dari _craft_ yang bikin sebuah aplikasi terasa hidup.
+
+Kalau kamu sudah selesai dengan pertanyaan "kapan" dan mau serius belajar "bagaimana", orang yang paling layak kamu ikuti adalah [Emil Kowalski](https://emilkowal.ski). Dia yang membuat [sonner](https://sonner.emilkowal.ski), _library toast_ yang tadi saya puji perilakunya, dan mengajar di [animations.dev](https://animations.dev). Tulisannya teknis dan dalam, pas dibaca setelah kamu yakin animasinya memang pantas ada.
+
+Sementara itu, ada satu eksperimen kecil yang bisa kamu lakukan malam ini: nyalakan _Reduce Motion_ di sistem operasimu, lalu buka situs atau aplikasi buatanmu sendiri. Kalau ada informasi yang mendadak hilang, itu animasi yang selama ini bekerja. Kalau yang kamu rasakan justru lega, sekarang kamu tahu animasi mana yang harus pergi.
