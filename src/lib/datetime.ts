@@ -30,3 +30,26 @@ export function formatDate(
 			R.match(F.identity, () => ""),
 		);
 }
+
+const RELATIVE_UNITS: ReadonlyArray<[Intl.RelativeTimeFormatUnit, number]> = [
+	["year", 31_536_000],
+	["month", 2_592_000],
+	["week", 604_800],
+	["day", 86_400],
+	["hour", 3_600],
+	["minute", 60],
+];
+
+export function formatRelative(
+	date: string | number | Date,
+	now: number,
+	locale: Locale = DEFAULT_LOCALE,
+) {
+	const fmt = new Intl.RelativeTimeFormat(HTML_LANG[locale], {
+		numeric: "auto",
+	});
+	const seconds = (new Date(date).getTime() - now) / 1000;
+	const unit = RELATIVE_UNITS.find((entry) => Math.abs(seconds) >= entry[1]);
+	if (!unit) return fmt.format(0, "second");
+	return fmt.format(Math.round(seconds / unit[1]), unit[0]);
+}

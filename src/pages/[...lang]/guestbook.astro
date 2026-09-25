@@ -9,11 +9,11 @@ import { getDictionary, type Locale, localeStaticPaths } from "@/i18n";
 import { getGuestbookAtBuild } from "@/lib/guestbook/build";
 
 export function getStaticPaths() {
-	return localeStaticPaths();
+  return localeStaticPaths();
 }
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const locale = Astro.props.locale;
@@ -23,57 +23,57 @@ const initialPage = await getGuestbookAtBuild();
 ---
 
 <Root {locale}>
-	<Seo
-		slot="meta"
-		{locale}
-		title={t.guestbook.seoTitle}
-		description={t.guestbook.seoDescription}
-	/>
+  <Seo
+    slot="meta"
+    {locale}
+    title={t.guestbook.seoTitle}
+    description={t.guestbook.seoDescription}
+  />
 
-	<NavigationBar {locale} />
+  <NavigationBar {locale} />
 
-	<main>
-		<header class="wrapper pt-10">
-			<h1
-				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
-			>
-				{t.guestbook.title}
-			</h1>
+  <main>
+    <header class="wrapper pt-10">
+      <h1
+        class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+      >
+        {t.guestbook.title}
+      </h1>
 
-			<p class="max-w-[65ch] text-pretty text-muted-foreground">
-				{t.guestbook.intro}
-			</p>
-		</header>
+      <p class="max-w-[65ch] text-pretty text-muted-foreground">
+        {t.guestbook.intro}
+      </p>
+    </header>
 
-		<section class="wrapper pt-10" aria-label={t.guestbook.signLabel}>
-			<div
-				class="rounded-2xl bg-muted p-4 sm:p-5"
-				style="view-transition-name: guestbook-card; view-transition-class: guestbook"
-			>
-				<GuestbookComposer client:load copy={t.guestbook} />
-			</div>
-		</section>
+    <section class="wrapper pt-10" aria-label={t.guestbook.signLabel}>
+      <div
+        class="rounded-xl bg-muted p-4 sm:p-5"
+        style="view-transition-name: guestbook-card; view-transition-class: guestbook"
+      >
+        <GuestbookComposer client:load copy={t.guestbook} />
+      </div>
+    </section>
 
-		<section
-			class="wrapper pt-12"
-			aria-labelledby="guestbook-entries"
-			style="view-transition-name: guestbook-entries; view-transition-class: guestbook"
-		>
-			<h2
-				id="guestbook-entries"
-				class="pb-3 font-mono text-sm text-muted-foreground"
-			>
-				{t.guestbook.entries}
-			</h2>
+    <section
+      class="wrapper pt-12"
+      aria-labelledby="guestbook-entries"
+      style="view-transition-name: guestbook-entries; view-transition-class: guestbook"
+    >
+      <h2
+        id="guestbook-entries"
+        class="pb-3 font-mono text-sm text-muted-foreground"
+      >
+        {t.guestbook.entries}
+      </h2>
 
-			<GuestbookEntries
-				client:visible
-				initialPage={initialPage}
-				copy={t.guestbook}
-				{locale}
-			/>
-		</section>
-	</main>
+      <GuestbookEntries
+        client:visible
+        initialPage={initialPage}
+        copy={t.guestbook}
+        {locale}
+      />
+    </section>
+  </main>
 
-	<Footer {locale} />
+  <Footer {locale} />
 </Root>

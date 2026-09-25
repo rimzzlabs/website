@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/en";
 import { fetchGuestbookPage, GUESTBOOK_QUERY_KEY } from "@/lib/guestbook/api";
 import type { GuestbookPage } from "@/lib/guestbook/schema";
+import { useNow } from "@/lib/hooks/use-now";
 import { getQueryClient } from "@/lib/query-client";
 
 const SKELETON_ROWS = ["first", "second", "third"];
@@ -21,7 +22,10 @@ interface GuestbookEntriesProps {
 	initialPage: GuestbookPage;
 }
 
+const NOW_INTERVAL_MS = 60_000;
+
 export function GuestbookEntries(props: GuestbookEntriesProps) {
+	const now = useNow(NOW_INTERVAL_MS);
 	const query = useInfiniteQuery(
 		{
 			queryKey: GUESTBOOK_QUERY_KEY,
@@ -76,6 +80,7 @@ export function GuestbookEntries(props: GuestbookEntriesProps) {
 					entry={entry}
 					copy={props.copy}
 					locale={props.locale}
+					now={now}
 				/>
 			))}
 			{query.hasNextPage && (

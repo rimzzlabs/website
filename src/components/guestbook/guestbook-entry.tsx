@@ -7,19 +7,32 @@ import {
 } from "@/components/ui/tooltip";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/en";
-import { formatDate } from "@/lib/datetime";
+import { formatDate, formatRelative } from "@/lib/datetime";
 import type { GuestbookEntry as GuestbookEntryData } from "@/lib/guestbook/schema";
 import { toWebsiteLabel, toWebsiteUrl } from "@/lib/guestbook/website";
+
+function formatEntryTime(
+	createdAt: number,
+	now: number | null,
+	locale: Locale,
+) {
+	if (now === null) return formatDate(undefined, locale)(createdAt);
+	return formatRelative(createdAt, now, locale);
+}
 
 interface GuestbookEntryProps {
 	copy: Dictionary["guestbook"];
 	locale: Locale;
+	now: number | null;
 	entry: GuestbookEntryData;
 }
 
 export function GuestbookEntry(props: GuestbookEntryProps) {
 	const name = props.entry.name || props.copy.anonymous;
-	const formatEntryDate = formatDate(undefined, props.locale);
+	const formatFullDate = formatDate(
+		{ dateStyle: "long", timeStyle: "short" },
+		props.locale,
+	);
 	const website = toWebsiteUrl(props.entry.site);
 	const initial = props.entry.name.trim().slice(0, 1).toUpperCase();
 
@@ -62,9 +75,10 @@ export function GuestbookEntry(props: GuestbookEntryProps) {
 					)}
 					<time
 						dateTime={new Date(props.entry.createdAt).toISOString()}
+						title={formatFullDate(props.entry.createdAt)}
 						className="ml-auto text-xs tabular-nums text-muted-foreground"
 					>
-						{formatEntryDate(props.entry.createdAt)}
+						{formatEntryTime(props.entry.createdAt, props.now, props.locale)}
 					</time>
 				</div>
 

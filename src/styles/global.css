@@ -234,7 +234,7 @@
 
 ::view-transition-group(guestbook-card) {
 	overflow: clip;
-	border-radius: 1rem;
+	border-radius: var(--radius-xl);
 }
 
 ::view-transition-old(guestbook-card),
