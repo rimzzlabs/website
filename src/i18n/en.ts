@@ -26,6 +26,10 @@ export const en = {
 		archive: "Archive",
 		resume: "Résumé",
 		sourceCode: "Source code",
+		privacy: "Privacy Policy",
+	},
+	legal: {
+		lastUpdated: "Last updated",
 	},
 	home: {
 		seoTitle: "Rizki Citra, Software Engineer",

@@ -19,4 +19,18 @@ const notes = defineCollection({
 	schema: noteSchema,
 });
 
-export const collections = { notes };
+const legal = defineCollection({
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/legal" }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		updatedAt: z
+			.string()
+			.regex(
+				/^\d{2}\/\d{2}\/\d{4}$/,
+				"Use MM/DD/YYYY, for example 09/25/2026.",
+			),
+	}),
+});
+
+export const collections = { notes, legal };

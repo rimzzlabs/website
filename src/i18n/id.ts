@@ -28,6 +28,10 @@ export const id = {
 		archive: "Arsip",
 		resume: "CV",
 		sourceCode: "Source code",
+		privacy: "Kebijakan Privasi",
+	},
+	legal: {
+		lastUpdated: "Terakhir diperbarui",
 	},
 	home: {
 		seoTitle: "Rizki Citra, Software Engineer",
