@@ -1,12 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	ArrowCounterClockwiseIcon,
-	CheckCircleIcon,
 	PaperPlaneTiltIcon,
 } from "@phosphor-icons/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import {
+	FormResult,
+	type FormResultStatus,
+} from "@/components/forms/form-result";
 import { Button } from "@/components/ui/button";
 import {
 	Field,
@@ -31,6 +34,7 @@ import {
 	MAX_ATTACHMENTS,
 } from "@/lib/feedback";
 import { useTurnstile } from "@/lib/hooks/use-turnstile";
+import { morph } from "@/lib/view-transition";
 import { FeedbackAttachments } from "./feedback-attachments";
 import {
 	FeedbackAttachmentsProvider,
@@ -41,7 +45,20 @@ interface FeedbackFormProps {
 	copy: Dictionary["feedback"];
 }
 
-type SubmitStatus = "idle" | "error" | "success";
+type SubmitStatus = "idle" | FormResultStatus;
+
+export const FEEDBACK_ACTION_TRANSITION = "feedback-action";
+
+function toResultCopy(copy: Dictionary["feedback"]) {
+	return {
+		success: {
+			title: copy.successTitle,
+			body: copy.successBody,
+			action: copy.sendAnother,
+		},
+		error: { title: copy.errorTitle, body: copy.error, action: copy.tryAgain },
+	} satisfies Record<FormResultStatus, Record<string, string>>;
+}
 
 const DEFAULT_VALUES: FeedbackInput = {
 	topic: "bug",
@@ -86,9 +103,8 @@ export function FeedbackForm(props: FeedbackFormProps) {
 
 function FeedbackFormFields(props: FeedbackFormProps) {
 	const [status, setStatus] = useState<SubmitStatus>("idle");
-	const successRef = useRef<HTMLParagraphElement>(null);
 	const attachments = useFeedbackAttachments();
-	const turnstile = useTurnstile({ enabled: status !== "success" });
+	const turnstile = useTurnstile({ enabled: status === "idle" });
 	const form = useForm<FeedbackInput>({
 		resolver: zodResolver(createFeedbackSchema(props.copy.validation)),
 		defaultValues: DEFAULT_VALUES,
@@ -99,10 +115,6 @@ function FeedbackFormFields(props: FeedbackFormProps) {
 		if (isTopic(prefill.topic)) form.setValue("topic", prefill.topic);
 		if (prefill.page) form.setValue("page", prefill.page);
 	}, [form]);
-
-	useEffect(() => {
-		if (status === "success") successRef.current?.focus();
-	}, [status]);
 
 	const onSubmit = async (values: FeedbackInput) => {
 		setStatus("idle");
@@ -122,13 +134,15 @@ function FeedbackFormFields(props: FeedbackFormProps) {
 		turnstile.reset();
 
 		if (!response?.ok) {
-			setStatus("error");
+			morph(() => setStatus("error"));
 			return;
 		}
 
-		form.reset(DEFAULT_VALUES);
-		attachments.clear();
-		setStatus("success");
+		morph(() => {
+			form.reset(DEFAULT_VALUES);
+			attachments.clear();
+			setStatus("success");
+		});
 	};
 
 	const handlePaste = (event: React.ClipboardEvent<HTMLFormElement>) => {
@@ -138,33 +152,24 @@ function FeedbackFormFields(props: FeedbackFormProps) {
 		attachments.add(files);
 	};
 
-	if (status === "success") {
+	if (status !== "idle") {
 		return (
-			<div
-				role="status"
-				className="flex flex-col items-center gap-3 py-10 text-center"
-			>
-				<CheckCircleIcon aria-hidden="true" className="size-10 text-primary" />
-				<p
-					ref={successRef}
-					tabIndex={-1}
-					className="font-serif text-lg font-semibold outline-none"
-				>
-					{props.copy.successTitle}
-				</p>
-				<p className="max-w-sm text-sm text-pretty text-muted-foreground">
-					{props.copy.successBody}
-				</p>
-				<Button
-					type="button"
-					variant="outline"
-					className="mt-2"
-					onClick={() => setStatus("idle")}
-				>
-					<ArrowCounterClockwiseIcon aria-hidden="true" />
-					{props.copy.sendAnother}
-				</Button>
-			</div>
+			<FormResult
+				status={status}
+				title={toResultCopy(props.copy)[status].title}
+				body={toResultCopy(props.copy)[status].body}
+				actionTransitionName={FEEDBACK_ACTION_TRANSITION}
+				primaryAction={
+					<Button
+						type="button"
+						variant="outline"
+						onClick={() => morph(() => setStatus("idle"))}
+					>
+						<ArrowCounterClockwiseIcon aria-hidden="true" />
+						{toResultCopy(props.copy)[status].action}
+					</Button>
+				}
+			/>
 		);
 	}
 
@@ -340,12 +345,6 @@ function FeedbackFormFields(props: FeedbackFormProps) {
 				/>
 			</FieldGroup>
 
-			{status === "error" && (
-				<p role="alert" className="text-sm text-destructive">
-					{props.copy.error}
-				</p>
-			)}
-
 			<div className="flex flex-col">
 				<div
 					ref={turnstile.containerRef}
@@ -356,6 +355,10 @@ function FeedbackFormFields(props: FeedbackFormProps) {
 					type="submit"
 					disabled={form.formState.isSubmitting}
 					className="self-start"
+					style={{
+						viewTransitionName: FEEDBACK_ACTION_TRANSITION,
+						viewTransitionClass: "form",
+					}}
 				>
 					<PaperPlaneTiltIcon aria-hidden="true" />
 					{form.formState.isSubmitting ? props.copy.sending : props.copy.send}

@@ -42,7 +42,10 @@ const t = getDictionary(locale);
 		</header>
 
 		<section class="wrapper pt-10" aria-label={t.feedback.formLabel}>
-			<div class="rounded-xl bg-muted p-4 sm:p-5">
+			<div
+				class="rounded-xl bg-muted p-4 sm:p-5"
+				style="view-transition-name: feedback-card; view-transition-class: form-card"
+			>
 				<FeedbackForm client:load copy={t.feedback} />
 			</div>
 		</section>

@@ -1,8 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircleIcon, PaperPlaneTiltIcon } from "@phosphor-icons/react";
-import { useEffect, useRef, useState } from "react";
+import {
+	ArrowCounterClockwiseIcon,
+	PaperPlaneTiltIcon,
+} from "@phosphor-icons/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import {
+	FormResult,
+	type FormResultStatus,
+} from "@/components/forms/form-result";
 import { Button } from "@/components/ui/button";
 import {
 	Field,
@@ -16,6 +23,7 @@ import type { Dictionary } from "@/i18n/en";
 import { describedBy } from "@/lib/aria";
 import { type ContactInput, createContactSchema } from "@/lib/contact";
 import { useTurnstile } from "@/lib/hooks/use-turnstile";
+import { morph } from "@/lib/view-transition";
 
 interface HomeContactFormProps {
 	copy: Dictionary["contact"];
@@ -31,12 +39,20 @@ function RequiredMark() {
 	);
 }
 
-type SubmitStatus = "idle" | "error" | "success";
+type SubmitStatus = "idle" | FormResultStatus;
+
+const CONTACT_ACTION_TRANSITION = "contact-action";
+
+function toResultCopy(copy: Dictionary["contact"]) {
+	return {
+		success: { title: copy.successTitle, body: copy.successBody },
+		error: { title: copy.errorTitle, body: copy.error },
+	} satisfies Record<FormResultStatus, Record<string, string>>;
+}
 
 export function HomeContactForm(props: HomeContactFormProps) {
 	const [status, setStatus] = useState<SubmitStatus>("idle");
-	const successRef = useRef<HTMLParagraphElement>(null);
-	const turnstile = useTurnstile({ enabled: status !== "success" });
+	const turnstile = useTurnstile({ enabled: status === "idle" });
 	const form = useForm<ContactInput>({
 		resolver: zodResolver(createContactSchema(props.copy.validation)),
 		defaultValues: { name: "", email: "", message: "", company: "" },
@@ -53,39 +69,41 @@ export function HomeContactForm(props: HomeContactFormProps) {
 		turnstile.reset();
 
 		if (!response?.ok) {
-			setStatus("error");
+			morph(() => setStatus("error"));
 			return;
 		}
 
-		form.reset();
-		setStatus("success");
+		morph(() => {
+			form.reset();
+			setStatus("success");
+		});
 	};
 
-	useEffect(() => {
-		if (status === "success") successRef.current?.focus();
-	}, [status]);
+	const RESULT_PRIMARY: Record<FormResultStatus, React.ReactNode> = {
+		success: props.closeButton,
+		error: (
+			<Button type="button" onClick={() => morph(() => setStatus("idle"))}>
+				<ArrowCounterClockwiseIcon aria-hidden="true" />
+				{props.copy.tryAgain}
+			</Button>
+		),
+	};
+	const RESULT_SECONDARY: Record<FormResultStatus, React.ReactNode> = {
+		success: null,
+		error: props.closeButton,
+	};
 
-	if (status === "success") {
+	if (status !== "idle") {
 		return (
-			<div className="flex flex-1 flex-col gap-6">
-				<div
-					role="status"
-					className="flex flex-1 flex-col items-center justify-center gap-3 py-8 text-center"
-				>
-					<CheckCircleIcon className="size-10 text-primary" />
-					<p
-						ref={successRef}
-						tabIndex={-1}
-						className="font-serif text-lg font-semibold outline-none"
-					>
-						{props.copy.successTitle}
-					</p>
-					<p className="max-w-xs text-sm text-pretty text-muted-foreground">
-						{props.copy.successBody}
-					</p>
-				</div>
-				<div className={props.actionsClassName}>{props.closeButton}</div>
-			</div>
+			<FormResult
+				status={status}
+				title={toResultCopy(props.copy)[status].title}
+				body={toResultCopy(props.copy)[status].body}
+				actionTransitionName={CONTACT_ACTION_TRANSITION}
+				actionsClassName={props.actionsClassName}
+				primaryAction={RESULT_PRIMARY[status]}
+				secondaryAction={RESULT_SECONDARY[status]}
+			/>
 		);
 	}
 
@@ -170,12 +188,6 @@ export function HomeContactForm(props: HomeContactFormProps) {
 				/>
 			</FieldGroup>
 
-			{status === "error" && (
-				<p role="alert" className="text-sm text-destructive">
-					{props.copy.error}
-				</p>
-			)}
-
 			<div className="mt-auto flex flex-col">
 				<div
 					ref={turnstile.containerRef}
@@ -183,7 +195,14 @@ export function HomeContactForm(props: HomeContactFormProps) {
 					className="data-[interactive=true]:pb-4"
 				/>
 				<div className={props.actionsClassName}>
-					<Button type="submit" disabled={form.formState.isSubmitting}>
+					<Button
+						type="submit"
+						disabled={form.formState.isSubmitting}
+						style={{
+							viewTransitionName: CONTACT_ACTION_TRANSITION,
+							viewTransitionClass: "form",
+						}}
+					>
 						<PaperPlaneTiltIcon />
 						{form.formState.isSubmitting ? props.copy.sending : props.copy.send}
 					</Button>

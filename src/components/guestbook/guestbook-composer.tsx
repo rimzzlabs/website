@@ -1,14 +1,15 @@
 import { GithubLogoIcon, UserCircleDashedIcon } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
-import { GuestbookForm } from "@/components/guestbook/guestbook-form";
+import {
+	GUESTBOOK_ACTION_TRANSITION,
+	GuestbookForm,
+} from "@/components/guestbook/guestbook-form";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Dictionary } from "@/i18n/en";
 import { authClient } from "@/lib/auth-client";
 import { morph } from "@/lib/view-transition";
-
-export const GUESTBOOK_ACTION_TRANSITION = "guestbook-action";
 
 interface GuestbookComposerProps {
 	copy: Dictionary["guestbook"];
@@ -52,7 +53,6 @@ export function GuestbookComposer(props: GuestbookComposerProps) {
 				copy={props.copy}
 				user={null}
 				autoFocus
-				actionTransitionName={GUESTBOOK_ACTION_TRANSITION}
 				onCancel={() => {
 					returnFocusRef.current = true;
 					morph(() => setAnonymous(false));

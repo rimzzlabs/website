@@ -93,8 +93,10 @@ export const en = {
 		requiredHint: "Fields marked * are required.",
 		send: "Send message",
 		sending: "Sending…",
+		errorTitle: "Message not sent",
 		error:
 			"Your message did not send. Please try again, or book a call instead.",
+		tryAgain: "Try again",
 		successTitle: "Message sent",
 		successBody:
 			"Thanks for reaching out. I read every message and I will reply by email.",
@@ -145,8 +147,12 @@ export const en = {
 		back: "Back",
 		signedInWith: "Signed in with GitHub",
 		signOut: "Sign out",
+		errorTitle: "Entry not saved",
 		error: "Your entry did not save. Please try again.",
+		tryAgain: "Try again",
+		successTitle: "You're in the guestbook",
 		success: "Thanks! Your entry is on the list below.",
+		writeAnother: "Write another entry",
 		loading: "Loading entries",
 		loadError: "The guestbook did not load. Please refresh the page.",
 		empty: "No entries yet. Be the first to sign it.",
@@ -206,7 +212,9 @@ export const en = {
 		contactHint: "Optional. Leave your email if you want a reply.",
 		send: "Send feedback",
 		sending: "Sending…",
+		errorTitle: "Feedback not sent",
 		error: "Your feedback did not send. Please try again.",
+		tryAgain: "Try again",
 		successTitle: "Thanks for the feedback",
 		successBody:
 			"It is in my inbox now. If you left your email, I will reply there.",

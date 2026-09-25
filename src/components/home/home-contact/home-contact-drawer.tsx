@@ -24,7 +24,12 @@ export function HomeContactDrawer(props: HomeContactDrawerProps) {
 				{props.copy.trigger}
 			</DrawerTrigger>
 
-			<DrawerContent>
+			<DrawerContent
+				style={{
+					viewTransitionName: "contact-card",
+					viewTransitionClass: "form-card",
+				}}
+			>
 				<DrawerHeader>
 					<DrawerTitle>{props.copy.title}</DrawerTitle>
 					<DrawerDescription>{props.copy.description}</DrawerDescription>

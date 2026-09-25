@@ -1,7 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PaperPlaneTiltIcon } from "@phosphor-icons/react";
+import {
+	ArrowCounterClockwiseIcon,
+	PaperPlaneTiltIcon,
+} from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import {
+	FormResult,
+	type FormResultStatus,
+} from "@/components/forms/form-result";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +31,12 @@ import {
 } from "@/lib/guestbook/schema";
 import { useTurnstile } from "@/lib/hooks/use-turnstile";
 import { getQueryClient } from "@/lib/query-client";
+import { morph } from "@/lib/view-transition";
+
+const RESULT_VARIANTS: Record<FormResultStatus, "default" | "outline"> = {
+	success: "outline",
+	error: "default",
+};
 
 export interface GuestbookUser {
 	name: string;
@@ -34,12 +48,29 @@ interface GuestbookFormProps {
 	user: GuestbookUser | null;
 	onCancel?: () => void;
 	autoFocus?: boolean;
-	actionTransitionName?: string;
+}
+
+export const GUESTBOOK_ACTION_TRANSITION = "guestbook-action";
+
+type SubmitStatus = "idle" | FormResultStatus;
+
+function toResultCopy(copy: Dictionary["guestbook"]) {
+	return {
+		success: {
+			title: copy.successTitle,
+			body: copy.success,
+			action: copy.writeAnother,
+		},
+		error: { title: copy.errorTitle, body: copy.error, action: copy.tryAgain },
+	} satisfies Record<FormResultStatus, Record<string, string>>;
 }
 
 export function GuestbookForm(props: GuestbookFormProps) {
 	const queryClient = getQueryClient();
-	const turnstile = useTurnstile({ enabled: props.user === null });
+	const [status, setStatus] = useState<SubmitStatus>("idle");
+	const turnstile = useTurnstile({
+		enabled: props.user === null && status === "idle",
+	});
 	const form = useForm<GuestbookInput>({
 		resolver: zodResolver(
 			createGuestbookAnonymousSchema(props.copy.validation),
@@ -60,14 +91,52 @@ export function GuestbookForm(props: GuestbookFormProps) {
 			},
 			onSettled: () => turnstile.reset(),
 			onSuccess: () => {
-				form.reset();
+				morph(() => {
+					form.reset();
+					setStatus("success");
+				});
 				return queryClient.invalidateQueries({
 					queryKey: GUESTBOOK_QUERY_KEY,
 				});
 			},
+			onError: () => morph(() => setStatus("error")),
 		},
 		queryClient,
 	);
+
+	if (status !== "idle") {
+		const copy = toResultCopy(props.copy)[status];
+		return (
+			<FormResult
+				status={status}
+				title={copy.title}
+				body={copy.body}
+				actionTransitionName={GUESTBOOK_ACTION_TRANSITION}
+				primaryAction={
+					<Button
+						type="button"
+						variant={RESULT_VARIANTS[status]}
+						onClick={() =>
+							morph(() => {
+								mutation.reset();
+								setStatus("idle");
+							})
+						}
+					>
+						<ArrowCounterClockwiseIcon aria-hidden="true" />
+						{copy.action}
+					</Button>
+				}
+				secondaryAction={
+					props.onCancel && (
+						<Button type="button" variant="outline" onClick={props.onCancel}>
+							{props.copy.back}
+						</Button>
+					)
+				}
+			/>
+		);
+	}
 
 	const errors = form.formState.errors;
 
@@ -178,16 +247,6 @@ export function GuestbookForm(props: GuestbookFormProps) {
 				/>
 			</FieldGroup>
 
-			{mutation.isError && (
-				<p role="alert" className="text-sm text-destructive">
-					{props.copy.error}
-				</p>
-			)}
-
-			<p role="status" className="text-sm text-muted-foreground empty:sr-only">
-				{mutation.isSuccess && props.copy.success}
-			</p>
-
 			<div className="flex flex-col">
 				<div
 					ref={turnstile.containerRef}
@@ -198,7 +257,10 @@ export function GuestbookForm(props: GuestbookFormProps) {
 					<Button
 						type="submit"
 						disabled={mutation.isPending}
-						style={{ viewTransitionName: props.actionTransitionName }}
+						style={{
+							viewTransitionName: GUESTBOOK_ACTION_TRANSITION,
+							viewTransitionClass: "form",
+						}}
 					>
 						<PaperPlaneTiltIcon />
 						{mutation.isPending ? props.copy.submitting : props.copy.submit}

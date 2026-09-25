@@ -24,7 +24,14 @@ export function HomeContactDialog(props: HomeContactDialogProps) {
 				{props.copy.trigger}
 			</DialogTrigger>
 
-			<DialogContent className="sm:max-w-lg" closeLabel={props.copy.close}>
+			<DialogContent
+				className="sm:max-w-lg"
+				closeLabel={props.copy.close}
+				style={{
+					viewTransitionName: "contact-card",
+					viewTransitionClass: "form-card",
+				}}
+			>
 				<DialogHeader>
 					<DialogTitle>{props.copy.title}</DialogTitle>
 					<DialogDescription>{props.copy.description}</DialogDescription>

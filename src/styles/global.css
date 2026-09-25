@@ -234,18 +234,23 @@
 }
 
 ::view-transition-group(*.guestbook),
+::view-transition-group(*.form),
+::view-transition-group(*.form-card),
 ::view-transition-group(guestbook-action) {
 	animation-duration: 360ms;
 	animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-::view-transition-group(guestbook-card) {
+/* Form cards change height when a form turns into its result. Clip the
+   snapshots to the card and pin them to the top, so the content does not
+   stretch while the card resizes. */
+::view-transition-group(*.form-card) {
 	overflow: clip;
 	border-radius: var(--radius-xl);
 }
 
-::view-transition-old(guestbook-card),
-::view-transition-new(guestbook-card) {
+::view-transition-old(*.form-card),
+::view-transition-new(*.form-card) {
 	height: 100%;
 	object-fit: none;
 	object-position: top;
