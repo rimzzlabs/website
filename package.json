@@ -7,7 +7,8 @@
 		"node": ">=22.12.0"
 	},
 	"scripts": {
-		"dev": "astro dev --host",
+		"dev": "pnpm run \"/^dev:(astro|api)$/\"",
+		"dev:astro": "astro dev --host",
 		"dev:api": "wrangler pages dev public --port 8788",
 		"build": "astro build",
 		"preview": "astro preview",

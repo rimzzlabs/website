@@ -42,6 +42,8 @@ async function queryD1(databaseId: string) {
 }
 
 export function getGuestbookAtBuild(): Promise<GuestbookPage> {
+	if (import.meta.env.DEV) return Promise.resolve(EMPTY_GUESTBOOK_PAGE);
+
 	const databaseId = readDatabaseId();
 	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN || !databaseId) {
 		return Promise.resolve(EMPTY_GUESTBOOK_PAGE);
