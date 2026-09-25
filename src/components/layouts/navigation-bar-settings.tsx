@@ -4,6 +4,7 @@ import {
 	SlidersHorizontalIcon,
 	TranslateIcon,
 } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
 
 import {
 	isLocale,
@@ -14,6 +15,12 @@ import {
 	localizePath,
 } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/en";
+import {
+	applyMotionSetting,
+	isMotionSetting,
+	type MotionSetting,
+	readMotionSetting,
+} from "@/lib/motion";
 import { Button } from "../ui/button";
 import {
 	DropdownMenu,
@@ -44,6 +51,18 @@ function switchLocale(next: unknown) {
 }
 
 export function NavigationBarSettings(props: NavigationBarSettingsProps) {
+	const [motion, setMotion] = useState<MotionSetting>("system");
+
+	useEffect(() => {
+		setMotion(readMotionSetting());
+	}, []);
+
+	const changeMotion = (next: unknown) => {
+		if (!isMotionSetting(next)) return;
+		applyMotionSetting(next);
+		setMotion(next);
+	};
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger render={<Button size="icon" variant="ghost" />}>
@@ -68,7 +87,7 @@ export function NavigationBarSettings(props: NavigationBarSettingsProps) {
 
 				<DropdownMenuGroup>
 					<DropdownMenuLabel>{props.copy.animation}</DropdownMenuLabel>
-					<DropdownMenuRadioGroup>
+					<DropdownMenuRadioGroup value={motion} onValueChange={changeMotion}>
 						<DropdownMenuRadioItem value="system">
 							<LaptopIcon /> {props.copy.animationSystem}
 						</DropdownMenuRadioItem>

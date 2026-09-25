@@ -43,6 +43,24 @@ const props = Astro.props;
 			media.addEventListener("change", (event) => {
 				if (storedTheme() === null) apply(event.matches);
 			});
+
+			const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+			const storedMotion = () => {
+				try {
+					const value = localStorage.getItem("rimzzlabs:motion");
+					return value === "on" || value === "off" ? value : "system";
+				} catch {
+					return "system";
+				}
+			};
+			const applyMotion = () => {
+				const setting = storedMotion();
+				const reduce =
+					setting === "off" || (setting === "system" && motionQuery.matches);
+				root.dataset.motion = reduce ? "reduce" : "full";
+			};
+			applyMotion();
+			motionQuery.addEventListener("change", applyMotion);
 		})();
 		</script>
 	</head>

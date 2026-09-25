@@ -4,6 +4,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@custom-variant motion-ok (
+	&:where([data-motion="full"], [data-motion="full"] *)
+);
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -165,10 +169,8 @@
 }
 
 @layer base {
-	@media (prefers-reduced-motion: no-preference) {
-		html {
-			scroll-behavior: smooth;
-		}
+	html[data-motion="full"] {
+		scroll-behavior: smooth;
 	}
 	* {
 		@apply border-border outline-ring/50;
@@ -242,10 +244,24 @@
 	object-position: top;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	::view-transition-group(*),
-	::view-transition-old(*),
-	::view-transition-new(*) {
-		animation: none;
-	}
+:root[data-motion="reduce"]::view-transition-group(*) {
+	animation: none;
+}
+
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+	--tw-enter-scale: 1;
+	--tw-exit-scale: 1;
+	--tw-enter-rotate: 0;
+	--tw-exit-rotate: 0;
+	--tw-enter-translate-x: 0;
+	--tw-enter-translate-y: 0;
+	--tw-exit-translate-x: 0;
+	--tw-exit-translate-y: 0;
+	--reduced-motion-transitions:
+		opacity, color, background-color, border-color, outline-color,
+		text-decoration-color, fill, stroke, box-shadow;
+	/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over inline and component transitions. */
+	transition-property: var(--reduced-motion-transitions) !important;
 }
