@@ -32,6 +32,8 @@ interface GuestbookFormProps {
 	copy: Dictionary["guestbook"];
 	user: GuestbookUser | null;
 	onCancel?: () => void;
+	autoFocus?: boolean;
+	actionTransitionName?: string;
 }
 
 export function GuestbookForm(props: GuestbookFormProps) {
@@ -103,6 +105,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 						<FieldLabel htmlFor="guestbook-name">{props.copy.name}</FieldLabel>
 						<Input
 							id="guestbook-name"
+							autoFocus={props.autoFocus}
 							autoComplete="name"
 							placeholder={props.copy.namePlaceholder}
 							aria-invalid={Boolean(errors.name)}
@@ -176,7 +179,11 @@ export function GuestbookForm(props: GuestbookFormProps) {
 					className="data-[interactive=true]:pb-4"
 				/>
 				<div className="flex flex-col gap-2 sm:flex-row">
-					<Button type="submit" disabled={mutation.isPending}>
+					<Button
+						type="submit"
+						disabled={mutation.isPending}
+						style={{ viewTransitionName: props.actionTransitionName }}
+					>
 						<PaperPlaneTiltIcon />
 						{mutation.isPending ? props.copy.submitting : props.copy.submit}
 					</Button>

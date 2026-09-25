@@ -1,10 +1,14 @@
 import { GithubLogoIcon, UserCircleDashedIcon } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { GuestbookForm } from "@/components/guestbook/guestbook-form";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Dictionary } from "@/i18n/en";
 import { authClient } from "@/lib/auth-client";
+import { morph } from "@/lib/view-transition";
+
+export const GUESTBOOK_ACTION_TRANSITION = "guestbook-action";
 
 interface GuestbookComposerProps {
 	copy: Dictionary["guestbook"];
@@ -13,6 +17,14 @@ interface GuestbookComposerProps {
 export function GuestbookComposer(props: GuestbookComposerProps) {
 	const session = authClient.useSession();
 	const [anonymous, setAnonymous] = useState(false);
+	const anonymousButtonRef = useRef<HTMLButtonElement>(null);
+	const returnFocusRef = useRef(false);
+
+	useEffect(() => {
+		if (anonymous || !returnFocusRef.current) return;
+		returnFocusRef.current = false;
+		anonymousButtonRef.current?.focus();
+	}, [anonymous]);
 
 	if (session.isPending) {
 		return (
@@ -39,7 +51,12 @@ export function GuestbookComposer(props: GuestbookComposerProps) {
 			<GuestbookForm
 				copy={props.copy}
 				user={null}
-				onCancel={() => setAnonymous(false)}
+				autoFocus
+				actionTransitionName={GUESTBOOK_ACTION_TRANSITION}
+				onCancel={() => {
+					returnFocusRef.current = true;
+					morph(() => setAnonymous(false));
+				}}
 			/>
 		);
 	}
@@ -50,14 +67,19 @@ export function GuestbookComposer(props: GuestbookComposerProps) {
 				onClick={() =>
 					authClient.signIn.social({
 						provider: "github",
-						callbackURL: "/guestbook",
+						callbackURL: window.location.pathname,
 					})
 				}
 			>
 				<GithubLogoIcon />
 				{props.copy.signIn}
 			</Button>
-			<Button variant="outline" onClick={() => setAnonymous(true)}>
+			<Button
+				ref={anonymousButtonRef}
+				variant="outline"
+				style={{ viewTransitionName: GUESTBOOK_ACTION_TRANSITION }}
+				onClick={() => morph(() => setAnonymous(true))}
+			>
 				<UserCircleDashedIcon />
 				{props.copy.writeAnonymously}
 			</Button>

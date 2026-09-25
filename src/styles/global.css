@@ -223,3 +223,29 @@
 @view-transition {
 	navigation: auto;
 }
+
+::view-transition-group(*.guestbook),
+::view-transition-group(guestbook-action) {
+	animation-duration: 360ms;
+	animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+::view-transition-group(guestbook-card) {
+	overflow: clip;
+	border-radius: 1rem;
+}
+
+::view-transition-old(guestbook-card),
+::view-transition-new(guestbook-card) {
+	height: 100%;
+	object-fit: none;
+	object-position: top;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none;
+	}
+}
