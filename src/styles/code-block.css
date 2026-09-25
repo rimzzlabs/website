@@ -1,0 +1,76 @@
+@layer components {
+	[data-code-block] pre {
+		margin: 0;
+		overflow-x: auto;
+		padding-block: 1em;
+		font-family: var(--font-mono);
+		font-size: 0.8125em;
+		line-height: 1.7;
+		tab-size: 2;
+	}
+
+	[data-code-block] pre > code {
+		display: grid;
+		min-inline-size: max-content;
+		counter-reset: line;
+	}
+
+	[data-code-block] .line {
+		padding-inline: 1.25rem;
+	}
+
+	[data-code-block] pre[data-line-numbers] .line::before {
+		counter-increment: line;
+		content: counter(line);
+		display: inline-block;
+		inline-size: 1.75rem;
+		margin-inline-end: 1rem;
+		text-align: end;
+		color: var(--color-muted-foreground);
+		opacity: 0.6;
+		user-select: none;
+	}
+
+	[data-code-block] {
+		--code-highlight: oklch(0.78 0.15 80);
+		--code-add: oklch(0.66 0.16 150);
+		--code-remove: oklch(0.62 0.2 25);
+	}
+
+	[data-code-block] .line:is(.highlighted, .diff-add, .diff-remove) {
+		position: relative;
+		background-color: color-mix(in oklab, var(--line-mark) 14%, transparent);
+		box-shadow: inset 2px 0 0 var(--line-mark);
+	}
+
+	[data-code-block] .line.highlighted {
+		--line-mark: var(--code-highlight);
+	}
+
+	[data-code-block] .line.diff-add {
+		--line-mark: var(--code-add);
+	}
+
+	[data-code-block] .line.diff-remove {
+		--line-mark: var(--code-remove);
+	}
+
+	[data-code-block] .line:is(.diff-add, .diff-remove)::after {
+		position: absolute;
+		inset-inline-start: 0.5rem;
+		color: var(--line-mark);
+		user-select: none;
+	}
+
+	[data-code-block] .line.diff-add::after {
+		content: "+";
+	}
+
+	[data-code-block] .line.diff-remove::after {
+		content: "−";
+	}
+
+	[data-code-block] + :where(p, ul, ol) {
+		margin-block-start: 1.5em;
+	}
+}

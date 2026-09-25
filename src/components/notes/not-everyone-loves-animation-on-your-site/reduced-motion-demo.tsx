@@ -1,8 +1,10 @@
+import { cn } from "cn";
 import { useRef, useState, useSyncExternalStore } from "react";
-
-import { Playground, PlaygroundChoice, PlaygroundCode } from "@/components/notes/playground";
-import type { Lang } from "@/i18n/config";
-import { cn } from "@/lib/utils";
+import {
+	Playground,
+	PlaygroundChoice,
+	PlaygroundCode,
+} from "@/components/notes/playground";
 
 type MotionSetting = "normal" | "reduced";
 
@@ -18,31 +20,17 @@ interface Copy {
 	codeLabel: string;
 }
 
-const COPY: Record<Lang, Copy> = {
-	en: {
-		title: "What prefers-reduced-motion actually changes",
-		hint: "The toggle simulates the OS-level Reduce Motion setting. Fire the toast in both modes: the information always arrives, only the movement is dropped.",
-		settingLabel: "Simulated OS setting",
-		settingOptions: { normal: "Motion on", reduced: "Reduce Motion" },
-		osNotice:
-			"Your own system has Reduce Motion turned on, so this demo already runs the calm version.",
-		showLabel: "Show notification",
-		toastTitle: "Payment received",
-		toastBody: "Your tickets are safe.",
-		codeLabel: "The CSS the browser applies right now",
-	},
-	id: {
-		title: "Yang benar-benar diubah prefers-reduced-motion",
-		hint: "Toggle di bawah mensimulasikan setting Reduce Motion di sistem operasi. Munculkan notifikasinya di kedua mode: informasinya selalu sampai, cuma gerakannya yang dikurangi.",
-		settingLabel: "Simulasi setting OS",
-		settingOptions: { normal: "Gerakan normal", reduced: "Reduce Motion" },
-		osNotice:
-			"Sistem kamu sendiri sedang menyalakan Reduce Motion, jadi demo ini otomatis memakai versi kalem.",
-		showLabel: "Munculkan notifikasi",
-		toastTitle: "Pembayaran diterima",
-		toastBody: "Tiket kamu aman.",
-		codeLabel: "CSS yang dipakai browser sekarang",
-	},
+const copy: Copy = {
+	title: "What prefers-reduced-motion actually changes",
+	hint: "The toggle simulates the OS-level Reduce Motion setting. Fire the toast in both modes: the information always arrives, only the movement is dropped.",
+	settingLabel: "Simulated OS setting",
+	settingOptions: { normal: "Motion on", reduced: "Reduce Motion" },
+	osNotice:
+		"Your own system has Reduce Motion turned on, so this demo already runs the calm version.",
+	showLabel: "Show notification",
+	toastTitle: "Payment received",
+	toastBody: "Your tickets are safe.",
+	codeLabel: "The CSS the browser applies right now",
 };
 
 const NORMAL_CSS = `.toast {
@@ -84,26 +72,34 @@ function readMotionPreference() {
 }
 
 function useOsReducedMotion() {
-	return useSyncExternalStore(subscribeToMotionPreference, readMotionPreference, () => false);
+	return useSyncExternalStore(
+		subscribeToMotionPreference,
+		readMotionPreference,
+		() => false,
+	);
 }
 
-export function ReducedMotionDemo(props: { lang: Lang }) {
+export function ReducedMotionDemo() {
 	const [setting, setSetting] = useState<MotionSetting>("normal");
 	const [toastVisible, setToastVisible] = useState(false);
 	const hideTimerRef = useRef<number | null>(null);
 	const replayTimerRef = useRef<number | null>(null);
 
 	const osReduced = useOsReducedMotion();
-	const copy = COPY[props.lang];
 	const effective: MotionSetting = osReduced ? "reduced" : setting;
 
 	function scheduleHide() {
-		hideTimerRef.current = window.setTimeout(() => setToastVisible(false), 2600);
+		hideTimerRef.current = window.setTimeout(
+			() => setToastVisible(false),
+			2600,
+		);
 	}
 
 	function handleShowToast() {
-		if (hideTimerRef.current !== null) window.clearTimeout(hideTimerRef.current);
-		if (replayTimerRef.current !== null) window.clearTimeout(replayTimerRef.current);
+		if (hideTimerRef.current !== null)
+			window.clearTimeout(hideTimerRef.current);
+		if (replayTimerRef.current !== null)
+			window.clearTimeout(replayTimerRef.current);
 
 		// Re-triggering while visible replays the entrance: exit first, wait for
 		// the 200ms exit transition, then enter again.
@@ -162,7 +158,9 @@ export function ReducedMotionDemo(props: { lang: Lang }) {
 				</div>
 			</div>
 
-			<PlaygroundCode label={copy.codeLabel}>{ACTIVE_CSS[effective]}</PlaygroundCode>
+			<PlaygroundCode label={copy.codeLabel}>
+				{ACTIVE_CSS[effective]}
+			</PlaygroundCode>
 		</Playground>
 	);
 }

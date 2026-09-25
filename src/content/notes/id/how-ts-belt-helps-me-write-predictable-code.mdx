@@ -13,10 +13,6 @@ keywords:
   - LLM Frontend
 ---
 
-import { PlaygroundOption } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-option";
-import { PlaygroundResult } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-result";
-import { PlaygroundMessages } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-messages";
-
 Pertama kali tampilan _chat_ kami mendadak kosong, saya menyalahkan _backend_.
 
 Yang sebenarnya terjadi, model memanggil sebuah _tool_ dan bukan menulis balasan. Saya baru saja menulis ulang bagian _parsing_ pesan dengan ts-belt, semuanya lolos _type check_, dan tetap saja melempar `TypeError` di _production_.
@@ -218,10 +214,6 @@ pipe(
 
 Ini seperti kotak berlabel kosong yang ternyata masih ada isinya, dan labelnya adalah satu-satunya hal yang diperiksa orang.
 
-Coba sendiri di bawah. Pindah ke _tool call_ lalu lihat baris tengahnya tumbang:
-
-<PlaygroundOption client:visible lang="id" />
-
 Perbaikannya cuma satu fungsi. `O.fromNullable` mengubah `null` menjadi `undefined`:
 
 ```ts
@@ -404,10 +396,6 @@ Pertanyaan itulah yang sebenarnya dilakukan `try/catch` di sekeliling setiap lan
 
 Satu catatan sekarang setelah zod ikut di rantai ini. `ZodError` menyimpan `message`-nya sebagai _dump_ JSON dari setiap masalah, dan itu tidak terbaca kalau ditaruh di _toast_. `z.prettifyError` yang perlu kamu panggil di situ.
 
-Rusakkan JSON di bawah lalu lihat langkah dua dilewati:
-
-<PlaygroundResult client:visible lang="id" />
-
 ### Membukanya di Tempat Hasilnya Dirender
 
 Sebuah `Result` sebaiknya tidak bepergian jauh. Saya menyimpannya di dalam modul yang membuatnya, lalu membukanya di tempat hasilnya dirender:
@@ -521,10 +509,6 @@ function toPromptMessages(messages: Array<StoredMessage>) {
 `A.filterMap` yang paling layak diingat. Ia mem-_map_ dan mem-_filter_ sekaligus dalam satu jalan, dan penentunya cuma satu: fungsimu mengembalikan sebuah nilai, atau tidak mengembalikan apa-apa.
 
 `D.selectKeys` memilih _field_ yang memang diminta API, jadi `created_at` dan `trace_id` tidak ikut terkirim.
-
-Nyalakan dan matikan langkahnya lalu lihat apa yang dibuang masing-masing:
-
-<PlaygroundMessages client:visible lang="id" />
 
 Menghitung token sepanjang satu sesi bentuknya sama:
 

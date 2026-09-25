@@ -1,0 +1,54 @@
+---
+import type { ImageMetadata } from "astro";
+
+import PhotoGallery from "@/components/media/photo-gallery/photo-gallery.astro";
+import { toPhotoSource } from "@/lib/photo-source";
+
+interface GalleryImageInput {
+	src: ImageMetadata;
+	alt: string;
+}
+
+interface Props {
+	caption?: string;
+	src?: ImageMetadata;
+	alt?: string;
+	images?: GalleryImageInput[];
+	class?: string;
+	priority?: boolean;
+}
+
+const props = Astro.props;
+
+const inputs: GalleryImageInput[] =
+	props.images ??
+	(props.src && props.alt ? [{ src: props.src, alt: props.alt }] : []);
+
+if (inputs.length === 0) {
+	throw new Error(
+		"NoteImage needs either `src` + `alt` or a non-empty `images` array",
+	);
+}
+
+const single = inputs.length === 1;
+const photos = await Promise.all(inputs.map(toPhotoSource));
+---
+
+<figure class="not-typeset mt-8">
+	<PhotoGallery
+		photos={photos}
+		priority={props.priority}
+		imageClass={props.class}
+	/>
+	{props.caption && (
+	<figcaption
+		class:list={[
+			single
+				? "mt-2 text-center text-sm text-pretty text-muted-foreground"
+				: "sr-only",
+		]}
+	>
+		{props.caption}
+	</figcaption>
+)}
+</figure>

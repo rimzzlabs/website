@@ -1,6 +1,6 @@
 ---
-title: "Jotai, a beautiful state manager for React dev"
-description: "When talked about state manager, the first word you could think would probably Redux, but for now let's use another state manager library, introducing Jotai."
+title: "Jotai, a beautiful state manager for React devs"
+description: "When we talk about state managers, the first name that comes to mind is probably Redux. This time, let's try another state manager library and meet Jotai."
 publishedAt: "07/08/2022"
 status: "published"
 featured: true
@@ -24,11 +24,11 @@ relatedPosts:
 
 ## Introduction
 
-Jotai is an awesome state manager for React, **No extra re-renders**, state resides within React, and you get the full benefits from suspense and concurrent features. It's scalable from a simple `React.useState` replacement to a large-scale application with complex requirements.
+Jotai is an awesome state manager for React. There are **no extra re-renders**, state resides within React, and you get the full benefits of Suspense and concurrent features. It scales from a simple `React.useState` replacement to a large-scale application with complex requirements.
 
 > Jotai takes a bottom-up approach to React state management with an atomic model inspired by Recoil. One can build state by combining atoms and renders are optimized based on atom dependency. This solves the extra re-render issue of React context and eliminates the need for the memoization technique.
 
-A long time ago, I started to learn Frontend Web Development, and there is so much I could learn about, one of the most important topic in Frontend development is state management.
+A long time ago, I started learning frontend web development. There was so much to learn, and one of the most important topics was state management.
 
 ## Using Jotai
 
@@ -38,21 +38,21 @@ In React, I can declare a state by using `useState`.
 const [count, setCount] = useState(0);
 ```
 
-But the problem here is that when my app is getting bigger, I need to pass the state to the component props, otherwise using `React context` might be helpful.
+The problem is that as my app gets bigger, I need to pass the state down through component props. Otherwise, `React context` might help.
 
-But React context is not an _awesome_ solution for me, I need to wrap my components inside it's provider, which you may already know about **Provider Hell**, React context also make a re-render to my component everytime a state has changed.
+But React context isn't an _awesome_ solution for me. I need to wrap my components inside its provider, which you might already know as **Provider Hell**. React context also re-renders my components every time the state changes.
 
-Jotai on the other side is like a useState, I don't need to wrap my app with Provider, and it is also using atomic appproach, which is I've been using this approach lately _(components, style, services, etc.)_.
+Jotai, on the other hand, works like useState. I don't need to wrap my app with a Provider, and it uses an atomic approach, which I've been using a lot lately _(components, styles, services, etc.)_.
 
-### Declaring State in Store file
+### Declaring State in a Store File
 
-In Jotai, I can declare my app's state with atom.
+In Jotai, I can declare my app's state with an atom.
 
 ```ts title="@/store/atom.ts" showLineNumbers
 import { atom } from "jotai";
 
 type User = {
-  username: string;
+  name: string;
   gender: "male" | "female";
   website: string;
 };
@@ -60,7 +60,7 @@ type User = {
 export const userAtom = atom<User | null>(null);
 ```
 
-And then I can use the state on my component.
+Then I can use the state in my component.
 
 ```tsx showLineNumbers
 import { userAtom } from "@/store/atom";
@@ -70,9 +70,9 @@ import { useAtom } from "jotai";
 const [user, setUser] = useAtom(userAtom);
 ```
 
-The user variable is containing user's data, otherwise `null` if there is no user logged in, so what's the `setUser` do?. Well setUser is just like `setState` in React, it's a function to modify it's state.
+The user variable contains the user's data, or `null` if no user is logged in. So what does `setUser` do? Well, setUser is just like `setState` in React: it's a function that modifies the state.
 
-Just like React setState, setUser can accept a function or a new state. I can replace the state with a new state, like this.
+Just like React's setState, setUser accepts either a function or a new state. I can replace the state with a new one, like this.
 
 ```tsx showLineNumbers
 import { userAtom } from "@/store/atom";
@@ -86,7 +86,7 @@ const updateUser = () =>
   setUser({ name: "Foo", gender: "male", website: "foo.com" });
 ```
 
-Or maybe I just want to modify a certain properties. On this context, I've previously declared a **type User** which is an object containing property **name**, **gender** and **website**.
+Or maybe I only want to modify certain properties. In this case, I previously declared a **type User**, which is an object with the properties **name**, **gender**, and **website**.
 
 ```tsx showLineNumbers
 import { userAtom } from "@/store/atom";
@@ -100,24 +100,24 @@ const updateUser = () =>
   setUser((prevState) => ({ ...prevState, name: "FooBizz" }));
 ```
 
-On `updateUser` function, I modify the name property with **FooBizz**, that's the basic usage with Jotai.
+In the `updateUser` function, I change the name property to **FooBizz**. That's the basic usage of Jotai.
 
-See? it's just like a regular useState, and also I can use the User state in another component, cool, right?😎.
+See? It's just like a regular useState, and I can also use the User state in another component. Cool, right?😎
 
 ### Persistent State
 
-Sometimes when I refreshed my browser, my app's state is also got refreshed, but I want to keep my state, the solution here is persistent state.
+Sometimes when I refresh my browser, my app's state gets reset too. But I want to keep my state, and the solution here is persistent state.
 
-Jotai comes with battery-packed utilities, for example `atomWithStorage` not only holds my state but also saved my state on localStorage, this is called a persistent state because I can save my state on localStorage, when I modify my state, it will also update my state on the localStorage.
+Jotai comes with batteries-included utilities. For example, `atomWithStorage` not only holds my state but also saves it to localStorage. This is called persistent state: whenever I modify my state, the value in localStorage updates too.
 
-This is very useful for a state that need to be hold on localStorage like **Theme**.
+This is very useful for state that needs to live in localStorage, like **Theme**.
 
-```tsx {2,9,13-14} title="@/store/atom.ts" showLineNumbers
+```tsx ins={2,9,13-14} title="@/store/atom.ts" showLineNumbers
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 type User = {
-  username: string;
+  name: string;
   gender: "male" | "female";
   website: string;
 };
@@ -129,9 +129,9 @@ export const userAtom = atom<User | null>(null);
 export const themeAtom = atomWithStorage<Theme>("theme", "light");
 ```
 
-I'm exporting a new atom state with `atomWithStorage()` utility. This function accept 3 arguments, the first two is required, the last one is optional, the first argument is the localStorage key, and the second argument is the initial value set to it's state.
+I'm exporting a new atom with the `atomWithStorage()` utility. This function accepts 3 arguments. The first two are required and the last one is optional. The first argument is the localStorage key, and the second is the initial value of the state.
 
-But how can I use this state? well again, I can read and modify the state just like regular useState.
+But how do I use this state? Well, again, I can read and modify it just like a regular useState.
 
 ```tsx showLineNumbers
 import { themeAtom } from "@/store/atom";
@@ -141,15 +141,15 @@ import { useAtom } from "jotai";
 const [theme, setTheme] = useAtom(themeAtom);
 ```
 
-## Comparison to Another Library
+## Comparison to Other Libraries
 
-Let's compare Jotai to another library, this comparison is based on Jotai official website.
+Let's compare Jotai to other libraries. This comparison is based on the official Jotai website.
 
 ### Jotai vs Zustand
 
-Jotai is like Recoil. while [Zustand](https://github.com/pmndrs/zustand "Zustand Repository") is like Redux.
+Jotai is like Recoil, while [Zustand](https://github.com/pmndrs/zustand "Zustand Repository") is like Redux.
 
-The major difference is the state model. Zustand is a single store (although you could create multiple separate stores), while Jotai consists of primitive atoms and allows composing them together. In this sense, it's the matter of programming mental model.
+The major difference is the state model. Zustand is a single store (although you could create multiple separate stores), while Jotai consists of primitive atoms and allows composing them together. In this sense, it's a matter of programming mental models.
 
 Jotai can be a replacement for useState+useContext. Instead of creating multiple contexts, atoms share one big context.
 
@@ -167,15 +167,15 @@ Zustand is an external store and the hook is to connect the external world to th
 
 #### Developer
 
-- Jotai is developed with collective work by a few developers in Poimandres (formerly react-spring) org.
+- Jotai is developed collectively by a few developers in the Poimandres (formerly react-spring) org.
 - Recoil is developed by a team at Facebook.
 
 #### Basis
 
-- Jotai is focusing on primitive APIs for easy learning, and it's unopinionated. (The same philosophy with Zustand)
-- Recoil is full featured for big apps with complex requirements.
+- Jotai focuses on primitive APIs for easy learning, and it's unopinionated (the same philosophy as Zustand).
+- Recoil is full-featured for big apps with complex requirements.
 
-#### Techincal Difference
+#### Technical Difference
 
 - Jotai depends on atom object referential identities.
 - Recoil depends on atom string keys.
@@ -186,12 +186,12 @@ Zustand is an external store and the hook is to connect the external world to th
 - If you like Zustand, Jotai would also be pleasant.
 - If your app heavily requires state serialization (storing state in storage, server, or URL), Recoil comes with good features.
 - If you need React Context alternatives, Jotai comes with enough features.
-- If you would try to create a new library, Jotai might give good primitives.
-- Otherwise, both are pretty similar about the general goals and basic techniques.
+- If you want to create a new library, Jotai might give you good primitives.
+- Otherwise, both are pretty similar in their general goals and basic techniques.
 
 ## Using it with React
 
-I can store my app's state on every component, but I can also create a store on a separated file, I prefer create a new file inside store folder, for example.
+I can store my app's state in each component, but I can also create a store in a separate file. I prefer to create a new file inside a store folder, for example:
 
 ```tsx title="@/store/atom.ts" showLineNumbers
 import { atom } from "jotai";
@@ -211,26 +211,27 @@ export const themeAtom = atomWithStorage<Theme>("theme", "light");
 
 ### Read and Modify State
 
-I could read and modify the state on every component like this.
+I can read and modify the state in any component like this.
 
 ```tsx title="@/components/DarkModeToggle.tsx" showLineNumbers
 import * as atoms from "@/store/atom";
 
-import { useAtom } from "atom";
+import { useAtom } from "jotai";
 
 export default function DarkModeToggle() {
   const [theme, setTheme] = useAtom(atoms.themeAtom);
 
-  const toggleTheme = setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   return <button onClick={toggleTheme}>Current theme is {theme}</button>;
 }
 ```
 
-But I prefer to create a custom hooks instead, for example, to manage my theme state, I could create a custom hooks to switch between dark mode and light mode.
+But I prefer to create a custom hook instead. For example, to manage my theme state, I can create a custom hook that switches between dark mode and light mode.
 
 ```tsx title="@/hooks/useDarkMode.ts" showLineNumbers
-import * as atoms from "@/store";
+import * as atoms from "@/store/atom";
 
 import { useAtom } from "jotai";
 import { useEffect } from "react";
@@ -252,9 +253,9 @@ const useDarkMode = () => {
 export default useDarkMode;
 ```
 
-And then I could refactor the above component which is **DarkModeToggle** to be like this:
+Then I can refactor the **DarkModeToggle** component above to look like this:
 
-```tsx {4,6} title="@/components/DarkModeToggle.tsx" showLineNumbers
+```tsx ins={4,6} title="@/components/DarkModeToggle.tsx" showLineNumbers
 import useDarkMode from "@/hooks/useDarkMode";
 
 export default function DarkModeToggle() {
@@ -264,8 +265,8 @@ export default function DarkModeToggle() {
 }
 ```
 
-See, very simple right? oh and you could read the complete documentation of Jotai [Here](https://jotai.org "Jotai official website").
+See? Very simple, right? Oh, and you can read the complete Jotai documentation [here](https://jotai.org "Jotai official website").
 
-The core concept and API reference are very easy to learn, also checkout this [free course's](https://egghead.io/courses/manage-application-state-with-jotai-atoms-2c3a29f0 "Jotai free course") Jotai provided.
+The core concepts and API reference are very easy to learn. Also, check out this [free course](https://egghead.io/courses/manage-application-state-with-jotai-atoms-2c3a29f0 "Jotai free course") that Jotai provides.
 
-So that's it folks, thank you so much for reading my blog and I hope you gain more insight about Jotai after reading this blog, see you next time👋.
+So that's it, folks. Thank you so much for reading, and I hope this post gave you more insight into Jotai. See you next time👋

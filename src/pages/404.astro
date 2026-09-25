@@ -1,5 +1,62 @@
 ---
-import NotFoundContent from "@/components/shared/not-found-content.astro";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { NotFoundSuggestions } from "@/components/not-found/not-found-suggestions";
+import { buttonVariants } from "@/components/ui/button";
+import { getNotes } from "@/lib/notes";
+import { type RouteCandidate, toRouteKey } from "@/lib/suggest-route";
+
+const PAGES: ReadonlyArray<RouteCandidate> = [
+	{ href: "/notes", label: "Notes", keys: ["notes", "blog", "posts"] },
+	{ href: "/guestbook", label: "Guestbook", keys: ["guestbook"] },
+	{ href: "/archive", label: "Archive", keys: ["archive"] },
+	{ href: "/now", label: "Now", keys: ["now"] },
+];
+
+const notes = await getNotes();
+const candidates: Array<RouteCandidate> = [
+	...notes.map((note) => ({
+		href: note.url,
+		label: note.data.title,
+		keys: [note.slug, toRouteKey(note.data.title)],
+	})),
+	...PAGES,
+];
 ---
 
-<NotFoundContent lang="en" />
+<Root>
+	<Seo
+		slot="meta"
+		title="Page not found, Rizki Citra"
+		description="This page doesn't exist, or it moved."
+		noindex
+	/>
+
+	<NavigationBar />
+
+	<main class="wrapper pt-10">
+		<p class="pt-6 font-mono text-xs text-muted-foreground">404</p>
+		<h1
+			class="pt-2 pb-4 font-serif text-[2em] font-semibold text-balance leading-tight tracking-tight"
+		>
+			Page not found
+		</h1>
+		<p class="max-w-[65ch] text-pretty text-muted-foreground">
+			This page doesn't exist, or it moved. If you typed the address, check it
+			for a typo.
+		</p>
+
+		<NotFoundSuggestions client:load candidates={candidates} />
+
+		<div class="flex flex-wrap gap-2 pt-10">
+			<a href="/" class={buttonVariants()}>Back home</a>
+			<a href="/notes" class={buttonVariants({ variant: "outline" })}>
+				Browse notes
+			</a>
+		</div>
+	</main>
+
+	<Footer />
+</Root>

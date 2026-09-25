@@ -1,5 +1,55 @@
 ---
-import GuestbookPage from "@/components/home/guestbook/guestbook-page.astro";
+import { GuestbookComposer } from "@/components/guestbook/guestbook-composer";
+import { GuestbookEntries } from "@/components/guestbook/guestbook-entries";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { getGuestbookAtBuild } from "@/lib/guestbook/build";
+
+const title = "Guestbook, Rizki Citra";
+const description =
+	"Leave a note, say hi, or share your website. Sign in with GitHub, or write anonymously.";
+
+const initialPage = await getGuestbookAtBuild();
 ---
 
-<GuestbookPage lang="en" />
+<Root>
+	<Seo slot="meta" {title} {description} />
+
+	<NavigationBar />
+
+	<main>
+		<header class="wrapper pt-10">
+			<h1
+				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+			>
+				Guestbook
+			</h1>
+
+			<p class="max-w-[65ch] text-pretty text-muted-foreground">
+				Leave a note, say hi, or share your website. Sign in with GitHub, or
+				write anonymously.
+			</p>
+		</header>
+
+		<section class="wrapper pt-10" aria-label="Sign the guestbook">
+			<div class="rounded-2xl bg-muted p-4 sm:p-5">
+				<GuestbookComposer client:load />
+			</div>
+		</section>
+
+		<section class="wrapper pt-12" aria-labelledby="guestbook-entries">
+			<h2
+				id="guestbook-entries"
+				class="pb-3 font-mono text-sm text-muted-foreground"
+			>
+				Entries
+			</h2>
+
+			<GuestbookEntries client:visible initialPage={initialPage} />
+		</section>
+	</main>
+
+	<Footer />
+</Root>

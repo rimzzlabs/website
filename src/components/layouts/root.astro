@@ -1,0 +1,48 @@
+---
+import "../../styles/global.css";
+import { Font } from "astro:assets";
+import ScrollFade from "@/components/layouts/scroll-fade.astro";
+import { SITE_LOCALE } from "@/lib/datetime";
+---
+
+<!doctype html>
+<html lang={SITE_LOCALE}>
+	<head>
+		<meta charset="utf-8">
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, viewport-fit=cover"
+		>
+		<slot name="meta" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+		<Font cssVariable="--font-inter" preload />
+		<Font cssVariable="--font-lora" preload />
+		<Font cssVariable="--font-jetbrains-mono" />
+		<script is:inline>
+		(() => {
+			const root = document.documentElement;
+			const media = window.matchMedia("(prefers-color-scheme: dark)");
+			const storedTheme = () => {
+				try {
+					const value = localStorage.getItem("rimzzlabs:theme");
+					return value === "dark" || value === "light" ? value : null;
+				} catch {
+					return null;
+				}
+			};
+			const apply = (dark) => root.classList.toggle("dark", dark);
+			const stored = storedTheme();
+			apply(stored ? stored === "dark" : media.matches);
+
+			media.addEventListener("change", (event) => {
+				if (storedTheme() === null) apply(event.matches);
+			});
+		})();
+		</script>
+	</head>
+	<body>
+		<slot />
+
+		<ScrollFade />
+	</body>
+</html>

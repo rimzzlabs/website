@@ -1,5 +1,180 @@
 ---
-import NowContent from "@/components/now/now-content.astro";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import Link from "@/components/ui/link.astro";
+import { formatDate, parsePublishedAt } from "@/lib/datetime";
+import { getNotes } from "@/lib/notes";
+
+interface NowLink {
+	label: string;
+	href: string;
+}
+
+interface NowItem {
+	label: string;
+	title: string;
+	description: string;
+	links: ReadonlyArray<NowLink>;
+}
+
+const UPDATED_AT = "09/25/2026";
+
+const title = "Now, Rizki Citra";
+const description =
+	"What I'm focused on right now: work, side projects, writing, and this site.";
+
+const notes = await getNotes();
+const latestNote = notes[0];
+const updatedAt = parsePublishedAt(UPDATED_AT);
+
+const ITEMS: ReadonlyArray<NowItem> = [
+	{
+		label: "Work",
+		title: "Building the frontend at Kolosal AI",
+		description:
+			"I design and build the app where people work with large language models. Full-time, and fully remote.",
+		links: [{ label: "kolosal.ai", href: "https://kolosal.ai" }],
+	},
+	{
+		label: "Building",
+		title: "Mayarin, with a friend",
+		description: "Payments infrastructure for the borderless economy.",
+		links: [{ label: "mayarin.xyz", href: "https://mayarin.xyz" }],
+	},
+	{
+		label: "Side projects",
+		title: "Lanjut and Absqir",
+		description:
+			"Lanjut is a local-first, ATS-friendly resume builder. Absqir is open source attendance you host yourself. I also contribute to Trymorrow.",
+		links: [
+			{ label: "lanjut.rimzzlabs.com", href: "https://lanjut.rimzzlabs.com" },
+			{ label: "absqir.rimzzlabs.com", href: "https://absqir.rimzzlabs.com" },
+		],
+	},
+	{
+		label: "This site",
+		title: "Relaunching rimzzlabs.com",
+		description:
+			"New typography, a guestbook, and this page. The redesign goes live on September 27, 2026.",
+		links: [
+			{
+				label: "Source code",
+				href: "https://github.com/rimzzlabs/website",
+			},
+		],
+	},
+];
 ---
 
-<NowContent lang="en" />
+<Root>
+	<Seo slot="meta" {title} {description} />
+
+	<NavigationBar />
+
+	<main>
+		<header class="wrapper pt-10">
+			<h1
+				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+			>
+				Now
+			</h1>
+
+			<p class="max-w-[65ch] text-pretty text-muted-foreground">
+				A snapshot of what I'm focused on at this point in my life. It's a /now
+				page, an idea from <Link href="https://sive.rs">Derek Sivers</Link>. You
+				can find many more on
+				<Link href="https://nownownow.com">nownownow.com</Link>.
+			</p>
+
+			<p
+				class="flex items-center gap-2 pt-4 font-mono text-xs text-muted-foreground"
+			>
+				<span aria-hidden="true" class="relative flex size-2">
+					<span
+						class="absolute inline-flex size-full rounded-full bg-primary opacity-60 motion-safe:animate-ping"
+					></span>
+					<span
+						class="relative inline-flex size-2 rounded-full bg-primary"
+					></span>
+				</span>
+				Last updated
+				<time datetime={updatedAt.toISOString()}
+					>{formatDate()(updatedAt)}</time
+				>
+			</p>
+		</header>
+
+		<section class="wrapper pt-12" aria-label="What I'm doing now">
+			<ul>
+				{ITEMS.map((item) => (
+	<li class="flex flex-col gap-1 border-b py-5 first-of-type:border-t sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
+		<p class="font-mono text-xs text-muted-foreground">{item.label}</p>
+		<div>
+			<h2 class="font-serif text-[1.05em] font-medium text-pretty">
+				{item.title}
+			</h2>
+			<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
+				{item.description}
+			</p>
+			<p class="flex flex-wrap gap-x-4 gap-y-1 pt-2 text-sm">
+				{item.links.map((link) => (
+					<a
+						href={link.href}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-1 text-muted-foreground link-underline hover:text-foreground"
+					>
+						{link.label}
+						<ArrowUpRightIcon aria-hidden="true" className="size-[1em]" />
+						<span class="sr-only">, opens in a new tab</span>
+					</a>
+				))}
+			</p>
+		</div>
+	</li>
+))}
+
+				{latestNote && (
+	<li class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
+		<p class="font-mono text-xs text-muted-foreground">Writing</p>
+		<div>
+			<h2 class="font-serif text-[1.05em] font-medium text-pretty">
+				Notes on what I learn while I build
+			</h2>
+			<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
+				{notes.length} notes so far. The latest one is{" "}
+				<a href={latestNote.url} class="text-foreground link-underline">
+					{latestNote.data.title}
+				</a>
+				.
+			</p>
+		</div>
+	</li>
+)}
+
+				<li
+					class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6"
+				>
+					<p class="font-mono text-xs text-muted-foreground">Open to</p>
+					<div>
+						<h2 class="font-serif text-[1.05em] font-medium text-pretty">
+							Interesting projects and good conversations
+						</h2>
+						<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
+							I work full-time, so I don't take on much outside work. If you
+							have something interesting in mind,{" "}
+							<a href="/#contact" class="text-foreground link-underline"
+								>say hello</a
+							>.
+						</p>
+					</div>
+				</li>
+			</ul>
+		</section>
+	</main>
+
+	<Footer />
+</Root>

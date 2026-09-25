@@ -1,0 +1,49 @@
+---
+import { F, pipe } from "@mobily/ts-belt";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import { cn } from "cn";
+
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+	href: string;
+}
+
+const { href, class: className, target: _1, rel: _2, ...props } = Astro.props;
+
+const isValidURL = href.startsWith("http");
+
+const target = pipe(
+	isValidURL,
+	F.ifElse(
+		F.identity,
+		() => "_blank" as const,
+		() => undefined,
+	),
+);
+
+const rel = pipe(
+	isValidURL,
+	F.ifElse(
+		F.identity,
+		() => "noopener" as const,
+		() => undefined,
+	),
+);
+---
+
+<a
+	{href}
+	{rel}
+	{target}
+	{...props}
+	data-external={isValidURL}
+	class={cn(
+	"group/link inline-flex gap-0.5 px-1 text-muted-foreground link-underline hover:text-foreground",
+	className,
+)}
+>
+	<slot />
+	<ArrowUpRightIcon
+		weight="duotone"
+		className="hidden group-data-[external=true]/link:block size-2.5 mt-2"
+	/>
+</a>

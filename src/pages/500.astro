@@ -1,0 +1,44 @@
+---
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { buttonVariants } from "@/components/ui/button";
+---
+
+<Root>
+	<Seo
+		slot="meta"
+		title="Something went wrong, Rizki Citra"
+		description="Something went wrong on my side."
+		noindex
+	/>
+
+	<NavigationBar />
+
+	<main class="wrapper pt-10">
+		<p class="pt-6 font-mono text-xs text-muted-foreground">500</p>
+		<h1
+			class="pt-2 pb-4 font-serif text-[2em] font-semibold text-balance leading-tight tracking-tight"
+		>
+			Something went wrong
+		</h1>
+		<p class="max-w-[65ch] text-pretty text-muted-foreground">
+			That's on me, not you. Try again in a moment. If it keeps happening, you
+			can let me know through the contact form on the homepage.
+		</p>
+
+		<div class="flex flex-wrap gap-2 pt-10">
+			<button
+				type="button"
+				onclick="location.reload()"
+				class={buttonVariants()}
+			>
+				Try again
+			</button>
+			<a href="/" class={buttonVariants({ variant: "outline" })}>Back home</a>
+		</div>
+	</main>
+
+	<Footer />
+</Root>

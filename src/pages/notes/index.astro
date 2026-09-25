@@ -1,5 +1,55 @@
 ---
-import NotesIndex from "@/components/notes/notes-index.astro";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import NoteList from "@/components/notes/note-list.astro";
+import { formatDate } from "@/lib/datetime";
+import { getNotes } from "@/lib/notes";
+
+const title = "Notes, Rizki Citra";
+const description =
+	"Notes on what I learn while I build things, from React and TypeScript to tools I use every day.";
+
+const notes = await getNotes();
+const toYear = formatDate({ year: "numeric" });
+const years = [...new Set(notes.map((note) => toYear(note.dateISO)))];
 ---
 
-<NotesIndex lang="en" />
+<Root>
+	<Seo slot="meta" {title} {description} />
+
+	<NavigationBar />
+
+	<main>
+		<header class="wrapper pt-10">
+			<h1
+				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+			>
+				Notes
+			</h1>
+
+			<p class="max-w-[65ch] text-pretty text-muted-foreground">
+				What I learn while I build things. {notes.length} notes so far.
+			</p>
+		</header>
+
+		{years.map((year) => (
+	<section class="wrapper pt-12" aria-labelledby={`notes-${year}`}>
+		<h2
+			id={`notes-${year}`}
+			class="pb-3 font-mono text-sm tabular-nums text-muted-foreground"
+		>
+			{year}
+		</h2>
+
+		<NoteList
+			notes={notes.filter((note) => toYear(note.dateISO) === year)}
+			dateFormat={{ weekday: "short", month: "short", day: "numeric" }}
+		/>
+	</section>
+))}
+	</main>
+
+	<Footer />
+</Root>

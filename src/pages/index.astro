@@ -1,5 +1,107 @@
 ---
-import Home from "@/components/home/home.astro";
+import { A, AR, pipe } from "@mobily/ts-belt";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import HomeContact from "@/components/home/home-contact/home-contact.astro";
+import { HomeGallery } from "@/components/home/home-gallery";
+import HomeProjects from "@/components/home/home-projects.astro";
+import HomeSectionHeading from "@/components/home/home-section-heading.astro";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import NoteList from "@/components/notes/note-list.astro";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "@/components/ui/link.astro";
+import { getImageGallery } from "@/data/gallery";
+import { getNotes } from "@/lib/notes";
+
+const title = "Rizki Citra, Software Engineer";
+const description =
+	"I'm Rizki Citra, a software engineer who builds frontends at Kolosal AI. Here are my projects, notes, and a few photos.";
+
+const notes = await getNotes();
+const latestNotes = pipe(notes, A.slice(0, 4));
+const images = await pipe(
+	getImageGallery(),
+	AR.make,
+	AR.match(
+		(res) => res,
+		() => [],
+	),
+);
 ---
 
-<Home lang="en" />
+<Root>
+	<Seo slot="meta" {title} {description} />
+
+	<NavigationBar />
+
+	<main>
+		<header class="wrapper pt-10">
+			<h1
+				class="pt-6 pb-6 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+			>
+				<a href="/">Rizki Citra</a>
+			</h1>
+
+			<div class="max-w-[65ch] space-y-4 text-pretty">
+				<p>
+					I&apos;m a software engineer, and I work remotely full-time. At
+					<Link href="https://kolosal.ai">Kolosal AI</Link>, I design and build
+					the frontend of the app where people work with large language models.
+				</p>
+
+				<p>
+					Much of my past work is in fintech. At
+					<Link href="https://bitwyre.com">Bitwyre</Link>, I helped build a
+					crypto perpetual futures trading platform and a crypto card mobile
+					app. At
+					<Link href="https://skyshi.com">Skyshi</Link>, I worked with many
+					clients on fintech products and internal tools, and I learned a lot
+					along the way.
+				</p>
+			</div>
+
+			<div class="inline-flex items-center gap-2 pt-8">
+				<a
+					href="/attachments/rizki_citra_resume.pdf"
+					target="_blank"
+					rel="noopener noreferrer"
+					class={buttonVariants()}
+				>
+					Peek my résumé <ArrowUpRightIcon />
+				</a>
+			</div>
+		</header>
+
+		<HomeProjects />
+
+		<section class="wrapper pt-20">
+			<HomeSectionHeading
+				description="I write about what I learn while I build things."
+			>
+				Latest Notes
+			</HomeSectionHeading>
+
+			<NoteList
+				notes={latestNotes}
+				moreHref="/notes"
+				moreLabel={`Want more? Browse all ${notes.length} notes`}
+			/>
+		</section>
+
+		<section class="wrapper pt-20">
+			<HomeSectionHeading
+				description="A few moments from events, trips, and everyday life."
+			>
+				Gallery
+			</HomeSectionHeading>
+
+			<HomeGallery client:load images={images} />
+		</section>
+
+		<HomeContact />
+	</main>
+
+	<Footer />
+</Root>

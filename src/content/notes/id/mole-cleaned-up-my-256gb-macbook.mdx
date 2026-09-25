@@ -14,9 +14,7 @@ keywords:
   - mo clean
 ---
 
-import NoteImage from "@/components/notes/note-image/note-image.astro";
-
-import { PlaygroundClean } from "@/components/notes/mole-cleaned-up-my-256gb-macbook/playground-clean";
+import NoteImage from "@/components/notes/note-image.astro";
 
 import FirstScan from "@/assets/notes/mole-cleaned-up-my-256gb-macbook/first-scan.png";
 
@@ -121,10 +119,6 @@ Sebelum menghapus apa pun, Mole menampilkan tiap kategori lengkap dengan ukurann
   alt="Hasil scan pertama Mole di MacBook saya, menampilkan kategori System, User essentials, dan App caches beserta ukurannya, dengan ruang kosong 12.69GB di bagian atas"
   caption="Scan mo clean pertama saya, dengan 12.69GB ruang kosong di atasnya"
 />
-
-Hasil scan yang sama juga bisa kamu mainkan di bawah ini. Nyalakan atau matikan kategorinya dan lihat berapa ruang yang balik:
-
-<PlaygroundClean client:visible lang="id" />
 
 Satu kategori jauh melampaui sisanya. _Cache_ aplikasi sebesar 3.33GB itu persis jenis beban yang diam-diam dibawa System Data tanpa pernah dilaporkan ke kamu.
 

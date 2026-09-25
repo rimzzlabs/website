@@ -1,0 +1,112 @@
+---
+const EDGES = ["top", "bottom"] as const;
+const BLUR_LAYERS = [1, 2, 4, 8, 16];
+---
+
+{EDGES.map((edge) => (
+	<div class="scroll-fade" data-edge={edge} aria-hidden="true">
+		{BLUR_LAYERS.map((blur, index) => (
+			<div
+				class="scroll-fade-blur"
+				style={`--blur: ${blur}px; --band-start: ${index * 20}%`}
+			/>
+		))}
+		<div class="scroll-fade-tint" />
+	</div>
+))}
+
+<script>
+const FADE_DISTANCE = 120;
+const root = document.documentElement;
+let frame = 0;
+
+const update = () => {
+	frame = 0;
+	const scrolled = window.scrollY;
+	const remaining = root.scrollHeight - window.innerHeight - scrolled;
+	const top = Math.min(Math.max(scrolled / FADE_DISTANCE, 0), 1);
+	const bottom = Math.min(Math.max(remaining / FADE_DISTANCE, 0), 1);
+	root.style.setProperty("--scroll-fade-top", String(top));
+	root.style.setProperty("--scroll-fade-bottom", String(bottom));
+};
+
+const schedule = () => {
+	if (frame === 0) frame = requestAnimationFrame(update);
+};
+
+update();
+window.addEventListener("scroll", schedule, { passive: true });
+window.addEventListener("resize", schedule, { passive: true });
+new ResizeObserver(schedule).observe(document.body);
+</script>
+
+<style>
+.scroll-fade {
+	position: fixed;
+	inset-inline: 0;
+	z-index: 40;
+	height: 4rem;
+	pointer-events: none;
+}
+
+.scroll-fade > * {
+	position: absolute;
+	inset: 0;
+	opacity: var(--fade);
+}
+
+.scroll-fade-tint {
+	--tint: var(--background);
+	background-image: linear-gradient(
+		var(--direction),
+		transparent 0%,
+		color-mix(in oklch, var(--tint) 1.3%, transparent) 8.1%,
+		color-mix(in oklch, var(--tint) 4.9%, transparent) 15.5%,
+		color-mix(in oklch, var(--tint) 10.4%, transparent) 22.5%,
+		color-mix(in oklch, var(--tint) 17.5%, transparent) 29%,
+		color-mix(in oklch, var(--tint) 25.9%, transparent) 35.3%,
+		color-mix(in oklch, var(--tint) 35.2%, transparent) 41.2%,
+		color-mix(in oklch, var(--tint) 45%, transparent) 47.1%,
+		color-mix(in oklch, var(--tint) 55%, transparent) 52.9%,
+		color-mix(in oklch, var(--tint) 64.8%, transparent) 58.8%,
+		color-mix(in oklch, var(--tint) 74.1%, transparent) 64.7%,
+		color-mix(in oklch, var(--tint) 82.5%, transparent) 71%,
+		color-mix(in oklch, var(--tint) 89.6%, transparent) 77.5%,
+		color-mix(in oklch, var(--tint) 95.1%, transparent) 84.5%,
+		color-mix(in oklch, var(--tint) 98.7%, transparent) 91.9%,
+		var(--tint) 100%
+	);
+}
+
+.scroll-fade[data-edge="top"] {
+	--direction: to top;
+	--fade: var(--scroll-fade-top, 0);
+	top: 0;
+}
+
+.scroll-fade[data-edge="bottom"] {
+	--direction: to bottom;
+	--fade: var(--scroll-fade-bottom, 0);
+	bottom: 0;
+}
+
+.scroll-fade-blur {
+	backdrop-filter: blur(var(--blur));
+	-webkit-backdrop-filter: blur(var(--blur));
+	mask-image: linear-gradient(
+		var(--direction),
+		transparent var(--band-start),
+		black calc(var(--band-start) + 20%),
+		black calc(var(--band-start) + 40%),
+		transparent calc(var(--band-start) + 60%)
+	);
+}
+
+.scroll-fade-blur:nth-last-child(2) {
+	mask-image: linear-gradient(
+		var(--direction),
+		transparent var(--band-start),
+		black calc(var(--band-start) + 20%)
+	);
+}
+</style>

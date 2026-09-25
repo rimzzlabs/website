@@ -1,0 +1,73 @@
+---
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import HomeSectionHeading from "@/components/home/home-section-heading.astro";
+
+const PROJECTS = [
+	{
+		name: "Mayarin",
+		href: "https://mayarin.xyz",
+		role: "Maintainer",
+		description:
+			"Payments infrastructure for the borderless economy. I build it with a friend.",
+	},
+	{
+		name: "Lanjut",
+		href: "https://lanjut.rimzzlabs.com",
+		role: "Creator",
+		description:
+			"A free, open source resume builder. It is local-first, ATS-friendly, and runs entirely in your browser.",
+	},
+	{
+		name: "Trymorrow",
+		href: "https://github.com/playriglabs/trymorrow",
+		role: "Contributor",
+		description:
+			"Send cash, tip anyone, and trade or gift stocks, privately and onchain.",
+	},
+	{
+		name: "Absqir",
+		href: "https://absqir.rimzzlabs.com",
+		role: "Creator",
+		description:
+			"Open source attendance you host yourself. One small CLI command sets it up.",
+	},
+];
+---
+
+<section class="wrapper pt-20">
+	<HomeSectionHeading
+		description="A mix of hobby projects and bigger products I help build."
+	>
+		Projects
+	</HomeSectionHeading>
+
+	<ul>
+		{PROJECTS.map((project) => (
+	<li class="group/project relative flex items-baseline gap-4 py-3 border-b first-of-type:border-t transition hover:bg-muted-foreground/2 active:bg-muted-foreground/5">
+		<div class="min-w-0 flex-1">
+			<h3 class="inline-flex items-center gap-1 text-[1.05em] font-medium font-serif">
+				{project.name}
+				<ArrowUpRightIcon
+					aria-hidden="true"
+					className="size-3.5 text-muted-foreground transition group-hover/project:-translate-y-0.5 group-hover/project:translate-x-0.5"
+				/>
+			</h3>
+			<p class="text-sm text-pretty text-muted-foreground">
+				{project.description}
+			</p>
+		</div>
+
+		<p class="shrink-0 text-sm text-muted-foreground">{project.role}</p>
+
+		<a
+			href={project.href}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="absolute inset-0 focus-visible:outline-2 focus-visible:outline-ring"
+		>
+			<span class="sr-only">Visit {project.name}, opens in a new tab</span>
+		</a>
+	</li>
+))}
+	</ul>
+</section>

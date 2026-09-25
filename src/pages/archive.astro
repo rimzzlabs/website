@@ -1,0 +1,168 @@
+---
+import { ArrowRightIcon } from "@phosphor-icons/react";
+import BurnClassificationFigure from "@/components/archive/burn-classification-figure.astro";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { PageLightbox } from "@/components/media/image-lightbox/page-lightbox";
+import PhotoGallery from "@/components/media/photo-gallery/photo-gallery.astro";
+import { NoteToc } from "@/components/notes/note-toc/note-toc";
+import type { TocHeading } from "@/components/notes/note-toc/note-toc-headings";
+import NoteTocMobile from "@/components/notes/note-toc/note-toc-mobile.astro";
+import { ARCHIVE } from "@/data/archive";
+import { toPhotoSource } from "@/lib/photo-source";
+
+const title = "Archive, Rizki Citra";
+const description =
+	"My journey in software engineering, year by year, from 2019 to now.";
+
+function toSlug(year: number, text: string) {
+	const words = text
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-|-$/g, "");
+	return `${year}-${words}`;
+}
+
+const toc: Array<TocHeading> = ARCHIVE.flatMap((entry) => [
+	{ depth: 2, slug: String(entry.year), text: String(entry.year) },
+	{ depth: 3, slug: toSlug(entry.year, entry.title), text: entry.title },
+	...(entry.sections ?? []).map((section) => ({
+		depth: 3,
+		slug: toSlug(entry.year, section.heading),
+		text: section.heading,
+	})),
+]);
+
+const years = await Promise.all(
+	ARCHIVE.map(async (entry) => ({
+		...entry,
+		photos: await Promise.all(entry.photos.map(toPhotoSource)),
+		sections: await Promise.all(
+			(entry.sections ?? []).map(async (section) => ({
+				...section,
+				photos: await Promise.all((section.photos ?? []).map(toPhotoSource)),
+			})),
+		),
+	})),
+);
+---
+
+<Root>
+	<Seo slot="meta" {title} {description} />
+
+	<NavigationBar />
+
+	<main>
+		<div class="wrapper relative">
+			<header class="pt-10">
+				<h1
+					class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+				>
+					Archive
+				</h1>
+
+				<p class="max-w-[65ch] text-pretty text-muted-foreground">
+					My software engineering journey started in 2019. This is the longer
+					version, year by year: the jobs, the detours, and everything in
+					between.
+				</p>
+			</header>
+
+			<NoteTocMobile headings={toc} />
+
+			{years.map((entry, index) => (
+	<section aria-labelledby={String(entry.year)} class="pt-20">
+		<div class="flex items-end gap-3">
+			<h2
+				id={String(entry.year)}
+				class="scroll-mt-20 font-serif text-[3.5rem] leading-none font-semibold tracking-tight tabular-nums text-foreground/90 sm:text-[4.5rem]"
+			>
+				{entry.year}
+			</h2>
+			{index === 0 && (
+				<span class="mb-2 inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+					<span aria-hidden="true" class="relative flex size-2">
+						<span class="absolute inline-flex size-full rounded-full bg-primary opacity-60 motion-safe:animate-ping" />
+						<span class="relative inline-flex size-2 rounded-full bg-primary" />
+					</span>
+					Now
+				</span>
+			)}
+		</div>
+		<div aria-hidden="true" class="mt-4 h-0.5 w-12 rounded-full bg-primary" />
+
+		<h3
+			id={toSlug(entry.year, entry.title)}
+			class="scroll-mt-20 pt-6 font-serif text-[1.5em] font-semibold text-balance leading-tight tracking-tight"
+		>
+			{entry.title}
+		</h3>
+
+		<div class="max-w-[65ch] space-y-4 pt-4 leading-relaxed text-pretty [&_a]:link-underline">
+			{entry.paragraphs.map((paragraph) => (
+				<p set:html={paragraph} />
+			))}
+		</div>
+
+		{entry.sections.map((section) => (
+			<div class="pt-10">
+				<h3
+					id={toSlug(entry.year, section.heading)}
+					class="scroll-mt-20 font-serif text-[1.2em] font-semibold text-balance leading-snug tracking-tight"
+				>
+					{section.heading}
+				</h3>
+				<div class="max-w-[65ch] space-y-4 pt-3 leading-relaxed text-pretty [&_a]:link-underline">
+					{section.paragraphs.map((paragraph) => (
+						<p set:html={paragraph} />
+					))}
+				</div>
+				{section.figure === "burn-classification" && (
+					<BurnClassificationFigure />
+				)}
+				{section.photos.length > 0 && (
+					<div class="pt-8">
+						<PhotoGallery photos={section.photos} />
+					</div>
+				)}
+			</div>
+		))}
+
+		{index === 0 && (
+			<a
+				href="/now"
+				class="group/now mt-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground link-underline hover:text-foreground"
+			>
+				See what I'm doing now
+				<ArrowRightIcon
+					aria-hidden="true"
+					className="size-[1em] transition group-hover/now:translate-x-0.5"
+				/>
+			</a>
+		)}
+
+		{entry.photos.length > 0 && (
+			<div class="pt-8">
+				<PhotoGallery photos={entry.photos} />
+			</div>
+		)}
+	</section>
+))}
+			<aside
+				class="absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block"
+			>
+				<div
+					class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6"
+				>
+					<NoteToc client:idle headings={toc} />
+				</div>
+			</aside>
+		</div>
+	</main>
+
+	<PageLightbox client:idle />
+
+	<Footer />
+</Root>

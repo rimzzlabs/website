@@ -1,34 +1,26 @@
 import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
+
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField, fontProviders } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
-import { PAGES_FUNCTIONS_PORT, pagesFunctionsDev } from "./scripts/pages-functions-dev.mjs";
+import { shikiCodeMeta } from "./src/lib/markdown/shiki-code-meta.mjs";
 
 // https://astro.build/config
 export default defineConfig({
 	site: "https://rimzzlabs.com",
-	fonts: [
-		{
-			provider: fontProviders.fontsource(),
-			name: "Rubik",
-			cssVariable: "--font-sans",
-			display: "swap",
-			formats: ["woff2", "woff"],
-		},
-	],
+	prefetch: true,
+	server: { port: 5600 },
 	env: {
 		schema: {
 			PUBLIC_CF_TURNSTILE_SITE_KEY: envField.string({
 				context: "client",
 				access: "public",
+				optional: true,
 			}),
-			// Build-time only: query D1 over the REST API to bake recent comments
-			// into the static guestbook HTML (crawlable). Optional — falls back to
-			// client fetching when unset.
 			CLOUDFLARE_ACCOUNT_ID: envField.string({
 				context: "server",
 				access: "secret",
@@ -42,50 +34,64 @@ export default defineConfig({
 		},
 	},
 	devToolbar: { enabled: false },
-	i18n: {
-		locales: ["en", "id"],
-		defaultLocale: "en",
-		routing: { prefixDefaultLocale: false },
-	},
-	// Authorize the thesvg.org CDN so its remote brand icons can be used with the
-	// <Image /> component. https://docs.astro.build/en/guides/images/#authorizing-remote-images
-	// These are SVGs, so use the no-op service to pass them through as-is rather
-	// than rasterizing them through Sharp (which would blur the vector icons).
-	image: {
-		domains: ["thesvg.org"],
-	},
 	markdown: {
 		syntaxHighlight: "shiki",
 		shikiConfig: {
 			themes: { light: "github-light-default", dark: "github-dark-default" },
 			wrap: false,
+			transformers: [shikiCodeMeta()],
 		},
-		processor: unified({ rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] }),
+		processor: unified({
+			rehypePlugins: [
+				rehypeSlug,
+				[
+					rehypeAutolinkHeadings,
+					{
+						behavior: "append",
+						properties: {
+							className: ["heading-anchor"],
+							ariaHidden: "true",
+							tabIndex: -1,
+						},
+					},
+				],
+			],
+		}),
 	},
 	integrations: [
-		react(),
-		mdx(),
-		sitemap({
-			priority: 1,
-			changefreq: "daily",
-			lastmod: new Date(),
-			i18n: { defaultLocale: "en", locales: { en: "en", id: "id" } },
-			// The image sitemap is emitted by its own endpoint and advertised in
-			// robots.txt; keep it out of the page sitemap.
-			filter: (page) => !page.endsWith("/sitemap-images.xml"),
+		react({
+			babel: { plugins: [["babel-plugin-react-compiler", { target: "19" }]] },
 		}),
+		mdx(),
+		sitemap(),
 	],
-
+	fonts: [
+		{
+			provider: fontProviders.fontsource(),
+			name: "Inter",
+			cssVariable: "--font-inter",
+			weights: ["100 900"],
+			styles: ["normal"],
+			subsets: ["latin"],
+		},
+		{
+			provider: fontProviders.fontsource(),
+			name: "JetBrains Mono",
+			cssVariable: "--font-jetbrains-mono",
+			weights: ["100 800"],
+			styles: ["normal"],
+			subsets: ["latin"],
+		},
+		{
+			provider: fontProviders.fontsource(),
+			name: "Lora",
+			cssVariable: "--font-lora",
+			weights: ["300 900"],
+			styles: ["normal"],
+			subsets: ["latin"],
+		},
+	],
 	vite: {
-		server: {
-			proxy: { "/api": { target: `http://127.0.0.1:${PAGES_FUNCTIONS_PORT}` } },
-		},
-		build: {
-			// The only chunk over the default 500 kB is the contact form's rich-text
-			// editor (Tiptap + ProseMirror), which is lazy-loaded on dialog open and
-			// never in the critical path — so the warning here is a false positive.
-			chunkSizeWarningLimit: 600,
-		},
-		plugins: [tailwindcss(), pagesFunctionsDev()],
+		plugins: [tailwindcss()],
 	},
 });

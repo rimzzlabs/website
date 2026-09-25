@@ -1,38 +1,42 @@
-import { type CollectionEntry, getCollection } from "astro:content";
-import { DEFAULT_LOCALE, type Lang } from "@/i18n/config";
-import { parseNoteId } from "@/i18n/utils";
+import { getCollection } from "astro:content";
+import { A, AR, pipe, S } from "@mobily/ts-belt";
+import { parsePublishedAt } from "@/lib/datetime";
 
-export type Note = CollectionEntry<"notes">;
-
-export type LocalizedNote = { slug: string; note: Note; translated: boolean };
-
-function isPublished(note: Note) {
-	return import.meta.env.PROD ? note.data.status === "published" : true;
+function getTime(publishedAt: string) {
+	return parsePublishedAt(publishedAt).getTime();
 }
 
-/**
- * Notes for `lang`, sorted newest-first, falling back to the English entry when a
- * translation is missing. `translated` is false when the entry is the fallback.
- */
-export async function getNotes(lang: Lang): Promise<Array<LocalizedNote>> {
-	const all = await getCollection("notes");
-	const bySlug = new Map<string, Partial<Record<Lang, Note>>>();
+export function getNotes(lang: "en" | "id" = "en") {
+	return pipe(
+		AR.make(getCollection("notes")),
+		AR.map((res) =>
+			pipe(
+				res,
+				A.filter((note) => note.id.startsWith(lang)),
+				A.map((note) => ({
+					...note,
 
-	for (const note of all) {
-		const { lang: noteLang, slug } = parseNoteId(note.id);
-		bySlug.set(slug, { ...bySlug.get(slug), [noteLang]: note });
-	}
-
-	const result: Array<LocalizedNote> = [];
-	for (const [slug, entry] of bySlug) {
-		const localized = entry[lang];
-		const note = localized ?? entry[DEFAULT_LOCALE];
-		if (!note || !isPublished(note)) continue;
-		result.push({ slug, note, translated: Boolean(localized) });
-	}
-
-	return result.sort(
-		(a, b) =>
-			new Date(b.note.data.publishedAt).getTime() - new Date(a.note.data.publishedAt).getTime(),
+					slug: pipe(note.id, S.split("/"), A.getUnsafe(1)),
+					url: pipe(
+						note.id,
+						S.split("/"),
+						A.getUnsafe(1),
+						S.prepend("/notes/"),
+					),
+					dateISO: parsePublishedAt(note.data.publishedAt).toISOString(),
+				})),
+			),
+		),
+		AR.tapError((error) => {
+			console.info("Failed to fetch collections", error);
+		}),
+		AR.match(
+			A.sort(
+				(x, y) => getTime(y.data.publishedAt) - getTime(x.data.publishedAt),
+			),
+			() => [],
+		),
 	);
 }
+
+export type Note = Awaited<ReturnType<typeof getNotes>>[number];

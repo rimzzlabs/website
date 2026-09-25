@@ -1,6 +1,5 @@
+import { cn } from "cn";
 import type { ReactNode } from "react";
-
-import { cn } from "@/lib/utils";
 
 interface PlaygroundProps {
 	title: string;
@@ -10,10 +9,12 @@ interface PlaygroundProps {
 
 export function Playground(props: PlaygroundProps) {
 	return (
-		<div className="not-prose my-8 overflow-hidden rounded-xl border border-border bg-card text-card-foreground">
+		<div className="not-typeset my-8 overflow-hidden rounded-xl border border-border bg-card text-card-foreground">
 			<div className="border-b border-border bg-muted/40 px-4 py-3">
 				<p className="text-sm font-semibold">{props.title}</p>
-				<p className="mt-1 text-xs leading-relaxed text-muted-foreground">{props.hint}</p>
+				<p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+					{props.hint}
+				</p>
 			</div>
 			<div className="space-y-4 p-4">{props.children}</div>
 		</div>
@@ -27,10 +28,14 @@ interface PlaygroundChoiceProps<T extends string> {
 	onSelect: (value: T) => void;
 }
 
-export function PlaygroundChoice<T extends string>(props: PlaygroundChoiceProps<T>) {
+export function PlaygroundChoice<T extends string>(
+	props: PlaygroundChoiceProps<T>,
+) {
 	return (
 		<div>
-			<p className="mb-2 text-xs font-medium text-muted-foreground">{props.label}</p>
+			<p className="mb-2 text-xs font-medium text-muted-foreground">
+				{props.label}
+			</p>
 			<div className="flex flex-wrap gap-2">
 				{props.options.map((option) => (
 					<button
@@ -39,7 +44,7 @@ export function PlaygroundChoice<T extends string>(props: PlaygroundChoiceProps<
 						data-active={props.value === option.value}
 						aria-pressed={props.value === option.value}
 						onClick={() => props.onSelect(option.value)}
-						className="rounded-lg border border-border bg-background px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[active=true]:border-transparent data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
+						className="rounded-sm border border-border bg-background px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[active=true]:border-transparent data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
 					>
 						{option.label}
 					</button>
@@ -57,7 +62,9 @@ interface PlaygroundCodeProps {
 export function PlaygroundCode(props: PlaygroundCodeProps) {
 	return (
 		<div>
-			<p className="mb-2 text-xs font-medium text-muted-foreground">{props.label}</p>
+			<p className="mb-2 text-xs font-medium text-muted-foreground">
+				{props.label}
+			</p>
 			<pre className="overflow-x-auto rounded-lg border border-border bg-muted/40 p-3 font-mono text-xs leading-relaxed">
 				{props.children}
 			</pre>
@@ -85,7 +92,9 @@ export function PlaygroundResultRow(props: PlaygroundResultRowProps) {
 				{props.code}
 			</p>
 			<div className="flex flex-col gap-1 px-3 py-2">
-				<span className="text-[11px] font-medium text-muted-foreground">{props.label}</span>
+				<span className="text-[11px] font-medium text-muted-foreground">
+					{props.label}
+				</span>
 				<span
 					className={cn(
 						"rounded-md border px-2 py-1 font-mono text-xs wrap-break-word",

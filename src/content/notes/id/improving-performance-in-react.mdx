@@ -79,11 +79,11 @@ Ada beberapa cara untuk menerapkan code-splitting di aplikasi React.js, seperti 
 
 ### Suspending Komponen
 
-Untuk menerapkan code splitting di aplikasi React kamu, kamu bisa memakai `React.lazy` dan `React.suspense`.
+Untuk menerapkan code splitting di aplikasi React kamu, kamu bisa memakai `React.lazy` dan `React.Suspense`.
 
 `React.lazy` memungkinkanmu melakukan dynamic import terhadap sebuah komponen, sehingga komponen tersebut hanya dimuat saat dibutuhkan. Ini dilakukan memakai fungsi `import()`, yang mengembalikan promise yang resolve ke module yang kamu import.
 
-`React.suspense` adalah higher-order component yang bisa kamu pakai untuk membungkus dynamic import di dalam komponen `<Suspense>`. Ini akan menampilkan komponen fallback selagi kode untuk komponen yang di-dynamic-import sedang dimuat.
+`React.Suspense` adalah komponen yang kamu pakai untuk membungkus komponen yang di-_lazy load_. Ia menampilkan _fallback_ selama kode komponen itu masih dimuat.
 
 Berikut contoh cara memakai `React.lazy` dan `React.Suspense` di aplikasimu:
 
@@ -107,7 +107,7 @@ Pada contoh ini, komponen `MyComponent` tidak akan dimuat sampai dibutuhkan, dan
 
 > Untuk membaca lebih lanjut tentang Vite.js, silakan [ikuti tautan ini tentang Vite.js](https://vitejs.dev/guide)
 
-Selain memakai `React.lazy` dan `React.suspense`, cara lain untuk menerapkan code splitting di aplikasi React kamu adalah dengan memakai tool bernama Vite.js sebagai frontend tooling.
+Selain memakai `React.lazy` dan `React.Suspense`, cara lain untuk menerapkan code splitting di aplikasi React kamu adalah dengan memakai tool bernama Vite.js sebagai frontend tooling.
 
 Vite.js adalah build tool yang ringan, sederhana, dan cepat, dirancang khusus untuk aplikasi JavaScript modern. Vite.js memakai Rollup di bawahnya, artinya kamu bisa memakai semua teknik code-splitting yang sama seperti yang kamu pakai dengan Rollup di project Vite.js kamu.
 
@@ -215,7 +215,11 @@ export const ProductList = ({ products, filter, sortBy }) => {
       );
     }
     // Sort the products based on the sortBy criteria
-    return filteredProducts.sort((a, b) => a[sortBy] > b[sortBy]);
+    return filteredProducts.toSorted((a, b) => {
+      if (a[sortBy] < b[sortBy]) return -1;
+      if (a[sortBy] > b[sortBy]) return 1;
+      return 0;
+    });
   }, [products, filter, sortBy]);
 
   return (

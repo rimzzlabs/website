@@ -1,0 +1,22 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome
+      glob: "*.{js,jsx,ts,tsx,json,jsonc,css}"
+      run: pnpm biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+    - name: prettier
+      glob: "*.{md,yml,yaml}"
+      run: pnpm prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+
+pre-push:
+  jobs:
+    - name: typecheck-ts
+      run: tsc --noEmit
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}

@@ -1,0 +1,32 @@
+---
+import { cn } from "cn";
+import { buttonVariants } from "../ui/button";
+import { NavigationBarMobile } from "./navigation-bar-mobile";
+import { NavigationBarSettings } from "./navigation-bar-settings";
+import { NavigationBarTheme } from "./navigation-bar-theme";
+import { NAVIGATION_LINKS } from "./navigation-links";
+---
+
+<header class="wrapper hidden items-center h-12 md:flex">
+	<nav
+		aria-label="Main"
+		class="inline-flex items-center gap-1 text-muted-foreground -ml-2.5"
+	>
+		{NAVIGATION_LINKS.map((link) => (
+	<a
+		href={link.href}
+		class={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+	>
+		{link.label}
+	</a>
+))}
+	</nav>
+
+	<nav class="inline-flex items-center gap-1 ml-auto">
+		<NavigationBarTheme client:load />
+
+		<NavigationBarSettings client:load />
+	</nav>
+</header>
+
+<NavigationBarMobile client:load />

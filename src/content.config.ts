@@ -6,16 +6,12 @@ const noteSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	keywords: z.array(z.string()),
-	publishedAt: z.string(),
+	publishedAt: z
+		.string()
+		.regex(/^\d{2}\/\d{2}\/\d{4}$/, "Use MM/DD/YYYY, for example 09/25/2026."),
 	status: z.enum(["published", "draft"]),
 	featured: z.boolean(),
 	author: reference("authors"),
-});
-
-const authorsSchema = z.object({
-	fullName: z.string(),
-	username: z.string(),
-	url: z.string(),
 });
 
 const notes = defineCollection({
@@ -23,9 +19,4 @@ const notes = defineCollection({
 	schema: noteSchema,
 });
 
-const authors = defineCollection({
-	loader: glob({ pattern: "**/*.json", base: "./src/content/authors" }),
-	schema: authorsSchema,
-});
-
-export const collections = { notes, authors };
+export const collections = { notes };

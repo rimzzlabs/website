@@ -1,0 +1,94 @@
+---
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+
+const GROUPS = [
+	{
+		id: "footer-pages",
+		title: "Pages",
+		links: [
+			{ label: "Notes", href: "/notes", external: false },
+			{ label: "Guestbook", href: "/guestbook", external: false },
+			{ label: "Now", href: "/now", external: false },
+			{ label: "Archive", href: "/archive", external: false },
+		],
+	},
+	{
+		id: "footer-connect",
+		title: "Connect",
+		links: [
+			{ label: "GitHub", href: "https://github.com/rimzzlabs", external: true },
+			{
+				label: "LinkedIn",
+				href: "https://www.linkedin.com/in/rimzzlabs",
+				external: true,
+			},
+			{
+				label: "Facebook",
+				href: "https://www.facebook.com/rimzzlabs",
+				external: true,
+			},
+		],
+	},
+	{
+		id: "footer-resources",
+		title: "Resources",
+		links: [
+			{
+				label: "Résumé",
+				href: "/attachments/rizki_citra_resume.pdf",
+				external: true,
+			},
+			{
+				label: "Source code",
+				href: "https://github.com/rimzzlabs/website",
+				external: true,
+			},
+		],
+	},
+];
+---
+
+<footer class="wrapper pt-20 pb-24 md:pb-10">
+	<div
+		class="flex flex-col gap-10 border-t pt-10 md:flex-row md:justify-between"
+	>
+		<p class="font-mono text-sm font-medium">
+			<a href="/">@rimzzlabs</a>
+		</p>
+
+		<div class="flex flex-col gap-10 sm:flex-row sm:gap-16">
+			{GROUPS.map((group) => (
+	<nav aria-labelledby={group.id}>
+		<h2 id={group.id} class="pb-3 font-mono text-xs text-muted-foreground">
+			{group.title}
+		</h2>
+		<ul class="flex flex-col gap-2 text-sm">
+			{group.links.map((link) => (
+				<li>
+					{link.external ? (
+						<a
+							href={link.href}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-1 transition hover:text-primary"
+						>
+							{link.label}
+							<ArrowUpRightIcon
+								aria-hidden="true"
+								className="size-[1em] text-muted-foreground"
+							/>
+							<span class="sr-only">, opens in a new tab</span>
+						</a>
+					) : (
+						<a href={link.href} class="transition hover:text-primary">
+							{link.label}
+						</a>
+					)}
+				</li>
+			))}
+		</ul>
+	</nav>
+))}
+		</div>
+	</div>
+</footer>

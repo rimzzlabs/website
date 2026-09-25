@@ -201,7 +201,7 @@ Jika linting berhasil dan tidak ada error, pesan sukses akan dicetak lalu script
 
 Buat script baru di dalam `package.json` agar perintah ini otomatis berjalan setiap kali project diinstal:
 
-```json {5} title="./package.json" showLineNumbers
+```json ins={5} title="./package.json" showLineNumbers
 {
   "name": "app name",
   "version": "0.0.0",
@@ -231,7 +231,7 @@ Setelah instalasi selesai, mari buat konfigurasi untuk lint-staged. Lint-staged 
 
 Di artikel ini saya akan menunjukkan cara memakai object lint-staged di dalam package.json:
 
-```json title="./package.json" {9-12}
+```json title="./package.json" ins={9-12}
 {
   "name": "app name",
   "version": "0.0.0",
@@ -286,7 +286,7 @@ Perintah di atas melakukan tiga hal:
 - Menyimpannya ke dalam dependencies atau devDependencies di `package.json`
 - Menambahkan key `config.commitizen` ke root `package.json` kamu seperti berikut:
 
-```json {13-17} title="./package.json" showLineNumbers
+```json ins={13-17} title="./package.json" showLineNumbers
 {
   "name": "app name",
   "version": "0.0.0",

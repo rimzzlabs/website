@@ -1,0 +1,159 @@
+---
+import { A, F, G, O, pipe, S } from "@mobily/ts-belt";
+import { SEO, type SEOProps } from "astro-seo";
+
+interface Props {
+	title: string;
+	description: string;
+	article?: Partial<NonNullable<SEOProps["openGraph"]>["article"]>;
+	image?: Required<NonNullable<SEOProps["openGraph"]>["image"]>;
+	keywords?: string[];
+	noindex?: boolean;
+}
+
+const { title, description, article, noindex, ...props } = Astro.props;
+
+const robots = noindex ? "noindex, follow" : "index, follow";
+const googlebot = noindex
+	? "noindex, follow"
+	: "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1";
+
+const pathname = Astro.url.pathname;
+// Match Astro's directory build format (trailing slash) so hreflang URLs line up with canonicals.
+const withTrailingSlash = (p: string) => (p.endsWith("/") ? p : `${p}/`);
+const canonical = new URL(pathname, Astro.site).href;
+
+const type = article ? "article" : "website";
+
+// Open Graph requires absolute URLs; build them from the configured `site`.
+const ogImageUrl = new URL("/og-image.png", Astro.site).href;
+const ogImage = {
+	height: 630,
+	width: 1200,
+	type: "image/png",
+	url: ogImageUrl,
+	secureUrl: ogImageUrl,
+	alt: "Rizki Citra, Software Engineer",
+};
+
+const personId = new URL("/#person", Astro.site).href;
+const websiteId = new URL("/#website", Astro.site).href;
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": personId,
+			name: "Rizki Citra",
+			url: Astro.site?.href,
+			jobTitle: "Software Engineer",
+			image: ogImageUrl,
+			sameAs: [
+				"https://github.com/rimzzlabs",
+				"https://linkedin.com/in/rimzzlabs",
+				"https://x.com/rimzzlabs",
+			],
+		},
+		{
+			"@type": "WebSite",
+			"@id": websiteId,
+			name: "rimzzlabs",
+			url: Astro.site?.href,
+			// inLanguage: lang,
+			publisher: { "@id": personId },
+		},
+		{
+			"@type": article ? "Article" : "WebPage",
+			"@id": canonical,
+			url: canonical,
+			name: title,
+			description,
+			// inLanguage: lang,
+			isPartOf: { "@id": websiteId },
+			primaryImageOfPage: ogImage.url.toString(),
+			...(article && {
+				headline: title,
+				author: { "@id": personId },
+				datePublished: article.publishedTime,
+				dateModified: article.modifiedTime ?? article.publishedTime,
+			}),
+		},
+	],
+};
+---
+
+<SEO
+	{title}
+	{description}
+	{canonical}
+	openGraph={{
+	article,
+	image: ogImage,
+	optional: {
+		description,
+		// locale: dict.ogLocale,
+		siteName: "rimzzlabs",
+	},
+	basic: { title, type, image: ogImage.url.toString() },
+}}
+	twitter={{
+	title,
+	description,
+	image: ogImage.url.toString(),
+	card: "summary_large_image",
+	creator: "@rimzzlabs",
+	site: "@rimzzlabs",
+	imageAlt: "Rizki Citra, Software Engineer",
+}}
+	extend={{
+	link: [
+		{ rel: "sitemap", href: "/sitemap-index.xml" },
+		{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+		{
+			rel: "icon",
+			type: "image/png",
+			sizes: "48x48",
+			href: "/favicon-48.png",
+		},
+		{
+			rel: "icon",
+			type: "image/png",
+			sizes: "96x96",
+			href: "/favicon-96.png",
+		},
+		{ rel: "shortcut icon", href: "/favicon.ico" },
+		{
+			rel: "apple-touch-icon",
+			sizes: "180x180",
+			href: "/apple-touch-icon.png",
+		},
+		{ rel: "manifest", href: "/site.webmanifest" },
+	],
+	meta: [
+		{ property: "og:locale:alternate" /*content: altOgLocale */ },
+		{ name: "keywords" /**content: keywords */ },
+		{ name: "author", content: "Rizki Citra" },
+		{ name: "publisher", content: "Rizki Citra" },
+		{ name: "generator", content: Astro.generator },
+		{ name: "robots", content: robots },
+		{
+			name: "viewport",
+			content:
+				"width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover",
+		},
+		{ name: "googlebot", content: googlebot },
+	],
+}}
+/>
+<!-- theme-color needs a `media` attribute, which astro-seo's extend.meta can't express -->
+<meta
+	name="theme-color"
+	media="(prefers-color-scheme: light)"
+	content="#fbfaf9"
+>
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a09">
+<script
+	is:inline
+	type="application/ld+json"
+	set:html={JSON.stringify(jsonLd)}
+/>

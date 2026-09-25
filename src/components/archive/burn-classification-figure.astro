@@ -1,0 +1,21 @@
+---
+import burnStages from "@/assets/archive/burn-damage-classification.jpg";
+import PhotoGallery from "@/components/media/photo-gallery/photo-gallery.astro";
+import { toPhotoSource } from "@/lib/photo-source";
+
+const ALT =
+	"AI-generated infographic titled Burn Damage Stages. Five hands show normal skin, then first-, second-, third-, and fourth-degree burns, from light redness to blisters to charred skin. Below them, a cross section of skin shows each burn reaching deeper: first degree stays in the epidermis, second degree reaches the dermis, third degree destroys the epidermis and dermis, and fourth degree extends into fat, muscle, and bone.";
+
+const photo = await toPhotoSource({ src: burnStages, alt: ALT });
+---
+
+<figure class="mt-8">
+	<PhotoGallery photos={[photo]} />
+	<figcaption class="mt-2 text-sm text-pretty text-muted-foreground">
+		<span class="font-medium text-foreground">AI-generated illustration.</span>
+		{" "}
+		It shows the burn stages from normal skin to fourth degree. It may not be
+		medically accurate, so treat it as a rough picture, not a reference. Tap to
+		zoom in.
+	</figcaption>
+</figure>

@@ -79,7 +79,7 @@ import { atom } from "jotai";
 type TUserRole = "admin" | "user";
 type TUser = {
   name: string;
-  role: Role;
+  role: TUserRole;
 };
 
 const userAtom = atom<TUser>({ name: "Rizki", role: "user" });
@@ -108,12 +108,12 @@ Sekarang konsep ini sudah dipahami, mari buat beberapa recipes.
 Composing atom adalah cara mentransformasi atom lewat beberapa pemanggilan fungsi. Nilai yang dikembalikan harus bisa diprediksi dan tidak memiliki side effect.
 
 ```ts title="@/atoms/compose.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import type { Atom } from "jotai";
 
-type ComposeAtomFn<T> = (value: PrimitiveAtom<T>) => PrimitiveAtom<T>;
+type ComposeAtomFn<T> = (value: Atom<T>) => Atom<T>;
 
-export function composePrimitiveAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
-  return (value: PrimitiveAtom<T>) => {
+export function composeAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
+  return (value: Atom<T>) => {
     return fns.reduce((currentValue, fun) => fun(currentValue), value);
   };
 }
@@ -126,7 +126,7 @@ Switch. Semua orang butuh boolean value, jadi mari buat boolean recipes.
 Biasanya boolean value dikelola dengan React.useState untuk menangani state open atau closed, seperti sidebar atau dialog. Tapi bagaimana jika ini bisa dikemas dengan baik memakai Jotai?
 
 ```ts title="@/atoms/boolean.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type PrimitiveAtom } from "jotai";
 
 export function openAtom(boolAtom: PrimitiveAtom<boolean>) {
   return atom(null, (_, set) => set(boolAtom, true));
@@ -186,7 +186,7 @@ export function Header() {
   const openSidebar = useSetAtom(openSidebarAtom);
   return (
     <header>
-      // other content might be here
+      {/* other content might be here */}
       <button onClick={openSidebar}>
         <MenuIcon />
       </button>
@@ -202,23 +202,27 @@ String recipes biasanya berupa atom `read-only`. String atom diambil lalu ditran
 Ini sangat membantu ketika bekerja dengan string value, misalnya mengubah string menjadi lowercase, [encoding string ke URI component](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent "Encoding URI Component"), dan sebagainya.
 
 ```ts title="@/atoms/string.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type Atom } from "jotai";
 
-export function upperCaseAtom(stringAtom: PrimitiveAtom<string>) {
+export function upperCaseAtom(stringAtom: Atom<string>) {
   return atom((get) => get(stringAtom).toUpperCase());
 }
 
-export function lowerCaseAtom(stringAtom: PrimitiveAtom<string>) {
-  return atom((get) => get(stringAtom).toUpperCase());
+export function lowerCaseAtom(stringAtom: Atom<string>) {
+  return atom((get) => get(stringAtom).toLowerCase());
+}
+
+export function noSpaceStringAtom(stringAtom: Atom<string>) {
+  return atom((get) => get(stringAtom).replace(/\s+/g, ""));
 }
 ```
 
 Encoding string ke URI component.
 
 ```ts title="@/atoms/string.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type Atom } from "jotai";
 
-export function encodeURIAtom(stringAtom: PrimitiveAtom<string>) {
+export function encodeURIAtom(stringAtom: Atom<string>) {
   return atom((get) => encodeURIComponent(get(stringAtom)));
 }
 ```
@@ -228,7 +232,7 @@ export function encodeURIAtom(stringAtom: PrimitiveAtom<string>) {
 Memanipulasi angka dengan atom sangat mudah. Mulai dari matematika dasar.
 
 ```ts title="@/atoms/number.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type PrimitiveAtom } from "jotai";
 
 export function addAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => get(numberAtom) + 1);
@@ -247,7 +251,7 @@ export function minusAtom(numberAtom: PrimitiveAtom<number>) {
 Selanjutnya, angka bisa ditransformasi menjadi nilai yang terformat dengan baik, misalnya memformat angka menjadi mata uang.
 
 ```ts title="@/atoms/number.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type PrimitiveAtom } from "jotai";
 
 export function formatNumberAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => {
@@ -265,14 +269,19 @@ export function formatNumberAtom(numberAtom: PrimitiveAtom<number>) {
 Mulai dengan array recipes dasar. Ada array berisi daftar object, dan array tersebut harus difilter berdasarkan input pengguna.
 
 ```ts title="@/atoms/array.ts" showLineNumbers
+import { composeAtom } from "@/atoms/compose";
+import { lowerCaseAtom, noSpaceStringAtom } from "@/atoms/string";
+
 import { atom } from "jotai";
+
+type Food = { name: string };
 
 export const inputAtom = atom("");
 export const clearInputAtom = composeAtom(
   lowerCaseAtom,
   noSpaceStringAtom,
 )(inputAtom);
-export const foodsAtom = atom([]);
+export const foodsAtom = atom<Array<Food>>([]);
 export const filteredFoodsAtom = atom((get) => {
   const search = get(clearInputAtom);
   const foods = get(foodsAtom);
@@ -291,19 +300,21 @@ Dengan begitu, `filteredFoodsAtom` akan memfilter `foodsAtom` berdasarkan nilai 
 
 Fungsi murni untuk membersihkan string juga bisa dibuat.
 
-```ts title="@/util/clearstring"
+```ts title="@/utils/clearString.ts"
 export const clearString = (s: string) => s.toLowerCase().replace(/\s+/g, "");
 ```
 
 Sekarang, mari refactor `filteredFoodsAtom`.
 
-```ts {12-16} title="@/atoms.ts" showLineNumbers
+```ts ins={12-16} title="@/atoms.ts" showLineNumbers
 import { clearString } from "@/utils/clearString";
 
 import { atom } from "jotai";
 
+type Food = { name: string };
+
 export const inputAtom = atom("");
-export const foodsAtom = atom([]);
+export const foodsAtom = atom<Array<Food>>([]);
 export const filteredFoodsAtom = atom((get) => {
   const search = get(inputAtom);
   const foods = get(foodsAtom);
@@ -325,12 +336,14 @@ Mengurutkan array atom mudah, sama seperti contoh sebelumnya, cukup diurutkan.
 import { compareDesc } from "date-fns";
 import { atom } from "jotai";
 
-export const postAtoms = atom([]);
+type Post = { title: string; publishedAt: Date };
+
+export const postAtoms = atom<Array<Post>>([]);
 
 export const latestPostAtoms = atom((get) => {
   const posts = get(postAtoms);
 
-  return posts.slice(0).sort((a, b) => compareDesc(a, b));
+  return posts.toSorted((a, b) => compareDesc(a.publishedAt, b.publishedAt));
 });
 ```
 

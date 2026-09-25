@@ -1,6 +1,6 @@
 ---
 title: "Jotai Recipes I Commonly Use for My Project"
-description: "To read and modify state on our application with Jotai, we need to use paradigm called Recipes, now lets see how we can utilize those terms to read and modify our state with Jotai"
+description: "Jotai has a pattern called recipes for reading and updating state. Let's see how I use them to read and modify state in my projects."
 publishedAt: "09/30/2023"
 status: "published"
 featured: true
@@ -20,13 +20,13 @@ relatedPosts:
 
 ## Introduction
 
-Jotai takes an atomic approach to global React state management. By combining atoms and renders are automatically optimized based on atom dependency.
+Jotai takes an atomic approach to global React state management. You build state by combining atoms, and renders are optimized automatically based on atom dependencies.
 
-This solves the extra re-render issue of React context, eliminates the need for memoization, and provides a similar developer experience to signals while maintaining a **_declarative programming model_**.
+This solves the extra re-render issue of React context, removes the need for memoization, and gives you a developer experience similar to signals, all while keeping a **_declarative programming model_**.
 
-> If you don't know about Jotai, I have a [post about jotai](/notes/jotai-state-manager) explained you can read, feel free to check it out!
+> If you're new to Jotai, I wrote a [post explaining Jotai](/notes/jotai-state-manager). Feel free to check it out!
 
-To update a state with Jotai, I can simply use built-in Jotai `setter` like so:
+To update state with Jotai, I can use the built-in `setter` like so:
 
 ```tsx showLineNumbers title="app.tsx"
 import { atom, useAtom } from "jotai";
@@ -40,15 +40,15 @@ export default function App() {
 }
 ```
 
-Just a basic usage with Jotai, pretty simple.
+That's basic Jotai usage. Pretty simple.
 
 ## Derived Value
 
-Before coming to know what _recipes_ are in Jotai, we first should know about a derived or computed value.
+Before we get to _recipes_ in Jotai, we need to know what a derived or computed value is.
 
-A derived or computed value is a value obtained from other existing value through some logic, transformation, or calculation.
+A derived or computed value is a value you get from other existing values through some logic, transformation, or calculation.
 
-In programming, a derived or computed values are often used to simplify code, it used to encapsulate logic, and make data manipulation based on existing value to be more convenient.
+In programming, derived values are often used to simplify code, encapsulate logic, and make it more convenient to work with data based on existing values.
 
 ```tsx title="App.tsx" showLineNumbers
 export default function App() {
@@ -63,15 +63,15 @@ export default function App() {
 }
 ```
 
-In the above example we check wether the user is admin or not, if it's admin, the component simply render **"You are admin"**, otherwise it render **"Just a normal user"**.
+In the example above, we check whether the user is an admin. If they are, the component renders **"You are admin"**. Otherwise, it renders **"Just a normal user"**.
 
-The condition to render different UI to the client is by using a derived value `isUserAdmin`.
+The condition that decides which UI to render is the derived value `isUserAdmin`.
 
-Oh wow! we already use a `derived` value here.
+Oh wow! We're already using a `derived` value here.
 
 ## Derived Atoms
 
-Let's move on to derived atoms. Derived atoms are just same as the previous one, we just need to see what the previous values are, and then make some magic to process with the current logic or calculation.
+Let's move on to derived atoms. They work just like the previous example: we look at the existing values, then work some magic with our logic or calculation.
 
 ```ts title="@/atoms.ts" showLineNumbers
 import { atom } from "jotai";
@@ -79,7 +79,7 @@ import { atom } from "jotai";
 type TUserRole = "admin" | "user";
 type TUser = {
   name: string;
-  role: Role;
+  role: TUserRole;
 };
 
 const userAtom = atom<TUser>({ name: "Rizki", role: "user" });
@@ -87,33 +87,33 @@ const userAtom = atom<TUser>({ name: "Rizki", role: "user" });
 const isUserAdminAtom = atom((get) => get(userAtom).role === "admin");
 ```
 
-The above example shows how to create a derived value from the previous atom, very similiar from what we wrote before with `React.useState`.
+The example above shows how to create a derived value from an existing atom. It's very similar to what we wrote before with `React.useState`.
 
-In Jotai, It's called recipes, we can compose atoms to another atoms, or create an atoms based on the previous atoms to make a new value or atom.
+In Jotai, these are called recipes. We can compose atoms into other atoms, or create new atoms based on existing ones to produce a new value.
 
-Jotai allows to create these derived values using a declarative approach and without needing to explicitly manage complex state relationships.
+Jotai lets you create these derived values declaratively, without explicitly managing complex state relationships.
 
 ## Recipes
 
-Recipes are just derived atoms, a derived atoms usually consist of two principle.
+Recipes are just derived atoms, and derived atoms usually follow one of two principles.
 
-A `read-only` atom takes another atom as input and transforms its value through a calculation performed by a function. This changed value can be used to indicate a computation or modification of the value of the original atom as a derived value.
+A `read-only` atom takes another atom as input and transforms its value through a calculation performed by a function. The result is a derived value that reflects a computation or modification of the original atom's value.
 
-A `write-only` atoms serve the purpose of accepting new values through writing mechanisms, like `callbacks`. These new values can then be used to trigger specific actions or update an atom in your `write-only` atom.
+A `write-only` atom accepts new values through a write mechanism, like a `callback`. Those values can then trigger specific actions or update other atoms from inside your `write-only` atom.
 
-Now you know about these terms, let's create some recipes.
+Now that you know these terms, let's create some recipes.
 
 ### 0. Compose Recipes
 
-Composing atoms is a way to transform atoms with multiple function calls; the returned value should be predictable and have no side effects.
+Composing atoms is a way to transform an atom through multiple function calls. The returned value should be predictable and have no side effects.
 
 ```ts title="@/atoms/compose.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import type { Atom } from "jotai";
 
-type ComposeAtomFn<T> = (value: PrimitiveAtom<T>) => PrimitiveAtom<T>;
+type ComposeAtomFn<T> = (value: Atom<T>) => Atom<T>;
 
-export function composePrimitiveAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
-  return (value: PrimitiveAtom<T>) => {
+export function composeAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
+  return (value: Atom<T>) => {
     return fns.reduce((currentValue, fun) => fun(currentValue), value);
   };
 }
@@ -121,12 +121,12 @@ export function composePrimitiveAtom<T>(...fns: Array<ComposeAtomFn<T>>) {
 
 ### 1. Boolean Recipes
 
-Switch! Who doesn't need boolean? Everyone needs boolean value, so let's create boolean recipes.
+Switch! Who doesn't need a boolean? Everyone does, so let's create some boolean recipes.
 
-First, we usually manage a boolean value with React. useState to handle an open or closed state, such as a sidebar or dialog. But what if it can be well-baked with Jotai?.
+We usually manage a boolean with `React.useState` to handle an open or closed state, like a sidebar or dialog. But what if we bake it with Jotai instead?
 
 ```ts title="@/atoms/boolean.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type PrimitiveAtom } from "jotai";
 
 export function openAtom(boolAtom: PrimitiveAtom<boolean>) {
   return atom(null, (_, set) => set(boolAtom, true));
@@ -141,7 +141,7 @@ export function toggleAtom(boolAtom: PrimitiveAtom<boolean>) {
 }
 ```
 
-With that snippet, we can create each handler to manage our `open/closed` state.
+With that snippet, we can create a handler for each action on our `open/closed` state.
 
 ```ts title="@/atoms/sidebar.ts" showLineNumbers
 import { openAtom, closeAtom, toggleAtom } from "@/atoms/boolean";
@@ -154,11 +154,11 @@ export const closeSidebarAtom = closeAtom(sidebarAtom);
 export const toggleSidebarAtom = toggleAtom(sidebarAtom);
 ```
 
-Now let me explain about those codes: `openSidebarAtom`, `closeSidebarAtom`, and `toggleSidebarAtom` are actually a `write-only` atoms, meaning it's actually handlers to mutate our `sidebarAtom`, in Jotai style.
+Let me explain that code: `openSidebarAtom`, `closeSidebarAtom`, and `toggleSidebarAtom` are `write-only` atoms. In other words, they're handlers that mutate our `sidebarAtom`, Jotai style.
 
 Now let's see how we can use those fancy atoms.
 
-On our sidebar component, this sidebar can observe the `sidebarAtom` value and render the UI accordingly. But it can also close the sidebar itself.
+Our sidebar component observes the `sidebarAtom` value and renders the UI accordingly. It can also close itself.
 
 ```tsx title="@/components/sidebar.tsx" showLineNumbers
 import { sidebarAtom, closeSidebarAtom } from "@/atoms/sidebar";
@@ -174,7 +174,7 @@ export function Sidebar() {
 }
 ```
 
-Then, on our button component that triggers the `open/closed` state of the sidebar, the button may be placed on our `<Header />` component.
+Then there's the button that opens the sidebar. It can live in our `<Header />` component.
 
 ```tsx title="@/components/header.tsx" showLineNumbers
 import { openSidebarAtom } from "@/atoms/sidebar";
@@ -186,7 +186,7 @@ export function Header() {
   const openSidebar = useSetAtom(openSidebarAtom);
   return (
     <header>
-      // other content might be here
+      {/* other content might be here */}
       <button onClick={openSidebar}>
         <MenuIcon />
       </button>
@@ -197,38 +197,42 @@ export function Header() {
 
 ### 2. String Recipes
 
-A string recipes usually a `read-only` atoms. Where you take a string atom to be transformed into a new string value.
+A string recipe is usually a `read-only` atom: you take a string atom and transform it into a new string value.
 
-This is very helpful whenever I work with string values, for example, lowercase string, [encoding strings to URI components](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent "Encoding URI Component"), and so on.
+This is very helpful whenever I work with strings, for example, lowercasing a string, [encoding strings to URI components](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent "Encoding URI Component"), and so on.
 
 ```ts title="@/atoms/string.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type Atom } from "jotai";
 
-export function upperCaseAtom(stringAtom: PrimitiveAtom<string>) {
+export function upperCaseAtom(stringAtom: Atom<string>) {
   return atom((get) => get(stringAtom).toUpperCase());
 }
 
-export function lowerCaseAtom(stringAtom: PrimitiveAtom<string>) {
-  return atom((get) => get(stringAtom).toUpperCase());
+export function lowerCaseAtom(stringAtom: Atom<string>) {
+  return atom((get) => get(stringAtom).toLowerCase());
+}
+
+export function noSpaceStringAtom(stringAtom: Atom<string>) {
+  return atom((get) => get(stringAtom).replace(/\s+/g, ""));
 }
 ```
 
-Encoding a string to URI components.
+Here's how to encode a string as a URI component:
 
 ```ts title="@/atoms/string.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type Atom } from "jotai";
 
-export function encodeURIAtom(stringAtom: PrimitiveAtom<string>) {
+export function encodeURIAtom(stringAtom: Atom<string>) {
   return atom((get) => encodeURIComponent(get(stringAtom)));
 }
 ```
 
 ### 3. Number Recipes
 
-Manipulating numbers with atoms is such ease. First, let's start with basic math.
+Manipulating numbers with atoms is easy. Let's start with basic math.
 
 ```ts title="@/atoms/number.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type PrimitiveAtom } from "jotai";
 
 export function addAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => get(numberAtom) + 1);
@@ -244,10 +248,10 @@ export function minusAtom(numberAtom: PrimitiveAtom<number>) {
 }
 ```
 
-Then the cool thing here is that I can transform a number value into a well-formatted value, like formatting numbers into a currency.
+The cool thing is that I can also turn a number into a well-formatted value, like a currency.
 
 ```ts title="@/atoms/number.ts" showLineNumbers
-import type { PrimitiveAtom } from "jotai";
+import { atom, type PrimitiveAtom } from "jotai";
 
 export function formatNumberAtom(numberAtom: PrimitiveAtom<number>) {
   return atom((get) => {
@@ -262,17 +266,22 @@ export function formatNumberAtom(numberAtom: PrimitiveAtom<number>) {
 
 ### 4. Array Recipes
 
-Let's start with basic array recipes. We have an array containing a list of objects, and the array should be filtered based on user input.
+Let's start with a basic array recipe. We have an array of objects, and we want to filter it based on user input.
 
 ```ts title="@/atoms/array.ts" showLineNumbers
+import { composeAtom } from "@/atoms/compose";
+import { lowerCaseAtom, noSpaceStringAtom } from "@/atoms/string";
+
 import { atom } from "jotai";
+
+type Food = { name: string };
 
 export const inputAtom = atom("");
 export const clearInputAtom = composeAtom(
   lowerCaseAtom,
   noSpaceStringAtom
 )(inputAtom);
-export const foodsAtom = atom([]);
+export const foodsAtom = atom<Array<Food>>([]);
 export const filteredFoodsAtom = atom((get) => {
   const search = get(clearInputAtom);
   const foods = get(foodsAtom);
@@ -287,23 +296,25 @@ export const filteredFoodsAtom = atom((get) => {
 });
 ```
 
-That being said, the `filteredFoodsAtom` will filter out the `foodsAtom` based on the `inputAtom` value the user provided.
+Here, `filteredFoodsAtom` filters `foodsAtom` based on the `inputAtom` value the user typed.
 
-Wait, I can actually create a `pure function` to clear the string.
+Wait, I can actually create a `pure function` to clean up the string.
 
-```ts title="@/util/clearstring"
+```ts title="@/utils/clearString.ts"
 export const clearString = (s: string) => s.toLowerCase().replace(/\s+/g, "");
 ```
 
 Now, let's refactor our `filteredFoodsAtom`.
 
-```ts {12-16} title="@/atoms.ts" showLineNumbers
+```ts ins={12-16} title="@/atoms.ts" showLineNumbers
 import { clearString } from "@/utils/clearString";
 
 import { atom } from "jotai";
 
+type Food = { name: string };
+
 export const inputAtom = atom("");
-export const foodsAtom = atom([]);
+export const foodsAtom = atom<Array<Food>>([]);
 export const filteredFoodsAtom = atom((get) => {
   const search = get(inputAtom);
   const foods = get(foodsAtom);
@@ -317,21 +328,23 @@ export const filteredFoodsAtom = atom((get) => {
 });
 ```
 
-Another example is to sort an array; array recipes in Jotai are just like a regular declarative way to mutate your data.
+Another example is sorting an array. Array recipes in Jotai are just a regular declarative way to transform your data.
 
-Sorting an array of atoms is easy; just like in the previous example, we just need to sort it out.
+Sorting an array atom is easy. Just like in the previous example, we derive a new atom that returns the sorted array.
 
 ```ts title="@/atoms.ts" showLineNumbers
 import { compareDesc } from "date-fns";
 import { atom } from "jotai";
 
-export const postAtoms = atom([]);
+type Post = { title: string; publishedAt: Date };
+
+export const postAtoms = atom<Array<Post>>([]);
 
 export const latestPostAtoms = atom((get) => {
   const posts = get(postAtoms);
 
-  return posts.slice(0).sort((a, b) => compareDesc(a, b));
+  return posts.toSorted((a, b) => compareDesc(a.publishedAt, b.publishedAt));
 });
 ```
 
-Well that's all I can think of; I probably have used more than those recipes, but I can't remember them. Maybe in another post, thank you for reading this post!
+Well, that's all I can think of. I've probably used more recipes than these, but I can't remember them right now. Maybe in another post. Thanks for reading!
