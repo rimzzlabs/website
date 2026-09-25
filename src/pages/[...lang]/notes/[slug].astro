@@ -56,8 +56,8 @@ const toc = toTocHeadings(headings);
 	<NavigationBar {locale} />
 	<main class="typeset">
 		<div class="wrapper relative">
-			<header>
-				<h1>{note.data.title}</h1>
+			<header class="pt-10">
+				<h1 class="mt-0!">{note.data.title}</h1>
 			</header>
 
 			{toc.length > 0 && <NoteTocMobile label={t.notes.onThisPage} headings={toc} />}

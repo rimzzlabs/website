@@ -41,8 +41,8 @@ const updatedAt = parsePublishedAt(page.data.updatedAt);
 	<NavigationBar {locale} />
 	<main class="typeset">
 		<div class="wrapper relative">
-			<header>
-				<h1>{page.data.title}</h1>
+			<header class="pt-10">
+				<h1 class="mt-0!">{page.data.title}</h1>
 				<p class="not-typeset pt-4 font-mono text-xs text-muted-foreground">
 					{t.legal.lastUpdated}{" "}
 					<time datetime={updatedAt.toISOString()}
