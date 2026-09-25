@@ -1,5 +1,6 @@
 import {
 	GUESTBOOK_PAGE_SIZE,
+	type GuestbookEditInput,
 	type GuestbookInput,
 	guestbookPageSchema,
 } from "@/lib/guestbook/schema";
@@ -26,4 +27,21 @@ export async function postGuestbookEntry(input: GuestbookSubmission) {
 		body: JSON.stringify(input),
 	});
 	if (!response.ok) throw new Error("Failed to save the entry.");
+}
+
+export async function updateGuestbookEntry(
+	id: number,
+	input: GuestbookEditInput,
+) {
+	const response = await fetch(`/api/guestbook/${id}`, {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(input),
+	});
+	if (!response.ok) throw new Error("Failed to update the entry.");
+}
+
+export async function deleteGuestbookEntry(id: number) {
+	const response = await fetch(`/api/guestbook/${id}`, { method: "DELETE" });
+	if (!response.ok) throw new Error("Failed to delete the entry.");
 }

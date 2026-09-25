@@ -44,6 +44,14 @@ export function createGuestbookAnonymousSchema(messages: GuestbookValidation) {
 	});
 }
 
+export function createGuestbookEditSchema(messages: GuestbookValidation) {
+	return createGuestbookVerifiedSchema(messages).pick({ message: true });
+}
+
+export type GuestbookEditInput = z.infer<
+	ReturnType<typeof createGuestbookEditSchema>
+>;
+
 export type GuestbookInput = z.infer<
 	ReturnType<typeof createGuestbookAnonymousSchema>
 >;
@@ -55,7 +63,9 @@ export const guestbookEntrySchema = z.object({
 	message: z.string(),
 	createdAt: z.number(),
 	authorType: z.enum(AUTHOR_TYPES),
+	authorId: z.string().nullable(),
 	avatar: z.string().nullable(),
+	updatedAt: z.number().nullable(),
 });
 
 export type GuestbookEntry = z.infer<typeof guestbookEntrySchema>;
@@ -78,7 +88,7 @@ export const guestbookQuerySchema = z.object({
 });
 
 export const GUESTBOOK_SELECT =
-	"SELECT id, name, site, message, created_at AS createdAt, author_type AS authorType, avatar_url AS avatar FROM comments WHERE id < ? ORDER BY id DESC LIMIT ?";
+	"SELECT id, name, site, message, created_at AS createdAt, author_type AS authorType, author_id AS authorId, avatar_url AS avatar, updated_at AS updatedAt FROM comments WHERE id < ? ORDER BY id DESC LIMIT ?";
 
 export function toGuestbookPage(
 	rows: ReadonlyArray<GuestbookEntry>,
@@ -87,4 +97,13 @@ export function toGuestbookPage(
 	const items = rows.slice(0, limit);
 	if (rows.length <= limit) return { items, nextCursor: null };
 	return { items, nextCursor: items.at(-1)?.id ?? null };
+}
+
+/** Only people signed in with GitHub can change their own entries. */
+export function isOwnEntry(entry: GuestbookEntry, userId: string | null) {
+	return (
+		userId !== null &&
+		entry.authorType === "github" &&
+		entry.authorId === userId
+	);
 }

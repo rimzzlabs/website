@@ -1,5 +1,21 @@
-import { GithubLogoIcon, UserIcon } from "@phosphor-icons/react";
+import {
+	DotsThreeIcon,
+	GithubLogoIcon,
+	PencilSimpleIcon,
+	TrashIcon,
+	UserIcon,
+} from "@phosphor-icons/react";
+import { useState } from "react";
+import { GuestbookEntryDelete } from "@/components/guestbook/guestbook-entry-delete";
+import { GuestbookEntryEditor } from "@/components/guestbook/guestbook-entry-editor";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
 	Tooltip,
 	TooltipContent,
@@ -25,6 +41,7 @@ interface GuestbookEntryProps {
 	locale: Locale;
 	now: number | null;
 	entry: GuestbookEntryData;
+	own: boolean;
 }
 
 export function GuestbookEntry(props: GuestbookEntryProps) {
@@ -35,6 +52,8 @@ export function GuestbookEntry(props: GuestbookEntryProps) {
 	);
 	const website = toWebsiteUrl(props.entry.site);
 	const initial = props.entry.name.trim().slice(0, 1).toUpperCase();
+	const [editing, setEditing] = useState(false);
+	const [deleting, setDeleting] = useState(false);
 
 	return (
 		<li className="flex gap-3 border-b py-4 first:border-t">
@@ -80,13 +99,57 @@ export function GuestbookEntry(props: GuestbookEntryProps) {
 						className="ml-auto text-xs tabular-nums text-muted-foreground"
 					>
 						{formatEntryTime(props.entry.createdAt, props.now, props.locale)}
+						{props.entry.updatedAt !== null && ` · ${props.copy.edited}`}
 					</time>
+					{props.own && (
+						<DropdownMenu>
+							<DropdownMenuTrigger
+								render={
+									<Button
+										variant="ghost"
+										size="icon-sm"
+										className="-my-1 -mr-2 self-center"
+									/>
+								}
+							>
+								<DotsThreeIcon aria-hidden="true" weight="bold" />
+								<span className="sr-only">{props.copy.entryActions}</span>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end" className="min-w-36">
+								<DropdownMenuItem onClick={() => setEditing(true)}>
+									<PencilSimpleIcon aria-hidden="true" />
+									{props.copy.edit}
+								</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => setDeleting(true)}>
+									<TrashIcon aria-hidden="true" />
+									{props.copy.delete}
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					)}
 				</div>
 
-				<p className="pt-1 text-sm/relaxed text-pretty whitespace-pre-line wrap-break-word">
-					{props.entry.message}
-				</p>
+				{editing ? (
+					<GuestbookEntryEditor
+						copy={props.copy}
+						entry={props.entry}
+						onDone={() => setEditing(false)}
+					/>
+				) : (
+					<p className="pt-1 text-sm/relaxed text-pretty whitespace-pre-line wrap-break-word">
+						{props.entry.message}
+					</p>
+				)}
 			</div>
+
+			{props.own && (
+				<GuestbookEntryDelete
+					copy={props.copy}
+					entryId={props.entry.id}
+					open={deleting}
+					onOpenChange={setDeleting}
+				/>
+			)}
 		</li>
 	);
 }

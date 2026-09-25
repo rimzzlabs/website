@@ -101,7 +101,10 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 		server: {
-			proxy: { "/api": "http://localhost:8788" },
+			proxy: {
+				// Keep the browser's Host, so better-auth sees the same origin as the page.
+				"/api": { target: "http://localhost:8788", changeOrigin: false },
+			},
 		},
 	},
 });
