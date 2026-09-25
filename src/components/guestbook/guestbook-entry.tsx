@@ -60,6 +60,7 @@ export function GuestbookEntry(props: GuestbookEntryProps) {
 								}
 							>
 								{name}
+								<span className="sr-only">{props.copy.opensInNewTab}</span>
 							</TooltipTrigger>
 							<TooltipContent>{toWebsiteLabel(website)}</TooltipContent>
 						</Tooltip>

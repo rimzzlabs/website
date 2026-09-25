@@ -24,6 +24,7 @@ import {
 import { DialogClose } from "@/components/ui/dialog";
 import type { Dictionary } from "@/i18n/en";
 import { fill } from "@/i18n/fill";
+import { isMotionReduced } from "@/lib/motion";
 
 export interface LightboxImage {
 	src: string;
@@ -42,6 +43,7 @@ interface ImageLightboxProps {
 	onSelectedIndexChange?: (index: number) => void;
 }
 
+const PAN_STEP_PX = 80;
 const CONTROL_CLASS = "size-11 aria-disabled:opacity-50";
 
 export function ImageLightbox(props: ImageLightboxProps) {
@@ -107,6 +109,32 @@ export function ImageLightbox(props: ImageLightboxProps) {
 		action();
 	};
 
+	const handleArrowKeys = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		const pans: Record<string, [number, number]> = {
+			ArrowLeft: [PAN_STEP_PX, 0],
+			ArrowRight: [-PAN_STEP_PX, 0],
+			ArrowUp: [0, PAN_STEP_PX],
+			ArrowDown: [0, -PAN_STEP_PX],
+		};
+		const pan = pans[event.key];
+		if (!pan) return;
+
+		if (activeScale > MIN_SCALE) {
+			event.preventDefault();
+			activeApi()?.panBy(pan[0], pan[1]);
+			return;
+		}
+
+		const slides: Record<string, () => void> = {
+			ArrowLeft: () => api?.scrollPrev(),
+			ArrowRight: () => api?.scrollNext(),
+		};
+		const slide = slides[event.key];
+		if (!slide) return;
+		event.preventDefault();
+		slide();
+	};
+
 	const multiple = props.images.length > 1;
 	const zoomPercent = Math.round(activeScale * 100);
 
@@ -115,6 +143,7 @@ export function ImageLightbox(props: ImageLightboxProps) {
 			opts={{
 				startIndex: props.startIndex,
 				loop: multiple,
+				duration: isMotionReduced() ? 1 : 25,
 				watchDrag: multiple
 					? (embla) =>
 							(scalesRef.current.get(embla.selectedScrollSnap()) ??
@@ -125,6 +154,7 @@ export function ImageLightbox(props: ImageLightboxProps) {
 			className="h-dvh"
 			aria-label={props.copy.viewer}
 			onKeyDown={handleKeyDown}
+			onKeyDownCapture={handleArrowKeys}
 		>
 			<CarouselContent className="h-dvh">
 				{props.images.map((image, index) => (

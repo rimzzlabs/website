@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from "react";
 
 import {
+	HTML_LANG,
 	isLocale,
 	LOCALE_COOKIE,
 	LOCALE_NAMES,
@@ -79,7 +80,8 @@ export function NavigationBarSettings(props: NavigationBarSettingsProps) {
 					>
 						{LOCALES.map((locale) => (
 							<DropdownMenuRadioItem key={locale} value={locale}>
-								<TranslateIcon /> {LOCALE_NAMES[locale]}
+								<TranslateIcon />
+								<span lang={HTML_LANG[locale]}>{LOCALE_NAMES[locale]}</span>
 							</DropdownMenuRadioItem>
 						))}
 					</DropdownMenuRadioGroup>

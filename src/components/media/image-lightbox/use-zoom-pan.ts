@@ -16,6 +16,7 @@ export interface ZoomPanApi {
 	zoomIn: () => void;
 	zoomOut: () => void;
 	reset: () => void;
+	panBy: (x: number, y: number) => void;
 }
 
 interface UseZoomPanParams {
@@ -233,8 +234,12 @@ export function useZoomPan(params: UseZoomPanParams) {
 			zoomOut: () =>
 				zoomAtPoint({ x: 0, y: 0 }, transformRef.current.scale / 1.5),
 			reset: () => zoomAtPoint({ x: 0, y: 0 }, MIN_SCALE),
+			panBy: (x, y) => {
+				const current = transformRef.current;
+				applyTransform({ ...current, x: current.x + x, y: current.y + y });
+			},
 		}),
-		[zoomAtPoint],
+		[zoomAtPoint, applyTransform],
 	);
 
 	const style: React.CSSProperties = {

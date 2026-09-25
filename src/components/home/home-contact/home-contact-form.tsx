@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircleIcon, PaperPlaneTiltIcon } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { Dictionary } from "@/i18n/en";
+import { describedBy } from "@/lib/aria";
 import { type ContactInput, createContactSchema } from "@/lib/contact";
 import { useTurnstile } from "@/lib/hooks/use-turnstile";
 
@@ -34,6 +35,7 @@ type SubmitStatus = "idle" | "error" | "success";
 
 export function HomeContactForm(props: HomeContactFormProps) {
 	const [status, setStatus] = useState<SubmitStatus>("idle");
+	const successRef = useRef<HTMLParagraphElement>(null);
 	const turnstile = useTurnstile({ enabled: status !== "success" });
 	const form = useForm<ContactInput>({
 		resolver: zodResolver(createContactSchema(props.copy.validation)),
@@ -59,6 +61,10 @@ export function HomeContactForm(props: HomeContactFormProps) {
 		setStatus("success");
 	};
 
+	useEffect(() => {
+		if (status === "success") successRef.current?.focus();
+	}, [status]);
+
 	if (status === "success") {
 		return (
 			<div className="flex flex-1 flex-col gap-6">
@@ -67,12 +73,15 @@ export function HomeContactForm(props: HomeContactFormProps) {
 					className="flex flex-1 flex-col items-center justify-center gap-3 py-8 text-center"
 				>
 					<CheckCircleIcon className="size-10 text-primary" />
-					<p className="font-serif text-lg font-semibold">
+					<p
+						ref={successRef}
+						tabIndex={-1}
+						className="font-serif text-lg font-semibold outline-none"
+					>
 						{props.copy.successTitle}
 					</p>
 					<p className="max-w-xs text-sm text-pretty text-muted-foreground">
-						Thanks for reaching out. I read every message and I will reply by
-						email.
+						{props.copy.successBody}
 					</p>
 				</div>
 				<div className={props.actionsClassName}>{props.closeButton}</div>
@@ -88,6 +97,8 @@ export function HomeContactForm(props: HomeContactFormProps) {
 			onSubmit={form.handleSubmit(onSubmit)}
 			className="flex flex-1 flex-col gap-6"
 		>
+			<p className="text-xs text-muted-foreground">{props.copy.requiredHint}</p>
+
 			<FieldGroup>
 				<Field data-invalid={Boolean(errors.name)}>
 					<FieldLabel htmlFor="contact-name">
@@ -100,9 +111,12 @@ export function HomeContactForm(props: HomeContactFormProps) {
 						autoComplete="name"
 						placeholder={props.copy.namePlaceholder}
 						aria-invalid={Boolean(errors.name)}
+						aria-describedby={describedBy([
+							Boolean(errors.name) && "contact-name-error",
+						])}
 						{...form.register("name")}
 					/>
-					<FieldError errors={[errors.name]} />
+					<FieldError id="contact-name-error" errors={[errors.name]} />
 				</Field>
 
 				<Field data-invalid={Boolean(errors.email)}>
@@ -118,9 +132,12 @@ export function HomeContactForm(props: HomeContactFormProps) {
 						inputMode="email"
 						placeholder={props.copy.emailPlaceholder}
 						aria-invalid={Boolean(errors.email)}
+						aria-describedby={describedBy([
+							Boolean(errors.email) && "contact-email-error",
+						])}
 						{...form.register("email")}
 					/>
-					<FieldError errors={[errors.email]} />
+					<FieldError id="contact-email-error" errors={[errors.email]} />
 				</Field>
 
 				<Field data-invalid={Boolean(errors.message)}>
@@ -134,10 +151,13 @@ export function HomeContactForm(props: HomeContactFormProps) {
 						rows={5}
 						placeholder={props.copy.messagePlaceholder}
 						aria-invalid={Boolean(errors.message)}
+						aria-describedby={describedBy([
+							Boolean(errors.message) && "contact-message-error",
+						])}
 						className="min-h-32 resize-none"
 						{...form.register("message")}
 					/>
-					<FieldError errors={[errors.message]} />
+					<FieldError id="contact-message-error" errors={[errors.message]} />
 				</Field>
 
 				<input

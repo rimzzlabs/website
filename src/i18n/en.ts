@@ -4,6 +4,7 @@ export const en = {
 		viewFullSize: "{alt}, view full size",
 		close: "Close",
 		optional: "Optional.",
+		skipToContent: "Skip to content",
 	},
 	nav: {
 		main: "Main",
@@ -87,6 +88,7 @@ export const en = {
 		emailPlaceholder: "you@example.com",
 		message: "Message",
 		messagePlaceholder: "What are you working on?",
+		requiredHint: "Fields marked * are required.",
 		send: "Send message",
 		sending: "Sending…",
 		error:
@@ -135,6 +137,7 @@ export const en = {
 		websiteHint: "Optional. Your name will link to it.",
 		message: "Message",
 		messagePlaceholder: "Say hi, share a thought, or leave a note.",
+		requiredHint: "Fields marked * are required.",
 		submit: "Sign the guestbook",
 		submitting: "Signing…",
 		back: "Back",
@@ -148,6 +151,7 @@ export const en = {
 		showMore: "Show more entries",
 		loadingMore: "Loading…",
 		anonymous: "Anonymous",
+		opensInNewTab: ", opens in a new tab",
 		validation: {
 			siteMax: "Please keep the website under 200 characters.",
 			site: "Enter a valid website, for example rimzzlabs.com.",
@@ -226,7 +230,7 @@ export const en = {
 		close: "Close",
 		previous: "Previous image",
 		next: "Next image",
-		help: "Use the left and right arrow keys to change the image. Press plus or minus to zoom, and 0 to reset the zoom.",
+		help: "Use the left and right arrow keys to change the image. Press plus or minus to zoom, and 0 to reset the zoom. When you zoom in, the arrow keys move the image.",
 		pageTitle: "Images on this page",
 		galleryTitle: "Gallery",
 	},

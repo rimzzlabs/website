@@ -492,7 +492,8 @@
 		opacity: 0;
 		transition: opacity 150ms ease;
 	}
-	.typeset :is(h2, h3, h4):hover .heading-anchor {
+	.typeset :is(h2, h3, h4):hover .heading-anchor,
+	.typeset .heading-anchor:focus-visible {
 		opacity: 1;
 	}
 	.typeset .heading-anchor .icon-link::before {
@@ -500,7 +501,7 @@
 	}
 	@media (hover: none) {
 		.typeset .heading-anchor {
-			opacity: 0.45;
+			opacity: 1;
 		}
 	}
 

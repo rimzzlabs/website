@@ -33,7 +33,8 @@ const t = getDictionary(props.locale);
 				rel="noopener noreferrer"
 				class={buttonVariants({ variant: "outline" })}
 			>
-				{t.home.scheduleCall} <ArrowUpRightIcon />
+				{t.home.scheduleCall} <ArrowUpRightIcon aria-hidden="true" />
+				<span class="sr-only">{t.common.opensInNewTab}</span>
 			</a>
 		</div>
 	</div>

@@ -1,4 +1,4 @@
-import { getDictionary, type Locale, localizePath } from "@/i18n";
+import { getDictionary, LOCALES, type Locale, localizePath } from "@/i18n";
 
 export interface NavigationLink {
 	label: string;
@@ -12,4 +12,11 @@ export function getNavigationLinks(locale: Locale): Array<NavigationLink> {
 		{ label: t.notes, href: localizePath("/notes", locale) },
 		{ label: t.guestbook, href: localizePath("/guestbook", locale) },
 	];
+}
+
+export function isCurrentLink(href: string, pathname: string) {
+	const path = pathname.replace(/\/$/, "") || "/";
+	if (path === href) return true;
+	const isHome = LOCALES.some((locale) => localizePath("/", locale) === href);
+	return !isHome && path.startsWith(`${href}/`);
 }

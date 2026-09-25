@@ -32,5 +32,6 @@ export function applyMotionSetting(setting: MotionSetting) {
 }
 
 export function isMotionReduced() {
+	if (typeof document === "undefined") return false;
 	return document.documentElement.dataset.motion === "reduce";
 }

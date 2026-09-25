@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { Dictionary } from "@/i18n/en";
+import { describedBy } from "@/lib/aria";
 import { authClient } from "@/lib/auth-client";
 import { GUESTBOOK_QUERY_KEY, postGuestbookEntry } from "@/lib/guestbook/api";
 import {
@@ -76,6 +77,8 @@ export function GuestbookForm(props: GuestbookFormProps) {
 			onSubmit={form.handleSubmit((values) => mutation.mutate(values))}
 			className="flex flex-col gap-6"
 		>
+			<p className="text-xs text-muted-foreground">{props.copy.requiredHint}</p>
+
 			<FieldGroup>
 				{props.user ? (
 					<div className="flex items-center gap-3">
@@ -109,10 +112,16 @@ export function GuestbookForm(props: GuestbookFormProps) {
 							autoComplete="name"
 							placeholder={props.copy.namePlaceholder}
 							aria-invalid={Boolean(errors.name)}
+							aria-describedby={describedBy([
+								"guestbook-name-hint",
+								Boolean(errors.name) && "guestbook-name-error",
+							])}
 							{...form.register("name")}
 						/>
-						<FieldDescription>{props.copy.optional}</FieldDescription>
-						<FieldError errors={[errors.name]} />
+						<FieldDescription id="guestbook-name-hint">
+							{props.copy.optional}
+						</FieldDescription>
+						<FieldError id="guestbook-name-error" errors={[errors.name]} />
 					</Field>
 				)}
 
@@ -125,10 +134,16 @@ export function GuestbookForm(props: GuestbookFormProps) {
 						autoComplete="url"
 						placeholder={props.copy.websitePlaceholder}
 						aria-invalid={Boolean(errors.site)}
+						aria-describedby={describedBy([
+							"guestbook-site-hint",
+							Boolean(errors.site) && "guestbook-site-error",
+						])}
 						{...form.register("site")}
 					/>
-					<FieldDescription>{props.copy.websiteHint}</FieldDescription>
-					<FieldError errors={[errors.site]} />
+					<FieldDescription id="guestbook-site-hint">
+						{props.copy.websiteHint}
+					</FieldDescription>
+					<FieldError id="guestbook-site-error" errors={[errors.site]} />
 				</Field>
 
 				<Field data-invalid={Boolean(errors.message)}>
@@ -144,10 +159,13 @@ export function GuestbookForm(props: GuestbookFormProps) {
 						placeholder={props.copy.messagePlaceholder}
 						aria-required="true"
 						aria-invalid={Boolean(errors.message)}
+						aria-describedby={describedBy([
+							Boolean(errors.message) && "guestbook-message-error",
+						])}
 						className="min-h-28 resize-none"
 						{...form.register("message")}
 					/>
-					<FieldError errors={[errors.message]} />
+					<FieldError id="guestbook-message-error" errors={[errors.message]} />
 				</Field>
 
 				<input
@@ -166,11 +184,9 @@ export function GuestbookForm(props: GuestbookFormProps) {
 				</p>
 			)}
 
-			{mutation.isSuccess && (
-				<p role="status" className="text-sm text-muted-foreground">
-					{props.copy.success}
-				</p>
-			)}
+			<p role="status" className="text-sm text-muted-foreground empty:sr-only">
+				{mutation.isSuccess && props.copy.success}
+			</p>
 
 			<div className="flex flex-col">
 				<div

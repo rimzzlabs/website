@@ -2,6 +2,8 @@
 import { F, pipe } from "@mobily/ts-belt";
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import { cn } from "cn";
+import { getDictionary } from "@/i18n";
+import { localeFromPath } from "@/i18n/config";
 
 interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
 	href: string;
@@ -10,6 +12,7 @@ interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
 const { href, class: className, target: _1, rel: _2, ...props } = Astro.props;
 
 const isValidURL = href.startsWith("http");
+const t = getDictionary(localeFromPath(Astro.url.pathname));
 
 const target = pipe(
 	isValidURL,
@@ -43,7 +46,9 @@ const rel = pipe(
 >
 	<slot />
 	<ArrowUpRightIcon
+		aria-hidden="true"
 		weight="duotone"
 		className="hidden group-data-[external=true]/link:block size-2.5 mt-2"
 	/>
+	{isValidURL && <span class="sr-only">{t.common.opensInNewTab}</span>}
 </a>
