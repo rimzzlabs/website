@@ -1,18 +1,19 @@
 import { getCollection } from "astro:content";
 import { A, AR, pipe, S } from "@mobily/ts-belt";
+import { DEFAULT_LOCALE, type Locale, localizePath } from "@/i18n/config";
 import { parsePublishedAt } from "@/lib/datetime";
 
 function getTime(publishedAt: string) {
 	return parsePublishedAt(publishedAt).getTime();
 }
 
-export function getNotes(lang: "en" | "id" = "en") {
+export function getNotes(locale: Locale = DEFAULT_LOCALE) {
 	return pipe(
 		AR.make(getCollection("notes")),
 		AR.map((res) =>
 			pipe(
 				res,
-				A.filter((note) => note.id.startsWith(lang)),
+				A.filter((note) => note.id.startsWith(`${locale}/`)),
 				A.map((note) => ({
 					...note,
 
@@ -22,6 +23,7 @@ export function getNotes(lang: "en" | "id" = "en") {
 						S.split("/"),
 						A.getUnsafe(1),
 						S.prepend("/notes/"),
+						(path) => localizePath(path, locale),
 					),
 					dateISO: parsePublishedAt(note.data.publishedAt).toISOString(),
 				})),

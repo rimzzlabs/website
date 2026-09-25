@@ -1,65 +1,13 @@
-import type { ImageMetadata } from "astro";
-import classroom from "@/assets/archive/classroom.webp";
-import coinfest0 from "@/assets/archive/coinfest-0.webp";
-import coinfest1 from "@/assets/archive/coinfest-1.webp";
-import coinfest2 from "@/assets/archive/coinfest-2.webp";
-import festPass from "@/assets/archive/fest-pass.webp";
-import finalAssignment0 from "@/assets/archive/final-assignment-0.webp";
-import graduation0 from "@/assets/archive/graduation-0.webp";
-import laptop from "@/assets/archive/laptop.webp";
-import pc0 from "@/assets/archive/pc-0.webp";
-import pc1 from "@/assets/archive/pc-1.webp";
-import pc2 from "@/assets/archive/pc-2.webp";
-import pcLabs from "@/assets/archive/pc-labs.webp";
-import rebuild0 from "@/assets/archive/rebuild-0.webp";
-import rebuild1 from "@/assets/archive/rebuild-1.webp";
-import rebuild2 from "@/assets/archive/rebuild-2.webp";
-import rebuild3 from "@/assets/archive/rebuild-3.webp";
-import selfie from "@/assets/archive/selfie.webp";
-import wfc0 from "@/assets/archive/wfc-0.webp";
-import wfc1 from "@/assets/archive/wfc-1.webp";
-import ntuGrindingInB2 from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/grinding-in-b2.jpg";
-import ntuMerlion from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/merlion.jpg";
-import ntuCampus from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/ntu-campus.jpg";
-import ntuProfWen from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/prof-wen-yonggang.jpg";
-import { SITE_LOCALE } from "@/lib/datetime";
+import {
+	AMBULANCE_ZIG_ZAG_URL,
+	formatRupiah,
+	ntuNoteUrl,
+	RIZKY_URL,
+} from "./links";
+import * as photo from "./photos";
+import type { ArchiveYear } from "./types";
 
-type TrustedHtml = string;
-
-const NTU_NOTE_URL = "/notes/my-first-trip-abroad-was-a-hackathon-at-ntu";
-const RIZKY_URL = "https://rizzky.xyz";
-
-const AMBULANCE_ZIG_ZAG_URL =
-	"https://open.spotify.com/track/6GURHg5e4zPOa6SOJz3ZpG";
-
-const formatRupiah = new Intl.NumberFormat(SITE_LOCALE, {
-	style: "currency",
-	currency: "IDR",
-	currencyDisplay: "narrowSymbol",
-	maximumFractionDigits: 0,
-}).format;
-
-interface ArchivePhoto {
-	src: ImageMetadata;
-	alt: string;
-}
-
-export interface ArchiveSection {
-	heading: string;
-	paragraphs: ReadonlyArray<TrustedHtml>;
-	figure?: "burn-classification";
-	photos?: ReadonlyArray<ArchivePhoto>;
-}
-
-export interface ArchiveYear {
-	year: number;
-	title: string;
-	paragraphs: ReadonlyArray<TrustedHtml>;
-	sections?: ReadonlyArray<ArchiveSection>;
-	photos: ReadonlyArray<ArchivePhoto>;
-}
-
-export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
+export const ARCHIVE_EN: ReadonlyArray<ArchiveYear> = [
 	{
 		year: 2026,
 		title: "Happening Now",
@@ -90,23 +38,23 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 				paragraphs: [
 					"Getting to Singapore was an adventure of its own. We missed our first flight and spent the night in capsule pods at Soekarno-Hatta. We got lost between Changi and the NTU campus, and a 7-Eleven top-up rescued our transit card. Then came two days of building in Room B2 of the ARC before we pitched on Sunday.",
 					"We came home with the Builder Recognition Award, worth USD 500. The bigger win for me was the trip itself. It was the first time I'd ever flown out of Indonesia, and I got to spend three days at one of the top universities in the world.",
-					`On the last morning, we raced to see the Merlion before our flight, and I was home by August 24. I wrote the whole trip down, missed flight and all, in <a href="${NTU_NOTE_URL}">My First Trip Abroad Was a Hackathon at NTU</a>.`,
+					`On the last morning, we raced to see the Merlion before our flight, and I was home by August 24. I wrote the whole trip down, missed flight and all, in <a href="${ntuNoteUrl("en")}">My First Trip Abroad Was a Hackathon at NTU</a>.`,
 				],
 				photos: [
 					{
-						src: ntuCampus,
+						src: photo.ntuCampus,
 						alt: "An NTU campus road under full sun, buildings in every direction",
 					},
 					{
-						src: ntuGrindingInB2,
+						src: photo.ntuGrindingInB2,
 						alt: "Me and Rizky working at a round table in Room B2 of the ARC",
 					},
 					{
-						src: ntuProfWen,
+						src: photo.ntuProfWen,
 						alt: "From left to right: me, Prof. Wen Yonggang of NTU, and Rizky",
 					},
 					{
-						src: ntuMerlion,
+						src: photo.ntuMerlion,
 						alt: "The Merlion mid-spout over Marina Bay on our last morning",
 					},
 				],
@@ -126,7 +74,7 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 				heading: "A Pan on Fire",
 				paragraphs: [
 					"A few weeks into the new job, I managed to set a pan on fire. It was around 3 p.m. I'd just fried some tempeh and left it to cool while I sat down, with the stove still on.",
-					"My sister was the one who noticed. \"What's that light?\" No idea, I told her, I'd only fried some tempeh. Then it clicked. I got up, turned off the stove, and sat back down, but it was already too late. The pan had pushed the leftover oil past its burning point, and now it was on fire.",
+					"My little sister was the one who noticed. \"What's that light?\" No idea, I told her, I'd only fried some tempeh. Then it clicked. I got up, turned off the stove, and sat back down, but it was already too late. The pan had pushed the leftover oil past its burning point, and now it was on fire.",
 					"Panic took over. All I could think about was stopping this from turning into a real house fire. It was drizzling outside, so my plan was simple: carry the pan out and let the rain deal with it.",
 					"It wasn't a good plan. On the way out, a gust of wind pushed the flames right at my face. I flinched, and that one reflex tilted the pan. Hot oil poured onto my left foot and splashed my right. I tried to brush it off with my left hand, so that got burned too.",
 					"While I waited for the ambulance, I asked ChatGPT for first aid. The advice was to let cool water run gently over the burns, a slow and steady stream rather than a spray.",
@@ -135,7 +83,7 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 			{
 				heading: "Ambulance Zig Zag",
 				paragraphs: [
-					`The ambulance showed up 30 minutes late, and the ride cost me ${formatRupiah(900_000)}. The driver blamed the traffic, but honestly, that one was on me. My phone hadn't shared my location, so the booking went to an ambulance nowhere near me.`,
+					`The ambulance showed up 30 minutes late, and the ride cost me ${formatRupiah(900_000, "en")}. The driver blamed the traffic, but honestly, that one was on me. My phone hadn't shared my location, so the booking went to an ambulance nowhere near me.`,
 					"It took me to the ER of the nearest hospital. Fun fact: that was the first time I'd ever set foot in one.",
 					`Then came the bureaucracy. I didn't have <em lang="id">BPJS</em>, Indonesia's national health insurance, and Iwan Fals's <a href="${AMBULANCE_ZIG_ZAG_URL}" target="_blank" rel="noopener noreferrer">“Ambulance Zig Zag”<span class="sr-only">, opens in a new tab</span></a> suddenly felt a little too real. They put me on a bed and left me there. Nobody checked on me until my friend had sorted out my ID and the payment.`,
 					"Only then did a nurse come over. She put cream on the burns, told me to calm down and slow my breathing, and hooked me up to a saline (NaCl) drip, another first for me. They sent me home with pills too, which I quietly stopped taking after a month. I'm just not a pills person.",
@@ -175,17 +123,20 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 			"In late 2024, I also graduated, closing a three-year chapter at university. It wasn't the biggest or most prestigious school, but it gave me a foundation to build on and the confidence to keep going.",
 		],
 		photos: [
-			{ src: festPass, alt: "Rizki's festival pass for Coinfest Asia" },
-			{ src: coinfest1, alt: "Rizki with the Indodax mascot" },
-			{ src: coinfest0, alt: "Rizki with the Bitwyre team" },
-			{ src: coinfest2, alt: "Rizki's portrait with the Mandala Chain team" },
+			{ src: photo.festPass, alt: "Rizki's festival pass for Coinfest Asia" },
+			{ src: photo.coinfest1, alt: "Rizki with the Indodax mascot" },
+			{ src: photo.coinfest0, alt: "Rizki with the Bitwyre team" },
 			{
-				src: finalAssignment0,
+				src: photo.coinfest2,
+				alt: "Rizki's portrait with the Mandala Chain team",
+			},
+			{
+				src: photo.finalAssignment0,
 				alt: "Interviewing a local shop for Rizki's final assignment",
 			},
 			{
-				src: graduation0,
-				alt: "Rizki's graduation portrait with his mother and sister",
+				src: photo.graduation0,
+				alt: "Rizki's graduation portrait with his mother and girlfriend",
 			},
 		],
 	},
@@ -198,10 +149,10 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 			"I was also juggling the full-time job, university, and some freelance work with a friend that came through Facebook. We wrapped those projects up in three months without dropping anything. Looking back, I'm still surprised how much fit into one year.",
 		],
 		photos: [
-			{ src: rebuild1, alt: "Rizki's second PC build parts" },
-			{ src: rebuild0, alt: "Rizki's second PC build, next to a laptop" },
-			{ src: rebuild3, alt: "Dual-booting Windows with EndeavourOS" },
-			{ src: rebuild2, alt: "Rizki's second PC build, final look" },
+			{ src: photo.rebuild1, alt: "Rizki's second PC build parts" },
+			{ src: photo.rebuild0, alt: "Rizki's second PC build, next to a laptop" },
+			{ src: photo.rebuild3, alt: "Dual-booting Windows with EndeavourOS" },
+			{ src: photo.rebuild2, alt: "Rizki's second PC build, final look" },
 		],
 	},
 	{
@@ -213,8 +164,8 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 			"Three months in, they hired me full-time as a frontend developer and moved me onto client projects, most of them under NDA. Going from intern to full-timer while keeping up with university was my first real career milestone.",
 		],
 		photos: [
-			{ src: wfc0, alt: "Rizki's laptop cafe setup with an iced coffee" },
-			{ src: wfc1, alt: "Rizki's portrait working from a cafe" },
+			{ src: photo.wfc0, alt: "Rizki's laptop cafe setup with an iced coffee" },
+			{ src: photo.wfc1, alt: "Rizki's portrait working from a cafe" },
 		],
 	},
 	{
@@ -226,8 +177,11 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 			"Between classes, I kept shipping small projects to stay sharp. That year of discipline laid the groundwork for everything that came after.",
 		],
 		photos: [
-			{ src: selfie, alt: "Rizki's selfie, jacket still wet after the rain" },
-			{ src: laptop, alt: "Rizki's first laptop" },
+			{
+				src: photo.selfie,
+				alt: "Rizki's selfie, jacket still wet after the rain",
+			},
+			{ src: photo.laptop, alt: "Rizki's first laptop" },
 		],
 	},
 	{
@@ -238,9 +192,9 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 			"So I started picking up small freelance gigs around my village for some pocket money. By the middle of 2020, I'd saved enough to start buying PC parts, one piece at a time, whenever I could afford the next one.",
 		],
 		photos: [
-			{ src: pc0, alt: "A keyboard and a mouse" },
-			{ src: pc1, alt: "Rizki's first PC build with an anime wallpaper" },
-			{ src: pc2, alt: "Rizki's first PC build setup" },
+			{ src: photo.pc0, alt: "A keyboard and a mouse" },
+			{ src: photo.pc1, alt: "Rizki's first PC build with an anime wallpaper" },
+			{ src: photo.pc2, alt: "Rizki's first PC build setup" },
 		],
 	},
 	{
@@ -251,8 +205,8 @@ export const ARCHIVE: ReadonlyArray<ArchiveYear> = [
 			"The catch? The curriculum was years behind what the industry actually used. So I taught myself the rest from YouTube and free resources online, and that's how I built the self-study habit that's carried me ever since.",
 		],
 		photos: [
-			{ src: classroom, alt: "The atmosphere of the classroom" },
-			{ src: pcLabs, alt: "The computer lab back in the day" },
+			{ src: photo.classroom, alt: "The atmosphere of the classroom" },
+			{ src: photo.pcLabs, alt: "The computer lab back in the day" },
 		],
 	},
 ];

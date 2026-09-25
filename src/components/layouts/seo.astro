@@ -1,6 +1,13 @@
 ---
 import { A, F, G, O, pipe, S } from "@mobily/ts-belt";
 import { SEO, type SEOProps } from "astro-seo";
+import {
+	DEFAULT_LOCALE,
+	HTML_LANG,
+	LOCALES,
+	type Locale,
+	localizePath,
+} from "@/i18n/config";
 
 interface Props {
 	title: string;
@@ -9,9 +16,12 @@ interface Props {
 	image?: Required<NonNullable<SEOProps["openGraph"]>["image"]>;
 	keywords?: string[];
 	noindex?: boolean;
+	locale: Locale;
 }
 
-const { title, description, article, noindex, ...props } = Astro.props;
+const { title, description, article, noindex, locale, ...props } = Astro.props;
+
+const OG_LOCALE: Record<Locale, string> = { en: "en_US", id: "id_ID" };
 
 const robots = noindex ? "noindex, follow" : "index, follow";
 const googlebot = noindex
@@ -24,6 +34,19 @@ const withTrailingSlash = (p: string) => (p.endsWith("/") ? p : `${p}/`);
 const canonical = new URL(pathname, Astro.site).href;
 
 const type = article ? "article" : "website";
+
+const toAbsolute = (path: string) =>
+	new URL(withTrailingSlash(path), Astro.site).href;
+const languageAlternates = [
+	...LOCALES.map((alternate) => ({
+		hrefLang: HTML_LANG[alternate],
+		href: toAbsolute(localizePath(pathname, alternate)),
+	})),
+	{
+		hrefLang: "x-default",
+		href: toAbsolute(localizePath(pathname, DEFAULT_LOCALE)),
+	},
+];
 
 // Open Graph requires absolute URLs; build them from the configured `site`.
 const ogImageUrl = new URL("/og-image.png", Astro.site).href;
@@ -59,7 +82,7 @@ const jsonLd = {
 			"@id": websiteId,
 			name: "rimzzlabs",
 			url: Astro.site?.href,
-			// inLanguage: lang,
+			inLanguage: HTML_LANG[locale],
 			publisher: { "@id": personId },
 		},
 		{
@@ -68,7 +91,7 @@ const jsonLd = {
 			url: canonical,
 			name: title,
 			description,
-			// inLanguage: lang,
+			inLanguage: HTML_LANG[locale],
 			isPartOf: { "@id": websiteId },
 			primaryImageOfPage: ogImage.url.toString(),
 			...(article && {
@@ -86,12 +109,16 @@ const jsonLd = {
 	{title}
 	{description}
 	{canonical}
+	languageAlternates={languageAlternates}
 	openGraph={{
 	article,
 	image: ogImage,
 	optional: {
 		description,
-		// locale: dict.ogLocale,
+		locale: OG_LOCALE[locale],
+		localeAlternate: LOCALES.filter((other) => other !== locale).map(
+			(other) => OG_LOCALE[other],
+		),
 		siteName: "rimzzlabs",
 	},
 	basic: { title, type, image: ogImage.url.toString() },
@@ -130,8 +157,6 @@ const jsonLd = {
 		{ rel: "manifest", href: "/site.webmanifest" },
 	],
 	meta: [
-		{ property: "og:locale:alternate" /*content: altOgLocale */ },
-		{ name: "keywords" /**content: keywords */ },
 		{ name: "author", content: "Rizki Citra" },
 		{ name: "publisher", content: "Rizki Citra" },
 		{ name: "generator", content: Astro.generator },

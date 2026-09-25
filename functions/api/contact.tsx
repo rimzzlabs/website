@@ -2,7 +2,8 @@ import { AR, pipe, R } from "@mobily/ts-belt";
 import { Resend } from "resend";
 
 import { ContactEmail } from "../../src/emails/contact";
-import { type ContactInput, contactSchema } from "../../src/lib/contact";
+import { en } from "../../src/i18n/en";
+import { type ContactInput, createContactSchema } from "../../src/lib/contact";
 import { verifyTurnstile } from "../_lib/turnstile";
 
 interface Env {
@@ -36,6 +37,8 @@ const SEND_FAILED: ContactFailure = {
 	status: 502,
 	message: "Could not send message.",
 };
+
+const contactSchema = createContactSchema(en.contact.validation);
 
 function parseContact(body: unknown) {
 	return pipe(

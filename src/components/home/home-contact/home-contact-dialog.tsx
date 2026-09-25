@@ -1,10 +1,4 @@
 import { ChatCircleTextIcon } from "@phosphor-icons/react";
-
-import {
-	CONTACT_DESCRIPTION,
-	CONTACT_TITLE,
-	CONTACT_TRIGGER,
-} from "@/components/home/home-contact/home-contact-copy";
 import { HomeContactForm } from "@/components/home/home-contact/home-contact-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,25 +10,33 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import type { Dictionary } from "@/i18n/en";
 
-export function HomeContactDialog() {
+interface HomeContactDialogProps {
+	copy: Dictionary["contact"];
+}
+
+export function HomeContactDialog(props: HomeContactDialogProps) {
 	return (
 		<Dialog>
 			<DialogTrigger render={<Button />}>
 				<ChatCircleTextIcon />
-				{CONTACT_TRIGGER}
+				{props.copy.trigger}
 			</DialogTrigger>
 
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
-					<DialogTitle>{CONTACT_TITLE}</DialogTitle>
-					<DialogDescription>{CONTACT_DESCRIPTION}</DialogDescription>
+					<DialogTitle>{props.copy.title}</DialogTitle>
+					<DialogDescription>{props.copy.description}</DialogDescription>
 				</DialogHeader>
 
 				<HomeContactForm
+					copy={props.copy}
 					actionsClassName="flex flex-row-reverse justify-start gap-2"
 					closeButton={
-						<DialogClose render={<Button variant="ghost" />}>Close</DialogClose>
+						<DialogClose render={<Button variant="ghost" />}>
+							{props.copy.close}
+						</DialogClose>
 					}
 				/>
 			</DialogContent>

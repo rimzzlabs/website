@@ -1,6 +1,6 @@
 import { F, pipe, R } from "@mobily/ts-belt";
+import { DEFAULT_LOCALE, HTML_LANG, type Locale } from "@/i18n/config";
 
-export const SITE_LOCALE = "en-US";
 export const SITE_TIME_ZONE = "Asia/Jakarta";
 const SITE_UTC_OFFSET = "+07:00";
 
@@ -13,9 +13,9 @@ export function parsePublishedAt(publishedAt: string) {
 
 export function formatDate(
 	options: Intl.DateTimeFormatOptions = DEFAULT_DATE_FORMAT,
-	locale = SITE_LOCALE,
+	locale: Locale = DEFAULT_LOCALE,
 ) {
-	const fmt = new Intl.DateTimeFormat(locale, {
+	const fmt = new Intl.DateTimeFormat(HTML_LANG[locale], {
 		...options,
 		timeZone: SITE_TIME_ZONE,
 	});

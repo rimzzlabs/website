@@ -6,6 +6,7 @@ import type { TocHeading } from "@/components/notes/note-toc/note-toc-headings";
 import { useActiveHeading } from "@/lib/hooks/use-active-heading";
 
 interface NoteTocProps {
+	label: string;
 	headings: ReadonlyArray<TocHeading>;
 }
 
@@ -60,7 +61,7 @@ export function NoteToc(props: NoteTocProps) {
 				className="flex items-center gap-2 pb-3 font-medium text-foreground"
 			>
 				<TextAlignLeftIcon aria-hidden="true" className="size-4" />
-				On this page
+				{props.label}
 			</p>
 
 			<div className="relative">

@@ -1,17 +1,19 @@
 import { GithubLogoIcon, UserIcon } from "@phosphor-icons/react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/en";
 import { formatDate } from "@/lib/datetime";
 import type { GuestbookEntry as GuestbookEntryData } from "@/lib/guestbook/schema";
 
-const formatEntryDate = formatDate();
-
 interface GuestbookEntryProps {
+	copy: Dictionary["guestbook"];
+	locale: Locale;
 	entry: GuestbookEntryData;
 }
 
 export function GuestbookEntry(props: GuestbookEntryProps) {
-	const name = props.entry.name || "Anonymous";
+	const name = props.entry.name || props.copy.anonymous;
+	const formatEntryDate = formatDate(undefined, props.locale);
 	const initial = props.entry.name.trim().slice(0, 1).toUpperCase();
 
 	return (
@@ -40,7 +42,7 @@ export function GuestbookEntry(props: GuestbookEntryProps) {
 					{props.entry.authorType === "github" && (
 						<GithubLogoIcon
 							role="img"
-							aria-label="Signed in with GitHub"
+							aria-label={props.copy.signedInWith}
 							className="size-[0.9em] self-center text-muted-foreground"
 						/>
 					)}

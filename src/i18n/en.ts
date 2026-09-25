@@ -1,0 +1,248 @@
+export const en = {
+	common: {
+		opensInNewTab: ", opens in a new tab",
+		viewFullSize: "{alt}, view full size",
+		close: "Close",
+		optional: "Optional.",
+	},
+	nav: {
+		main: "Main",
+		home: "Home",
+		notes: "Notes",
+		guestbook: "Guestbook",
+		settings: "Settings",
+		language: "Language",
+		animation: "Animation",
+		animationSystem: "System",
+		animationOn: "On",
+		animationOff: "Off",
+		toggleTheme: "Toggle theme",
+	},
+	footer: {
+		pages: "Pages",
+		connect: "Connect",
+		resources: "Resources",
+		now: "Now",
+		archive: "Archive",
+		resume: "Résumé",
+		sourceCode: "Source code",
+	},
+	home: {
+		seoTitle: "Rizki Citra, Software Engineer",
+		seoDescription:
+			"I'm Rizki Citra, a software engineer who builds frontends at Kolosal AI. Here are my projects, notes, and a few photos.",
+		heroWork:
+			"I'm a software engineer, and I work remotely full-time. At {kolosal}, I design and build the frontend of the app where people work with large language models.",
+		heroPast:
+			"Much of my past work is in fintech. At {bitwyre}, I helped build a crypto perpetual futures trading platform and a crypto card mobile app. At {skyshi}, I worked with many clients on fintech products and internal tools, and I learned a lot along the way.",
+		resume: "Peek my résumé",
+		visitProject: "Visit {name}",
+		projectsTitle: "Projects",
+		projectsDescription:
+			"A mix of hobby projects and bigger products I help build.",
+		projects: {
+			mayarin: {
+				role: "Maintainer",
+				description:
+					"Payments infrastructure for the borderless economy. I build it with a friend.",
+			},
+			lanjut: {
+				role: "Creator",
+				description:
+					"A free, open source resume builder. It is local-first, ATS-friendly, and runs entirely in your browser.",
+			},
+			trymorrow: {
+				role: "Contributor",
+				description:
+					"Send cash, tip anyone, and trade or gift stocks, privately and onchain.",
+			},
+			absqir: {
+				role: "Creator",
+				description:
+					"Open source attendance you host yourself. One small CLI command sets it up.",
+			},
+		},
+		notesTitle: "Latest Notes",
+		notesDescription: "I write about what I learn while I build things.",
+		notesMore: "Want more? Browse all {count} notes",
+		galleryTitle: "Gallery",
+		galleryDescription: "A few moments from events, trips, and everyday life.",
+		contactTitle: "Got something interesting?",
+		contactBody:
+			"I work full-time, so I don't take on much outside work. Still, I'm always up for an interesting project or a good conversation. If you have one in mind, say hello.",
+		scheduleCall: "Schedule a call",
+	},
+	contact: {
+		trigger: "Send a message",
+		title: "Send me a message",
+		description:
+			"Tell me a little about your project or idea. I read every message.",
+		name: "Name",
+		namePlaceholder: "Your name",
+		email: "Email",
+		emailPlaceholder: "you@example.com",
+		message: "Message",
+		messagePlaceholder: "What are you working on?",
+		send: "Send message",
+		sending: "Sending…",
+		error:
+			"Your message did not send. Please try again, or book a call instead.",
+		successTitle: "Message sent",
+		successBody:
+			"Thanks for reaching out. I read every message and I will reply by email.",
+		close: "Close",
+		validation: {
+			name: "Please tell me your name.",
+			nameMax: "Please keep your name under 100 characters.",
+			email: "Please enter a valid email address.",
+			messageMin: "Please write at least 10 characters.",
+			messageMax: "Please keep your message under 2,000 characters.",
+		},
+	},
+	notes: {
+		seoTitle: "Notes, Rizki Citra",
+		seoDescription:
+			"Notes on what I learn while I build things, from React and TypeScript to tools I use every day.",
+		title: "Notes",
+		intro: "What I learn while I build things. {count} notes so far.",
+		read: "Read {title}",
+		onThisPage: "On this page",
+		copyCode: "Copy code",
+		copied: "Copied",
+		terminal: "Terminal",
+		text: "Text",
+	},
+	guestbook: {
+		seoTitle: "Guestbook, Rizki Citra",
+		seoDescription:
+			"Leave a note, say hi, or share your website. Sign in with GitHub, or write anonymously.",
+		title: "Guestbook",
+		intro:
+			"Leave a note, say hi, or share your website. Sign in with GitHub, or write anonymously.",
+		signLabel: "Sign the guestbook",
+		entries: "Entries",
+		signIn: "Sign in with GitHub",
+		writeAnonymously: "Write anonymously",
+		name: "Name",
+		namePlaceholder: "Anonymous",
+		optional: "Optional.",
+		website: "Website",
+		websitePlaceholder: "yoursite.com",
+		websiteHint: "Optional. Your name will link to it.",
+		message: "Message",
+		messagePlaceholder: "Say hi, share a thought, or leave a note.",
+		submit: "Sign the guestbook",
+		submitting: "Signing…",
+		back: "Back",
+		signedInWith: "Signed in with GitHub",
+		signOut: "Sign out",
+		error: "Your entry did not save. Please try again.",
+		success: "Thanks! Your entry is on the list below.",
+		loading: "Loading entries",
+		loadError: "The guestbook did not load. Please refresh the page.",
+		empty: "No entries yet. Be the first to sign it.",
+		showMore: "Show more entries",
+		loadingMore: "Loading…",
+		anonymous: "Anonymous",
+		validation: {
+			siteMax: "Please keep the website under 200 characters.",
+			site: "Enter a valid website, for example rimzzlabs.com.",
+			message: "Please write a message.",
+			messageMax: "Please keep your message under 500 characters.",
+			nameMax: "Please keep your name under 100 characters.",
+		},
+	},
+	now: {
+		seoTitle: "Now, Rizki Citra",
+		seoDescription:
+			"What I'm focused on right now: work, side projects, writing, and this site.",
+		title: "Now",
+		intro:
+			"A snapshot of what I'm focused on at this point in my life. It's a /now page, an idea from {derek}. You can find many more on {nownownow}.",
+		lastUpdated: "Last updated",
+		sectionLabel: "What I'm doing now",
+		work: {
+			label: "Work",
+			title: "Building the frontend at Kolosal AI",
+			description:
+				"I design and build the app where people work with large language models. Full-time, and fully remote.",
+		},
+		building: {
+			label: "Building",
+			title: "Mayarin, with a friend",
+			description: "Payments infrastructure for the borderless economy.",
+		},
+		sideProjects: {
+			label: "Side projects",
+			title: "Lanjut and Absqir",
+			description:
+				"Lanjut is a local-first, ATS-friendly resume builder. Absqir is open source attendance you host yourself. I also contribute to Trymorrow.",
+		},
+		site: {
+			label: "This site",
+			title: "Relaunching rimzzlabs.com",
+			description:
+				"New typography, a guestbook, and this page. The redesign goes live on September 27, 2026.",
+			sourceCode: "Source code",
+		},
+		writing: {
+			label: "Writing",
+			title: "Notes on what I learn while I build",
+			body: "{count} notes so far. The latest one is {note}.",
+		},
+		openTo: {
+			label: "Open to",
+			title: "Interesting projects and good conversations",
+			body: "I work full-time, so I don't take on much outside work. If you have something interesting in mind, {sayHello}.",
+			sayHello: "say hello",
+		},
+	},
+	archive: {
+		seoTitle: "Archive, Rizki Citra",
+		seoDescription:
+			"My journey in software engineering, year by year, from 2019 to now.",
+		title: "Archive",
+		intro:
+			"My software engineering journey started in 2019. This is the longer version, year by year: the jobs, the detours, and everything in between.",
+		now: "Now",
+		seeNow: "See what I'm doing now",
+		burnAlt:
+			"AI-generated infographic titled Burn Damage Stages. Five hands show normal skin, then first-, second-, third-, and fourth-degree burns, from light redness to blisters to charred skin. Below them, a cross section of skin shows each burn reaching deeper: first degree stays in the epidermis, second degree reaches the dermis, third degree destroys the epidermis and dermis, and fourth degree extends into fat, muscle, and bone.",
+		burnCaptionLead: "AI-generated illustration.",
+		burnCaption:
+			"It shows the burn stages from normal skin to fourth degree. It may not be medically accurate, so treat it as a rough picture, not a reference. Tap to zoom in.",
+	},
+	lightbox: {
+		viewer: "Image viewer",
+		slide: "{index} of {total}",
+		counter: "Image {index} of {total}",
+		zoomOut: "Zoom out",
+		resetZoom: "Reset zoom, current zoom {percent}%",
+		zoomIn: "Zoom in",
+		close: "Close",
+		previous: "Previous image",
+		next: "Next image",
+		help: "Use the left and right arrow keys to change the image. Press plus or minus to zoom, and 0 to reset the zoom.",
+		pageTitle: "Images on this page",
+		galleryTitle: "Gallery",
+	},
+	notFound: {
+		seoTitle: "Page not found, Rizki Citra",
+		seoDescription: "This page doesn't exist, or it moved.",
+		title: "Page not found",
+		body: "This page doesn't exist, or it moved. If you typed the address, check it for a typo.",
+		didYouMean: "Did you mean",
+		home: "Back home",
+		browseNotes: "Browse notes",
+	},
+	serverError: {
+		seoTitle: "Something went wrong, Rizki Citra",
+		seoDescription: "Something went wrong on my side.",
+		title: "Something went wrong",
+		body: "That's on me, not you. Try again in a moment. If it keeps happening, you can let me know through the contact form on the homepage.",
+		tryAgain: "Try again",
+		home: "Back home",
+	},
+};
+
+export type Dictionary = typeof en;

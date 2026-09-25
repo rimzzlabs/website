@@ -1,0 +1,250 @@
+import type { Dictionary } from "./en";
+
+export const id = {
+	common: {
+		opensInNewTab: ", terbuka di tab baru",
+		viewFullSize: "{alt}, lihat ukuran penuh",
+		close: "Tutup",
+		optional: "Opsional.",
+	},
+	nav: {
+		main: "Utama",
+		home: "Beranda",
+		notes: "Catatan",
+		guestbook: "Buku Tamu",
+		settings: "Pengaturan",
+		language: "Bahasa",
+		animation: "Animasi",
+		animationSystem: "Sistem",
+		animationOn: "Aktif",
+		animationOff: "Nonaktif",
+		toggleTheme: "Ganti tema",
+	},
+	footer: {
+		pages: "Halaman",
+		connect: "Terhubung",
+		resources: "Lainnya",
+		now: "Sekarang",
+		archive: "Arsip",
+		resume: "CV",
+		sourceCode: "Source code",
+	},
+	home: {
+		seoTitle: "Rizki Citra, Software Engineer",
+		seoDescription:
+			"Saya Rizki Citra, software engineer yang membangun frontend di Kolosal AI. Di sini kamu bisa melihat proyek, catatan, dan beberapa foto saya.",
+		heroWork:
+			'Saya seorang <em lang="en">software engineer</em> yang bekerja <em lang="en">full-time</em> secara <em lang="en">remote</em>. Di {kolosal}, saya merancang dan membangun aplikasi <em lang="en">frontend</em>, tempat di mana orang berkolaborasi dengan akal imitasi.',
+		heroPast:
+			'Sebelumnya, saya lebih banyak berkecimpung di dunia <em lang="en">fintech</em>. Di {bitwyre}, saya ikut membangun platform <em lang="en">trading</em> kripto <em lang="en">perpetual futures</em> dan aplikasi <em lang="en">mobile</em> kartu kripto. Di {skyshi}, saya menggarap produk <em lang="en">fintech</em> dan <em lang="en">internal tools</em> untuk banyak klien, dan belajar banyak dari sana.',
+		resume: "Intip CV saya",
+		visitProject: "Kunjungi {name}",
+		projectsTitle: "Proyek",
+		projectsDescription:
+			"Dari proyek iseng sampai produk besar yang ikut saya bangun.",
+		projects: {
+			mayarin: {
+				role: "Maintainer",
+				description:
+					"Infrastruktur pembayaran untuk ekonomi lintas negara. Saya membangunnya bersama teman.",
+			},
+			lanjut: {
+				role: "Pembuat",
+				description:
+					'Aplikasi pembuat CV yang gratis dan <em lang="en">open source</em>. <em lang="en">Local-first</em>, ramah ATS, dan berjalan sepenuhnya di <em lang="en">browser</em> kamu.',
+			},
+			trymorrow: {
+				role: "Kontributor",
+				description:
+					'Kirim uang, beri tip ke siapa saja, serta jual beli atau hadiahkan saham, secara privat dan <em lang="en">onchain</em>.',
+			},
+			absqir: {
+				role: "Pembuat",
+				description:
+					'Aplikasi absensi <em lang="en">open source</em> yang bisa kamu <em lang="en">host</em> sendiri. Cukup satu perintah CLI untuk memasangnya.',
+			},
+		},
+		notesTitle: "Catatan Terbaru",
+		notesDescription:
+			"Catatan tentang hal-hal yang saya pelajari selama membangun sesuatu.",
+		notesMore: "Mau baca lebih banyak? Lihat semua {count} catatan",
+		galleryTitle: "Galeri",
+		galleryDescription:
+			"Potongan momen dari acara, perjalanan, dan keseharian saya.",
+		contactTitle: "Punya ide menarik?",
+		contactBody:
+			'Saya bekerja <em lang="en">full-time</em>, jadi jarang menerima proyek sampingan. Meski begitu, saya selalu senang diajak ngobrol soal proyek yang menarik. Kalau kamu punya, jangan ragu menyapa.',
+		scheduleCall: "Jadwalkan obrolan",
+	},
+	contact: {
+		trigger: "Kirim pesan",
+		title: "Kirim pesan ke saya",
+		description:
+			"Ceritakan sedikit soal proyek atau ide kamu. Saya baca semua pesan yang masuk.",
+		name: "Nama",
+		namePlaceholder: "Nama kamu",
+		email: "Email",
+		emailPlaceholder: "kamu@contoh.com",
+		message: "Pesan",
+		messagePlaceholder: "Sedang mengerjakan apa?",
+		send: "Kirim pesan",
+		sending: "Mengirim…",
+		error: "Pesan kamu gagal terkirim. Coba lagi, atau jadwalkan obrolan saja.",
+		successTitle: "Pesan terkirim",
+		successBody:
+			"Terima kasih sudah menghubungi saya. Semua pesan saya baca, dan saya akan membalas lewat email.",
+		close: "Tutup",
+		validation: {
+			name: "Nama wajib diisi.",
+			nameMax: "Nama maksimal 100 karakter.",
+			email: "Masukkan alamat email yang valid.",
+			messageMin: "Pesan minimal 10 karakter.",
+			messageMax: "Pesan maksimal 2.000 karakter.",
+		},
+	},
+	notes: {
+		seoTitle: "Catatan, Rizki Citra",
+		seoDescription:
+			"Catatan soal hal-hal yang saya pelajari sambil membangun sesuatu, dari React dan TypeScript sampai tools yang saya pakai sehari-hari.",
+		title: "Catatan",
+		intro:
+			"Hal-hal yang saya pelajari sambil membangun sesuatu. Sejauh ini ada {count} catatan.",
+		read: "Baca {title}",
+		onThisPage: "Di halaman ini",
+		copyCode: "Salin kode",
+		copied: "Tersalin",
+		terminal: "Terminal",
+		text: "Teks",
+	},
+	guestbook: {
+		seoTitle: "Buku Tamu, Rizki Citra",
+		seoDescription:
+			"Tinggalkan pesan, sapa saya, atau bagikan website kamu. Kamu bisa masuk dengan GitHub atau menulis secara anonim.",
+		title: "Buku Tamu",
+		intro:
+			"Tinggalkan pesan, sapa saya, atau bagikan website kamu. Kamu bisa masuk dengan GitHub atau menulis secara anonim.",
+		signLabel: "Isi buku tamu",
+		entries: "Daftar tamu",
+		signIn: "Masuk dengan GitHub",
+		writeAnonymously: "Tulis secara anonim",
+		name: "Nama",
+		namePlaceholder: "Anonim",
+		optional: "Opsional.",
+		website: "Website",
+		websitePlaceholder: "websitekamu.com",
+		websiteHint: "Opsional. Nama kamu akan tertaut ke website ini.",
+		message: "Pesan",
+		messagePlaceholder: "Sapa saya, bagikan cerita, atau tinggalkan pesan.",
+		submit: "Isi buku tamu",
+		submitting: "Menyimpan…",
+		back: "Kembali",
+		signedInWith: "Masuk dengan GitHub",
+		signOut: "Keluar",
+		error: "Pesan kamu gagal tersimpan. Coba lagi, ya.",
+		success: "Terima kasih! Pesan kamu sudah muncul di daftar di bawah.",
+		loading: "Memuat daftar tamu",
+		loadError: "Buku tamu gagal dimuat. Coba muat ulang halaman ini.",
+		empty: "Belum ada yang mengisi. Jadilah yang pertama.",
+		showMore: "Tampilkan lebih banyak",
+		loadingMore: "Memuat…",
+		anonymous: "Anonim",
+		validation: {
+			siteMax: "Alamat website maksimal 200 karakter.",
+			site: "Masukkan website yang valid, misalnya rimzzlabs.com.",
+			message: "Pesan wajib diisi.",
+			messageMax: "Pesan maksimal 500 karakter.",
+			nameMax: "Nama maksimal 100 karakter.",
+		},
+	},
+	now: {
+		seoTitle: "Sekarang, Rizki Citra",
+		seoDescription:
+			"Hal yang sedang saya fokuskan sekarang: kerjaan, proyek sampingan, tulisan, dan situs ini.",
+		title: "Sekarang",
+		intro:
+			"Gambaran singkat tentang apa yang sedang saya tekuni saat ini. Ini adalah halaman /now, ide dari {derek}. Halaman serupa lainnya bisa kamu temukan di {nownownow}.",
+		lastUpdated: "Terakhir diperbarui",
+		sectionLabel: "Yang sedang saya kerjakan",
+		work: {
+			label: "Kerja",
+			title: 'Membangun <em lang="en">frontend</em> di Kolosal AI',
+			description:
+				'Saya merancang dan membangun aplikasi tempat orang berkolaborasi dengan akal imitasi. <em lang="en">Full-time</em>, sepenuhnya <em lang="en">remote</em>.',
+		},
+		building: {
+			label: "Membangun",
+			title: "Mayarin, bersama teman",
+			description: "Infrastruktur pembayaran untuk ekonomi lintas negara.",
+		},
+		sideProjects: {
+			label: "Proyek sampingan",
+			title: "Lanjut dan Absqir",
+			description:
+				'Lanjut adalah aplikasi pembuat CV yang <em lang="en">local-first</em> dan ramah ATS. Absqir adalah aplikasi absensi <em lang="en">open source</em> yang bisa kamu <em lang="en">host</em> sendiri. Saya juga berkontribusi di Trymorrow.',
+		},
+		site: {
+			label: "Situs ini",
+			title: "Meluncurkan ulang rimzzlabs.com",
+			description:
+				"Tipografi baru, buku tamu, dan halaman ini. Desain barunya tayang pada 27 September 2026.",
+			sourceCode: "Source code",
+		},
+		writing: {
+			label: "Tulisan",
+			title: "Catatan dari hal yang saya pelajari",
+			body: "Sejauh ini ada {count} catatan. Yang terbaru berjudul {note}.",
+		},
+		openTo: {
+			label: "Terbuka untuk",
+			title: "Proyek menarik dan obrolan seru",
+			body: 'Saya bekerja <em lang="en">full-time</em>, jadi jarang menerima proyek sampingan. Kalau kamu punya sesuatu yang menarik, {sayHello}.',
+			sayHello: "jangan ragu menyapa",
+		},
+	},
+	archive: {
+		seoTitle: "Arsip, Rizki Citra",
+		seoDescription:
+			"Perjalanan saya di dunia software engineering, tahun demi tahun, dari 2019 sampai sekarang.",
+		title: "Arsip",
+		intro:
+			'Perjalanan saya sebagai <em lang="en">software engineer</em> dimulai tahun 2019. Ini versi lengkapnya, tahun demi tahun: pekerjaan, liku-likunya, dan semua yang terjadi di antaranya.',
+		now: "Sekarang",
+		seeNow: "Lihat yang sedang saya kerjakan",
+		burnAlt:
+			"Infografik buatan AI berjudul Burn Damage Stages. Lima tangan menunjukkan kulit normal, lalu luka bakar derajat satu, dua, tiga, dan empat, dari kemerahan ringan, melepuh, sampai kulit yang gosong. Di bawahnya, potongan melintang kulit menunjukkan tiap luka bakar masuk makin dalam: derajat satu hanya di epidermis, derajat dua sampai dermis, derajat tiga merusak epidermis dan dermis, dan derajat empat menembus lemak, otot, sampai tulang.",
+		burnCaptionLead: "Ilustrasi buatan AI.",
+		burnCaption:
+			"Gambar ini menunjukkan tahapan luka bakar dari kulit normal sampai derajat empat. Belum tentu akurat secara medis, jadi anggap saja sebagai gambaran kasar, bukan acuan. Ketuk untuk memperbesar.",
+	},
+	lightbox: {
+		viewer: "Penampil gambar",
+		slide: "{index} dari {total}",
+		counter: "Gambar {index} dari {total}",
+		zoomOut: "Perkecil",
+		resetZoom: "Atur ulang zoom, saat ini {percent}%",
+		zoomIn: "Perbesar",
+		close: "Tutup",
+		previous: "Gambar sebelumnya",
+		next: "Gambar berikutnya",
+		help: "Gunakan tombol panah kiri dan kanan untuk berpindah gambar. Tekan plus atau minus untuk zoom, dan 0 untuk mengatur ulang zoom.",
+		pageTitle: "Gambar di halaman ini",
+		galleryTitle: "Galeri",
+	},
+	notFound: {
+		seoTitle: "Halaman tidak ditemukan, Rizki Citra",
+		seoDescription: "Halaman ini tidak ada, atau sudah pindah.",
+		title: "Halaman tidak ditemukan",
+		body: "Halaman ini tidak ada, atau sudah pindah. Kalau kamu mengetik alamatnya sendiri, coba periksa lagi, siapa tahu ada salah ketik.",
+		didYouMean: "Mungkin yang kamu cari",
+		home: "Kembali ke beranda",
+		browseNotes: "Lihat catatan",
+	},
+	serverError: {
+		seoTitle: "Terjadi kesalahan, Rizki Citra",
+		seoDescription: "Terjadi kesalahan di sisi saya.",
+		title: "Terjadi kesalahan",
+		body: "Ini kesalahan di sisi saya, bukan kamu. Coba lagi beberapa saat lagi. Kalau masih terjadi, kabari saya lewat formulir kontak di beranda.",
+		tryAgain: "Coba lagi",
+		home: "Kembali ke beranda",
+	},
+} satisfies Dictionary;

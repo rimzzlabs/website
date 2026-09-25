@@ -2,11 +2,17 @@
 import "../../styles/global.css";
 import { Font } from "astro:assets";
 import ScrollFade from "@/components/layouts/scroll-fade.astro";
-import { SITE_LOCALE } from "@/lib/datetime";
+import { HTML_LANG, type Locale } from "@/i18n/config";
+
+interface Props {
+	locale: Locale;
+}
+
+const props = Astro.props;
 ---
 
 <!doctype html>
-<html lang={SITE_LOCALE}>
+<html lang={HTML_LANG[props.locale]}>
 	<head>
 		<meta charset="utf-8">
 		<meta

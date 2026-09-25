@@ -1,10 +1,17 @@
 import { NavigationBarSettings } from "@/components/layouts/navigation-bar-settings";
 import { NavigationBarTheme } from "@/components/layouts/navigation-bar-theme";
-import { NAVIGATION_LINKS } from "@/components/layouts/navigation-links";
+import type { NavigationLink } from "@/components/layouts/navigation-links";
 import { buttonVariants } from "@/components/ui/button";
+import type { Dictionary, Locale } from "@/i18n";
 import { useHideOnScroll } from "@/lib/hooks/use-hide-on-scroll";
 
-export function NavigationBarMobile() {
+interface NavigationBarMobileProps {
+	copy: Dictionary["nav"];
+	locale: Locale;
+	links: ReadonlyArray<NavigationLink>;
+}
+
+export function NavigationBarMobile(props: NavigationBarMobileProps) {
 	const hidden = useHideOnScroll();
 
 	return (
@@ -14,10 +21,10 @@ export function NavigationBarMobile() {
 		>
 			<div className="wrapper flex h-12 items-center">
 				<nav
-					aria-label="Main"
+					aria-label={props.copy.main}
 					className="-ml-2.5 inline-flex items-center gap-1 text-muted-foreground"
 				>
-					{NAVIGATION_LINKS.map((link) => (
+					{props.links.map((link) => (
 						<a
 							key={link.label}
 							href={link.href}
@@ -29,8 +36,12 @@ export function NavigationBarMobile() {
 				</nav>
 
 				<div className="ml-auto inline-flex items-center gap-1">
-					<NavigationBarTheme />
-					<NavigationBarSettings side="top" />
+					<NavigationBarTheme copy={props.copy} />
+					<NavigationBarSettings
+						copy={props.copy}
+						locale={props.locale}
+						side="top"
+					/>
 				</div>
 			</div>
 		</div>

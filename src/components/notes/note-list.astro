@@ -1,10 +1,12 @@
 ---
 import { pipe } from "@mobily/ts-belt";
 import { ArrowRightIcon } from "@phosphor-icons/react";
+import { fill, getDictionary, type Locale } from "@/i18n";
 import { formatDate } from "@/lib/datetime";
 import type { Note } from "@/lib/notes";
 
 interface Props {
+	locale: Locale;
 	notes: ReadonlyArray<Note>;
 	dateFormat?: Intl.DateTimeFormatOptions;
 	moreHref?: string;
@@ -12,7 +14,8 @@ interface Props {
 }
 
 const props = Astro.props;
-const format = formatDate(props.dateFormat);
+const t = getDictionary(props.locale);
+const format = formatDate(props.dateFormat, props.locale);
 const rowClass =
 	"relative flex flex-col gap-0.5 border-b py-3 transition first-of-type:border-t hover:bg-muted-foreground/2 active:bg-muted-foreground/5 sm:grid sm:grid-cols-[6.75rem_auto_minmax(0,1fr)] sm:items-baseline sm:gap-x-3";
 ---
@@ -32,7 +35,9 @@ const rowClass =
 		</h3>
 
 		<a href={note.url} class="absolute inset-0">
-			<span class="sr-only">Read {note.data.title}</span>
+			<span class="sr-only">
+				{fill(t.notes.read, { title: note.data.title })}
+			</span>
 		</a>
 	</li>
 ))}

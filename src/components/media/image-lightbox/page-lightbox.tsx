@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
-import type { LightboxImage } from "@/components/media/image-lightbox/image-lightbox";
+import type {
+	LightboxCopy,
+	LightboxImage,
+} from "@/components/media/image-lightbox/image-lightbox";
 import { ImageLightboxDialog } from "@/components/media/image-lightbox/image-lightbox-dialog";
 import { useLightboxTransition } from "@/components/media/image-lightbox/use-lightbox-transition";
 
@@ -16,7 +19,11 @@ function toLightboxImage(trigger: HTMLElement): LightboxImage {
 	};
 }
 
-export function PageLightbox() {
+interface PageLightboxProps {
+	copy: LightboxCopy;
+}
+
+export function PageLightbox(props: PageLightboxProps) {
 	const [images, setImages] = useState<ReadonlyArray<LightboxImage>>([]);
 	const imagesRef = useRef<ReadonlyArray<LightboxImage>>([]);
 	const thumbnailsRef = useRef<ReadonlyArray<HTMLElement>>([]);
@@ -54,7 +61,8 @@ export function PageLightbox() {
 		<ImageLightboxDialog
 			images={images}
 			openIndex={lightbox.openIndex}
-			title="Images on this page"
+			copy={props.copy}
+			title={props.copy.pageTitle}
 			onClose={lightbox.close}
 			onSelectedIndexChange={lightbox.onSelectedIndexChange}
 		/>

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import type { Dictionary } from "@/i18n/en";
+
 export const GUESTBOOK_LIMITS = { name: 100, site: 200, message: 500 } as const;
 export const GUESTBOOK_PAGE_SIZE = 10;
 
@@ -20,43 +22,38 @@ function isWebsite(raw: string) {
 	return url.hostname.includes(".");
 }
 
-const siteField = z
-	.string()
-	.trim()
-	.max(
-		GUESTBOOK_LIMITS.site,
-		`Please keep the website under ${GUESTBOOK_LIMITS.site} characters.`,
-	)
-	.refine(isWebsite, "Enter a valid website, for example rimzzlabs.com.")
-	.optional();
+export type GuestbookValidation = Dictionary["guestbook"]["validation"];
 
-const messageField = z
-	.string()
-	.trim()
-	.min(1, "Please write a message.")
-	.max(
-		GUESTBOOK_LIMITS.message,
-		`Please keep your message under ${GUESTBOOK_LIMITS.message} characters.`,
-	);
+export function createGuestbookVerifiedSchema(messages: GuestbookValidation) {
+	return z.object({
+		site: z
+			.string()
+			.trim()
+			.max(GUESTBOOK_LIMITS.site, messages.siteMax)
+			.refine(isWebsite, messages.site)
+			.optional(),
+		message: z
+			.string()
+			.trim()
+			.min(1, messages.message)
+			.max(GUESTBOOK_LIMITS.message, messages.messageMax),
+	});
+}
 
-export const guestbookVerifiedSchema = z.object({
-	site: siteField,
-	message: messageField,
-});
+export function createGuestbookAnonymousSchema(messages: GuestbookValidation) {
+	return createGuestbookVerifiedSchema(messages).extend({
+		name: z
+			.string()
+			.trim()
+			.max(GUESTBOOK_LIMITS.name, messages.nameMax)
+			.optional(),
+		company: z.string().optional(),
+	});
+}
 
-export const guestbookAnonymousSchema = guestbookVerifiedSchema.extend({
-	name: z
-		.string()
-		.trim()
-		.max(
-			GUESTBOOK_LIMITS.name,
-			`Please keep your name under ${GUESTBOOK_LIMITS.name} characters.`,
-		)
-		.optional(),
-	company: z.string().optional(),
-});
-
-export type GuestbookInput = z.infer<typeof guestbookAnonymousSchema>;
+export type GuestbookInput = z.infer<
+	ReturnType<typeof createGuestbookAnonymousSchema>
+>;
 
 export const guestbookEntrySchema = z.object({
 	id: z.number(),

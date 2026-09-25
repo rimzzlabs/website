@@ -5,6 +5,7 @@ import {
 	FileCodeIcon,
 	TerminalWindowIcon,
 } from "@phosphor-icons/react";
+import { getDictionary, localeFromPath } from "@/i18n";
 
 const LANGUAGE_LABELS: Record<string, string> = {
 	ts: "TypeScript",
@@ -22,20 +23,26 @@ const LANGUAGE_LABELS: Record<string, string> = {
 	yml: "YAML",
 	sql: "SQL",
 	diff: "Diff",
-	bash: "Terminal",
-	sh: "Terminal",
-	shell: "Terminal",
-	zsh: "Terminal",
-	txt: "Text",
-	plaintext: "Text",
+	bash: "terminal",
+	sh: "terminal",
+	shell: "terminal",
+	zsh: "terminal",
+	txt: "text",
+	plaintext: "text",
 };
 
 const SHELL_LANGUAGES = new Set(["bash", "sh", "shell", "zsh"]);
 
 const props = Astro.props;
+const t = getDictionary(localeFromPath(Astro.url.pathname)).notes;
 const language: string = props["data-language"] ?? "txt";
 const title: string | undefined = props["data-title"];
-const label = title ?? LANGUAGE_LABELS[language] ?? language.toUpperCase();
+const LOCALIZED_LABELS: Record<string, string> = {
+	terminal: t.terminal,
+	text: t.text,
+};
+const rawLabel = LANGUAGE_LABELS[language] ?? language.toUpperCase();
+const label = title ?? LOCALIZED_LABELS[rawLabel] ?? rawLabel;
 const isShell = SHELL_LANGUAGES.has(language);
 ---
 
@@ -60,6 +67,8 @@ const isShell = SHELL_LANGUAGES.has(language);
 		<button
 			type="button"
 			data-copy-code
+			data-copy-text={t.copyCode}
+			data-copied-text={t.copied}
 			class="group/copy inline-flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
 		>
 			<CopyIcon
@@ -70,7 +79,9 @@ const isShell = SHELL_LANGUAGES.has(language);
 				aria-hidden="true"
 				className="hidden size-4 text-primary group-data-copied/copy:block"
 			/>
-			<span class="sr-only" aria-live="polite" data-copy-label>Copy code</span>
+			<span class="sr-only" aria-live="polite" data-copy-label
+				>{t.copyCode}</span
+			>
 		</button>
 	</div>
 
@@ -94,11 +105,11 @@ document.addEventListener("click", async (event) => {
 
 	const label = button.querySelector("[data-copy-label]");
 	button.dataset.copied = "";
-	if (label) label.textContent = "Copied";
+	if (label) label.textContent = button.dataset.copiedText ?? "";
 
 	setTimeout(() => {
 		delete button.dataset.copied;
-		if (label) label.textContent = "Copy code";
+		if (label) label.textContent = button.dataset.copyText ?? "";
 	}, COPIED_MS);
 });
 </script>

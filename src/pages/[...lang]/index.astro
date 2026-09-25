@@ -10,19 +10,34 @@ import NavigationBar from "@/components/layouts/navigation-bar.astro";
 import Root from "@/components/layouts/root.astro";
 import Seo from "@/components/layouts/seo.astro";
 import NoteList from "@/components/notes/note-list.astro";
+import RichText from "@/components/rich-text.astro";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "@/components/ui/link.astro";
 import { getImageGallery } from "@/data/gallery";
+import {
+	fill,
+	getDictionary,
+	type Locale,
+	localeStaticPaths,
+	localizePath,
+} from "@/i18n";
 import { getNotes } from "@/lib/notes";
 
-const title = "Rizki Citra, Software Engineer";
-const description =
-	"I'm Rizki Citra, a software engineer who builds frontends at Kolosal AI. Here are my projects, notes, and a few photos.";
+export function getStaticPaths() {
+	return localeStaticPaths();
+}
 
-const notes = await getNotes();
+interface Props {
+	locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+
+const notes = await getNotes(locale);
 const latestNotes = pipe(notes, A.slice(0, 4));
 const images = await pipe(
-	getImageGallery(),
+	getImageGallery(locale),
 	AR.make,
 	AR.match(
 		(res) => res,
@@ -31,34 +46,39 @@ const images = await pipe(
 );
 ---
 
-<Root>
-	<Seo slot="meta" {title} {description} />
+<Root {locale}>
+	<Seo
+		slot="meta"
+		{locale}
+		title={t.home.seoTitle}
+		description={t.home.seoDescription}
+	/>
 
-	<NavigationBar />
+	<NavigationBar {locale} />
 
 	<main>
 		<header class="wrapper pt-10">
 			<h1
 				class="pt-6 pb-6 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
 			>
-				<a href="/">Rizki Citra</a>
+				<a href={localizePath("/", locale)}>Rizki Citra</a>
 			</h1>
 
 			<div class="max-w-[65ch] space-y-4 text-pretty">
 				<p>
-					I&apos;m a software engineer, and I work remotely full-time. At
-					<Link href="https://kolosal.ai">Kolosal AI</Link>, I design and build
-					the frontend of the app where people work with large language models.
+					<RichText
+						text={t.home.heroWork}
+						links={{ kolosal: { href: "https://kolosal.ai", label: "Kolosal AI" } }}
+					/>
 				</p>
-
 				<p>
-					Much of my past work is in fintech. At
-					<Link href="https://bitwyre.com">Bitwyre</Link>, I helped build a
-					crypto perpetual futures trading platform and a crypto card mobile
-					app. At
-					<Link href="https://skyshi.com">Skyshi</Link>, I worked with many
-					clients on fintech products and internal tools, and I learned a lot
-					along the way.
+					<RichText
+						text={t.home.heroPast}
+						links={{
+	bitwyre: { href: "https://bitwyre.com", label: "Bitwyre" },
+	skyshi: { href: "https://skyshi.com", label: "Skyshi" },
+}}
+					/>
 				</p>
 			</div>
 
@@ -69,39 +89,40 @@ const images = await pipe(
 					rel="noopener noreferrer"
 					class={buttonVariants()}
 				>
-					Peek my résumé <ArrowUpRightIcon />
+					{t.home.resume} <ArrowUpRightIcon />
 				</a>
 			</div>
 		</header>
 
-		<HomeProjects />
+		<HomeProjects {locale} />
 
 		<section class="wrapper pt-20">
-			<HomeSectionHeading
-				description="I write about what I learn while I build things."
-			>
-				Latest Notes
+			<HomeSectionHeading description={t.home.notesDescription}>
+				{t.home.notesTitle}
 			</HomeSectionHeading>
 
 			<NoteList
+				{locale}
 				notes={latestNotes}
-				moreHref="/notes"
-				moreLabel={`Want more? Browse all ${notes.length} notes`}
+				moreHref={localizePath("/notes", locale)}
+				moreLabel={fill(t.home.notesMore, { count: notes.length })}
 			/>
 		</section>
 
 		<section class="wrapper pt-20">
-			<HomeSectionHeading
-				description="A few moments from events, trips, and everyday life."
-			>
-				Gallery
+			<HomeSectionHeading description={t.home.galleryDescription}>
+				{t.home.galleryTitle}
 			</HomeSectionHeading>
 
-			<HomeGallery client:load images={images} />
+			<HomeGallery
+				client:load
+				images={images}
+				copy={{ ...t.lightbox, viewFullSize: t.common.viewFullSize }}
+			/>
 		</section>
 
-		<HomeContact />
+		<HomeContact {locale} />
 	</main>
 
-	<Footer />
+	<Footer {locale} />
 </Root>

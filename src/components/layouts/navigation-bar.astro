@@ -1,18 +1,27 @@
 ---
 import { cn } from "cn";
+import { getDictionary, type Locale } from "@/i18n";
 import { buttonVariants } from "../ui/button";
 import { NavigationBarMobile } from "./navigation-bar-mobile";
 import { NavigationBarSettings } from "./navigation-bar-settings";
 import { NavigationBarTheme } from "./navigation-bar-theme";
-import { NAVIGATION_LINKS } from "./navigation-links";
+import { getNavigationLinks } from "./navigation-links";
+
+interface Props {
+	locale: Locale;
+}
+
+const props = Astro.props;
+const copy = getDictionary(props.locale).nav;
+const links = getNavigationLinks(props.locale);
 ---
 
 <header class="wrapper hidden items-center h-12 md:flex">
 	<nav
-		aria-label="Main"
+		aria-label={copy.main}
 		class="inline-flex items-center gap-1 text-muted-foreground -ml-2.5"
 	>
-		{NAVIGATION_LINKS.map((link) => (
+		{links.map((link) => (
 	<a
 		href={link.href}
 		class={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
@@ -22,11 +31,18 @@ import { NAVIGATION_LINKS } from "./navigation-links";
 ))}
 	</nav>
 
-	<nav class="inline-flex items-center gap-1 ml-auto">
-		<NavigationBarTheme client:load />
-
-		<NavigationBarSettings client:load />
+	<nav
+		aria-label={copy.settings}
+		class="inline-flex items-center gap-1 ml-auto"
+	>
+		<NavigationBarTheme client:load copy={copy} />
+		<NavigationBarSettings client:load copy={copy} locale={props.locale} />
 	</nav>
 </header>
 
-<NavigationBarMobile client:load />
+<NavigationBarMobile
+	client:load
+	copy={copy}
+	locale={props.locale}
+	links={links}
+/>

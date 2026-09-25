@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { type RouteCandidate, suggestRoutes } from "@/lib/suggest-route";
 
 interface NotFoundSuggestionsProps {
+	label: string;
 	candidates: ReadonlyArray<RouteCandidate>;
 }
 
@@ -22,7 +23,7 @@ export function NotFoundSuggestions(props: NotFoundSuggestionsProps) {
 				id="did-you-mean"
 				className="pb-3 font-mono text-xs text-muted-foreground"
 			>
-				Did you mean
+				{props.label}
 			</h2>
 			<ul>
 				{suggestions.map((suggestion) => (

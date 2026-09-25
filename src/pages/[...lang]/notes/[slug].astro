@@ -11,42 +11,56 @@ import NoteLink from "@/components/notes/note-link.astro";
 import { NoteToc } from "@/components/notes/note-toc/note-toc";
 import { toTocHeadings } from "@/components/notes/note-toc/note-toc-headings";
 import NoteTocMobile from "@/components/notes/note-toc/note-toc-mobile.astro";
-import { getNotes } from "@/lib/notes";
+import { getDictionary, type Locale, localeStaticPaths } from "@/i18n";
+import { getNotes, type Note } from "@/lib/notes";
 
 export async function getStaticPaths() {
-	return pipe(
-		AR.make(getNotes()),
-		AR.map(
-			A.map((note) => ({
-				params: { slug: note.slug },
-				props: { note },
-			})),
+	const paths = await Promise.all(
+		localeStaticPaths().map((path) =>
+			pipe(
+				AR.make(getNotes(path.props.locale)),
+				AR.map(
+					A.map((note) => ({
+						params: { lang: path.params.lang, slug: note.slug },
+						props: { note, locale: path.props.locale },
+					})),
+				),
+				AR.match(F.identity, () => []),
+			),
 		),
-		AR.match(F.identity, () => []),
 	);
+	return paths.flat();
 }
 
-const { note } = Astro.props;
+interface Props {
+	note: Note;
+	locale: Locale;
+}
+
+const note = Astro.props.note;
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
 
 const { Content, headings } = await render(note);
 const toc = toTocHeadings(headings);
 ---
 
-<Root>
+<Root {locale}>
 	<Seo
+		{locale}
 		title={note.data.title}
 		description={note.data.description}
 		slot="meta"
 	/>
 
-	<NavigationBar />
+	<NavigationBar {locale} />
 	<main class="typeset">
 		<div class="wrapper relative">
 			<header>
 				<h1>{note.data.title}</h1>
 			</header>
 
-			{toc.length > 0 && <NoteTocMobile headings={toc} />}
+			{toc.length > 0 && <NoteTocMobile label={t.notes.onThisPage} headings={toc} />}
 
 			<article>
 				<Content components={{ a: NoteLink, pre: NoteCodeBlock }} />
@@ -55,12 +69,12 @@ const toc = toTocHeadings(headings);
 			{toc.length > 0 && (
 	<aside class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block">
 		<div class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6">
-			<NoteToc client:idle headings={toc} />
+			<NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
 		</div>
 	</aside>
 )}
 		</div>
 	</main>
-	<PageLightbox client:idle />
-	<Footer />
+	<PageLightbox client:idle copy={t.lightbox} />
+	<Footer {locale} />
 </Root>

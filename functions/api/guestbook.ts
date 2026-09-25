@@ -1,11 +1,11 @@
 import { AR, O, pipe, R } from "@mobily/ts-belt";
-
+import { en } from "../../src/i18n/en";
 import {
+	createGuestbookAnonymousSchema,
+	createGuestbookVerifiedSchema,
 	GUESTBOOK_SELECT,
 	type GuestbookEntry,
-	guestbookAnonymousSchema,
 	guestbookQuerySchema,
-	guestbookVerifiedSchema,
 	normalizeSite,
 	toGuestbookPage,
 } from "../../src/lib/guestbook/schema";
@@ -16,6 +16,13 @@ import {
 	triggerRebuild,
 } from "../_lib/guestbook";
 import { verifyTurnstile } from "../_lib/turnstile";
+
+const guestbookVerifiedSchema = createGuestbookVerifiedSchema(
+	en.guestbook.validation,
+);
+const guestbookAnonymousSchema = createGuestbookAnonymousSchema(
+	en.guestbook.validation,
+);
 
 interface NewComment {
 	name: string;

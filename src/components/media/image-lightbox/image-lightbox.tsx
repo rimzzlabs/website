@@ -22,6 +22,8 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel";
 import { DialogClose } from "@/components/ui/dialog";
+import type { Dictionary } from "@/i18n/en";
+import { fill } from "@/i18n/fill";
 
 export interface LightboxImage {
 	src: string;
@@ -31,7 +33,10 @@ export interface LightboxImage {
 	caption?: string;
 }
 
+export type LightboxCopy = Dictionary["lightbox"];
+
 interface ImageLightboxProps {
+	copy: LightboxCopy;
 	images: ReadonlyArray<LightboxImage>;
 	startIndex: number;
 	onSelectedIndexChange?: (index: number) => void;
@@ -118,14 +123,17 @@ export function ImageLightbox(props: ImageLightboxProps) {
 			}}
 			setApi={setApi}
 			className="h-dvh"
-			aria-label="Image viewer"
+			aria-label={props.copy.viewer}
 			onKeyDown={handleKeyDown}
 		>
 			<CarouselContent className="h-dvh">
 				{props.images.map((image, index) => (
 					<CarouselItem
 						key={image.src}
-						aria-label={`${index + 1} of ${props.images.length}`}
+						aria-label={fill(props.copy.slide, {
+							index: index + 1,
+							total: props.images.length,
+						})}
 						aria-hidden={index !== selectedIndex}
 						className="h-dvh pt-16 pb-6"
 					>
@@ -151,7 +159,10 @@ export function ImageLightbox(props: ImageLightboxProps) {
 								{selectedIndex + 1} / {props.images.length}
 							</span>
 							<span className="sr-only" aria-live="polite">
-								Image {selectedIndex + 1} of {props.images.length}
+								{fill(props.copy.counter, {
+									index: selectedIndex + 1,
+									total: props.images.length,
+								})}
 							</span>
 						</>
 					)}
@@ -163,7 +174,7 @@ export function ImageLightbox(props: ImageLightboxProps) {
 						variant="ghost"
 						size="icon"
 						className={CONTROL_CLASS}
-						aria-label="Zoom out"
+						aria-label={props.copy.zoomOut}
 						focusableWhenDisabled
 						disabled={activeScale <= MIN_SCALE}
 						onClick={() => activeApi()?.zoomOut()}
@@ -174,7 +185,7 @@ export function ImageLightbox(props: ImageLightboxProps) {
 						type="button"
 						variant="ghost"
 						className="h-11 min-w-16 tabular-nums aria-disabled:opacity-50"
-						aria-label={`Reset zoom, current zoom ${zoomPercent}%`}
+						aria-label={fill(props.copy.resetZoom, { percent: zoomPercent })}
 						focusableWhenDisabled
 						disabled={activeScale <= MIN_SCALE}
 						onClick={() => activeApi()?.reset()}
@@ -186,7 +197,7 @@ export function ImageLightbox(props: ImageLightboxProps) {
 						variant="ghost"
 						size="icon"
 						className={CONTROL_CLASS}
-						aria-label="Zoom in"
+						aria-label={props.copy.zoomIn}
 						focusableWhenDisabled
 						disabled={activeScale >= MAX_SCALE}
 						onClick={() => activeApi()?.zoomIn()}
@@ -200,7 +211,7 @@ export function ImageLightbox(props: ImageLightboxProps) {
 								variant="ghost"
 								size="icon"
 								className={CONTROL_CLASS}
-								aria-label="Close"
+								aria-label={props.copy.close}
 							/>
 						}
 					>
@@ -213,11 +224,11 @@ export function ImageLightbox(props: ImageLightboxProps) {
 				<>
 					<CarouselPrevious
 						className="left-3 size-11 sm:left-4"
-						aria-label="Previous image"
+						aria-label={props.copy.previous}
 					/>
 					<CarouselNext
 						className="right-3 size-11 sm:right-4"
-						aria-label="Next image"
+						aria-label={props.copy.next}
 					/>
 				</>
 			)}

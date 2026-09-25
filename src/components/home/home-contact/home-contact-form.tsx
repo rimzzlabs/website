@@ -12,10 +12,12 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { type ContactInput, contactSchema } from "@/lib/contact";
+import type { Dictionary } from "@/i18n/en";
+import { type ContactInput, createContactSchema } from "@/lib/contact";
 import { useTurnstile } from "@/lib/hooks/use-turnstile";
 
 interface HomeContactFormProps {
+	copy: Dictionary["contact"];
 	closeButton: React.ReactNode;
 	actionsClassName: string;
 }
@@ -34,7 +36,7 @@ export function HomeContactForm(props: HomeContactFormProps) {
 	const [status, setStatus] = useState<SubmitStatus>("idle");
 	const turnstile = useTurnstile({ enabled: status !== "success" });
 	const form = useForm<ContactInput>({
-		resolver: zodResolver(contactSchema),
+		resolver: zodResolver(createContactSchema(props.copy.validation)),
 		defaultValues: { name: "", email: "", message: "", company: "" },
 	});
 
@@ -65,7 +67,9 @@ export function HomeContactForm(props: HomeContactFormProps) {
 					className="flex flex-1 flex-col items-center justify-center gap-3 py-8 text-center"
 				>
 					<CheckCircleIcon className="size-10 text-primary" />
-					<p className="font-serif text-lg font-semibold">Message sent</p>
+					<p className="font-serif text-lg font-semibold">
+						{props.copy.successTitle}
+					</p>
 					<p className="max-w-xs text-sm text-pretty text-muted-foreground">
 						Thanks for reaching out. I read every message and I will reply by
 						email.
@@ -87,14 +91,14 @@ export function HomeContactForm(props: HomeContactFormProps) {
 			<FieldGroup>
 				<Field data-invalid={Boolean(errors.name)}>
 					<FieldLabel htmlFor="contact-name">
-						Name
+						{props.copy.name}
 						<RequiredMark />
 					</FieldLabel>
 					<Input
 						id="contact-name"
 						aria-required="true"
 						autoComplete="name"
-						placeholder="Your name"
+						placeholder={props.copy.namePlaceholder}
 						aria-invalid={Boolean(errors.name)}
 						{...form.register("name")}
 					/>
@@ -103,7 +107,7 @@ export function HomeContactForm(props: HomeContactFormProps) {
 
 				<Field data-invalid={Boolean(errors.email)}>
 					<FieldLabel htmlFor="contact-email">
-						Email
+						{props.copy.email}
 						<RequiredMark />
 					</FieldLabel>
 					<Input
@@ -112,7 +116,7 @@ export function HomeContactForm(props: HomeContactFormProps) {
 						type="email"
 						autoComplete="email"
 						inputMode="email"
-						placeholder="you@example.com"
+						placeholder={props.copy.emailPlaceholder}
 						aria-invalid={Boolean(errors.email)}
 						{...form.register("email")}
 					/>
@@ -121,14 +125,14 @@ export function HomeContactForm(props: HomeContactFormProps) {
 
 				<Field data-invalid={Boolean(errors.message)}>
 					<FieldLabel htmlFor="contact-message">
-						Message
+						{props.copy.message}
 						<RequiredMark />
 					</FieldLabel>
 					<Textarea
 						id="contact-message"
 						aria-required="true"
 						rows={5}
-						placeholder="What are you working on?"
+						placeholder={props.copy.messagePlaceholder}
 						aria-invalid={Boolean(errors.message)}
 						className="min-h-32 resize-none"
 						{...form.register("message")}
@@ -148,7 +152,7 @@ export function HomeContactForm(props: HomeContactFormProps) {
 
 			{status === "error" && (
 				<p role="alert" className="text-sm text-destructive">
-					Your message did not send. Please try again, or book a call instead.
+					{props.copy.error}
 				</p>
 			)}
 
@@ -161,7 +165,7 @@ export function HomeContactForm(props: HomeContactFormProps) {
 				<div className={props.actionsClassName}>
 					<Button type="submit" disabled={form.formState.isSubmitting}>
 						<PaperPlaneTiltIcon />
-						{form.formState.isSubmitting ? "Sending…" : "Send message"}
+						{form.formState.isSubmitting ? props.copy.sending : props.copy.send}
 					</Button>
 					{props.closeButton}
 				</div>

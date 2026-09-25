@@ -7,6 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField, fontProviders } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import { localizedErrorPages } from "./src/lib/integrations/localized-error-pages.mjs";
 import { shikiCodeMeta } from "./src/lib/markdown/shiki-code-meta.mjs";
 
 // https://astro.build/config
@@ -63,7 +64,13 @@ export default defineConfig({
 			babel: { plugins: [["babel-plugin-react-compiler", { target: "19" }]] },
 		}),
 		mdx(),
-		sitemap(),
+		localizedErrorPages(["id"]),
+		sitemap({
+			i18n: {
+				defaultLocale: "en",
+				locales: { en: "en-US", id: "id-ID" },
+			},
+		}),
 	],
 	fonts: [
 		{

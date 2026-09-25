@@ -1,0 +1,95 @@
+---
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { NotFoundSuggestions } from "@/components/not-found/not-found-suggestions";
+import { buttonVariants } from "@/components/ui/button";
+import { getDictionary, type Locale, localizePath } from "@/i18n";
+import { getNotes } from "@/lib/notes";
+import { type RouteCandidate, toRouteKey } from "@/lib/suggest-route";
+
+interface Props {
+	locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+
+const PAGES: ReadonlyArray<RouteCandidate> = [
+	{
+		href: localizePath("/notes", locale),
+		label: t.nav.notes,
+		keys: ["notes", "blog", "posts", "catatan"],
+	},
+	{
+		href: localizePath("/guestbook", locale),
+		label: t.nav.guestbook,
+		keys: ["guestbook", "buku-tamu", "bukutamu"],
+	},
+	{
+		href: localizePath("/archive", locale),
+		label: t.footer.archive,
+		keys: ["archive", "arsip"],
+	},
+	{
+		href: localizePath("/now", locale),
+		label: t.footer.now,
+		keys: ["now", "sekarang"],
+	},
+];
+
+const notes = await getNotes(locale);
+const candidates: Array<RouteCandidate> = [
+	...notes.map((note) => ({
+		href: note.url,
+		label: note.data.title,
+		keys: [note.slug, toRouteKey(note.data.title)],
+	})),
+	...PAGES,
+];
+---
+
+<Root {locale}>
+	<Seo
+		slot="meta"
+		{locale}
+		title={t.notFound.seoTitle}
+		description={t.notFound.seoDescription}
+		noindex
+	/>
+
+	<NavigationBar {locale} />
+
+	<main class="wrapper pt-10">
+		<p class="pt-6 font-mono text-xs text-muted-foreground">404</p>
+		<h1
+			class="pt-2 pb-4 font-serif text-[2em] font-semibold text-balance leading-tight tracking-tight"
+		>
+			{t.notFound.title}
+		</h1>
+		<p class="max-w-[65ch] text-pretty text-muted-foreground">
+			{t.notFound.body}
+		</p>
+
+		<NotFoundSuggestions
+			client:load
+			candidates={candidates}
+			label={t.notFound.didYouMean}
+		/>
+
+		<div class="flex flex-wrap gap-2 pt-10">
+			<a href={localizePath("/", locale)} class={buttonVariants()}>
+				{t.notFound.home}
+			</a>
+			<a
+				href={localizePath("/notes", locale)}
+				class={buttonVariants({ variant: "outline" })}
+			>
+				{t.notFound.browseNotes}
+			</a>
+		</div>
+	</main>
+
+	<Footer {locale} />
+</Root>

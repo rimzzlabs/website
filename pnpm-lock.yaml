@@ -91,6 +91,9 @@ importers:
       shadcn:
         specifier: ^4.21.0
         version: 4.21.0(typescript@7.0.2)
+      sharp:
+        specifier: ^0.35.4
+        version: 0.35.4(@types/node@24.13.5)
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3

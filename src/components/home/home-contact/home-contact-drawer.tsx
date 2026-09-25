@@ -1,10 +1,4 @@
 import { ChatCircleTextIcon } from "@phosphor-icons/react";
-
-import {
-	CONTACT_DESCRIPTION,
-	CONTACT_TITLE,
-	CONTACT_TRIGGER,
-} from "@/components/home/home-contact/home-contact-copy";
 import { HomeContactForm } from "@/components/home/home-contact/home-contact-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,27 +10,33 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
+import type { Dictionary } from "@/i18n/en";
 
-export function HomeContactDrawer() {
+interface HomeContactDrawerProps {
+	copy: Dictionary["contact"];
+}
+
+export function HomeContactDrawer(props: HomeContactDrawerProps) {
 	return (
 		<Drawer showSwipeHandle>
 			<DrawerTrigger render={<Button />}>
 				<ChatCircleTextIcon />
-				{CONTACT_TRIGGER}
+				{props.copy.trigger}
 			</DrawerTrigger>
 
 			<DrawerContent>
 				<DrawerHeader>
-					<DrawerTitle>{CONTACT_TITLE}</DrawerTitle>
-					<DrawerDescription>{CONTACT_DESCRIPTION}</DrawerDescription>
+					<DrawerTitle>{props.copy.title}</DrawerTitle>
+					<DrawerDescription>{props.copy.description}</DrawerDescription>
 				</DrawerHeader>
 
 				<div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
 					<HomeContactForm
+						copy={props.copy}
 						actionsClassName="flex flex-col gap-2"
 						closeButton={
 							<DrawerClose render={<Button variant="ghost" />}>
-								Close
+								{props.copy.close}
 							</DrawerClose>
 						}
 					/>

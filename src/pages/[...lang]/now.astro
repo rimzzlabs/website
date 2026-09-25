@@ -4,7 +4,15 @@ import Footer from "@/components/layouts/footer.astro";
 import NavigationBar from "@/components/layouts/navigation-bar.astro";
 import Root from "@/components/layouts/root.astro";
 import Seo from "@/components/layouts/seo.astro";
+import RichText from "@/components/rich-text.astro";
 import Link from "@/components/ui/link.astro";
+import {
+	fill,
+	getDictionary,
+	type Locale,
+	localeStaticPaths,
+	localizePath,
+} from "@/i18n";
 import { formatDate, parsePublishedAt } from "@/lib/datetime";
 import { getNotes } from "@/lib/notes";
 
@@ -22,46 +30,44 @@ interface NowItem {
 
 const UPDATED_AT = "09/25/2026";
 
-const title = "Now, Rizki Citra";
-const description =
-	"What I'm focused on right now: work, side projects, writing, and this site.";
+export function getStaticPaths() {
+	return localeStaticPaths();
+}
 
-const notes = await getNotes();
+interface Props {
+	locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+
+const notes = await getNotes(locale);
 const latestNote = notes[0];
 const updatedAt = parsePublishedAt(UPDATED_AT);
 
 const ITEMS: ReadonlyArray<NowItem> = [
 	{
-		label: "Work",
-		title: "Building the frontend at Kolosal AI",
-		description:
-			"I design and build the app where people work with large language models. Full-time, and fully remote.",
+		...t.now.work,
 		links: [{ label: "kolosal.ai", href: "https://kolosal.ai" }],
 	},
 	{
-		label: "Building",
-		title: "Mayarin, with a friend",
-		description: "Payments infrastructure for the borderless economy.",
+		...t.now.building,
 		links: [{ label: "mayarin.xyz", href: "https://mayarin.xyz" }],
 	},
 	{
-		label: "Side projects",
-		title: "Lanjut and Absqir",
-		description:
-			"Lanjut is a local-first, ATS-friendly resume builder. Absqir is open source attendance you host yourself. I also contribute to Trymorrow.",
+		...t.now.sideProjects,
 		links: [
 			{ label: "lanjut.rimzzlabs.com", href: "https://lanjut.rimzzlabs.com" },
 			{ label: "absqir.rimzzlabs.com", href: "https://absqir.rimzzlabs.com" },
 		],
 	},
 	{
-		label: "This site",
-		title: "Relaunching rimzzlabs.com",
-		description:
-			"New typography, a guestbook, and this page. The redesign goes live on September 27, 2026.",
+		label: t.now.site.label,
+		title: t.now.site.title,
+		description: t.now.site.description,
 		links: [
 			{
-				label: "Source code",
+				label: t.now.site.sourceCode,
 				href: "https://github.com/rimzzlabs/website",
 			},
 		],
@@ -69,24 +75,32 @@ const ITEMS: ReadonlyArray<NowItem> = [
 ];
 ---
 
-<Root>
-	<Seo slot="meta" {title} {description} />
+<Root {locale}>
+	<Seo
+		slot="meta"
+		{locale}
+		title={t.now.seoTitle}
+		description={t.now.seoDescription}
+	/>
 
-	<NavigationBar />
+	<NavigationBar {locale} />
 
 	<main>
 		<header class="wrapper pt-10">
 			<h1
 				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
 			>
-				Now
+				{t.now.title}
 			</h1>
 
 			<p class="max-w-[65ch] text-pretty text-muted-foreground">
-				A snapshot of what I'm focused on at this point in my life. It's a /now
-				page, an idea from <Link href="https://sive.rs">Derek Sivers</Link>. You
-				can find many more on
-				<Link href="https://nownownow.com">nownownow.com</Link>.
+				<RichText
+					text={t.now.intro}
+					links={{
+	derek: { href: "https://sive.rs", label: "Derek Sivers" },
+	nownownow: { href: "https://nownownow.com", label: "nownownow.com" },
+}}
+				/>
 			</p>
 
 			<p
@@ -100,25 +114,26 @@ const ITEMS: ReadonlyArray<NowItem> = [
 						class="relative inline-flex size-2 rounded-full bg-primary"
 					></span>
 				</span>
-				Last updated
+				{t.now.lastUpdated}
 				<time datetime={updatedAt.toISOString()}
-					>{formatDate()(updatedAt)}</time
+					>{formatDate(undefined, locale)(updatedAt)}</time
 				>
 			</p>
 		</header>
 
-		<section class="wrapper pt-12" aria-label="What I'm doing now">
+		<section class="wrapper pt-12" aria-label={t.now.sectionLabel}>
 			<ul>
 				{ITEMS.map((item) => (
 	<li class="flex flex-col gap-1 border-b py-5 first-of-type:border-t sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
 		<p class="font-mono text-xs text-muted-foreground">{item.label}</p>
 		<div>
 			<h2 class="font-serif text-[1.05em] font-medium text-pretty">
-				{item.title}
+				<Fragment set:html={item.title} />
 			</h2>
-			<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
-				{item.description}
-			</p>
+			<p
+				class="pt-1 text-sm/relaxed text-pretty text-muted-foreground"
+				set:html={item.description}
+			/>
 			<p class="flex flex-wrap gap-x-4 gap-y-1 pt-2 text-sm">
 				{item.links.map((link) => (
 					<a
@@ -129,7 +144,7 @@ const ITEMS: ReadonlyArray<NowItem> = [
 					>
 						{link.label}
 						<ArrowUpRightIcon aria-hidden="true" className="size-[1em]" />
-						<span class="sr-only">, opens in a new tab</span>
+						<span class="sr-only">{t.common.opensInNewTab}</span>
 					</a>
 				))}
 			</p>
@@ -139,17 +154,22 @@ const ITEMS: ReadonlyArray<NowItem> = [
 
 				{latestNote && (
 	<li class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
-		<p class="font-mono text-xs text-muted-foreground">Writing</p>
+		<p class="font-mono text-xs text-muted-foreground">{t.now.writing.label}</p>
 		<div>
 			<h2 class="font-serif text-[1.05em] font-medium text-pretty">
-				Notes on what I learn while I build
+				{t.now.writing.title}
 			</h2>
 			<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
-				{notes.length} notes so far. The latest one is{" "}
-				<a href={latestNote.url} class="text-foreground link-underline">
-					{latestNote.data.title}
-				</a>
-				.
+				<RichText
+					text={fill(t.now.writing.body, { count: notes.length })}
+					links={{
+						note: {
+							href: latestNote.url,
+							label: latestNote.data.title,
+							class: "inline px-0 text-foreground",
+						},
+					}}
+				/>
 			</p>
 		</div>
 	</li>
@@ -158,17 +178,24 @@ const ITEMS: ReadonlyArray<NowItem> = [
 				<li
 					class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6"
 				>
-					<p class="font-mono text-xs text-muted-foreground">Open to</p>
+					<p class="font-mono text-xs text-muted-foreground">
+						{t.now.openTo.label}
+					</p>
 					<div>
 						<h2 class="font-serif text-[1.05em] font-medium text-pretty">
-							Interesting projects and good conversations
+							{t.now.openTo.title}
 						</h2>
 						<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
-							I work full-time, so I don't take on much outside work. If you
-							have something interesting in mind,{" "}
-							<a href="/#contact" class="text-foreground link-underline"
-								>say hello</a
-							>.
+							<RichText
+								text={t.now.openTo.body}
+								links={{
+	sayHello: {
+		href: `${localizePath("/", locale)}#contact`,
+		label: t.now.openTo.sayHello,
+		class: "inline px-0 text-foreground",
+	},
+}}
+							/>
 						</p>
 					</div>
 				</li>
@@ -176,5 +203,5 @@ const ITEMS: ReadonlyArray<NowItem> = [
 		</section>
 	</main>
 
-	<Footer />
+	<Footer {locale} />
 </Root>

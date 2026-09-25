@@ -2,6 +2,7 @@ import { cn } from "cn";
 
 import {
 	ImageLightbox,
+	type LightboxCopy,
 	type LightboxImage,
 } from "@/components/media/image-lightbox/image-lightbox";
 import { supportsViewTransition } from "@/components/media/image-lightbox/use-lightbox-transition";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 
 interface ImageLightboxDialogProps {
+	copy: LightboxCopy;
 	images: ReadonlyArray<LightboxImage>;
 	openIndex: number | null;
 	title: string;
@@ -42,11 +44,11 @@ export function ImageLightboxDialog(props: ImageLightboxDialogProps) {
 			>
 				<DialogTitle className="sr-only">{props.title}</DialogTitle>
 				<DialogDescription className="sr-only">
-					Use the left and right arrow keys to change the image. Press plus or
-					minus to zoom, and 0 to reset the zoom.
+					{props.copy.help}
 				</DialogDescription>
 				{props.openIndex !== null && (
 					<ImageLightbox
+						copy={props.copy}
 						images={props.images}
 						startIndex={props.openIndex}
 						onSelectedIndexChange={props.onSelectedIndexChange}

@@ -1,8 +1,10 @@
 import { cn } from "cn";
 import { useRef } from "react";
 
+import type { LightboxCopy } from "@/components/media/image-lightbox/image-lightbox";
 import { ImageLightboxDialog } from "@/components/media/image-lightbox/image-lightbox-dialog";
 import { useLightboxTransition } from "@/components/media/image-lightbox/use-lightbox-transition";
+import { fill } from "@/i18n/fill";
 import { type MasonryColumn, toMasonryColumns } from "@/lib/masonry";
 
 interface ImageSize {
@@ -17,11 +19,15 @@ export interface ImageGallery {
 	full: ImageSize;
 }
 
+type HomeGalleryCopy = LightboxCopy & { viewFullSize: string };
+
 interface HomeGalleryProps {
+	copy: HomeGalleryCopy;
 	images: ReadonlyArray<ImageGallery>;
 }
 
 interface GalleryItemProps {
+	viewFullSize: string;
 	image: ImageGallery;
 	index: number;
 	onOpen: () => void;
@@ -31,7 +37,7 @@ function GalleryItem(props: GalleryItemProps) {
 	return (
 		<button
 			type="button"
-			aria-label={`${props.image.alt}, view full size`}
+			aria-label={fill(props.viewFullSize, { alt: props.image.alt })}
 			onClick={props.onOpen}
 			className="group/gallery block w-full cursor-zoom-in rounded-sm focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-muted/20 focus-visible:outline-transparent"
 		>
@@ -50,6 +56,7 @@ function GalleryItem(props: GalleryItemProps) {
 }
 
 interface GalleryColumnsProps {
+	viewFullSize: string;
 	columns: Array<MasonryColumn<ImageGallery>>;
 	className: string;
 	onOpen: (index: number) => void;
@@ -64,6 +71,7 @@ function GalleryColumns(props: GalleryColumnsProps) {
 						<GalleryItem
 							key={entry.item.thumb.src}
 							image={entry.item}
+							viewFullSize={props.viewFullSize}
 							index={entry.index}
 							onOpen={() => props.onOpen(entry.index)}
 						/>
@@ -98,11 +106,13 @@ export function HomeGallery(props: HomeGalleryProps) {
 				<GalleryColumns
 					columns={toMasonryColumns(props.images, 2)}
 					className="flex md:hidden"
+					viewFullSize={props.copy.viewFullSize}
 					onOpen={lightbox.open}
 				/>
 				<GalleryColumns
 					columns={toMasonryColumns(props.images, 3)}
 					className="hidden md:flex"
+					viewFullSize={props.copy.viewFullSize}
 					onOpen={lightbox.open}
 				/>
 			</div>
@@ -110,7 +120,8 @@ export function HomeGallery(props: HomeGalleryProps) {
 			<ImageLightboxDialog
 				images={lightboxImages}
 				openIndex={lightbox.openIndex}
-				title="Gallery"
+				copy={props.copy}
+				title={props.copy.galleryTitle}
 				onClose={lightbox.close}
 				onSelectedIndexChange={lightbox.onSelectedIndexChange}
 			/>

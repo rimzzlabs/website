@@ -1,8 +1,9 @@
 import { ArrowDownIcon } from "@phosphor-icons/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-
 import { GuestbookEntry } from "@/components/guestbook/guestbook-entry";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/en";
 import { fetchGuestbookPage, GUESTBOOK_QUERY_KEY } from "@/lib/guestbook/api";
 import type { GuestbookPage } from "@/lib/guestbook/schema";
 import { getQueryClient } from "@/lib/query-client";
@@ -15,6 +16,8 @@ function toInitialData(page: GuestbookPage) {
 }
 
 interface GuestbookEntriesProps {
+	copy: Dictionary["guestbook"];
+	locale: Locale;
 	initialPage: GuestbookPage;
 }
 
@@ -33,7 +36,7 @@ export function GuestbookEntries(props: GuestbookEntriesProps) {
 
 	if (query.isPending) {
 		return (
-			<ul aria-busy="true" aria-label="Loading entries">
+			<ul aria-busy="true" aria-label={props.copy.loading}>
 				{SKELETON_ROWS.map((row) => (
 					<li key={row} className="flex gap-3 border-b py-4 first:border-t">
 						<Skeleton className="size-8 rounded-full" />
@@ -50,7 +53,7 @@ export function GuestbookEntries(props: GuestbookEntriesProps) {
 	if (query.isError) {
 		return (
 			<p role="alert" className="border-y py-4 text-sm text-muted-foreground">
-				The guestbook did not load. Please refresh the page.
+				{props.copy.loadError}
 			</p>
 		);
 	}
@@ -60,7 +63,7 @@ export function GuestbookEntries(props: GuestbookEntriesProps) {
 	if (entries.length === 0) {
 		return (
 			<p className="border-y py-4 text-sm text-muted-foreground">
-				No entries yet. Be the first to sign it.
+				{props.copy.empty}
 			</p>
 		);
 	}
@@ -68,7 +71,12 @@ export function GuestbookEntries(props: GuestbookEntriesProps) {
 	return (
 		<ul>
 			{entries.map((entry) => (
-				<GuestbookEntry key={entry.id} entry={entry} />
+				<GuestbookEntry
+					key={entry.id}
+					entry={entry}
+					copy={props.copy}
+					locale={props.locale}
+				/>
 			))}
 			{query.hasNextPage && (
 				<li className="border-b">
@@ -78,7 +86,9 @@ export function GuestbookEntries(props: GuestbookEntriesProps) {
 						onClick={() => query.fetchNextPage()}
 						className="group/more inline-flex w-full items-center gap-1.5 py-3 font-serif text-[1.05em] font-medium text-muted-foreground transition hover:text-foreground disabled:opacity-60"
 					>
-						{query.isFetchingNextPage ? "Loading…" : "Show more entries"}
+						{query.isFetchingNextPage
+							? props.copy.loadingMore
+							: props.copy.showMore}
 						<ArrowDownIcon
 							aria-hidden="true"
 							className="size-4 transition group-hover/more:translate-y-0.5"

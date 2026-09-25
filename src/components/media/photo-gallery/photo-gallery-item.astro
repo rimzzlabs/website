@@ -1,5 +1,6 @@
 ---
 import { cn } from "cn";
+import { fill, getDictionary, localeFromPath } from "@/i18n";
 import type { PhotoSource } from "@/lib/photo-source";
 
 interface Props {
@@ -10,11 +11,12 @@ interface Props {
 }
 
 const props = Astro.props;
+const t = getDictionary(localeFromPath(Astro.url.pathname));
 ---
 
 <button
 	type="button"
-	aria-label={`${props.photo.alt}, view full size`}
+	aria-label={fill(t.common.viewFullSize, { alt: props.photo.alt })}
 	data-lightbox-trigger
 	data-lightbox-src={props.photo.full.src}
 	data-lightbox-width={props.photo.full.width}

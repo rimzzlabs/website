@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PaperPlaneTiltIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +13,12 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import type { Dictionary } from "@/i18n/en";
 import { authClient } from "@/lib/auth-client";
 import { GUESTBOOK_QUERY_KEY, postGuestbookEntry } from "@/lib/guestbook/api";
 import {
+	createGuestbookAnonymousSchema,
 	type GuestbookInput,
-	guestbookAnonymousSchema,
 } from "@/lib/guestbook/schema";
 import { useTurnstile } from "@/lib/hooks/use-turnstile";
 import { getQueryClient } from "@/lib/query-client";
@@ -29,6 +29,7 @@ export interface GuestbookUser {
 }
 
 interface GuestbookFormProps {
+	copy: Dictionary["guestbook"];
 	user: GuestbookUser | null;
 	onCancel?: () => void;
 }
@@ -37,7 +38,9 @@ export function GuestbookForm(props: GuestbookFormProps) {
 	const queryClient = getQueryClient();
 	const turnstile = useTurnstile({ enabled: props.user === null });
 	const form = useForm<GuestbookInput>({
-		resolver: zodResolver(guestbookAnonymousSchema),
+		resolver: zodResolver(
+			createGuestbookAnonymousSchema(props.copy.validation),
+		),
 		defaultValues: { name: "", site: "", message: "", company: "" },
 	});
 
@@ -83,7 +86,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 						<div className="min-w-0 flex-1">
 							<p className="truncate font-medium">{props.user.name}</p>
 							<p className="text-xs text-muted-foreground">
-								Signed in with GitHub
+								{props.copy.signedInWith}
 							</p>
 						</div>
 						<Button
@@ -92,44 +95,42 @@ export function GuestbookForm(props: GuestbookFormProps) {
 							size="sm"
 							onClick={() => authClient.signOut()}
 						>
-							Sign out
+							{props.copy.signOut}
 						</Button>
 					</div>
 				) : (
 					<Field data-invalid={Boolean(errors.name)}>
-						<FieldLabel htmlFor="guestbook-name">Name</FieldLabel>
+						<FieldLabel htmlFor="guestbook-name">{props.copy.name}</FieldLabel>
 						<Input
 							id="guestbook-name"
 							autoComplete="name"
-							placeholder="Anonymous"
+							placeholder={props.copy.namePlaceholder}
 							aria-invalid={Boolean(errors.name)}
 							{...form.register("name")}
 						/>
-						<FieldDescription>Optional.</FieldDescription>
+						<FieldDescription>{props.copy.optional}</FieldDescription>
 						<FieldError errors={[errors.name]} />
 					</Field>
 				)}
 
 				<Field data-invalid={Boolean(errors.site)}>
-					<FieldLabel htmlFor="guestbook-site">Website</FieldLabel>
+					<FieldLabel htmlFor="guestbook-site">{props.copy.website}</FieldLabel>
 					<Input
 						id="guestbook-site"
 						type="url"
 						inputMode="url"
 						autoComplete="url"
-						placeholder="yoursite.com"
+						placeholder={props.copy.websitePlaceholder}
 						aria-invalid={Boolean(errors.site)}
 						{...form.register("site")}
 					/>
-					<FieldDescription>
-						Optional. Your name will link to it.
-					</FieldDescription>
+					<FieldDescription>{props.copy.websiteHint}</FieldDescription>
 					<FieldError errors={[errors.site]} />
 				</Field>
 
 				<Field data-invalid={Boolean(errors.message)}>
 					<FieldLabel htmlFor="guestbook-message">
-						Message
+						{props.copy.message}
 						<span aria-hidden="true" className="-ml-1.5 text-destructive">
 							*
 						</span>
@@ -137,7 +138,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 					<Textarea
 						id="guestbook-message"
 						rows={4}
-						placeholder="Say hi, share a thought, or leave a note."
+						placeholder={props.copy.messagePlaceholder}
 						aria-required="true"
 						aria-invalid={Boolean(errors.message)}
 						className="min-h-28 resize-none"
@@ -158,13 +159,13 @@ export function GuestbookForm(props: GuestbookFormProps) {
 
 			{mutation.isError && (
 				<p role="alert" className="text-sm text-destructive">
-					Your entry did not save. Please try again.
+					{props.copy.error}
 				</p>
 			)}
 
 			{mutation.isSuccess && (
 				<p role="status" className="text-sm text-muted-foreground">
-					Thanks! Your entry is on the list below.
+					{props.copy.success}
 				</p>
 			)}
 
@@ -177,11 +178,11 @@ export function GuestbookForm(props: GuestbookFormProps) {
 				<div className="flex flex-col gap-2 sm:flex-row">
 					<Button type="submit" disabled={mutation.isPending}>
 						<PaperPlaneTiltIcon />
-						{mutation.isPending ? "Signing…" : "Sign the guestbook"}
+						{mutation.isPending ? props.copy.submitting : props.copy.submit}
 					</Button>
 					{props.onCancel && (
 						<Button type="button" variant="ghost" onClick={props.onCancel}>
-							Back
+							{props.copy.back}
 						</Button>
 					)}
 				</div>

@@ -5,37 +5,49 @@ import Footer from "@/components/layouts/footer.astro";
 import NavigationBar from "@/components/layouts/navigation-bar.astro";
 import Root from "@/components/layouts/root.astro";
 import Seo from "@/components/layouts/seo.astro";
+import { getDictionary, type Locale, localeStaticPaths } from "@/i18n";
 import { getGuestbookAtBuild } from "@/lib/guestbook/build";
 
-const title = "Guestbook, Rizki Citra";
-const description =
-	"Leave a note, say hi, or share your website. Sign in with GitHub, or write anonymously.";
+export function getStaticPaths() {
+	return localeStaticPaths();
+}
+
+interface Props {
+	locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
 
 const initialPage = await getGuestbookAtBuild();
 ---
 
-<Root>
-	<Seo slot="meta" {title} {description} />
+<Root {locale}>
+	<Seo
+		slot="meta"
+		{locale}
+		title={t.guestbook.seoTitle}
+		description={t.guestbook.seoDescription}
+	/>
 
-	<NavigationBar />
+	<NavigationBar {locale} />
 
 	<main>
 		<header class="wrapper pt-10">
 			<h1
 				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
 			>
-				Guestbook
+				{t.guestbook.title}
 			</h1>
 
 			<p class="max-w-[65ch] text-pretty text-muted-foreground">
-				Leave a note, say hi, or share your website. Sign in with GitHub, or
-				write anonymously.
+				{t.guestbook.intro}
 			</p>
 		</header>
 
-		<section class="wrapper pt-10" aria-label="Sign the guestbook">
+		<section class="wrapper pt-10" aria-label={t.guestbook.signLabel}>
 			<div class="rounded-2xl bg-muted p-4 sm:p-5">
-				<GuestbookComposer client:load />
+				<GuestbookComposer client:load copy={t.guestbook} />
 			</div>
 		</section>
 
@@ -44,12 +56,17 @@ const initialPage = await getGuestbookAtBuild();
 				id="guestbook-entries"
 				class="pb-3 font-mono text-sm text-muted-foreground"
 			>
-				Entries
+				{t.guestbook.entries}
 			</h2>
 
-			<GuestbookEntries client:visible initialPage={initialPage} />
+			<GuestbookEntries
+				client:visible
+				initialPage={initialPage}
+				copy={t.guestbook}
+				{locale}
+			/>
 		</section>
 	</main>
 
-	<Footer />
+	<Footer {locale} />
 </Root>

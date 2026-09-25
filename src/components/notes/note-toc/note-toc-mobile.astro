@@ -4,6 +4,7 @@ import { cn } from "cn";
 import type { TocHeading } from "@/components/notes/note-toc/note-toc-headings";
 
 interface Props {
+	label: string;
 	headings: ReadonlyArray<TocHeading>;
 }
 
@@ -14,7 +15,7 @@ const props = Astro.props;
 	<summary
 		class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden"
 	>
-		On this page
+		{props.label}
 		<CaretDownIcon
 			aria-hidden="true"
 			className="size-4 text-muted-foreground transition group-open:rotate-180"
