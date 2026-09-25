@@ -3,7 +3,7 @@ import {
 	ArrowCounterClockwiseIcon,
 	PaperPlaneTiltIcon,
 } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -82,15 +82,24 @@ function isTopic(value: string | null): value is FeedbackTopic {
 	return FEEDBACK_TOPICS.some((topic) => topic === value);
 }
 
-function readPrefill() {
+function sameOriginReferrer() {
+	if (!document.referrer.startsWith(window.location.origin)) return "";
+	return document.referrer;
+}
+
+// Values from ?topic= and ?page=, or the page the visitor came from. The server
+// render has no URL, so it keeps the defaults.
+function readInitialValues(): FeedbackInput {
+	if (typeof window === "undefined") return DEFAULT_VALUES;
+
 	const params = new URLSearchParams(window.location.search);
-	const referrer = document.referrer.startsWith(window.location.origin)
-		? document.referrer
-		: "";
-	return {
-		topic: params.get("topic"),
-		page: params.get("page") ?? referrer,
+	const topic = params.get("topic");
+	const values = {
+		...DEFAULT_VALUES,
+		page: params.get("page") ?? sameOriginReferrer(),
 	};
+	if (isTopic(topic)) values.topic = topic;
+	return values;
 }
 
 export function FeedbackForm(props: FeedbackFormProps) {
@@ -105,16 +114,11 @@ function FeedbackFormFields(props: FeedbackFormProps) {
 	const [status, setStatus] = useState<SubmitStatus>("idle");
 	const attachments = useFeedbackAttachments();
 	const turnstile = useTurnstile({ enabled: status === "idle" });
+	const [initialValues] = useState(readInitialValues);
 	const form = useForm<FeedbackInput>({
 		resolver: zodResolver(createFeedbackSchema(props.copy.validation)),
-		defaultValues: DEFAULT_VALUES,
+		defaultValues: initialValues,
 	});
-
-	useEffect(() => {
-		const prefill = readPrefill();
-		if (isTopic(prefill.topic)) form.setValue("topic", prefill.topic);
-		if (prefill.page) form.setValue("page", prefill.page);
-	}, [form]);
 
 	const onSubmit = async (values: FeedbackInput) => {
 		setStatus("idle");
