@@ -1,6 +1,6 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "rimzzlabs-web",
+	"name": "website",
 	"pages_build_output_dir": "./dist",
 	"compatibility_date": "2026-06-30",
 	// better-auth needs Node built-ins (async_hooks, crypto).
