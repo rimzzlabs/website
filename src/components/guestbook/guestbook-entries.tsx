@@ -50,7 +50,7 @@ export function GuestbookEntries(props: GuestbookEntriesProps) {
 		);
 	}
 
-	if (query.isError) {
+	if (!query.data) {
 		return (
 			<p role="alert" className="border-y py-4 text-sm text-muted-foreground">
 				{props.copy.loadError}
