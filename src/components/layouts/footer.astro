@@ -16,7 +16,9 @@ const GROUPS = [
 		id: "footer-pages",
 		title: t.footer.pages,
 		links: [
-			...nav.map((link) => ({ ...link, external: false })),
+			...nav
+				.filter((link) => link.href !== localizePath("/", props.locale))
+				.map((link) => ({ ...link, external: false })),
 			{
 				label: t.footer.now,
 				href: localizePath("/now", props.locale),
