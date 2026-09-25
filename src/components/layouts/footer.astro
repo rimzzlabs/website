@@ -29,6 +29,11 @@ const GROUPS = [
 				href: localizePath("/archive", props.locale),
 				external: false,
 			},
+			{
+				label: t.footer.feedback,
+				href: localizePath("/feedback", props.locale),
+				external: false,
+			},
 		],
 	},
 	{
@@ -78,11 +83,6 @@ const GROUPS = [
 				external: false,
 			},
 			{
-				label: t.footer.feedback,
-				href: localizePath("/feedback", props.locale),
-				external: false,
-			},
-			{
 				label: "RSS",
 				href: localizePath("/notes/rss.xml", props.locale),
 				external: false,
@@ -93,9 +93,7 @@ const GROUPS = [
 ---
 
 <footer class="wrapper pt-20 pb-24 md:pb-10">
-	<div
-		class="flex flex-col gap-10 border-t pt-10 md:flex-row md:justify-between"
-	>
+	<div class="flex flex-col gap-10 border-t pt-10">
 		<p class="font-mono text-sm font-medium">
 			<a href={localizePath("/", props.locale)}>@rimzzlabs</a>
 		</p>
