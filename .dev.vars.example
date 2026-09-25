@@ -3,12 +3,13 @@
 # and fill in the values. In production, set them in the Cloudflare Pages
 # project: Settings > Variables and Secrets.
 
-# --- Contact form (functions/api/contact.tsx) ---
+# --- Contact and feedback forms (functions/api/contact.tsx, feedback.tsx) ---
+# Resend API key, a sender on a domain you verified in Resend, and your inbox.
 RESEND_API_KEY=
 CONTACT_FROM=
 CONTACT_TO=
 
-# --- Turnstile (contact form and anonymous guestbook entries) ---
+# --- Turnstile (contact, feedback, and anonymous guestbook forms) ---
 # SECRET key of the same widget as PUBLIC_CF_TURNSTILE_SITE_KEY in .env.
 # Local test secret that always passes: 1x0000000000000000000000000000000AA
 CF_TURNSTILE_SECRET_KEY=
@@ -20,7 +21,8 @@ SESSION_SECRET=
 
 # GitHub OAuth app. Authorization callback URL:
 #   <origin>/api/auth/callback/github
-# Add a second app, or a second callback, for local `wrangler pages dev`.
+# Use a separate app for local development, with this callback:
+#   http://localhost:5600/api/auth/callback/github
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 
