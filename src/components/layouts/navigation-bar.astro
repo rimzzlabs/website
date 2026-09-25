@@ -17,33 +17,43 @@ const links = getNavigationLinks(props.locale);
 const pathname = Astro.url.pathname;
 ---
 
-<header class="wrapper hidden items-center h-12 md:flex">
-	<nav
-		aria-label={copy.main}
-		class="inline-flex items-center gap-1 text-muted-foreground -ml-2.5"
+<div class="relative hidden h-12 md:block">
+	<header
+		data-site-header
+		data-state="top"
+		class="group/header absolute inset-x-0 top-0 z-45 transition-[top,translate,opacity] duration-300 ease-out data-[animate=false]:transition-none data-[state=hidden]:fixed data-[state=hidden]:top-3 data-[state=hidden]:pointer-events-none data-[state=hidden]:-translate-y-[calc(100%+1rem)] data-[state=hidden]:opacity-0 data-[state=pill]:fixed data-[state=pill]:top-3"
 	>
-		{links.map((link) => (
+		<div
+			class="wrapper flex h-12 items-center rounded-full border border-transparent transition-[padding,background-color,border-color,box-shadow] duration-300 ease-out group-data-[animate=false]/header:transition-none group-data-[state=pill]/header:border-border group-data-[state=pill]/header:bg-background/80 group-data-[state=pill]/header:px-1.5 group-data-[state=pill]/header:shadow-lg group-data-[state=pill]/header:shadow-foreground/5 group-data-[state=pill]/header:backdrop-blur-md"
+		>
+			<nav
+				aria-label={copy.main}
+				class="-ml-2.5 inline-flex items-center gap-1 text-muted-foreground transition-[margin] duration-300 ease-out group-data-[state=pill]/header:ml-0"
+			>
+				{links.map((link) => (
 	<a
 		href={link.href}
 		aria-current={isCurrentLink(link.href, pathname) ? "page" : undefined}
 		class={cn(
 			buttonVariants({ variant: "ghost", size: "sm" }),
-			"aria-[current=page]:text-foreground",
+			"group-data-[state=pill]/header:rounded-full aria-[current=page]:text-foreground",
 		)}
 	>
 		{link.label}
 	</a>
 ))}
-	</nav>
+			</nav>
 
-	<nav
-		aria-label={copy.settings}
-		class="inline-flex items-center gap-1 ml-auto"
-	>
-		<NavigationBarTheme client:load copy={copy} />
-		<NavigationBarSettings client:load copy={copy} locale={props.locale} />
-	</nav>
-</header>
+			<nav
+				aria-label={copy.settings}
+				class="ml-auto inline-flex items-center gap-1"
+			>
+				<NavigationBarTheme client:load copy={copy} />
+				<NavigationBarSettings client:load copy={copy} locale={props.locale} />
+			</nav>
+		</div>
+	</header>
+</div>
 
 <NavigationBarMobile
 	client:load
@@ -52,3 +62,42 @@ const pathname = Astro.url.pathname;
 	links={links}
 	pathname={pathname}
 />
+
+<script>
+import { onScrollDirection } from "@/lib/scroll-direction";
+import { type HeaderState, nextHeaderState } from "./navigation-bar-state";
+
+const header = document.querySelector<HTMLElement>("[data-site-header]");
+
+const setState = (next: HeaderState, animate: boolean) => {
+	if (!header) return;
+	header.dataset.animate = String(animate);
+	header.dataset.state = next;
+};
+
+const isMenuOpen = () =>
+	Boolean(header?.querySelector('[aria-expanded="true"]'));
+
+if (header) {
+	onScrollDirection((change) => {
+		const previous = header.dataset.state as HeaderState;
+		if (isMenuOpen() && change.scroll > 0) return;
+
+		const next = nextHeaderState(previous, change);
+		if (next === previous) return;
+
+		if (previous === "top" && next === "pill") {
+			setState("hidden", false);
+			header.getBoundingClientRect();
+			setState("pill", true);
+			return;
+		}
+
+		setState(next, !(previous === "top" && next === "hidden"));
+	});
+
+	header.addEventListener("focusin", () => {
+		if (header.dataset.state === "hidden") setState("pill", true);
+	});
+}
+</script>
