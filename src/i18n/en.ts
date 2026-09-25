@@ -290,6 +290,22 @@ export const en = {
 		burnCaption:
 			"It shows the burn stages from normal skin to fourth degree. It may not be medically accurate, so treat it as a rough picture, not a reference. Tap to zoom in.",
 	},
+	og: {
+		homeTagline:
+			"Software engineer. I design and build the frontend of apps where people work with AI.",
+		homeStatus: "Now: {work}",
+		note: "Note",
+		readTime: "{count} min read",
+		notesCount: "{count} notes",
+		notesTitle: "What I learn while I build things",
+		guestbookTitle: "Leave a note, say hi, or share your website.",
+		guestbookSigned: "{count} people signed it",
+		guestbookSignedMore: "{count}+ people signed it",
+		nowTitle: "What I'm focused on right now",
+		updated: "Updated {date}",
+		archiveTitle: "{count} years of building things, year by year",
+		archiveDescription: "The jobs, the detours, and everything in between.",
+	},
 	lightbox: {
 		viewer: "Image viewer",
 		slide: "{index} of {total}",

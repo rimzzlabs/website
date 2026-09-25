@@ -8,6 +8,7 @@ import {
 	type Locale,
 	localizePath,
 } from "@/i18n/config";
+import { ogImagePath } from "@/lib/og/paths";
 
 interface Props {
 	title: string;
@@ -49,14 +50,14 @@ const languageAlternates = [
 ];
 
 // Open Graph requires absolute URLs; build them from the configured `site`.
-const ogImageUrl = new URL("/og-image.png", Astro.site).href;
+const ogImageUrl = new URL(ogImagePath(pathname), Astro.site).href;
 const ogImage = {
 	height: 630,
 	width: 1200,
 	type: "image/png",
 	url: ogImageUrl,
 	secureUrl: ogImageUrl,
-	alt: "Rizki Citra, Software Engineer",
+	alt: title,
 };
 
 const personId = new URL("/#person", Astro.site).href;
@@ -130,7 +131,7 @@ const jsonLd = {
 	card: "summary_large_image",
 	creator: "@rimzzlabs",
 	site: "@rimzzlabs",
-	imageAlt: "Rizki Citra, Software Engineer",
+	imageAlt: title,
 }}
 	extend={{
 	link: [

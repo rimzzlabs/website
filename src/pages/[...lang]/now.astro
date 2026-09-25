@@ -6,6 +6,7 @@ import Root from "@/components/layouts/root.astro";
 import Seo from "@/components/layouts/seo.astro";
 import RichText from "@/components/rich-text.astro";
 import Link from "@/components/ui/link.astro";
+import { NOW_UPDATED_AT } from "@/data/now";
 import {
 	fill,
 	getDictionary,
@@ -28,8 +29,6 @@ interface NowItem {
 	links: ReadonlyArray<NowLink>;
 }
 
-const UPDATED_AT = "09/25/2026";
-
 export function getStaticPaths() {
 	return localeStaticPaths();
 }
@@ -43,7 +42,7 @@ const t = getDictionary(locale);
 
 const notes = await getNotes(locale);
 const latestNote = notes[0];
-const updatedAt = parsePublishedAt(UPDATED_AT);
+const updatedAt = parsePublishedAt(NOW_UPDATED_AT);
 
 const ITEMS: ReadonlyArray<NowItem> = [
 	{

@@ -294,6 +294,22 @@ export const id = {
 		burnCaption:
 			"Gambar ini menunjukkan tahapan luka bakar dari kulit normal sampai derajat empat. Belum tentu akurat secara medis, jadi anggap saja sebagai gambaran kasar, bukan acuan. Ketuk untuk memperbesar.",
 	},
+	og: {
+		homeTagline:
+			"Software engineer. Saya merancang dan membangun aplikasi frontend, tempat orang berkolaborasi dengan akal imitasi.",
+		homeStatus: "Sekarang: {work}",
+		note: "Catatan",
+		readTime: "{count} menit baca",
+		notesCount: "{count} catatan",
+		notesTitle: "Yang saya pelajari sambil membangun sesuatu",
+		guestbookTitle: "Tinggalkan pesan, sapa saya, atau bagikan situs kamu.",
+		guestbookSigned: "{count} orang sudah mengisi",
+		guestbookSignedMore: "{count}+ orang sudah mengisi",
+		nowTitle: "Yang sedang saya fokuskan sekarang",
+		updated: "Diperbarui {date}",
+		archiveTitle: "{count} tahun membangun sesuatu, tahun demi tahun",
+		archiveDescription: "Pekerjaan, jalan memutar, dan semua di antaranya.",
+	},
 	lightbox: {
 		viewer: "Penampil gambar",
 		slide: "{index} dari {total}",

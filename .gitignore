@@ -26,3 +26,6 @@ pnpm-debug.log*
 # Cloudflare local state and secrets
 .wrangler/
 .dev.vars
+
+# Design proposals, local only
+public/proposal/
