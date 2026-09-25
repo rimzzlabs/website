@@ -26,6 +26,9 @@ export function getNotes(locale: Locale = DEFAULT_LOCALE) {
 						(path) => localizePath(path, locale),
 					),
 					dateISO: parsePublishedAt(note.data.publishedAt).toISOString(),
+					updatedISO: parsePublishedAt(
+						note.data.updatedAt ?? note.data.publishedAt,
+					).toISOString(),
 				})),
 			),
 		),

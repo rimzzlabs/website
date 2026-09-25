@@ -1,6 +1,7 @@
 ---
 import { A, F, G, O, pipe, S } from "@mobily/ts-belt";
 import { SEO, type SEOProps } from "astro-seo";
+import { getDictionary } from "@/i18n";
 import {
 	DEFAULT_LOCALE,
 	HTML_LANG,
@@ -21,6 +22,8 @@ interface Props {
 }
 
 const { title, description, article, noindex, locale, ...props } = Astro.props;
+
+const t = getDictionary(locale);
 
 const OG_LOCALE: Record<Locale, string> = { en: "en_US", id: "id_ID" };
 
@@ -142,6 +145,12 @@ const jsonLd = {
 	extend={{
 	link: [
 		{ rel: "sitemap", href: "/sitemap-index.xml" },
+		{
+			rel: "alternate",
+			type: "application/rss+xml",
+			title: t.notes.seoTitle,
+			href: localizePath("/notes/rss.xml", locale),
+		},
 		{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
 		{
 			rel: "icon",
