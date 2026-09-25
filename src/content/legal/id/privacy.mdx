@@ -24,7 +24,7 @@ Cloudflare juga berdiri di depan setiap _request_ ke situs ini. Supaya halaman b
 
 ## Cek Bot
 
-Form kontak dan form buku tamu anonim sama-sama memakai [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) untuk menahan spam. Biasanya kamu bahkan tidak sadar dia ada.
+Form kontak, form masukan, dan form buku tamu anonim sama-sama memakai [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) untuk menahan spam. Biasanya kamu bahkan tidak sadar dia ada.
 
 Turnstile baru dimuat saat kamu membuka salah satu form itu. Dia memeriksa sinyal dari _browser_ kamu, lalu server saya mengirim alamat IP kamu ke Cloudflare untuk memastikan hasilnya. Tidak ada data Turnstile yang saya simpan. Saya cuma dapat jawaban lolos atau tidak.
 
@@ -33,6 +33,14 @@ Turnstile baru dimuat saat kamu membuka salah satu form itu. Dia memeriksa sinya
 Form kontak meminta nama, alamat email, dan pesan kamu. Begitu dikirim, pesannya langsung masuk ke kotak masuk saya lewat [Resend](https://resend.com), layanan pengiriman email. Pesan itu tidak disimpan di _database_ mana pun di situs ini.
 
 Resend menyimpan catatan pengiriman email sesuai [kebijakan privasi](https://resend.com/legal/privacy-policy) mereka sendiri. Alamat email kamu cuma saya pakai untuk satu hal: membalas pesan kamu.
+
+## Mengirim Masukan
+
+[Form masukan](/id/feedback) meminta topik dan penjelasan. Alamat halaman, info _browser_, nama, alamat email, dan tangkapan layar semuanya opsional.
+
+Sama seperti form kontak, masukan langsung masuk ke kotak masuk saya lewat Resend, dan tidak ada yang disimpan di situs ini. Tangkapan layar dikirim sebagai lampiran email. Sebelum dikirim, server saya memastikan setiap file benar-benar gambar PNG, JPEG, atau WebP di bawah 4 MB, lalu mengganti namanya. File lain ditolak.
+
+Jadi cek dulu tangkapan layar kamu sebelum dilampirkan, dan potong bagian yang bersifat pribadi.
 
 ## Mengisi Buku Tamu
 

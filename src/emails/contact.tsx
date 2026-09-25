@@ -13,28 +13,13 @@ import {
 	Text,
 } from "react-email";
 
+import { EMAIL_COLORS, EMAIL_FONTS } from "./theme";
+
 interface ContactEmailProps {
 	name: string;
 	email: string;
 	message: string;
 }
-
-const COLORS = {
-	background: "#faf9f5",
-	card: "#f5f4ef",
-	foreground: "#3d3929",
-	muted: "#ede9de",
-	mutedForeground: "#6e6d68",
-	border: "#dad9d4",
-	primary: "#c96442",
-	primaryForeground: "#ffffff",
-};
-
-const FONTS = {
-	serif: "Lora, Georgia, 'Times New Roman', serif",
-	sans: "Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif",
-	mono: "'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace",
-};
 
 const PREVIEW_LENGTH = 90;
 
@@ -58,9 +43,9 @@ export function ContactEmail(props: ContactEmailProps) {
 			<Preview>{preview}</Preview>
 			<Body
 				style={{
-					backgroundColor: COLORS.background,
-					color: COLORS.foreground,
-					fontFamily: FONTS.sans,
+					backgroundColor: EMAIL_COLORS.background,
+					color: EMAIL_COLORS.foreground,
+					fontFamily: EMAIL_FONTS.sans,
 					margin: 0,
 					padding: "40px 16px",
 				}}
@@ -68,8 +53,8 @@ export function ContactEmail(props: ContactEmailProps) {
 				<Container style={{ maxWidth: "560px", margin: "0 auto" }}>
 					<Text
 						style={{
-							color: COLORS.mutedForeground,
-							fontFamily: FONTS.mono,
+							color: EMAIL_COLORS.mutedForeground,
+							fontFamily: EMAIL_FONTS.mono,
 							fontSize: "12px",
 							letterSpacing: "0.04em",
 							margin: "0 0 16px",
@@ -81,7 +66,7 @@ export function ContactEmail(props: ContactEmailProps) {
 					<Heading
 						as="h1"
 						style={{
-							fontFamily: FONTS.serif,
+							fontFamily: EMAIL_FONTS.serif,
 							fontSize: "26px",
 							fontWeight: 600,
 							letterSpacing: "-0.01em",
@@ -94,8 +79,8 @@ export function ContactEmail(props: ContactEmailProps) {
 
 					<Section
 						style={{
-							backgroundColor: COLORS.card,
-							border: `1px solid ${COLORS.border}`,
+							backgroundColor: EMAIL_COLORS.card,
+							border: `1px solid ${EMAIL_COLORS.border}`,
 							borderRadius: "12px",
 							padding: "20px 24px",
 						}}
@@ -113,7 +98,7 @@ export function ContactEmail(props: ContactEmailProps) {
 						<Link
 							href={`mailto:${props.email}`}
 							style={{
-								color: COLORS.primary,
+								color: EMAIL_COLORS.primary,
 								fontSize: "14px",
 								lineHeight: "22px",
 							}}
@@ -121,7 +106,9 @@ export function ContactEmail(props: ContactEmailProps) {
 							{props.email}
 						</Link>
 
-						<Hr style={{ borderColor: COLORS.border, margin: "16px 0" }} />
+						<Hr
+							style={{ borderColor: EMAIL_COLORS.border, margin: "16px 0" }}
+						/>
 
 						<Text
 							style={{
@@ -139,9 +126,9 @@ export function ContactEmail(props: ContactEmailProps) {
 						<Button
 							href={`mailto:${props.email}`}
 							style={{
-								backgroundColor: COLORS.primary,
+								backgroundColor: EMAIL_COLORS.primary,
 								borderRadius: "8px",
-								color: COLORS.primaryForeground,
+								color: EMAIL_COLORS.primaryForeground,
 								fontSize: "14px",
 								fontWeight: 500,
 								padding: "10px 18px",
@@ -153,7 +140,7 @@ export function ContactEmail(props: ContactEmailProps) {
 
 					<Text
 						style={{
-							color: COLORS.mutedForeground,
+							color: EMAIL_COLORS.mutedForeground,
 							fontSize: "13px",
 							lineHeight: "20px",
 							margin: "32px 0 0",

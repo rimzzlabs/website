@@ -1,0 +1,52 @@
+---
+import { FeedbackForm } from "@/components/feedback/feedback-form";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { getDictionary, type Locale, localeStaticPaths } from "@/i18n";
+
+export function getStaticPaths() {
+	return localeStaticPaths();
+}
+
+interface Props {
+	locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+---
+
+<Root {locale}>
+	<Seo
+		slot="meta"
+		{locale}
+		title={t.feedback.seoTitle}
+		description={t.feedback.seoDescription}
+	/>
+
+	<NavigationBar {locale} />
+
+	<main id="main">
+		<header class="wrapper pt-10">
+			<h1
+				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+			>
+				{t.feedback.title}
+			</h1>
+
+			<p class="max-w-[65ch] text-pretty text-muted-foreground">
+				{t.feedback.intro}
+			</p>
+		</header>
+
+		<section class="wrapper pt-10" aria-label={t.feedback.formLabel}>
+			<div class="rounded-xl bg-muted p-4 sm:p-5">
+				<FeedbackForm client:load copy={t.feedback} />
+			</div>
+		</section>
+	</main>
+
+	<Footer {locale} />
+</Root>

@@ -46,6 +46,11 @@ const GROUPS = [
 				href: "https://www.facebook.com/rimzzlabs",
 				external: true,
 			},
+			{
+				label: "Instagram",
+				href: "https://www.instagram.com/rimzzlabs",
+				external: true,
+			},
 		],
 	},
 	{
@@ -65,6 +70,16 @@ const GROUPS = [
 			{
 				label: t.footer.privacy,
 				href: localizePath("/privacy", props.locale),
+				external: false,
+			},
+			{
+				label: t.footer.accessibility,
+				href: localizePath("/accessibility", props.locale),
+				external: false,
+			},
+			{
+				label: t.footer.feedback,
+				href: localizePath("/feedback", props.locale),
 				external: false,
 			},
 		],

@@ -24,7 +24,7 @@ Cloudflare also sits in front of every request to this site. To deliver pages an
 
 ## Bot Checks
 
-The contact form and the anonymous guestbook form both use [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) to keep spam out. Most of the time you won't see it at all.
+The contact form, the feedback form, and the anonymous guestbook form all use [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) to keep spam out. Most of the time you won't see it at all.
 
 Turnstile only loads when you open one of those forms. It checks signals from your browser, and my server sends your IP address to Cloudflare to confirm the check. Nothing from Turnstile is stored on my side. I only get a yes or a no.
 
@@ -33,6 +33,14 @@ Turnstile only loads when you open one of those forms. It checks signals from yo
 The contact form asks for your name, your email address, and your message. When you send it, the message goes straight to my inbox through [Resend](https://resend.com), an email delivery service. It isn't saved in any database on this site.
 
 Resend keeps a delivery log of the emails it sends, under its own [privacy policy](https://resend.com/legal/privacy-policy). I use your email address for one thing only: to reply to you.
+
+## Sending Feedback
+
+The [feedback form](/feedback) asks for a topic and a description. The page address, your browser details, your name, your email address, and screenshots are all optional.
+
+Like the contact form, feedback goes straight to my inbox through Resend, and nothing is saved on this site. Screenshots travel as email attachments. Before they're sent, my server checks that each file really is a PNG, JPEG, or WebP image under 4 MB, and renames it. Every other file is rejected.
+
+So check your screenshots before you attach them, and crop out anything private.
 
 ## Signing the Guestbook
 

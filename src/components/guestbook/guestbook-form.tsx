@@ -96,7 +96,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 						</div>
 						<Button
 							type="button"
-							variant="ghost"
+							variant="outline"
 							size="sm"
 							onClick={() => authClient.signOut()}
 						>
@@ -204,7 +204,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 						{mutation.isPending ? props.copy.submitting : props.copy.submit}
 					</Button>
 					{props.onCancel && (
-						<Button type="button" variant="ghost" onClick={props.onCancel}>
+						<Button type="button" variant="outline" onClick={props.onCancel}>
 							{props.copy.back}
 						</Button>
 					)}

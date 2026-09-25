@@ -1,0 +1,60 @@
+---
+title: "Pernyataan Aksesibilitas"
+description: "Bagaimana situs ini bisa dipakai dengan keyboard, pembaca layar, dan animasi yang dikurangi, apa saja yang sudah saya cek, dan apa yang masih kurang."
+updatedAt: "09/26/2026"
+---
+
+Saya ingin situs ini bisa dibaca siapa saja, entah kamu pakai _mouse_, _keyboard_, pembaca layar, atau memperbesar halaman sampai mentok. Halaman ini menjelaskan apa yang sudah saya bangun untuk itu, bagaimana saya mengeceknya, dan bagian mana yang masih kurang.
+
+## Targetnya
+
+Saya menargetkan [WCAG 2.2](https://www.w3.org/TR/WCAG22/) Level AA, standar yang jadi acuan kebanyakan aturan aksesibilitas.
+
+Menurut saya, sebagian besar situs ini sudah memenuhinya. Tapi ini situs pribadi, dan belum ada pihak luar yang mengauditnya. Jadi label yang jujur adalah memenuhi sebagian.
+
+## Yang Sudah Ada
+
+**Kontras warna.** Semua warna teks dan kontrol sudah saya cek terhadap rasio AA, di tema terang maupun gelap. Teks biasa butuh minimal 4.5:1, dan garis tepi kolom form butuh minimal 3:1.
+
+**_Keyboard_.** Tekan Tab sekali di halaman mana pun, dan tautan "Langsung ke konten" akan muncul. Semua tautan, tombol, menu, dan dialog bisa dipakai tanpa _mouse_, dan kamu selalu bisa melihat elemen mana yang sedang aktif.
+
+**Pembaca layar.** Tiap halaman punya satu judul utama, urutan judul yang rapi, dan area yang diberi label. Navigasi menandai halaman yang sedang kamu buka. Pesan _error_ di form terhubung ke kolomnya, pesan berhasil dibacakan, dan tautan yang membuka tab baru memberi tahu hal itu.
+
+**Gambar.** Setiap gambar punya deskripsi teks, dan penampil gambar memberi tahu gambar ke berapa yang sedang kamu lihat.
+
+**Bahasa.** Tiap halaman menyebutkan bahasanya, Inggris atau Indonesia. Kalau ada kata pinjaman dari bahasa lain, kata itu ditandai, jadi pembaca layar bisa mengucapkannya dengan benar.
+
+**Animasi.** Menu pengaturan punya opsi Animasi dengan tiga pilihan:
+
+- **Sistem** mengikuti pengaturan kurangi gerakan di perangkat kamu.
+- **Aktif** menampilkan semua animasi.
+- **Nonaktif** menghilangkan gerakan dan hanya menyisakan efek pudar yang halus.
+
+**Tema.** Kamu bisa ganti tema terang atau gelap kapan saja, dan situs ini akan mengingat pilihan kamu.
+
+## Tombol di Penampil Gambar
+
+Saat kamu membuka gambar, tombol-tombol ini bisa dipakai:
+
+- **Panah kiri dan kanan** untuk pindah ke gambar sebelumnya atau berikutnya.
+- **Plus dan minus** untuk _zoom_, dan **0** untuk mengembalikan ukuran.
+- **Tombol panah**, saat gambar di-_zoom_, untuk menggeser gambar.
+- **Escape** untuk menutup penampil.
+
+## Yang Masih Kurang
+
+- **Blok kode.** Warna _syntax highlighting_ di contoh kode belum saya cek kontrasnya.
+- **Buku tamu.** Isinya ditulis pengunjung, jadi saya tidak bisa menjamin setiap pesan nyaman dibaca dengan teknologi bantu.
+- **Cloudflare Turnstile.** Cek spam di form berasal dari Cloudflare. Kalau suatu saat kamu diminta menyelesaikan tantangan yang tidak bisa kamu selesaikan, kamu bisa [jadwalkan panggilan](https://cal.com/rimzzlabs) atau hubungi saya lewat [GitHub](https://github.com/rimzzlabs).
+- **JavaScript.** Semua halaman tetap bisa dibaca tanpa JavaScript. Tapi form, buku tamu, dan penampil gambar membutuhkannya.
+
+## Cara Saya Mengecek
+
+- Saya menghitung kontras setiap pasangan warna tema dengan skrip yang memakai rumus WCAG.
+- Saya meninjau setiap komponen untuk akses _keyboard_, penanganan fokus, dan penggunaan ARIA.
+- Saya memindai setiap halaman hasil _build_ untuk mencari ID ganda, referensi ARIA yang rusak, dan gambar tanpa deskripsi.
+- Saya mencoba situs ini di perangkat saya sendiri.
+
+## Kabari Saya Kalau Ada yang Rusak
+
+Kalau ada bagian situs ini yang menghalangi kamu, saya ingin tahu. [Kirim masukan ke saya](/id/feedback?topic=accessibility), sebutkan halamannya dan apa yang salah, nanti saya perbaiki. Tangkapan layar sangat membantu.
