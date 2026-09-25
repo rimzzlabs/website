@@ -24,7 +24,6 @@ const { title, description, article, noindex, locale, ...props } = Astro.props;
 
 const OG_LOCALE: Record<Locale, string> = { en: "en_US", id: "id_ID" };
 
-const robots = noindex ? "noindex, follow" : "index, follow";
 const googlebot = noindex
 	? "noindex, follow"
 	: "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1";
@@ -71,10 +70,12 @@ const jsonLd = {
 			name: "Rizki Citra",
 			url: Astro.site?.href,
 			jobTitle: "Software Engineer",
-			image: ogImageUrl,
+			image: new URL("/icon-512.png", Astro.site).href,
 			sameAs: [
 				"https://github.com/rimzzlabs",
-				"https://linkedin.com/in/rimzzlabs",
+				"https://www.linkedin.com/in/rimzzlabs",
+				"https://www.facebook.com/rimzzlabs",
+				"https://www.instagram.com/rimzzlabs",
 				"https://x.com/rimzzlabs",
 			],
 		},
@@ -87,7 +88,7 @@ const jsonLd = {
 			publisher: { "@id": personId },
 		},
 		{
-			"@type": article ? "Article" : "WebPage",
+			"@type": article ? "BlogPosting" : "WebPage",
 			"@id": canonical,
 			url: canonical,
 			name: title,
@@ -97,7 +98,11 @@ const jsonLd = {
 			primaryImageOfPage: ogImage.url.toString(),
 			...(article && {
 				headline: title,
+				image: ogImageUrl,
+				keywords: props.keywords,
+				mainEntityOfPage: canonical,
 				author: { "@id": personId },
+				publisher: { "@id": personId },
 				datePublished: article.publishedTime,
 				dateModified: article.modifiedTime ?? article.publishedTime,
 			}),
@@ -110,7 +115,8 @@ const jsonLd = {
 	{title}
 	{description}
 	{canonical}
-	languageAlternates={languageAlternates}
+	{noindex}
+	languageAlternates={noindex ? undefined : languageAlternates}
 	openGraph={{
 	article,
 	image: ogImage,
@@ -161,12 +167,6 @@ const jsonLd = {
 		{ name: "author", content: "Rizki Citra" },
 		{ name: "publisher", content: "Rizki Citra" },
 		{ name: "generator", content: Astro.generator },
-		{ name: "robots", content: robots },
-		{
-			name: "viewport",
-			content:
-				"width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover",
-		},
 		{ name: "googlebot", content: googlebot },
 	],
 }}
@@ -175,9 +175,9 @@ const jsonLd = {
 <meta
 	name="theme-color"
 	media="(prefers-color-scheme: light)"
-	content="#fbfaf9"
+	content="#faf9f5"
 >
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0a09">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#262624">
 <script
 	is:inline
 	type="application/ld+json"

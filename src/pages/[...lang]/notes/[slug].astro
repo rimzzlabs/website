@@ -50,6 +50,12 @@ const toc = toTocHeadings(headings);
 		{locale}
 		title={note.data.title}
 		description={note.data.description}
+		keywords={note.data.keywords}
+		article={{
+	publishedTime: note.dateISO,
+	authors: ["Rizki Citra"],
+	tags: note.data.keywords,
+}}
 		slot="meta"
 	/>
 
