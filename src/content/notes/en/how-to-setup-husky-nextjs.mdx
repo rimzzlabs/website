@@ -1,7 +1,8 @@
 ---
-title: "How To Setup Husky, Lint Staged, And Commitizen On A Next.js Project"
-description: "Coding is not just writing lines of code, we often end up do everything manually, so why not use some tools that help us achieve our goals? This article will show you how to setup Husky, Lint Staged, And Conventional Commit With Next.js"
+title: "How To Set Up Husky, Lint Staged, And Commitizen On A Next.js Project"
+description: "Stop doing the boring parts by hand. Here is how to set up Husky, Lint Staged, and Conventional Commits in a Next.js project."
 publishedAt: "03/23/2022"
+updatedAt: "09/26/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -31,31 +32,31 @@ relatedPosts:
 
 ## Introduction
 
-As a developer, we love to work with Git, a version control system that allows us to keep the code tracked and make sure we don't forget to commit our changes.
+As developers, we love working with Git, a version control system that keeps our code tracked and makes sure we don't forget to commit our changes.
 
-But there is a bit of a problem with Git, when we are working with multiple developers, we often have to merge our changes, and that's where merge conflicts come in, if the conflicts are happen because of our code, we would made change again, but there is some case where the conflicts are caused by just different code style, _single quote vs double quote for example_, aren't it a bit awkward?.
+But there's a bit of a problem with Git. When we work with multiple developers, we often have to merge our changes, and that's where merge conflicts come in. If a conflict happens because of our code, we make the change again. But in some cases, the conflict is caused by nothing more than a different code style (_single quotes vs double quotes, for example_). Isn't that a bit awkward?
 
 ### Git Hooks
 
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client-side and server-side.
+Like many other version control systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client-side and server-side.
 
 Client-side hooks are triggered by operations such as committing and merging, while server-side hooks run on network operations such as receiving pushed commits. You can use these hooks for all sorts of reasons.
 
-Let's say I have one project with 2 people in it, where we build features on different branches, and when I do commit there are actually type error accoured within the code, and I have no idea why, so the solution is I want to run linter before I commit my changes, and then I can fix the error before I made commit.
+Let's say I have a project with two people on it, and we build features on different branches. When I commit, there's actually a type error in the code, and I have no idea why. So the solution is to run a linter before I commit my changes, so I can fix the error before the commit is made.
 
-But doing it manually would be a pain, so I want to use a tool that can help me do it for me, so I can just run a script that will run linter before commit has made.
+But doing it manually would be a pain. I want a tool that does it for me, so a script runs the linter before every commit is made.
 
 ## Husky
 
-What is [Husky](https://typicode.github.io/husky)?, from what I get, it said:
+What is [Husky](https://typicode.github.io/husky)? Here's how it describes itself:
 
 > Husky improves your commits and more 🐶 woof!
 
-As I said before about Git Hooks, we can use these hooks to run custom scripts before certain actions occur, Husky made it more easier to use, and it's a good way to make your life easier.
+As I said about Git hooks earlier, we can use them to run custom scripts before certain actions occur. Husky makes these hooks much easier to use, and it's a good way to make your life easier.
 
 ### Features
 
-Husky offer features to help you, it offer:
+Husky offers these features to help you:
 
 - Zero dependencies and lightweight (`6 kB`)
 - Powered by modern new Git feature (`core.hooksPath`)
@@ -70,8 +71,8 @@ Husky offer features to help you, it offer:
 
 ## Lint Staged
 
-[Lint Staged](https://github.com/okonet/lint-staged) will run linters against staged git files and don't let 💩 slip into your code base!, so when you execcute
-this command for example, then some script would run
+[Lint Staged](https://github.com/okonet/lint-staged) runs linters against staged git files and doesn't let 💩 slip into your code base! For example, when you run
+this command, these scripts run:
 
 ```bash showLineNumbers
 $ git commit
@@ -94,43 +95,43 @@ $ git commit
 
 ## Conventional Commit With Commitizen
 
-Collaborating with other developer are quiet fun to do, but when you are working with a team, you need to make sure that your code is clean, and that you are following the rules of your team, some are more strict than others, so you need to make sure your commit message are clear and easy to understand.
+Collaborating with other developers is quite fun, but when you work with a team, you need to make sure your code is clean and that you follow your team's rules. Some teams are stricter than others, so you need to make sure your commit messages are clear and easy to understand.
 
-That's why we need to use [Commitizen](https://commitizen-tools.github.io/commitizen/) to make sure that your commit message is clear by context and easy to understand by other developer.
+That's why we use [Commitizen](https://commitizen-tools.github.io/commitizen/): it makes sure your commit messages have clear context and are easy for other developers to understand.
 
-Commitizen are very helpful when you want to make a commit, instead of writing your own message, it will prompt you to write your message based on the rules of your team, and based on context, such as `feat`, `fix`, and `chore`.
+Commitizen is very helpful when you want to make a commit. Instead of writing the message from scratch, it prompts you to write it based on your team's rules and on context, such as `feat`, `fix`, and `chore`.
 
-Here's what it looks like when you run `cz` instead of git commit, it would generate a prompt to help you choose your commit message:
+Here's what it looks like when you run `cz` instead of git commit. It shows a prompt to help you choose your commit message:
 
 ![Commitizen](https://ik.imagekit.io/mlnzyx/attachment/commitizen_Qkfrd4tze.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648026254029 "Commitizen Prompt on terminal")
 
 > Tip: click the image to see it more clearly
 
-## Setup Next.js Project
+## Set Up Next.js
 
-Before we use any tools, we need to install Next.js and create a new project, simply execute the following command on your terminal:
+Before we use any tools, we need to create a new Next.js project. Run the following command in your terminal:
 
 ```bash
 yarn create next-app my-app
 ```
 
-It will spin up a new Next.js project, as usual, you will get a default template created for you, and you can start editing your code there, but in this article I will not teach you how to edit your code, so let's skip that part, and start using the tools we want to use.
+It spins up a new Next.js project. As usual, you get a default template, and you can start editing your code there. This article won't cover how to edit your code, though, so let's skip that part and start using the tools we want.
 
-## Setup Eslint And Prettier
+## Set Up ESLint And Prettier
 
-Before we continue, the method I'm trying to explain is also use 2 essential tools, which is [eslint](https://eslint.org/) and [prettier](https://prettier.io/).
+Before we continue, the method I'm explaining also uses two essential tools: [eslint](https://eslint.org/) and [prettier](https://prettier.io/).
 
-Let's setup those tools then, we're going to install prettier and eslint then add the config file inside of our project, run the following command on your terminal to install prettier and eslint
+So let's set up those tools. We're going to install prettier and eslint, then add their config files to our project. Run the following command in your terminal to install prettier and eslint:
 
 ```bash
 yarn add prettier -D && npx eslint --init
 ```
 
-The above command will install prettier as your devDependencies and then initialize eslint for your project, you would be asked to some choices, depends on which project you have, if you are using typescript, choose **typescript react**, otherwise javascript react.
+The command above installs prettier as a devDependency and then initializes eslint for your project. You'll be asked a few questions, depending on your project. If you're using TypeScript, choose **typescript react**. Otherwise, choose javascript react.
 
-Eslint will install dependencies for you and then created a config file, if it was `.json` file, consider renaming it to `.js` file and change the code to match to `.js` file instead of `.json`.
+ESLint installs its dependencies for you and then creates a config file. If it's a `.json` file, consider renaming it to a `.js` file and updating the code to match the `.js` format instead of `.json`.
 
-Next, create a file at the root of your project and name it with `.prettierrc.js`, and then paste the following config inside of it:
+Next, create a file named `.prettierrc.js` at the root of your project, and paste the following config inside it:
 
 ```js title=".prettierrc.js" showLineNumbers
 const config = {
@@ -147,23 +148,23 @@ const config = {
 module.exports = config;
 ```
 
-> If you are familiar with it, just change the config file to match with your own preference
+> If you're familiar with Prettier, feel free to change the config to match your own preferences.
 
-## Setup Husky
+## Set Up Husky
 
-Next, let's install Husky as our Git Hooks, by executing the following command in the terminal:
+Next, let's install Husky to manage our Git hooks by running the following command in the terminal:
 
 ```bash
 yarn add husky -D
 ```
 
-After installation completed, run the command to setup husky
+After the installation completes, run this command to set up husky:
 
 ```bash
 husky install
 ```
 
-It will create a new folder at the root of directory which is `/.husky`, open it and create a new file called `pre-commit` inside of `/.husky` directory, then the structure would be like this:
+It creates a new `/.husky` folder at the root of your project. Open it and create a new file called `pre-commit` inside the `/.husky` directory. The structure will look like this:
 
 ```bash
 /.husky
@@ -196,13 +197,13 @@ echo '🎉 No error found: committing this now.... ✨🚀🏄‍♂️🍻'
 npx lint-staged
 ```
 
-The above code simply will run on your terminal before commit is goint to made by Git, first we printed out 2 paragraphs, and then we run the `yarn lint` command, if the command wasn't successful, then It'll print out the _*🔨❌ Yoo, you have...*_ and immediately cancel the rest of the code as we run the `false` code.
+The code above runs in your terminal right before Git makes the commit. First, it prints out two lines, and then it runs the `yarn lint` command. If the command fails, it prints out _*🔨❌ Yoo, you have...*_ and immediately cancels the rest of the script, because we run `false`.
 
-If _*linting*_ was successfully and no error found, then it'll printed out the message and then it run the `npx lint-staged` script, which is going to format our code with prettier.
+If _*linting*_ succeeds and no errors are found, it prints out the message and then runs the `npx lint-staged` script, which formats our code with prettier.
 
-Create a new scripts inside `package.json` file, so it will run everytime the project started to install all the dependencies.
+Add a new script to your `package.json` file, so husky is set up every time someone installs the project's dependencies.
 
-```json {5} title="./package.json" showLineNumbers
+```json ins={5} title="./package.json" showLineNumbers
 {
   "name": "app name",
   "version": "0.0.0",
@@ -214,15 +215,15 @@ Create a new scripts inside `package.json` file, so it will run everytime the pr
 }
 ```
 
-## Setup Lint Staged
+## Set Up Lint Staged
 
-Next we need to install Lint Staged, and then we need to setup Lint Staged, so we can run lint before commit, and it's very easy to do, just execute the following command in the terminal to install lint staged:
+Next, we need to install and set up Lint Staged so we can lint before each commit. It's very easy to do. Just run the following command in the terminal to install lint staged:
 
 ```bash
 yarn add lint-staged -D
 ```
 
-After the installation, let's start create the configuration for lint-staged, lint staged give you different ways of configuring lint staged:
+After the installation, let's create the configuration for lint-staged. Lint staged gives you several ways to configure it:
 
 - `lint-staged` object in your `package.json`
 - `.lintstagedrc` file in JSON or YML format, or you can be explicit with the file extension:
@@ -230,9 +231,9 @@ After the installation, let's start create the configuration for lint-staged, li
   - `.lintstagedrc.yaml`
   - `.lintstagedrc.yml`
 
-But this way I want to show you with lint-staged object in package.json, so let's start with that:
+In this article, I'll show you the `lint-staged` object in package.json, so let's start with that:
 
-```json title="./package.json" {9-12}
+```json title="./package.json" ins={9-12}
 {
   "name": "app name",
   "version": "0.0.0",
@@ -253,17 +254,17 @@ But this way I want to show you with lint-staged object in package.json, so let'
 }
 ```
 
-## Setup Commitizen
+## Set Up Commitizen
 
-Commitizen help organize commit message, usually when I want to make changes to my code, and start to track what was I did.
+Commitizen helps organize commit messages, which is useful when I make changes to my code and want to keep track of what I did.
 
-The easiest way to setup Commitizen is by using it's CLI, the first step is to make your repo **Commitizen friendly**, so let's install the commitizen CLI tools, you can install it globally or locally, but I prefer instaling it globally, so let's type the following command in the terminal:
+The easiest way to set up Commitizen is with its CLI. The first step is to make your repo **Commitizen friendly**, so let's install the commitizen CLI tools. You can install it globally or locally, but I prefer installing it globally. Type the following command in the terminal:
 
 ```bash
 yarn global add commitizen
 ```
 
-if you are using npm, you could easly install it by typing the following command:
+If you're using npm, you can install it by typing the following command:
 
 ```bash
 npm install commitizen -g
@@ -285,9 +286,9 @@ The above command does three things for you:
 
 - Installs the `cz-conventional-changelog adapter`
 - Saves it to `package.json`'s dependencies or devDependencies
-- Adds the config.commitizen key to the root of your package.json file as shown here:
+- Adds the `config.commitizen` key to the root of your package.json file as shown here:
 
-```json {13-17} title="./package.json" showLineNumbers
+```json ins={13-17} title="./package.json" showLineNumbers
 {
   "name": "app name",
   "version": "0.0.0",
@@ -313,22 +314,22 @@ The above command does three things for you:
 }
 ```
 
-And now we are ready to use the `cz` command to make a commit, and it will prompt you to choose your commit message!.
+Now we're ready to use the `cz` command to make a commit, and it will prompt you to choose your commit message!
 
-## Summary:
+## Summary
 
-We made it to the end, let's summarize what was done:
+We made it to the end. Let's summarize what we did:
 
 - **Husky**
 
-  It will help us to setup Git Hooks easier.
+  It helps us set up Git hooks more easily.
 
 - **Lint Staged**
 
-  It will help us to run a certain task before commiting our code, and it will make sure that our code is clean and well formatted.
+  It helps us run certain tasks before committing our code, and it makes sure our code is clean and well formatted.
 
 - **Commitizen**
 
-  It will help us to organize our commit message, and it will make sure that our commit message is clear and easy to understand.
+  It helps us organize our commit messages and makes sure they're clear and easy to understand.
 
-So that's all folks, I hope this article help you out to get started, see you next time!
+So that's all, folks! I hope this article helps you get started. See you next time!

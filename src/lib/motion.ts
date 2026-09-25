@@ -1,41 +1,37 @@
-import type { Transition } from "motion/react";
+export const MOTION_SETTINGS = ["system", "on", "off"] as const;
+export type MotionSetting = (typeof MOTION_SETTINGS)[number];
 
-/**
- * Shared, non-bouncy spring used for expand/collapse and other UI motion.
- * `bounce: 0` keeps height animations from overshooting and clipping content;
- * `visualDuration` makes the spring reach its target quickly for a snappy feel.
- */
-export const SPRING: Transition = {
-	type: "spring",
-	bounce: 0,
-	visualDuration: 0.3,
-};
+export const MOTION_STORAGE_KEY = "rimzzlabs:motion";
+const REDUCE_QUERY = "(prefers-reduced-motion: reduce)";
 
-/**
- * Slightly quicker spring for the content fade/rise reveal, so the inner content
- * settles a touch ahead of the height — giving the open/close a layered, slick feel.
- */
-export const SPRING_FAST: Transition = {
-	type: "spring",
-	bounce: 0,
-	visualDuration: 0.22,
-};
+export function isMotionSetting(value: unknown): value is MotionSetting {
+	return MOTION_SETTINGS.includes(value as MotionSetting);
+}
 
-/**
- * Springy pop for popups that appear at rest (e.g. the photo lightbox): a small
- * `bounce` lets the scale overshoot ~1 and settle for a slick feel — kept low so
- * it reads as lively, not rubbery. Not for height/collapse (use `SPRING`).
- */
-export const SPRING_POP: Transition = {
-	type: "spring",
-	bounce: 0.28,
-	visualDuration: 0.32,
-};
+export function readMotionSetting(): MotionSetting {
+	try {
+		const value = localStorage.getItem(MOTION_STORAGE_KEY);
+		if (isMotionSetting(value)) return value;
+	} catch {}
+	return "system";
+}
 
-/**
- * Used when motion is disabled (user preference or prefers-reduced-motion):
- * snaps to the target value with no animation.
- */
-export const INSTANT: Transition = {
-	duration: 0,
-};
+function shouldReduce(setting: MotionSetting) {
+	if (setting === "off") return true;
+	if (setting === "on") return false;
+	return window.matchMedia(REDUCE_QUERY).matches;
+}
+
+export function applyMotionSetting(setting: MotionSetting) {
+	try {
+		localStorage.setItem(MOTION_STORAGE_KEY, setting);
+	} catch {}
+	document.documentElement.dataset.motion = shouldReduce(setting)
+		? "reduce"
+		: "full";
+}
+
+export function isMotionReduced() {
+	if (typeof document === "undefined") return false;
+	return document.documentElement.dataset.motion === "reduce";
+}

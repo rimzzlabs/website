@@ -1,0 +1,85 @@
+---
+title: "Kebijakan Privasi"
+description: "Data apa saja yang dikumpulkan situs ini, untuk apa, dan siapa lagi yang bisa melihatnya. Singkatnya: hanya yang kamu ketik sendiri, ditambah analitik bawaan Cloudflare."
+updatedAt: "09/26/2026"
+---
+
+Singkatnya begini: saya tidak pasang analitik, tidak ada iklan, dan saya tidak butuh data kamu. Situs ini cuma menyimpan apa yang kamu ketik sendiri. Selain itu, _browser_ kamu juga mengingat beberapa pengaturan.
+
+Versi lengkapnya ada di bawah. Semua tempat data berpindah saya jelaskan, termasuk bagian yang di luar kendali saya.
+
+## Yang Tidak Saya Lakukan
+
+Di sini tidak ada Google Analytics, _tracking pixel_, skrip iklan, atau _fingerprinting_. Saya tidak menjual atau membagikan apa pun tentang kamu, dan tidak membuat profil pengunjung.
+
+Satu-satunya analitik di situs ini milik Cloudflare. Alasannya ada di bagian berikut.
+
+## Cloudflare, Tempat Situs Ini Tinggal
+
+Situs ini jalan di [Cloudflare Pages](https://pages.cloudflare.com), dan Cloudflare tidak memungut biaya sepeser pun untuk itu. Web Analytics mereka aktif secara bawaan, dan saya memilih untuk membiarkannya. Anggap saja itu tanda terima kasih saya untuk _hosting_ gratisnya. Cloudflare termasuk tulang punggung internet, jadi saya tenang menitipkan ini ke mereka.
+
+Menurut Cloudflare, Web Analytics tidak memakai _cookie_, tidak memakai _local storage_, dan tidak melakukan _fingerprinting_. Yang dihitung hanya hal seperti jumlah kunjungan, situs asal, negara, jenis _browser_, dan kecepatan halaman. Di _dashboard_, saya cuma lihat angka totalnya. Siapa kamu, saya tidak tahu.
+
+Cloudflare juga berdiri di depan setiap _request_ ke situs ini. Supaya halaman bisa sampai dan serangan bisa diblokir, Cloudflare melihat alamat IP dan info dasar _browser_ kamu, sama seperti _hosting_ lain. Bagian ini bukan saya yang atur. Kalau mau tahu detailnya, baca [kebijakan privasi Cloudflare](https://www.cloudflare.com/privacypolicy/).
+
+## Cek Bot
+
+Form kontak, form masukan, dan form buku tamu anonim sama-sama memakai [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) untuk menahan spam. Biasanya kamu bahkan tidak sadar dia ada.
+
+Turnstile baru dimuat saat kamu membuka salah satu form itu. Dia memeriksa sinyal dari _browser_ kamu, lalu server saya mengirim alamat IP kamu ke Cloudflare untuk memastikan hasilnya. Tidak ada data Turnstile yang saya simpan. Saya cuma dapat jawaban lolos atau tidak.
+
+## Kirim Pesan ke Saya
+
+Form kontak meminta nama, alamat email, dan pesan kamu. Begitu dikirim, pesannya langsung masuk ke kotak masuk saya lewat [Resend](https://resend.com), layanan pengiriman email. Pesan itu tidak disimpan di _database_ mana pun di situs ini.
+
+Resend menyimpan catatan pengiriman email sesuai [kebijakan privasi](https://resend.com/legal/privacy-policy) mereka sendiri. Alamat email kamu cuma saya pakai untuk satu hal: membalas pesan kamu.
+
+## Mengirim Masukan
+
+[Form masukan](/id/feedback) meminta topik dan penjelasan. Alamat halaman, info _browser_, nama, alamat email, dan tangkapan layar semuanya opsional.
+
+Sama seperti form kontak, masukan langsung masuk ke kotak masuk saya lewat Resend, dan tidak ada yang disimpan di situs ini. Tangkapan layar dikirim sebagai lampiran email. Sebelum dikirim, server saya memastikan setiap file benar-benar gambar PNG, JPEG, atau WebP di bawah 4 MB, lalu mengganti namanya. File lain ditolak.
+
+Jadi cek dulu tangkapan layar kamu sebelum dilampirkan, dan potong bagian yang bersifat pribadi.
+
+## Mengisi Buku Tamu
+
+Semua yang kamu tulis di buku tamu bersifat publik. Siapa pun yang mampir bisa membacanya.
+
+Kalau kamu menulis secara anonim, yang saya simpan:
+
+- Nama kamu, kalau kamu isi
+- Situs kamu, kalau kamu isi
+- Pesan kamu
+- Waktu kamu menulis dan bahasa halaman tempat kamu menulis
+
+Kalau kamu masuk dengan GitHub, GitHub mengirim nama, alamat email, foto profil, dan ID akun GitHub kamu. Nama dan foto kamu muncul di samping pesan, dan fotonya dimuat langsung dari server GitHub. Alamat email disimpan bersama akun kamu supaya proses masuknya bisa jalan. Email itu tidak pernah tampil di halaman, dan tidak saya pakai untuk menghubungi kamu.
+
+Masuk dengan GitHub juga membuat sebuah sesi. Ada _cookie_ yang menjaga kamu tetap masuk, dan catatan sesinya menyimpan alamat IP serta info _browser_ kamu. Sesi itu habis setelah tujuh hari, dan kamu bisa keluar kapan saja.
+
+Satu lagi: supaya halamannya cepat, pesan-pesan di buku tamu ikut dibangun ke dalam halaman yang dipublikasikan. Jadi kalau sebuah pesan dihapus, pesan itu baru hilang dari halaman saat situs dibangun ulang.
+
+## Yang Diingat _Browser_ Kamu
+
+Ada beberapa hal kecil yang tersimpan di _browser_ kamu supaya pilihan kamu tidak hilang:
+
+- **`rimzzlabs:theme`** (_local storage_) menyimpan tema terang atau gelap.
+- **`rimzzlabs:motion`** (_local storage_) menyimpan pengaturan animasi.
+- **`locale`** (_cookie_, satu tahun) menyimpan bahasa pilihan kamu, jadi beranda langsung terbuka dalam bahasa itu di kunjungan berikutnya.
+- **_Cookie_ sesi better-auth** cuma ada kalau kamu masuk dengan GitHub, dan gunanya menjaga kamu tetap masuk.
+
+Dua data di _local storage_ tidak pernah keluar dari perangkat kamu. Dua _cookie_ tadi hanya dikirim ke situs ini, dan hanya supaya situs bisa menampilkan bahasa yang benar dan mengenali sesi kamu.
+
+## Tautan ke Situs Lain
+
+Situs ini punya tautan ke tempat lain, misalnya GitHub, LinkedIn, dan [Cal.com](https://cal.com/rimzzlabs). Begitu kamu pindah ke sana, yang berlaku kebijakan privasi mereka, bukan yang ini.
+
+Tautan di catatan dan halaman saya menambahkan `utm_source=rimzzlabs.com` ke alamatnya. Itu cuma memberi tahu situs tujuan bahwa kamu datang dari sini, tidak lebih.
+
+## Data Kamu, Keputusan Kamu
+
+Kalau kamu mau melihat, membetulkan, atau menghapus data apa pun yang disimpan situs ini tentang kamu, [kirim pesan ke saya](/id#contact). Termasuk pesan di buku tamu atau akun yang terbuat saat kamu masuk dengan GitHub. Sebutkan yang mana, nanti saya urus.
+
+## Perubahan Halaman Ini
+
+Kalau ada yang berubah, misalnya form baru atau layanan baru, saya akan memperbarui halaman ini beserta tanggal di bagian atas.

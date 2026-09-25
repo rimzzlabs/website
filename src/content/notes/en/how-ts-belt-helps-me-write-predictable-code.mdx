@@ -1,7 +1,8 @@
 ---
 title: "How ts-belt Helps Me Write Predictable Code"
-description: "ts-belt is a TypeScript utility library created by Mobily that uses a functional approach. Here is how Option, Result, and AsyncResult replaced the pile of null checks and try/catch in the LLM code I work on every day."
+description: "How ts-belt's Option, Result, and AsyncResult replaced the pile of null checks and try/catch in the LLM code I work on every day."
 publishedAt: "08/09/2026"
+updatedAt: "09/26/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -13,13 +14,9 @@ keywords:
   - LLM Frontend
 ---
 
-import { PlaygroundOption } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-option";
-import { PlaygroundResult } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-result";
-import { PlaygroundMessages } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-messages";
-
 The first time our chat UI went blank, I blamed the backend.
 
-What actually happened is that the model called a tool instead of writing a reply. I had just rewritten the message parsing with ts-belt, the whole thing type checked, and it still threw a `TypeError` in production.
+What actually happened is that the model called a tool instead of writing a reply. I had just rewritten the message parsing with ts-belt, the whole thing type-checked, and it still threw a `TypeError` in production.
 
 One field did it. `content` comes back as `null` when the model returns tool calls, and my pipeline treated that `null` as a perfectly good value before handing it to `.trim()`.
 
@@ -27,7 +24,7 @@ This note is about the parts of ts-belt that made that whole class of bug go awa
 
 ## Introduction
 
-[ts-belt](https://mobily.github.io/ts-belt/) is a TypeScript utility library created by [Marcin Dziewulski](https://github.com/mobily), it uses a functional programming approach and is the [fastest utility library](https://mobily.github.io/ts-belt/benchmarks/introduction) out there.
+[ts-belt](https://mobily.github.io/ts-belt/) is a TypeScript utility library created by [Marcin Dziewulski](https://github.com/mobily). It takes a functional programming approach and is the [fastest utility library](https://mobily.github.io/ts-belt/benchmarks/introduction) out there.
 
 ```sh
 npm install @mobily/ts-belt
@@ -46,7 +43,7 @@ Everything ships as small namespaces you import by letter:
 
 ## Reading a Transformation Top to Bottom
 
-Almost every snippet after this runs through `pipe`. It only works because of one design choice ts-belt repeats in nearly every function, so let's get that out of the way first.
+Most of the snippets after this run through `pipe`. That only works because of one design choice ts-belt repeats across the library, so let's get it out of the way first.
 
 Nearly every function in ts-belt has two signatures. Pass the data first and it runs right away. Leave the data out and you get back a function that's still waiting for it.
 
@@ -73,7 +70,7 @@ const roles = pipe(
 
 TypeScript infers the type at every step, so `A.reject` already knows it's looking at strings. No wrapper object, no class to learn, just functions passing values along.
 
-`flow` is the same idea without the value, so you get a reusable function instead of a result. `pipe` caps out at nine functions, and past that you split it in two.
+`flow` is the same idea without the value, so you get a reusable function instead of a result. `pipe` caps out at nine functions, and past that, you split it in two.
 
 ## All the Ways an Answer Can Be Missing
 
@@ -200,7 +197,7 @@ function isNone(x) {
 
 Only `undefined` counts. A `null` gets treated as a real value and passed to the next function like any other.
 
-Which means this version type checks without a single complaint, then crashes the moment the model calls a tool:
+Which means this version type-checks without a single complaint, then crashes the moment the model calls a tool:
 
 ```ts
 import { A, O, S, pipe } from "@mobily/ts-belt";
@@ -218,10 +215,6 @@ pipe(
 
 It's a box labelled empty that still has something in it, and the label is the only thing anyone checks.
 
-Try it below. Switch to the tool call and watch the middle row fall over:
-
-<PlaygroundOption client:visible lang="en" />
-
 The fix is one function. `O.fromNullable` turns `null` into `undefined`:
 
 ```ts
@@ -230,7 +223,7 @@ import { O } from "@mobily/ts-belt";
 O.flatMap((message) => O.fromNullable(message.content));
 ```
 
-The habit I ended up with: anything from outside my own pipeline goes through `O.fromNullable` first. API responses, `JSON.parse`, form values, third party libraries. Values ts-belt produced itself, like whatever `A.head` gave back, are already clean.
+The habit I ended up with: anything from outside my own pipeline goes through `O.fromNullable` first. API responses, `JSON.parse`, form values, third-party libraries. Values ts-belt produced itself, like whatever `A.head` gave back, are already clean.
 
 Small rule, but it's the whole difference between `Option` being predictable and `Option` being a trap.
 
@@ -267,7 +260,7 @@ No cast, no `as`, and the array that comes out is genuinely free of holes.
 
 `F` is the module I ignored for the longest time, and it's the one that finally got the ternaries out of my pipelines.
 
-A ternary is fine on its own. The problem is it can't sit inside a `pipe`, so the moment you need one you're back to pulling the value out into a variable and breaking the chain.
+A ternary is fine on its own. The problem is that it can't sit inside a `pipe`, so the moment you need one you're back to pulling the value out into a variable and breaking the chain.
 
 `F.ifElse` takes the value, a predicate, and the two branches:
 
@@ -402,11 +395,7 @@ That check is exactly what a `try/catch` around every step would be.
 
 `R.mapError` on the last line is worth its own sentence. Inside the pipeline the error is a real `Error`, which is what you want in a log. The component only needs a string. `R.mapError` translates one to the other and never touches the success path.
 
-One caveat now that zod is in the chain. A `ZodError` stores its `message` as a JSON dump of every issue, which is unreadable in a toast. `z.prettifyError` is the one to reach for there.
-
-Break the JSON below and watch step two get skipped:
-
-<PlaygroundResult client:visible lang="en" />
+One caveat, now that zod is in the chain: a `ZodError` stores its `message` as a JSON dump of every issue, which is unreadable in a toast. `z.prettifyError` is the one to reach for there.
 
 ### Opening It Where the User Sees It
 
@@ -462,7 +451,7 @@ function runTurn(prompt: string) {
 }
 ```
 
-Five things can fail in there. The model can rate limit, it can decline to call a tool, the arguments can be malformed, they can be the wrong shape, and the search itself can go down.
+Five things can fail in there. The model can hit a rate limit, it can decline to call a tool, the arguments can be malformed, they can be the wrong shape, and the search itself can go down.
 
 There isn't one `try` in the whole function, and every one of those failures lands in the same place with a message attached.
 
@@ -522,10 +511,6 @@ function toPromptMessages(messages: Array<StoredMessage>) {
 
 `D.selectKeys` picks the fields the API actually wants, so `created_at` and `trace_id` stay out of the payload.
 
-Toggle the steps and watch what each one takes out:
-
-<PlaygroundMessages client:visible lang="en" />
-
 Counting tokens across a session is the same shape:
 
 ```ts
@@ -547,7 +532,7 @@ function totalTokens(completions: Array<ChatCompletion>) {
 
 I'd rather write this section than have you find these out on a Friday.
 
-**`null` isn't `None` at runtime.** The one from earlier, and the only one here that can actually crash. `O.fromNullable` at every boundary.
+**`null` isn't `None` at runtime.** This is the one from earlier, and the only one here that can actually crash. Put `O.fromNullable` at every boundary.
 
 **Arrays come back `readonly`.** `A.map` returns `readonly T[]`, so assigning it to `Array<string>` won't compile. Usually you just type your own signatures as `ReadonlyArray<T>` and move on. If that's too much churn, there's a global escape hatch you declare once, and it needs `skipLibCheck: true`:
 
@@ -563,11 +548,11 @@ export {};
 
 **Both `match` branches have to agree on their return type.** The generic gets pinned by whichever callback comes first, so when the second one returns a slightly different shape the error points at the wrong place. Annotate the return type and it goes away.
 
-**`R.Error` isn't a JavaScript `Error`.** It's a container that'll hold anything, including a plain string. That's the point, typed error values are useful, but `throw`ing one gives you a genuinely baffling stack trace.
+**`R.Error` isn't a JavaScript `Error`.** It's a container that'll hold anything, including a plain string. That's the point (typed error values are useful), but `throw`ing one gives you a genuinely baffling stack trace.
 
 **`Option` can't nest.** `Option<Option<string>>` collapses, because it's a union and not a box. So `D.get(config, "model")` can't tell you the difference between "the key is missing" and "the key is there and holds `undefined`". If that matters, use `Result`.
 
-**And the cost that isn't technical.** A `pipe` of six functions only reads better if the reader knows what `flatMap` does. On a team that's never seen this style it isn't clearer, it's just unfamiliar. I bring it in where the payoff is obvious, which for me is anything touching the network or reshaping data, and I leave plain `if` statements alone where they're already the clearest thing on the page.
+**And the cost that isn't technical.** A `pipe` of six functions only reads better if the reader knows what `flatMap` does. On a team that's never seen this style, it isn't clearer, it's just unfamiliar. I bring it in where the payoff is obvious, which for me is anything touching the network or reshaping data, and I leave plain `if` statements alone where they're already the clearest thing on the page.
 
 ## Closing Thoughts
 

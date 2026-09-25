@@ -1,0 +1,194 @@
+---
+import { A, F, G, O, pipe, S } from "@mobily/ts-belt";
+import { SEO, type SEOProps } from "astro-seo";
+import { getDictionary } from "@/i18n";
+import {
+	DEFAULT_LOCALE,
+	HTML_LANG,
+	LOCALES,
+	type Locale,
+	localizePath,
+} from "@/i18n/config";
+import { ogImagePath } from "@/lib/og/paths";
+
+interface Props {
+	title: string;
+	description: string;
+	article?: Partial<NonNullable<SEOProps["openGraph"]>["article"]>;
+	image?: Required<NonNullable<SEOProps["openGraph"]>["image"]>;
+	keywords?: string[];
+	noindex?: boolean;
+	locale: Locale;
+}
+
+const { title, description, article, noindex, locale, ...props } = Astro.props;
+
+const t = getDictionary(locale);
+
+const OG_LOCALE: Record<Locale, string> = { en: "en_US", id: "id_ID" };
+
+const googlebot = noindex
+	? "noindex, follow"
+	: "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1";
+
+const pathname = Astro.url.pathname;
+// Match Astro's directory build format (trailing slash) so hreflang URLs line up with canonicals.
+const withTrailingSlash = (p: string) => (p.endsWith("/") ? p : `${p}/`);
+const canonical = new URL(pathname, Astro.site).href;
+
+const type = article ? "article" : "website";
+
+const toAbsolute = (path: string) =>
+	new URL(withTrailingSlash(path), Astro.site).href;
+const languageAlternates = [
+	...LOCALES.map((alternate) => ({
+		hrefLang: HTML_LANG[alternate],
+		href: toAbsolute(localizePath(pathname, alternate)),
+	})),
+	{
+		hrefLang: "x-default",
+		href: toAbsolute(localizePath(pathname, DEFAULT_LOCALE)),
+	},
+];
+
+// Open Graph requires absolute URLs; build them from the configured `site`.
+const ogImageUrl = new URL(ogImagePath(pathname), Astro.site).href;
+const ogImage = {
+	height: 630,
+	width: 1200,
+	type: "image/png",
+	url: ogImageUrl,
+	secureUrl: ogImageUrl,
+	alt: title,
+};
+
+const personId = new URL("/#person", Astro.site).href;
+const websiteId = new URL("/#website", Astro.site).href;
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": personId,
+			name: "Rizki Citra",
+			url: Astro.site?.href,
+			jobTitle: "Software Engineer",
+			image: new URL("/icon-512.png", Astro.site).href,
+			sameAs: [
+				"https://github.com/rimzzlabs",
+				"https://www.linkedin.com/in/rimzzlabs",
+				"https://www.facebook.com/rimzzlabs",
+				"https://www.instagram.com/rimzzlabs",
+				"https://x.com/rimzzlabs",
+			],
+		},
+		{
+			"@type": "WebSite",
+			"@id": websiteId,
+			name: "rimzzlabs",
+			url: Astro.site?.href,
+			inLanguage: HTML_LANG[locale],
+			publisher: { "@id": personId },
+		},
+		{
+			"@type": article ? "BlogPosting" : "WebPage",
+			"@id": canonical,
+			url: canonical,
+			name: title,
+			description,
+			inLanguage: HTML_LANG[locale],
+			isPartOf: { "@id": websiteId },
+			primaryImageOfPage: ogImage.url.toString(),
+			...(article && {
+				headline: title,
+				image: ogImageUrl,
+				keywords: props.keywords,
+				mainEntityOfPage: canonical,
+				author: { "@id": personId },
+				publisher: { "@id": personId },
+				datePublished: article.publishedTime,
+				dateModified: article.modifiedTime ?? article.publishedTime,
+			}),
+		},
+	],
+};
+---
+
+<SEO
+	{title}
+	{description}
+	{canonical}
+	{noindex}
+	languageAlternates={noindex ? undefined : languageAlternates}
+	openGraph={{
+	article,
+	image: ogImage,
+	optional: {
+		description,
+		locale: OG_LOCALE[locale],
+		localeAlternate: LOCALES.filter((other) => other !== locale).map(
+			(other) => OG_LOCALE[other],
+		),
+		siteName: "rimzzlabs",
+	},
+	basic: { title, type, image: ogImage.url.toString() },
+}}
+	twitter={{
+	title,
+	description,
+	image: ogImage.url.toString(),
+	card: "summary_large_image",
+	creator: "@rimzzlabs",
+	site: "@rimzzlabs",
+	imageAlt: title,
+}}
+	extend={{
+	link: [
+		{ rel: "sitemap", href: "/sitemap-index.xml" },
+		{
+			rel: "alternate",
+			type: "application/rss+xml",
+			title: t.notes.seoTitle,
+			href: localizePath("/notes/rss.xml", locale),
+		},
+		{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+		{
+			rel: "icon",
+			type: "image/png",
+			sizes: "48x48",
+			href: "/favicon-48.png",
+		},
+		{
+			rel: "icon",
+			type: "image/png",
+			sizes: "96x96",
+			href: "/favicon-96.png",
+		},
+		{ rel: "shortcut icon", href: "/favicon.ico" },
+		{
+			rel: "apple-touch-icon",
+			sizes: "180x180",
+			href: "/apple-touch-icon.png",
+		},
+		{ rel: "manifest", href: "/site.webmanifest" },
+	],
+	meta: [
+		{ name: "author", content: "Rizki Citra" },
+		{ name: "publisher", content: "Rizki Citra" },
+		{ name: "generator", content: Astro.generator },
+		{ name: "googlebot", content: googlebot },
+	],
+}}
+/>
+<!-- theme-color needs a `media` attribute, which astro-seo's extend.meta can't express -->
+<meta
+	name="theme-color"
+	media="(prefers-color-scheme: light)"
+	content="#faf9f5"
+>
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#262624">
+<script
+	is:inline
+	type="application/ld+json"
+	set:html={JSON.stringify(jsonLd)}
+/>

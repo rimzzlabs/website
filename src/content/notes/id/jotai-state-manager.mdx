@@ -2,6 +2,7 @@
 title: "Jotai, state manager yang elegan untuk developer React"
 description: "Ketika membahas state manager, kata pertama yang mungkin terlintas adalah Redux, tapi kali ini mari kita bahas library state manager lain, memperkenalkan Jotai."
 publishedAt: "07/08/2022"
+updatedAt: "09/26/2026"
 status: "published"
 featured: true
 author: rimzzlabs
@@ -52,7 +53,7 @@ Di Jotai, saya bisa mendeklarasikan state aplikasi dengan atom.
 import { atom } from "jotai";
 
 type User = {
-  username: string;
+  name: string;
   gender: "male" | "female";
   website: string;
 };
@@ -112,12 +113,12 @@ Jotai dilengkapi berbagai utilitas siap pakai, misalnya `atomWithStorage` yang t
 
 Ini sangat berguna untuk state yang perlu disimpan di localStorage, seperti **Theme**.
 
-```tsx {2,9,13-14} title="@/store/atom.ts" showLineNumbers
+```tsx ins={2,9,13-14} title="@/store/atom.ts" showLineNumbers
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 type User = {
-  username: string;
+  name: string;
   gender: "male" | "female";
   website: string;
 };
@@ -216,12 +217,13 @@ Saya bisa membaca dan mengubah state di setiap komponen seperti ini.
 ```tsx title="@/components/DarkModeToggle.tsx" showLineNumbers
 import * as atoms from "@/store/atom";
 
-import { useAtom } from "atom";
+import { useAtom } from "jotai";
 
 export default function DarkModeToggle() {
   const [theme, setTheme] = useAtom(atoms.themeAtom);
 
-  const toggleTheme = setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
 
   return <button onClick={toggleTheme}>Current theme is {theme}</button>;
 }
@@ -230,7 +232,7 @@ export default function DarkModeToggle() {
 Tapi saya lebih suka membuat custom hooks. Contohnya, untuk mengelola state theme, saya bisa membuat custom hooks untuk berpindah antara dark mode dan light mode.
 
 ```tsx title="@/hooks/useDarkMode.ts" showLineNumbers
-import * as atoms from "@/store";
+import * as atoms from "@/store/atom";
 
 import { useAtom } from "jotai";
 import { useEffect } from "react";
@@ -254,7 +256,7 @@ export default useDarkMode;
 
 Lalu saya bisa merefaktor komponen **DarkModeToggle** di atas menjadi seperti ini:
 
-```tsx {4,6} title="@/components/DarkModeToggle.tsx" showLineNumbers
+```tsx ins={4,6} title="@/components/DarkModeToggle.tsx" showLineNumbers
 import useDarkMode from "@/hooks/useDarkMode";
 
 export default function DarkModeToggle() {

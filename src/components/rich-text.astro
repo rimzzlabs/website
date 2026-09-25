@@ -1,0 +1,33 @@
+---
+import Link from "@/components/ui/link.astro";
+
+interface RichLink {
+	href: string;
+	label: string;
+	class?: string;
+}
+
+interface Props {
+	text: string;
+	links: Record<string, RichLink>;
+}
+
+const props = Astro.props;
+const parts = props.text.split(/(\{\w+\})/g).filter(Boolean);
+
+function toLink(part: string) {
+	const match = part.match(/^\{(\w+)\}$/);
+	if (!match) return null;
+	return props.links[match[1]] ?? null;
+}
+---
+
+{parts.map((part) => {
+	const link = toLink(part);
+	if (!link) return <Fragment set:html={part} />;
+	return (
+		<Link href={link.href} class={link.class}>
+			{link.label}
+		</Link>
+	);
+})}

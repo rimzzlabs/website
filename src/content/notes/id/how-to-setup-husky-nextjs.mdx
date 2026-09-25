@@ -1,7 +1,8 @@
 ---
 title: "Cara Setup Husky, Lint Staged, Dan Commitizen Di Project Next.js"
-description: "Coding bukan sekadar menulis baris kode, kita sering harus mengerjakan semuanya secara manual. Jadi kenapa tidak memakai tools yang bisa membantu mencapai tujuan tersebut? Artikel ini akan menunjukkan cara setup Husky, Lint Staged, dan Conventional Commit dengan Next.js"
+description: "Berhenti mengerjakan bagian yang membosankan secara manual. Begini cara setup Husky, Lint Staged, dan Conventional Commit di proyek Next.js."
 publishedAt: "03/23/2022"
+updatedAt: "09/26/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -201,7 +202,7 @@ Jika linting berhasil dan tidak ada error, pesan sukses akan dicetak lalu script
 
 Buat script baru di dalam `package.json` agar perintah ini otomatis berjalan setiap kali project diinstal:
 
-```json {5} title="./package.json" showLineNumbers
+```json ins={5} title="./package.json" showLineNumbers
 {
   "name": "app name",
   "version": "0.0.0",
@@ -231,7 +232,7 @@ Setelah instalasi selesai, mari buat konfigurasi untuk lint-staged. Lint-staged 
 
 Di artikel ini saya akan menunjukkan cara memakai object lint-staged di dalam package.json:
 
-```json title="./package.json" {9-12}
+```json title="./package.json" ins={9-12}
 {
   "name": "app name",
   "version": "0.0.0",
@@ -286,7 +287,7 @@ Perintah di atas melakukan tiga hal:
 - Menyimpannya ke dalam dependencies atau devDependencies di `package.json`
 - Menambahkan key `config.commitizen` ke root `package.json` kamu seperti berikut:
 
-```json {13-17} title="./package.json" showLineNumbers
+```json ins={13-17} title="./package.json" showLineNumbers
 {
   "name": "app name",
   "version": "0.0.0",

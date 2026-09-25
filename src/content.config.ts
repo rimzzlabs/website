@@ -2,20 +2,19 @@ import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+const dateField = z
+	.string()
+	.regex(/^\d{2}\/\d{2}\/\d{4}$/, "Use MM/DD/YYYY, for example 09/25/2026.");
+
 const noteSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	keywords: z.array(z.string()),
-	publishedAt: z.string(),
+	publishedAt: dateField,
+	updatedAt: dateField.optional(),
 	status: z.enum(["published", "draft"]),
 	featured: z.boolean(),
 	author: reference("authors"),
-});
-
-const authorsSchema = z.object({
-	fullName: z.string(),
-	username: z.string(),
-	url: z.string(),
 });
 
 const notes = defineCollection({
@@ -23,9 +22,13 @@ const notes = defineCollection({
 	schema: noteSchema,
 });
 
-const authors = defineCollection({
-	loader: glob({ pattern: "**/*.json", base: "./src/content/authors" }),
-	schema: authorsSchema,
+const legal = defineCollection({
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/legal" }),
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		updatedAt: dateField,
+	}),
 });
 
-export const collections = { notes, authors };
+export const collections = { notes, legal };

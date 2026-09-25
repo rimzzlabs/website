@@ -2,6 +2,7 @@
 title: "Tanstack Query Lebih Dari Sekadar Server State"
 description: "Terkadang kita tidak berhati-hati saat mengelola Server-State. Padahal lebih dari sekadar ambil data dari server, menyimpan data, dan atau cache invalidation."
 publishedAt: "08/01/2026"
+updatedAt: "09/26/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -9,7 +10,7 @@ keywords:
   - Tanstack Query
 ---
 
-import NoteImage from "@/components/notes/note-image/note-image.astro";
+import NoteImage from "@/components/notes/note-image.astro";
 import HowSystemWork from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-1.png";
 import HowTanstackQuery from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-2.png";
 import DuplicateRequest from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-3.png";
@@ -95,7 +96,7 @@ useEffect(() => {
 
 Belum selesai. Jika komponen di-_unmount_ atau `offset` berubah saat _request_ masih berjalan, hasil yang datang terlambat bisa menimpa _state_ dengan data yang sudah tidak relevan. Kita butuh `AbortController`, lengkap dengan satu pengecualian agar pembatalan tidak dianggap sebagai _error_:
 
-```ts {2,6,9,14-16}
+```ts ins={2,6,9,14-16}
 useEffect(() => {
   const ac = new AbortController();
 
@@ -259,7 +260,7 @@ Kabar baiknya, solusi untuk kedua masalah tadi sudah ada di depan mata sejak awa
 
 Dengan memanfaatkan keduanya, kedua masalah di atas selesai sekaligus:
 
-```ts {3,4}
+```ts ins={3,4}
 const salesQuery = useQuery({
   queryKey: ["get-sales", period, limit] as const,
   queryFn: (ctx) => {
@@ -279,7 +280,7 @@ Tambahan `as const` membuat TypeScript menyimpulkan tipe `queryKey` sebagai _tup
 
 `ctx.signal` kita teruskan ke `getSales`, lalu `getSales` meneruskannya ke `fetch`:
 
-```ts {4,10}
+```ts ins={4,10}
 interface SalesOverviewConfig {
   period: SalesPeriod;
   limit: number;

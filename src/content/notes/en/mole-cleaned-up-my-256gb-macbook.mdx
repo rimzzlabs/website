@@ -1,7 +1,8 @@
 ---
 title: "Mole Cleaned Up My Good Ol' 256GB MacBook"
-description: "My M1 MacBook with 256GB of storage was permanently full, and macOS would only tell me the culprit was System Data. Mole is a dead simple terminal tool that showed me where every gigabyte went, and then got them back."
+description: "My 256GB M1 MacBook was always full, and macOS only blamed System Data. Mole showed me where every gigabyte went, then got them back."
 publishedAt: "08/16/2026"
+updatedAt: "09/26/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -14,9 +15,7 @@ keywords:
   - mo clean
 ---
 
-import NoteImage from "@/components/notes/note-image/note-image.astro";
-
-import { PlaygroundClean } from "@/components/notes/mole-cleaned-up-my-256gb-macbook/playground-clean";
+import NoteImage from "@/components/notes/note-image.astro";
 
 import FirstScan from "@/assets/notes/mole-cleaned-up-my-256gb-macbook/first-scan.png";
 
@@ -122,10 +121,6 @@ Mole shows you each category with its size before anything happens, and you pick
   caption="My first mo clean scan, with 12.69GB free at the top"
 />
 
-Here's that same scan as something you can poke at. Toggle a category and watch how much space comes back:
-
-<PlaygroundClean client:visible lang="en" />
-
 One category dwarfs everything else. That 3.33GB of user app cache is exactly the kind of weight System Data carries around without ever telling you.
 
 ## Deleting an App Finally Deletes All of It
@@ -156,9 +151,9 @@ Every destructive command takes `--dry-run`, which shows you exactly what would 
 mo clean --dry-run
 ```
 
-Beyond that, it validates paths, has protected-directory rules baked in, keeps a whitelist you control for things it must never touch, and asks for explicit confirmation on riskier actions. Everything it does is logged to `~/Library/Logs/mole/operations.log`, and `mo history` shows you the log without leaving the tool.
+Beyond that, it validates paths, has built-in protected-directory rules, keeps a whitelist you control for things it must never touch, and asks for explicit confirmation on riskier actions. Everything it does is logged to `~/Library/Logs/mole/operations.log`, and `mo history` shows you the log without leaving the tool.
 
-The defaults are conservative on purpose. In everything I ran, it never touched documents, photos, or anything I'd call data. Caches and artifacts only, things the machine can rebuild.
+The defaults are conservative on purpose. In everything I ran, it never touched documents, photos, or anything I'd call data. Only caches and artifacts, things the machine can rebuild.
 
 ## The Small Touches That Kept It Installed
 

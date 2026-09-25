@@ -1,56 +1,33 @@
-# Runtime secrets for the Cloudflare Pages Function (functions/api/contact.ts),
-# read by `wrangler pages dev`. Copy to `.dev.vars` and fill in. These are server
-# side only — never exposed to the browser — so real secrets go here, not in .env.
-#
-# In production these are set in the Cloudflare Pages project
-# (Settings -> Environment variables / Secrets), not from this file.
+# Runtime secrets for the Cloudflare Pages Functions in functions/.
+# `wrangler pages dev` reads them from .dev.vars. Copy this file to .dev.vars
+# and fill in the values. In production, set them in the Cloudflare Pages
+# project: Settings > Variables and Secrets.
 
-# Resend API key. Create one at:
-#   https://resend.com/api-keys
-RESEND_KEY=
+# --- Contact and feedback forms (functions/api/contact.tsx, feedback.tsx) ---
+# Resend API key, a sender on a domain you verified in Resend, and your inbox.
+RESEND_API_KEY=
+CONTACT_FROM=
+CONTACT_TO=
 
-# Cloudflare Turnstile SECRET key (the private half of the same widget as the
-# PUBLIC_CF_TURNSTILE_SITE_KEY in .env). Copy it from your widget at:
-#   https://dash.cloudflare.com/?to=/:account/turnstile
-# Local testing dummy that always passes: 1x0000000000000000000000000000000AA
-#   https://developers.cloudflare.com/turnstile/troubleshooting/testing/
+# --- Turnstile (contact, feedback, and anonymous guestbook forms) ---
+# SECRET key of the same widget as PUBLIC_CF_TURNSTILE_SITE_KEY in .env.
+# Local test secret that always passes: 1x0000000000000000000000000000000AA
 CF_TURNSTILE_SECRET_KEY=
 
-# The "from" address on the email. Must be on a domain you've verified in Resend:
-#   https://resend.com/domains
-# Before verifying a domain you can use Resend's sandbox sender for testing:
-#   onboarding@resend.dev   (note: it only delivers to your own Resend account email)
-# A display name is optional, e.g. "rimzzlabs.com <noreply@rimzzlabs.com>".
-CONTACT_FROM_EMAIL=
-
-# Where contact messages are delivered — your own inbox. Any address works.
-CONTACT_TO_EMAIL=
-
-# --- Guestbook (functions/api/guestbook.ts) ---
-# Reuses RESEND_KEY and CF_TURNSTILE_SECRET_KEY above. The "new comment"
-# notification falls back to CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL when these
-# are blank, so they're optional — set them only to route guestbook mail apart.
-GUESTBOOK_FROM_EMAIL=
-GUESTBOOK_NOTIFY_TO=
-
-# Cloudflare Pages deploy hook. On a new/edited/deleted comment the Function pings
-# this URL so the baked (crawlable) comment snapshot rebuilds — debounced to at
-# most once/minute. Create it at: Pages project -> Settings -> Builds & deployments
-# -> Deploy hooks. Optional; leave blank to skip rebuilds.
-PAGES_DEPLOY_HOOK_URL=
-
-# --- Guestbook auth (better-auth, functions/api/auth/[[all]].ts) ---
-# Secret better-auth uses to sign sessions. Generate one with:
+# --- Guestbook auth (functions/api/auth/[[all]].ts) ---
+# Secret that better-auth uses to sign sessions. Generate one with:
 #   openssl rand -base64 48
 SESSION_SECRET=
 
-# GitHub OAuth app (Settings -> Developer settings -> OAuth Apps). Authorization
-# callback URL: <origin>/api/auth/callback/github (add the localhost one for
-# `wrangler pages dev`). The app needs the user:email scope.
+# GitHub OAuth app. Authorization callback URL:
+#   <origin>/api/auth/callback/github
+# Use a separate app for local development, with this callback:
+#   http://localhost:5600/api/auth/callback/github
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 
-# Google OAuth client (Google Cloud Console -> Credentials -> OAuth client ID,
-# type Web application). Authorized redirect URI: <origin>/api/auth/callback/google
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
+# --- Guestbook rebuild ---
+# Cloudflare Pages deploy hook. After a new entry, the guestbook Function calls
+# it (at most once per minute) so the static snapshot of entries rebuilds.
+# Pages project > Settings > Builds > Deploy hooks. Optional.
+PAGES_DEPLOY_HOOK_URL=

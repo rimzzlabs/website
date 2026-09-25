@@ -1,0 +1,57 @@
+---
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { getDictionary, type Locale, localizePath } from "@/i18n";
+
+interface Props {
+	locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+---
+
+<Root {locale}>
+	<Seo
+		slot="meta"
+		{locale}
+		title={t.serverError.seoTitle}
+		description={t.serverError.seoDescription}
+		noindex
+	/>
+
+	<NavigationBar {locale} />
+
+	<main id="main" class="wrapper pt-10">
+		<p class="pt-6 font-mono text-xs text-muted-foreground">500</p>
+		<h1
+			class="pt-2 pb-4 font-serif text-[2em] font-semibold text-balance leading-tight tracking-tight"
+		>
+			{t.serverError.title}
+		</h1>
+		<p class="max-w-[65ch] text-pretty text-muted-foreground">
+			{t.serverError.body}
+		</p>
+
+		<div class="flex flex-wrap gap-2 pt-10">
+			<button
+				type="button"
+				onclick="location.reload()"
+				class={buttonVariants()}
+			>
+				{t.serverError.tryAgain}
+			</button>
+			<a
+				href={localizePath("/", locale)}
+				class={buttonVariants({ variant: "outline" })}
+			>
+				{t.serverError.home}
+			</a>
+		</div>
+	</main>
+
+	<Footer {locale} />
+</Root>

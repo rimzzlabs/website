@@ -1,0 +1,129 @@
+---
+import { A, AR, pipe } from "@mobily/ts-belt";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import HomeContact from "@/components/home/home-contact/home-contact.astro";
+import { HomeGallery } from "@/components/home/home-gallery";
+import HomeProjects from "@/components/home/home-projects.astro";
+import HomeSectionHeading from "@/components/home/home-section-heading.astro";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import NoteList from "@/components/notes/note-list.astro";
+import RichText from "@/components/rich-text.astro";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "@/components/ui/link.astro";
+import { getImageGallery } from "@/data/gallery";
+import {
+	fill,
+	getDictionary,
+	type Locale,
+	localeStaticPaths,
+	localizePath,
+} from "@/i18n";
+import { getNotes } from "@/lib/notes";
+
+export function getStaticPaths() {
+	return localeStaticPaths();
+}
+
+interface Props {
+	locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+
+const notes = await getNotes(locale);
+const latestNotes = pipe(notes, A.slice(0, 4));
+const images = await pipe(
+	getImageGallery(locale),
+	AR.make,
+	AR.match(
+		(res) => res,
+		() => [],
+	),
+);
+---
+
+<Root {locale}>
+	<Seo
+		slot="meta"
+		{locale}
+		title={t.home.seoTitle}
+		description={t.home.seoDescription}
+	/>
+
+	<NavigationBar {locale} />
+
+	<main id="main">
+		<header class="wrapper pt-10">
+			<h1
+				class="pt-6 pb-6 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
+			>
+				<a href={localizePath("/", locale)}>Rizki Citra</a>
+			</h1>
+
+			<div class="max-w-[65ch] space-y-4 text-pretty">
+				<p>
+					<RichText
+						text={t.home.heroWork}
+						links={{ kolosal: { href: "https://kolosal.ai", label: "Kolosal AI" } }}
+					/>
+				</p>
+				<p>
+					<RichText
+						text={t.home.heroPast}
+						links={{
+	bitwyre: { href: "https://bitwyre.com", label: "Bitwyre" },
+	skyshi: { href: "https://skyshi.com", label: "Skyshi" },
+}}
+					/>
+				</p>
+			</div>
+
+			<div class="inline-flex items-center gap-2 pt-8">
+				<a
+					href="/attachments/rizki_citra_resume.pdf"
+					target="_blank"
+					rel="noopener noreferrer"
+					class={buttonVariants()}
+				>
+					{t.home.resume} <ArrowUpRightIcon aria-hidden="true" />
+					<span class="sr-only">{t.common.opensInNewTab}</span>
+				</a>
+			</div>
+		</header>
+
+		<HomeProjects {locale} />
+
+		<section class="wrapper pt-20">
+			<HomeSectionHeading description={t.home.notesDescription}>
+				{t.home.notesTitle}
+			</HomeSectionHeading>
+
+			<NoteList
+				{locale}
+				notes={latestNotes}
+				moreHref={localizePath("/notes", locale)}
+				moreLabel={fill(t.home.notesMore, { count: notes.length })}
+			/>
+		</section>
+
+		<section class="wrapper pt-20">
+			<HomeSectionHeading description={t.home.galleryDescription}>
+				{t.home.galleryTitle}
+			</HomeSectionHeading>
+
+			<HomeGallery
+				client:load
+				images={images}
+				copy={{ ...t.lightbox, viewFullSize: t.common.viewFullSize }}
+			/>
+		</section>
+
+		<HomeContact {locale} />
+	</main>
+
+	<Footer {locale} />
+</Root>

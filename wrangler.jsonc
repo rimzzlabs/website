@@ -1,14 +1,10 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "rimzzlabs-web",
-	// Static Astro output; functions/ runs as Pages Functions alongside it.
-	// The runtime Node version (build toolchain) is pinned separately in .nvmrc.
+	"name": "website",
 	"pages_build_output_dir": "./dist",
 	"compatibility_date": "2026-06-30",
-	// better-auth (functions/api/auth) needs Node built-ins (async_hooks, crypto).
+	// better-auth needs Node built-ins (async_hooks, crypto).
 	"compatibility_flags": ["nodejs_compat"],
-	// D1 backing the guestbook (functions/api/guestbook.ts). Schema lives in
-	// migrations/; apply it with `pnpm wrangler d1 migrations apply guestbook`.
 	"d1_databases": [
 		{
 			"binding": "DB",

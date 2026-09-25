@@ -1,7 +1,8 @@
 ---
 title: "Bagaimana ts-belt Membantu Saya Menulis Kode yang Mudah Diprediksi"
-description: "ts-belt adalah utility library TypeScript buatan Mobily yang memakai pendekatan fungsional. Begini cara Option, Result, dan AsyncResult menggantikan tumpukan pengecekan null dan try/catch di kode LLM yang saya kerjakan sehari-hari."
+description: "Begini cara Option, Result, dan AsyncResult dari ts-belt menggantikan tumpukan pengecekan null dan try/catch di kode LLM saya sehari-hari."
 publishedAt: "08/09/2026"
+updatedAt: "09/26/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -12,10 +13,6 @@ keywords:
   - Result
   - LLM Frontend
 ---
-
-import { PlaygroundOption } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-option";
-import { PlaygroundResult } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-result";
-import { PlaygroundMessages } from "@/components/notes/how-ts-belt-helps-me-write-predictable-code/playground-messages";
 
 Pertama kali tampilan _chat_ kami mendadak kosong, saya menyalahkan _backend_.
 
@@ -218,10 +215,6 @@ pipe(
 
 Ini seperti kotak berlabel kosong yang ternyata masih ada isinya, dan labelnya adalah satu-satunya hal yang diperiksa orang.
 
-Coba sendiri di bawah. Pindah ke _tool call_ lalu lihat baris tengahnya tumbang:
-
-<PlaygroundOption client:visible lang="id" />
-
 Perbaikannya cuma satu fungsi. `O.fromNullable` mengubah `null` menjadi `undefined`:
 
 ```ts
@@ -404,10 +397,6 @@ Pertanyaan itulah yang sebenarnya dilakukan `try/catch` di sekeliling setiap lan
 
 Satu catatan sekarang setelah zod ikut di rantai ini. `ZodError` menyimpan `message`-nya sebagai _dump_ JSON dari setiap masalah, dan itu tidak terbaca kalau ditaruh di _toast_. `z.prettifyError` yang perlu kamu panggil di situ.
 
-Rusakkan JSON di bawah lalu lihat langkah dua dilewati:
-
-<PlaygroundResult client:visible lang="id" />
-
 ### Membukanya di Tempat Hasilnya Dirender
 
 Sebuah `Result` sebaiknya tidak bepergian jauh. Saya menyimpannya di dalam modul yang membuatnya, lalu membukanya di tempat hasilnya dirender:
@@ -521,10 +510,6 @@ function toPromptMessages(messages: Array<StoredMessage>) {
 `A.filterMap` yang paling layak diingat. Ia mem-_map_ dan mem-_filter_ sekaligus dalam satu jalan, dan penentunya cuma satu: fungsimu mengembalikan sebuah nilai, atau tidak mengembalikan apa-apa.
 
 `D.selectKeys` memilih _field_ yang memang diminta API, jadi `created_at` dan `trace_id` tidak ikut terkirim.
-
-Nyalakan dan matikan langkahnya lalu lihat apa yang dibuang masing-masing:
-
-<PlaygroundMessages client:visible lang="id" />
 
 Menghitung token sepanjang satu sesi bentuknya sama:
 

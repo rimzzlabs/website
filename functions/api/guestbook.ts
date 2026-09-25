@@ -1,208 +1,148 @@
-import { Resend } from "resend";
+import { AR, O, pipe, R } from "@mobily/ts-belt";
+import { en } from "../../src/i18n/en";
 import {
-	API_VALIDATION,
-	guestbookInputSchema,
+	createGuestbookAnonymousSchema,
+	createGuestbookVerifiedSchema,
+	GUESTBOOK_SELECT,
+	type GuestbookEntry,
 	guestbookQuerySchema,
-	guestbookVerifiedSchema,
-} from "../../src/lib/guestbook-schema";
-import { getSessionUser, getUserProvider } from "../_lib/auth";
+	toGuestbookPage,
+	toWebsiteUrl,
+} from "../../src/lib/guestbook/schema";
+import { getSessionUser, type SessionUser } from "../_lib/auth";
 import {
-	COMMENT_COLUMNS,
-	type CommentRow,
-	type GuestbookCommentDTO,
 	type GuestbookEnv,
-	hashOwnerToken,
-	json,
-	mintOwnerToken,
-	normalizeSite,
-	ownerSetCookie,
-	readOwnerToken,
-	toComment,
+	type PagesContext,
 	triggerRebuild,
 } from "../_lib/guestbook";
 import { verifyTurnstile } from "../_lib/turnstile";
 
-interface FunctionContext {
-	request: Request;
-	env: GuestbookEnv;
-	waitUntil(promise: Promise<unknown>): void;
+const guestbookVerifiedSchema = createGuestbookVerifiedSchema(
+	en.guestbook.validation,
+);
+const guestbookAnonymousSchema = createGuestbookAnonymousSchema(
+	en.guestbook.validation,
+);
+
+interface NewComment {
+	name: string;
+	site: string | null;
+	message: string;
+	authorType: GuestbookEntry["authorType"];
+	authorId: string | null;
+	avatar: string | null;
+	spam: boolean;
 }
 
-const inputSchema = guestbookInputSchema(API_VALIDATION);
-const verifiedSchema = guestbookVerifiedSchema(API_VALIDATION);
-
-function escapeHtml(value: string): string {
-	return value
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;");
+function toVerifiedComment(user: SessionUser, body: unknown) {
+	return pipe(
+		R.fromExecution(() => guestbookVerifiedSchema.parse(body)),
+		R.map(
+			(input): NewComment => ({
+				name: user.name,
+				site: toWebsiteUrl(input.site),
+				message: input.message,
+				authorType: "github",
+				authorId: user.id,
+				avatar: user.image,
+				spam: false,
+			}),
+		),
+	);
 }
 
-async function notify(env: GuestbookEnv, comment: GuestbookCommentDTO): Promise<void> {
-	const from = env.GUESTBOOK_FROM_EMAIL || env.CONTACT_FROM_EMAIL;
-	const to = env.GUESTBOOK_NOTIFY_TO || env.CONTACT_TO_EMAIL;
-	if (!env.RESEND_KEY || !from || !to) return;
-
-	const site = comment.site ? ` (${escapeHtml(comment.site)})` : "";
-	const html = `<p><strong>${escapeHtml(comment.name)}</strong>${site} left a guestbook message:</p><blockquote>${escapeHtml(comment.message)}</blockquote>`;
-	const text = `${comment.name}${comment.site ? ` (${comment.site})` : ""} left a guestbook message:\n\n${comment.message}`;
-
-	try {
-		const resend = new Resend(env.RESEND_KEY);
-		const { error } = await resend.emails.send({
-			from,
-			to,
-			subject: `New guestbook message from ${comment.name}`,
-			html,
-			text,
-		});
-		if (error) console.error("Guestbook notify failed:", error);
-	} catch (error) {
-		console.error("Guestbook notify threw:", error);
-	}
+function toAnonymousComment(body: unknown) {
+	return pipe(
+		R.fromExecution(() => guestbookAnonymousSchema.parse(body)),
+		R.map(
+			(input): NewComment => ({
+				name: input.name ?? "",
+				site: toWebsiteUrl(input.site),
+				message: input.message,
+				authorType: "anon",
+				authorId: null,
+				avatar: null,
+				spam: Boolean(input.company),
+			}),
+		),
+	);
 }
 
-async function insertComment(
-	env: GuestbookEnv,
-	row: Omit<CommentRow, "id" | "updatedAt">,
-): Promise<number> {
-	const { meta } = await env.DB.prepare(
-		"INSERT INTO comments (name, site, message, lang, created_at, author_type, author_id, avatar_url, owner_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+function insertComment(env: GuestbookEnv, comment: NewComment) {
+	return env.DB.prepare(
+		"INSERT INTO comments (name, site, message, created_at, author_type, author_id, avatar_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
 	)
 		.bind(
-			row.name,
-			row.site,
-			row.message,
-			row.lang,
-			row.createdAt,
-			row.author_type,
-			row.author_id,
-			row.avatar_url,
-			row.owner_hash,
+			comment.name,
+			comment.site,
+			comment.message,
+			Date.now(),
+			comment.authorType,
+			comment.authorId,
+			comment.avatar,
 		)
 		.run();
-	return meta.last_row_id;
 }
 
-export async function onRequestGet(context: FunctionContext): Promise<Response> {
-	const { request, env } = context;
-	const url = new URL(request.url);
-	const { offset, limit } = guestbookQuerySchema.parse({
-		offset: url.searchParams.get("offset"),
+function saveComment(context: PagesContext, comment: NewComment) {
+	if (comment.spam) {
+		return Promise.resolve(Response.json({ ok: true }, { status: 201 }));
+	}
+
+	return pipe(
+		AR.make(insertComment(context.env, comment)),
+		AR.tap(() => context.waitUntil(triggerRebuild(context.env))),
+		AR.match(
+			() => Response.json({ ok: true }, { status: 201 }),
+			() => Response.json({ error: "Could not save entry." }, { status: 500 }),
+		),
+	);
+}
+
+export async function onRequestGet(context: PagesContext) {
+	const url = new URL(context.request.url);
+	const query = guestbookQuerySchema.parse({
+		cursor: url.searchParams.get("cursor"),
 		limit: url.searchParams.get("limit"),
 	});
 
-	const token = readOwnerToken(request);
-	const sessionUser = await getSessionUser(request, env);
-	const viewer = {
-		ownerHash: token ? await hashOwnerToken(token) : null,
-		sub: sessionUser?.id ?? null,
-	};
+	const rows = await context.env.DB.prepare(GUESTBOOK_SELECT)
+		.bind(query.cursor, query.limit + 1)
+		.all<GuestbookEntry>();
 
-	const { results } = await env.DB.prepare(
-		`SELECT ${COMMENT_COLUMNS} FROM comments ORDER BY id DESC LIMIT ? OFFSET ?`,
-	)
-		.bind(limit + 1, offset)
-		.all<CommentRow>();
-
-	const hasMore = results.length > limit;
-	const rows = hasMore ? results.slice(0, limit) : results;
-	const items = rows.map((row) => toComment(row, viewer));
-
-	return json({ items, nextOffset: hasMore ? offset + limit : null }, 200);
+	return Response.json(toGuestbookPage(rows.results, query.limit));
 }
 
-export async function onRequestPost(context: FunctionContext): Promise<Response> {
-	const { request, env } = context;
+export async function onRequestPost(context: PagesContext) {
+	const body = await context.request.json().catch(() => null);
+	const user = await getSessionUser(context.request, context.env);
 
-	let body: unknown;
-	try {
-		body = await request.json();
-	} catch {
-		return json({ error: "invalid_json" }, 400);
+	if (!user) {
+		const human = await verifyTurnstile(
+			context.env.CF_TURNSTILE_SECRET_KEY,
+			context.request,
+			body,
+		);
+		if (!human) {
+			return Response.json(
+				{ error: "Could not verify the request." },
+				{ status: 403 },
+			);
+		}
 	}
 
-	const sessionUser = await getSessionUser(request, env);
-	const createdAt = Date.now();
-
-	if (sessionUser) {
-		const parsed = verifiedSchema.safeParse(body);
-		if (!parsed.success) return json({ error: "invalid_input" }, 400);
-
-		const provider = await getUserProvider(env, sessionUser.id);
-		const site = normalizeSite(parsed.data.site);
-		const id = await insertComment(env, {
-			name: sessionUser.name,
-			site,
-			message: parsed.data.message,
-			lang: parsed.data.lang,
-			createdAt,
-			author_type: provider,
-			author_id: sessionUser.id,
-			avatar_url: sessionUser.image,
-			owner_hash: null,
-		});
-
-		const item: GuestbookCommentDTO = {
-			id,
-			name: sessionUser.name,
-			site,
-			message: parsed.data.message,
-			lang: parsed.data.lang,
-			createdAt,
-			updatedAt: null,
-			authorType: provider,
-			avatar: sessionUser.image,
-			isOwn: true,
-		};
-		await notify(env, item);
-		context.waitUntil(triggerRebuild(env));
-		return json({ item }, 201);
-	}
-
-	const parsed = inputSchema.safeParse(body);
-	if (!parsed.success) return json({ error: "invalid_input" }, 400);
-
-	const human = await verifyTurnstile(
-		env.CF_TURNSTILE_SECRET_KEY,
-		parsed.data.token,
-		request.headers.get("cf-connecting-ip"),
+	return pipe(
+		O.fromNullable(user),
+		O.match(
+			(sessionUser) => toVerifiedComment(sessionUser, body),
+			() => toAnonymousComment(body),
+		),
+		R.match(
+			(value) => saveComment(context, value),
+			() =>
+				Promise.resolve(
+					Response.json({ error: "Invalid entry." }, { status: 400 }),
+				),
+		),
 	);
-	if (!human) return json({ error: "turnstile_failed" }, 403);
-
-	const site = normalizeSite(parsed.data.site);
-	const existingToken = readOwnerToken(request);
-	const ownerToken = existingToken ?? mintOwnerToken();
-	const ownerHash = await hashOwnerToken(ownerToken);
-
-	const id = await insertComment(env, {
-		name: parsed.data.name,
-		site,
-		message: parsed.data.message,
-		lang: parsed.data.lang,
-		createdAt,
-		author_type: "anon",
-		author_id: null,
-		avatar_url: null,
-		owner_hash: ownerHash,
-	});
-
-	const item: GuestbookCommentDTO = {
-		id,
-		name: parsed.data.name,
-		site,
-		message: parsed.data.message,
-		lang: parsed.data.lang,
-		createdAt,
-		updatedAt: null,
-		authorType: "anon",
-		avatar: null,
-		isOwn: true,
-	};
-	await notify(env, item);
-	context.waitUntil(triggerRebuild(env));
-
-	const headers = existingToken ? undefined : { "set-cookie": ownerSetCookie(ownerToken) };
-	return json({ item }, 201, headers);
 }

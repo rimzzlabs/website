@@ -1,0 +1,70 @@
+---
+import { getEntry, render } from "astro:content";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import NoteLink from "@/components/notes/note-link.astro";
+import { NoteToc } from "@/components/notes/note-toc/note-toc";
+import { toTocHeadings } from "@/components/notes/note-toc/note-toc-headings";
+import NoteTocMobile from "@/components/notes/note-toc/note-toc-mobile.astro";
+import { getDictionary, type Locale } from "@/i18n";
+import { formatDate, parsePublishedAt } from "@/lib/datetime";
+
+interface Props {
+	locale: Locale;
+	slug: "privacy" | "accessibility";
+}
+
+const locale = Astro.props.locale;
+const slug = Astro.props.slug;
+const t = getDictionary(locale);
+
+const page = await getEntry("legal", `${locale}/${slug}`);
+if (!page) throw new Error(`Missing legal page ${slug} for ${locale}`);
+
+const { Content, headings } = await render(page);
+const toc = toTocHeadings(headings);
+const updatedAt = parsePublishedAt(page.data.updatedAt);
+---
+
+<Root {locale}>
+	<Seo
+		{locale}
+		title={`${page.data.title}, Rizki Citra`}
+		description={page.data.description}
+		slot="meta"
+	/>
+
+	<NavigationBar {locale} />
+	<main id="main" class="typeset">
+		<div class="wrapper relative">
+			<header class="pt-10">
+				<h1 class="mt-0!">{page.data.title}</h1>
+				<p class="not-typeset pt-4 font-mono text-xs text-muted-foreground">
+					{t.legal.lastUpdated}{" "}
+					<time datetime={updatedAt.toISOString()}
+						>{formatDate(undefined, locale)(updatedAt)}</time
+					>
+				</p>
+			</header>
+
+			<NoteTocMobile label={t.notes.onThisPage} headings={toc} />
+
+			<article>
+				<Content components={{ a: NoteLink }} />
+			</article>
+
+			<aside
+				class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block"
+			>
+				<div
+					class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6"
+				>
+					<NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
+				</div>
+			</aside>
+		</div>
+	</main>
+	<Footer {locale} />
+</Root>

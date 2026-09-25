@@ -1,0 +1,60 @@
+---
+title: "Accessibility Statement"
+description: "How this site works with a keyboard, a screen reader, and reduced motion, what I checked, and what still falls short."
+updatedAt: "09/26/2026"
+---
+
+I want everyone to be able to read this site, whether you use a mouse, a keyboard, a screen reader, or zoom the page way up. This page explains what I built for that, how I checked it, and where it still falls short.
+
+## The Goal
+
+I aim for [WCAG 2.2](https://www.w3.org/TR/WCAG22/) Level AA, the standard most accessibility laws point to.
+
+I believe most of the site meets it today. That said, it's a personal site, and no one outside has audited it yet. So the honest label is partial conformance.
+
+## What's Built In
+
+**Color contrast.** I checked every text and control color against the AA ratios, in both the light and the dark theme. Body text needs at least 4.5:1, and form field borders need at least 3:1.
+
+**Keyboard.** Press Tab once on any page, and a "Skip to content" link appears. Every link, button, menu, and dialog works without a mouse, and you can always see which element has focus.
+
+**Screen readers.** Each page has one main heading, headings in order, and labeled regions. The navigation marks the page you're on. Form errors are tied to their fields, success messages are read out, and links that open a new tab say so.
+
+**Images.** Every image has a text description, and the image viewer announces which image you're on.
+
+**Language.** Each page declares its language, English or Indonesian. When a sentence borrows a word from the other language, the word is marked, so a screen reader can pronounce it correctly.
+
+**Motion.** The settings menu has an Animation option with three choices:
+
+- **System** follows the reduced motion setting on your device.
+- **On** keeps every animation.
+- **Off** removes movement and keeps only soft fades.
+
+**Theme.** You can switch between light and dark at any time, and the site remembers your choice.
+
+## Image Viewer Keys
+
+When you open an image, these keys work:
+
+- **Left and right arrows** move to the previous or next image.
+- **Plus and minus** zoom in and out, and **0** resets the zoom.
+- **Arrow keys**, while zoomed in, move around the image.
+- **Escape** closes the viewer.
+
+## What Still Falls Short
+
+- **Code blocks.** I didn't check the syntax highlighting colors in code samples for contrast.
+- **Guestbook entries.** Visitors write them, so I can't promise every entry reads well with assistive technology.
+- **Cloudflare Turnstile.** The spam check on the forms comes from Cloudflare. If it ever asks you to solve a challenge you can't complete, you can [book a call](https://cal.com/rimzzlabs) or reach me on [GitHub](https://github.com/rimzzlabs) instead.
+- **JavaScript.** You can read every page without JavaScript. The forms, the guestbook, and the image viewer need it, though.
+
+## How I Checked
+
+- I calculated the contrast of every theme color pair with a script that uses the WCAG formula.
+- I reviewed every component for keyboard access, focus handling, and ARIA use.
+- I scanned every built page for duplicate IDs, broken ARIA references, and images without descriptions.
+- I tested the site on my own devices.
+
+## Tell Me What's Broken
+
+If something on this site gets in your way, I want to hear about it. [Send me feedback](/feedback?topic=accessibility) with the page and what went wrong, and I'll work on a fix. Screenshots help a lot.

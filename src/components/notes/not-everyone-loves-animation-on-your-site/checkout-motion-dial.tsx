@@ -1,19 +1,12 @@
+import { CheckIcon, CircleNotchIcon } from "@phosphor-icons/react";
+import { cn } from "cn";
 import { useRef, useState } from "react";
-
 import { Playground, PlaygroundChoice } from "@/components/notes/playground";
-import type { Lang } from "@/i18n/config";
-import { cn } from "@/lib/utils";
 
 type MotionLevel = "none" | "subtle" | "lebay";
 type CheckoutStep = "cart" | "paying" | "done";
 
-interface CartItem {
-	id: string;
-	label: string;
-	price: number;
-}
-
-interface Copy {
+type Copy = {
 	title: string;
 	hint: string;
 	dialLabel: string;
@@ -26,53 +19,47 @@ interface Copy {
 	doneBody: string;
 	elapsedLabel: string;
 	resetLabel: string;
-	items: readonly CartItem[];
-}
-
-const COPY: Record<Lang, Copy> = {
-	en: {
-		title: "The same checkout, three motion budgets",
-		hint: "The flow and the fake payment delay are identical in all three. Pay in each mode and compare how long the confirmation takes to become readable. If your OS has Reduce Motion on, even the over-animated mode calms down, exactly as it should.",
-		dialLabel: "Motion budget",
-		dialOptions: { none: "No motion", subtle: "Just enough", lebay: "Way too much" },
-		orderLabel: "Your order",
-		totalLabel: "Total",
-		payLabel: "Pay now",
-		payingLabel: "Processing payment…",
-		doneTitle: "Payment received",
-		doneBody: "Your tickets are safe.",
-		elapsedLabel: "From click to readable confirmation",
-		resetLabel: "Try again",
-		items: [
-			{ id: "ticket", label: "Concert ticket, CAT 8 × 2", price: 3_800_000 },
-			{ id: "fee", label: "Service fee", price: 80_000 },
-		],
-	},
-	id: {
-		title: "Checkout yang sama, tiga porsi animasi",
-		hint: "Alur dan jeda pembayarannya sama persis di ketiga mode. Coba bayar di tiap mode, lalu bandingkan berapa lama sampai konfirmasinya kebaca. Kalau Reduce Motion di sistemmu menyala, mode paling lebay pun ikut kalem, persis seperti seharusnya.",
-		dialLabel: "Porsi animasi",
-		dialOptions: { none: "Tanpa animasi", subtle: "Secukupnya", lebay: "Kebanyakan" },
-		orderLabel: "Pesanan kamu",
-		totalLabel: "Total",
-		payLabel: "Bayar sekarang",
-		payingLabel: "Memproses pembayaran…",
-		doneTitle: "Pembayaran diterima",
-		doneBody: "Tiket kamu aman.",
-		elapsedLabel: "Dari klik sampai konfirmasi kebaca",
-		resetLabel: "Ulangi",
-		items: [
-			{ id: "ticket", label: "Tiket konser, CAT 8 × 2", price: 3_800_000 },
-			{ id: "fee", label: "Biaya layanan", price: 80_000 },
-		],
-	},
+	items: ReadonlyArray<{ id: string; label: string; price: number }>;
 };
+
+const copy: Copy = {
+	title: "The same checkout, three motion budgets",
+	hint: "The flow and payment delay stay the same in each mode. Pay in each mode and compare how long the confirmation takes to become readable. If your OS has Reduce Motion on, the most animated mode also calms down.",
+	dialLabel: "Motion budget",
+	dialOptions: {
+		none: "No motion",
+		subtle: "Just enough",
+		lebay: "Way too much",
+	},
+	orderLabel: "Your order",
+	totalLabel: "Total",
+	payLabel: "Pay now",
+	payingLabel: "Processing payment...",
+	doneTitle: "Payment received",
+	doneBody: "Your tickets are safe.",
+	elapsedLabel: "From click to readable confirmation",
+	resetLabel: "Try again",
+	items: [
+		{ id: "ticket", label: "Concert ticket, CAT 8 × 2", price: 3_800_000 },
+		{ id: "fee", label: "Service fee", price: 80_000 },
+	],
+};
+
+const total = copy.items.reduce((sum, item) => sum + item.price, 0);
 
 // The fake payment always takes the same time. Every extra millisecond after
 // this is pure choreography, which is the point of the comparison.
 const PROCESS_MS = 600;
-const CHOREO_MS: Record<MotionLevel, number> = { none: 0, subtle: 150, lebay: 1400 };
-const ENTRY_MS: Record<MotionLevel, number> = { none: 0, subtle: 150, lebay: 900 };
+const CHOREO_MS: Record<MotionLevel, number> = {
+	none: 0,
+	subtle: 150,
+	lebay: 1400,
+};
+const ENTRY_MS: Record<MotionLevel, number> = {
+	none: 0,
+	subtle: 150,
+	lebay: 900,
+};
 
 const OVERLAY_TRANSITION: Record<MotionLevel, string> = {
 	none: "",
@@ -100,14 +87,11 @@ function formatElapsed(ms: number) {
 	return `${(ms / 1000).toFixed(1)}s`;
 }
 
-export function CheckoutMotionDial(props: { lang: Lang }) {
+export function CheckoutMotionDial() {
 	const [level, setLevel] = useState<MotionLevel>("lebay");
 	const [step, setStep] = useState<CheckoutStep>("cart");
 	const [elapsedMs, setElapsedMs] = useState<number | null>(null);
 	const timersRef = useRef<number[]>([]);
-
-	const copy = COPY[props.lang];
-	const total = copy.items.reduce((sum, item) => sum + item.price, 0);
 
 	function clearTimers() {
 		for (const id of timersRef.current) window.clearTimeout(id);
@@ -156,10 +140,15 @@ export function CheckoutMotionDial(props: { lang: Lang }) {
 
 			<div className="relative overflow-hidden rounded-lg border border-border bg-background">
 				<div className="space-y-3 p-4">
-					<p className="text-xs font-medium text-muted-foreground">{copy.orderLabel}</p>
+					<p className="text-xs font-medium text-muted-foreground">
+						{copy.orderLabel}
+					</p>
 					<ul className="space-y-1.5">
 						{copy.items.map((item) => (
-							<li key={item.id} className="flex items-baseline justify-between gap-3 text-xs">
+							<li
+								key={item.id}
+								className="flex items-baseline justify-between gap-3 text-xs"
+							>
 								<span>{item.label}</span>
 								<span className="font-mono tabular-nums text-muted-foreground">
 									{formatIdr(item.price)}
@@ -176,7 +165,7 @@ export function CheckoutMotionDial(props: { lang: Lang }) {
 						disabled={step !== "cart"}
 						onClick={handlePay}
 						className={cn(
-							"w-full rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50 motion-reduce:transition-none",
+							"w-full rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-50 motion-reduce:transition-none",
 							PAY_BUTTON[level],
 						)}
 					>
@@ -195,11 +184,15 @@ export function CheckoutMotionDial(props: { lang: Lang }) {
 				>
 					<span
 						className={cn(
-							"size-6 rounded-full border-2 border-primary border-t-transparent",
+							"text-primary",
 							level !== "none" && "animate-spin motion-reduce:animate-none",
 						)}
-					/>
-					<p className="text-xs font-medium text-muted-foreground">{copy.payingLabel}</p>
+					>
+						<CircleNotchIcon size={24} aria-hidden="true" />
+					</span>
+					<p className="text-xs font-medium text-muted-foreground">
+						{copy.payingLabel}
+					</p>
 				</div>
 
 				<div
@@ -214,10 +207,12 @@ export function CheckoutMotionDial(props: { lang: Lang }) {
 					<span
 						className={cn(
 							"flex size-8 items-center justify-center rounded-full bg-emerald-500/15 text-base text-emerald-700 dark:text-emerald-400",
-							step === "done" && level === "lebay" && "animate-bounce motion-reduce:animate-none",
+							step === "done" &&
+								level === "lebay" &&
+								"animate-bounce motion-reduce:animate-none",
 						)}
 					>
-						✓
+						<CheckIcon weight="bold" aria-hidden="true" />
 					</span>
 					<p className="text-sm font-semibold">{copy.doneTitle}</p>
 					<p className="text-xs text-muted-foreground">{copy.doneBody}</p>

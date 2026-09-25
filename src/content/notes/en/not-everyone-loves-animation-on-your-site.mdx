@@ -1,7 +1,8 @@
 ---
 title: "Not Everyone Loves Animation on Your Site"
-description: "Some people don't hate animation, they hate animation that doesn't respect their time. A note on when animation deserves to exist."
+description: "Some people don't hate animation. They hate animation that doesn't respect their time. A note on when animation deserves to exist."
 publishedAt: "09/06/2026"
+updatedAt: "09/26/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -11,7 +12,7 @@ keywords:
   - prefers-reduced-motion
 ---
 
-import NoteImage from "@/components/notes/note-image/note-image.astro";
+import NoteImage from "@/components/notes/note-image.astro";
 
 import { CheckoutMotionDial } from "@/components/notes/not-everyone-loves-animation-on-your-site/checkout-motion-dial";
 import { ReducedMotionDemo } from "@/components/notes/not-everyone-loves-animation-on-your-site/reduced-motion-demo";
@@ -21,7 +22,7 @@ import IntentVsTolerance from "@/assets/notes/not-everyone-loves-animation-on-yo
 
 My girlfriend is a huge fan of a K-pop group, and that group is holding a concert in Jakarta at the end of this year. Naturally, she opened the concert site. What greeted her was a different show entirely: almost every element arrived with its own transition, and the page was busy moving before she could read it. To her, none of that motion was necessary. She came to see her idols, not a website.
 
-That moment is why I'm writing this note. Not because the animation was bad. Quite the opposite, it was clearly built with care. But the person in front of the screen never asked to be animated at.
+That moment is why I'm writing this note. Not because the animation was bad. Quite the opposite: it was clearly built with care. But the person in front of the screen never asked to be animated at.
 
 ## Introduction
 
@@ -62,7 +63,7 @@ That doesn't make decorative animation a sin. Some places exist precisely to imp
 
 People's tolerance for animation isn't fixed. It drops as their goal gets clearer.
 
-Someone opening a landing page arrives with a question: what is this product, and is it for me. Every element that waits its turn to fade in on scroll delays that answer. Fast scrollers get an even stranger experience: the content seems to chase them, always arriving a beat too late.
+Someone opening a landing page arrives with a question: what is this product, and is it for me? Every element that waits its turn to fade in on scroll delays that answer. Fast scrollers get an even stranger experience: the content seems to chase them, always arriving a beat too late.
 
 At checkout, the goal is as clear as it gets: this person wants to give you money. Their intent is at its highest, and their patience is at its thinnest. Elaborately choreographed step transitions don't feel premium here. They feel like a checkout line that moves slowly.
 
@@ -75,7 +76,7 @@ That doesn't mean checkout should be lifeless. Button feedback and clear status 
   caption="The clearer the user's goal, the less room there is for choreography"
 />
 
-Don't take my word for it, feel it. The three checkouts below run the exact same flow. The only thing that changes is the motion budget.
+Don't take my word for it. Feel it. The three checkouts below run the exact same flow. The only thing that changes is the motion budget.
 
 <CheckoutMotionDial client:visible lang="en" />
 
@@ -116,7 +117,7 @@ First, **which user question does this animation answer?** If there's no answer,
 
 Second, **if I delete this animation, what information is lost?** If nothing is lost, the version without it is the better version. Starting small is always possible, and so is adding more later.
 
-Third, **what happens when _Reduce Motion_ is on?** If you've never checked, the answer is probably "nothing changes". Which means someone's preference is being ignored right now.
+Third, **what happens when _Reduce Motion_ is on?** If you've never checked, the answer is probably "nothing changes", which means someone's preference is being ignored right now.
 
 ## Closing
 

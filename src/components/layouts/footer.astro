@@ -1,0 +1,136 @@
+---
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import { getDictionary, type Locale, localizePath } from "@/i18n";
+import { getNavigationLinks } from "./navigation-links";
+
+interface Props {
+	locale: Locale;
+}
+
+const props = Astro.props;
+const t = getDictionary(props.locale);
+const nav = getNavigationLinks(props.locale);
+
+const GROUPS = [
+	{
+		id: "footer-pages",
+		title: t.footer.pages,
+		links: [
+			...nav
+				.filter((link) => link.href !== localizePath("/", props.locale))
+				.map((link) => ({ ...link, external: false })),
+			{
+				label: t.footer.now,
+				href: localizePath("/now", props.locale),
+				external: false,
+			},
+			{
+				label: t.footer.archive,
+				href: localizePath("/archive", props.locale),
+				external: false,
+			},
+			{
+				label: t.footer.feedback,
+				href: localizePath("/feedback", props.locale),
+				external: false,
+			},
+		],
+	},
+	{
+		id: "footer-connect",
+		title: t.footer.connect,
+		links: [
+			{ label: "GitHub", href: "https://github.com/rimzzlabs", external: true },
+			{
+				label: "LinkedIn",
+				href: "https://www.linkedin.com/in/rimzzlabs",
+				external: true,
+			},
+			{
+				label: "Facebook",
+				href: "https://www.facebook.com/rimzzlabs",
+				external: true,
+			},
+			{
+				label: "Instagram",
+				href: "https://www.instagram.com/rimzzlabs",
+				external: true,
+			},
+		],
+	},
+	{
+		id: "footer-resources",
+		title: t.footer.resources,
+		links: [
+			{
+				label: t.footer.resume,
+				href: "/attachments/rizki_citra_resume.pdf",
+				external: true,
+			},
+			{
+				label: t.footer.sourceCode,
+				href: "https://github.com/rimzzlabs/website",
+				external: true,
+			},
+			{
+				label: t.footer.privacy,
+				href: localizePath("/privacy", props.locale),
+				external: false,
+			},
+			{
+				label: t.footer.accessibility,
+				href: localizePath("/accessibility", props.locale),
+				external: false,
+			},
+			{
+				label: "RSS",
+				href: localizePath("/notes/rss.xml", props.locale),
+				external: false,
+			},
+		],
+	},
+];
+---
+
+<footer class="wrapper pt-20 pb-24 md:pb-10">
+	<div class="flex flex-col gap-10 border-t pt-10">
+		<p class="font-mono text-sm font-medium">
+			<a href={localizePath("/", props.locale)}>@rimzzlabs</a>
+		</p>
+
+		<div class="flex flex-col gap-10 sm:flex-row sm:gap-16">
+			{GROUPS.map((group) => (
+	<nav aria-labelledby={group.id}>
+		<h2 id={group.id} class="pb-3 font-mono text-xs text-muted-foreground">
+			{group.title}
+		</h2>
+		<ul class="flex flex-col gap-2 text-sm">
+			{group.links.map((link) => (
+				<li>
+					{link.external ? (
+						<a
+							href={link.href}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-1 transition hover:text-primary"
+						>
+							{link.label}
+							<ArrowUpRightIcon
+								aria-hidden="true"
+								className="size-[1em] text-muted-foreground"
+							/>
+							<span class="sr-only">{t.common.opensInNewTab}</span>
+						</a>
+					) : (
+						<a href={link.href} class="transition hover:text-primary">
+							{link.label}
+						</a>
+					)}
+				</li>
+			))}
+		</ul>
+	</nav>
+))}
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,87 @@
+---
+import { render } from "astro:content";
+import { A, AR, F, pipe } from "@mobily/ts-belt";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { PageLightbox } from "@/components/media/image-lightbox/page-lightbox";
+import NoteCodeBlock from "@/components/notes/note-code-block.astro";
+import NoteLink from "@/components/notes/note-link.astro";
+import { NoteToc } from "@/components/notes/note-toc/note-toc";
+import { toTocHeadings } from "@/components/notes/note-toc/note-toc-headings";
+import NoteTocMobile from "@/components/notes/note-toc/note-toc-mobile.astro";
+import { getDictionary, type Locale, localeStaticPaths } from "@/i18n";
+import { getNotes, type Note } from "@/lib/notes";
+
+export async function getStaticPaths() {
+	const paths = await Promise.all(
+		localeStaticPaths().map((path) =>
+			pipe(
+				AR.make(getNotes(path.props.locale)),
+				AR.map(
+					A.map((note) => ({
+						params: { lang: path.params.lang, slug: note.slug },
+						props: { note, locale: path.props.locale },
+					})),
+				),
+				AR.match(F.identity, () => []),
+			),
+		),
+	);
+	return paths.flat();
+}
+
+interface Props {
+	note: Note;
+	locale: Locale;
+}
+
+const note = Astro.props.note;
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+
+const { Content, headings } = await render(note);
+const toc = toTocHeadings(headings);
+---
+
+<Root {locale}>
+	<Seo
+		{locale}
+		title={note.data.title}
+		description={note.data.description}
+		keywords={note.data.keywords}
+		article={{
+	publishedTime: note.dateISO,
+	modifiedTime: note.updatedISO,
+	authors: ["Rizki Citra"],
+	tags: note.data.keywords,
+}}
+		slot="meta"
+	/>
+
+	<NavigationBar {locale} />
+	<main id="main" class="typeset">
+		<div class="wrapper relative">
+			<header class="pt-10">
+				<h1 class="mt-0!">{note.data.title}</h1>
+			</header>
+
+			{toc.length > 0 && <NoteTocMobile label={t.notes.onThisPage} headings={toc} />}
+
+			<article>
+				<Content components={{ a: NoteLink, pre: NoteCodeBlock }} />
+			</article>
+
+			{toc.length > 0 && (
+	<aside class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block">
+		<div class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6">
+			<NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
+		</div>
+	</aside>
+)}
+		</div>
+	</main>
+	<PageLightbox client:idle copy={t.lightbox} />
+	<Footer {locale} />
+</Root>

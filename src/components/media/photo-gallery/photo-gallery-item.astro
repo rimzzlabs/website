@@ -1,0 +1,41 @@
+---
+import { cn } from "cn";
+import { fill, getDictionary, localeFromPath } from "@/i18n";
+import type { PhotoSource } from "@/lib/photo-source";
+
+interface Props {
+	photo: PhotoSource;
+	sizes: string;
+	priority?: boolean;
+	imageClass?: string;
+}
+
+const props = Astro.props;
+const t = getDictionary(localeFromPath(Astro.url.pathname));
+---
+
+<button
+	type="button"
+	aria-label={fill(t.common.viewFullSize, { alt: props.photo.alt })}
+	data-lightbox-trigger
+	data-lightbox-src={props.photo.full.src}
+	data-lightbox-width={props.photo.full.width}
+	data-lightbox-height={props.photo.full.height}
+	class="group/gallery block w-full cursor-zoom-in rounded-sm focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-muted/20 focus-visible:outline-transparent"
+>
+	<img
+		src={props.photo.thumb.src}
+		srcset={props.photo.thumb.srcSet}
+		sizes={props.sizes}
+		width={props.photo.thumb.width}
+		height={props.photo.thumb.height}
+		alt={props.photo.alt}
+		loading={props.priority ? "eager" : "lazy"}
+		fetchpriority={props.priority ? "high" : undefined}
+		decoding="async"
+		class={cn(
+	"h-auto w-full rounded-sm outline-1 -outline-offset-1 outline-black/10 transition dark:outline-white/10 dark:brightness-95 dark:group-hover/gallery:brightness-75 group-active/gallery:scale-99",
+	props.imageClass,
+)}
+	>
+</button>
