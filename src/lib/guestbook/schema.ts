@@ -1,25 +1,18 @@
 import { z } from "zod";
 
 import type { Dictionary } from "@/i18n/en";
+import { toWebsiteUrl } from "@/lib/guestbook/website";
+
+export { toWebsiteUrl };
 
 export const GUESTBOOK_LIMITS = { name: 100, site: 200, message: 500 } as const;
 export const GUESTBOOK_PAGE_SIZE = 10;
 
 export const AUTHOR_TYPES = ["anon", "github", "google"] as const;
 
-export function normalizeSite(raw: string | null | undefined) {
-	const site = raw?.trim();
-	if (!site) return null;
-	if (/^https?:\/\//i.test(site)) return site;
-	return `https://${site}`;
-}
-
 function isWebsite(raw: string) {
-	const site = normalizeSite(raw);
-	if (!site) return true;
-	if (!URL.canParse(site)) return false;
-	const url = new URL(site);
-	return url.hostname.includes(".");
+	if (!raw.trim()) return true;
+	return toWebsiteUrl(raw) !== null;
 }
 
 export type GuestbookValidation = Dictionary["guestbook"]["validation"];

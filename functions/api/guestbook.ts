@@ -6,8 +6,8 @@ import {
 	GUESTBOOK_SELECT,
 	type GuestbookEntry,
 	guestbookQuerySchema,
-	normalizeSite,
 	toGuestbookPage,
+	toWebsiteUrl,
 } from "../../src/lib/guestbook/schema";
 import { getSessionUser, type SessionUser } from "../_lib/auth";
 import {
@@ -40,7 +40,7 @@ function toVerifiedComment(user: SessionUser, body: unknown) {
 		R.map(
 			(input): NewComment => ({
 				name: user.name,
-				site: normalizeSite(input.site),
+				site: toWebsiteUrl(input.site),
 				message: input.message,
 				authorType: "github",
 				authorId: user.id,
@@ -57,7 +57,7 @@ function toAnonymousComment(body: unknown) {
 		R.map(
 			(input): NewComment => ({
 				name: input.name ?? "",
-				site: normalizeSite(input.site),
+				site: toWebsiteUrl(input.site),
 				message: input.message,
 				authorType: "anon",
 				authorId: null,

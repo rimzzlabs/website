@@ -1,9 +1,15 @@
 import { GithubLogoIcon, UserIcon } from "@phosphor-icons/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/en";
 import { formatDate } from "@/lib/datetime";
 import type { GuestbookEntry as GuestbookEntryData } from "@/lib/guestbook/schema";
+import { toWebsiteLabel, toWebsiteUrl } from "@/lib/guestbook/website";
 
 interface GuestbookEntryProps {
 	copy: Dictionary["guestbook"];
@@ -14,6 +20,7 @@ interface GuestbookEntryProps {
 export function GuestbookEntry(props: GuestbookEntryProps) {
 	const name = props.entry.name || props.copy.anonymous;
 	const formatEntryDate = formatDate(undefined, props.locale);
+	const website = toWebsiteUrl(props.entry.site);
 	const initial = props.entry.name.trim().slice(0, 1).toUpperCase();
 
 	return (
@@ -27,15 +34,22 @@ export function GuestbookEntry(props: GuestbookEntryProps) {
 
 			<div className="min-w-0 flex-1">
 				<div className="flex flex-wrap items-baseline gap-x-2">
-					{props.entry.site ? (
-						<a
-							href={props.entry.site}
-							target="_blank"
-							rel="ugc nofollow noopener noreferrer"
-							className="font-medium link-underline"
-						>
-							{name}
-						</a>
+					{website ? (
+						<Tooltip>
+							<TooltipTrigger
+								render={
+									<a
+										href={website}
+										target="_blank"
+										rel="ugc nofollow noopener noreferrer"
+										className="font-medium link-underline"
+									/>
+								}
+							>
+								{name}
+							</TooltipTrigger>
+							<TooltipContent>{toWebsiteLabel(website)}</TooltipContent>
+						</Tooltip>
 					) : (
 						<span className="font-medium">{name}</span>
 					)}
