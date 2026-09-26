@@ -65,6 +65,19 @@ export async function noteBodyMarkdown(body: string) {
 			output.push(await noteImageMarkdown(block.join("\n"), imports));
 			continue;
 		}
+		const callout = line.match(/^<Callout(?: type="(\w+)")?>$/);
+		if (callout) {
+			const type = callout[1] ?? "note";
+			const label = `${type[0].toUpperCase()}${type.slice(1)}`;
+			const block: Array<string> = [];
+			while (index + 1 < lines.length && lines[index + 1] !== "</Callout>") {
+				index += 1;
+				block.push(lines[index].trim());
+			}
+			index += 1;
+			output.push(`> **${label}:** ${block.join("\n> ")}`);
+			continue;
+		}
 		if (/^<[A-Z]\w*[^>]*\/>$/.test(line.trim())) {
 			output.push(
 				"_This part is an interactive demo. Open the page in a browser to try it._",
