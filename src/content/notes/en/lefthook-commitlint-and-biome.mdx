@@ -1,0 +1,595 @@
+---
+title: "Git Hooks With Lefthook, Commitlint, and Biome"
+description: "No more shell scripts in .husky. A step by step guide to Git hooks with Lefthook, Commitlint, Biome, and a small job left for Prettier."
+publishedAt: "09/27/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - lefthook
+  - commitlint
+  - biome
+  - prettier
+  - git hooks
+  - conventional commits
+  - lefthook commitlint
+  - lefthook biome
+  - husky alternative
+  - commitizen commitlint
+---
+
+I wrote [a note about Husky, Lint Staged, and Commitizen](/notes/how-to-setup-husky-nextjs) back in 2022. Drop it, we're moving on.
+
+This site runs on [Lefthook](https://lefthook.dev), [Commitlint](https://commitlint.js.org), [Biome](https://biomejs.dev), and a bit of [Prettier](https://prettier.io). One YAML file, no shell script, no [Lint Staged](https://github.com/lint-staged/lint-staged).
+
+This note builds it from an empty folder. Every command shows what it prints, so you can follow along.
+
+## Introduction
+
+Same goal as before: lint and format staged files, and keep commit messages in [Conventional Commits](https://www.conventionalcommits.org) form.
+
+New tools:
+
+- **Lefthook** runs the hooks and passes only staged files, so Lint Staged can go.
+- **Biome** lints and formats JS, TS, JSON, and CSS, replacing ESLint and Prettier.
+- **Commitlint** rejects commit messages that break the rules.
+
+## Before You Start
+
+You need a Git repo and a `package.json`. Existing project? Skip ahead. Otherwise:
+
+```bash
+mkdir my-app && cd my-app
+git init
+npm init -y
+npm pkg set type=module
+```
+
+The last line marks your `.js` files as ES modules. Without it, Biome errors on every `import`.
+
+## Installation
+
+Install everything as dev dependencies:
+
+```bash
+npm install -D lefthook @biomejs/biome @commitlint/cli @commitlint/config-conventional
+npm install -D prettier
+```
+
+Prettier? Hold that thought, we'll get there after Biome.
+
+Now check your folder. There's a file you didn't create:
+
+```bash
+$ ls
+lefthook.yml  node_modules  package-lock.json  package.json
+```
+
+Lefthook runs `lefthook install` after `npm install`. It does two things:
+
+1. Creates `lefthook.yml` if it's missing. It's only commented-out examples for now.
+2. Writes scripts into `.git/hooks`, so Git calls Lefthook.
+
+So no `postinstall` script. Anyone who runs `npm install` gets the hooks.
+
+There's no `lefthook init`. `install` does that job too:
+
+```bash
+$ npx lefthook install
+Config not found, creating...
+Added config: /path/to/my-app/lefthook.yml
+sync hooks: ✔️
+```
+
+We'll replace that file later.
+
+## Setting Up Biome
+
+Let Biome create its own config:
+
+```bash
+npx @biomejs/biome init
+```
+
+After a big ASCII logo, it prints:
+
+```bash
+  i Welcome to Biome! Let's get you started...
+
+    Files created
+
+      - biome.json
+        Your project configuration. See https://biomejs.dev/reference/configuration
+```
+
+Here's the `biome.json` it creates. Set the two highlighted lines to `true`:
+
+```json title="biome.json" showLineNumbers mark={4,6}
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended"
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
+}
+```
+
+Now Biome follows your `.gitignore`. Leave the rest. `assist` sorts your imports.
+
+### See What Biome Does
+
+Create a messy `src/sum.js`:
+
+```js title="src/sum.js"
+import { b } from './b'
+import { a } from './a'
+console.log( a+b )
+```
+
+Check it:
+
+```bash
+npx biome check src/sum.js
+```
+
+Biome shows each problem with a diff: unsorted imports and bad formatting. It ends with:
+
+```bash
+Checked 1 file in 3ms. No fixes applied.
+Found 2 errors.
+```
+
+`check` formats, lints, and sorts imports, but only reports. `--write` applies the fixes:
+
+```bash
+$ npx biome check --write src/sum.js
+Checked 1 file in 2ms. Fixed 1 file.
+```
+
+The file now:
+
+```js title="src/sum.js"
+import { a } from "./a";
+import { b } from "./b";
+
+console.log(a + b);
+```
+
+The hook will run this same command for you.
+
+Existing project? Run `npx biome check --write .` once and commit it alone. It can touch many files.
+
+## Why Prettier Too?
+
+A project isn't only code. There's the README, the CI workflow, and `lefthook.yml` itself. Biome skips them:
+
+```bash
+$ npx biome format README.md
+
+  × No files were processed in the specified paths.
+
+  i These paths were provided but ignored:
+
+  - README.md
+```
+
+Biome doesn't format Markdown or YAML, so Prettier handles those. Take this README:
+
+```md title="README.md"
+# My App
+*  one
+*  two
+```
+
+Run Prettier:
+
+```bash
+$ npx prettier --write README.md
+README.md 21ms
+```
+
+Clean:
+
+```md title="README.md"
+# My App
+
+- one
+- two
+```
+
+### Keep Prettier in Its Lane
+
+Prettier still needs a config. If your editor uses Prettier as the default formatter, it will format your JS and CSS too, and fight Biome.
+
+Create a `.prettierrc` at the root:
+
+```json title=".prettierrc"
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "proseWrap": "preserve"
+}
+```
+
+Then tell Prettier to ignore everything except Markdown and YAML:
+
+```bash title=".prettierignore"
+*
+!*/
+!*.md
+!*.yml
+!*.yaml
+```
+
+`*` ignores every file. `!*/` lets Prettier walk into folders. The last three lines bring back the files it owns.
+
+Check the whole project. In my demo repo, it lists:
+
+```bash
+$ npx prettier --check .
+Checking formatting...
+[warn] .github/workflows/ci.yml
+[warn] docs/guide.md
+[warn] Code style issues found in 2 files. Run Prettier with --write to fix.
+```
+
+Only Markdown and YAML are listed. Your JS files are Biome's job, and Prettier leaves them alone.
+
+## Editor Setup
+
+The hooks catch everything at commit time. But it's nicer when your editor formats on save.
+
+I use [VS Code](https://code.visualstudio.com), so that's what I'll show. Install two extensions: [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+
+Then create a `.vscode` folder at the root of your repo, with a `settings.json` inside:
+
+```json title=".vscode/settings.json" showLineNumbers
+{
+  "editor.formatOnSave": true,
+  "[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[json]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[css]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.biome": "explicit"
+  }
+}
+```
+
+Here's what it does:
+
+- **`formatOnSave`** formats every file when you save.
+- **The language blocks** pick the formatter per file type. Same split as the hooks: code to Biome, Markdown and YAML to Prettier.
+- **`codeActionsOnSave`** sorts imports and applies Biome's lint fixes on save. `explicit` means only when you press save, not on auto save.
+
+Commit this folder. Everyone on the team gets the same setup.
+
+Also add `.vscode/extensions.json`, so VS Code asks new teammates to install both extensions:
+
+```json title=".vscode/extensions.json"
+{
+  "recommendations": ["biomejs.biome", "esbenp.prettier-vscode"]
+}
+```
+
+## Using Tailwind CSS?
+
+Biome doesn't understand [Tailwind CSS](https://tailwindcss.com) syntax by default. Here's a trimmed `globals.css` from [shadcn/ui](https://ui.shadcn.com):
+
+```css title="src/globals.css"
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+```
+
+Biome stops at `@custom-variant`, `@theme`, and `@apply`:
+
+```bash
+$ npx biome check src/globals.css
+src/globals.css:3:2 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  × Tailwind-specific syntax is disabled.
+
+src/globals.css:5:2 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  × Tailwind-specific syntax is disabled.
+
+src/globals.css:12:6 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  × Tailwind-specific syntax is disabled.
+
+Found 4 errors.
+```
+
+Turn it on in `biome.json`:
+
+```json title="biome.json" ins={3-7}
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
+}
+```
+
+Run the check again, and Biome formats the file like any other CSS.
+
+## Setting Up Commitlint
+
+[Commitizen](https://commitizen.github.io/cz-cli/) wrote the message for me. Commitlint checks the one I write.
+
+Add one config file:
+
+```js title="commitlint.config.mjs" showLineNumbers
+const config = { extends: ["@commitlint/config-conventional"] };
+
+export default config;
+```
+
+The preset knows `feat`, `fix`, `chore`, and the rest. Messages look like `type: what changed`.
+
+Try a bad one:
+
+```bash
+$ echo "wip stuff" | npx commitlint
+⧗   --- input ---
+wip stuff
+✖   subject may not be empty [subject-empty]
+✖   type may not be empty [type-empty]
+
+✖   found 2 problems, 0 warnings
+```
+
+No type, no colon. Now a good one:
+
+```bash
+$ echo "feat: add dark mode" | npx commitlint
+```
+
+No output means it passed.
+
+## Wiring the Hooks
+
+This replaces the `.husky` folder. Swap the examples in `lefthook.yml` for this:
+
+```yaml title="lefthook.yml" showLineNumbers
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome
+      glob: "*.{js,jsx,ts,tsx,json,jsonc,css}"
+      run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+    - name: prettier
+      glob: "*.{md,yml,yaml}"
+      run: npx prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: npx commitlint --edit {1}
+
+pre-push:
+  jobs:
+    - name: typecheck
+      run: npx tsc --noEmit
+```
+
+Each top-level key is a Git hook with a list of jobs.
+
+**`pre-commit`** runs first on `git commit`:
+
+- `{staged_files}` becomes your staged files.
+- `glob` filters them per job. They never overlap, so `parallel: true` is safe.
+- `stage_fixed: true` stages the fixes. Without it, you commit the messy version.
+- The two Biome flags stop it from failing on files it doesn't handle.
+
+**`commit-msg`** gets the message file path as `{1}` and passes it to Commitlint. A failure cancels the commit.
+
+**`pre-push`** type checks on `git push`. Too slow per commit, fine per push. No [TypeScript](https://www.typescriptlang.org)? Delete it.
+
+After each change to `lefthook.yml`, sync:
+
+```bash
+$ npx lefthook install
+sync hooks: ✔️(pre-push, pre-commit, commit-msg)
+```
+
+All three hooks are in.
+
+## Try It
+
+Put the messy `src/sum.js` back:
+
+```js title="src/sum.js"
+import { b } from './b'
+import { a } from './a'
+console.log( a+b )
+```
+
+Commit it with a lazy message:
+
+```bash
+git add src/sum.js
+git commit -m "fixed the thing"
+```
+
+Lefthook prints (trimmed):
+
+```bash
+│ lefthook  v2.1.14   hook:  pre-commit │
+│  prettier (skip) no files for inspection
+┃  biome ❯
+Checked 1 file in 6ms. Fixed 1 file.
+
+summary: (done in 0.33 seconds)
+✓ biome (0.31 seconds)
+
+│ lefthook  v2.1.14   hook:  commit-msg │
+┃  commitlint ❯
+⧗   --- input ---
+fixed the thing
+✖   subject may not be empty [subject-empty]
+✖   type may not be empty [type-empty]
+
+✖   found 2 problems, 0 warnings
+
+summary: (done in 0.49 seconds)
+✗ commitlint (0.49 seconds)
+```
+
+From the top:
+
+1. **`pre-commit`**: Prettier skipped (no Markdown or YAML). Biome fixed and staged `src/sum.js`.
+2. **`commit-msg`**: Commitlint rejected the message. No commit.
+
+The fix is still staged. Try again:
+
+```bash
+git commit -m "feat: print the sum"
+```
+
+```bash
+✓ biome (0.29 seconds)
+✓ commitlint (0.45 seconds)
+[main 145219a] feat: print the sum
+ 1 file changed, 4 insertions(+)
+```
+
+Committed, with the clean `src/sum.js`.
+
+### Skipping the Hooks
+
+Need a quick WIP commit? Skip the hooks:
+
+```bash
+git commit --no-verify -m "wip"
+```
+
+Don't make it a habit.
+
+## Bonus: A Commit Prompt
+
+New to Conventional Commits? A menu beats an error.
+
+Commitizen can come back on top of Commitlint. The `@commitlint/cz-commitlint` adapter reads your `commitlint.config.mjs`, so the prompt and the hook share the same rules.
+
+Install:
+
+```bash
+npm install -D commitizen @commitlint/cz-commitlint inquirer
+```
+
+Set the adapter and add a script:
+
+```json title="package.json" ins={3,5-9}
+{
+  "scripts": {
+    "commit": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  }
+}
+```
+
+Use it instead of `git commit`:
+
+```bash
+git add .
+npm run commit
+```
+
+Pick a type with the arrow keys:
+
+```bash
+? Select the type of change that you're committing: (Use arrow keys)
+❯ ✨  feat:       A new feature
+  🐛  fix:        A bug fix
+  📚  docs:       Documentation only changes
+  💎  style:      Changes that do not affect the meaning of the code
+  📦  refactor:   A code change that neither fixes a bug nor adds a feature
+  🚀  perf:       A code change that improves performance
+(Move up and down to reveal more choices)
+```
+
+Then answer the rest. Enter skips the optional ones:
+
+```bash
+? Select the type of change that you're committing: feat
+? What is the scope of this change (e.g. component or file name) (press enter to skip):
+? Write a short, imperative tense description of the change: (max 96 chars)
+ (18) add the c constant
+? Provide a longer description of the change (press enter to skip):
+? Are there any breaking changes?: No
+? Does this change affect any open issues?: No
+```
+
+The number in brackets is your character count.
+
+Then Commitizen commits, and the hooks still run:
+
+```bash
+│ lefthook  v2.1.14   hook:  pre-commit │
+│ lefthook  v2.1.14   hook:  commit-msg │
+[main 1d9ea6c] feat: add the c constant
+ 1 file changed, 1 insertion(+)
+```
+
+It's optional. `git commit -m` still works, with the same checks.
+
+## Conclusion
+
+Where the 2022 setup went:
+
+- **Husky and Lint Staged** became **Lefthook**.
+- **ESLint and Prettier** became **Biome**. Prettier keeps Markdown and YAML.
+- **Commitizen** became **Commitlint**, with Commitizen optional on top.
+
+Same safety net, fewer moving parts.

@@ -6,6 +6,7 @@ import NavigationBar from "@/components/layouts/navigation-bar.astro";
 import Root from "@/components/layouts/root.astro";
 import Seo from "@/components/layouts/seo.astro";
 import { PageLightbox } from "@/components/media/image-lightbox/page-lightbox";
+import NoteCallout from "@/components/notes/note-callout.astro";
 import NoteCodeBlock from "@/components/notes/note-code-block.astro";
 import NoteLink from "@/components/notes/note-link.astro";
 import { NoteToc } from "@/components/notes/note-toc/note-toc";
@@ -70,7 +71,9 @@ const toc = toTocHeadings(headings);
 			{toc.length > 0 && <NoteTocMobile label={t.notes.onThisPage} headings={toc} />}
 
 			<article>
-				<Content components={{ a: NoteLink, pre: NoteCodeBlock }} />
+				<Content
+					components={{ a: NoteLink, pre: NoteCodeBlock, Callout: NoteCallout }}
+				/>
 			</article>
 
 			{toc.length > 0 && (
