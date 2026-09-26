@@ -11,6 +11,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+	--animate-equalizer: equalizer 0.9s ease-in-out infinite alternate;
+
 	--font-sans: var(--font-inter);
 	--font-mono: var(--font-jetbrains-mono);
 	--font-serif: var(--font-lora);
@@ -276,4 +278,13 @@
 		text-decoration-color, fill, stroke, box-shadow;
 	/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over inline and component transitions. */
 	transition-property: var(--reduced-motion-transitions) !important;
+}
+
+@keyframes equalizer {
+	from {
+		transform: scaleY(0.3);
+	}
+	to {
+		transform: scaleY(1);
+	}
 }

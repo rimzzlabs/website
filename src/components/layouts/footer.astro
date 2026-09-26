@@ -1,6 +1,7 @@
 ---
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import { getDictionary, type Locale, localizePath } from "@/i18n";
+import { FooterNowPlaying } from "./footer-now-playing";
 import { getNavigationLinks } from "./navigation-links";
 
 interface Props {
@@ -94,9 +95,27 @@ const GROUPS = [
 
 <footer class="wrapper pt-20 pb-24 md:pb-10">
 	<div class="flex flex-col gap-10 border-t pt-10">
-		<p class="font-mono text-sm font-medium">
-			<a href={localizePath("/", props.locale)}>@rimzzlabs</a>
-		</p>
+		<div
+			class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+		>
+			<div>
+				<p class="font-mono text-sm font-medium">
+					<a href={localizePath("/", props.locale)}>@rimzzlabs</a>
+				</p>
+				<p class="text-xs text-muted-foreground pt-1">
+					&copy;
+					<span class="font-mono tabular-nums">
+						{new Date().getFullYear()}
+					</span>{" "}
+					<span class="font-mono">Rizki Citra</span>
+				</p>
+			</div>
+			<FooterNowPlaying
+				client:only="react"
+				copy={t.footer}
+				opensInNewTab={t.common.opensInNewTab}
+			/>
+		</div>
 
 		<div class="flex flex-col gap-10 sm:flex-row sm:gap-16">
 			{GROUPS.map((group) => (

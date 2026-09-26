@@ -30,6 +30,11 @@ export const en = {
 		privacy: "Privacy Policy",
 		accessibility: "Accessibility",
 		feedback: "Feedback",
+		nowPlaying: "Now playing",
+		lastPlayed: "Last played",
+		notPlaying: "Not playing",
+		notPlayingBody: "Nothing on right now",
+		loadingTrack: "Loading the current song",
 	},
 	legal: {
 		lastUpdated: "Last updated",

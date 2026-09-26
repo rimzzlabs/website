@@ -654,6 +654,66 @@
 					}
 				}
 			}
+		},
+		"/api/now-playing": {
+			"get": {
+				"summary": "Get the track that Rizki plays now, or played last",
+				"operationId": "getNowPlaying",
+				"description": "Read from Last.fm. The response is cached for 60 seconds.",
+				"responses": {
+					"200": {
+						"description": "The current or last track. The track is null when no data is available.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": ["track"],
+									"properties": {
+										"track": {
+											"oneOf": [
+												{
+													"type": "object",
+													"required": [
+														"title",
+														"artist",
+														"url",
+														"cover",
+														"isPlaying"
+													],
+													"properties": {
+														"title": {
+															"type": "string"
+														},
+														"artist": {
+															"type": "string"
+														},
+														"url": {
+															"type": "string",
+															"format": "uri",
+															"description": "The Last.fm page of the track."
+														},
+														"cover": {
+															"type": ["string", "null"],
+															"format": "uri"
+														},
+														"isPlaying": {
+															"type": "boolean",
+															"description": "True while the track plays. False for the last played track."
+														}
+													}
+												},
+												{
+													"type": "null"
+												}
+											]
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
