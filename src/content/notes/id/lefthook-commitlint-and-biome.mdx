@@ -1,0 +1,595 @@
+---
+title: "Git Hooks dengan Lefthook, Commitlint, dan Biome"
+description: "Tidak perlu lagi skrip shell di .husky. Panduan langkah demi langkah Git hooks dengan Lefthook, Commitlint, Biome, dan sedikit Prettier."
+publishedAt: "09/27/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - lefthook
+  - commitlint
+  - biome
+  - prettier
+  - git hooks
+  - conventional commits
+  - lefthook commitlint
+  - lefthook biome
+  - alternatif husky
+  - commitizen commitlint
+---
+
+Tahun 2022 saya pernah nulis [catatan soal Husky, Lint Staged, dan Commitizen](/id/notes/how-to-setup-husky-nextjs). Lupakan itu.
+
+Situs ini sekarang jalan pakai [Lefthook](https://lefthook.dev), [Commitlint](https://commitlint.js.org), [Biome](https://biomejs.dev), dan sedikit [Prettier](https://prettier.io). Satu file YAML, tanpa skrip _shell_, tanpa [Lint Staged](https://github.com/lint-staged/lint-staged).
+
+Di catatan ini kita bangun semuanya dari folder kosong. Tiap perintah saya tunjukkan juga _output_-nya, jadi kamu bisa ikut sambil mencocokkan.
+
+## Pendahuluan
+
+Tujuannya masih sama: _lint_ dan _format_ file yang di-_stage_, dan pesan _commit_ harus ikut format [Conventional Commits](https://www.conventionalcommits.org).
+
+Yang ganti cuma alatnya:
+
+- **Lefthook** menjalankan _hook_ dan cuma mengoper file yang di-_stage_. Lint Staged tidak perlu lagi.
+- **Biome** mengurus _lint_ dan _format_ JS, TS, JSON, dan CSS. ESLint dan Prettier diganti satu alat.
+- **Commitlint** menolak pesan _commit_ yang melanggar aturan.
+
+## Sebelum Mulai
+
+Kamu butuh _repo_ Git dan `package.json`. Kalau proyeknya sudah ada, langsung lompat saja. Kalau belum:
+
+```bash
+mkdir my-app && cd my-app
+git init
+npm init -y
+npm pkg set type=module
+```
+
+Baris terakhir menandai file `.js` kamu sebagai _ES module_. Tanpa itu, Biome bakal protes di setiap `import`.
+
+## Instalasi
+
+Pasang semuanya sebagai _dev dependency_:
+
+```bash
+npm install -D lefthook @biomejs/biome @commitlint/cli @commitlint/config-conventional
+npm install -D prettier
+```
+
+Lho, Prettier? Tahan dulu, nanti kita bahas setelah Biome.
+
+Sekarang cek folder kamu. Ada file yang tidak kamu buat:
+
+```bash
+$ ls
+lefthook.yml  node_modules  package-lock.json  package.json
+```
+
+Lefthook menjalankan `lefthook install` setelah `npm install`. Isinya dua langkah:
+
+1. Bikin `lefthook.yml` kalau belum ada. Untuk sekarang isinya cuma contoh yang di-_comment_.
+2. Menulis skrip ke `.git/hooks`, supaya Git memanggil Lefthook.
+
+Jadi tidak perlu skrip `postinstall`. Siapa pun yang menjalankan `npm install` langsung dapat _hook_-nya.
+
+Perintah `lefthook init` itu tidak ada. `install` sudah merangkap:
+
+```bash
+$ npx lefthook install
+Config not found, creating...
+Added config: /path/to/my-app/lefthook.yml
+sync hooks: ✔️
+```
+
+File itu nanti kita ganti.
+
+## Setup Biome
+
+Biarkan Biome bikin konfigurasinya sendiri:
+
+```bash
+npx @biomejs/biome init
+```
+
+Setelah logo ASCII yang besar, muncul:
+
+```bash
+  i Welcome to Biome! Let's get you started...
+
+    Files created
+
+      - biome.json
+        Your project configuration. See https://biomejs.dev/reference/configuration
+```
+
+Ini `biome.json` yang dia buat. Ubah dua baris yang ditandai jadi `true`:
+
+```json title="biome.json" showLineNumbers mark={4,6}
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended"
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
+}
+```
+
+Sekarang Biome ikut aturan `.gitignore` kamu. Sisanya biarkan. Bagian `assist` yang mengurutkan _import_.
+
+### Lihat Biome Bekerja
+
+Bikin `src/sum.js` yang berantakan:
+
+```js title="src/sum.js"
+import { b } from './b'
+import { a } from './a'
+console.log( a+b )
+```
+
+Cek:
+
+```bash
+npx biome check src/sum.js
+```
+
+Biome menampilkan tiap masalah lengkap dengan _diff_-nya: _import_ belum urut dan _format_ berantakan. Penutupnya:
+
+```bash
+Checked 1 file in 3ms. No fixes applied.
+Found 2 errors.
+```
+
+`check` mengurus _format_, _lint_, dan urutan _import_, tapi cuma melapor. `--write` yang membereskan:
+
+```bash
+$ npx biome check --write src/sum.js
+Checked 1 file in 2ms. Fixed 1 file.
+```
+
+Hasilnya:
+
+```js title="src/sum.js"
+import { a } from "./a";
+import { b } from "./b";
+
+console.log(a + b);
+```
+
+Nanti _hook_ yang menjalankan perintah ini buat kamu.
+
+Proyek lama? Jalankan `npx biome check --write .` sekali, lalu _commit_ terpisah. File yang berubah bisa banyak.
+
+## Kenapa Masih Ada Prettier?
+
+Isi proyek bukan cuma kode. Ada README, _workflow_ CI, dan `lefthook.yml` itu sendiri. Biome melewatkan semuanya:
+
+```bash
+$ npx biome format README.md
+
+  × No files were processed in the specified paths.
+
+  i These paths were provided but ignored:
+
+  - README.md
+```
+
+Biome tidak memformat Markdown dan YAML, jadi bagian itu dipegang Prettier. Misalnya README ini:
+
+```md title="README.md"
+# Aplikasi Saya
+*  satu
+*  dua
+```
+
+Jalankan Prettier:
+
+```bash
+$ npx prettier --write README.md
+README.md 21ms
+```
+
+Rapi:
+
+```md title="README.md"
+# Aplikasi Saya
+
+- satu
+- dua
+```
+
+### Batasi _Task_ Prettier
+
+Prettier tetap butuh konfigurasi. Kalau editor kamu memakai Prettier sebagai _formatter_ bawaan, JS dan CSS kamu ikut diformat, dan dia jadi rebutan dengan Biome.
+
+Bikin `.prettierrc` di _root_:
+
+```json title=".prettierrc"
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "proseWrap": "preserve"
+}
+```
+
+Lalu suruh Prettier mengabaikan semua file selain Markdown dan YAML:
+
+```bash title=".prettierignore"
+*
+!*/
+!*.md
+!*.yml
+!*.yaml
+```
+
+`*` mengabaikan semua file. `!*/` membolehkan Prettier masuk ke folder. Tiga baris terakhir mengembalikan file yang memang jatahnya.
+
+Cek seluruh proyek. Di _repo_ demo saya, hasilnya:
+
+```bash
+$ npx prettier --check .
+Checking formatting...
+[warn] .github/workflows/ci.yml
+[warn] docs/guide.md
+[warn] Code style issues found in 2 files. Run Prettier with --write to fix.
+```
+
+Yang muncul cuma Markdown dan YAML. File JS urusan Biome, Prettier tidak menyentuhnya.
+
+## Setup Editor
+
+_Hook_ menangkap semuanya waktu _commit_. Tapi lebih enak kalau editor sudah memformat setiap kali _save_.
+
+Saya pakai [VS Code](https://code.visualstudio.com), jadi contohnya VS Code. Pasang dua ekstensi: [Biome](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) dan [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+
+Lalu bikin folder `.vscode` di _root repo_, isi dengan `settings.json`:
+
+```json title=".vscode/settings.json" showLineNumbers
+{
+  "editor.formatOnSave": true,
+  "[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[json]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[css]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.biome": "explicit"
+  }
+}
+```
+
+Isinya:
+
+- **`formatOnSave`** memformat file setiap kali di-_save_.
+- **Blok per bahasa** menentukan _formatter_ untuk tiap jenis file. Pembagiannya sama dengan _hook_: kode ke Biome, Markdown dan YAML ke Prettier.
+- **`codeActionsOnSave`** mengurutkan _import_ dan menerapkan perbaikan _lint_ Biome waktu _save_. `explicit` artinya cuma saat kamu tekan _save_, bukan _auto save_.
+
+_Commit_ folder ini. Satu tim dapat _setup_ yang sama.
+
+Tambahkan juga `.vscode/extensions.json`, supaya VS Code menawarkan kedua ekstensi itu ke anggota tim yang baru:
+
+```json title=".vscode/extensions.json"
+{
+  "recommendations": ["biomejs.biome", "esbenp.prettier-vscode"]
+}
+```
+
+## Pakai Tailwind CSS?
+
+Secara bawaan Biome tidak paham sintaks [Tailwind CSS](https://tailwindcss.com). Contohnya `globals.css` dari [shadcn/ui](https://ui.shadcn.com) ini (sudah dipangkas):
+
+```css title="src/globals.css"
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+```
+
+Biome langsung berhenti di `@custom-variant`, `@theme`, dan `@apply`:
+
+```bash
+$ npx biome check src/globals.css
+src/globals.css:3:2 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  × Tailwind-specific syntax is disabled.
+
+src/globals.css:5:2 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  × Tailwind-specific syntax is disabled.
+
+src/globals.css:12:6 parse ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  × Tailwind-specific syntax is disabled.
+
+Found 4 errors.
+```
+
+Nyalakan di `biome.json`:
+
+```json title="biome.json" ins={3-7}
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
+}
+```
+
+Jalankan lagi, dan Biome memformat file itu seperti CSS biasa.
+
+## Setup Commitlint
+
+Dulu [Commitizen](https://commitizen.github.io/cz-cli/) yang menuliskan pesan _commit_ buat saya. Commitlint kebalikannya: saya yang nulis, dia yang ngecek.
+
+Cukup satu file konfigurasi:
+
+```js title="commitlint.config.mjs" showLineNumbers
+const config = { extends: ["@commitlint/config-conventional"] };
+
+export default config;
+```
+
+_Preset_-nya sudah kenal `feat`, `fix`, `chore`, dan kawan-kawan. Bentuk pesannya `type: apa yang berubah`.
+
+Coba yang salah:
+
+```bash
+$ echo "wip stuff" | npx commitlint
+⧗   --- input ---
+wip stuff
+✖   subject may not be empty [subject-empty]
+✖   type may not be empty [type-empty]
+
+✖   found 2 problems, 0 warnings
+```
+
+Tidak ada _type_, tidak ada titik dua. Sekarang yang benar:
+
+```bash
+$ echo "feat: add dark mode" | npx commitlint
+```
+
+Tidak ada _output_ artinya lolos.
+
+## Pasang Hook-nya
+
+Ini pengganti folder `.husky`. Ganti isi contoh di `lefthook.yml` dengan ini:
+
+```yaml title="lefthook.yml" showLineNumbers
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome
+      glob: "*.{js,jsx,ts,tsx,json,jsonc,css}"
+      run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+    - name: prettier
+      glob: "*.{md,yml,yaml}"
+      run: npx prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: npx commitlint --edit {1}
+
+pre-push:
+  jobs:
+    - name: typecheck
+      run: npx tsc --noEmit
+```
+
+Tiap _key_ paling atas adalah satu Git _hook_ dengan daftar _job_-nya.
+
+**`pre-commit`** jalan duluan waktu `git commit`:
+
+- `{staged_files}` diganti dengan file yang kamu _stage_.
+- `glob` menyaring file per _job_. Tidak ada yang tumpang tindih, jadi `parallel: true` aman.
+- `stage_fixed: true` ikut men-_stage_ hasil perbaikan. Tanpa ini, yang ter-_commit_ justru versi berantakan.
+- Dua _flag_ Biome itu mencegah dia gagal gara-gara file yang bukan urusannya.
+
+**`commit-msg`** menerima _path_ file pesan sebagai `{1}` dan mengopernya ke Commitlint. Kalau gagal, _commit_ batal.
+
+**`pre-push`** menjalankan _type check_ waktu `git push`. Terlalu lambat untuk tiap _commit_, pas untuk tiap _push_. Tidak pakai [TypeScript](https://www.typescriptlang.org)? Hapus saja.
+
+Setiap kali `lefthook.yml` berubah, sinkronkan:
+
+```bash
+$ npx lefthook install
+sync hooks: ✔️(pre-push, pre-commit, commit-msg)
+```
+
+Ketiga _hook_ sudah terpasang.
+
+## Coba Langsung
+
+Kembalikan `src/sum.js` yang berantakan:
+
+```js title="src/sum.js"
+import { b } from './b'
+import { a } from './a'
+console.log( a+b )
+```
+
+_Commit_ dengan pesan asal-asalan:
+
+```bash
+git add src/sum.js
+git commit -m "fixed the thing"
+```
+
+Lefthook mencetak (dipangkas):
+
+```bash
+│ lefthook  v2.1.14   hook:  pre-commit │
+│  prettier (skip) no files for inspection
+┃  biome ❯
+Checked 1 file in 6ms. Fixed 1 file.
+
+summary: (done in 0.33 seconds)
+✓ biome (0.31 seconds)
+
+│ lefthook  v2.1.14   hook:  commit-msg │
+┃  commitlint ❯
+⧗   --- input ---
+fixed the thing
+✖   subject may not be empty [subject-empty]
+✖   type may not be empty [type-empty]
+
+✖   found 2 problems, 0 warnings
+
+summary: (done in 0.49 seconds)
+✗ commitlint (0.49 seconds)
+```
+
+Dari atas:
+
+1. **`pre-commit`**: Prettier dilewati (tidak ada Markdown atau YAML). Biome membereskan `src/sum.js` lalu men-_stage_-nya.
+2. **`commit-msg`**: Commitlint menolak pesannya. _Commit_ batal.
+
+Hasil perbaikannya masih ter-_stage_. Coba lagi:
+
+```bash
+git commit -m "feat: print the sum"
+```
+
+```bash
+✓ biome (0.29 seconds)
+✓ commitlint (0.45 seconds)
+[main 145219a] feat: print the sum
+ 1 file changed, 4 insertions(+)
+```
+
+Masuk, dengan `src/sum.js` yang sudah rapi.
+
+### Melewati Hook
+
+Butuh _commit_ WIP cepat? Lewati _hook_-nya:
+
+```bash
+git commit --no-verify -m "wip"
+```
+
+Jangan jadi kebiasaan.
+
+## Bonus: Commit Lewat Prompt
+
+Baru kenal Conventional Commits? Pilih dari menu lebih enak daripada kena _error_.
+
+Commitizen bisa balik lagi, kali ini di atas Commitlint. _Adapter_ `@commitlint/cz-commitlint` membaca `commitlint.config.mjs` kamu, jadi _prompt_ dan _hook_ pakai aturan yang sama.
+
+Pasang:
+
+```bash
+npm install -D commitizen @commitlint/cz-commitlint inquirer
+```
+
+Atur _adapter_-nya dan tambahkan skrip:
+
+```json title="package.json" ins={3,5-9}
+{
+  "scripts": {
+    "commit": "cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  }
+}
+```
+
+Pakai ini sebagai ganti `git commit`:
+
+```bash
+git add .
+npm run commit
+```
+
+Pilih _type_ dengan tombol panah:
+
+```bash
+? Select the type of change that you're committing: (Use arrow keys)
+❯ ✨  feat:       A new feature
+  🐛  fix:        A bug fix
+  📚  docs:       Documentation only changes
+  💎  style:      Changes that do not affect the meaning of the code
+  📦  refactor:   A code change that neither fixes a bug nor adds a feature
+  🚀  perf:       A code change that improves performance
+(Move up and down to reveal more choices)
+```
+
+Lalu jawab sisanya. Tekan _enter_ untuk melewati yang opsional:
+
+```bash
+? Select the type of change that you're committing: feat
+? What is the scope of this change (e.g. component or file name) (press enter to skip):
+? Write a short, imperative tense description of the change: (max 96 chars)
+ (18) add the c constant
+? Provide a longer description of the change (press enter to skip):
+? Are there any breaking changes?: No
+? Does this change affect any open issues?: No
+```
+
+Angka dalam kurung itu jumlah karakter yang sudah kamu ketik.
+
+Setelah itu Commitizen yang _commit_, dan _hook_-nya tetap jalan:
+
+```bash
+│ lefthook  v2.1.14   hook:  pre-commit │
+│ lefthook  v2.1.14   hook:  commit-msg │
+[main 1d9ea6c] feat: add the c constant
+ 1 file changed, 1 insertion(+)
+```
+
+Ini opsional. `git commit -m` tetap bisa, dengan pengecekan yang sama.
+
+## Penutup
+
+Ke mana perginya _setup_ 2022:
+
+- **Husky dan Lint Staged** jadi **Lefthook**.
+- **ESLint dan Prettier** jadi **Biome**. Prettier tinggal pegang Markdown dan YAML.
+- **Commitizen** jadi **Commitlint**, dengan Commitizen sebagai tambahan opsional.
+
+Pengamannya tetap sama, yang perlu diurus jauh lebih sedikit.
