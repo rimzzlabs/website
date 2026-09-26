@@ -12,19 +12,19 @@ import type { TocHeading } from "@/components/notes/note-toc/note-toc-headings";
 import NoteTocMobile from "@/components/notes/note-toc/note-toc-mobile.astro";
 import { getArchive } from "@/data/archive";
 import {
-	getDictionary,
-	type Locale,
-	localeStaticPaths,
-	localizePath,
+  getDictionary,
+  type Locale,
+  localeStaticPaths,
+  localizePath,
 } from "@/i18n";
 import { toPhotoSource } from "@/lib/photo-source";
 
 export function getStaticPaths() {
-	return localeStaticPaths();
+  return localeStaticPaths();
 }
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const locale = Astro.props.locale;
@@ -32,163 +32,160 @@ const t = getDictionary(locale);
 const ARCHIVE = getArchive(locale);
 
 function toPlainText(html: string) {
-	return html.replace(/<[^>]+>/g, "");
+  return html.replace(/<[^>]+>/g, "");
 }
 
 function toSlug(year: number, text: string) {
-	const words = toPlainText(text)
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-|-$/g, "");
-	return `${year}-${words}`;
+  const words = toPlainText(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return `${year}-${words}`;
 }
 
 const toc: Array<TocHeading> = ARCHIVE.flatMap((entry) => [
-	{ depth: 2, slug: String(entry.year), text: String(entry.year) },
-	{
-		depth: 3,
-		slug: toSlug(entry.year, entry.title),
-		text: toPlainText(entry.title),
-	},
-	...(entry.sections ?? []).map((section) => ({
-		depth: 3,
-		slug: toSlug(entry.year, section.heading),
-		text: toPlainText(section.heading),
-	})),
+  { depth: 2, slug: String(entry.year), text: String(entry.year) },
+  {
+    depth: 3,
+    slug: toSlug(entry.year, entry.title),
+    text: toPlainText(entry.title),
+  },
+  ...(entry.sections ?? []).map((section) => ({
+    depth: 3,
+    slug: toSlug(entry.year, section.heading),
+    text: toPlainText(section.heading),
+  })),
 ]);
 
 const years = await Promise.all(
-	ARCHIVE.map(async (entry) => ({
-		...entry,
-		photos: await Promise.all(entry.photos.map(toPhotoSource)),
-		sections: await Promise.all(
-			(entry.sections ?? []).map(async (section) => ({
-				...section,
-				photos: await Promise.all((section.photos ?? []).map(toPhotoSource)),
-			})),
-		),
-	})),
+  ARCHIVE.map(async (entry) => ({
+    ...entry,
+    photos: await Promise.all(entry.photos.map(toPhotoSource)),
+    sections: await Promise.all(
+      (entry.sections ?? []).map(async (section) => ({
+        ...section,
+        photos: await Promise.all((section.photos ?? []).map(toPhotoSource)),
+      })),
+    ),
+  })),
 );
 ---
 
 <Root {locale}>
-	<Seo
-		slot="meta"
-		{locale}
-		title={t.archive.seoTitle}
-		description={t.archive.seoDescription}
-	/>
+  <Seo
+    slot="meta"
+    {locale}
+    title={t.archive.seoTitle}
+    description={t.archive.seoDescription}
+  />
 
-	<NavigationBar {locale} />
+  <NavigationBar {locale} />
 
-	<main id="main">
-		<div class="wrapper relative">
-			<header class="pt-10">
-				<h1
-					class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
-				>
-					{t.archive.title}
-				</h1>
+  <main id="main">
+    <div class="wrapper relative">
+      <header class="pt-10">
+        <h1 class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif">
+          {t.archive.title}
+        </h1>
 
-				<p
-					class="max-w-[65ch] text-pretty text-muted-foreground"
-					set:html={t.archive.intro}
-				/>
-			</header>
+        <p
+          class="max-w-[65ch] text-pretty text-muted-foreground"
+          set:html={t.archive.intro}
+        />
+      </header>
 
-			<NoteTocMobile label={t.notes.onThisPage} headings={toc} />
+      <NoteTocMobile label={t.notes.onThisPage} headings={toc} />
 
-			{years.map((entry, index) => (
-	<section aria-labelledby={String(entry.year)} class="pt-20">
-		<div class="flex items-end gap-3">
-			<h2
-				id={String(entry.year)}
-				class="scroll-mt-20 font-serif text-[3.5rem] leading-none font-semibold tracking-tight tabular-nums text-foreground/90 sm:text-[4.5rem]"
-			>
-				{entry.year}
-			</h2>
-			{index === 0 && (
-				<span class="mb-2 inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
-					<span aria-hidden="true" class="relative flex size-2">
-						<span class="absolute inline-flex size-full rounded-full bg-primary opacity-60 motion-ok:animate-ping" />
-						<span class="relative inline-flex size-2 rounded-full bg-primary" />
-					</span>
-					{t.archive.now}
-				</span>
-			)}
-		</div>
-		<div aria-hidden="true" class="mt-4 h-0.5 w-12 rounded-full bg-primary" />
+      {years.map((entry, index) => (
+        <section aria-labelledby={String(entry.year)} class="pt-20">
+          <div class="flex items-end gap-3">
+            <h2
+              id={String(entry.year)}
+              class="scroll-mt-20 font-serif text-[3.5rem] leading-none font-semibold tracking-tight tabular-nums text-foreground/90 sm:text-[4.5rem]"
+            >
+              {entry.year}
+            </h2>
+            {index === 0 && (
+              <span class="mb-2 inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+                <span aria-hidden="true" class="relative flex size-2">
+                  <span class="absolute inline-flex size-full rounded-full bg-primary opacity-60 motion-ok:animate-ping" />
+                  <span class="relative inline-flex size-2 rounded-full bg-primary" />
+                </span>
+                {t.archive.now}
+              </span>
+            )}
+          </div>
+          <div
+            aria-hidden="true"
+            class="mt-4 h-0.5 w-12 rounded-full bg-primary"
+          />
 
-		<h3
-			id={toSlug(entry.year, entry.title)}
-			class="scroll-mt-20 pt-6 font-serif text-[1.5em] font-semibold text-balance leading-tight tracking-tight"
-		>
-			<Fragment set:html={entry.title} />
-		</h3>
+          <h3
+            id={toSlug(entry.year, entry.title)}
+            class="scroll-mt-20 pt-6 font-serif text-[1.5em] font-semibold text-balance leading-tight tracking-tight"
+          >
+            <Fragment set:html={entry.title} />
+          </h3>
 
-		<div class="max-w-[65ch] space-y-4 pt-4 leading-relaxed text-pretty [&_a]:link-underline">
-			{entry.paragraphs.map((paragraph) => (
-				<p set:html={paragraph} />
-			))}
-		</div>
+          <div class="max-w-[65ch] space-y-4 pt-4 leading-relaxed text-pretty [&_a]:link-underline">
+            {entry.paragraphs.map((paragraph) => (
+              <p set:html={paragraph} />
+            ))}
+          </div>
 
-		{entry.sections.map((section) => (
-			<div class="pt-10">
-				<h3
-					id={toSlug(entry.year, section.heading)}
-					class="scroll-mt-20 font-serif text-[1.2em] font-semibold text-balance leading-snug tracking-tight"
-				>
-					<Fragment set:html={section.heading} />
-				</h3>
-				<div class="max-w-[65ch] space-y-4 pt-3 leading-relaxed text-pretty [&_a]:link-underline">
-					{section.paragraphs.map((paragraph) => (
-						<p set:html={paragraph} />
-					))}
-				</div>
-				{section.figure === "burn-classification" && (
-					<BurnClassificationFigure {locale} />
-				)}
-				{section.photos.length > 0 && (
-					<div class="pt-8">
-						<PhotoGallery photos={section.photos} />
-					</div>
-				)}
-			</div>
-		))}
+          {entry.sections.map((section) => (
+            <div class="pt-10">
+              <h3
+                id={toSlug(entry.year, section.heading)}
+                class="scroll-mt-20 font-serif text-[1.2em] font-semibold text-balance leading-snug tracking-tight"
+              >
+                <Fragment set:html={section.heading} />
+              </h3>
+              <div class="max-w-[65ch] space-y-4 pt-3 leading-relaxed text-pretty [&_a]:link-underline">
+                {section.paragraphs.map((paragraph) => (
+                  <p set:html={paragraph} />
+                ))}
+              </div>
+              {section.figure === "burn-classification" && (
+                <BurnClassificationFigure {locale} />
+              )}
+              {section.photos.length > 0 && (
+                <div class="pt-8">
+                  <PhotoGallery photos={section.photos} />
+                </div>
+              )}
+            </div>
+          ))}
 
-		{index === 0 && (
-			<a
-				href={localizePath("/now", locale)}
-				class="group/now mt-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground link-underline hover:text-foreground"
-			>
-				{t.archive.seeNow}
-				<ArrowRightIcon
-					aria-hidden="true"
-					className="size-[1em] transition group-hover/now:translate-x-0.5"
-				/>
-			</a>
-		)}
+          {index === 0 && (
+            <a
+              href={localizePath("/now", locale)}
+              class="group/now mt-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground link-underline hover:text-foreground"
+            >
+              {t.archive.seeNow}
+              <ArrowRightIcon
+                aria-hidden="true"
+                className="size-[1em] transition group-hover/now:translate-x-0.5"
+              />
+            </a>
+          )}
 
-		{entry.photos.length > 0 && (
-			<div class="pt-8">
-				<PhotoGallery photos={entry.photos} />
-			</div>
-		)}
-	</section>
-))}
-			<aside
-				class="absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block"
-			>
-				<div
-					class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6"
-				>
-					<NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
-				</div>
-			</aside>
-		</div>
-	</main>
+          {entry.photos.length > 0 && (
+            <div class="pt-8">
+              <PhotoGallery photos={entry.photos} />
+            </div>
+          )}
+        </section>
+      ))}
+      <aside class="absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block">
+        <div class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6">
+          <NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
+        </div>
+      </aside>
+    </div>
+  </main>
 
-	<PageLightbox client:idle copy={t.lightbox} />
+  <PageLightbox client:idle copy={t.lightbox} />
 
-	<Footer {locale} />
+  <Footer {locale} />
 </Root>

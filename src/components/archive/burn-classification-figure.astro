@@ -5,7 +5,7 @@ import { getDictionary, type Locale } from "@/i18n";
 import { toPhotoSource } from "@/lib/photo-source";
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const t = getDictionary(Astro.props.locale).archive;
@@ -13,10 +13,9 @@ const photo = await toPhotoSource({ src: burnStages, alt: t.burnAlt });
 ---
 
 <figure class="mt-8">
-	<PhotoGallery photos={[photo]} />
-	<figcaption class="mt-2 text-sm text-pretty text-muted-foreground">
-		<span class="font-medium text-foreground">{t.burnCaptionLead}</span>
-		{" "}
-		{t.burnCaption}
-	</figcaption>
+  <PhotoGallery photos={[photo]} />
+  <figcaption class="mt-2 text-sm text-pretty text-muted-foreground">
+    <span class="font-medium text-foreground">{t.burnCaptionLead}</span>{" "}
+    {t.burnCaption}
+  </figcaption>
 </figure>

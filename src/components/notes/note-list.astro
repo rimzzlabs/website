@@ -6,53 +6,53 @@ import { formatDate } from "@/lib/datetime";
 import type { Note } from "@/lib/notes";
 
 interface Props {
-	locale: Locale;
-	notes: ReadonlyArray<Note>;
-	dateFormat?: Intl.DateTimeFormatOptions;
-	moreHref?: string;
-	moreLabel?: string;
+  locale: Locale;
+  notes: ReadonlyArray<Note>;
+  dateFormat?: Intl.DateTimeFormatOptions;
+  moreHref?: string;
+  moreLabel?: string;
 }
 
 const props = Astro.props;
 const t = getDictionary(props.locale);
 const format = formatDate(props.dateFormat, props.locale);
 const rowClass =
-	"relative flex flex-col gap-0.5 border-b py-3 transition first-of-type:border-t hover:bg-muted-foreground/2 active:bg-muted-foreground/5 sm:grid sm:grid-cols-[6.75rem_auto_minmax(0,1fr)] sm:items-baseline sm:gap-x-3";
+  "relative flex flex-col gap-0.5 border-b py-3 transition first-of-type:border-t hover:bg-muted-foreground/2 active:bg-muted-foreground/5 sm:grid sm:grid-cols-[6.75rem_auto_minmax(0,1fr)] sm:items-baseline sm:gap-x-3";
 ---
 
 <ul>
-	{props.notes.map((note) => (
-	<li class={rowClass}>
-		<p class="text-sm whitespace-nowrap tabular-nums text-muted-foreground">
-			<time datetime={note.dateISO}>{pipe(note.dateISO, format)}</time>
-		</p>
-		<div aria-hidden="true" class="hidden text-muted-foreground sm:block">
-			—
-		</div>
+  {props.notes.map((note) => (
+    <li class={rowClass}>
+      <p class="text-sm whitespace-nowrap tabular-nums text-muted-foreground">
+        <time datetime={note.dateISO}>{pipe(note.dateISO, format)}</time>
+      </p>
+      <div aria-hidden="true" class="hidden text-muted-foreground sm:block">
+        —
+      </div>
 
-		<h3 class="font-serif text-[1.05em] font-medium text-pretty">
-			{note.data.title}
-		</h3>
+      <h3 class="font-serif text-[1.05em] font-medium text-pretty">
+        {note.data.title}
+      </h3>
 
-		<a href={note.url} class="absolute inset-0">
-			<span class="sr-only">
-				{fill(t.notes.read, { title: note.data.title })}
-			</span>
-		</a>
-	</li>
-))}
-	{props.moreHref && (
-	<li class:list={[rowClass, "group/more"]}>
-		<a
-			href={props.moreHref}
-			class="inline-flex items-center gap-1.5 font-serif text-[1.05em] font-medium text-muted-foreground transition after:absolute after:inset-0 group-hover/more:text-foreground sm:col-start-3"
-		>
-			{props.moreLabel}
-			<ArrowRightIcon
-				aria-hidden="true"
-				className="size-4 transition group-hover/more:translate-x-0.5"
-			/>
-		</a>
-	</li>
-)}
+      <a href={note.url} class="absolute inset-0">
+        <span class="sr-only">
+          {fill(t.notes.read, { title: note.data.title })}
+        </span>
+      </a>
+    </li>
+  ))}
+  {props.moreHref && (
+    <li class:list={[rowClass, "group/more"]}>
+      <a
+        href={props.moreHref}
+        class="inline-flex items-center gap-1.5 font-serif text-[1.05em] font-medium text-muted-foreground transition after:absolute after:inset-0 group-hover/more:text-foreground sm:col-start-3"
+      >
+        {props.moreLabel}
+        <ArrowRightIcon
+          aria-hidden="true"
+          className="size-4 transition group-hover/more:translate-x-0.5"
+        />
+      </a>
+    </li>
+  )}
 </ul>

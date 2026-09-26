@@ -4,9 +4,9 @@ import { toMasonryColumns } from "@/lib/masonry";
 import type { PhotoSource } from "@/lib/photo-source";
 
 interface Props {
-	photos: ReadonlyArray<PhotoSource>;
-	priority?: boolean;
-	imageClass?: string;
+  photos: ReadonlyArray<PhotoSource>;
+  priority?: boolean;
+  imageClass?: string;
 }
 
 const COLUMN_COUNT = 2;
@@ -16,10 +16,10 @@ const FULL_WIDTH_SIZES = "(min-width: 40rem) 36rem, 100vw";
 const props = Astro.props;
 
 function toLayout(photos: ReadonlyArray<PhotoSource>) {
-	if (photos.length === 1) return { columns: [], tail: photos[0] };
-	if (photos.length % COLUMN_COUNT === 0)
-		return { columns: photos, tail: null };
-	return { columns: photos.slice(0, -1), tail: photos[photos.length - 1] };
+  if (photos.length === 1) return { columns: [], tail: photos[0] };
+  if (photos.length % COLUMN_COUNT === 0)
+    return { columns: photos, tail: null };
+  return { columns: photos.slice(0, -1), tail: photos[photos.length - 1] };
 }
 
 const layout = toLayout(props.photos);
@@ -27,27 +27,27 @@ const columns = toMasonryColumns(layout.columns, COLUMN_COUNT);
 ---
 
 <div class="not-typeset flex flex-col gap-2">
-	{layout.columns.length > 0 && (
-	<div class="flex gap-2">
-		{columns.map((column) => (
-			<div class="flex min-w-0 flex-1 flex-col gap-2">
-				{column.entries.map((entry) => (
-					<PhotoGalleryItem
-						photo={entry.item}
-						sizes={COLUMN_SIZES}
-						priority={props.priority && entry.index === 0}
-					/>
-				))}
-			</div>
-		))}
-	</div>
-)}
-	{layout.tail && (
-	<PhotoGalleryItem
-		photo={layout.tail}
-		sizes={FULL_WIDTH_SIZES}
-		priority={props.priority && props.photos.length === 1}
-		imageClass={props.imageClass}
-	/>
-)}
+  {layout.columns.length > 0 && (
+    <div class="flex gap-2">
+      {columns.map((column) => (
+        <div class="flex min-w-0 flex-1 flex-col gap-2">
+          {column.entries.map((entry) => (
+            <PhotoGalleryItem
+              photo={entry.item}
+              sizes={COLUMN_SIZES}
+              priority={props.priority && entry.index === 0}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  )}
+  {layout.tail && (
+    <PhotoGalleryItem
+      photo={layout.tail}
+      sizes={FULL_WIDTH_SIZES}
+      priority={props.priority && props.photos.length === 1}
+      imageClass={props.imageClass}
+    />
+  )}
 </div>

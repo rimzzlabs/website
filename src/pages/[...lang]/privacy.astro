@@ -3,11 +3,11 @@ import LegalPage from "@/components/legal/legal-page.astro";
 import { type Locale, localeStaticPaths } from "@/i18n";
 
 export function getStaticPaths() {
-	return localeStaticPaths();
+  return localeStaticPaths();
 }
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 ---
 

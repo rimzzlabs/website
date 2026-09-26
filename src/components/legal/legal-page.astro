@@ -12,8 +12,8 @@ import { getDictionary, type Locale } from "@/i18n";
 import { formatDate, parsePublishedAt } from "@/lib/datetime";
 
 interface Props {
-	locale: Locale;
-	slug: "privacy" | "accessibility";
+  locale: Locale;
+  slug: "privacy" | "accessibility";
 }
 
 const locale = Astro.props.locale;
@@ -29,42 +29,38 @@ const updatedAt = parsePublishedAt(page.data.updatedAt);
 ---
 
 <Root {locale}>
-	<Seo
-		{locale}
-		title={`${page.data.title}, Rizki Citra`}
-		description={page.data.description}
-		slot="meta"
-	/>
+  <Seo
+    {locale}
+    title={`${page.data.title}, Rizki Citra`}
+    description={page.data.description}
+    slot="meta"
+  />
 
-	<NavigationBar {locale} />
-	<main id="main" class="typeset">
-		<div class="wrapper relative">
-			<header class="pt-10">
-				<h1 class="mt-0!">{page.data.title}</h1>
-				<p class="not-typeset pt-4 font-mono text-xs text-muted-foreground">
-					{t.legal.lastUpdated}{" "}
-					<time datetime={updatedAt.toISOString()}
-						>{formatDate(undefined, locale)(updatedAt)}</time
-					>
-				</p>
-			</header>
+  <NavigationBar {locale} />
+  <main id="main" class="typeset">
+    <div class="wrapper relative">
+      <header class="pt-10">
+        <h1 class="mt-0!">{page.data.title}</h1>
+        <p class="not-typeset pt-4 font-mono text-xs text-muted-foreground">
+          {t.legal.lastUpdated}{" "}
+          <time datetime={updatedAt.toISOString()}>
+            {formatDate(undefined, locale)(updatedAt)}
+          </time>
+        </p>
+      </header>
 
-			<NoteTocMobile label={t.notes.onThisPage} headings={toc} />
+      <NoteTocMobile label={t.notes.onThisPage} headings={toc} />
 
-			<article>
-				<Content components={{ a: NoteLink }} />
-			</article>
+      <article>
+        <Content components={{ a: NoteLink }} />
+      </article>
 
-			<aside
-				class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block"
-			>
-				<div
-					class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6"
-				>
-					<NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
-				</div>
-			</aside>
-		</div>
-	</main>
-	<Footer {locale} />
+      <aside class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block">
+        <div class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6">
+          <NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
+        </div>
+      </aside>
+    </div>
+  </main>
+  <Footer {locale} />
 </Root>

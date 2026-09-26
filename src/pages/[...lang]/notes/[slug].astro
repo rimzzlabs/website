@@ -16,26 +16,26 @@ import { getDictionary, type Locale, localeStaticPaths } from "@/i18n";
 import { getNotes, type Note } from "@/lib/notes";
 
 export async function getStaticPaths() {
-	const paths = await Promise.all(
-		localeStaticPaths().map((path) =>
-			pipe(
-				AR.make(getNotes(path.props.locale)),
-				AR.map(
-					A.map((note) => ({
-						params: { lang: path.params.lang, slug: note.slug },
-						props: { note, locale: path.props.locale },
-					})),
-				),
-				AR.match(F.identity, () => []),
-			),
-		),
-	);
-	return paths.flat();
+  const paths = await Promise.all(
+    localeStaticPaths().map((path) =>
+      pipe(
+        AR.make(getNotes(path.props.locale)),
+        AR.map(
+          A.map((note) => ({
+            params: { lang: path.params.lang, slug: note.slug },
+            props: { note, locale: path.props.locale },
+          })),
+        ),
+        AR.match(F.identity, () => []),
+      ),
+    ),
+  );
+  return paths.flat();
 }
 
 interface Props {
-	note: Note;
-	locale: Locale;
+  note: Note;
+  locale: Locale;
 }
 
 const note = Astro.props.note;
@@ -47,47 +47,49 @@ const toc = toTocHeadings(headings);
 ---
 
 <Root {locale}>
-	<Seo
-		{locale}
-		title={note.data.title}
-		description={note.data.description}
-		keywords={note.data.keywords}
-		article={{
-	publishedTime: note.dateISO,
-	modifiedTime: note.updatedISO,
-	authors: ["Rizki Citra"],
-	tags: note.data.keywords,
-}}
-		slot="meta"
-	/>
+  <Seo
+    {locale}
+    title={note.data.title}
+    description={note.data.description}
+    keywords={note.data.keywords}
+    article={{
+      publishedTime: note.dateISO,
+      modifiedTime: note.updatedISO,
+      authors: ["Rizki Citra"],
+      tags: note.data.keywords,
+    }}
+    slot="meta"
+  />
 
-	<NavigationBar {locale} />
-	<main id="main" class="typeset">
-		<div class="wrapper relative">
-			<header class="pt-10">
-				<h1 class="mt-0!">{note.data.title}</h1>
-			</header>
+  <NavigationBar {locale} />
+  <main id="main" class="typeset">
+    <div class="wrapper relative">
+      <header class="pt-10">
+        <h1 class="mt-0!">{note.data.title}</h1>
+      </header>
 
-			{toc.length > 0 && <NoteTocMobile label={t.notes.onThisPage} headings={toc} />}
+      {toc.length > 0 && (
+        <NoteTocMobile label={t.notes.onThisPage} headings={toc} />
+      )}
 
-			<article>
-				<Content
-					components={{ a: NoteLink, pre: NoteCodeBlock, Callout: NoteCallout }}
-				/>
-			</article>
+      <article>
+        <Content
+          components={{ a: NoteLink, pre: NoteCodeBlock, Callout: NoteCallout }}
+        />
+      </article>
 
-			{toc.length > 0 && (
-	<aside
-		data-toc="rail"
-		class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block"
-	>
-		<div class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6">
-			<NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
-		</div>
-	</aside>
-)}
-		</div>
-	</main>
-	<PageLightbox client:idle copy={t.lightbox} />
-	<Footer {locale} />
+      {toc.length > 0 && (
+        <aside
+          data-toc="rail"
+          class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block"
+        >
+          <div class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6">
+            <NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
+          </div>
+        </aside>
+      )}
+    </div>
+  </main>
+  <PageLightbox client:idle copy={t.lightbox} />
+  <Footer {locale} />
 </Root>

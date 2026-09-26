@@ -13,16 +13,16 @@ const href = isExternal ? `${_href}?utm_source=rimzzlabs.com` : _href;
 ---
 
 {isExternal ? (
-	<a {href} target="_blank" rel="noopener" {...rest}>
-		<slot />
-		<ArrowUpRightIcon
-			className="inline size-3.5 align-[-0.125em]"
-			aria-hidden="true"
-		/>
-		<span class="sr-only">{t.common.opensInNewTab}</span>
-	</a>
+  <a {href} target="_blank" rel="noopener" {...rest}>
+    <slot />
+    <ArrowUpRightIcon
+      className="inline size-3.5 align-[-0.125em]"
+      aria-hidden="true"
+    />
+    <span class="sr-only">{t.common.opensInNewTab}</span>
+  </a>
 ) : (
-	<a {href} {...rest}>
-		<slot />
-	</a>
+  <a {href} {...rest}>
+    <slot />
+  </a>
 )}
