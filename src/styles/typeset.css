@@ -12,6 +12,17 @@
 		--typeset-flow: 1.25em;
 		--typeset-measure: 68ch;
 	}
+
+	/* Wide layouts scale the text. Spacing is in em and the measure is in ch,
+	   so both grow with it. */
+	@media (width >= 64rem) {
+		:root[data-layout="wide"] .typeset {
+			--typeset-size-wide: 1.125rem;
+		}
+		:root[data-layout="wider"] .typeset {
+			--typeset-size-wide: 1.1875rem;
+		}
+	}
 }
 
 @layer components {
