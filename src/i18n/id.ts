@@ -32,6 +32,11 @@ export const id = {
 		privacy: "Kebijakan Privasi",
 		accessibility: "Aksesibilitas",
 		feedback: "Masukan",
+		nowPlaying: "Sedang diputar",
+		lastPlayed: "Terakhir diputar",
+		notPlaying: "Tidak sedang diputar",
+		notPlayingBody: "Lagi sepi, belum ada lagu",
+		loadingTrack: "Memuat lagu yang sedang diputar",
 	},
 	legal: {
 		lastUpdated: "Terakhir diperbarui",

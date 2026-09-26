@@ -31,3 +31,10 @@ GITHUB_CLIENT_SECRET=
 # it (at most once per minute) so the static snapshot of entries rebuilds.
 # Pages project > Settings > Builds > Deploy hooks. Optional.
 PAGES_DEPLOY_HOOK_URL=
+
+# --- Now playing widget in the footer (functions/api/now-playing.ts) ---
+# Last.fm API key: https://www.last.fm/api/account/create
+# Connect Spotify in Last.fm settings > Applications, so Last.fm records your
+# plays. If these are empty, the footer hides the widget.
+LASTFM_API_KEY=
+LASTFM_USERNAME=
