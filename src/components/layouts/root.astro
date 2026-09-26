@@ -7,9 +7,10 @@ import ScrollFade from "@/components/layouts/scroll-fade.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { getDictionary } from "@/i18n";
 import { HTML_LANG, type Locale } from "@/i18n/config";
+import preferencesScript from "@/scripts/preferences.js?raw";
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const props = Astro.props;
@@ -18,69 +19,31 @@ const t = getDictionary(props.locale);
 
 <!doctype html>
 <html lang={HTML_LANG[props.locale]}>
-	<head>
-		<meta charset="utf-8">
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1, viewport-fit=cover"
-		>
-		<slot name="meta" />
-		<Font cssVariable="--font-inter" preload />
-		<Font cssVariable="--font-lora" preload />
-		<Font cssVariable="--font-jetbrains-mono" />
-		<script is:inline>
-		(() => {
-			const root = document.documentElement;
-			const media = window.matchMedia("(prefers-color-scheme: dark)");
-			const storedTheme = () => {
-				try {
-					const value = localStorage.getItem("rimzzlabs:theme");
-					return value === "dark" || value === "light" ? value : null;
-				} catch {
-					return null;
-				}
-			};
-			const apply = (dark) => root.classList.toggle("dark", dark);
-			const stored = storedTheme();
-			apply(stored ? stored === "dark" : media.matches);
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <slot name="meta" />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-lora" preload />
+    <Font cssVariable="--font-jetbrains-mono" preload />
+    <script is:inline set:html={preferencesScript} />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class={cn(
+        buttonVariants(),
+        "fixed top-3 left-1/2 z-60 -translate-x-1/2 -translate-y-[calc(100%+1rem)] rounded-full shadow-lg focus-visible:translate-y-0 motion-ok:transition-transform motion-ok:duration-200 motion-ok:ease-out",
+      )}
+    >
+      {t.common.skipToContent}
+      <ArrowDownIcon aria-hidden="true" />
+    </a>
+    <slot />
 
-			media.addEventListener("change", (event) => {
-				if (storedTheme() === null) apply(event.matches);
-			});
-
-			const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-			const storedMotion = () => {
-				try {
-					const value = localStorage.getItem("rimzzlabs:motion");
-					return value === "on" || value === "off" ? value : "system";
-				} catch {
-					return "system";
-				}
-			};
-			const applyMotion = () => {
-				const setting = storedMotion();
-				const reduce =
-					setting === "off" || (setting === "system" && motionQuery.matches);
-				root.dataset.motion = reduce ? "reduce" : "full";
-			};
-			applyMotion();
-			motionQuery.addEventListener("change", applyMotion);
-		})();
-		</script>
-	</head>
-	<body>
-		<a
-			href="#main"
-			class={cn(
-	buttonVariants(),
-	"fixed top-3 left-1/2 z-60 -translate-x-1/2 -translate-y-[calc(100%+1rem)] rounded-full shadow-lg focus-visible:translate-y-0 motion-ok:transition-transform motion-ok:duration-200 motion-ok:ease-out",
-)}
-		>
-			{t.common.skipToContent}
-			<ArrowDownIcon aria-hidden="true" />
-		</a>
-		<slot />
-
-		<ScrollFade />
-	</body>
+    <ScrollFade />
+  </body>
 </html>

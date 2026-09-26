@@ -211,7 +211,46 @@
 }
 
 @utility wrapper {
-	@apply max-w-xl mx-auto w-11/12 2xl:max-w-4xl;
+	--wrapper-max: 36rem;
+	width: calc(100% * 11 / 12);
+	max-width: var(--wrapper-max);
+	margin-inline: auto;
+
+	@media (width >= 96rem) {
+		--wrapper-max: 56rem;
+	}
+
+	/* The layout setting from the settings menu. Desktop only, and each
+	   step adds a little width. */
+	@media (width >= 64rem) {
+		:root[data-layout="wide"] & {
+			--wrapper-max: 42rem;
+		}
+		:root[data-layout="wider"] & {
+			--wrapper-max: 48rem;
+		}
+	}
+	@media (width >= 96rem) {
+		:root[data-layout="wide"] & {
+			--wrapper-max: 60rem;
+		}
+		:root[data-layout="wider"] & {
+			--wrapper-max: 64rem;
+		}
+	}
+
+	/* On a note with a TOC rail (3rem gap + 14rem), a wider layout centers
+	   the content and the rail together, so the rail stays on screen. Every
+	   wrapper shifts, so the nav and the footer stay aligned. */
+	@media (width >= 80rem) {
+		:root:is([data-layout="wide"], [data-layout="wider"]):has([data-toc="rail"])
+			& {
+			margin-left: max(
+				calc(100% / 24),
+				calc((100% - min(var(--wrapper-max), 100% * 11 / 12) - 17rem) / 2)
+			);
+		}
+	}
 }
 
 ::view-transition-group(lightbox-image) {

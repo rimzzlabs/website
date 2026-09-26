@@ -17,6 +17,10 @@ export const en = {
 		animationSystem: "System",
 		animationOn: "On",
 		animationOff: "Off",
+		layout: "Layout",
+		layoutDefault: "Default",
+		layoutWide: "Wide",
+		layoutWider: "Wider",
 		toggleTheme: "Toggle theme",
 	},
 	footer: {

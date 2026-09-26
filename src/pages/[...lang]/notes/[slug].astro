@@ -77,7 +77,10 @@ const toc = toTocHeadings(headings);
 			</article>
 
 			{toc.length > 0 && (
-	<aside class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block">
+	<aside
+		data-toc="rail"
+		class="not-typeset absolute inset-y-0 left-[calc(100%+3rem)] hidden w-56 xl:block"
+	>
 		<div class="sticky top-10 max-h-[calc(100dvh-5rem)] overflow-y-auto pt-10 pb-6">
 			<NoteToc client:idle label={t.notes.onThisPage} headings={toc} />
 		</div>

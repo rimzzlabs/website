@@ -1,4 +1,7 @@
 import {
+	ArrowsHorizontalIcon,
+	ArrowsInLineHorizontalIcon,
+	ArrowsOutLineHorizontalIcon,
 	LaptopIcon,
 	PowerIcon,
 	SlidersHorizontalIcon,
@@ -17,6 +20,12 @@ import {
 } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/en";
 import {
+	applyLayoutSetting,
+	isLayoutSetting,
+	type LayoutSetting,
+	readLayoutSetting,
+} from "@/lib/layout";
+import {
 	applyMotionSetting,
 	isMotionSetting,
 	type MotionSetting,
@@ -30,6 +39,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
+	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
@@ -53,15 +63,23 @@ function switchLocale(next: unknown) {
 
 export function NavigationBarSettings(props: NavigationBarSettingsProps) {
 	const [motion, setMotion] = useState<MotionSetting>("system");
+	const [layout, setLayout] = useState<LayoutSetting>("default");
 
 	useEffect(() => {
 		setMotion(readMotionSetting());
+		setLayout(readLayoutSetting());
 	}, []);
 
 	const changeMotion = (next: unknown) => {
 		if (!isMotionSetting(next)) return;
 		applyMotionSetting(next);
 		setMotion(next);
+	};
+
+	const changeLayout = (next: unknown) => {
+		if (!isLayoutSetting(next)) return;
+		applyLayoutSetting(next);
+		setLayout(next);
 	};
 
 	return (
@@ -87,6 +105,8 @@ export function NavigationBarSettings(props: NavigationBarSettingsProps) {
 					</DropdownMenuRadioGroup>
 				</DropdownMenuGroup>
 
+				<DropdownMenuSeparator />
+
 				<DropdownMenuGroup>
 					<DropdownMenuLabel>{props.copy.animation}</DropdownMenuLabel>
 					<DropdownMenuRadioGroup value={motion} onValueChange={changeMotion}>
@@ -98,6 +118,23 @@ export function NavigationBarSettings(props: NavigationBarSettingsProps) {
 						</DropdownMenuRadioItem>
 						<DropdownMenuRadioItem value="off" className="group">
 							<PowerIcon /> {props.copy.animationOff}
+						</DropdownMenuRadioItem>
+					</DropdownMenuRadioGroup>
+				</DropdownMenuGroup>
+
+				<DropdownMenuSeparator className="hidden lg:block" />
+
+				<DropdownMenuGroup className="hidden lg:block">
+					<DropdownMenuLabel>{props.copy.layout}</DropdownMenuLabel>
+					<DropdownMenuRadioGroup value={layout} onValueChange={changeLayout}>
+						<DropdownMenuRadioItem value="default">
+							<ArrowsInLineHorizontalIcon /> {props.copy.layoutDefault}
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="wide">
+							<ArrowsOutLineHorizontalIcon /> {props.copy.layoutWide}
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="wider">
+							<ArrowsHorizontalIcon /> {props.copy.layoutWider}
 						</DropdownMenuRadioItem>
 					</DropdownMenuRadioGroup>
 				</DropdownMenuGroup>

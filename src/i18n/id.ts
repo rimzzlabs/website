@@ -19,6 +19,10 @@ export const id = {
 		animationSystem: "Sistem",
 		animationOn: "Aktif",
 		animationOff: "Nonaktif",
+		layout: "Tata Letak",
+		layoutDefault: "Standar",
+		layoutWide: "Lebar",
+		layoutWider: "Lebih Lebar",
 		toggleTheme: "Ganti tema",
 	},
 	footer: {
