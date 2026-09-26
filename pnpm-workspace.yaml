@@ -1,3 +1,11 @@
 allowBuilds:
   esbuild: true
+  lefthook: false
   sharp: true
+  workerd: false
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+ignoredBuiltDependencies:
+  - lefthook
+  - workerd
