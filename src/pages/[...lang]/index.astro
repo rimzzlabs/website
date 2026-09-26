@@ -14,6 +14,7 @@ import RichText from "@/components/rich-text.astro";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "@/components/ui/link.astro";
 import { getImageGallery } from "@/data/gallery";
+import { HERO_LINKS } from "@/data/home";
 import {
 	fill,
 	getDictionary,
@@ -66,19 +67,10 @@ const images = await pipe(
 
 			<div class="max-w-[65ch] space-y-4 text-pretty">
 				<p>
-					<RichText
-						text={t.home.heroWork}
-						links={{ kolosal: { href: "https://kolosal.ai", label: "Kolosal AI" } }}
-					/>
+					<RichText text={t.home.heroWork} links={HERO_LINKS.work} />
 				</p>
 				<p>
-					<RichText
-						text={t.home.heroPast}
-						links={{
-	bitwyre: { href: "https://bitwyre.com", label: "Bitwyre" },
-	skyshi: { href: "https://skyshi.com", label: "Skyshi" },
-}}
-					/>
+					<RichText text={t.home.heroPast} links={HERO_LINKS.past} />
 				</p>
 			</div>
 

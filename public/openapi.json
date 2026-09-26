@@ -1,0 +1,713 @@
+{
+	"openapi": "3.1.0",
+	"info": {
+		"title": "rimzzlabs.com public API",
+		"version": "2.0.0",
+		"description": "The public API of rimzzlabs.com. Reading the guestbook is open to any client. Every write needs a browser: anonymous writes need a Cloudflare Turnstile token, and edits need a GitHub session."
+	},
+	"servers": [
+		{
+			"url": "https://rimzzlabs.com"
+		}
+	],
+	"paths": {
+		"/api/health": {
+			"get": {
+				"summary": "Report the API status",
+				"operationId": "getHealth",
+				"responses": {
+					"200": {
+						"description": "The API and the database work.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"status": {
+											"const": "ok"
+										}
+									}
+								}
+							}
+						}
+					},
+					"503": {
+						"description": "The database does not answer.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"status": {
+											"const": "down"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/guestbook": {
+			"get": {
+				"summary": "List guestbook entries, newest first",
+				"operationId": "listGuestbookEntries",
+				"parameters": [
+					{
+						"name": "cursor",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1
+						},
+						"description": "Return entries with an ID less than this value. Use nextCursor from the previous page."
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"maximum": 50,
+							"default": 10
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "One page of entries.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": ["items", "nextCursor"],
+									"properties": {
+										"items": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/GuestbookEntry"
+											}
+										},
+										"nextCursor": {
+											"type": ["integer", "null"],
+											"description": "Null on the last page."
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Sign the guestbook",
+				"operationId": "createGuestbookEntry",
+				"description": "Without a GitHub session, the request needs a Turnstile token. With a GitHub session cookie, the name and the avatar come from GitHub.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": ["message"],
+								"properties": {
+									"name": {
+										"type": "string",
+										"maxLength": 100
+									},
+									"site": {
+										"type": "string",
+										"maxLength": 200
+									},
+									"message": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 500
+									},
+									"token": {
+										"type": "string",
+										"description": "Cloudflare Turnstile token. Only a browser on rimzzlabs.com can get one."
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "The entry is saved.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										}
+									},
+									"required": ["ok"]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The input is not valid.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "The Turnstile check failed.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "The entry did not save.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/guestbook/{id}": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "integer",
+						"minimum": 1
+					}
+				}
+			],
+			"patch": {
+				"summary": "Edit your own entry",
+				"operationId": "updateGuestbookEntry",
+				"description": "Needs a GitHub session cookie. Only the author of a GitHub entry can edit it. Anonymous entries cannot change.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": ["message"],
+								"properties": {
+									"message": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 500
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "The entry changed.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										}
+									},
+									"required": ["ok"]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The ID or the input is not valid.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "There is no session.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "The entry belongs to someone else.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The entry does not exist.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete your own entry",
+				"operationId": "deleteGuestbookEntry",
+				"description": "Needs a GitHub session cookie. Only the author of a GitHub entry can delete it.",
+				"responses": {
+					"200": {
+						"description": "The entry is deleted.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										}
+									},
+									"required": ["ok"]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The ID is not valid.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "There is no session.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "The entry belongs to someone else.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "The entry does not exist.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/contact": {
+			"post": {
+				"summary": "Send a message to Rizki",
+				"operationId": "sendContactMessage",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": ["name", "email", "message", "token"],
+								"properties": {
+									"name": {
+										"type": "string",
+										"minLength": 1,
+										"maxLength": 100
+									},
+									"email": {
+										"type": "string",
+										"format": "email"
+									},
+									"message": {
+										"type": "string",
+										"minLength": 10,
+										"maxLength": 2000
+									},
+									"token": {
+										"type": "string",
+										"description": "Cloudflare Turnstile token. Only a browser on rimzzlabs.com can get one."
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "The message is sent.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										}
+									},
+									"required": ["ok"]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The input is not valid.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "The Turnstile check failed.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"502": {
+						"description": "The email did not send.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/feedback": {
+			"post": {
+				"summary": "Send feedback about the site",
+				"operationId": "sendFeedback",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"required": ["topic", "message", "token"],
+								"properties": {
+									"topic": {
+										"type": "string",
+										"enum": ["bug", "accessibility", "content", "idea", "other"]
+									},
+									"message": {
+										"type": "string",
+										"minLength": 10,
+										"maxLength": 3000
+									},
+									"page": {
+										"type": "string",
+										"format": "uri",
+										"maxLength": 300
+									},
+									"environment": {
+										"type": "string",
+										"maxLength": 200
+									},
+									"name": {
+										"type": "string",
+										"maxLength": 100
+									},
+									"email": {
+										"type": "string",
+										"format": "email"
+									},
+									"attachments": {
+										"type": "array",
+										"maxItems": 3,
+										"items": {
+											"type": "string",
+											"format": "binary"
+										},
+										"description": "PNG, JPEG, or WebP images of 4 MB or less."
+									},
+									"token": {
+										"type": "string",
+										"description": "Cloudflare Turnstile token. Only a browser on rimzzlabs.com can get one."
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "The feedback is sent.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										}
+									},
+									"required": ["ok"]
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The input or an attachment is not valid.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "The Turnstile check failed.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"413": {
+						"description": "The request is too large.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					},
+					"502": {
+						"description": "The email did not send.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string"
+										}
+									},
+									"required": ["error"]
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"GuestbookEntry": {
+				"type": "object",
+				"required": [
+					"id",
+					"name",
+					"site",
+					"message",
+					"createdAt",
+					"authorType",
+					"authorId",
+					"avatar",
+					"updatedAt"
+				],
+				"properties": {
+					"id": {
+						"type": "integer"
+					},
+					"name": {
+						"type": "string",
+						"description": "Empty for anonymous entries without a name."
+					},
+					"site": {
+						"type": ["string", "null"],
+						"format": "uri"
+					},
+					"message": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "integer",
+						"description": "Unix time in milliseconds."
+					},
+					"authorType": {
+						"type": "string",
+						"enum": ["anon", "github", "google"]
+					},
+					"authorId": {
+						"type": ["string", "null"],
+						"description": "Account ID of a signed-in author."
+					},
+					"avatar": {
+						"type": ["string", "null"],
+						"format": "uri"
+					},
+					"updatedAt": {
+						"type": ["integer", "null"],
+						"description": "Unix time in milliseconds of the last edit."
+					}
+				}
+			}
+		}
+	}
+}

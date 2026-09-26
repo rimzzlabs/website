@@ -1,0 +1,28 @@
+# Cloudflare Pages headers. Astro copies this file from public/ to dist/.
+
+# functions/_middleware.ts adds the agent discovery Link headers (RFC 8288,
+# RFC 9727) to every page.
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json
+  Access-Control-Allow-Origin: *
+
+/.well-known/ai-catalog.json
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-skills/*
+  Access-Control-Allow-Origin: *
+
+/.well-known/agent-skills/*/SKILL.md
+  Content-Type: text/markdown; charset=utf-8
+
+/openapi.json
+  Content-Type: application/openapi+json
+  Access-Control-Allow-Origin: *
+
+# Markdown versions of the pages. Agents get them through Accept: text/markdown.
+# Keep the direct URLs out of search results.
+/md/*
+  Content-Type: text/markdown; charset=utf-8
+  X-Robots-Tag: noindex
