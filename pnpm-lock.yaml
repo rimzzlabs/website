@@ -131,6 +131,9 @@ importers:
       prettier:
         specifier: ^3.9.8
         version: 3.9.8
+      prettier-plugin-astro:
+        specifier: ^1.1.0
+        version: 1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.8)
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -2241,6 +2244,12 @@ packages:
     resolution:
       {
         integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==,
+      }
+
+  "@prettier/parse-srcset@3.1.0":
+    resolution:
+      {
+        integrity: sha512-FIRv2rZotO9NP/r66taYqD1zICpPiBbrECqjKV/xqNotqDxF7fLzzUeK+1RSRx9Tenk0DajR/GcRmTJ2qtHaKQ==,
       }
 
   "@react-email/render@2.1.0":
@@ -6516,6 +6525,15 @@ packages:
       }
     engines: { node: ">=20" }
 
+  prettier-plugin-astro@1.1.0:
+    resolution:
+      {
+        integrity: sha512-ujJ1VX+iin4eYJPHVCEbmXHzrEVsi1SaVehHtbAteTZv8VTrZyBiZPmYc6Ud6+fkr/UBMXuEu3N3+d49h7YfKw==,
+      }
+    engines: { node: ">=22.12.0" }
+    peerDependencies:
+      prettier: ^3.5.3
+
   prettier@3.9.8:
     resolution:
       {
@@ -6882,11 +6900,24 @@ packages:
         integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==,
       }
 
+  s.color@0.0.15:
+    resolution:
+      {
+        integrity: sha512-AUNrbEUHeKY8XsYr/DYpl+qk5+aM+DChopnWOPEzn8YKzOhv4l2zH6LzZms3tOZP3wwdOyc0RmTciyi46HLIuA==,
+      }
+
   safer-buffer@2.1.2:
     resolution:
       {
         integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==,
       }
+
+  sass-formatter@0.8.0:
+    resolution:
+      {
+        integrity: sha512-Nf4eMGE2O5vnJG7KPCRyksWS9gVKSYoUWtPeMXRRxwZSPVQhSGtL602xVYS65LvMkHmkvKa7xpauF0+/5pPwrg==,
+      }
+    hasBin: true
 
   satori@0.33.5:
     resolution:
@@ -7258,6 +7289,12 @@ packages:
         optional: true
       babel-plugin-macros:
         optional: true
+
+  suf-log@2.5.3:
+    resolution:
+      {
+        integrity: sha512-KvC8OPjzdNOe+xQ4XWJV2whQA0aM1kGVczMQ8+dStAO6KfEB140JEVQ9dE76ONZ0/Ylf67ni4tILPJB41U0eow==,
+      }
 
   supports-color@10.2.2:
     resolution:
@@ -9174,6 +9211,8 @@ snapshots:
       supports-color: 10.2.2
 
   "@poppinss/exception@1.2.3": {}
+
+  "@prettier/parse-srcset@3.1.0": {}
 
   "@react-email/render@2.1.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)":
     dependencies:
@@ -11834,6 +11873,16 @@ snapshots:
 
   powershell-utils@0.2.1: {}
 
+  prettier-plugin-astro@1.1.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(prettier@3.9.8):
+    dependencies:
+      "@astrojs/compiler-rs": 0.4.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
+      "@prettier/parse-srcset": 3.1.0
+      prettier: 3.9.8
+      sass-formatter: 0.8.0
+    transitivePeerDependencies:
+      - "@emnapi/core"
+      - "@emnapi/runtime"
+
   prettier@3.9.8: {}
 
   pretty-ms@9.3.1:
@@ -12140,7 +12189,13 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
+  s.color@0.0.15: {}
+
   safer-buffer@2.1.2: {}
+
+  sass-formatter@0.8.0:
+    dependencies:
+      suf-log: 2.5.3
 
   satori@0.33.5:
     dependencies:
@@ -12465,6 +12520,10 @@ snapshots:
       react: 19.3.0
     optionalDependencies:
       "@babel/core": 7.29.7
+
+  suf-log@2.5.3:
+    dependencies:
+      s.color: 0.0.15
 
   supports-color@10.2.2: {}
 

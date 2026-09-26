@@ -11,6 +11,11 @@ pre-commit:
       run: pnpm prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
 
+    - name: astro
+      glob: "*.astro"
+      run: pnpm format:astro {staged_files}
+      stage_fixed: true
+
 pre-push:
   jobs:
     - name: typecheck-ts
