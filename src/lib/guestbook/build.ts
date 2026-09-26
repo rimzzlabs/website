@@ -41,7 +41,14 @@ async function queryD1(databaseId: string) {
 	return data.result?.[0]?.results ?? [];
 }
 
+let snapshot: Promise<GuestbookPage> | null = null;
+
 export function getGuestbookAtBuild(): Promise<GuestbookPage> {
+	snapshot ??= readGuestbookAtBuild();
+	return snapshot;
+}
+
+function readGuestbookAtBuild(): Promise<GuestbookPage> {
 	if (import.meta.env.DEV) return Promise.resolve(EMPTY_GUESTBOOK_PAGE);
 
 	const databaseId = readDatabaseId();

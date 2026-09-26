@@ -1,6 +1,7 @@
 ---
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import HomeSectionHeading from "@/components/home/home-section-heading.astro";
+import { PROJECTS } from "@/data/projects";
 import { fill, getDictionary, type Locale } from "@/i18n";
 
 interface Props {
@@ -9,17 +10,6 @@ interface Props {
 
 const props = Astro.props;
 const t = getDictionary(props.locale);
-
-const PROJECTS = [
-	{ key: "mayarin", name: "Mayarin", href: "https://mayarin.xyz" },
-	{ key: "lanjut", name: "Lanjut", href: "https://lanjut.rimzzlabs.com" },
-	{
-		key: "trymorrow",
-		name: "Trymorrow",
-		href: "https://github.com/playriglabs/trymorrow",
-	},
-	{ key: "absqir", name: "Absqir", href: "https://absqir.rimzzlabs.com" },
-] as const;
 
 const projects = PROJECTS.map((project) => ({
 	...project,

@@ -6,7 +6,7 @@ import Root from "@/components/layouts/root.astro";
 import Seo from "@/components/layouts/seo.astro";
 import RichText from "@/components/rich-text.astro";
 import Link from "@/components/ui/link.astro";
-import { NOW_UPDATED_AT } from "@/data/now";
+import { getNowItems, NOW_INTRO_LINKS, NOW_UPDATED_AT } from "@/data/now";
 import {
 	fill,
 	getDictionary,
@@ -16,18 +16,6 @@ import {
 } from "@/i18n";
 import { formatDate, parsePublishedAt } from "@/lib/datetime";
 import { getNotes } from "@/lib/notes";
-
-interface NowLink {
-	label: string;
-	href: string;
-}
-
-interface NowItem {
-	label: string;
-	title: string;
-	description: string;
-	links: ReadonlyArray<NowLink>;
-}
 
 export function getStaticPaths() {
 	return localeStaticPaths();
@@ -44,34 +32,7 @@ const notes = await getNotes(locale);
 const latestNote = notes[0];
 const updatedAt = parsePublishedAt(NOW_UPDATED_AT);
 
-const ITEMS: ReadonlyArray<NowItem> = [
-	{
-		...t.now.work,
-		links: [{ label: "kolosal.ai", href: "https://kolosal.ai" }],
-	},
-	{
-		...t.now.building,
-		links: [{ label: "mayarin.xyz", href: "https://mayarin.xyz" }],
-	},
-	{
-		...t.now.sideProjects,
-		links: [
-			{ label: "lanjut.rimzzlabs.com", href: "https://lanjut.rimzzlabs.com" },
-			{ label: "absqir.rimzzlabs.com", href: "https://absqir.rimzzlabs.com" },
-		],
-	},
-	{
-		label: t.now.site.label,
-		title: t.now.site.title,
-		description: t.now.site.description,
-		links: [
-			{
-				label: t.now.site.sourceCode,
-				href: "https://github.com/rimzzlabs/website",
-			},
-		],
-	},
-];
+const ITEMS = getNowItems(t);
 ---
 
 <Root {locale}>
@@ -93,13 +54,7 @@ const ITEMS: ReadonlyArray<NowItem> = [
 			</h1>
 
 			<p class="max-w-[65ch] text-pretty text-muted-foreground">
-				<RichText
-					text={t.now.intro}
-					links={{
-	derek: { href: "https://sive.rs", label: "Derek Sivers" },
-	nownownow: { href: "https://nownownow.com", label: "nownownow.com" },
-}}
-				/>
+				<RichText text={t.now.intro} links={NOW_INTRO_LINKS} />
 			</p>
 
 			<p

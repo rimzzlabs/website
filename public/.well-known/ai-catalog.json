@@ -1,0 +1,61 @@
+{
+	"specVersion": "1.0",
+	"host": {
+		"displayName": "rimzzlabs.com, the site of Rizki Citra",
+		"identifier": "did:web:rimzzlabs.com"
+	},
+	"entries": [
+		{
+			"identifier": "urn:air:rimzzlabs.com:api:public-api",
+			"displayName": "rimzzlabs.com public API",
+			"type": "application/openapi+json",
+			"url": "https://rimzzlabs.com/openapi.json",
+			"representativeQueries": [
+				"read the rimzzlabs.com guestbook",
+				"list the newest guestbook entries on rimzzlabs.com",
+				"send feedback about rimzzlabs.com"
+			]
+		},
+		{
+			"identifier": "urn:air:rimzzlabs.com:catalog:api-catalog",
+			"displayName": "rimzzlabs.com API catalog",
+			"type": "application/linkset+json",
+			"url": "https://rimzzlabs.com/.well-known/api-catalog",
+			"representativeQueries": [
+				"which APIs does rimzzlabs.com have",
+				"find the rimzzlabs.com API documentation"
+			]
+		},
+		{
+			"identifier": "urn:air:rimzzlabs.com:skill:guestbook",
+			"displayName": "Guestbook agent skill",
+			"type": "text/markdown",
+			"url": "https://rimzzlabs.com/.well-known/agent-skills/guestbook/SKILL.md",
+			"representativeQueries": [
+				"how do I read the guestbook on rimzzlabs.com",
+				"how do I sign the rimzzlabs.com guestbook"
+			]
+		},
+		{
+			"identifier": "urn:air:rimzzlabs.com:skill:notes",
+			"displayName": "Notes agent skill",
+			"type": "text/markdown",
+			"url": "https://rimzzlabs.com/.well-known/agent-skills/notes/SKILL.md",
+			"representativeQueries": [
+				"get the notes by Rizki Citra as markdown",
+				"what did Rizki Citra write about TypeScript",
+				"list the latest notes on rimzzlabs.com"
+			]
+		},
+		{
+			"identifier": "urn:air:rimzzlabs.com:feed:notes",
+			"displayName": "Notes RSS feed",
+			"type": "application/rss+xml",
+			"url": "https://rimzzlabs.com/notes/rss.xml",
+			"representativeQueries": [
+				"subscribe to the rimzzlabs.com notes",
+				"latest notes by Rizki Citra"
+			]
+		}
+	]
+}
