@@ -100,6 +100,14 @@ export default defineConfig({
 	],
 	vite: {
 		plugins: [tailwindcss()],
+		build: {
+			rollupOptions: {
+				onwarn(warning, warn) {
+					if (warning.code === "MODULE_LEVEL_DIRECTIVE") return;
+					warn(warning);
+				},
+			},
+		},
 		server: {
 			proxy: {
 				// Keep the browser's Host, so better-auth sees the same origin as the page.

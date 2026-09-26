@@ -5,6 +5,10 @@
 	"compatibility_date": "2026-06-30",
 	// better-auth needs Node built-ins (async_hooks, crypto).
 	"compatibility_flags": ["nodejs_compat"],
+	"vars": {
+		"PUBLIC_CF_TURNSTILE_SITE_KEY": "0x4AAAAAABdxcUSg5qX0n-wm",
+		"CLOUDFLARE_ACCOUNT_ID": "539f376d90dcf8da2ca0791959a26ba5"
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",
