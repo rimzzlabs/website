@@ -4,37 +4,35 @@ import { cn } from "cn";
 import type { TocHeading } from "@/components/notes/note-toc/note-toc-headings";
 
 interface Props {
-	label: string;
-	headings: ReadonlyArray<TocHeading>;
+  label: string;
+  headings: ReadonlyArray<TocHeading>;
 }
 
 const props = Astro.props;
 ---
 
 <details class="not-typeset group mt-6 rounded-lg border xl:hidden">
-	<summary
-		class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden"
-	>
-		{props.label}
-		<CaretDownIcon
-			aria-hidden="true"
-			className="size-4 text-muted-foreground transition group-open:rotate-180"
-		/>
-	</summary>
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden">
+    {props.label}
+    <CaretDownIcon
+      aria-hidden="true"
+      className="size-4 text-muted-foreground transition group-open:rotate-180"
+    />
+  </summary>
 
-	<ul class="flex flex-col border-t px-4 py-2 text-sm">
-		{props.headings.map((heading) => (
-	<li>
-		<a
-			href={`#${heading.slug}`}
-			class={cn(
-				"block py-1.5 text-pretty text-muted-foreground transition-colors hover:text-foreground",
-				heading.depth === 3 && "pl-3",
-			)}
-		>
-			{heading.text}
-		</a>
-	</li>
-))}
-	</ul>
+  <ul class="flex flex-col border-t px-4 py-2 text-sm">
+    {props.headings.map((heading) => (
+      <li>
+        <a
+          href={`#${heading.slug}`}
+          class={cn(
+            "block py-1.5 text-pretty text-muted-foreground transition-colors hover:text-foreground",
+            heading.depth === 3 && "pl-3",
+          )}
+        >
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
 </details>

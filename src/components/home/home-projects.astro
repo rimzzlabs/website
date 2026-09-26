@@ -5,54 +5,54 @@ import { PROJECTS } from "@/data/projects";
 import { fill, getDictionary, type Locale } from "@/i18n";
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const props = Astro.props;
 const t = getDictionary(props.locale);
 
 const projects = PROJECTS.map((project) => ({
-	...project,
-	...t.home.projects[project.key],
+  ...project,
+  ...t.home.projects[project.key],
 }));
 ---
 
 <section class="wrapper pt-20">
-	<HomeSectionHeading description={t.home.projectsDescription}>
-		{t.home.projectsTitle}
-	</HomeSectionHeading>
+  <HomeSectionHeading description={t.home.projectsDescription}>
+    {t.home.projectsTitle}
+  </HomeSectionHeading>
 
-	<ul>
-		{projects.map((project) => (
-	<li class="group/project relative flex items-baseline gap-4 py-3 border-b first-of-type:border-t transition hover:bg-muted-foreground/2 active:bg-muted-foreground/5">
-		<div class="min-w-0 flex-1">
-			<h3 class="inline-flex items-center gap-1 text-[1.05em] font-medium font-serif">
-				{project.name}
-				<ArrowUpRightIcon
-					aria-hidden="true"
-					className="size-3.5 text-muted-foreground transition group-hover/project:-translate-y-0.5 group-hover/project:translate-x-0.5"
-				/>
-			</h3>
-			<p
-				class="text-sm text-pretty text-muted-foreground"
-				set:html={project.description}
-			/>
-		</div>
+  <ul>
+    {projects.map((project) => (
+      <li class="group/project relative flex items-baseline gap-4 py-3 border-b first-of-type:border-t transition hover:bg-muted-foreground/2 active:bg-muted-foreground/5">
+        <div class="min-w-0 flex-1">
+          <h3 class="inline-flex items-center gap-1 text-[1.05em] font-medium font-serif">
+            {project.name}
+            <ArrowUpRightIcon
+              aria-hidden="true"
+              className="size-3.5 text-muted-foreground transition group-hover/project:-translate-y-0.5 group-hover/project:translate-x-0.5"
+            />
+          </h3>
+          <p
+            class="text-sm text-pretty text-muted-foreground"
+            set:html={project.description}
+          />
+        </div>
 
-		<p class="shrink-0 text-sm text-muted-foreground">{project.role}</p>
+        <p class="shrink-0 text-sm text-muted-foreground">{project.role}</p>
 
-		<a
-			href={project.href}
-			target="_blank"
-			rel="noopener noreferrer"
-			class="absolute inset-0 focus-visible:outline-2 focus-visible:outline-ring"
-		>
-			<span class="sr-only">
-				{fill(t.home.visitProject, { name: project.name })}
-				{t.common.opensInNewTab}
-			</span>
-		</a>
-	</li>
-))}
-	</ul>
+        <a
+          href={project.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="absolute inset-0 focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          <span class="sr-only">
+            {fill(t.home.visitProject, { name: project.name })}
+            {t.common.opensInNewTab}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
 </section>

@@ -9,11 +9,11 @@ import { formatDate } from "@/lib/datetime";
 import { getNotes } from "@/lib/notes";
 
 export function getStaticPaths() {
-	return localeStaticPaths();
+  return localeStaticPaths();
 }
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const locale = Astro.props.locale;
@@ -25,45 +25,43 @@ const years = [...new Set(notes.map((note) => toYear(note.dateISO)))];
 ---
 
 <Root {locale}>
-	<Seo
-		slot="meta"
-		{locale}
-		title={t.notes.seoTitle}
-		description={t.notes.seoDescription}
-	/>
+  <Seo
+    slot="meta"
+    {locale}
+    title={t.notes.seoTitle}
+    description={t.notes.seoDescription}
+  />
 
-	<NavigationBar {locale} />
+  <NavigationBar {locale} />
 
-	<main id="main">
-		<header class="wrapper pt-10">
-			<h1
-				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
-			>
-				{t.notes.title}
-			</h1>
+  <main id="main">
+    <header class="wrapper pt-10">
+      <h1 class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif">
+        {t.notes.title}
+      </h1>
 
-			<p class="max-w-[65ch] text-pretty text-muted-foreground">
-				{fill(t.notes.intro, { count: notes.length })}
-			</p>
-		</header>
+      <p class="max-w-[65ch] text-pretty text-muted-foreground">
+        {fill(t.notes.intro, { count: notes.length })}
+      </p>
+    </header>
 
-		{years.map((year) => (
-	<section class="wrapper pt-12" aria-labelledby={`notes-${year}`}>
-		<h2
-			id={`notes-${year}`}
-			class="pb-3 font-mono text-sm tabular-nums text-muted-foreground"
-		>
-			{year}
-		</h2>
+    {years.map((year) => (
+      <section class="wrapper pt-12" aria-labelledby={`notes-${year}`}>
+        <h2
+          id={`notes-${year}`}
+          class="pb-3 font-mono text-sm tabular-nums text-muted-foreground"
+        >
+          {year}
+        </h2>
 
-		<NoteList
-			{locale}
-			notes={notes.filter((note) => toYear(note.dateISO) === year)}
-			dateFormat={{ weekday: "short", month: "short", day: "numeric" }}
-		/>
-	</section>
-))}
-	</main>
+        <NoteList
+          {locale}
+          notes={notes.filter((note) => toYear(note.dateISO) === year)}
+          dateFormat={{ weekday: "short", month: "short", day: "numeric" }}
+        />
+      </section>
+    ))}
+  </main>
 
-	<Footer {locale} />
+  <Footer {locale} />
 </Root>

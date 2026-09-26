@@ -16,20 +16,20 @@ import Link from "@/components/ui/link.astro";
 import { getImageGallery } from "@/data/gallery";
 import { HERO_LINKS } from "@/data/home";
 import {
-	fill,
-	getDictionary,
-	type Locale,
-	localeStaticPaths,
-	localizePath,
+  fill,
+  getDictionary,
+  type Locale,
+  localeStaticPaths,
+  localizePath,
 } from "@/i18n";
 import { getNotes } from "@/lib/notes";
 
 export function getStaticPaths() {
-	return localeStaticPaths();
+  return localeStaticPaths();
 }
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const locale = Astro.props.locale;
@@ -38,84 +38,82 @@ const t = getDictionary(locale);
 const notes = await getNotes(locale);
 const latestNotes = pipe(notes, A.slice(0, 4));
 const images = await pipe(
-	getImageGallery(locale),
-	AR.make,
-	AR.match(
-		(res) => res,
-		() => [],
-	),
+  getImageGallery(locale),
+  AR.make,
+  AR.match(
+    (res) => res,
+    () => [],
+  ),
 );
 ---
 
 <Root {locale}>
-	<Seo
-		slot="meta"
-		{locale}
-		title={t.home.seoTitle}
-		description={t.home.seoDescription}
-	/>
+  <Seo
+    slot="meta"
+    {locale}
+    title={t.home.seoTitle}
+    description={t.home.seoDescription}
+  />
 
-	<NavigationBar {locale} />
+  <NavigationBar {locale} />
 
-	<main id="main">
-		<header class="wrapper pt-10">
-			<h1
-				class="pt-6 pb-6 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
-			>
-				<a href={localizePath("/", locale)}>Rizki Citra</a>
-			</h1>
+  <main id="main">
+    <header class="wrapper pt-10">
+      <h1 class="pt-6 pb-6 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif">
+        <a href={localizePath("/", locale)}>Rizki Citra</a>
+      </h1>
 
-			<div class="max-w-[65ch] space-y-4 text-pretty">
-				<p>
-					<RichText text={t.home.heroWork} links={HERO_LINKS.work} />
-				</p>
-				<p>
-					<RichText text={t.home.heroPast} links={HERO_LINKS.past} />
-				</p>
-			</div>
+      <div class="max-w-[65ch] space-y-4 text-pretty">
+        <p>
+          <RichText text={t.home.heroWork} links={HERO_LINKS.work} />
+        </p>
+        <p>
+          <RichText text={t.home.heroPast} links={HERO_LINKS.past} />
+        </p>
+      </div>
 
-			<div class="inline-flex items-center gap-2 pt-8">
-				<a
-					href="/attachments/rizki_citra_resume.pdf"
-					target="_blank"
-					rel="noopener noreferrer"
-					class={buttonVariants()}
-				>
-					{t.home.resume} <ArrowUpRightIcon aria-hidden="true" />
-					<span class="sr-only">{t.common.opensInNewTab}</span>
-				</a>
-			</div>
-		</header>
+      <div class="inline-flex items-center gap-2 pt-8">
+        <a
+          href="/attachments/rizki_citra_resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          class={buttonVariants()}
+        >
+          {t.home.resume} <ArrowUpRightIcon aria-hidden="true" />
+          <span class="sr-only">{t.common.opensInNewTab}</span>
+        </a>
+      </div>
+    </header>
 
-		<HomeProjects {locale} />
+    <HomeProjects {locale} />
 
-		<section class="wrapper pt-20">
-			<HomeSectionHeading description={t.home.notesDescription}>
-				{t.home.notesTitle}
-			</HomeSectionHeading>
+    <section class="wrapper pt-20">
+      <HomeSectionHeading description={t.home.notesDescription}>
+        {t.home.notesTitle}
+      </HomeSectionHeading>
 
-			<NoteList
-				{locale}
-				notes={latestNotes}
-				moreHref={localizePath("/notes", locale)}
-				moreLabel={fill(t.home.notesMore, { count: notes.length })}
-			/>
-		</section>
+      <NoteList
+        {locale}
+        notes={latestNotes}
+        moreHref={localizePath("/notes", locale)}
+        moreLabel={fill(t.home.notesMore, { count: notes.length })}
+      />
+    </section>
 
-		<section class="wrapper pt-20">
-			<HomeSectionHeading description={t.home.galleryDescription}>
-				{t.home.galleryTitle}
-			</HomeSectionHeading>
+    <section class="wrapper pt-20">
+      <HomeSectionHeading description={t.home.galleryDescription}>
+        {t.home.galleryTitle}
+      </HomeSectionHeading>
 
-			<HomeGallery
-				client:load
-				images={images}
-				copy={{ ...t.lightbox, viewFullSize: t.common.viewFullSize }}
-			/>
-		</section>
+      <HomeGallery
+        client:load
+        images={images}
+        copy={{ ...t.lightbox, viewFullSize: t.common.viewFullSize }}
+      />
+    </section>
 
-		<HomeContact {locale} />
-	</main>
+    <HomeContact {locale} />
+  </main>
 
-	<Footer {locale} />
+  <Footer {locale} />
 </Root>

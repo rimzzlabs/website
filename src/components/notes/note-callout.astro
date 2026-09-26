@@ -1,35 +1,35 @@
 ---
 import {
-	CheckCircleIcon,
-	InfoIcon,
-	LightbulbIcon,
-	WarningIcon,
+  CheckCircleIcon,
+  InfoIcon,
+  LightbulbIcon,
+  WarningIcon,
 } from "@phosphor-icons/react";
 
 type CalloutType = "note" | "info" | "warning" | "danger" | "tip" | "success";
 
 interface Props {
-	type?: CalloutType;
+  type?: CalloutType;
 }
 
 const styles: Record<CalloutType, string> = {
-	note: "border-border bg-muted/60 text-muted-foreground",
-	info: "border-sky-500/30 bg-sky-500/10 text-sky-800 dark:text-sky-300",
-	warning:
-		"border-amber-500/30 bg-amber-500/10 text-amber-800 dark:text-amber-300",
-	danger: "border-red-500/30 bg-red-500/10 text-red-800 dark:text-red-300",
-	tip: "border-indigo-500/30 bg-indigo-500/10 text-indigo-800 dark:text-indigo-300",
-	success:
-		"border-emerald-500/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300",
+  note: "border-border bg-muted/60 text-muted-foreground",
+  info: "border-sky-500/30 bg-sky-500/10 text-sky-800 dark:text-sky-300",
+  warning:
+    "border-amber-500/30 bg-amber-500/10 text-amber-800 dark:text-amber-300",
+  danger: "border-red-500/30 bg-red-500/10 text-red-800 dark:text-red-300",
+  tip: "border-indigo-500/30 bg-indigo-500/10 text-indigo-800 dark:text-indigo-300",
+  success:
+    "border-emerald-500/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300",
 };
 
 const icons = {
-	note: InfoIcon,
-	info: InfoIcon,
-	warning: WarningIcon,
-	danger: WarningIcon,
-	tip: LightbulbIcon,
-	success: CheckCircleIcon,
+  note: InfoIcon,
+  info: InfoIcon,
+  warning: WarningIcon,
+  danger: WarningIcon,
+  tip: LightbulbIcon,
+  success: CheckCircleIcon,
 } satisfies Record<CalloutType, unknown>;
 
 const type = Astro.props.type ?? "note";
@@ -37,12 +37,14 @@ const Icon = icons[type];
 ---
 
 <aside
-	class:list={[
-		"mt-(--typeset-flow) flex max-w-(--typeset-measure) gap-3 rounded-lg border px-4 py-3",
-		"[&_a]:text-current [&_code]:text-current [&>div>:first-child]:mt-0",
-		styles[type],
-	]}
+  class:list={[
+    "mt-(--typeset-flow) flex max-w-(--typeset-measure) gap-3 rounded-lg border px-4 py-3",
+    "[&_a]:text-current [&_code]:text-current [&>div>:first-child]:mt-0",
+    styles[type],
+  ]}
 >
-	<Icon className="mt-[0.3em] size-4.5 shrink-0" aria-hidden="true" />
-	<div class="min-w-0"><slot /></div>
+  <Icon className="mt-[0.3em] size-4.5 shrink-0" aria-hidden="true" />
+  <div class="min-w-0">
+    <slot />
+  </div>
 </aside>

@@ -18,7 +18,8 @@
 		"guestbook:migrate:remote": "wrangler d1 migrations apply guestbook --remote",
 		"preview:functions": "astro build && wrangler pages dev dist",
 		"email:dev": "email dev --port 5601 --dir ./src/emails",
-		"email:build": "email build --packageManager pnpm"
+		"email:build": "email build --packageManager pnpm",
+		"format:astro": "prettier --write --plugin=prettier-plugin-astro"
 	},
 	"dependencies": {
 		"@astrojs/markdown-remark": "^7.3.1",
@@ -67,6 +68,7 @@
 		"@react-email/ui": "6.11.0",
 		"lefthook": "^2.1.14",
 		"prettier": "^3.9.8",
+		"prettier-plugin-astro": "^1.1.0",
 		"typescript": "^7.0.2",
 		"wrangler": "^4.125.0"
 	}

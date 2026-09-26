@@ -1,34 +1,34 @@
 ---
 import {
-	CheckIcon,
-	CopyIcon,
-	FileCodeIcon,
-	TerminalWindowIcon,
+  CheckIcon,
+  CopyIcon,
+  FileCodeIcon,
+  TerminalWindowIcon,
 } from "@phosphor-icons/react";
 import { getDictionary, localeFromPath } from "@/i18n";
 
 const LANGUAGE_LABELS: Record<string, string> = {
-	ts: "TypeScript",
-	typescript: "TypeScript",
-	tsx: "TSX",
-	js: "JavaScript",
-	javascript: "JavaScript",
-	jsx: "JSX",
-	json: "JSON",
-	css: "CSS",
-	html: "HTML",
-	md: "Markdown",
-	mdx: "MDX",
-	yaml: "YAML",
-	yml: "YAML",
-	sql: "SQL",
-	diff: "Diff",
-	bash: "terminal",
-	sh: "terminal",
-	shell: "terminal",
-	zsh: "terminal",
-	txt: "text",
-	plaintext: "text",
+  ts: "TypeScript",
+  typescript: "TypeScript",
+  tsx: "TSX",
+  js: "JavaScript",
+  javascript: "JavaScript",
+  jsx: "JSX",
+  json: "JSON",
+  css: "CSS",
+  html: "HTML",
+  md: "Markdown",
+  mdx: "MDX",
+  yaml: "YAML",
+  yml: "YAML",
+  sql: "SQL",
+  diff: "Diff",
+  bash: "terminal",
+  sh: "terminal",
+  shell: "terminal",
+  zsh: "terminal",
+  txt: "text",
+  plaintext: "text",
 };
 
 const SHELL_LANGUAGES = new Set(["bash", "sh", "shell", "zsh"]);
@@ -38,8 +38,8 @@ const t = getDictionary(localeFromPath(Astro.url.pathname)).notes;
 const language: string = props["data-language"] ?? "txt";
 const title: string | undefined = props["data-title"];
 const LOCALIZED_LABELS: Record<string, string> = {
-	terminal: t.terminal,
-	text: t.text,
+  terminal: t.terminal,
+  text: t.text,
 };
 const rawLabel = LANGUAGE_LABELS[language] ?? language.toUpperCase();
 const label = title ?? LOCALIZED_LABELS[rawLabel] ?? rawLabel;
@@ -47,69 +47,65 @@ const isShell = SHELL_LANGUAGES.has(language);
 ---
 
 <div
-	class="not-typeset mt-[1.5em] overflow-hidden rounded-lg border bg-card"
-	data-code-block
+  class="not-typeset mt-[1.5em] overflow-hidden rounded-lg border bg-card"
+  data-code-block
 >
-	<div
-		class="flex h-10 items-center justify-between gap-3 border-b bg-muted/40 pr-1.5 pl-4"
-	>
-		<p
-			class="flex min-w-0 items-center gap-2 font-mono text-xs text-muted-foreground"
-		>
-			{isShell ? (
-	<TerminalWindowIcon aria-hidden="true" className="size-3.5 shrink-0" />
-) : (
-	<FileCodeIcon aria-hidden="true" className="size-3.5 shrink-0" />
-)}
-			<span class="truncate">{label}</span>
-		</p>
+  <div class="flex h-10 items-center justify-between gap-3 border-b bg-muted/40 pr-1.5 pl-4">
+    <p class="flex min-w-0 items-center gap-2 font-mono text-xs text-muted-foreground">
+      {isShell ? (
+        <TerminalWindowIcon aria-hidden="true" className="size-3.5 shrink-0" />
+      ) : (
+        <FileCodeIcon aria-hidden="true" className="size-3.5 shrink-0" />
+      )}
+      <span class="truncate">{label}</span>
+    </p>
 
-		<button
-			type="button"
-			data-copy-code
-			data-copy-text={t.copyCode}
-			data-copied-text={t.copied}
-			class="group/copy inline-flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-		>
-			<CopyIcon
-				aria-hidden="true"
-				className="size-4 group-data-copied/copy:hidden"
-			/>
-			<CheckIcon
-				aria-hidden="true"
-				className="hidden size-4 text-primary group-data-copied/copy:block"
-			/>
-			<span class="sr-only" aria-live="polite" data-copy-label
-				>{t.copyCode}</span
-			>
-		</button>
-	</div>
+    <button
+      type="button"
+      data-copy-code
+      data-copy-text={t.copyCode}
+      data-copied-text={t.copied}
+      class="group/copy inline-flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+    >
+      <CopyIcon
+        aria-hidden="true"
+        className="size-4 group-data-copied/copy:hidden"
+      />
+      <CheckIcon
+        aria-hidden="true"
+        className="hidden size-4 text-primary group-data-copied/copy:block"
+      />
+      <span class="sr-only" aria-live="polite" data-copy-label>
+        {t.copyCode}
+      </span>
+    </button>
+  </div>
 
-	<pre {...props}><slot /></pre>
+  <pre {...props}><slot /></pre>
 </div>
 
 <script>
-const COPIED_MS = 2000;
+  const COPIED_MS = 2000;
 
-document.addEventListener("click", async (event) => {
-	if (!(event.target instanceof Element)) return;
-	const button = event.target.closest<HTMLButtonElement>("[data-copy-code]");
-	const code = button?.closest("[data-code-block]")?.querySelector("pre");
-	if (!button || !code) return;
+  document.addEventListener("click", async (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest<HTMLButtonElement>("[data-copy-code]");
+    const code = button?.closest("[data-code-block]")?.querySelector("pre");
+    if (!button || !code) return;
 
-	const copied = await navigator.clipboard
-		.writeText(code.textContent ?? "")
-		.then(() => true)
-		.catch(() => false);
-	if (!copied) return;
+    const copied = await navigator.clipboard
+      .writeText(code.textContent ?? "")
+      .then(() => true)
+      .catch(() => false);
+    if (!copied) return;
 
-	const label = button.querySelector("[data-copy-label]");
-	button.dataset.copied = "";
-	if (label) label.textContent = button.dataset.copiedText ?? "";
+    const label = button.querySelector("[data-copy-label]");
+    button.dataset.copied = "";
+    if (label) label.textContent = button.dataset.copiedText ?? "";
 
-	setTimeout(() => {
-		delete button.dataset.copied;
-		if (label) label.textContent = button.dataset.copyText ?? "";
-	}, COPIED_MS);
-});
+    setTimeout(() => {
+      delete button.dataset.copied;
+      if (label) label.textContent = button.dataset.copyText ?? "";
+    }, COPIED_MS);
+  });
 </script>

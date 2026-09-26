@@ -1,6 +1,6 @@
 ---
 interface Props {
-	description?: string;
+  description?: string;
 }
 
 const props = Astro.props;
@@ -8,15 +8,15 @@ const props = Astro.props;
 
 <!-- biome-ignore lint/a11y/useHeadingContent: it has children -->
 <h2
-	class:list={[
-	"font-serif text-[1.35em] font-semibold text-balance leading-tight tracking-tight",
-	props.description ? "pb-2" : "pb-6",
-]}
+  class:list={[
+    "font-serif text-[1.35em] font-semibold text-balance leading-tight tracking-tight",
+    props.description ? "pb-2" : "pb-6",
+  ]}
 >
-	<slot />
+  <slot />
 </h2>
 {props.description && (
-	<p class="max-w-[65ch] pb-6 text-sm text-pretty text-muted-foreground">
-		{props.description}
-	</p>
+  <p class="max-w-[65ch] pb-6 text-sm text-pretty text-muted-foreground">
+    {props.description}
+  </p>
 )}

@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { getDictionary, type Locale } from "@/i18n";
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const props = Astro.props;
@@ -13,29 +13,27 @@ const t = getDictionary(props.locale);
 ---
 
 <section id="contact" class="wrapper scroll-mt-20 pt-20">
-	<div class="rounded-2xl bg-muted px-6 py-8 sm:px-8 sm:py-10">
-		<h2
-			class="font-serif pb-3 text-[1.35em] font-semibold text-balance leading-tight tracking-tight"
-		>
-			{t.home.contactTitle}
-		</h2>
+  <div class="rounded-2xl bg-muted px-6 py-8 sm:px-8 sm:py-10">
+    <h2 class="font-serif pb-3 text-[1.35em] font-semibold text-balance leading-tight tracking-tight">
+      {t.home.contactTitle}
+    </h2>
 
-		<p
-			class="max-w-[55ch] pb-6 text-pretty text-muted-foreground"
-			set:html={t.home.contactBody}
-		/>
+    <p
+      class="max-w-[55ch] pb-6 text-pretty text-muted-foreground"
+      set:html={t.home.contactBody}
+    />
 
-		<div class="flex flex-col gap-2 sm:flex-row">
-			<HomeContactMessage client:visible copy={t.contact} />
-			<a
-				href="https://cal.com/rimzzlabs"
-				target="_blank"
-				rel="noopener noreferrer"
-				class={buttonVariants({ variant: "outline" })}
-			>
-				{t.home.scheduleCall} <ArrowUpRightIcon aria-hidden="true" />
-				<span class="sr-only">{t.common.opensInNewTab}</span>
-			</a>
-		</div>
-	</div>
+    <div class="flex flex-col gap-2 sm:flex-row">
+      <HomeContactMessage client:visible copy={t.contact} />
+      <a
+        href="https://cal.com/rimzzlabs"
+        target="_blank"
+        rel="noopener noreferrer"
+        class={buttonVariants({ variant: "outline" })}
+      >
+        {t.home.scheduleCall} <ArrowUpRightIcon aria-hidden="true" />
+        <span class="sr-only">{t.common.opensInNewTab}</span>
+      </a>
+    </div>
+  </div>
 </section>

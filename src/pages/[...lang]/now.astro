@@ -8,21 +8,21 @@ import RichText from "@/components/rich-text.astro";
 import Link from "@/components/ui/link.astro";
 import { getNowItems, NOW_INTRO_LINKS, NOW_UPDATED_AT } from "@/data/now";
 import {
-	fill,
-	getDictionary,
-	type Locale,
-	localeStaticPaths,
-	localizePath,
+  fill,
+  getDictionary,
+  type Locale,
+  localeStaticPaths,
+  localizePath,
 } from "@/i18n";
 import { formatDate, parsePublishedAt } from "@/lib/datetime";
 import { getNotes } from "@/lib/notes";
 
 export function getStaticPaths() {
-	return localeStaticPaths();
+  return localeStaticPaths();
 }
 
 interface Props {
-	locale: Locale;
+  locale: Locale;
 }
 
 const locale = Astro.props.locale;
@@ -36,126 +36,121 @@ const ITEMS = getNowItems(t);
 ---
 
 <Root {locale}>
-	<Seo
-		slot="meta"
-		{locale}
-		title={t.now.seoTitle}
-		description={t.now.seoDescription}
-	/>
+  <Seo
+    slot="meta"
+    {locale}
+    title={t.now.seoTitle}
+    description={t.now.seoDescription}
+  />
 
-	<NavigationBar {locale} />
+  <NavigationBar {locale} />
 
-	<main id="main">
-		<header class="wrapper pt-10">
-			<h1
-				class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif"
-			>
-				{t.now.title}
-			</h1>
+  <main id="main">
+    <header class="wrapper pt-10">
+      <h1 class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif">
+        {t.now.title}
+      </h1>
 
-			<p class="max-w-[65ch] text-pretty text-muted-foreground">
-				<RichText text={t.now.intro} links={NOW_INTRO_LINKS} />
-			</p>
+      <p class="max-w-[65ch] text-pretty text-muted-foreground">
+        <RichText text={t.now.intro} links={NOW_INTRO_LINKS} />
+      </p>
 
-			<p
-				class="flex items-center gap-2 pt-4 font-mono text-xs text-muted-foreground"
-			>
-				<span aria-hidden="true" class="relative flex size-2">
-					<span
-						class="absolute inline-flex size-full rounded-full bg-primary opacity-60 motion-ok:animate-ping"
-					></span>
-					<span
-						class="relative inline-flex size-2 rounded-full bg-primary"
-					></span>
-				</span>
-				{t.now.lastUpdated}
-				<time datetime={updatedAt.toISOString()}
-					>{formatDate(undefined, locale)(updatedAt)}</time
-				>
-			</p>
-		</header>
+      <p class="flex items-center gap-2 pt-4 font-mono text-xs text-muted-foreground">
+        <span aria-hidden="true" class="relative flex size-2">
+          <span class="absolute inline-flex size-full rounded-full bg-primary opacity-60 motion-ok:animate-ping"></span>
+          <span class="relative inline-flex size-2 rounded-full bg-primary"></span>
+        </span>
+        {t.now.lastUpdated}
+        <time datetime={updatedAt.toISOString()}>
+          {formatDate(undefined, locale)(updatedAt)}
+        </time>
+      </p>
+    </header>
 
-		<section class="wrapper pt-12" aria-label={t.now.sectionLabel}>
-			<ul>
-				{ITEMS.map((item) => (
-	<li class="flex flex-col gap-1 border-b py-5 first-of-type:border-t sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
-		<p class="font-mono text-xs text-muted-foreground">{item.label}</p>
-		<div>
-			<h2 class="font-serif text-[1.05em] font-medium text-pretty">
-				<Fragment set:html={item.title} />
-			</h2>
-			<p
-				class="pt-1 text-sm/relaxed text-pretty text-muted-foreground"
-				set:html={item.description}
-			/>
-			<p class="flex flex-wrap gap-x-4 gap-y-1 pt-2 text-sm">
-				{item.links.map((link) => (
-					<a
-						href={link.href}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="inline-flex items-center gap-1 text-muted-foreground link-underline hover:text-foreground"
-					>
-						{link.label}
-						<ArrowUpRightIcon aria-hidden="true" className="size-[1em]" />
-						<span class="sr-only">{t.common.opensInNewTab}</span>
-					</a>
-				))}
-			</p>
-		</div>
-	</li>
-))}
+    <section class="wrapper pt-12" aria-label={t.now.sectionLabel}>
+      <ul>
+        {ITEMS.map((item) => (
+          <li class="flex flex-col gap-1 border-b py-5 first-of-type:border-t sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
+            <p class="font-mono text-xs text-muted-foreground">{item.label}</p>
+            <div>
+              <h2 class="font-serif text-[1.05em] font-medium text-pretty">
+                <Fragment set:html={item.title} />
+              </h2>
+              <p
+                class="pt-1 text-sm/relaxed text-pretty text-muted-foreground"
+                set:html={item.description}
+              />
+              <p class="flex flex-wrap gap-x-4 gap-y-1 pt-2 text-sm">
+                {item.links.map((link) => (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1 text-muted-foreground link-underline hover:text-foreground"
+                  >
+                    {link.label}
+                    <ArrowUpRightIcon
+                      aria-hidden="true"
+                      className="size-[1em]"
+                    />
+                    <span class="sr-only">{t.common.opensInNewTab}</span>
+                  </a>
+                ))}
+              </p>
+            </div>
+          </li>
+        ))}
 
-				{latestNote && (
-	<li class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
-		<p class="font-mono text-xs text-muted-foreground">{t.now.writing.label}</p>
-		<div>
-			<h2 class="font-serif text-[1.05em] font-medium text-pretty">
-				{t.now.writing.title}
-			</h2>
-			<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
-				<RichText
-					text={fill(t.now.writing.body, { count: notes.length })}
-					links={{
-						note: {
-							href: latestNote.url,
-							label: latestNote.data.title,
-							class: "inline px-0 text-foreground",
-						},
-					}}
-				/>
-			</p>
-		</div>
-	</li>
-)}
+        {latestNote && (
+          <li class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
+            <p class="font-mono text-xs text-muted-foreground">
+              {t.now.writing.label}
+            </p>
+            <div>
+              <h2 class="font-serif text-[1.05em] font-medium text-pretty">
+                {t.now.writing.title}
+              </h2>
+              <p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
+                <RichText
+                  text={fill(t.now.writing.body, { count: notes.length })}
+                  links={{
+                    note: {
+                      href: latestNote.url,
+                      label: latestNote.data.title,
+                      class: "inline px-0 text-foreground",
+                    },
+                  }}
+                />
+              </p>
+            </div>
+          </li>
+        )}
 
-				<li
-					class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6"
-				>
-					<p class="font-mono text-xs text-muted-foreground">
-						{t.now.openTo.label}
-					</p>
-					<div>
-						<h2 class="font-serif text-[1.05em] font-medium text-pretty">
-							{t.now.openTo.title}
-						</h2>
-						<p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
-							<RichText
-								text={t.now.openTo.body}
-								links={{
-	sayHello: {
-		href: `${localizePath("/", locale)}#contact`,
-		label: t.now.openTo.sayHello,
-		class: "inline px-0 text-foreground",
-	},
-}}
-							/>
-						</p>
-					</div>
-				</li>
-			</ul>
-		</section>
-	</main>
+        <li class="flex flex-col gap-1 border-b py-5 sm:grid sm:grid-cols-[6.75rem_minmax(0,1fr)] sm:items-baseline sm:gap-x-6">
+          <p class="font-mono text-xs text-muted-foreground">
+            {t.now.openTo.label}
+          </p>
+          <div>
+            <h2 class="font-serif text-[1.05em] font-medium text-pretty">
+              {t.now.openTo.title}
+            </h2>
+            <p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
+              <RichText
+                text={t.now.openTo.body}
+                links={{
+                  sayHello: {
+                    href: `${localizePath("/", locale)}#contact`,
+                    label: t.now.openTo.sayHello,
+                    class: "inline px-0 text-foreground",
+                  },
+                }}
+              />
+            </p>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </main>
 
-	<Footer {locale} />
+  <Footer {locale} />
 </Root>

@@ -1,0 +1,5 @@
+{
+	"$schema": "https://json.schemastore.org/prettierrc",
+	"plugins": ["prettier-plugin-astro"],
+	"overrides": [{ "files": "*.astro", "options": { "parser": "astro" } }]
+}
