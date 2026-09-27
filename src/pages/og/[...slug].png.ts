@@ -151,6 +151,14 @@ async function localePaths(
 			description: t.feedback.intro,
 			watermark: "",
 		},
+		inspiration: {
+			kind: "page",
+			label: t.footer.inspiration,
+			meta: "",
+			title: t.inspiration.title,
+			description: t.inspiration.intro,
+			watermark: "",
+		},
 	};
 
 	for (const note of notes) {

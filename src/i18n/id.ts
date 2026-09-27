@@ -38,6 +38,7 @@ export const id = {
 		privacy: "Kebijakan Privasi",
 		accessibility: "Aksesibilitas",
 		feedback: "Masukan",
+		inspiration: "Inspirasi",
 		nowPlaying: "Sedang diputar",
 		lastPlayed: "Terakhir diputar",
 		notPlaying: "Tidak sedang diputar",
@@ -262,6 +263,15 @@ export const id = {
 			nameMax: "Nama maksimal 100 karakter.",
 			email: "Masukkan alamat email yang valid.",
 		},
+	},
+	inspiration: {
+		seoTitle: "Inspirasi, Rizki Citra",
+		seoDescription:
+			"Orang-orang dan situs pribadi yang menginspirasi saya membangun situs ini.",
+		title: "Inspirasi",
+		intro:
+			"Banyak orang yang menginspirasi saya membuat situs ini. Ini sebagian di antaranya, dan masih banyak developer lain yang situsnya sudah tidak saya ingat.",
+		sectionLabel: "Situs yang menginspirasi saya",
 	},
 	now: {
 		seoTitle: "Sekarang, Rizki Citra",

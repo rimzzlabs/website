@@ -21,6 +21,11 @@ const GROUPS = [
         .filter((link) => link.href !== localizePath("/", props.locale))
         .map((link) => ({ ...link, external: false })),
       {
+        label: t.footer.inspiration,
+        href: localizePath("/inspiration", props.locale),
+        external: false,
+      },
+      {
         label: t.footer.feedback,
         href: localizePath("/feedback", props.locale),
         external: false,

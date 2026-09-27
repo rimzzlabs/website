@@ -2,6 +2,7 @@ import type { ImageMetadata } from "astro";
 
 import { getArchive } from "@/data/archive";
 import { HERO_LINKS } from "@/data/home";
+import { INSPIRATIONS, inspirationDomain } from "@/data/inspiration";
 import { getNowItems, NOW_INTRO_LINKS } from "@/data/now";
 import { PROJECTS } from "@/data/projects";
 import { fill, getDictionary, HTML_LANG, type Locale } from "@/i18n";
@@ -232,6 +233,25 @@ export function buildGuestbookMarkdown(locale: Locale, page: GuestbookPage) {
 			const date = new Date(entry.createdAt).toISOString().slice(0, 10);
 			return `- **${name}** (${date}): ${entry.message.replace(/\s+/g, " ")}`;
 		}),
+		"",
+	].join("\n");
+}
+
+export function buildInspirationMarkdown(locale: Locale) {
+	const t = getDictionary(locale);
+	return [
+		...header(
+			t.inspiration.title,
+			t.inspiration.seoDescription,
+			siteUrl("/inspiration", locale),
+			locale,
+		),
+		t.inspiration.intro,
+		"",
+		...INSPIRATIONS.map(
+			(person) =>
+				`- [${person.name}](${person.url}) (${inspirationDomain(person)})`,
+		),
 		"",
 	].join("\n");
 }
