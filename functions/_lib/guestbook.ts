@@ -2,7 +2,7 @@ export interface D1PreparedStatement {
 	bind(...values: unknown[]): D1PreparedStatement;
 	first<T = unknown>(): Promise<T | null>;
 	all<T = unknown>(): Promise<{ results: T[] }>;
-	run(): Promise<{ meta: { last_row_id: number } }>;
+	run(): Promise<{ meta: { last_row_id: number; changes: number } }>;
 }
 
 export interface D1Database {

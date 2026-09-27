@@ -137,6 +137,13 @@ export const en = {
 		copied: "Copied",
 		terminal: "Terminal",
 		text: "Text",
+		reaction: {
+			prompt: "Enjoyed this note?",
+			thanks: "Thank you for the love!",
+			failed: "That did not save. Try again?",
+			like: "Like this note",
+			count: "{count} likes",
+		},
 	},
 	guestbook: {
 		seoTitle: "Guestbook, Rizki Citra",

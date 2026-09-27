@@ -9,6 +9,7 @@ import { PageLightbox } from "@/components/media/image-lightbox/page-lightbox";
 import NoteCallout from "@/components/notes/note-callout.astro";
 import NoteCodeBlock from "@/components/notes/note-code-block.astro";
 import NoteLink from "@/components/notes/note-link.astro";
+import { NoteReaction } from "@/components/notes/note-reaction/note-reaction";
 import { NoteToc } from "@/components/notes/note-toc/note-toc";
 import { toTocHeadings } from "@/components/notes/note-toc/note-toc-headings";
 import NoteTocMobile from "@/components/notes/note-toc/note-toc-mobile.astro";
@@ -77,6 +78,8 @@ const toc = toTocHeadings(headings);
           components={{ a: NoteLink, pre: NoteCodeBlock, Callout: NoteCallout }}
         />
       </article>
+
+      <NoteReaction client:visible slug={note.slug} copy={t.notes.reaction} />
 
       {toc.length > 0 && (
         <aside

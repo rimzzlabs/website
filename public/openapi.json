@@ -714,6 +714,74 @@
 					}
 				}
 			}
+		},
+		"/api/reactions/{slug}": {
+			"get": {
+				"summary": "Read the hearts on a note",
+				"operationId": "getNoteReaction",
+				"parameters": [
+					{
+						"name": "slug",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+						},
+						"description": "The note slug, as in /notes/{slug}."
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The heart count, and whether this visitor hearted the note.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ReactionState"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The slug is not valid."
+					}
+				}
+			},
+			"post": {
+				"summary": "Toggle this visitor's heart on a note",
+				"operationId": "toggleNoteReaction",
+				"parameters": [
+					{
+						"name": "slug",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+						},
+						"description": "The note slug, as in /notes/{slug}."
+					}
+				],
+				"description": "Adds the visitor's heart, or removes it if it is already there. A first-time visitor gets an anonymous rimzzlabs_visitor cookie, so each visitor counts once per note.",
+				"responses": {
+					"200": {
+						"description": "The new state.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ReactionState"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The slug is not valid."
+					},
+					"404": {
+						"description": "No note has this slug."
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -765,6 +833,21 @@
 					"updatedAt": {
 						"type": ["integer", "null"],
 						"description": "Unix time in milliseconds of the last edit."
+					}
+				}
+			},
+			"ReactionState": {
+				"type": "object",
+				"required": ["count", "reacted"],
+				"properties": {
+					"count": {
+						"type": "integer",
+						"minimum": 0,
+						"description": "Hearts on the note."
+					},
+					"reacted": {
+						"type": "boolean",
+						"description": "Whether this visitor has hearted the note."
 					}
 				}
 			}
