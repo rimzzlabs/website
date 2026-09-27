@@ -9,6 +9,7 @@ import {
 	buildFeedbackMarkdown,
 	buildGuestbookMarkdown,
 	buildHomeMarkdown,
+	buildInspirationMarkdown,
 	buildLegalMarkdown,
 	buildNoteMarkdown,
 	buildNotesMarkdown,
@@ -55,6 +56,7 @@ async function localePaths(locale: Locale): Promise<Array<MarkdownPath>> {
 		archive: () => buildArchiveMarkdown(locale),
 		guestbook: () => buildGuestbookMarkdown(locale, guestbook),
 		feedback: () => buildFeedbackMarkdown(locale),
+		inspiration: () => buildInspirationMarkdown(locale),
 		privacy: legal("privacy"),
 		accessibility: legal("accessibility"),
 	};

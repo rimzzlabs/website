@@ -36,6 +36,7 @@ export const en = {
 		privacy: "Privacy Policy",
 		accessibility: "Accessibility",
 		feedback: "Feedback",
+		inspiration: "Inspiration",
 		nowPlaying: "Now playing",
 		lastPlayed: "Last played",
 		notPlaying: "Not playing",
@@ -257,6 +258,15 @@ export const en = {
 			nameMax: "Please keep your name under 100 characters.",
 			email: "Please enter a valid email address.",
 		},
+	},
+	inspiration: {
+		seoTitle: "Inspiration, Rizki Citra",
+		seoDescription:
+			"The people and personal sites that inspired me to build this one.",
+		title: "Inspiration",
+		intro:
+			"A lot of people inspired me to make this site. These are some of them, and there are many more developers whose sites I can't recall.",
+		sectionLabel: "Sites that inspired me",
 	},
 	now: {
 		seoTitle: "Now, Rizki Citra",

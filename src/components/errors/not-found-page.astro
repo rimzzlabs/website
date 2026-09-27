@@ -37,6 +37,11 @@ const PAGES: ReadonlyArray<RouteCandidate> = [
     label: t.footer.now,
     keys: ["now", "sekarang"],
   },
+  {
+    href: localizePath("/inspiration", locale),
+    label: t.footer.inspiration,
+    keys: ["inspiration", "inspirasi", "uses", "credits"],
+  },
 ];
 
 const notes = await getNotes(locale);

@@ -8,6 +8,7 @@ export const OG_PAGES = [
 	"privacy",
 	"accessibility",
 	"feedback",
+	"inspiration",
 ] as const;
 
 const NOTE_PATH = /^notes\/[^/]+$/;

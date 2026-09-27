@@ -1,0 +1,69 @@
+---
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import Footer from "@/components/layouts/footer.astro";
+import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import Root from "@/components/layouts/root.astro";
+import Seo from "@/components/layouts/seo.astro";
+import { INSPIRATIONS, inspirationDomain } from "@/data/inspiration";
+import { getDictionary, type Locale, localeStaticPaths } from "@/i18n";
+
+export function getStaticPaths() {
+  return localeStaticPaths();
+}
+
+interface Props {
+  locale: Locale;
+}
+
+const locale = Astro.props.locale;
+const t = getDictionary(locale);
+---
+
+<Root {locale}>
+  <Seo
+    slot="meta"
+    {locale}
+    title={t.inspiration.seoTitle}
+    description={t.inspiration.seoDescription}
+  />
+
+  <NavigationBar {locale} />
+
+  <main id="main">
+    <header class="wrapper pt-10">
+      <h1 class="pt-6 pb-4 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif">
+        {t.inspiration.title}
+      </h1>
+
+      <p class="max-w-[65ch] text-pretty text-muted-foreground">
+        {t.inspiration.intro}
+      </p>
+    </header>
+
+    <section class="wrapper pt-12" aria-label={t.inspiration.sectionLabel}>
+      <ul>
+        {INSPIRATIONS.map((person) => (
+          <li class="border-b first-of-type:border-t">
+            <a
+              href={person.url}
+              target="_blank"
+              rel="noopener"
+              class="group flex items-baseline justify-between gap-4 py-5"
+            >
+              <span class="font-serif text-[1.05em] font-medium text-pretty group-hover:underline group-hover:underline-offset-4">
+                {person.name}
+              </span>
+              <span class="inline-flex shrink-0 items-center gap-1 font-mono text-xs text-muted-foreground transition-colors group-hover:text-foreground">
+                {inspirationDomain(person)}
+                <ArrowUpRightIcon aria-hidden="true" className="size-3" />
+              </span>
+              <span class="sr-only">{t.common.opensInNewTab}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+
+  <Footer {locale} />
+</Root>
