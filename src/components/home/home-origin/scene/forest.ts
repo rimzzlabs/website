@@ -14,7 +14,11 @@ import { pulosariHeight } from "./terrain";
 // The forest that covers Pulosari: thousands of small canopy lumps sitting
 // on the mountain surface. The bumps give the slopes and the ridge line the
 // broccoli texture of a tropical forest seen from far away.
-export function createForest(params: { random: Random; material: Material }) {
+export function createForest(params: {
+	random: Random;
+	material: Material;
+	count: number;
+}) {
 	const random = params.random;
 	const geometry = paint(new IcosahedronGeometry(1, 0), "#ffffff");
 	// Sphere normals instead of face normals: each lump shades as one soft
@@ -33,7 +37,11 @@ export function createForest(params: { random: Random; material: Material }) {
 	const spots: Array<{ x: number; y: number; z: number; size: number }> = [];
 	// Rejection sampling over the mountain's footprint; plain loop because it
 	// tries a few thousand points once, at startup.
-	for (let attempt = 0; attempt < 9000 && spots.length < 2600; attempt += 1) {
+	for (
+		let attempt = 0;
+		attempt < params.count * 3.5 && spots.length < params.count;
+		attempt += 1
+	) {
 		const x = between(random, [-36, 36]);
 		const z = between(random, [-20, 20]);
 		const height = pulosariHeight(x, z);

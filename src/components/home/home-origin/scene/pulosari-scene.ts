@@ -27,9 +27,24 @@ export interface PulosariScene {
 	dispose: () => void;
 }
 
-export function createPulosariScene(
-	canvas: HTMLCanvasElement,
-): Result<PulosariScene> {
+// Hands the main thread back to the browser, so input and rendering are not
+// blocked while the scene builds.
+function yieldToMain() {
+	const scheduler = (
+		globalThis as { scheduler?: { yield?: () => Promise<void> } }
+	).scheduler;
+	if (scheduler?.yield) return scheduler.yield();
+	return new Promise<void>((resolve) => setTimeout(resolve, 0));
+}
+
+// "detail" is 1 on large screens and lower on phones: fewer rice plants and
+// forest lumps, a lower pixel ratio, and 30 frames per second.
+export async function createPulosariScene(params: {
+	canvas: HTMLCanvasElement;
+	detail: number;
+}): Promise<Result<PulosariScene>> {
+	const canvas = params.canvas;
+	const lite = params.detail < 1;
 	let renderer: WebGLRenderer;
 	try {
 		renderer = new WebGLRenderer({
@@ -45,7 +60,7 @@ export function createPulosariScene(
 		};
 	}
 	renderer.outputColorSpace = SRGBColorSpace;
-	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+	renderer.setPixelRatio(Math.min(window.devicePixelRatio, lite ? 1.25 : 1.5));
 
 	const random = createRandom(1987);
 	const scene = new Scene();
@@ -56,6 +71,7 @@ export function createPulosariScene(
 	const shared = createSharedUniforms();
 	const sky = createSky(shared);
 	const cloudLayer = createClouds({ random, shared });
+	await yieldToMain();
 	const ground = createGround(shared);
 	const fireflies = createFireflies({ random, shared });
 	const birds = createBirds({ random, shared });
@@ -66,7 +82,20 @@ export function createPulosariScene(
 		birds.group,
 		...cloudLayer.clouds.map((cloud) => cloud.group),
 	);
-	const populated = populate({ scene, random, shared, viewpoint: home });
+	const populated = await populate({
+		scene,
+		random,
+		shared,
+		viewpoint: home,
+		detail: params.detail,
+		pause: yieldToMain,
+	});
+
+	// Compile every shader off the main thread (where the browser supports
+	// parallel compile) before the first frame, instead of stalling it.
+	camera.position.copy(home);
+	camera.lookAt(target);
+	await renderer.compileAsync(scene, camera);
 
 	let nightTarget = 0;
 	let frame = 0;
@@ -99,8 +128,10 @@ export function createPulosariScene(
 
 	// Time only advances while the loop runs, so the wind picks up where it
 	// stopped when the scene scrolls back into view.
+	const minFrame = lite ? 1000 / 30 : 0;
 	const loop = (now: number) => {
 		frame = requestAnimationFrame(loop);
+		if (now - last < minFrame) return;
 		const delta = Math.min((now - last) / 1000, 0.1);
 		last = now;
 		elapsed += delta;

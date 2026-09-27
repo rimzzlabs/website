@@ -117,12 +117,17 @@ export interface Populated {
 	squirrel: Squirrel;
 }
 
-export function populate(params: {
+// Builds the scene in steps. "pause" yields to the browser between steps, so
+// no single task blocks the main thread for long on a slow phone. "detail"
+// thins out the densest layers (rice, tufts, forest) on small screens.
+export async function populate(params: {
 	scene: Scene;
 	random: Random;
 	shared: SharedUniforms;
 	viewpoint: Vector3;
-}): Populated {
+	detail: number;
+	pause: () => Promise<void>;
+}): Promise<Populated> {
 	const random = params.random;
 	const shared = params.shared;
 	const plants = createPaintMaterial({
@@ -145,14 +150,21 @@ export function populate(params: {
 	flatland.polygonOffset = true;
 	flatland.polygonOffsetFactor = -2;
 
-	const mountain = new Mesh(createMountainGeometry(), land);
+	const mountain = new Mesh(createMountainGeometry(params.detail), land);
 	mountain.position.set(-3, -0.05, -36);
-	const forest = createForest({ random, material: land });
+	await params.pause();
+	const forest = createForest({
+		random,
+		material: land,
+		count: Math.round(2600 * params.detail),
+	});
 	forest.position.copy(mountain.position);
+	await params.pause();
 	const hills = new Mesh(createHillsGeometry(), land);
 	hills.position.set(0, -0.05, -62);
 	const road = new Mesh(createRoadGeometry(), flatland);
 
+	await params.pause();
 	const canopy = [...PALETTE.canopy];
 	const treeLine = (["round", "wide", "tall"] as const).map((variant) =>
 		instance({
@@ -185,6 +197,7 @@ export function populate(params: {
 		}),
 	);
 
+	await params.pause();
 	const coconuts = instance({
 		geometry: createCoconutGeometry(),
 		material: plants,
@@ -209,6 +222,7 @@ export function populate(params: {
 		],
 	});
 
+	await params.pause();
 	const bushes = instance({
 		geometry: createBushGeometry(),
 		material: plants,
@@ -249,6 +263,7 @@ export function populate(params: {
 		],
 	});
 
+	await params.pause();
 	const bananas = instance({
 		geometry: createBananaGeometry(),
 		material: plants,
@@ -278,6 +293,7 @@ export function populate(params: {
 		],
 	});
 
+	await params.pause();
 	const school = new Mesh(createSchoolGeometry(), solid);
 	const flag = new Mesh(createFlagGeometry(), plants);
 	for (const part of [school, flag]) {
@@ -285,12 +301,13 @@ export function populate(params: {
 		part.rotation.y = -0.45;
 	}
 
+	await params.pause();
 	const tufts = instance({
 		geometry: createRiceTuftGeometry(),
 		material: plants,
 		placements: scatter({
 			random,
-			count: 380,
+			count: Math.round(380 * params.detail),
 			x: [-16, 16],
 			z: [-7, 5.5],
 			size: [0.45, 0.75],
@@ -298,18 +315,20 @@ export function populate(params: {
 		}),
 	});
 
+	await params.pause();
 	const clumps = instance({
 		geometry: createRiceClumpGeometry(3),
 		material: plants,
 		placements: scatter({
 			random,
-			count: 70,
+			count: Math.round(70 * params.detail),
 			x: [-7.5, 7.5],
 			z: [6.5, 10.5],
 			size: [1.4, 2.1],
 		}),
 	});
 
+	await params.pause();
 	const flowers = new Mesh(
 		merge(
 			[
@@ -330,6 +349,7 @@ export function populate(params: {
 		plants,
 	);
 
+	await params.pause();
 	const buffaloes = [
 		{ x: -3.8, z: -3.4, rotation: 0.35, size: 1.1, phase: 0 },
 		{ x: -0.8, z: -7.6, rotation: Math.PI - 0.5, size: 1, phase: 0.45 },
@@ -344,6 +364,7 @@ export function populate(params: {
 		}),
 	);
 
+	await params.pause();
 	// The mango tree on the left. Its low limb is the owl's perch.
 	const mango = new Mesh(createMangoGeometry(), plants);
 	mango.position.set(-6.4, 0, 1.2);
@@ -375,6 +396,7 @@ export function populate(params: {
 		return point.addScaledVector(toward, 0.45);
 	};
 	const limb = onTree(MANGO_SQUIRREL_STOPS.limb);
+	await params.pause();
 	const squirrel = createSquirrel({
 		size: 0.55,
 		stops: {

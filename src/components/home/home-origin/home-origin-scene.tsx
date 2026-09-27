@@ -10,13 +10,24 @@ interface HomeOriginSceneProps {
 	children?: ReactNode;
 }
 
+// Waits for a quiet moment, so building the scene never competes with the
+// page load. Safari has no requestIdleCallback, so it gets a short delay.
+function whenIdle() {
+	return new Promise<void>((resolve) => {
+		if ("requestIdleCallback" in window)
+			window.requestIdleCallback(() => resolve(), { timeout: 3000 });
+		else setTimeout(resolve, 300);
+	});
+}
+
 export function HomeOriginScene(props: HomeOriginSceneProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [ready, setReady] = useState(false);
 
-	// Three.js is loaded only after this island hydrates (client:visible), in
-	// its own chunk. A skeleton, then the placeholder stills, stand in until then.
+	// Three.js is loaded only after this island hydrates (client:visible) and
+	// the browser is idle, in its own chunk. A skeleton, then the placeholder
+	// stills, stand in until then.
 	useEffect(() => {
 		const container = containerRef.current;
 		const canvas = canvasRef.current;
@@ -25,63 +36,73 @@ export function HomeOriginScene(props: HomeOriginSceneProps) {
 		let cancelled = false;
 		let teardown = () => {};
 
-		import("./scene/pulosari-scene").then((module) => {
-			if (cancelled) return;
-			const result = module.createPulosariScene(canvas);
-			if (!result.ok) return;
-			const scene = result.value;
-			const root = document.documentElement;
-			let onScreen = false;
-			let playing = false;
+		const detail = window.matchMedia("(max-width: 639px)").matches ? 0.5 : 1;
 
-			const sync = () => {
-				playing =
-					onScreen &&
-					document.visibilityState === "visible" &&
-					!isMotionReduced();
-				if (playing) scene.start();
-				else {
-					scene.stop();
-					scene.render();
+		whenIdle()
+			.then(() => import("./scene/pulosari-scene"))
+			.then((module) =>
+				cancelled ? null : module.createPulosariScene({ canvas, detail }),
+			)
+			.then((result) => {
+				if (!result?.ok) return;
+				const scene = result.value;
+				// Unmounted while it was building: throw the scene away.
+				if (cancelled) {
+					scene.dispose();
+					return;
 				}
-			};
+				const root = document.documentElement;
+				let onScreen = false;
+				let playing = false;
 
-			// The scene follows the site theme: day in light mode, night in
-			// dark mode. A running scene fades between them; a still one jumps.
-			const followTheme = () => {
-				scene.setNight(root.classList.contains("dark"), !playing);
-				if (!playing) scene.render();
-			};
-			scene.setNight(root.classList.contains("dark"), true);
+				const sync = () => {
+					playing =
+						onScreen &&
+						document.visibilityState === "visible" &&
+						!isMotionReduced();
+					if (playing) scene.start();
+					else {
+						scene.stop();
+						scene.render();
+					}
+				};
 
-			const resize = new ResizeObserver((entries) => {
-				const box = entries[0].contentRect;
-				scene.resize(box.width, box.height);
-				scene.render();
+				// The scene follows the site theme: day in light mode, night in
+				// dark mode. A running scene fades between them; a still one jumps.
+				const followTheme = () => {
+					scene.setNight(root.classList.contains("dark"), !playing);
+					if (!playing) scene.render();
+				};
+				scene.setNight(root.classList.contains("dark"), true);
+
+				const resize = new ResizeObserver((entries) => {
+					const box = entries[0].contentRect;
+					scene.resize(box.width, box.height);
+					scene.render();
+				});
+				const visibility = new IntersectionObserver((entries) => {
+					onScreen = entries[0].isIntersecting;
+					sync();
+				});
+				const settings = new MutationObserver(() => {
+					sync();
+					followTheme();
+				});
+
+				resize.observe(container);
+				visibility.observe(container);
+				settings.observe(root, { attributeFilter: ["data-motion", "class"] });
+				document.addEventListener("visibilitychange", sync);
+				requestAnimationFrame(() => setReady(true));
+
+				teardown = () => {
+					resize.disconnect();
+					visibility.disconnect();
+					settings.disconnect();
+					document.removeEventListener("visibilitychange", sync);
+					scene.dispose();
+				};
 			});
-			const visibility = new IntersectionObserver((entries) => {
-				onScreen = entries[0].isIntersecting;
-				sync();
-			});
-			const settings = new MutationObserver(() => {
-				sync();
-				followTheme();
-			});
-
-			resize.observe(container);
-			visibility.observe(container);
-			settings.observe(root, { attributeFilter: ["data-motion", "class"] });
-			document.addEventListener("visibilitychange", sync);
-			requestAnimationFrame(() => setReady(true));
-
-			teardown = () => {
-				resize.disconnect();
-				visibility.disconnect();
-				settings.disconnect();
-				document.removeEventListener("visibilitychange", sync);
-				scene.dispose();
-			};
-		});
 
 		return () => {
 			cancelled = true;
