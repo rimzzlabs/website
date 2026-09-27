@@ -89,7 +89,12 @@ export function NavigationBarSettings(props: NavigationBarSettingsProps) {
 				<span className="sr-only">{props.copy.settings}</span>
 			</DropdownMenuTrigger>
 
-			<DropdownMenuContent align="end" side={props.side} className="min-w-40">
+			<DropdownMenuContent
+				align="end"
+				sideOffset={8}
+				side={props.side}
+				className="min-w-40"
+			>
 				<DropdownMenuGroup>
 					<DropdownMenuLabel>{props.copy.language}</DropdownMenuLabel>
 					<DropdownMenuRadioGroup

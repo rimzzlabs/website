@@ -2,6 +2,7 @@
 import { cn } from "cn";
 import { getDictionary, type Locale } from "@/i18n";
 import { buttonVariants } from "../ui/button";
+import { Separator } from "../ui/separator";
 import { NavigationBarMobile } from "./navigation-bar-mobile";
 import { NavigationBarSettings } from "./navigation-bar-settings";
 import { NavigationBarTheme } from "./navigation-bar-theme";
@@ -23,7 +24,10 @@ const pathname = Astro.url.pathname;
     data-state="top"
     class="group/header absolute inset-x-0 top-0 z-45 transition-[top,translate,opacity] duration-300 ease-out data-[animate=false]:transition-none data-[state=hidden]:fixed data-[state=hidden]:top-3 data-[state=hidden]:pointer-events-none data-[state=hidden]:-translate-y-[calc(100%+1rem)] data-[state=hidden]:opacity-0 data-[state=pill]:fixed data-[state=pill]:top-3"
   >
-    <div class="wrapper flex h-12 items-center rounded-full border border-transparent transition-[padding,background-color,border-color,box-shadow] duration-300 ease-out group-data-[animate=false]/header:transition-none group-data-[state=pill]/header:border-border group-data-[state=pill]/header:bg-background/80 group-data-[state=pill]/header:px-1.5 group-data-[state=pill]/header:shadow-lg group-data-[state=pill]/header:shadow-foreground/5 group-data-[state=pill]/header:backdrop-blur-md">
+    <div
+      data-site-pill
+      class="wrapper relative isolate flex h-12 items-center text-popover-foreground rounded-[calc(var(--radius-md)+5px+1px)] border border-transparent transition-[padding,background-color,border-color,box-shadow] duration-300 ease-out before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] group-data-[animate=false]/header:transition-none group-data-[state=pill]/header:border-foreground/10 group-data-[state=pill]/header:bg-popover/70 group-data-[state=pill]/header:px-1.25 group-data-[state=pill]/header:shadow-md group-data-[state=pill]/header:before:backdrop-blur-2xl group-data-[state=pill]/header:before:backdrop-saturate-150"
+    >
       <nav
         aria-label={copy.main}
         class="-ml-2.5 inline-flex items-center gap-1 text-muted-foreground transition-[margin] duration-300 ease-out group-data-[state=pill]/header:ml-0"
@@ -35,8 +39,8 @@ const pathname = Astro.url.pathname;
               isCurrentLink(link.href, pathname) ? "page" : undefined
             }
             class={cn(
-              buttonVariants({ variant: "ghost", size: "sm" }),
-              "group-data-[state=pill]/header:rounded-full aria-[current=page]:text-foreground",
+              buttonVariants({ variant: "ghost" }),
+              "aria-[current=page]:text-foreground",
             )}
           >
             {link.label}
@@ -44,9 +48,14 @@ const pathname = Astro.url.pathname;
         ))}
       </nav>
 
+      <Separator
+        orientation="vertical"
+        className="ml-auto hidden bg-foreground/10 group-data-[state=pill]/header:block"
+      />
+
       <nav
         aria-label={copy.settings}
-        class="ml-auto inline-flex items-center gap-1"
+        class="group-data-[state=pill]/header:pl-2 group-data-[state=top]/header:ml-auto inline-flex items-center gap-1"
       >
         <NavigationBarTheme client:load copy={copy} />
         <NavigationBarSettings client:load copy={copy} locale={props.locale} />
@@ -68,11 +77,14 @@ const pathname = Astro.url.pathname;
   import { type HeaderState, nextHeaderState } from "./navigation-bar-state";
 
   const header = document.querySelector<HTMLElement>("[data-site-header]");
+  const pill = header?.querySelector<HTMLElement>("[data-site-pill]");
 
   const setState = (next: HeaderState, animate: boolean) => {
     if (!header) return;
     header.dataset.animate = String(animate);
     header.dataset.state = next;
+    // The pill uses the inverted overlay style of the dropdown menus.
+    pill?.classList.toggle("dark", next === "pill");
   };
 
   const isMenuOpen = () =>

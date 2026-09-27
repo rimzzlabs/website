@@ -1,6 +1,9 @@
 import { getDictionary, LOCALES, type Locale, localizePath } from "@/i18n";
 
+export type NavigationLinkId = "home" | "notes" | "guestbook" | "archive";
+
 export interface NavigationLink {
+	id: NavigationLinkId;
 	label: string;
 	href: string;
 }
@@ -8,9 +11,14 @@ export interface NavigationLink {
 export function getNavigationLinks(locale: Locale): Array<NavigationLink> {
 	const t = getDictionary(locale).nav;
 	return [
-		{ label: t.home, href: localizePath("/", locale) },
-		{ label: t.notes, href: localizePath("/notes", locale) },
-		{ label: t.guestbook, href: localizePath("/guestbook", locale) },
+		{ id: "home", label: t.home, href: localizePath("/", locale) },
+		{ id: "notes", label: t.notes, href: localizePath("/notes", locale) },
+		{
+			id: "guestbook",
+			label: t.guestbook,
+			href: localizePath("/guestbook", locale),
+		},
+		{ id: "archive", label: t.archive, href: localizePath("/archive", locale) },
 	];
 }
 

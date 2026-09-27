@@ -11,6 +11,7 @@ export const en = {
 		home: "Home",
 		notes: "Notes",
 		guestbook: "Guestbook",
+		archive: "Archive",
 		settings: "Settings",
 		language: "Language",
 		animation: "Animation",
