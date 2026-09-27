@@ -88,6 +88,10 @@ export const id = {
 		galleryTitle: "Galeri",
 		galleryDescription:
 			"Potongan momen dari acara, perjalanan, dan keseharian saya.",
+		originLabel:
+			"Ilustrasi animasi Gunung Pulosari di belakang sawah berundak, dengan pohon kelapa, pohon mangga, kerbau, dan SD tempat saya dulu sekolah. Ikut tema situs: siang ada burung dan tupai, malam ada bintang, kunang-kunang, dan burung hantu.",
+		originCaption:
+			"Gunung Pulosari di Pandeglang, Banten, dilihat dari seberang sawah.",
 		contactTitle: "Punya ide menarik?",
 		contactBody:
 			'Saya bekerja <em lang="en">full-time</em>, jadi jarang menerima proyek sampingan. Meski begitu, saya selalu senang diajak ngobrol soal proyek yang menarik. Kalau kamu punya, jangan ragu menyapa.',
