@@ -27,6 +27,18 @@ export interface PulosariScene {
 	dispose: () => void;
 }
 
+// The canvas pixel budget. A phone's small canvas stays well under it and
+// renders at full 2x sharpness; only large desktop canvases scale down.
+const MAX_PIXELS = 2_400_000;
+
+function sharpness(width: number, height: number) {
+	return Math.min(
+		window.devicePixelRatio,
+		2,
+		Math.sqrt(MAX_PIXELS / (width * height)),
+	);
+}
+
 // Hands the main thread back to the browser, so input and rendering are not
 // blocked while the scene builds.
 function yieldToMain() {
@@ -38,7 +50,8 @@ function yieldToMain() {
 }
 
 // "detail" is 1 on large screens and lower on phones: fewer rice plants and
-// forest lumps, a lower pixel ratio, and 30 frames per second.
+// forest lumps, and 30 frames per second. Sharpness comes from the pixel
+// budget instead, so phones stay crisp.
 export async function createPulosariScene(params: {
 	canvas: HTMLCanvasElement;
 	detail: number;
@@ -60,7 +73,6 @@ export async function createPulosariScene(params: {
 		};
 	}
 	renderer.outputColorSpace = SRGBColorSpace;
-	renderer.setPixelRatio(Math.min(window.devicePixelRatio, lite ? 1.25 : 1.5));
 
 	const random = createRandom(1987);
 	const scene = new Scene();
@@ -144,6 +156,7 @@ export async function createPulosariScene(params: {
 		// Narrow screens get a wider lens, so the whole mountain still fits.
 		camera.fov = camera.aspect < 1.4 ? 38 : 32;
 		camera.updateProjectionMatrix();
+		renderer.setPixelRatio(sharpness(width, height));
 		renderer.setSize(width, height, false);
 		sky.material.uniforms.uAspect.value = camera.aspect;
 		fireflies.material.uniforms.uPixelRatio.value = renderer.getPixelRatio();
