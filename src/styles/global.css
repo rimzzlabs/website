@@ -12,6 +12,11 @@
 
 @theme inline {
 	--animate-equalizer: equalizer 0.9s ease-in-out infinite alternate;
+	--animate-heart-pop: heart-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+	--animate-heart-ring: heart-ring 0.6s ease-out forwards;
+	--animate-heart-particle: heart-particle 0.85s cubic-bezier(0.2, 0.7, 0.3, 1)
+		forwards;
+	--animate-count-roll: count-roll 0.3s ease-out;
 
 	--font-sans: var(--font-inter);
 	--font-mono: var(--font-jetbrains-mono);
@@ -317,6 +322,62 @@
 		text-decoration-color, fill, stroke, box-shadow;
 	/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over inline and component transitions. */
 	transition-property: var(--reduced-motion-transitions) !important;
+}
+
+/* The note heart: a squash-and-spring pop, a ring, and a burst of particles.
+   Each particle flies to its own --x, --y offset. */
+@keyframes heart-pop {
+	0% {
+		transform: scale(1);
+	}
+	25% {
+		transform: scale(0.72);
+	}
+	55% {
+		transform: scale(1.35);
+	}
+	78% {
+		transform: scale(0.94);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes heart-ring {
+	from {
+		transform: scale(0.4);
+		opacity: 0.7;
+	}
+	to {
+		transform: scale(2.4);
+		opacity: 0;
+	}
+}
+
+@keyframes heart-particle {
+	from {
+		transform: translate(0, 0) scale(0.3) rotate(0deg);
+		opacity: 1;
+	}
+	70% {
+		opacity: 1;
+	}
+	to {
+		transform: translate(var(--x), var(--y)) scale(var(--s)) rotate(var(--r));
+		opacity: 0;
+	}
+}
+
+@keyframes count-roll {
+	from {
+		transform: translateY(70%);
+		opacity: 0;
+	}
+	to {
+		transform: none;
+		opacity: 1;
+	}
 }
 
 @keyframes equalizer {

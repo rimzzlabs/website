@@ -141,6 +141,13 @@ export const id = {
 		copied: "Tersalin",
 		terminal: "Terminal",
 		text: "Teks",
+		reaction: {
+			prompt: "Suka catatan ini?",
+			thanks: "Makasih banyak!",
+			failed: "Gagal tersimpan. Coba lagi?",
+			like: "Sukai catatan ini",
+			count: "{count} suka",
+		},
 	},
 	guestbook: {
 		seoTitle: "Buku Tamu, Rizki Citra",
