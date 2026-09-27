@@ -13,6 +13,7 @@ export const id = {
 		home: "Beranda",
 		notes: "Catatan",
 		guestbook: "Buku Tamu",
+		now: "Sekarang",
 		archive: "Arsip",
 		settings: "Pengaturan",
 		language: "Bahasa",
@@ -27,7 +28,7 @@ export const id = {
 		toggleTheme: "Ganti tema",
 	},
 	footer: {
-		pages: "Halaman",
+		pages: "Situs Ini",
 		connect: "Terhubung",
 		resources: "Lainnya",
 		now: "Sekarang",

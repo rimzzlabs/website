@@ -11,6 +11,7 @@ export const en = {
 		home: "Home",
 		notes: "Notes",
 		guestbook: "Guestbook",
+		now: "Now",
 		archive: "Archive",
 		settings: "Settings",
 		language: "Language",
@@ -25,7 +26,7 @@ export const en = {
 		toggleTheme: "Toggle theme",
 	},
 	footer: {
-		pages: "Pages",
+		pages: "This Site",
 		connect: "Connect",
 		resources: "Resources",
 		now: "Now",
