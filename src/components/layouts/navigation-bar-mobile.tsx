@@ -40,7 +40,7 @@ export function NavigationBarMobile(props: NavigationBarMobileProps) {
 	return (
 		<header
 			data-hidden={hidden}
-			className="dark fixed inset-x-2.5 text-popover-foreground bottom-2 z-50 rounded-[calc(var(--radius-md)+0.375rem+1px)] border border-foreground/10 bg-popover/70 pb-[env(safe-area-inset-bottom)] shadow-md before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 transition-[translate,opacity] duration-300 ease-out data-[hidden=true]:pointer-events-none data-[hidden=true]:translate-y-full data-[hidden=true]:opacity-0 has-focus-visible:pointer-events-auto has-focus-visible:translate-y-0 has-focus-visible:opacity-100 has-aria-expanded:pointer-events-auto has-aria-expanded:translate-y-0 has-aria-expanded:opacity-100 md:hidden"
+			className="dark fixed inset-x-2.5 text-popover-foreground bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-50 rounded-[calc(var(--radius-md)+0.375rem+1px)] border border-foreground/10 bg-popover/70 shadow-md before:pointer-events-none before:absolute before:inset-0 before:-z-1 before:rounded-[inherit] before:backdrop-blur-2xl before:backdrop-saturate-150 transition-[translate,opacity] duration-300 ease-out data-[hidden=true]:pointer-events-none data-[hidden=true]:translate-y-[calc(100%+0.5rem+env(safe-area-inset-bottom))] data-[hidden=true]:opacity-0 has-focus-visible:pointer-events-auto has-focus-visible:translate-y-0 has-focus-visible:opacity-100 has-aria-expanded:pointer-events-auto has-aria-expanded:translate-y-0 has-aria-expanded:opacity-100 md:hidden"
 		>
 			<div className="flex h-12 items-center px-1.5">
 				<nav
