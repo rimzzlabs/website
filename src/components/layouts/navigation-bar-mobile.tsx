@@ -3,6 +3,7 @@ import {
 	HouseIcon,
 	type Icon,
 	NotebookIcon,
+	PulseIcon,
 	SignatureIcon,
 } from "@phosphor-icons/react";
 import { cn } from "cn";
@@ -21,6 +22,7 @@ import { Separator } from "../ui/separator";
 const LINK_ICONS: Record<NavigationLinkId, Icon> = {
 	home: HouseIcon,
 	notes: NotebookIcon,
+	now: PulseIcon,
 	guestbook: SignatureIcon,
 	archive: ArchiveIcon,
 };

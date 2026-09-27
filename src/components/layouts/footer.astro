@@ -21,36 +21,9 @@ const GROUPS = [
         .filter((link) => link.href !== localizePath("/", props.locale))
         .map((link) => ({ ...link, external: false })),
       {
-        label: t.footer.now,
-        href: localizePath("/now", props.locale),
-        external: false,
-      },
-      {
         label: t.footer.feedback,
         href: localizePath("/feedback", props.locale),
         external: false,
-      },
-    ],
-  },
-  {
-    id: "footer-connect",
-    title: t.footer.connect,
-    links: [
-      { label: "GitHub", href: "https://github.com/rimzzlabs", external: true },
-      {
-        label: "LinkedIn",
-        href: "https://www.linkedin.com/in/rimzzlabs",
-        external: true,
-      },
-      {
-        label: "Facebook",
-        href: "https://www.facebook.com/rimzzlabs",
-        external: true,
-      },
-      {
-        label: "Instagram",
-        href: "https://www.instagram.com/rimzzlabs",
-        external: true,
       },
     ],
   },
@@ -82,6 +55,28 @@ const GROUPS = [
         label: "RSS",
         href: localizePath("/notes/rss.xml", props.locale),
         external: false,
+      },
+    ],
+  },
+  {
+    id: "footer-connect",
+    title: t.footer.connect,
+    links: [
+      { label: "GitHub", href: "https://github.com/rimzzlabs", external: true },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/rimzzlabs",
+        external: true,
+      },
+      {
+        label: "Facebook",
+        href: "https://www.facebook.com/rimzzlabs",
+        external: true,
+      },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/rimzzlabs",
+        external: true,
       },
     ],
   },
