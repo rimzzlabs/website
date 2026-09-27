@@ -1,6 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import type { ImageMetadata } from "astro";
 import { HomeContactMessage } from "@/components/home/home-contact/home-contact-message";
+import { HomeOriginScene } from "@/components/home/home-origin/home-origin-scene";
 import { buttonVariants } from "@/components/ui/button";
 import { getDictionary, type Locale } from "@/i18n";
 
@@ -10,10 +13,47 @@ interface Props {
 
 const props = Astro.props;
 const t = getDictionary(props.locale);
+
+// Day and night stills of the scene. They stand in for the canvas while it
+// loads, and when JavaScript is off.
+const stills = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/pulosari-*.png",
+  { eager: true },
+);
+const day = stills["/src/assets/images/pulosari-day.png"]?.default;
+const night = stills["/src/assets/images/pulosari-night.png"]?.default;
+const stillProps = {
+  alt: "",
+  widths: [640, 960, 1280, 1600, 1920],
+  sizes: "(min-width: 1024px) 64rem, 100vw",
+  loading: "lazy" as const,
+  decoding: "async" as const,
+};
 ---
 
-<section id="contact" class="wrapper scroll-mt-20 pt-20">
-  <div class="rounded-2xl bg-muted px-6 py-8 sm:px-8 sm:py-10">
+<section id="contact" class="wrapper scroll-mt-20 pt-10">
+  <div class="overflow-hidden rounded-2xl bg-muted px-6 py-8 sm:px-8 sm:py-10">
+    {/* The scene runs edge to edge as the card's cover; the card clips it. */}
+    <figure class="-mx-6 -mt-8 mb-8 sm:-mx-8 sm:-mt-10 sm:mb-10">
+      <HomeOriginScene client:visible label={t.home.originLabel}>
+        {day && (
+          <Image
+            src={day}
+            {...stillProps}
+            class="absolute inset-0 size-full object-cover dark:hidden"
+          />
+        )}
+        {night && (
+          <Image
+            src={night}
+            {...stillProps}
+            class="absolute inset-0 hidden size-full object-cover dark:block"
+          />
+        )}
+      </HomeOriginScene>
+      <figcaption class="sr-only">{t.home.originCaption}</figcaption>
+    </figure>
+
     <h2 class="font-serif pb-3 text-[1.35em] font-semibold text-balance leading-tight tracking-tight">
       {t.home.contactTitle}
     </h2>

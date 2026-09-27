@@ -84,6 +84,10 @@ export const en = {
 		notesMore: "Want more? Browse all {count} notes",
 		galleryTitle: "Gallery",
 		galleryDescription: "A few moments from events, trips, and everyday life.",
+		originLabel:
+			"An animated illustration of Mount Pulosari behind terraced rice fields, with coconut palms, a mango tree, water buffaloes, and my old elementary school. It follows the site theme: birds and a squirrel by day, stars, fireflies, and an owl by night.",
+		originCaption:
+			"Mount Pulosari in Pandeglang, Banten, seen across the rice fields.",
 		contactTitle: "Got something interesting?",
 		contactBody:
 			"I work full-time, so I don't take on much outside work. Still, I'm always up for an interesting project or a good conversation. If you have one in mind, say hello.",
