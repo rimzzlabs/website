@@ -3,7 +3,13 @@ import {
 	MagnifyingGlassPlusIcon,
 	XIcon,
 } from "@phosphor-icons/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+	useCallback,
+	useEffect,
+	useEffectEvent,
+	useRef,
+	useState,
+} from "react";
 
 import { ImageLightboxZoomPane } from "@/components/media/image-lightbox/image-lightbox-zoom-pane";
 import { LIGHTBOX_TRANSITION_NAME } from "@/components/media/image-lightbox/use-lightbox-transition";
@@ -92,9 +98,16 @@ export function ImageLightbox(props: ImageLightboxProps) {
 
 	const activeApi = () => apisRef.current.get(selectedIndex);
 
-	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+	const handleKey = (event: KeyboardEvent) => {
 		if (event.metaKey || event.ctrlKey || event.altKey) return;
+		const action = keyAction(event.key);
+		if (!action) return;
+		event.preventDefault();
+		event.stopPropagation();
+		action();
+	};
 
+	const keyAction = (key: string): (() => void) | undefined => {
 		const actions: Record<string, () => void> = {
 			"+": () => activeApi()?.zoomIn(),
 			"=": () => activeApi()?.zoomIn(),
@@ -103,37 +116,34 @@ export function ImageLightbox(props: ImageLightboxProps) {
 			Home: () => api?.scrollTo(0),
 			End: () => api?.scrollTo(props.images.length - 1),
 		};
-		const action = actions[event.key];
-		if (!action) return;
-		event.preventDefault();
-		action();
-	};
+		if (actions[key]) return actions[key];
 
-	const handleArrowKeys = (event: React.KeyboardEvent<HTMLDivElement>) => {
 		const pans: Record<string, [number, number]> = {
 			ArrowLeft: [PAN_STEP_PX, 0],
 			ArrowRight: [-PAN_STEP_PX, 0],
 			ArrowUp: [0, PAN_STEP_PX],
 			ArrowDown: [0, -PAN_STEP_PX],
 		};
-		const pan = pans[event.key];
+		const pan = pans[key];
 		if (!pan) return;
-
-		if (activeScale > MIN_SCALE) {
-			event.preventDefault();
-			activeApi()?.panBy(pan[0], pan[1]);
-			return;
-		}
+		if (activeScale > MIN_SCALE)
+			return () => activeApi()?.panBy(pan[0], pan[1]);
 
 		const slides: Record<string, () => void> = {
 			ArrowLeft: () => api?.scrollPrev(),
 			ArrowRight: () => api?.scrollNext(),
 		};
-		const slide = slides[event.key];
-		if (!slide) return;
-		event.preventDefault();
-		slide();
+		return slides[key];
 	};
+
+	// Listen on the document, so the keys work wherever focus is inside the
+	// dialog. A click on the image moves focus to the dialog popup, which is
+	// outside the carousel.
+	const onKey = useEffectEvent(handleKey);
+	useEffect(() => {
+		document.addEventListener("keydown", onKey, true);
+		return () => document.removeEventListener("keydown", onKey, true);
+	}, []);
 
 	const multiple = props.images.length > 1;
 	const zoomPercent = Math.round(activeScale * 100);
@@ -153,8 +163,6 @@ export function ImageLightbox(props: ImageLightboxProps) {
 			setApi={setApi}
 			className="h-dvh"
 			aria-label={props.copy.viewer}
-			onKeyDown={handleKeyDown}
-			onKeyDownCapture={handleArrowKeys}
 		>
 			<CarouselContent className="h-dvh">
 				{props.images.map((image, index) => (
