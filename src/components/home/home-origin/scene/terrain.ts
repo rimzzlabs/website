@@ -74,12 +74,19 @@ function displace(params: {
 	return geometry;
 }
 
-export function createMountainGeometry() {
+// "detail" scales the mesh resolution; phones get a coarser mountain, which
+// the forest lumps on top hide anyway.
+export function createMountainGeometry(detail: number) {
 	const low = new Color(PALETTE.mountainShadow);
 	const mid = new Color(PALETTE.mountainMid);
 	const high = new Color(PALETTE.mountainLight);
 	return displace({
-		geometry: new PlaneGeometry(76, 44, 190, 110),
+		geometry: new PlaneGeometry(
+			76,
+			44,
+			Math.round(190 * Math.sqrt(detail)),
+			Math.round(110 * Math.sqrt(detail)),
+		),
 		height: pulosariHeight,
 		shade: (height, x) => {
 			const patch = 0.5 + 0.5 * Math.sin(x * 0.9 + height * 1.7);
