@@ -36,7 +36,7 @@ const locale = Astro.props.locale;
 const t = getDictionary(locale);
 
 const notes = await getNotes(locale);
-const latestNotes = pipe(notes, A.slice(0, 4));
+const latestNotes = pipe(notes, A.slice(0, 6));
 const images = await pipe(
   getImageGallery(locale),
   AR.make,
