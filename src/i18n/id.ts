@@ -13,6 +13,7 @@ export const id = {
 		home: "Beranda",
 		notes: "Catatan",
 		guestbook: "Buku Tamu",
+		archive: "Arsip",
 		settings: "Pengaturan",
 		language: "Bahasa",
 		animation: "Animasi",
