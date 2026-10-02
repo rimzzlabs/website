@@ -3,7 +3,8 @@
 # and fill in the values. In production, set them in the Cloudflare Pages
 # project: Settings > Variables and Secrets.
 
-# --- Contact and feedback forms (functions/api/contact.tsx, feedback.tsx) ---
+# --- Email notifications (functions/_lib/notify.ts) ---
+# Contact, feedback, guestbook, and note hearts send an email to your inbox.
 # Resend API key, a sender on a domain you verified in Resend, and your inbox.
 RESEND_API_KEY=
 CONTACT_FROM=

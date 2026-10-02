@@ -9,6 +9,7 @@ import {
 	toGuestbookPage,
 	toWebsiteUrl,
 } from "../../src/lib/guestbook/schema";
+import { notifyGuestbookEntry } from "../_lib/activity";
 import { getSessionUser, type SessionUser } from "../_lib/auth";
 import {
 	type GuestbookEnv,
@@ -91,7 +92,18 @@ function saveComment(context: PagesContext, comment: NewComment) {
 
 	return pipe(
 		AR.make(insertComment(context.env, comment)),
-		AR.tap(() => context.waitUntil(triggerRebuild(context.env))),
+		AR.tap(() => {
+			context.waitUntil(triggerRebuild(context.env));
+			context.waitUntil(
+				notifyGuestbookEntry(context.env, {
+					origin: new URL(context.request.url).origin,
+					name: comment.name,
+					site: comment.site,
+					message: comment.message,
+					authorType: comment.authorType,
+				}),
+			);
+		}),
 		AR.match(
 			() => Response.json({ ok: true }, { status: 201 }),
 			() => Response.json({ error: "Could not save entry." }, { status: 500 }),

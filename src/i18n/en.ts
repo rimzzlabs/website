@@ -117,6 +117,18 @@ export const en = {
 		successBody:
 			"Thanks for reaching out. I read every message and I will reply by email.",
 		close: "Close",
+		autoReply: {
+			subject: "Got your message",
+			preview: "Thanks for reaching out. I will get back to you soon.",
+			greeting: "Hi {name},",
+			received:
+				"Thanks for reaching out. Your message landed in my inbox, and I will get back to you as soon as I'm available.",
+			wait: "I work full-time, so a reply can take a few days. If it can't wait, you can book a call instead.",
+			bookCall: "Book a call",
+			signOff: "Talk soon,",
+			footer:
+				"You got this email because you sent a message through the contact form on rimzzlabs.com.",
+		},
 		validation: {
 			name: "Please tell me your name.",
 			nameMax: "Please keep your name under 100 characters.",

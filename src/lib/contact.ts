@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { LOCALES } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/en";
 
 export type ContactValidation = Dictionary["contact"]["validation"];
@@ -14,6 +15,7 @@ export function createContactSchema(messages: ContactValidation) {
 			.min(10, messages.messageMin)
 			.max(2000, messages.messageMax),
 		company: z.string().optional(),
+		locale: z.enum(LOCALES).optional(),
 	});
 }
 

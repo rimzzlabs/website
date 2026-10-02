@@ -120,6 +120,19 @@ export const id = {
 		successBody:
 			"Terima kasih sudah menghubungi saya. Semua pesan saya baca, dan saya akan membalas lewat email.",
 		close: "Tutup",
+		autoReply: {
+			subject: "Pesan kamu sudah saya terima",
+			preview:
+				"Terima kasih sudah menghubungi saya. Saya akan segera membalas.",
+			greeting: "Halo {name},",
+			received:
+				"Terima kasih sudah menghubungi saya. Pesan kamu sudah masuk, dan saya akan membalas secepatnya begitu ada waktu.",
+			wait: "Saya kerja full-time, jadi balasan bisa makan waktu beberapa hari. Kalau tidak bisa menunggu, kamu bisa jadwalkan obrolan saja.",
+			bookCall: "Jadwalkan obrolan",
+			signOff: "Salam,",
+			footer:
+				"Kamu menerima email ini karena mengirim pesan lewat form kontak di rimzzlabs.com.",
+		},
 		validation: {
 			name: "Nama wajib diisi.",
 			nameMax: "Nama maksimal 100 karakter.",

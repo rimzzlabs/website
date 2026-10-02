@@ -2,15 +2,20 @@ import {
 	noteSlugSchema,
 	type ReactionState,
 } from "../../../src/lib/reactions/schema";
+import { notifyNoteHeart } from "../../_lib/activity";
 import type { D1Database } from "../../_lib/guestbook";
+import type { NotifyEnv } from "../../_lib/notify";
+
+interface ReactionEnv extends NotifyEnv {
+	DB: D1Database;
+	ASSETS: { fetch: (input: string) => Promise<Response> };
+}
 
 interface ReactionContext {
 	request: Request;
 	params: { slug: string };
-	env: {
-		DB: D1Database;
-		ASSETS: { fetch: (input: string) => Promise<Response> };
-	};
+	env: ReactionEnv;
+	waitUntil(promise: Promise<unknown>): void;
 }
 
 const VISITOR_COOKIE = "rimzzlabs_visitor";
@@ -102,5 +107,15 @@ export async function onRequestPost(context: ReactionContext) {
 	}
 
 	const state = await readState({ db, slug: slug.data, visitor });
+	if (removed.meta.changes === 0 && state.reacted) {
+		context.waitUntil(
+			notifyNoteHeart(context.env, {
+				origin: url.origin,
+				slug: slug.data,
+				visitor,
+				count: state.count,
+			}),
+		);
+	}
 	return json(state, { cookie: known ? undefined : visitorCookie(visitor) });
 }
