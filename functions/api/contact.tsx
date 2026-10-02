@@ -1,21 +1,21 @@
 import { AR, pipe, R } from "@mobily/ts-belt";
-import { Resend } from "resend";
 
 import { ContactEmail } from "../../src/emails/contact";
+import { ContactReplyEmail } from "../../src/emails/contact-reply";
+import { getDictionary, HTML_LANG, toLocale } from "../../src/i18n";
 import { en } from "../../src/i18n/en";
 import { type ContactInput, createContactSchema } from "../../src/lib/contact";
+import { type NotifyEnv, sendEmail, sendNotification } from "../_lib/notify";
 import { verifyTurnstile } from "../_lib/turnstile";
 
-interface Env {
-	RESEND_API_KEY: string;
-	CONTACT_TO: string;
-	CONTACT_FROM: string;
+interface Env extends NotifyEnv {
 	CF_TURNSTILE_SECRET_KEY: string;
 }
 
 interface PagesContext {
 	request: Request;
 	env: Env;
+	waitUntil(promise: Promise<unknown>): void;
 }
 
 interface ContactFailure {
@@ -66,25 +66,37 @@ async function sendContact(
 ): AR.AsyncResult<ContactInput, ContactFailure> {
 	if (input.company) return R.Ok(input);
 
-	const resend = new Resend(env.RESEND_API_KEY);
-	const response = await resend.emails
-		.send({
-			from: env.CONTACT_FROM,
-			to: env.CONTACT_TO,
-			replyTo: input.email,
-			subject: "Hey, someone just sent you a message",
-			react: (
-				<ContactEmail
-					name={input.name}
-					email={input.email}
-					message={input.message}
-				/>
-			),
-		})
-		.catch(() => null);
+	const sent = await sendNotification(env, {
+		replyTo: input.email,
+		subject: "Hey, someone just sent you a message",
+		react: (
+			<ContactEmail
+				name={input.name}
+				email={input.email}
+				message={input.message}
+			/>
+		),
+	});
 
-	if (!response || response.error) return R.Error(SEND_FAILED);
+	if (!sent) return R.Error(SEND_FAILED);
 	return R.Ok(input);
+}
+
+function replyToSender(env: Env, input: ContactInput) {
+	const locale = toLocale(input.locale);
+	const copy = getDictionary(locale).contact.autoReply;
+
+	return sendEmail(env, {
+		to: input.email,
+		subject: copy.subject,
+		react: (
+			<ContactReplyEmail
+				copy={copy}
+				lang={HTML_LANG[locale]}
+				name={input.name}
+			/>
+		),
+	});
 }
 
 export function onRequestPost(context: PagesContext) {
@@ -94,6 +106,10 @@ export function onRequestPost(context: PagesContext) {
 		AR.flatMap((body) => verifyHuman(context, body)),
 		AR.fold(parseContact),
 		AR.flatMap((input) => sendContact(context.env, input)),
+		AR.tap((input) => {
+			if (input.company) return;
+			context.waitUntil(replyToSender(context.env, input));
+		}),
 		AR.match(
 			() => Response.json({ ok: true }),
 			(failure) =>

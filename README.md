@@ -9,7 +9,7 @@ The site is static. Astro builds every page at build time, and React islands add
 - [Astro](https://astro.build) 7 with React islands, MDX, and Tailwind CSS 4.
 - [Cloudflare Pages](https://pages.cloudflare.com) for hosting, with Pages Functions in `functions/`.
 - [Cloudflare D1](https://developers.cloudflare.com/d1/) for the guestbook, and [better-auth](https://www.better-auth.com) for GitHub sign-in.
-- [Resend](https://resend.com) and [React Email](https://react.email) for the contact and feedback emails.
+- [Resend](https://resend.com) and [React Email](https://react.email) for the email notifications.
 - [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) for spam protection on the forms.
 
 ## Fork this site
@@ -118,7 +118,7 @@ Set these values in the Pages project, under Settings > Variables and Secrets. U
 | `CLOUDFLARE_ACCOUNT_ID`        | Variable | Guestbook snapshot, at build time                                |
 | `CLOUDFLARE_API_TOKEN`         | Secret   | Guestbook snapshot, at build time                                |
 | `CF_TURNSTILE_SECRET_KEY`      | Secret   | Turnstile check in the Functions                                 |
-| `RESEND_API_KEY`               | Secret   | Contact and feedback emails                                      |
+| `RESEND_API_KEY`               | Secret   | Email notifications                                              |
 | `CONTACT_FROM`                 | Variable | Sender address, on a domain that you verified in Resend          |
 | `CONTACT_TO`                   | Variable | Your inbox                                                       |
 | `SESSION_SECRET`               | Secret   | better-auth sessions. Run `openssl rand -base64 48` to make one. |

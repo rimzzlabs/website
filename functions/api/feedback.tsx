@@ -1,5 +1,4 @@
 import { A, AR, pipe, R } from "@mobily/ts-belt";
-import { Resend } from "resend";
 
 import { FeedbackEmail } from "../../src/emails/feedback";
 import { en } from "../../src/i18n/en";
@@ -12,12 +11,10 @@ import {
 	MAX_ATTACHMENT_BYTES,
 	MAX_ATTACHMENTS,
 } from "../../src/lib/feedback";
+import { type NotifyEnv, sendNotification } from "../_lib/notify";
 import { verifyTurnstile } from "../_lib/turnstile";
 
-interface Env {
-	RESEND_API_KEY: string;
-	CONTACT_TO: string;
-	CONTACT_FROM: string;
+interface Env extends NotifyEnv {
 	CF_TURNSTILE_SECRET_KEY: string;
 }
 
@@ -170,32 +167,27 @@ async function sendFeedback(
 
 	const input = feedback.input;
 	const topic = en.feedback.topics[input.topic];
-	const resend = new Resend(env.RESEND_API_KEY);
-	const response = await resend.emails
-		.send({
-			from: env.CONTACT_FROM,
-			to: env.CONTACT_TO,
-			replyTo: input.email || undefined,
-			subject: `New feedback: ${topic}`,
-			attachments: [...feedback.attachments],
-			react: (
-				<FeedbackEmail
-					topic={topic}
-					page={input.page}
-					message={input.message}
-					environment={input.environment}
-					name={input.name}
-					email={input.email}
-					screenshots={feedback.attachments.map((attachment) => ({
-						name: attachment.filename,
-						src: `cid:${attachment.contentId}`,
-					}))}
-				/>
-			),
-		})
-		.catch(() => null);
+	const sent = await sendNotification(env, {
+		replyTo: input.email || undefined,
+		subject: `New feedback: ${topic}`,
+		attachments: feedback.attachments,
+		react: (
+			<FeedbackEmail
+				topic={topic}
+				page={input.page}
+				message={input.message}
+				environment={input.environment}
+				name={input.name}
+				email={input.email}
+				screenshots={feedback.attachments.map((attachment) => ({
+					name: attachment.filename,
+					src: `cid:${attachment.contentId}`,
+				}))}
+			/>
+		),
+	});
 
-	if (!response || response.error) return R.Error(SEND_FAILED);
+	if (!sent) return R.Error(SEND_FAILED);
 	return R.Ok(feedback);
 }
 

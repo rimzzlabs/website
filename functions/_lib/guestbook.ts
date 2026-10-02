@@ -1,3 +1,5 @@
+import type { NotifyEnv } from "./notify";
+
 export interface D1PreparedStatement {
 	bind(...values: unknown[]): D1PreparedStatement;
 	first<T = unknown>(): Promise<T | null>;
@@ -9,7 +11,7 @@ export interface D1Database {
 	prepare(query: string): D1PreparedStatement;
 }
 
-export interface GuestbookEnv {
+export interface GuestbookEnv extends NotifyEnv {
 	DB: D1Database;
 	SESSION_SECRET: string;
 	GITHUB_CLIENT_ID: string;

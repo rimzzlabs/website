@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { localeFromPath } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/en";
 import { describedBy } from "@/lib/aria";
 import { type ContactInput, createContactSchema } from "@/lib/contact";
@@ -64,7 +65,11 @@ export function HomeContactForm(props: HomeContactFormProps) {
 		const response = await fetch("/api/contact", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ ...values, token }),
+			body: JSON.stringify({
+				...values,
+				token,
+				locale: localeFromPath(window.location.pathname),
+			}),
 		}).catch(() => null);
 		turnstile.reset();
 

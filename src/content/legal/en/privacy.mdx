@@ -1,10 +1,10 @@
 ---
 title: "Privacy Policy"
 description: "What this site collects, why, and who else sees it. Short version: only what you type in yourself, plus Cloudflare's own analytics."
-updatedAt: "09/26/2026"
+updatedAt: "10/02/2026"
 ---
 
-Here's the short version: I don't run analytics, I don't show ads, and I don't want your data. This site only keeps what you type into it yourself. Your browser also remembers a few settings for you.
+Here's the short version: I don't run analytics, I don't show ads, and I don't want your data. This site only keeps what you type into it yourself, plus an anonymous ID if you like a note. Your browser also remembers a few settings for you.
 
 The longer version below covers every place where data moves, including the parts I don't control.
 
@@ -32,6 +32,8 @@ Turnstile only loads when you open one of those forms. It checks signals from yo
 
 The contact form asks for your name, your email address, and your message. When you send it, the message goes straight to my inbox through [Resend](https://resend.com), an email delivery service. It isn't saved in any database on this site.
 
+Right after that, the site sends one automatic email back to the address you gave, so you know the message arrived. It comes from a no-reply address, in the language of the page you wrote from, and it doesn't repeat your message.
+
 Resend keeps a delivery log of the emails it sends, under its own [privacy policy](https://resend.com/legal/privacy-policy). I use your email address for one thing only: to reply to you.
 
 ## Sending Feedback
@@ -57,7 +59,15 @@ If you sign in with GitHub, GitHub sends me your name, your email address, your 
 
 Signing in also creates a session. A cookie keeps you signed in, and the session record stores your IP address and browser details. The session expires after seven days, and you can sign out whenever you like.
 
+Every new entry also reaches my inbox as an email through Resend, with your name, website, message, and how you signed (anonymously or with GitHub). Your email address isn't part of it.
+
 One more detail: to keep the page fast, entries are built into the published guestbook page. When an entry is deleted, it disappears from the page at the next rebuild.
+
+## Liking a Note
+
+When you tap the heart on a note, the site gives your browser a random ID in a cookie. It stores that ID with the note and the time, so each visitor counts once. The ID isn't tied to your name, your IP address, or any account. Tap the heart again and the record is deleted.
+
+I also get an email through Resend that someone liked the note. It only has the note's title and the new total, nothing about you.
 
 ## What I'm Listening To
 
@@ -73,8 +83,9 @@ A few small things stay in your browser so the site remembers your choices:
 - **`rimzzlabs:motion`** (local storage) keeps your animation setting.
 - **`locale`** (cookie, one year) keeps the language you picked, so the homepage opens in that language next time.
 - **The better-auth session cookie** only exists if you sign in with GitHub, and it keeps you signed in.
+- **`rimzzlabs_visitor`** (cookie, one year) only exists after you tap a heart on a note, and it makes sure your heart counts once.
 
-The two local storage items never leave your device. The two cookies are sent to this site only, and only so it can serve the right language and recognize your session.
+The two local storage items never leave your device. The cookies are sent to this site only, and only so it can serve the right language, recognize your session, and count your heart once.
 
 ## Links to Other Sites
 
