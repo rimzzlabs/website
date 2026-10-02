@@ -1,10 +1,10 @@
 ---
 title: "Kebijakan Privasi"
 description: "Data apa saja yang dikumpulkan situs ini, untuk apa, dan siapa lagi yang bisa melihatnya. Singkatnya: hanya yang kamu ketik sendiri, ditambah analitik bawaan Cloudflare."
-updatedAt: "09/26/2026"
+updatedAt: "10/02/2026"
 ---
 
-Singkatnya begini: saya tidak pasang analitik, tidak ada iklan, dan saya tidak butuh data kamu. Situs ini cuma menyimpan apa yang kamu ketik sendiri. Selain itu, _browser_ kamu juga mengingat beberapa pengaturan.
+Singkatnya begini: saya tidak pasang analitik, tidak ada iklan, dan saya tidak butuh data kamu. Situs ini cuma menyimpan apa yang kamu ketik sendiri, ditambah ID anonim kalau kamu menyukai sebuah catatan. Selain itu, _browser_ kamu juga mengingat beberapa pengaturan.
 
 Versi lengkapnya ada di bawah. Semua tempat data berpindah saya jelaskan, termasuk bagian yang di luar kendali saya.
 
@@ -32,6 +32,8 @@ Turnstile baru dimuat saat kamu membuka salah satu form itu. Dia memeriksa sinya
 
 Form kontak meminta nama, alamat email, dan pesan kamu. Begitu dikirim, pesannya langsung masuk ke kotak masuk saya lewat [Resend](https://resend.com), layanan pengiriman email. Pesan itu tidak disimpan di _database_ mana pun di situs ini.
 
+Setelah itu, situs ini mengirim satu email otomatis ke alamat yang kamu isi, supaya kamu tahu pesannya sudah sampai. Email itu dikirim dari alamat _no-reply_, memakai bahasa halaman tempat kamu menulis, dan tidak memuat ulang isi pesan kamu.
+
 Resend menyimpan catatan pengiriman email sesuai [kebijakan privasi](https://resend.com/legal/privacy-policy) mereka sendiri. Alamat email kamu cuma saya pakai untuk satu hal: membalas pesan kamu.
 
 ## Mengirim Masukan
@@ -57,7 +59,15 @@ Kalau kamu masuk dengan GitHub, GitHub mengirim nama, alamat email, foto profil,
 
 Masuk dengan GitHub juga membuat sebuah sesi. Ada _cookie_ yang menjaga kamu tetap masuk, dan catatan sesinya menyimpan alamat IP serta info _browser_ kamu. Sesi itu habis setelah tujuh hari, dan kamu bisa keluar kapan saja.
 
+Setiap pesan baru juga masuk ke kotak masuk saya sebagai email lewat Resend, berisi nama, situs, pesan, dan cara kamu menulis (anonim atau lewat GitHub). Alamat email kamu tidak ikut di dalamnya.
+
 Satu lagi: supaya halamannya cepat, pesan-pesan di buku tamu ikut dibangun ke dalam halaman yang dipublikasikan. Jadi kalau sebuah pesan dihapus, pesan itu baru hilang dari halaman saat situs dibangun ulang.
+
+## Menyukai Catatan
+
+Saat kamu menekan tombol hati di sebuah catatan, situs ini memberi _browser_ kamu sebuah ID acak lewat _cookie_. ID itu disimpan bersama catatan dan waktunya, supaya setiap pengunjung cuma dihitung sekali. ID itu tidak terhubung dengan nama, alamat IP, atau akun apa pun. Kalau kamu menekan hatinya lagi, datanya dihapus.
+
+Saya juga dapat email lewat Resend bahwa ada yang menyukai catatan itu. Isinya cuma judul catatan dan jumlah totalnya, tidak ada apa pun tentang kamu.
 
 ## Lagu yang Sedang Saya Dengar
 
@@ -73,8 +83,9 @@ Ada beberapa hal kecil yang tersimpan di _browser_ kamu supaya pilihan kamu tida
 - **`rimzzlabs:motion`** (_local storage_) menyimpan pengaturan animasi.
 - **`locale`** (_cookie_, satu tahun) menyimpan bahasa pilihan kamu, jadi beranda langsung terbuka dalam bahasa itu di kunjungan berikutnya.
 - **_Cookie_ sesi better-auth** cuma ada kalau kamu masuk dengan GitHub, dan gunanya menjaga kamu tetap masuk.
+- **`rimzzlabs_visitor`** (_cookie_, satu tahun) baru ada setelah kamu menekan hati di sebuah catatan, dan gunanya memastikan hati kamu dihitung sekali.
 
-Dua data di _local storage_ tidak pernah keluar dari perangkat kamu. Dua _cookie_ tadi hanya dikirim ke situs ini, dan hanya supaya situs bisa menampilkan bahasa yang benar dan mengenali sesi kamu.
+Dua data di _local storage_ tidak pernah keluar dari perangkat kamu. Ketiga _cookie_ tadi hanya dikirim ke situs ini, dan hanya supaya situs bisa menampilkan bahasa yang benar, mengenali sesi kamu, dan menghitung hati kamu sekali.
 
 ## Tautan ke Situs Lain
 
