@@ -74,7 +74,7 @@ const images = await pipe(
       </div>
 
       <div class="inline-flex items-center gap-2 pt-8">
-        <HomeContactMessage client:load copy={t.contact} />
+        <HomeContactMessage client:idle copy={t.contact} />
         <a
           href="/attachments/rizki_citra_resume.pdf"
           target="_blank"
@@ -108,7 +108,7 @@ const images = await pipe(
       </HomeSectionHeading>
 
       <HomeGallery
-        client:load
+        client:visible
         images={images}
         copy={{ ...t.lightbox, viewFullSize: t.common.viewFullSize }}
       />
