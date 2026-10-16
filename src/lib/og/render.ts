@@ -71,5 +71,7 @@ export async function renderOgImage(card: OgCard) {
 		...OG_SIZE,
 		fonts: context.fonts,
 	});
-	return sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
+	return sharp(Buffer.from(svg))
+		.png({ compressionLevel: 9, palette: true, quality: 90, effort: 10 })
+		.toBuffer();
 }
