@@ -21,6 +21,11 @@ const GROUPS = [
         .filter((link) => link.href !== localizePath("/", props.locale))
         .map((link) => ({ ...link, external: false })),
       {
+        label: t.footer.archive,
+        href: localizePath("/archive", props.locale),
+        external: false,
+      },
+      {
         label: t.footer.inspiration,
         href: localizePath("/inspiration", props.locale),
         external: false,
@@ -127,7 +132,7 @@ const GROUPS = [
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1 transition hover:text-primary"
+                    class="flex sm:inline-flex items-center gap-1 transition hover:text-primary"
                   >
                     {link.label}
                     <ArrowUpRightIcon

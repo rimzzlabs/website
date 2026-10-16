@@ -1,5 +1,4 @@
 import {
-	ArchiveIcon,
 	HouseIcon,
 	type Icon,
 	NotebookIcon,
@@ -24,7 +23,6 @@ const LINK_ICONS: Record<NavigationLinkId, Icon> = {
 	notes: NotebookIcon,
 	now: PulseIcon,
 	guestbook: SignatureIcon,
-	archive: ArchiveIcon,
 };
 
 interface NavigationBarMobileProps {

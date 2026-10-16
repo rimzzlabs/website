@@ -49,12 +49,12 @@ export const en = {
 	home: {
 		seoTitle: "Rizki Citra, Software Engineer",
 		seoDescription:
-			"I'm Rizki Citra, a software engineer who builds frontends at Kolosal AI. Here are my projects, notes, and a few photos.",
+			"I'm Rizki Citra, a software engineer who builds frontend infrastructure at Kolosal AI. Here are my projects, notes, and a few photos.",
 		heroWork:
-			"I'm a software engineer, and I work remotely full-time. At {kolosal}, I design and build the frontend of the app where people work with large language models.",
+			"I'm a remote software engineer. At {kolosal}, I work on frontend infrastructure: the tooling and foundations behind the app where people work with large language models.",
 		heroPast:
 			"Much of my past work is in fintech. At {bitwyre}, I helped build a crypto perpetual futures trading platform and a crypto card mobile app. At {skyshi}, I worked with many clients on fintech products and internal tools, and I learned a lot along the way.",
-		resume: "Peek my résumé",
+		resume: "My résumé",
 		visitProject: "Visit {name}",
 		projectsTitle: "Projects",
 		projectsDescription:
@@ -92,14 +92,13 @@ export const en = {
 			"Mount Pulosari in Pandeglang, Banten, seen across the rice fields.",
 		contactTitle: "Got something interesting?",
 		contactBody:
-			"I work full-time, so I don't take on much outside work. Still, I'm always up for an interesting project or a good conversation. If you have one in mind, say hello.",
+			"I'm always up for an interesting project or a good conversation. If you have one in mind, say hello.",
 		scheduleCall: "Schedule a call",
 	},
 	contact: {
-		trigger: "Send a message",
+		trigger: "Get in touch",
 		title: "Send me a message",
-		description:
-			"Tell me a little about your project or idea. I read every message.",
+		description: "Tell me about your project or idea. I read every message.",
 		name: "Name",
 		namePlaceholder: "Your name",
 		email: "Email",
@@ -298,9 +297,9 @@ export const en = {
 		sectionLabel: "What I'm doing now",
 		work: {
 			label: "Work",
-			title: "Building the frontend at Kolosal AI",
+			title: "Building frontend infrastructure at Kolosal AI",
 			description:
-				"I design and build the app where people work with large language models. Full-time, and fully remote.",
+				"Fewer screens, more of what sits under them: the tooling and foundations behind the app where people work with large language models. Fully remote.",
 		},
 		building: {
 			label: "Building",
@@ -309,15 +308,15 @@ export const en = {
 		},
 		sideProjects: {
 			label: "Side projects",
-			title: "Lanjut and Absqir",
+			title: "Lanjut, Absqir, and Ayawe",
 			description:
-				"Lanjut is a local-first, ATS-friendly resume builder. Absqir is open source attendance you host yourself. I also contribute to Trymorrow.",
+				"Lanjut is a local-first, ATS-friendly resume builder. Absqir is open source attendance you host yourself. Ayawe is a small vault for environment variables, encrypted in your browser.",
 		},
 		site: {
 			label: "This site",
-			title: "Relaunching rimzzlabs.com",
+			title: "Tinkering with rimzzlabs.com",
 			description:
-				"New typography, a guestbook, and this page. The redesign goes live on September 27, 2026.",
+				"The redesign went live on September 27, 2026. Since then, it got an animated Mount Pulosari on the contact card, hearts on notes, smoother scrolling, and an Inspiration page.",
 			sourceCode: "Source code",
 		},
 		writing: {
@@ -327,8 +326,8 @@ export const en = {
 		},
 		openTo: {
 			label: "Open to",
-			title: "Interesting projects and good conversations",
-			body: "I work full-time, so I don't take on much outside work. If you have something interesting in mind, {sayHello}.",
+			title: "Freelance projects, the interesting kind",
+			body: "My desk still has room for one more. If you're building something and want a hand with the frontend, from the UI down to the build, {sayHello}.",
 			sayHello: "say hello",
 		},
 	},

@@ -2,6 +2,7 @@
 import { A, AR, pipe } from "@mobily/ts-belt";
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import HomeContact from "@/components/home/home-contact/home-contact.astro";
+import { HomeContactMessage } from "@/components/home/home-contact/home-contact-message";
 import { HomeGallery } from "@/components/home/home-gallery";
 import HomeProjects from "@/components/home/home-projects.astro";
 import HomeSectionHeading from "@/components/home/home-section-heading.astro";
@@ -73,11 +74,12 @@ const images = await pipe(
       </div>
 
       <div class="inline-flex items-center gap-2 pt-8">
+        <HomeContactMessage client:load copy={t.contact} />
         <a
           href="/attachments/rizki_citra_resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          class={buttonVariants()}
+          class={buttonVariants({ variant: "secondary" })}
         >
           {t.home.resume} <ArrowUpRightIcon aria-hidden="true" />
           <span class="sr-only">{t.common.opensInNewTab}</span>
