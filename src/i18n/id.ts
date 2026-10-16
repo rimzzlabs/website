@@ -58,6 +58,7 @@ export const id = {
 			'Sebelumnya, saya lebih banyak berkecimpung di dunia <em lang="en">fintech</em>. Di {bitwyre}, saya ikut membangun platform <em lang="en">trading</em> kripto <em lang="en">perpetual futures</em> dan aplikasi <em lang="en">mobile</em> kartu kripto. Di {skyshi}, saya menggarap produk <em lang="en">fintech</em> dan <em lang="en">internal tools</em> untuk banyak klien, dan belajar banyak dari sana.',
 		resume: "CV saya",
 		visitProject: "Kunjungi {name}",
+		readStory: "Baca ceritanya",
 		projectsTitle: "Proyek",
 		projectsDescription:
 			"Dari proyek iseng sampai produk besar yang ikut saya bangun.",
