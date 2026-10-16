@@ -5,6 +5,8 @@
 
 /*
   Strict-Transport-Security: max-age=15552000
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
