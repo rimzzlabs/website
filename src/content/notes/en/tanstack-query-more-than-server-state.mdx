@@ -1,13 +1,13 @@
 ---
-title: "Tanstack Query Is More Than Just Server State"
-description: "We are often careless when managing server state. Tanstack Query is more than just fetching data from the server, storing it, and invalidating the cache."
+title: "TanStack Query Is More Than Just Server State"
+description: "Read the queryKey from QueryFunctionContext, forward the AbortSignal, and use a query key factory to stop TanStack Query v5 cache bugs that never throw."
 publishedAt: "08/01/2026"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: false
 author: rimzzlabs
 keywords:
-  - Tanstack Query
+  - TanStack Query
 relatedPosts:
   - jotai-state-manager
   - how-ts-belt-helps-me-write-predictable-code
@@ -19,7 +19,17 @@ import HowTanstackQuery from "@/assets/notes/tanstack-query-more-than-server-sta
 import DuplicateRequest from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-3.png";
 import HoistedQueryKey from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-4.png";
 
-We are often careless when managing server state with _Tanstack Query_. Yet Tanstack Query is more than just fetching data from the server, storing it, and invalidating the cache.
+We are often careless when managing server state with _TanStack Query_. Yet TanStack Query is more than just fetching data from the server, storing it, and invalidating the cache.
+
+<Callout type="note">
+  **In short:**
+
+  - Make the `queryKey` the single source of truth by reading it through `QueryFunctionContext`.
+  - Forward the `signal` to your fetching library so irrelevant requests get cancelled.
+  - Centralize keys with a query key factory or `queryOptions`.
+  - Scope invalidation with the key hierarchy, and use `setQueryData` when the server already returned the new data.
+  - Pair optimistic updates with `cancelQueries`, a snapshot, and a rollback.
+</Callout>
 
 ## Introduction
 
@@ -37,20 +47,20 @@ All of that data is tied to the user. When someone shops on the Tokopedia websit
 
 This is what we call server state. The user's data stays in sync with their account, no matter where they use it: the website or the phone.
 
-## What Is Tanstack Query?
+## What Is TanStack Query?
 
-> I will not cover Tanstack Query in depth here, just enough to give this article some context.
+> I will not cover TanStack Query in depth here, just enough to give this article some context.
 
-[Tanstack Query](https://tanstack.com/query) (_better known as React Query_) is a library for managing server state.
+[TanStack Query](https://tanstack.com/query) (_better known as React Query_) is a library for managing server state.
 
 <NoteImage
   lang="en"
   src={HowTanstackQuery}
-  alt="The role of Tanstack Query in a frontend system"
-  caption="The role of Tanstack Query in a frontend application."
+  alt="The role of TanStack Query in a frontend system"
+  caption="The role of TanStack Query in a frontend application."
 />
 
-The main problem Tanstack Query solves is not simply fetching data from the server, but managing the entire lifecycle of that data. Almost every modern application performs operations like fetching, creating, updating, and deleting data. Each of those operations comes with conditions we need to handle, for example:
+The main problem TanStack Query solves is not simply fetching data from the server, but managing the entire lifecycle of that data. Almost every modern application performs operations like fetching, creating, updating, and deleting data. Each of those operations comes with conditions we need to handle, for example:
 
 - A loading state while the request is in flight.
 - Showing an error when the request fails.
@@ -59,7 +69,7 @@ The main problem Tanstack Query solves is not simply fetching data from the serv
 - Background refetching to keep data fresh.
 - Avoiding duplicate requests when several components ask for the same data.
 
-### Before Tanstack Query
+### Before TanStack Query
 
 To get a feel for how much work that actually is, let's handle one simple case ourselves with `useState` and `useEffect`: displaying a list of employees.
 
@@ -138,17 +148,17 @@ That was quite a journey, and this hook only handles three things: the loading s
 
 Worse, without a library, logic like this tends to be scattered across many components. As the application grows, the code becomes hard to maintain and prone to inconsistent behavior.
 
-This is where Tanstack Query comes in. It provides an abstraction for managing server state, so we can focus on business logic instead of the details of keeping data in sync with the server.
+This is where TanStack Query comes in. It provides an abstraction for managing server state, so we can focus on business logic instead of the details of keeping data in sync with the server.
 
-Tanstack Query has been around the web ecosystem for a long time. Originally built for [React](https://react.dev), it grew quickly thanks to an API design that is simple, flexible, and easy to use.
+TanStack Query has been around the web ecosystem for a long time. Originally built for [React](https://react.dev), it grew quickly thanks to an API design that is simple, flexible, and easy to use.
 
-Over time, TanStack became framework-agnostic. Besides React, Tanstack Query now supports many other popular frameworks like [Angular](https://angular.dev), [Vue](https://vuejs.org), [Svelte](https://svelte.dev), and [Solid](https://solidjs.com).
+Over time, TanStack became framework-agnostic. Besides React, TanStack Query now supports many other popular frameworks like [Angular](https://angular.dev), [Vue](https://vuejs.org), [Svelte](https://svelte.dev), and [Solid](https://solidjs.com).
 
-### Writing Tanstack Query
+### Writing TanStack Query
 
 Say we are building a Point of Sale (POS) application. On the dashboard page, we want to show a sales summary over several periods, for example the last 7 days, 30 days, 90 days, or 1 year.
 
-First, we write a function whose only job is to fetch data from the server. This function knows nothing about React or Tanstack Query. It just sends a request and returns the result.
+First, we write a function whose only job is to fetch data from the server. This function knows nothing about React or TanStack Query. It just sends a request and returns the result.
 
 ```ts {4,5,6}
 type SalesPeriod = "7d" | "30d" | "90d" | "365d";
@@ -176,7 +186,7 @@ async function getSales(config: SalesOverviewConfig) {
 }
 ```
 
-Next, Tanstack Query can use that function through [`useQuery`](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+Next, TanStack Query can use that function through [`useQuery`](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
 
 ```ts
 const salesQuery = useQuery({
@@ -185,7 +195,7 @@ const salesQuery = useQuery({
 });
 ```
 
-With just a few lines of code, Tanstack Query immediately handles everything we used to implement ourselves: the loading state, error handling, caching, background refetching, and re-syncing the data when the [`queryKey`](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys) changes.
+With just a few lines of code, TanStack Query immediately handles everything we used to implement ourselves: the loading state, error handling, caching, background refetching, and re-syncing the data when the [`queryKey`](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys) changes.
 
 The `salesQuery` object also exposes plenty of information about the request in flight.
 
@@ -201,7 +211,11 @@ if (salesQuery.isPending) return <Spinner />;
 return <SalesChart data={salesQuery.data} />;
 ```
 
-At a glance, the Tanstack Query API looks simple. But that simplicity is exactly what made it one of the most popular libraries for managing server state. Behind `useQuery` there are mechanisms like cache invalidation, request deduplication, stale-while-revalidate, and cross-component synchronization that we never have to implement ourselves.
+At a glance, the TanStack Query API looks simple. But that simplicity is exactly what made it one of the most popular libraries for managing server state. Behind `useQuery` there are mechanisms like cache invalidation, request deduplication, stale-while-revalidate, and cross-component synchronization that we never have to implement ourselves.
+
+## What About Client State?
+
+TanStack Query manages server state, and it isn't a replacement for client state management. If your global store mostly caches data from the server, TanStack Query can take over that part, and the [official guide](https://tanstack.com/query/latest/docs/framework/react/guides/does-this-replace-client-state) shows how small the leftover state usually is. True client state (a sidebar toggle, the theme, a form draft) still belongs in local state or a client-state library like [Jotai](/notes/jotai-state-manager/).
 
 ## The Problems We Don't See
 
@@ -220,9 +234,9 @@ Look at where `queryFn` gets `period` and `limit` from. They aren't passed in as
 
 Hidden dependencies like this make the code hard to read. To know what data is actually being fetched, reading the `queryFn` is not enough. We have to trace upward: where does `period` come from, who changes `limit`, and can either of them change mid-flight?
 
-Besides being hard to read, hoisted values also make the query's behavior hard to predict. To Tanstack Query, a query's identity is nothing but its `queryKey`. Tanstack Query does not know, and will never know, which values the `queryFn` quietly reads from the closure. The contract of "when the `queryKey` changes, refetch" only holds as long as every value the `queryFn` uses is also listed in the `queryKey`. And the only thing guarding that contract is our own discipline.
+Besides being hard to read, hoisted values also make the query's behavior hard to predict. To TanStack Query, a query's identity is nothing but its `queryKey`. TanStack Query does not know, and will never know, which values the `queryFn` quietly reads from the closure. The contract of "when the `queryKey` changes, refetch" only holds as long as every value the `queryFn` uses is also listed in the `queryKey`. And the only thing guarding that contract is our own discipline.
 
-A simple analogy is an archive box in a warehouse. The `queryKey` is the label stuck on the box, and the result of `queryFn` is what's inside. Tanstack Query never opens the box to check its contents. It only reads the label: as long as the label is the same, the contents are assumed to be the same.
+A simple analogy is an archive box in a warehouse. The `queryKey` is the label stuck on the box, and the result of `queryFn` is what's inside. TanStack Query never opens the box to check its contents. It only reads the label: as long as the label is the same, the contents are assumed to be the same.
 
 As long as we are disciplined about writing the same values in both places, there is no problem. But imagine that one day we add a new parameter, say `branchId` to filter sales per branch. If we only add it to the `queryFn` and forget to update the `queryKey`:
 
@@ -233,13 +247,13 @@ const salesQuery = useQuery({
 });
 ```
 
-This code still runs without any error, but it is silently wrong. We changed the contents of the box without changing the label. When a cashier at the Bandung branch opens the dashboard, the numbers on screen are actually the Jakarta branch's sales that were loaded earlier, because to Tanstack Query the label is still the same: `["get-sales", "7d", 10]`.
+This code still runs without any error, but it is silently wrong. We changed the contents of the box without changing the label. When a cashier at the Bandung branch opens the dashboard, the numbers on screen are actually the Jakarta branch's sales that were loaded earlier, because to TanStack Query the label is still the same: `["get-sales", "7d", 10]`.
 
 <NoteImage
   lang="en"
   src={HoistedQueryKey}
-  alt="queryFn reads period, limit, and branchId from the component closure, while Tanstack Query only reads the queryKey, which does not contain branchId"
-  caption="queryFn quietly reads values from the closure, while Tanstack Query only reads the label (queryKey)."
+  alt="queryFn reads period, limit, and branchId from the component closure, while TanStack Query only reads the queryKey, which does not contain branchId"
+  caption="queryFn quietly reads values from the closure, while TanStack Query only reads the label (queryKey)."
 />
 
 No error message, no warning in the console. A bug like this usually only surfaces after users complain that the data looks "weird", and we waste time digging through a backend that was fine all along.
@@ -250,16 +264,16 @@ No error message, no warning in the console. A bug like this usually only surfac
 
 The second problem is one we can see for ourselves in the Network tab of DevTools. Try switching the period from 7 days to 30 days and then to 90 days quickly.
 
-There are three requests running at the same time, and two of them are fetching data that will never be displayed. Tanstack Query is smart enough to ignore their results, but the requests themselves still reach the server, still get processed, and still eat the user's bandwidth.
+There are three requests running at the same time, and two of them are fetching data that will never be displayed. TanStack Query is smart enough to ignore their results, but the requests themselves still reach the server, still get processed, and still eat the user's bandwidth.
 
-It is like ordering food and changing your mind twice. Only the last order arrives at the table, but the kitchen still cooks all three. Tanstack Query already provides a way to cancel the orders we abandoned. We just never use it.
+It is like ordering food and changing your mind twice. Only the last order arrives at the table, but the kitchen still cooks all three. TanStack Query already provides a way to cancel the orders we abandoned. We just never use it.
 
 ## Making Use of `QueryFunctionContext`
 
-The good news is, the solution to both problems has been in front of us the whole time. Every time we write `queryFn: () => getSales(...)`, we unknowingly throw away an argument that Tanstack Query always passes to the `queryFn`. That argument is called the [`QueryFunctionContext`](https://tanstack.com/query/v5/docs/framework/react/guides/query-functions#queryfunctioncontext), and its two most useful properties are:
+The good news is, the solution to both problems has been in front of us the whole time. Every time we write `queryFn: () => getSales(...)`, we unknowingly throw away an argument that TanStack Query always passes to the `queryFn`. That argument is called the [`QueryFunctionContext`](https://tanstack.com/query/v5/docs/framework/react/guides/query-functions#queryfunctioncontext), and its two most useful properties are:
 
 - `queryKey`, the key currently used by the query.
-- `signal`, an [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) that Tanstack Query aborts automatically.
+- `signal`, an [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) that TanStack Query aborts automatically.
 
 By using both, we solve the two problems at once:
 
@@ -304,9 +318,9 @@ async function getSales(config: SalesOverviewConfig) {
 }
 ```
 
-Now, when the `queryKey` changes or the component unmounts before a request finishes, Tanstack Query aborts the signal and `fetch` stops the request right away. The kitchen stops cooking the moment the order is cancelled. If we repeat the Network tab experiment from earlier, the first two requests now show up as cancelled.
+Now, when the `queryKey` changes or the component unmounts before a request finishes, TanStack Query aborts the signal and `fetch` stops the request right away. The kitchen stops cooking the moment the order is cancelled. If we repeat the Network tab experiment from earlier, the first two requests now show up as cancelled.
 
-Note that `signal` is opt-in. Tanstack Query can only cancel a request if we forward the signal to whatever fetching library we use, whether that is the browser's built-in `fetch` or [Axios](https://axios-http.com), which also accepts a `signal` option.
+Note that `signal` is opt-in. TanStack Query can only cancel a request if we forward the signal to whatever fetching library we use, whether that is the browser's built-in `fetch` or [Axios](https://axios-http.com), which also accepts a `signal` option.
 
 ## Query Key Factory
 
@@ -348,7 +362,7 @@ Because the keys are built hierarchically (`salesKeys.overview` always starts wi
 
 ### Using `queryOptions`
 
-Since version 5, Tanstack Query ships a [`queryOptions`](https://tanstack.com/query/v5/docs/framework/react/reference/queryOptions) helper that lets us centralize the `queryKey` and the `queryFn` together in one type-safe definition:
+Since version 5, TanStack Query ships a [`queryOptions`](https://tanstack.com/query/v5/docs/framework/react/reference/queryOptions) helper that lets us centralize the `queryKey` and the `queryFn` together in one type-safe definition:
 
 ```ts
 import { queryOptions } from "@tanstack/react-query";
@@ -529,11 +543,11 @@ The four steps in that code mirror the cashier's habit exactly:
 
 Notice that every step refers to keys from the same factory. Without a query key factory, this pattern is very prone to typos. An optimistic update with the wrong key means the UI changes, but the rollback does not work and the server data never syncs.
 
-For simple cases that only show up in one place, Tanstack Query v5 also offers a lighter way: reading [`variables`](https://tanstack.com/query/v5/docs/framework/react/guides/optimistic-updates#via-the-ui) from `useMutation` and rendering it directly while `isPending` is `true`, without touching the cache at all. I use this approach for things like appending an item to a temporary list. I save the cache-based approach above for data that many components read.
+For simple cases that only show up in one place, TanStack Query v5 also offers a lighter way: reading [`variables`](https://tanstack.com/query/v5/docs/framework/react/guides/optimistic-updates#via-the-ui) from `useMutation` and rendering it directly while `isPending` is `true`, without touching the cache at all. I use this approach for things like appending an item to a temporary list. I save the cache-based approach above for data that many components read.
 
 ## Closing Thoughts
 
-Tanstack Query does feel simple on the surface, and that is exactly why we often stop learning once our first `useQuery` works. Yet these small habits make managing server state far more resilient:
+TanStack Query does feel simple on the surface, and that is exactly why we often stop learning once our first `useQuery` works. Yet these small habits make managing server state far more resilient:
 
 1. Make the `queryKey` the single source of truth by reading it back through the `QueryFunctionContext`, not from the closure.
 2. Forward the `signal` to your fetching library so irrelevant requests get cancelled automatically.
@@ -543,4 +557,4 @@ Tanstack Query does feel simple on the surface, and that is exactly why we often
 
 None of these add meaningful complexity, but they eliminate the hardest class of bugs to track down: bugs that never throw an error.
 
-This article is heavily inspired by [TkDodo's blog](https://tkdodo.eu/blog). TkDodo is a Tanstack Query maintainer who has written dozens of in-depth articles about the library. If you want to dive deeper, start there.
+This article is heavily inspired by [TkDodo's blog](https://tkdodo.eu/blog). TkDodo is a TanStack Query maintainer who has written dozens of in-depth articles about the library. If you want to dive deeper, start there.

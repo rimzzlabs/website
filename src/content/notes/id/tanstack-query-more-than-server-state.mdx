@@ -1,13 +1,13 @@
 ---
-title: "Tanstack Query Lebih Dari Sekadar Server State"
-description: "Terkadang kita tidak berhati-hati saat mengelola Server-State. Padahal lebih dari sekadar ambil data dari server, menyimpan data, dan atau cache invalidation."
+title: "TanStack Query Lebih dari Sekadar Server State"
+description: "Ambil queryKey dari QueryFunctionContext, teruskan AbortSignal, dan pakai query key factory supaya bug cache di TanStack Query v5 tidak lolos diam-diam."
 publishedAt: "08/01/2026"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: false
 author: rimzzlabs
 keywords:
-  - Tanstack Query
+  - TanStack Query
 relatedPosts:
   - jotai-state-manager
   - how-ts-belt-helps-me-write-predictable-code
@@ -19,7 +19,17 @@ import HowTanstackQuery from "@/assets/notes/tanstack-query-more-than-server-sta
 import DuplicateRequest from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-3.png";
 import HoistedQueryKey from "@/assets/notes/tanstack-query-more-than-server-state/tq-more-than-server-state-4.png";
 
-Terkadang kita tidak berhati-hati saat mengelola Server-State dengan _Tanstack Query_. Padahal Tanstack Query lebih dari sekadar: ambil data dari _server_, menyimpan data, dan atau _cache invalidation_.
+Terkadang kita tidak berhati-hati saat mengelola _server state_ dengan _TanStack Query_. Padahal TanStack Query lebih dari sekadar: ambil data dari _server_, menyimpan data, dan/atau _cache invalidation_.
+
+<Callout type="note">
+  **Singkatnya:**
+
+  - Jadikan `queryKey` satu-satunya sumber kebenaran dengan membacanya lewat `QueryFunctionContext`.
+  - Teruskan `signal` ke _fetching library_ agar _request_ yang sudah tidak relevan dibatalkan otomatis.
+  - Pusatkan definisi _key_ dengan _query key factory_ atau `queryOptions`.
+  - Atur cakupan _invalidation_ lewat hierarki _key_, dan pakai `setQueryData` kalau _server_ sudah mengembalikan data terbarunya.
+  - Lengkapi _optimistic update_ dengan `cancelQueries`, _snapshot_, dan _rollback_.
+</Callout>
 
 ## Pendahuluan
 
@@ -31,26 +41,26 @@ Terkadang kita tidak berhati-hati saat mengelola Server-State dengan _Tanstack Q
   caption="Bagaimana sistem bekerja secara umum"
 />
 
-Website yang penuh dengan interaksi seperti _e-commerce_ (_misalnya: Tokopedia_) tidak hanya menampilkan tulisan dan gambar, melainkan ratusan dan mungkin ribuan interaksi. Interaksi ini mencakup singkronisasi data, preferensi, dan lain sebagainya; misalnya jumlah barang yang disimpan didalam keranjang, wishlist, dan riwayat pesananan.
+Website yang penuh dengan interaksi seperti _e-commerce_ (_misalnya: Tokopedia_) tidak hanya menampilkan tulisan dan gambar, melainkan ratusan dan mungkin ribuan interaksi. Interaksi ini mencakup sinkronisasi data, preferensi, dan lain sebagainya; misalnya jumlah barang yang disimpan di dalam keranjang, wishlist, dan riwayat pesanan.
 
-Semua data itu terikat dengan pengguna. Saat pengguna berbelanja di website Tokopedia menggunakan laptop, pesanan yang sama akan muncul diaplikasi Tokopedia pada ponsel mereka.
+Semua data itu terikat dengan pengguna. Saat pengguna berbelanja di website Tokopedia menggunakan laptop, pesanan yang sama akan muncul di aplikasi Tokopedia pada ponsel mereka.
 
-Hal inilah yang kita sebut _server state_. Data pengguna akan tersingkron dengan akun mereka. Tidak peduli di _environment_ mana mereka sedang menggunakan aplikasi, baik website maupun ponsel.
+Hal inilah yang kita sebut _server state_. Data pengguna akan tersinkron dengan akun mereka. Tidak peduli di _environment_ mana mereka sedang menggunakan aplikasi, baik website maupun ponsel.
 
-## Apa Itu Tanstack Query?
+## Apa Itu TanStack Query?
 
-> Saya tidak akan membicarakan Tanstack Query lebih dalam, hanya pengenalan agar konteks dalam tulisan ini lebih jelas.
+> Saya tidak akan membicarakan TanStack Query lebih dalam, hanya pengenalan agar konteks dalam tulisan ini lebih jelas.
 
-[Tanstack Query](https://tanstack.com/query) (_atau lebih dikenal dengan React Query_) adalah sebuah _library_ yang digunakan untuk mengelola _server state_.
+[TanStack Query](https://tanstack.com/query) (_atau lebih dikenal dengan React Query_) adalah sebuah _library_ yang digunakan untuk mengelola _server state_.
 
 <NoteImage
   lang="id"
   src={HowTanstackQuery}
-  alt="Peran Tanstack Query pada sistem Frontend"
-  caption="Peran Tanstack Query pada aplikasi frontend."
+  alt="Peran TanStack Query pada sistem Frontend"
+  caption="Peran TanStack Query pada aplikasi frontend."
 />
 
-Masalah utama yang diselesaikan Tanstack Query bukan sekadar mengambil data dari _server_, melainkan mengelola seluruh siklus hidup (_lifecycle_) dari data tersebut. Hampir setiap aplikasi modern melakukan operasi seperti mengambil data (_fetch_), membuat data (_create_), memperbarui data (_update_), dan menghapus data (_delete_). Setiap operasi tersebut memiliki berbagai kondisi yang perlu ditangani, misalnya:
+Masalah utama yang diselesaikan TanStack Query bukan sekadar mengambil data dari _server_, melainkan mengelola seluruh siklus hidup (_lifecycle_) dari data tersebut. Hampir setiap aplikasi modern melakukan operasi seperti mengambil data (_fetch_), membuat data (_create_), memperbarui data (_update_), dan menghapus data (_delete_). Setiap operasi tersebut memiliki berbagai kondisi yang perlu ditangani, misalnya:
 
 - Status _loading_ ketika permintaan sedang berlangsung.
 - Menampilkan _error_ ketika permintaan gagal.
@@ -59,7 +69,7 @@ Masalah utama yang diselesaikan Tanstack Query bukan sekadar mengambil data dari
 - Melakukan _background refetch_ agar data tetap terbaru.
 - Menghindari _duplicate request_ ketika beberapa komponen meminta data yang sama.
 
-### Sebelum Tanstack Query
+### Sebelum TanStack Query
 
 Sebagai gambaran betapa banyaknya pekerjaan itu, mari kita coba tangani sendiri satu kasus sederhana dengan `useState` dan `useEffect`: menampilkan daftar karyawan.
 
@@ -138,17 +148,17 @@ Perjalanan yang cukup panjang, padahal _hook_ ini baru menangani tiga hal: statu
 
 Parahnya lagi, tanpa bantuan sebuah _library_, logika seperti ini sering kali tersebar di banyak komponen. Seiring bertambahnya ukuran aplikasi, kode menjadi sulit dipelihara dan rentan menghasilkan perilaku yang tidak konsisten.
 
-Di sinilah Tanstack Query berperan. Ia menyediakan abstraksi untuk mengelola _server state_ sehingga pengembang dapat lebih fokus pada logika bisnis dibandingkan harus memikirkan detail sinkronisasi data dengan _server_.
+Di sinilah TanStack Query berperan. Ia menyediakan abstraksi untuk mengelola _server state_ sehingga pengembang dapat lebih fokus pada logika bisnis dibandingkan harus memikirkan detail sinkronisasi data dengan _server_.
 
-Tanstack Query sudah lama hadir di ekosistem web. Awalnya dibangun untuk [React](https://react.dev), Tanstack Query berkembang pesat karena _design API_ yang sederhana, fleksibel, dan mudah digunakan.
+TanStack Query sudah lama hadir di ekosistem web. Awalnya dibangun untuk [React](https://react.dev), TanStack Query berkembang pesat karena _design API_ yang sederhana, fleksibel, dan mudah digunakan.
 
-Seiring waktu, TanStack berkembang menjadi _library agnostic_. Selain React, saat ini Tanstack Query sudah mendukung banyak _framework_ populer lain seperti [Angular](https://angular.dev), [Vue](https://vuejs.org), [Svelte](https://svelte.dev), hingga [Solid](https://solidjs.com).
+Seiring waktu, TanStack berkembang menjadi _library agnostic_. Selain React, saat ini TanStack Query sudah mendukung banyak _framework_ populer lain seperti [Angular](https://angular.dev), [Vue](https://vuejs.org), [Svelte](https://svelte.dev), hingga [Solid](https://solidjs.com).
 
-### Menulis Tanstack Query
+### Menulis TanStack Query
 
 Misalkan kita sedang mengembangkan aplikasi _Point of Sales_ (POS). Pada halaman _dashboard_, kita ingin menampilkan ringkasan penjualan selama beberapa periode, misalnya 7 hari, 30 hari, 90 hari, atau 1 tahun terakhir.
 
-Pertama, kita membuat sebuah fungsi yang bertugas mengambil data dari _server_. Fungsi ini tidak mengetahui apa pun tentang React maupun Tanstack Query. Tugasnya hanya mengirim _request_ dan mengembalikan hasilnya.
+Pertama, kita membuat sebuah fungsi yang bertugas mengambil data dari _server_. Fungsi ini tidak mengetahui apa pun tentang React maupun TanStack Query. Tugasnya hanya mengirim _request_ dan mengembalikan hasilnya.
 
 ```ts {4,5,6}
 type SalesPeriod = "7d" | "30d" | "90d" | "365d";
@@ -176,7 +186,7 @@ async function getSales(config: SalesOverviewConfig) {
 }
 ```
 
-Selanjutnya fungsi tersebut dapat digunakan Tanstack Query melalui [`useQuery`](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
+Selanjutnya fungsi tersebut dapat digunakan TanStack Query melalui [`useQuery`](https://tanstack.com/query/v5/docs/framework/react/reference/useQuery).
 
 ```ts
 const salesQuery = useQuery({
@@ -185,7 +195,7 @@ const salesQuery = useQuery({
 });
 ```
 
-Hanya dengan beberapa baris kode, Tanstack Query langsung menangani berbagai hal yang sebelumnya harus kita implementasikan sendiri. Mulai dari status _loading_, _error handling_, penyimpanan _cache_, _background refetch_, hingga sinkronisasi data ketika [`queryKey`](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys) berubah.
+Hanya dengan beberapa baris kode, TanStack Query langsung menangani berbagai hal yang sebelumnya harus kita implementasikan sendiri. Mulai dari status _loading_, _error handling_, penyimpanan _cache_, _background refetch_, hingga sinkronisasi data ketika [`queryKey`](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys) berubah.
 
 Objek `salesQuery` juga menyediakan berbagai informasi mengenai kondisi _request_ yang sedang berlangsung.
 
@@ -201,7 +211,11 @@ if (salesQuery.isPending) return <Spinner />;
 return <SalesChart data={salesQuery.data} />;
 ```
 
-Sekilas API Tanstack Query terlihat sederhana. Namun, kesederhanaan inilah yang membuatnya menjadi salah satu _library_ paling populer untuk mengelola _server state_. Di balik `useQuery`, terdapat berbagai mekanisme seperti _cache invalidation_, deduplikasi _request_, _stale-while-revalidate_, hingga sinkronisasi antar komponen yang tidak perlu kita implementasikan sendiri.
+Sekilas API TanStack Query terlihat sederhana. Namun, kesederhanaan inilah yang membuatnya menjadi salah satu _library_ paling populer untuk mengelola _server state_. Di balik `useQuery`, terdapat berbagai mekanisme seperti _cache invalidation_, deduplikasi _request_, _stale-while-revalidate_, hingga sinkronisasi antar komponen yang tidak perlu kita implementasikan sendiri.
+
+## Bagaimana dengan Client State?
+
+TanStack Query mengelola _server state_, dan ia bukan pengganti pengelolaan _client state_. Kalau _global store_ di aplikasi kamu sebagian besar hanya menyimpan _cache_ data dari _server_, bagian itulah yang bisa diambil alih TanStack Query, dan [panduan resminya](https://tanstack.com/query/latest/docs/framework/react/guides/does-this-replace-client-state) menunjukkan betapa kecil sisa _state_ yang biasanya tertinggal. _Client state_ yang sebenarnya (buka-tutup _sidebar_, tema, _draft_ formulir) tetap lebih cocok disimpan di _state_ lokal atau _library client state_ seperti [Jotai](/id/notes/jotai-state-manager/).
 
 ## Masalah yang Tidak Terlihat
 
@@ -220,9 +234,9 @@ Perhatikan dari mana `queryFn` mendapatkan `period` dan `limit`. Keduanya tidak 
 
 Ketergantungan tersembunyi seperti ini membuat kode sulit dibaca. Untuk tahu data apa yang sebenarnya diambil, membaca `queryFn` saja tidak cukup. Kita harus menelusuri ke atas: `period` datang dari mana, `limit` diubah oleh siapa, dan apakah nilainya bisa berganti di tengah jalan.
 
-Selain sulit dibaca, nilai yang di-_hoist_ juga membuat perilaku _query_ sulit diprediksi. Bagi Tanstack Query, identitas sebuah _query_ hanyalah `queryKey`-nya. Tanstack Query tidak tahu, dan tidak akan pernah tahu, nilai apa saja yang diam-diam dibaca `queryFn` dari _closure_. Kontrak "jika `queryKey` berubah maka _refetch_" hanya bekerja selama seluruh nilai yang dipakai `queryFn` juga tercantum di dalam `queryKey`. Dan satu-satunya penjaga kontrak itu adalah kedisiplinan kita sendiri.
+Selain sulit dibaca, nilai yang di-_hoist_ juga membuat perilaku _query_ sulit diprediksi. Bagi TanStack Query, identitas sebuah _query_ hanyalah `queryKey`-nya. TanStack Query tidak tahu, dan tidak akan pernah tahu, nilai apa saja yang diam-diam dibaca `queryFn` dari _closure_. Kontrak "jika `queryKey` berubah maka _refetch_" hanya bekerja selama seluruh nilai yang dipakai `queryFn` juga tercantum di dalam `queryKey`. Dan satu-satunya penjaga kontrak itu adalah kedisiplinan kita sendiri.
 
-Analogi sederhananya seperti kotak arsip di gudang. `queryKey` adalah label yang tertempel di kotak, sedangkan hasil `queryFn` adalah isi kotaknya. Tanstack Query tidak pernah membuka kotak untuk memeriksa isinya. Ia hanya membaca label: selama labelnya sama, isinya dianggap sama.
+Analogi sederhananya seperti kotak arsip di gudang. `queryKey` adalah label yang tertempel di kotak, sedangkan hasil `queryFn` adalah isi kotaknya. TanStack Query tidak pernah membuka kotak untuk memeriksa isinya. Ia hanya membaca label: selama labelnya sama, isinya dianggap sama.
 
 Selama kita disiplin menuliskan nilai yang sama di kedua tempat, tidak ada masalah. Tetapi bayangkan suatu saat kita menambahkan parameter baru, misalnya `branchId` untuk memfilter penjualan per cabang. Jika kita hanya menambahkannya ke `queryFn` dan lupa memperbarui `queryKey`:
 
@@ -233,13 +247,13 @@ const salesQuery = useQuery({
 });
 ```
 
-Kode ini tetap berjalan tanpa _error_, namun perilakunya salah secara diam-diam. Kita mengubah isi kotak tanpa mengganti labelnya. Ketika kasir cabang Bandung membuka _dashboard_, angka yang tampil justru penjualan cabang Jakarta yang dibuka sebelumnya, karena bagi Tanstack Query labelnya masih sama: `["get-sales", "7d", 10]`.
+Kode ini tetap berjalan tanpa _error_, namun perilakunya salah secara diam-diam. Kita mengubah isi kotak tanpa mengganti labelnya. Ketika kasir cabang Bandung membuka _dashboard_, angka yang tampil justru penjualan cabang Jakarta yang dibuka sebelumnya, karena bagi TanStack Query labelnya masih sama: `["get-sales", "7d", 10]`.
 
 <NoteImage
   lang="id"
   src={HoistedQueryKey}
-  alt="queryFn membaca period, limit, dan branchId dari closure komponen, sementara Tanstack Query hanya membaca queryKey yang tidak memuat branchId"
-  caption="queryFn diam-diam membaca nilai dari closure, sedangkan Tanstack Query hanya membaca label (queryKey)."
+  alt="queryFn membaca period, limit, dan branchId dari closure komponen, sementara TanStack Query hanya membaca queryKey yang tidak memuat branchId"
+  caption="queryFn diam-diam membaca nilai dari closure, sedangkan TanStack Query hanya membaca label (queryKey)."
 />
 
 Tidak ada pesan _error_, tidak ada peringatan di _console_. _Bug_ seperti ini biasanya baru ketahuan setelah pengguna komplain bahwa datanya "aneh", dan kita menghabiskan waktu memeriksa _backend_ yang sebenarnya baik-baik saja.
@@ -250,16 +264,16 @@ Tidak ada pesan _error_, tidak ada peringatan di _console_. _Bug_ seperti ini bi
 
 Masalah kedua bisa kita saksikan sendiri lewat tab Network di DevTools. Coba ganti periode dari 7 hari ke 30 hari lalu ke 90 hari secara cepat.
 
-Ada tiga _request_ yang berjalan bersamaan, padahal dua di antaranya mengambil data yang tidak akan pernah ditampilkan. Tanstack Query memang cukup pintar untuk mengabaikan hasilnya, tetapi _request_-nya sendiri tetap sampai ke _server_, tetap diproses, dan tetap memakan _bandwidth_ pengguna.
+Ada tiga _request_ yang berjalan bersamaan, padahal dua di antaranya mengambil data yang tidak akan pernah ditampilkan. TanStack Query memang cukup pintar untuk mengabaikan hasilnya, tetapi _request_-nya sendiri tetap sampai ke _server_, tetap diproses, dan tetap memakan _bandwidth_ pengguna.
 
-Ibaratnya seperti memesan makanan lalu berganti pilihan dua kali. Yang diantar ke meja memang pesanan terakhir, tetapi dapur tetap memasak ketiganya. Padahal Tanstack Query sudah menyediakan cara untuk membatalkan pesanan yang tidak jadi. Kita saja yang tidak pernah memakainya.
+Ibaratnya seperti memesan makanan lalu berganti pilihan dua kali. Yang diantar ke meja memang pesanan terakhir, tetapi dapur tetap memasak ketiganya. Padahal TanStack Query sudah menyediakan cara untuk membatalkan pesanan yang tidak jadi. Kita saja yang tidak pernah memakainya.
 
 ## Memanfaatkan `QueryFunctionContext`
 
-Kabar baiknya, solusi untuk kedua masalah tadi sudah ada di depan mata sejak awal. Setiap kali menulis `queryFn: () => getSales(...)`, tanpa sadar kita membuang sebuah argumen yang selalu dikirim Tanstack Query ke `queryFn`. Argumen tersebut bernama [`QueryFunctionContext`](https://tanstack.com/query/v5/docs/framework/react/guides/query-functions#queryfunctioncontext), dan dua isinya yang paling berguna adalah:
+Kabar baiknya, solusi untuk kedua masalah tadi sudah ada di depan mata sejak awal. Setiap kali menulis `queryFn: () => getSales(...)`, tanpa sadar kita membuang sebuah argumen yang selalu dikirim TanStack Query ke `queryFn`. Argumen tersebut bernama [`QueryFunctionContext`](https://tanstack.com/query/v5/docs/framework/react/guides/query-functions#queryfunctioncontext), dan dua isinya yang paling berguna adalah:
 
 - `queryKey`, yaitu _key_ yang sedang digunakan oleh _query_ tersebut.
-- `signal`, yaitu sebuah [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) yang akan dibatalkan otomatis oleh Tanstack Query.
+- `signal`, yaitu sebuah [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) yang akan dibatalkan otomatis oleh TanStack Query.
 
 Dengan memanfaatkan keduanya, kedua masalah di atas selesai sekaligus:
 
@@ -304,9 +318,9 @@ async function getSales(config: SalesOverviewConfig) {
 }
 ```
 
-Sekarang, ketika `queryKey` berubah atau komponen di-_unmount_ sebelum _request_ selesai, Tanstack Query akan membatalkan `signal` tersebut dan `fetch` langsung menghentikan _request_-nya. Dapur berhenti memasak begitu pesanannya dibatalkan. Jika kita ulangi eksperimen di tab Network tadi, dua _request_ pertama kini berstatus _cancelled_.
+Sekarang, ketika `queryKey` berubah atau komponen di-_unmount_ sebelum _request_ selesai, TanStack Query akan membatalkan `signal` tersebut dan `fetch` langsung menghentikan _request_-nya. Dapur berhenti memasak begitu pesanannya dibatalkan. Jika kita ulangi eksperimen di tab Network tadi, dua _request_ pertama kini berstatus _cancelled_.
 
-Perlu dicatat, `signal` bersifat _opt-in_. Tanstack Query hanya bisa membatalkan _request_ jika kita meneruskan `signal`-nya ke _fetching library_ yang digunakan, baik itu `fetch` bawaan _browser_ maupun [Axios](https://axios-http.com) yang juga menerima opsi `signal`.
+Perlu dicatat, `signal` bersifat _opt-in_. TanStack Query hanya bisa membatalkan _request_ jika kita meneruskan `signal`-nya ke _fetching library_ yang digunakan, baik itu `fetch` bawaan _browser_ maupun [Axios](https://axios-http.com) yang juga menerima opsi `signal`.
 
 ## Query Key Factory
 
@@ -348,7 +362,7 @@ Karena _key_ dibangun secara hierarkis (`salesKeys.overview` selalu diawali `sal
 
 ### Menggunakan `queryOptions`
 
-Sejak versi 5, Tanstack Query menyediakan _helper_ [`queryOptions`](https://tanstack.com/query/v5/docs/framework/react/reference/queryOptions) yang memungkinkan kita memusatkan `queryKey` dan `queryFn` sekaligus dalam satu definisi yang _type-safe_:
+Sejak versi 5, TanStack Query menyediakan _helper_ [`queryOptions`](https://tanstack.com/query/v5/docs/framework/react/reference/queryOptions) yang memungkinkan kita memusatkan `queryKey` dan `queryFn` sekaligus dalam satu definisi yang _type-safe_:
 
 ```ts
 import { queryOptions } from "@tanstack/react-query";
@@ -529,11 +543,11 @@ Empat langkah di kode tersebut persis kebiasaan kasir tadi:
 
 Perhatikan bahwa seluruh langkah tersebut merujuk _key_ dari _factory_ yang sama. Tanpa _query key factory_, pola ini rentan sekali salah ketik. _Optimistic update_ dengan _key_ yang salah artinya UI berubah, namun _rollback_ tidak bekerja dan data _server_ tidak pernah tersinkron.
 
-Untuk kasus sederhana yang hanya perlu ditampilkan di satu tempat, Tanstack Query v5 juga menawarkan cara yang lebih ringan: membaca [`variables`](https://tanstack.com/query/v5/docs/framework/react/guides/optimistic-updates#via-the-ui) dari `useMutation` dan merendernya langsung selagi `isPending` bernilai `true`, tanpa menyentuh _cache_ sama sekali. Saya memakai pendekatan ini untuk hal-hal seperti menambahkan item ke daftar sementara. Sedangkan pendekatan berbasis _cache_ di atas saya simpan untuk data yang dibaca banyak komponen.
+Untuk kasus sederhana yang hanya perlu ditampilkan di satu tempat, TanStack Query v5 juga menawarkan cara yang lebih ringan: membaca [`variables`](https://tanstack.com/query/v5/docs/framework/react/guides/optimistic-updates#via-the-ui) dari `useMutation` dan merendernya langsung selagi `isPending` bernilai `true`, tanpa menyentuh _cache_ sama sekali. Saya memakai pendekatan ini untuk hal-hal seperti menambahkan item ke daftar sementara. Sedangkan pendekatan berbasis _cache_ di atas saya simpan untuk data yang dibaca banyak komponen.
 
 ## Penutup
 
-Tanstack Query memang terasa sederhana di permukaan, dan justru karena itulah kita sering berhenti belajar setelah `useQuery` pertama berhasil berjalan. Padahal beberapa kebiasaan kecil ini membuat pengelolaan _server state_ jauh lebih tangguh:
+TanStack Query memang terasa sederhana di permukaan, dan justru karena itulah kita sering berhenti belajar setelah `useQuery` pertama berhasil berjalan. Padahal beberapa kebiasaan kecil ini membuat pengelolaan _server state_ jauh lebih tangguh:
 
 1. Jadikan `queryKey` sebagai satu-satunya sumber kebenaran dengan membacanya kembali melalui `QueryFunctionContext`, bukan dari _closure_.
 2. Teruskan `signal` ke _fetching library_ agar _request_ yang sudah tidak relevan dibatalkan otomatis.
@@ -543,4 +557,4 @@ Tanstack Query memang terasa sederhana di permukaan, dan justru karena itulah ki
 
 Semuanya tidak menambah kompleksitas yang berarti, tetapi menghilangkan kelas _bug_ yang paling sulit dilacak: _bug_ yang tidak pernah melempar _error_.
 
-Tulisan ini banyak terinspirasi dari [blog TkDodo](https://tkdodo.eu/blog), _maintainer_ Tanstack Query yang menulis puluhan artikel mendalam seputar _library_ ini. Jika ingin menyelam lebih jauh, mulailah dari sana.
+Tulisan ini banyak terinspirasi dari [blog TkDodo](https://tkdodo.eu/blog), _maintainer_ TanStack Query yang menulis puluhan artikel mendalam seputar _library_ ini. Jika ingin menyelam lebih jauh, mulailah dari sana.
