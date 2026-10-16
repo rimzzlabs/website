@@ -16,6 +16,14 @@ export function toISODate(publishedAt: string) {
 	return `${year}-${month}-${day}`;
 }
 
+const ISO_DATE_FORMAT = new Intl.DateTimeFormat("en-CA", {
+	timeZone: SITE_TIME_ZONE,
+});
+
+export function formatISODate(date: string | number | Date) {
+	return ISO_DATE_FORMAT.format(new Date(date));
+}
+
 export function formatDate(
 	options: Intl.DateTimeFormatOptions = DEFAULT_DATE_FORMAT,
 	locale: Locale = DEFAULT_LOCALE,
