@@ -284,7 +284,7 @@ export const en = {
 	inspiration: {
 		seoTitle: "Inspiration, Rizki Citra",
 		seoDescription:
-			"The people and personal sites that inspired me to build this one.",
+			"The developers and personal sites that inspired me to build this one. A short list of people whose work you can visit and learn from.",
 		title: "Inspiration",
 		intro:
 			"A lot of people inspired me to make this site. These are some of them, and there are many more developers whose sites I can't recall.",
@@ -293,7 +293,7 @@ export const en = {
 	now: {
 		seoTitle: "Now, Rizki Citra",
 		seoDescription:
-			"What I'm focused on right now: work, side projects, writing, and this site.",
+			"What I'm focused on right now: frontend infrastructure at Kolosal AI, side projects like Mayarin and Lanjut, my next notes, and this site.",
 		title: "Now",
 		intro:
 			"A snapshot of what I'm focused on at this point in my life. It's a /now page, an idea from {derek}. You can find many more on {nownownow}.",
@@ -338,7 +338,7 @@ export const en = {
 	archive: {
 		seoTitle: "Archive, Rizki Citra",
 		seoDescription:
-			"My journey in software engineering, year by year, from 2019 to now.",
+			"My journey in software engineering, year by year since 2019: vocational school, an internship at Skyshi, crypto at Bitwyre, and AI at Kolosal AI.",
 		title: "Archive",
 		intro:
 			"My software engineering journey started in 2019. This is the longer version, year by year: the jobs, the detours, and everything in between.",
