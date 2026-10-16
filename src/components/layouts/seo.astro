@@ -1,6 +1,8 @@
 ---
 import { A, F, G, O, pipe, S } from "@mobily/ts-belt";
+import { getImage } from "astro:assets";
 import { SEO, type SEOProps } from "astro-seo";
+import potrait from "@/assets/images/potrait.png";
 import { getDictionary } from "@/i18n";
 import {
   DEFAULT_LOCALE,
@@ -8,7 +10,9 @@ import {
   LOCALES,
   type Locale,
   localizePath,
+  stripLocale,
 } from "@/i18n/config";
+import { toMarkdownPath } from "@/lib/agent/markdown-path";
 import { ogImagePath } from "@/lib/og/paths";
 
 interface Props {
@@ -61,6 +65,62 @@ const ogImage = {
 
 const personId = new URL("/#person", Astro.site).href;
 const websiteId = new URL("/#website", Astro.site).href;
+const homePath = localizePath("/", locale);
+const notesPath = localizePath("/notes", locale);
+const portrait = await getImage({ src: potrait, width: 800, format: "jpg" });
+
+function pageType() {
+  if (pathname === homePath) return "ProfilePage";
+  if (pathname === notesPath) return "CollectionPage";
+  return "WebPage";
+}
+
+function articleNodes() {
+  if (!article) return [];
+  return [
+    {
+      "@type": "BlogPosting",
+      "@id": `${canonical}#article`,
+      headline: title,
+      description,
+      image: ogImageUrl,
+      keywords: props.keywords,
+      inLanguage: HTML_LANG[locale],
+      mainEntityOfPage: { "@id": canonical },
+      author: { "@id": personId },
+      publisher: { "@id": personId },
+      datePublished: article.publishedTime,
+      dateModified: article.modifiedTime ?? article.publishedTime,
+    },
+  ];
+}
+
+function toBreadcrumbList(
+  crumbs: ReadonlyArray<{ name: string; url: string }>,
+) {
+  return {
+    "@type": "BreadcrumbList",
+    "@id": `${canonical}#breadcrumb`,
+    itemListElement: crumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.url,
+    })),
+  };
+}
+
+function breadcrumbNodes() {
+  const path = stripLocale(pathname);
+  if (!path.startsWith("/notes/")) return [];
+  const crumbs = [
+    { name: t.nav.home, url: toAbsolute(homePath) },
+    { name: t.nav.notes, url: toAbsolute(notesPath) },
+  ];
+  if (path === "/notes/") return [toBreadcrumbList(crumbs)];
+  return [toBreadcrumbList([...crumbs, { name: title, url: canonical }])];
+}
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -68,9 +128,18 @@ const jsonLd = {
       "@type": "Person",
       "@id": personId,
       name: "Rizki Citra",
+      alternateName: "rimzzlabs",
       url: Astro.site?.href,
       jobTitle: "Software Engineer",
-      image: new URL("/icon-512.png", Astro.site).href,
+      description:
+        "Software engineer who builds frontend infrastructure at Kolosal AI.",
+      image: new URL(portrait.src, Astro.site).href,
+      worksFor: {
+        "@type": "Organization",
+        name: "Kolosal AI",
+        url: "https://kolosal.ai",
+      },
+      knowsAbout: ["React", "TypeScript", "Frontend infrastructure"],
       sameAs: [
         "https://github.com/rimzzlabs",
         "https://www.linkedin.com/in/rimzzlabs",
@@ -88,25 +157,18 @@ const jsonLd = {
       publisher: { "@id": personId },
     },
     {
-      "@type": article ? "BlogPosting" : "WebPage",
+      "@type": pageType(),
       "@id": canonical,
       url: canonical,
       name: title,
       description,
       inLanguage: HTML_LANG[locale],
       isPartOf: { "@id": websiteId },
-      primaryImageOfPage: ogImage.url.toString(),
-      ...(article && {
-        headline: title,
-        image: ogImageUrl,
-        keywords: props.keywords,
-        mainEntityOfPage: canonical,
-        author: { "@id": personId },
-        publisher: { "@id": personId },
-        datePublished: article.publishedTime,
-        dateModified: article.modifiedTime ?? article.publishedTime,
-      }),
+      primaryImageOfPage: ogImageUrl,
+      ...(pathname === homePath && { mainEntity: { "@id": personId } }),
     },
+    ...articleNodes(),
+    ...breadcrumbNodes(),
   ],
 };
 ---
@@ -142,6 +204,11 @@ const jsonLd = {
   extend={{
     link: [
       { rel: "sitemap", href: "/sitemap-index.xml" },
+      {
+        rel: "alternate",
+        type: "text/markdown",
+        href: toMarkdownPath(pathname),
+      },
       {
         rel: "alternate",
         type: "application/rss+xml",
