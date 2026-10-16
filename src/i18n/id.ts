@@ -51,12 +51,12 @@ export const id = {
 	home: {
 		seoTitle: "Rizki Citra, Software Engineer",
 		seoDescription:
-			"Saya Rizki Citra, software engineer yang membangun frontend di Kolosal AI. Di sini kamu bisa melihat proyek, catatan, dan beberapa foto saya.",
+			"Saya Rizki Citra, software engineer yang membangun infrastruktur frontend di Kolosal AI. Di sini kamu bisa melihat proyek, catatan, dan beberapa foto saya.",
 		heroWork:
-			'Saya seorang <em lang="en">software engineer</em> yang bekerja <em lang="en">full-time</em> secara <em lang="en">remote</em>. Di {kolosal}, saya merancang dan membangun aplikasi <em lang="en">frontend</em>, tempat di mana orang berkolaborasi dengan akal imitasi.',
+			'Saya seorang <em lang="en">remote software engineer</em>. Di {kolosal}, saya menggarap infrastruktur <em lang="en">frontend</em>: <em lang="en">tooling</em> dan fondasi di balik aplikasi tempat orang berkolaborasi dengan akal imitasi.',
 		heroPast:
 			'Sebelumnya, saya lebih banyak berkecimpung di dunia <em lang="en">fintech</em>. Di {bitwyre}, saya ikut membangun platform <em lang="en">trading</em> kripto <em lang="en">perpetual futures</em> dan aplikasi <em lang="en">mobile</em> kartu kripto. Di {skyshi}, saya menggarap produk <em lang="en">fintech</em> dan <em lang="en">internal tools</em> untuk banyak klien, dan belajar banyak dari sana.',
-		resume: "Intip CV saya",
+		resume: "CV saya",
 		visitProject: "Kunjungi {name}",
 		projectsTitle: "Proyek",
 		projectsDescription:
@@ -96,11 +96,11 @@ export const id = {
 			"Gunung Pulosari di Pandeglang, Banten, dilihat dari seberang sawah.",
 		contactTitle: "Punya ide menarik?",
 		contactBody:
-			'Saya bekerja <em lang="en">full-time</em>, jadi jarang menerima proyek sampingan. Meski begitu, saya selalu senang diajak ngobrol soal proyek yang menarik. Kalau kamu punya, jangan ragu menyapa.',
+			"Saya selalu senang diajak ngobrol soal proyek yang menarik. Kalau kamu punya, jangan ragu menyapa.",
 		scheduleCall: "Jadwalkan obrolan",
 	},
 	contact: {
-		trigger: "Kirim pesan",
+		trigger: "Hubungi saya",
 		title: "Kirim pesan ke saya",
 		description:
 			"Ceritakan sedikit soal proyek atau ide kamu. Saya baca semua pesan yang masuk.",
@@ -304,9 +304,10 @@ export const id = {
 		sectionLabel: "Yang sedang saya kerjakan",
 		work: {
 			label: "Kerja",
-			title: 'Membangun <em lang="en">frontend</em> di Kolosal AI',
+			title:
+				'Membangun infrastruktur <em lang="en">frontend</em> di Kolosal AI',
 			description:
-				'Saya merancang dan membangun aplikasi tempat orang berkolaborasi dengan akal imitasi. <em lang="en">Full-time</em>, sepenuhnya <em lang="en">remote</em>.',
+				'Sekarang saya jarang mengurus tampilan, lebih banyak mengurus apa yang ada di baliknya: <em lang="en">tooling</em> dan fondasi untuk aplikasi tempat orang berkolaborasi dengan akal imitasi. Sepenuhnya <em lang="en">remote</em>.',
 		},
 		building: {
 			label: "Membangun",
@@ -315,15 +316,15 @@ export const id = {
 		},
 		sideProjects: {
 			label: "Proyek sampingan",
-			title: "Lanjut dan Absqir",
+			title: "Lanjut, Absqir, dan Ayawe",
 			description:
-				'Lanjut adalah aplikasi pembuat CV yang <em lang="en">local-first</em> dan ramah ATS. Absqir adalah aplikasi absensi <em lang="en">open source</em> yang bisa kamu <em lang="en">host</em> sendiri. Saya juga berkontribusi di Trymorrow.',
+				'Lanjut adalah aplikasi pembuat CV yang <em lang="en">local-first</em> dan ramah ATS. Absqir adalah aplikasi absensi <em lang="en">open source</em> yang bisa kamu <em lang="en">host</em> sendiri. Ayawe adalah brankas kecil untuk <em lang="en">environment variables</em>, terenkripsi di <em lang="en">browser</em> kamu.',
 		},
 		site: {
 			label: "Situs ini",
-			title: "Meluncurkan ulang rimzzlabs.com",
+			title: "Mengutak-atik rimzzlabs.com",
 			description:
-				"Tipografi baru, buku tamu, dan halaman ini. Desain barunya tayang pada 27 September 2026.",
+				'Desain barunya tayang pada 27 September 2026. Sejak itu, situs ini dapat animasi Gunung Pulosari di kartu kontak, tombol suka di catatan, <em lang="en">scrolling</em> yang lebih halus, dan halaman Inspirasi.',
 			sourceCode: "Source code",
 		},
 		writing: {
@@ -333,8 +334,8 @@ export const id = {
 		},
 		openTo: {
 			label: "Terbuka untuk",
-			title: "Proyek menarik dan obrolan seru",
-			body: 'Saya bekerja <em lang="en">full-time</em>, jadi jarang menerima proyek sampingan. Kalau kamu punya sesuatu yang menarik, {sayHello}.',
+			title: 'Proyek <em lang="en">freelance</em>, yang menarik tentunya',
+			body: 'Masih ada ruang di meja saya untuk satu proyek lagi. Kalau kamu sedang membangun sesuatu dan butuh bantuan di sisi <em lang="en">frontend</em>, dari UI sampai proses <em lang="en">build</em>, {sayHello}.',
 			sayHello: "jangan ragu menyapa",
 		},
 	},

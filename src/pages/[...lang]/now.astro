@@ -132,7 +132,7 @@ const ITEMS = getNowItems(t);
           </p>
           <div>
             <h2 class="font-serif text-[1.05em] font-medium text-pretty">
-              {t.now.openTo.title}
+              <Fragment set:html={t.now.openTo.title} />
             </h2>
             <p class="pt-1 text-sm/relaxed text-pretty text-muted-foreground">
               <RichText

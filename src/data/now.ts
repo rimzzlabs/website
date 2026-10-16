@@ -1,6 +1,6 @@
 import type { Dictionary } from "@/i18n/en";
 
-export const NOW_UPDATED_AT = "09/25/2026";
+export const NOW_UPDATED_AT = "10/16/2026";
 
 export const NOW_INTRO_LINKS = {
 	derek: { href: "https://sive.rs", label: "Derek Sivers" },
@@ -32,8 +32,15 @@ export function getNowItems(t: Dictionary): ReadonlyArray<NowItem> {
 		{
 			...t.now.sideProjects,
 			links: [
-				{ label: "lanjut.rimzzlabs.com", href: "https://lanjut.rimzzlabs.com" },
-				{ label: "absqir.rimzzlabs.com", href: "https://absqir.rimzzlabs.com" },
+				{ label: "lanjut.org", href: "https://lanjut.org" },
+				{
+					label: "github.com/rimzzlabs/absqir",
+					href: "https://github.com/rimzzlabs/absqir",
+				},
+				{
+					label: "github.com/rimzzlabs/ayawe",
+					href: "https://github.com/rimzzlabs/ayawe",
+				},
 			],
 		},
 		{
