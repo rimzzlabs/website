@@ -23,8 +23,8 @@ export function getNavigationLinks(locale: Locale): Array<NavigationLink> {
 }
 
 export function isCurrentLink(href: string, pathname: string) {
-	const path = pathname.replace(/\/$/, "") || "/";
+	const path = pathname.replace(/\/?$/, "/");
 	if (path === href) return true;
 	const isHome = LOCALES.some((locale) => localizePath("/", locale) === href);
-	return !isHome && path.startsWith(`${href}/`);
+	return !isHome && path.startsWith(href);
 }

@@ -26,7 +26,7 @@ export const GET: APIRoute = async (context) => {
 			title: note.data.title,
 			description: note.data.description,
 			pubDate: new Date(note.dateISO),
-			link: `${note.url}/`,
+			link: note.url,
 			categories: note.data.keywords,
 		})),
 		customData: `<language>${HTML_LANG[locale]}</language>`,

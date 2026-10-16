@@ -32,14 +32,11 @@ const googlebot = noindex
   : "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1";
 
 const pathname = Astro.url.pathname;
-// Match Astro's directory build format (trailing slash) so hreflang URLs line up with canonicals.
-const withTrailingSlash = (p: string) => (p.endsWith("/") ? p : `${p}/`);
 const canonical = new URL(pathname, Astro.site).href;
 
 const type = article ? "article" : "website";
 
-const toAbsolute = (path: string) =>
-  new URL(withTrailingSlash(path), Astro.site).href;
+const toAbsolute = (path: string) => new URL(path, Astro.site).href;
 const languageAlternates = [
   ...LOCALES.map((alternate) => ({
     hrefLang: HTML_LANG[alternate],

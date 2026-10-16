@@ -10,6 +10,7 @@ import { htmlToMarkdown, richText } from "@/lib/agent/convert";
 import { imageMarkdown } from "@/lib/agent/images";
 import { noteBodyMarkdown } from "@/lib/agent/note-body";
 import { SITE, siteUrl, withAbsoluteLinks } from "@/lib/agent/site";
+import { toISODate } from "@/lib/datetime";
 import type { GuestbookPage } from "@/lib/guestbook/schema";
 import type { Note } from "@/lib/notes";
 
@@ -31,7 +32,7 @@ function header(
 }
 
 function noteLine(note: Note) {
-	return `- [${note.data.title}](${SITE}${note.url}/) (${note.dateISO.slice(0, 10)}): ${note.data.description}`;
+	return `- [${note.data.title}](${SITE}${note.url}) (${toISODate(note.data.publishedAt)}): ${note.data.description}`;
 }
 
 export function buildHomeMarkdown(locale: Locale, notes: ReadonlyArray<Note>) {
@@ -104,10 +105,10 @@ export async function buildNoteMarkdown(locale: Locale, note: Note) {
 		...header(
 			note.data.title,
 			note.data.description,
-			`${SITE}${note.url}/`,
+			`${SITE}${note.url}`,
 			locale,
 		),
-		`- ${t.og.note}: ${note.dateISO.slice(0, 10)}`,
+		`- ${t.og.note}: ${toISODate(note.data.publishedAt)}`,
 		`- Author: Rizki Citra (${SITE})`,
 		"",
 		"---",

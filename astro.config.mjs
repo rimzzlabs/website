@@ -13,6 +13,7 @@ import { shikiCodeMeta } from "./src/lib/markdown/shiki-code-meta.mjs";
 // https://astro.build/config
 export default defineConfig({
 	site: "https://rimzzlabs.com",
+	trailingSlash: "always",
 	prefetch: true,
 	server: { port: 5600 },
 	env: {
