@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { Dictionary } from "@/i18n/en";
 import { describedBy } from "@/lib/aria";
+import { authClient } from "@/lib/auth-client";
 import { GUESTBOOK_QUERY_KEY, postGuestbookEntry } from "@/lib/guestbook/api";
 import {
 	createGuestbookAnonymousSchema,
@@ -46,7 +47,6 @@ interface GuestbookFormProps {
 	copy: Dictionary["guestbook"];
 	user: GuestbookUser | null;
 	onCancel?: () => void;
-	onSignOut?: () => void;
 	autoFocus?: boolean;
 }
 
@@ -167,7 +167,7 @@ export function GuestbookForm(props: GuestbookFormProps) {
 							type="button"
 							variant="outline"
 							size="sm"
-							onClick={props.onSignOut}
+							onClick={() => authClient.signOut()}
 						>
 							{props.copy.signOut}
 						</Button>

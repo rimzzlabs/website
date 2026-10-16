@@ -44,7 +44,12 @@ const initialPage = await getGuestbookAtBuild();
     </header>
 
     <section class="wrapper pt-10" aria-label={t.guestbook.signLabel}>
-      <GuestbookComposer client:load copy={t.guestbook} />
+      <div
+        class="rounded-xl bg-muted p-4 sm:p-5"
+        style="view-transition-name: guestbook-card; view-transition-class: guestbook form-card"
+      >
+        <GuestbookComposer client:load copy={t.guestbook} />
+      </div>
     </section>
 
     <section

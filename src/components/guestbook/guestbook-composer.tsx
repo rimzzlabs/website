@@ -1,11 +1,10 @@
 import { GithubLogoIcon, UserCircleDashedIcon } from "@phosphor-icons/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
-	GUESTBOOK_CARD_MORPH,
-	GuestbookCard,
-} from "@/components/guestbook/guestbook-card";
-import { GuestbookForm } from "@/components/guestbook/guestbook-form";
+	GUESTBOOK_ACTION_TRANSITION,
+	GuestbookForm,
+} from "@/components/guestbook/guestbook-form";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Dictionary } from "@/i18n/en";
@@ -19,14 +18,14 @@ interface GuestbookComposerProps {
 export function GuestbookComposer(props: GuestbookComposerProps) {
 	const session = authClient.useSession();
 	const [anonymous, setAnonymous] = useState(false);
-	const [signedOut, setSignedOut] = useState(false);
+	const anonymousButtonRef = useRef<HTMLButtonElement>(null);
 	const returnFocusRef = useRef(false);
 
-	function focusOnReturn(button: HTMLButtonElement | null) {
-		if (!button || !returnFocusRef.current) return;
+	useEffect(() => {
+		if (anonymous || !returnFocusRef.current) return;
 		returnFocusRef.current = false;
-		button.focus();
-	}
+		anonymousButtonRef.current?.focus();
+	}, [anonymous]);
 
 	if (session.isPending) {
 		return (
@@ -39,42 +38,26 @@ export function GuestbookComposer(props: GuestbookComposerProps) {
 
 	const user = session.data?.user;
 
-	function signOut() {
-		returnFocusRef.current = true;
-		morph(() => setSignedOut(true), "guestbook-close");
-		authClient.signOut().then(
-			(result) => {
-				if (result.error) setSignedOut(false);
-			},
-			() => setSignedOut(false),
-		);
-	}
-
-	if (user && !signedOut) {
+	if (user) {
 		return (
-			<GuestbookCard>
-				<GuestbookForm
-					copy={props.copy}
-					user={{ name: user.name, image: user.image ?? null }}
-					onSignOut={signOut}
-				/>
-			</GuestbookCard>
+			<GuestbookForm
+				copy={props.copy}
+				user={{ name: user.name, image: user.image ?? null }}
+			/>
 		);
 	}
 
 	if (anonymous) {
 		return (
-			<GuestbookCard>
-				<GuestbookForm
-					copy={props.copy}
-					user={null}
-					autoFocus
-					onCancel={() => {
-						returnFocusRef.current = true;
-						morph(() => setAnonymous(false), "guestbook-close");
-					}}
-				/>
-			</GuestbookCard>
+			<GuestbookForm
+				copy={props.copy}
+				user={null}
+				autoFocus
+				onCancel={() => {
+					returnFocusRef.current = true;
+					morph(() => setAnonymous(false));
+				}}
+			/>
 		);
 	}
 
@@ -92,10 +75,10 @@ export function GuestbookComposer(props: GuestbookComposerProps) {
 				{props.copy.signIn}
 			</Button>
 			<Button
-				ref={focusOnReturn}
+				ref={anonymousButtonRef}
 				variant="outline"
-				style={GUESTBOOK_CARD_MORPH}
-				onClick={() => morph(() => setAnonymous(true), "guestbook-open")}
+				style={{ viewTransitionName: GUESTBOOK_ACTION_TRANSITION }}
+				onClick={() => morph(() => setAnonymous(true))}
 			>
 				<UserCircleDashedIcon />
 				{props.copy.writeAnonymously}
