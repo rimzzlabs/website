@@ -1,8 +1,8 @@
 ---
-title: "Jotai, a beautiful state manager for React devs"
-description: "When we talk about state managers, the first name that comes to mind is probably Redux. This time, let's try another state manager library and meet Jotai."
+title: "Jotai, a Beautiful State Manager for React Devs"
+description: "Swap prop drilling and Provider Hell for Jotai atoms that work like useState, and keep the theme in localStorage with atomWithStorage."
 publishedAt: "07/08/2022"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: true
 author: rimzzlabs
@@ -10,7 +10,7 @@ keywords:
   - react
   - hooks
   - jotai hooks
-  - state mangement
+  - state management
   - react state management
   - jotai
   - jotai state manager
@@ -23,11 +23,21 @@ relatedPosts:
   - jotai-recipes
 ---
 
+<Callout type="note">
+  **In short:**
+
+  - **Atoms** work like `useState`, but any component can share them, with no Provider to wrap and no props to pass down.
+  - **`atomWithStorage`** keeps state such as the theme in localStorage, so it survives a refresh.
+  - **A custom hook** such as `useDarkMode` wraps the atom and keeps the component small.
+  - **Zustand** fits better if you update state outside React.
+  - **Recoil** inspired Jotai's atoms, but Meta archived it in January 2025.
+</Callout>
+
 ## Introduction
 
 Jotai is an awesome state manager for React. There are **no extra re-renders**, state resides within React, and you get the full benefits of Suspense and concurrent features. It scales from a simple `React.useState` replacement to a large-scale application with complex requirements.
 
-> Jotai takes a bottom-up approach to React state management with an atomic model inspired by Recoil. One can build state by combining atoms and renders are optimized based on atom dependency. This solves the extra re-render issue of React context and eliminates the need for the memoization technique.
+You build state from small pieces called atoms and combine them as you need. A component re-renders only when an atom it reads changes, which is how Jotai avoids the extra re-renders of React context without any memoization tricks.
 
 A long time ago, I started learning frontend web development. There was so much to learn, and one of the most important topics was state management.
 
@@ -144,53 +154,17 @@ const [theme, setTheme] = useAtom(themeAtom);
 
 ## Comparison to Other Libraries
 
-Let's compare Jotai to other libraries. This comparison is based on the official Jotai website.
+The Jotai docs have a [full comparison](https://jotai.org/docs/basics/comparison) with `useContext`, Zustand, and Recoil. Here's the short version, in my own words.
 
 ### Jotai vs Zustand
 
-Jotai is like Recoil, while [Zustand](https://github.com/pmndrs/zustand "Zustand Repository") is like Redux.
+[Zustand](https://github.com/pmndrs/zustand "Zustand Repository") keeps your state in one store outside React, a lot like Redux, while Jotai builds it from small atoms that feel like `useState`. If you need to update state from outside React, or you want the Redux devtools, Zustand is the better fit. For a `useState` plus `useContext` replacement, Jotai fits better.
 
-The major difference is the state model. Zustand is a single store (although you could create multiple separate stores), while Jotai consists of primitive atoms and allows composing them together. In this sense, it's a matter of programming mental models.
+### How Is Jotai Different from Recoil?
 
-Jotai can be a replacement for useState+useContext. Instead of creating multiple contexts, atoms share one big context.
+Jotai's atomic model is inspired by Recoil, but Jotai identifies each atom by its object reference, while Recoil needs a unique string key for every atom. Recoil came from a team at Meta, and Meta [archived the repository](https://github.com/facebookexperimental/Recoil) in January 2025. Its last release, 0.7.7, dates from March 2023.
 
-Zustand is an external store and the hook is to connect the external world to the React world.
-
-#### When to Switch
-
-- If you need a replacement for useState+useContext, Jotai fits well.
-- If you want to update state outside React, Zustand works better.
-- If code splitting is important, Jotai should perform well.
-- If you prefer Redux devtools, Zustand is good to go.
-- If you want to make use of Suspense, Jotai is the one.
-
-### How is Jotai Different from Recoil?
-
-#### Developer
-
-- Jotai is developed collectively by a few developers in the Poimandres (formerly react-spring) org.
-- Recoil is developed by a team at Facebook.
-
-#### Basis
-
-- Jotai focuses on primitive APIs for easy learning, and it's unopinionated (the same philosophy as Zustand).
-- Recoil is full-featured for big apps with complex requirements.
-
-#### Technical Difference
-
-- Jotai depends on atom object referential identities.
-- Recoil depends on atom string keys.
-
-#### When to Use Which
-
-- If you want to learn something new, either should work.
-- If you like Zustand, Jotai would also be pleasant.
-- If your app heavily requires state serialization (storing state in storage, server, or URL), Recoil comes with good features.
-- If you need React Context alternatives, Jotai comes with enough features.
-- If you want to create a new library, Jotai might give you good primitives.
-- Otherwise, both are pretty similar in their general goals and basic techniques.
-
-## Using it with React
+## Using It with React
 
 I can store my app's state in each component, but I can also create a store in a separate file. I prefer to create a new file inside a store folder, for example:
 

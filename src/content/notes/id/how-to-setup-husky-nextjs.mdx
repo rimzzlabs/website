@@ -1,8 +1,8 @@
 ---
-title: "Cara Setup Husky, Lint Staged, Dan Commitizen Di Project Next.js"
+title: "Cara Setup Husky, Lint Staged, dan Commitizen di Next.js"
 description: "Berhenti mengerjakan bagian yang membosankan secara manual. Begini cara setup Husky, Lint Staged, dan Conventional Commit di proyek Next.js."
 publishedAt: "03/23/2022"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -10,28 +10,40 @@ keywords:
   - husky nextjs
   - husky lint staged
   - nextjs husky lint-staged
-  - how to setup husky
-  - how to setup husky lint staged
-  - how to setup nextjs
+  - cara setup husky
+  - cara setup husky lint staged
+  - cara setup nextjs
   - husky lint staged commitizen
   - commitizen
   - commitizen nextjs
   - commitizen reactjs
-  - conventional commit setup
-  - husky setup
+  - cara pakai conventional commit
+  - setup husky
   - lint staged nextjs
   - lint staged reactjs
-  - lint staged setup
+  - setup lint staged
   - nextjs reactjs
-  - setup developer experience
-  - setup developer experience nextjs
+  - lint otomatis sebelum commit
+  - format kode otomatis nextjs
 relatedPosts:
   - improving-performance-in-react
   - jotai-state-manager
 ---
 
-<Callout type="tip">
-  Catatan ini dari tahun 2022. Sekarang saya pakai Lefthook, Commitlint, dan Biome. _Setup_-nya bisa kamu baca di [Git Hooks dengan Lefthook, Commitlint, dan Biome](/id/notes/lefthook-commitlint-and-biome/).
+import NoteImage from "@/components/notes/note-image.astro";
+import Commitizen from "@/assets/notes/how-to-setup-husky-nextjs/commitizen.jpg";
+
+<Callout type="warning">
+  Catatan ini dari tahun 2022, dan langkah-langkahnya untuk Husky v8. Di Husky v9, `husky install` (yang dijalankan _script_ `postinstall` di catatan ini) dan baris `husky.sh` di awal setiap _hook_ sudah _deprecated_. Kalau pakai v9, cukup jalankan `npx husky init`. Perintah itu otomatis mengisi `"prepare": "husky"` di `package.json` kamu. Sekarang saya pakai Lefthook, Commitlint, dan Biome, dan _setup_-nya bisa kamu ikuti di [Git Hooks dengan Lefthook, Commitlint, dan Biome](/id/notes/lefthook-commitlint-and-biome/).
+</Callout>
+
+<Callout type="note">
+  **Singkatnya:**
+
+  - **Husky** menjalankan _script_ di Git _hook_, jadi _hook_ `pre-commit` bisa menjalankan `yarn lint` sebelum setiap _commit_.
+  - **Lint Staged** menjalankan ESLint dan Prettier cuma di file yang sudah di-_stage_.
+  - **Commitizen** kasih kamu perintah `cz`, _prompt_ yang menuntun kamu menyusun pesan _commit_ seperti `feat`, `fix`, dan `chore`.
+  - _Script_ `postinstall` memasang Husky setiap kali ada yang menginstal _dependency_ proyek.
 </Callout>
 
 ## Pendahuluan
@@ -96,21 +108,26 @@ $ git commit
 
 > Linting lebih masuk akal kalau dijalankan sebelum commit dilakukan. Dengan begitu, tidak ada error yang masuk ke repository dan code style tetap terjaga. Tapi menjalankan proses lint pada seluruh project itu lambat, dan hasil lint-nya pun bisa jadi tidak relevan. Pada akhirnya, kamu hanya perlu me-lint file yang akan di-commit saja.
 
-## Conventional Commit Dengan Commitizen
+## Conventional Commit dengan Commitizen
 
 Berkolaborasi dengan developer lain cukup menyenangkan, tapi ketika bekerja dalam tim, kamu harus memastikan kode tetap bersih dan mengikuti aturan tim, di mana beberapa tim menerapkannya lebih ketat dari yang lain. Karena itu, pesan commit kamu juga harus jelas dan mudah dipahami.
 
-Di sinilah kita membutuhkan [Commitizen](https://commitizen-tools.github.io/commitizen/), untuk memastikan pesan commit jelas secara konteks dan mudah dipahami oleh developer lain.
+Di sinilah kita membutuhkan [Commitizen](https://github.com/commitizen/cz-cli), untuk memastikan pesan commit jelas secara konteks dan mudah dipahami oleh developer lain.
 
 Commitizen sangat membantu saat kamu ingin membuat commit. Alih-alih menulis pesan sendiri, tool ini akan menuntunmu menulis pesan berdasarkan aturan tim dan konteks, seperti `feat`, `fix`, dan `chore`.
 
 Berikut tampilannya saat kamu menjalankan `cz` alih-alih `git commit`. Tool ini akan memunculkan prompt yang membantumu memilih pesan commit:
 
-![Commitizen](https://ik.imagekit.io/mlnzyx/attachment/commitizen_Qkfrd4tze.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648026254029 "Commitizen Prompt on terminal")
+<NoteImage
+  lang="id"
+  src={Commitizen}
+  alt="Commitizen di terminal menanyakan jenis perubahan yang mau di-commit, dengan pilihan feat terpilih"
+  caption="Prompt Commitizen di terminal"
+/>
 
 > Tip: klik gambar di atas untuk melihatnya lebih jelas
 
-## Setup Project Next.js
+## Setup Proyek Next.js
 
 Sebelum memakai tools apa pun, kita perlu menginstal Next.js dan membuat project baru. Jalankan perintah berikut di terminal:
 
@@ -120,7 +137,7 @@ yarn create next-app my-app
 
 Perintah ini akan membuat project Next.js baru lengkap dengan template default. Kamu bisa mulai mengedit kode di sana, tapi artikel ini tidak membahas cara mengedit kode itu sendiri, jadi kita lewati bagian itu dan lanjut ke tools yang ingin kita gunakan.
 
-## Setup Eslint Dan Prettier
+## Setup ESLint dan Prettier
 
 Sebelum lanjut, metode yang saya jelaskan di sini juga memakai 2 tools penting, yaitu [eslint](https://eslint.org/) dan [prettier](https://prettier.io/).
 

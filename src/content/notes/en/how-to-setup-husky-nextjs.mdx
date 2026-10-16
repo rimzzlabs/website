@@ -1,8 +1,8 @@
 ---
-title: "How To Set Up Husky, Lint Staged, And Commitizen On A Next.js Project"
+title: "How to Set Up Husky, lint-staged, and Commitizen in Next.js"
 description: "Stop doing the boring parts by hand. Here is how to set up Husky, Lint Staged, and Conventional Commits in a Next.js project."
 publishedAt: "03/23/2022"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -30,8 +30,20 @@ relatedPosts:
   - jotai-state-manager
 ---
 
-<Callout type="tip">
-  This note is from 2022. I now use Lefthook, Commitlint, and Biome instead. You can read that setup in [Git Hooks With Lefthook, Commitlint, and Biome](/notes/lefthook-commitlint-and-biome/).
+import NoteImage from "@/components/notes/note-image.astro";
+import Commitizen from "@/assets/notes/how-to-setup-husky-nextjs/commitizen.jpg";
+
+<Callout type="warning">
+  This note is from 2022, and its steps target Husky v8. Husky v9 deprecates `husky install` (which the `postinstall` script here runs) and the `husky.sh` line at the top of each hook. On v9, run `npx husky init` instead. It sets `"prepare": "husky"` in your `package.json` for you. I now use Lefthook, Commitlint, and Biome, and you can follow that setup in [Git Hooks With Lefthook, Commitlint, and Biome](/notes/lefthook-commitlint-and-biome/).
+</Callout>
+
+<Callout type="note">
+  **In short:**
+
+  - **Husky** runs scripts on Git hooks, so a `pre-commit` hook can run `yarn lint` before every commit.
+  - **Lint Staged** runs ESLint and Prettier only on the files you staged.
+  - **Commitizen** gives you the `cz` command, a prompt that builds commit messages such as `feat`, `fix`, and `chore`.
+  - A `postinstall` script sets up Husky each time someone installs the project's dependencies.
 </Callout>
 
 ## Introduction
@@ -97,17 +109,22 @@ $ git commit
 
 > Linting makes more sense when run before committing your code. By doing so you can ensure no errors go into the repository and enforce code style. But running a lint process on a whole project is slow, and linting results can be irrelevant. Ultimately you only want to lint files that will be committed.
 
-## Conventional Commit With Commitizen
+## Conventional Commit with Commitizen
 
 Collaborating with other developers is quite fun, but when you work with a team, you need to make sure your code is clean and that you follow your team's rules. Some teams are stricter than others, so you need to make sure your commit messages are clear and easy to understand.
 
-That's why we use [Commitizen](https://commitizen-tools.github.io/commitizen/): it makes sure your commit messages have clear context and are easy for other developers to understand.
+That's why we use [Commitizen](https://github.com/commitizen/cz-cli): it makes sure your commit messages have clear context and are easy for other developers to understand.
 
 Commitizen is very helpful when you want to make a commit. Instead of writing the message from scratch, it prompts you to write it based on your team's rules and on context, such as `feat`, `fix`, and `chore`.
 
 Here's what it looks like when you run `cz` instead of git commit. It shows a prompt to help you choose your commit message:
 
-![Commitizen](https://ik.imagekit.io/mlnzyx/attachment/commitizen_Qkfrd4tze.png?ik-sdk-version=javascript-1.4.3&updatedAt=1648026254029 "Commitizen Prompt on terminal")
+<NoteImage
+  lang="en"
+  src={Commitizen}
+  alt="Commitizen in the terminal, asking which type of change you are committing, with feat selected"
+  caption="The Commitizen prompt in the terminal"
+/>
 
 > Tip: click the image to see it more clearly
 
@@ -121,7 +138,7 @@ yarn create next-app my-app
 
 It spins up a new Next.js project. As usual, you get a default template, and you can start editing your code there. This article won't cover how to edit your code, though, so let's skip that part and start using the tools we want.
 
-## Set Up ESLint And Prettier
+## Set Up ESLint and Prettier
 
 Before we continue, the method I'm explaining also uses two essential tools: [eslint](https://eslint.org/) and [prettier](https://prettier.io/).
 
