@@ -8,7 +8,10 @@ import { defineConfig, envField, fontProviders } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import { localizedErrorPages } from "./src/lib/integrations/localized-error-pages.mjs";
+import { noteLastmod } from "./src/lib/integrations/note-lastmod.mjs";
 import { shikiCodeMeta } from "./src/lib/markdown/shiki-code-meta.mjs";
+
+const NOTE_LASTMOD = noteLastmod("https://rimzzlabs.com");
 
 // https://astro.build/config
 export default defineConfig({
@@ -70,6 +73,12 @@ export default defineConfig({
 			i18n: {
 				defaultLocale: "en",
 				locales: { en: "en-US", id: "id-ID" },
+			},
+			filter: (page) => !page.endsWith("/feedback/"),
+			serialize(item) {
+				const lastmod = NOTE_LASTMOD.get(item.url);
+				if (!lastmod) return item;
+				return { ...item, lastmod };
 			},
 		}),
 	],
