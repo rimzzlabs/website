@@ -149,6 +149,9 @@ export const id = {
 		intro:
 			"Hal-hal yang saya pelajari sambil membangun sesuatu. Sejauh ini ada {count} catatan.",
 		read: "Baca {title}",
+		by: "Oleh",
+		updated: "Diperbarui",
+		related: "Catatan terkait",
 		onThisPage: "Di halaman ini",
 		copyCode: "Salin kode",
 		copied: "Tersalin",
