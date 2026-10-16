@@ -27,6 +27,15 @@ Pacar saya penggemar berat sebuah grup K-pop, dan grup itu akan konser di Jakart
 
 Kejadian itu yang bikin saya menulis catatan ini. Bukan karena animasinya jelek. Justru sebaliknya, animasinya niat banget. Tapi orang yang duduk di depan layar tidak pernah minta dianimasikan.
 
+<Callout type="note">
+  **Singkatnya:**
+
+  - Animasi yang baik menjawab pertanyaan pengguna: aplikasinya jalan tidak, kontennya mana, ketukan saya masuk tidak?
+  - Animasi dekoratif tidak menjawab pertanyaan siapa-siapa, dan makin jelas tujuan pengguna, makin mahal harganya. Di _checkout_, ruangnya paling sempit.
+  - Hormati `prefers-reduced-motion`: kurangi gerakannya, jangan buang informasinya.
+  - Sebelum menambah animasi, tanya dulu: dia menjawab apa, apa yang hilang kalau dihapus, dan apa yang terjadi waktu _Reduce Motion_ aktif.
+</Callout>
+
 ## Pendahuluan
 
 Ada satu hal yang sering salah dipahami soal orang yang "tidak suka animasi": mereka bukan benci semua gerakan.
@@ -108,7 +117,9 @@ Karena itu tiap sistem operasi punya pengaturan _Reduce Motion_ di menu aksesibi
 
 Perhatikan: yang dikurangi gerakannya, bukan informasinya. _Toast_-nya tetap muncul dan tetap bisa dilihat perubahannya lewat _opacity_. Yang hilang cuma perpindahan posisinya, jenis gerakan yang paling berpotensi [memicu pusing](https://web.dev/articles/prefers-reduced-motion). _Reduce motion_ artinya kurangi, bukan matikan semua sampai aplikasi terasa rusak.
 
-[WCAG](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html) menyebut ini di kriteria "Animation from Interactions": animasi yang dipicu interaksi harus bisa dinonaktifkan, kecuali animasinya memang esensial. Tapi buat saya alasannya lebih sederhana dari nomor kriteria: orangnya sudah bilang. Masa tidak didengarkan.
+Situs ini juga begitu: opsi Animasi yang dijelaskan di [Pernyataan Aksesibilitas](/id/accessibility/) bisa mengikuti pengaturan _Reduce Motion_ di perangkat kamu, dan pilihan Nonaktif membuang gerakannya tapi tetap menyisakan efek pudar yang halus.
+
+[WCAG 2.2](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html) menyebut ini di kriteria 2.3.3, "Animation from Interactions" (Level AAA): animasi yang dipicu interaksi harus bisa dinonaktifkan, kecuali animasinya memang esensial. Tapi buat saya alasannya lebih sederhana dari nomor kriteria: orangnya sudah bilang. Masa tidak didengarkan.
 
 <ReducedMotionDemo client:visible lang="id" />
 

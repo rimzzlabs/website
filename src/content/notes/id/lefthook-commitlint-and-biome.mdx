@@ -27,6 +27,16 @@ Situs ini sekarang jalan pakai [Lefthook](https://lefthook.dev), [Commitlint](ht
 
 Di catatan ini kita bangun semuanya dari folder kosong. Tiap perintah saya tunjukkan juga _output_-nya, jadi kamu bisa ikut sambil mencocokkan.
 
+<Callout type="note">
+  **Singkatnya:**
+
+  - **Lefthook** menggantikan Husky dan Lint Staged. Semua _hook_ diatur di satu file YAML, dan yang dioper cuma file yang di-_stage_.
+  - **Biome** mengambil alih tugas ESLint dan Prettier untuk JS, TS, JSON, dan CSS.
+  - **Prettier** masih dipakai, tapi cuma pegang Markdown dan YAML.
+  - **Commitlint** menggantikan Commitizen dan menolak pesan _commit_ yang melanggar aturan. Commitizen tetap bisa dipasang di atasnya kalau mau.
+  - Cuma butuh konfigurasinya? `lefthook.yml` lengkapnya ada di bagian [Pasang Hook-nya](#pasang-hook-nya).
+</Callout>
+
 ## Pendahuluan
 
 Tujuannya masih sama: _lint_ dan _format_ file yang di-_stage_, dan pesan _commit_ harus ikut format [Conventional Commits](https://www.conventionalcommits.org).

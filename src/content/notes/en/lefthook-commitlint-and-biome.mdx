@@ -27,6 +27,16 @@ This site runs on [Lefthook](https://lefthook.dev), [Commitlint](https://commitl
 
 This note builds it from an empty folder. Every command shows what it prints, so you can follow along.
 
+<Callout type="note">
+  **In short:**
+
+  - **Lefthook** replaces Husky and Lint Staged. It runs the hooks from one YAML file and passes only staged files.
+  - **Biome** replaces ESLint and Prettier for JS, TS, JSON, and CSS.
+  - **Prettier** stays, but only for Markdown and YAML.
+  - **Commitlint** replaces Commitizen and rejects bad commit messages. Commitizen is optional on top.
+  - Just want the config? The full `lefthook.yml` is in [Wiring the Hooks](#wiring-the-hooks).
+</Callout>
+
 ## Introduction
 
 Same goal as before: lint and format staged files, and keep commit messages in [Conventional Commits](https://www.conventionalcommits.org) form.
