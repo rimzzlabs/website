@@ -45,5 +45,11 @@ const t = getDictionary(props.locale);
     <slot />
 
     <ScrollFade />
+
+    <script>
+      import { startSmoothScroll } from "@/lib/smooth-scroll";
+
+      startSmoothScroll();
+    </script>
   </body>
 </html>

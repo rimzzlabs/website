@@ -43,6 +43,7 @@
 		"class-variance-authority": "^0.7.1",
 		"cn": "^0.3.0",
 		"embla-carousel-react": "^8.6.0",
+		"lenis": "^1.3.26",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
 		"react-email": "^6.11.0",
