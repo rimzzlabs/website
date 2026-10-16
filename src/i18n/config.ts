@@ -29,10 +29,14 @@ export function stripLocale(pathname: string) {
 	return stripped;
 }
 
+function withTrailingSlash(path: string) {
+	if (path.endsWith("/") || /\.[a-z0-9]+$/i.test(path)) return path;
+	return `${path}/`;
+}
+
 export function localizePath(pathname: string, locale: Locale) {
-	const path = stripLocale(pathname);
+	const path = withTrailingSlash(stripLocale(pathname));
 	if (locale === DEFAULT_LOCALE) return path;
-	if (path === "/") return `/${locale}`;
 	return `/${locale}${path}`;
 }
 

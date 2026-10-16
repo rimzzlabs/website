@@ -57,7 +57,8 @@ const GROUPS = [
         external: false,
       },
       {
-        label: t.footer.accessibility,
+        label: "a11y",
+        srLabel: t.footer.accessibility,
         href: localizePath("/accessibility", props.locale),
         external: false,
       },
@@ -109,7 +110,7 @@ const GROUPS = [
         </p>
       </div>
       <FooterNowPlaying
-        client:only="react"
+        client:visible
         copy={t.footer}
         opensInNewTab={t.common.opensInNewTab}
       />
@@ -144,6 +145,9 @@ const GROUPS = [
                 ) : (
                   <a href={link.href} class="transition hover:text-primary">
                     {link.label}
+                    {link.srLabel && (
+                      <span class="sr-only"> ({link.srLabel})</span>
+                    )}
                   </a>
                 )}
               </li>

@@ -58,6 +58,7 @@ export const id = {
 			'Sebelumnya, saya lebih banyak berkecimpung di dunia <em lang="en">fintech</em>. Di {bitwyre}, saya ikut membangun platform <em lang="en">trading</em> kripto <em lang="en">perpetual futures</em> dan aplikasi <em lang="en">mobile</em> kartu kripto. Di {skyshi}, saya menggarap produk <em lang="en">fintech</em> dan <em lang="en">internal tools</em> untuk banyak klien, dan belajar banyak dari sana.',
 		resume: "CV saya",
 		visitProject: "Kunjungi {name}",
+		readStory: "Baca ceritanya",
 		projectsTitle: "Proyek",
 		projectsDescription:
 			"Dari proyek iseng sampai produk besar yang ikut saya bangun.",
@@ -149,6 +150,9 @@ export const id = {
 		intro:
 			"Hal-hal yang saya pelajari sambil membangun sesuatu. Sejauh ini ada {count} catatan.",
 		read: "Baca {title}",
+		by: "Oleh",
+		updated: "Diperbarui",
+		related: "Catatan terkait",
 		onThisPage: "Di halaman ini",
 		copyCode: "Salin kode",
 		copied: "Tersalin",
@@ -287,7 +291,7 @@ export const id = {
 	inspiration: {
 		seoTitle: "Inspirasi, Rizki Citra",
 		seoDescription:
-			"Orang-orang dan situs pribadi yang menginspirasi saya membangun situs ini.",
+			"Orang-orang dan situs pribadi yang menginspirasi saya membangun situs ini. Daftar singkat developer yang karyanya bisa kamu kunjungi.",
 		title: "Inspirasi",
 		intro:
 			"Banyak orang yang menginspirasi saya membuat situs ini. Ini sebagian di antaranya, dan masih banyak developer lain yang situsnya sudah tidak saya ingat.",
@@ -296,7 +300,7 @@ export const id = {
 	now: {
 		seoTitle: "Sekarang, Rizki Citra",
 		seoDescription:
-			"Hal yang sedang saya fokuskan sekarang: kerjaan, proyek sampingan, tulisan, dan situs ini.",
+			"Hal yang sedang saya fokuskan: infrastruktur frontend di Kolosal AI, proyek sampingan seperti Mayarin dan Lanjut, catatan berikutnya, dan situs ini.",
 		title: "Sekarang",
 		intro:
 			"Gambaran singkat tentang apa yang sedang saya tekuni saat ini. Ini adalah halaman /now, ide dari {derek}. Halaman serupa lainnya bisa kamu temukan di {nownownow}.",
@@ -342,7 +346,7 @@ export const id = {
 	archive: {
 		seoTitle: "Arsip, Rizki Citra",
 		seoDescription:
-			"Perjalanan saya di dunia software engineering, tahun demi tahun, dari 2019 sampai sekarang.",
+			"Perjalanan saya di dunia software engineering dari tahun ke tahun sejak 2019: SMK, magang di Skyshi, kripto di Bitwyre, sampai AI di Kolosal AI.",
 		title: "Arsip",
 		intro:
 			'Perjalanan saya sebagai <em lang="en">software engineer</em> dimulai tahun 2019. Ini versi lengkapnya, tahun demi tahun: pekerjaan, liku-likunya, dan semua yang terjadi di antaranya.',

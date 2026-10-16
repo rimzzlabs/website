@@ -10,6 +10,9 @@ keywords:
   - Animation
   - Accessibility
   - prefers-reduced-motion
+relatedPosts:
+  - improving-performance-in-react
+  - how-ts-belt-helps-me-write-predictable-code
 ---
 
 import NoteImage from "@/components/notes/note-image.astro";
@@ -23,6 +26,15 @@ import IntentVsTolerance from "@/assets/notes/not-everyone-loves-animation-on-yo
 My girlfriend is a huge fan of a K-pop group, and that group is holding a concert in Jakarta at the end of this year. Naturally, she opened the concert site. What greeted her was a different show entirely: almost every element arrived with its own transition, and the page was busy moving before she could read it. To her, none of that motion was necessary. She came to see her idols, not a website.
 
 That moment is why I'm writing this note. Not because the animation was bad. Quite the opposite: it was clearly built with care. But the person in front of the screen never asked to be animated at.
+
+<Callout type="note">
+  **In short:**
+
+  - Good animation answers a question the user has: is the app running, where's my content, did my tap register?
+  - Decorative animation answers nobody's question, and it costs more the clearer the user's goal gets. Checkout has the least room for it.
+  - Respect `prefers-reduced-motion`: cut the movement, keep the information.
+  - Before you add an animation, ask what it answers, what's lost without it, and what happens with _Reduce Motion_ on.
+</Callout>
 
 ## Introduction
 
@@ -105,7 +117,9 @@ That's why every operating system ships a _Reduce Motion_ setting in its accessi
 
 Notice what gets reduced: the movement, not the information. The toast still appears, and its arrival is still visible through _opacity_. The only thing gone is the positional movement, the kind most likely to [trigger dizziness](https://web.dev/articles/prefers-reduced-motion). Reduced motion means reduce, not switch everything off until the app feels broken.
 
-[WCAG](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html) covers this in its "Animation from Interactions" criterion: animation triggered by interaction should be disableable unless it's essential. But to me the reason is simpler than any criterion number: the user already said it. The least you can do is listen.
+This site does the same: the Animation setting described in its [Accessibility Statement](/accessibility/) can follow your device's reduced motion setting, and Off removes movement but keeps soft fades.
+
+[WCAG 2.2](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html) covers this in criterion 2.3.3, "Animation from Interactions" (Level AAA): animation triggered by interaction should be disableable unless it's essential. But to me the reason is simpler than any criterion number: the user already said it. The least you can do is listen.
 
 <ReducedMotionDemo client:visible lang="en" />
 

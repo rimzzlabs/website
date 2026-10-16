@@ -1,5 +1,5 @@
 ---
-title: "How ts-belt Helps Me Write Predictable Code"
+title: "How ts-belt's Option and Result Make My Code Predictable"
 description: "How ts-belt's Option, Result, and AsyncResult replaced the pile of null checks and try/catch in the LLM code I work on every day."
 publishedAt: "08/09/2026"
 updatedAt: "09/26/2026"
@@ -12,6 +12,9 @@ keywords:
   - Option
   - Result
   - LLM Frontend
+relatedPosts:
+  - tanstack-query-more-than-server-state
+  - jotai-recipes
 ---
 
 The first time our chat UI went blank, I blamed the backend.
@@ -21,6 +24,16 @@ What actually happened is that the model called a tool instead of writing a repl
 One field did it. `content` comes back as `null` when the model returns tool calls, and my pipeline treated that `null` as a perfectly good value before handing it to `.trim()`.
 
 This note is about the parts of ts-belt that made that whole class of bug go away for me. It's also about the one gap that lets you write the exact same bug again without noticing.
+
+<Callout type="note">
+  **In short:**
+
+  - Use `Option` when the only question is "is it there?", and `Result` when you also owe someone a reason.
+  - Run anything from outside through `O.fromNullable` before another `O` function touches it.
+  - Wrap throwing code once with `R.fromExecution` or `R.fromPromise`, then chain with `R.flatMap`.
+  - For a mix of sync and async steps, reach for `AR`.
+  - Open a `Result` with `R.match` at the component boundary.
+</Callout>
 
 ## Introduction
 

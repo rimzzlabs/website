@@ -1,8 +1,8 @@
 ---
 title: "Jotai Recipes I Commonly Use for My Project"
-description: "Jotai has a pattern called recipes for reading and updating state. Let's see how I use them to read and modify state in my projects."
+description: "The derived-atom helpers I reuse in Jotai: open, close, and toggle atoms for a sidebar, string and currency formatting, and filtered or sorted arrays."
 publishedAt: "09/30/2023"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: true
 author: rimzzlabs
@@ -19,13 +19,23 @@ relatedPosts:
   - improving-performance-in-react
 ---
 
+<Callout type="note">
+  **In short:**
+
+  - My recipes are derived atoms: atoms built from other atoms.
+  - A `read-only` recipe transforms a value, and a `write-only` recipe updates another atom.
+  - Boolean recipes give a sidebar or dialog its own open, close, and toggle atoms.
+  - String, number, and array recipes derive formatted text, a currency, or a filtered or sorted list from one atom.
+  - These are my own helpers. For documented ones like [`atomWithToggle`](https://jotai.org/docs/recipes/atom-with-toggle), see the official Recipes on jotai.org.
+</Callout>
+
 ## Introduction
 
 Jotai takes an atomic approach to global React state management. You build state by combining atoms, and renders are optimized automatically based on atom dependencies.
 
 This solves the extra re-render issue of React context, removes the need for memoization, and gives you a developer experience similar to signals, all while keeping a **_declarative programming model_**.
 
-> If you're new to Jotai, I wrote a [post explaining Jotai](/notes/jotai-state-manager). Feel free to check it out!
+> If you're new to Jotai, I wrote a [post explaining Jotai](/notes/jotai-state-manager/). Feel free to check it out!
 
 To update state with Jotai, I can use the built-in `setter` like so:
 
@@ -93,6 +103,16 @@ The example above shows how to create a derived value from an existing atom. It'
 In Jotai, these are called recipes. We can compose atoms into other atoms, or create new atoms based on existing ones to produce a new value.
 
 Jotai lets you create these derived values declaratively, without explicitly managing complex state relationships.
+
+## Jotai's Official Recipes
+
+The recipes in this note are helpers I wrote for my own projects. The Jotai docs have a separate Recipes section with documented helpers, and a few of them cover the same ground:
+
+- [`atomWithToggle`](https://jotai.org/docs/recipes/atom-with-toggle) creates a boolean atom with a setter that toggles it, close to my boolean recipes.
+- [`atomWithToggleAndStorage`](https://jotai.org/docs/recipes/atom-with-toggle-and-storage) works like `atomWithToggle` and also persists the value to storage.
+- [`atomWithDebounce`](https://jotai.org/docs/recipes/atom-with-debounce) debounces updates, and the docs suggest it for text search inputs like the food filter further down.
+
+The `read-only` and `write-only` atoms behind every recipe here have an official guide too: [Composing atoms](https://jotai.org/docs/guides/composing-atoms).
 
 ## Recipes
 

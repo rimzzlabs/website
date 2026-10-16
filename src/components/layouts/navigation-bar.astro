@@ -57,15 +57,15 @@ const pathname = Astro.url.pathname;
         aria-label={copy.settings}
         class="group-data-[state=pill]/header:pl-2 group-data-[state=top]/header:ml-auto inline-flex items-center gap-1"
       >
-        <NavigationBarTheme client:load copy={copy} />
-        <NavigationBarSettings client:load copy={copy} locale={props.locale} />
+        <NavigationBarTheme client:idle copy={copy} />
+        <NavigationBarSettings client:idle copy={copy} locale={props.locale} />
       </nav>
     </div>
   </header>
 </div>
 
 <NavigationBarMobile
-  client:load
+  client:idle
   copy={copy}
   locale={props.locale}
   links={links}

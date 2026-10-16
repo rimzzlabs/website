@@ -1,33 +1,43 @@
 ---
-title: "Jotai, state manager yang elegan untuk developer React"
-description: "Ketika membahas state manager, kata pertama yang mungkin terlintas adalah Redux, tapi kali ini mari kita bahas library state manager lain, memperkenalkan Jotai."
+title: "Jotai, State Manager yang Elegan untuk Developer React"
+description: "Tinggalkan prop drilling dan Provider Hell. Atom Jotai dipakai seperti useState, dan atomWithStorage bikin tema tetap tersimpan di localStorage."
 publishedAt: "07/08/2022"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: true
 author: rimzzlabs
 keywords:
   - react
-  - hooks
+  - hooks react
   - jotai hooks
-  - state mangement
-  - react state management
+  - manajemen state
+  - manajemen state react
   - jotai
-  - jotai state manager
+  - cara memakai jotai
   - jotai react
-  - jotai state
+  - atom jotai
   - state
-  - primitive state
-  - primitive state management
+  - state primitif
+  - manajemen state primitif
 relatedPosts:
   - jotai-recipes
 ---
+
+<Callout type="note">
+  **Singkatnya:**
+
+  - **Atom** dipakai seperti `useState`, tapi bisa dibagi ke komponen mana pun tanpa membungkus Provider dan tanpa oper _props_ berlapis-lapis.
+  - **`atomWithStorage`** menyimpan _state_ seperti tema ke localStorage, jadi tidak hilang waktu _refresh_.
+  - **_Custom hook_** seperti `useDarkMode` membungkus atom supaya komponennya tetap ringkas.
+  - **Zustand** lebih cocok kalau _state_ perlu diubah dari luar React.
+  - **Recoil** jadi inspirasi atom di Jotai, tapi Meta sudah mengarsipkannya pada Januari 2025.
+</Callout>
 
 ## Pendahuluan
 
 Jotai adalah state manager yang luar biasa untuk React. **Tidak ada re-render tambahan**, state berada di dalam React, dan kamu mendapatkan manfaat penuh dari suspense dan concurrent features. Jotai bisa diskalakan mulai dari sekadar pengganti `React.useState` hingga aplikasi skala besar dengan kebutuhan kompleks.
 
-> Jotai memakai pendekatan bottom-up untuk state management React dengan model atomik yang terinspirasi dari Recoil. State dibangun dengan mengombinasikan atom, dan render dioptimalkan berdasarkan dependency antar atom. Ini menyelesaikan masalah re-render berlebih pada React context dan menghilangkan kebutuhan teknik memoization.
+Idenya, _state_ dibangun dari potongan kecil bernama atom, lalu kamu gabungkan sesuai kebutuhan. Komponen cuma _re-render_ kalau atom yang dia baca berubah. Dengan cara ini Jotai lolos dari masalah _re-render_ berlebih di React _context_, tanpa perlu trik _memoization_.
 
 Dulu, saya mulai belajar Frontend Web Development, dan ada banyak sekali yang bisa dipelajari. Salah satu topik terpenting dalam Frontend development adalah state management.
 
@@ -142,55 +152,19 @@ import { useAtom } from "jotai";
 const [theme, setTheme] = useAtom(themeAtom);
 ```
 
-## Perbandingan Dengan Library Lain
+## Perbandingan dengan Library Lain
 
-Mari bandingkan Jotai dengan library lain. Perbandingan ini berdasarkan website resmi Jotai.
+Dokumentasi Jotai punya [perbandingan lengkap](https://jotai.org/docs/basics/comparison) dengan `useContext`, Zustand, dan Recoil. Di sini saya rangkum versi singkatnya dengan bahasa saya sendiri.
 
 ### Jotai vs Zustand
 
-Jotai mirip Recoil. Sedangkan [Zustand](https://github.com/pmndrs/zustand "Zustand Repository") mirip Redux.
+[Zustand](https://github.com/pmndrs/zustand "Zustand Repository") menaruh _state_ di satu _store_ di luar React, mirip Redux, sedangkan Jotai menyusunnya dari atom-atom kecil yang rasanya seperti `useState`. Kalau kamu perlu mengubah _state_ dari luar React, atau ingin pakai Redux _devtools_, Zustand lebih cocok. Kalau yang kamu cari pengganti `useState` plus `useContext`, Jotai lebih pas.
 
-Perbedaan utamanya ada pada model state. Zustand memakai single store (meskipun kamu bisa membuat beberapa store terpisah), sedangkan Jotai terdiri dari atom-atom primitif yang bisa dikomposisikan bersama. Dalam hal ini, ini soal mental model dalam pemrograman.
+### Apa Bedanya Jotai dengan Recoil?
 
-Jotai bisa jadi pengganti useState+useContext. Alih-alih membuat banyak context, atom-atom ini berbagi satu context besar.
+Model atomik Jotai memang terinspirasi dari Recoil. Bedanya, Jotai mengenali setiap atom dari referensi _object_-nya, sedangkan Recoil butuh _string key_ unik untuk tiap atom. Recoil dibuat oleh tim di Meta, dan Meta sudah [mengarsipkan _repository_-nya](https://github.com/facebookexperimental/Recoil) pada Januari 2025, dengan rilis terakhir 0.7.7 dari Maret 2023.
 
-Zustand adalah external store, dan hook-nya berfungsi menghubungkan dunia luar dengan dunia React.
-
-#### Kapan Harus Beralih
-
-- Jika kamu butuh pengganti useState+useContext, Jotai cocok dipakai.
-- Jika kamu ingin mengubah state dari luar React, Zustand lebih baik.
-- Jika code splitting penting bagimu, Jotai akan bekerja dengan baik.
-- Jika kamu lebih suka Redux devtools, Zustand pilihan yang tepat.
-- Jika kamu ingin memanfaatkan Suspense, Jotai adalah pilihannya.
-
-### Apa Bedanya Jotai Dengan Recoil?
-
-#### Developer
-
-- Jotai dikembangkan secara kolektif oleh beberapa developer di organisasi Poimandres (dulu bernama react-spring).
-- Recoil dikembangkan oleh tim di Facebook.
-
-#### Basis
-
-- Jotai berfokus pada API primitif agar mudah dipelajari, dan bersifat unopinionated. (Filosofi yang sama dengan Zustand)
-- Recoil full-featured untuk aplikasi besar dengan kebutuhan kompleks.
-
-#### Perbedaan Teknis
-
-- Jotai bergantung pada referential identity dari object atom.
-- Recoil bergantung pada string key dari atom.
-
-#### Kapan Memakai Yang Mana
-
-- Jika kamu ingin belajar hal baru, keduanya sama-sama bisa dipakai.
-- Jika kamu suka Zustand, Jotai juga akan terasa menyenangkan.
-- Jika aplikasimu sangat membutuhkan state serialization (menyimpan state ke storage, server, atau URL), Recoil punya fitur yang bagus untuk itu.
-- Jika kamu butuh alternatif React Context, Jotai punya fitur yang cukup.
-- Jika kamu ingin membuat library baru, Jotai bisa memberi primitif yang baik sebagai referensi.
-- Selain itu, keduanya cukup mirip dari segi tujuan umum dan teknik dasarnya.
-
-## Memakainya Dengan React
+## Memakainya dengan React
 
 Saya bisa menyimpan state aplikasi di setiap komponen, tapi saya juga bisa membuat store di file terpisah. Saya lebih suka membuat file baru di dalam folder store, contohnya seperti ini.
 

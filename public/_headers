@@ -3,6 +3,14 @@
 # functions/_middleware.ts adds the agent discovery Link headers (RFC 8288,
 # RFC 9727) to every page.
 
+/*
+  Strict-Transport-Security: max-age=15552000
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
 /.well-known/api-catalog
   Content-Type: application/linkset+json
   Access-Control-Allow-Origin: *

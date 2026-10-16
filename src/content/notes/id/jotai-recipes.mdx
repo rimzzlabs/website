@@ -1,8 +1,8 @@
 ---
-title: "Jotai Recipes Yang Sering Saya Pakai Di Project"
-description: "Jotai punya pola bernama Recipes untuk membaca dan mengubah state. Begini cara saya memakainya di proyek saya."
+title: "Jotai Recipes yang Sering Saya Pakai di Proyek"
+description: "Helper derived atom Jotai yang sering saya pakai: buka, tutup, dan toggle sidebar, format string dan mata uang, serta filter dan urutkan array."
 publishedAt: "09/30/2023"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: true
 author: rimzzlabs
@@ -19,13 +19,23 @@ relatedPosts:
   - improving-performance-in-react
 ---
 
+<Callout type="note">
+  **Singkatnya:**
+
+  - _Recipes_ saya pada dasarnya _derived atom_, yaitu atom yang dibangun dari atom lain.
+  - _Recipe_ `read-only` mengubah sebuah nilai, sedangkan _recipe_ `write-only` memperbarui atom lain.
+  - _Boolean recipes_ memberi _sidebar_ atau dialog atom sendiri untuk buka, tutup, dan _toggle_.
+  - _Recipes_ untuk _string_, angka, dan _array_ menghasilkan teks terformat, mata uang, atau daftar yang difilter dan diurutkan dari satu atom.
+  - Semua ini _helper_ buatan saya sendiri. Versi yang terdokumentasi, seperti [`atomWithToggle`](https://jotai.org/docs/recipes/atom-with-toggle), ada di bagian _Recipes_ resmi di jotai.org.
+</Callout>
+
 ## Pendahuluan
 
 Jotai memakai pendekatan atomik untuk global state management di React. Dengan mengombinasikan atom, render dioptimalkan secara otomatis berdasarkan dependency antar atom.
 
 Ini menyelesaikan masalah re-render berlebih pada React context, menghilangkan kebutuhan memoization, dan memberikan developer experience yang mirip signals sambil tetap mempertahankan **_model pemrograman deklaratif_**.
 
-> Jika belum tahu tentang Jotai, ada [artikel tentang jotai](/notes/jotai-state-manager) yang menjelaskannya, silakan baca.
+> Jika belum tahu tentang Jotai, ada [artikel tentang jotai](/id/notes/jotai-state-manager/) yang menjelaskannya, silakan baca.
 
 Untuk memperbarui state dengan Jotai, cukup pakai `setter` bawaan Jotai seperti ini:
 
@@ -93,6 +103,16 @@ Contoh di atas menunjukkan cara membuat derived value dari atom sebelumnya, miri
 Di Jotai, ini disebut recipes. Atom bisa dikomposisikan ke atom lain, atau atom baru bisa dibuat berdasarkan atom sebelumnya untuk menghasilkan nilai atau atom baru.
 
 Jotai memungkinkan pembuatan derived value ini dengan pendekatan deklaratif tanpa perlu mengelola relasi state yang kompleks secara eksplisit.
+
+## Recipes Resmi dari Jotai
+
+_Recipes_ di catatan ini adalah _helper_ yang saya tulis sendiri untuk proyek saya. Dokumentasi Jotai punya bagian _Recipes_ tersendiri, dan beberapa _helper_ resmi di sana mirip dengan isi catatan ini:
+
+- [`atomWithToggle`](https://jotai.org/docs/recipes/atom-with-toggle) membuat atom _boolean_ lengkap dengan _setter_ untuk membalik nilainya, mirip dengan _boolean recipes_ saya.
+- [`atomWithToggleAndStorage`](https://jotai.org/docs/recipes/atom-with-toggle-and-storage) sama seperti `atomWithToggle`, tapi nilainya juga disimpan ke _storage_.
+- [`atomWithDebounce`](https://jotai.org/docs/recipes/atom-with-debounce) menunda pembaruan nilai (_debounce_), dan dokumentasinya menyarankan pola ini untuk input pencarian teks, seperti filter makanan di _array recipes_ nanti.
+
+Atom `read-only` dan `write-only` yang jadi dasar semua _recipes_ di sini juga punya panduan resminya sendiri: [Composing atoms](https://jotai.org/docs/guides/composing-atoms).
 
 ## Recipes
 

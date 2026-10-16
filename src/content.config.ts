@@ -15,6 +15,7 @@ const noteSchema = z.object({
 	status: z.enum(["published", "draft"]),
 	featured: z.boolean(),
 	author: reference("authors"),
+	relatedPosts: z.array(z.string()).optional(),
 });
 
 const notes = defineCollection({

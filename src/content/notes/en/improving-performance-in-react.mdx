@@ -1,8 +1,8 @@
 ---
 title: "Improving Performance in React with These 3 Techniques"
-description: "A slow, unresponsive app frustrates users. Here is how to make a React app faster and keep the experience smooth."
+description: "Speed up a React app with code-splitting via React.lazy and Suspense, vendor chunks in Vite, and memoization with useMemo, useCallback, and memo."
 publishedAt: "12/25/2022"
-updatedAt: "09/26/2026"
+updatedAt: "10/16/2026"
 status: "published"
 featured: false
 author: rimzzlabs
@@ -32,13 +32,24 @@ relatedPosts:
   - jotai-state-manager
 ---
 
+<Callout type="warning">
+  I wrote this note in 2022. In October 2025, [React Compiler](https://react.dev/learn/react-compiler) 1.0 shipped, and it memoizes components and hooks for you at build time. This site uses it too. Most of the manual `useMemo`, `useCallback`, and `memo` work below is now the compiler's job, but the code-splitting part still applies.
+</Callout>
+
+<Callout type="note">
+  **In short:**
+
+  - Lazy load components that only some pages need with `React.lazy` and `Suspense`, and keep first-render components in the main bundle.
+  - Put `node_modules` in vendor chunks with Vite, so they stay cached when only your own code changes.
+  - Memoize expensive values with `useMemo`, and pair `useCallback` with a child wrapped in `memo`.
+  - Skip memoization for cheap work, since its overhead can cost more than it saves.
+</Callout>
+
 ## Introduction
 
 > It's a long read, so grab a comfy seat and enjoy 🍻.
 
 React.js is a popular JavaScript library for building user interfaces, known for its flexibility and performance. With React.js, you can create reusable components that make complex applications easy to build and maintain.
-
-> Hi there! I recommend trying out the live code examples as you read this post. Go ahead and read on! Cheers ✌️.
 
 Facebook created React.js, and it has since become one of the most popular choices for front-end development, thanks to how easily it handles complex, dynamic applications.
 
@@ -52,21 +63,17 @@ In this post, we'll cover **code-splitting** and memoization with `React.memo`, 
 
 ## Optimizing Performance
 
-When it comes to building web applications, performance is critical. A slow or unresponsive app can frustrate users and lead to a poor **user experience**. In today's competitive market, it's more important than ever to make sure your app delivers the best possible experience to your users.
+A slow or unresponsive app frustrates users and leads to a poor **user experience**. If it takes too long to load, people may leave before it even has a chance to show what it can do, and that means lost customers and revenue.
 
-But performance _isn't just about user satisfaction_. It can also have a direct impact on your business. For example, if your app takes too long to load, users may abandon it before it even has a chance to show what it can do. That means lost customers and revenue. On the other hand, a fast and responsive app keeps users engaged and makes them more likely to return.
+Here are a few reasons to care about the performance of your React.js app:
 
-Performance matters for any web application. Here are just a few reasons to care about the performance of your React.js app:
+- **User Experience:** A fast, smooth app keeps users coming back. A slow one gets abandoned.
 
-- **User Experience:** A slow or unresponsive app frustrates users, and they may abandon it altogether. On the other hand, a fast and smooth app can improve the user's overall experience and keep them coming back for more.
+- **SEO:** Loading speed is one of the factors that can affect your search ranking. A slow React.js app can rank lower and be harder to find.
 
-- **SEO:** In today's digital landscape, your website or app needs to rank well in search engine results. One factor that can affect your ranking is the loading speed of your site. If your React.js app is slow to load, it could hurt your search engine ranking and make it harder for users to find your app.
+- **Conversion Rates:** Users who leave before the page loads never take the action you built it for, such as making a purchase.
 
-- **Conversion Rates:** A slow app can also impact your business's bottom line. Studies have shown that faster loading times can lead to higher conversion rates, meaning more users taking the desired action (such as making a purchase).
-
-- **Scalability:** As your React.js app grows in complexity and scale, it needs to handle the increased load. Optimizing its performance helps it stay stable and scalable as it grows.
-
-In short, optimizing the performance of your React.js app matters for both user satisfaction and the success of your business. In the following sections, we'll explore advanced techniques for doing just that.
+- **Scalability:** As your React.js app grows in complexity and scale, it has to handle more load. Optimizing its performance helps it stay stable as it grows.
 
 ## Code-Splitting
 
@@ -74,9 +81,9 @@ Code-splitting is a technique that lets developers split their code into smaller
 
 This improves the performance of a React.js app by shrinking the initial bundle the browser has to download, so the app loads faster.
 
-Code-splitting is especially useful for larger, more complex apps with a lot of code, since it breaks the code into smaller pieces that load as needed. This reduces the overall size of the app, which can improve its performance and make it easier to maintain.
+Code-splitting is especially useful for larger, more complex apps with a lot of code, since it breaks the code into smaller pieces that load as needed. This reduces how much code the app loads up front, which can improve its performance and make it easier to maintain.
 
-There are several ways to implement code-splitting in a React.js app, such as using the `React.lazy` and `React.Suspense` components, or using a tool like [Vite.js](https://vitejs.dev).
+There are several ways to implement code-splitting in a React.js app, such as using the `React.lazy` and `React.Suspense` components, or using a tool like [Vite.js](https://vite.dev/).
 
 ### Suspending Components
 
@@ -106,36 +113,38 @@ In this example, `MyComponent` won't load until it's needed, and the fallback co
 
 ### Bundling with Vite.js
 
-> To read more about Vite.js, [check out the Vite.js guide](https://vitejs.dev/guide).
+> To read more about Vite.js, [check out the Vite.js guide](https://vite.dev/guide/).
 
 Besides `React.lazy` and `React.Suspense`, another way to implement code-splitting in your React application is to use Vite.js as your frontend tooling.
 
-Vite.js is a lightweight, simple, and fast build tool designed specifically for modern JavaScript applications. It uses Rollup under the hood, so you can use all the same code-splitting techniques in your Vite.js projects that you'd use with Rollup.
+Vite.js is a lightweight, simple, and fast build tool designed specifically for modern JavaScript applications. When I wrote this note, it bundled with Rollup. Since Vite 8, it bundles with [Rolldown](https://rolldown.rs/), a Rust-based bundler with a Rollup-compatible API, so the chunk options now live under `build.rolldownOptions`.
 
-One benefit of using Vite.js for code-splitting is that it lets you easily split your code into different chunks, including splitting vendor code from your own code. This improves the performance of your application by loading only the code needed at a given moment, rather than loading everything upfront.
+One benefit of using Vite.js is that it lets you split vendor code (everything from `node_modules`) from your own code. Your own code changes with every deploy, while your dependencies change much less often. In separate chunks, they keep the same file hash, so returning visitors load them from the browser cache instead of downloading them again.
 
-Let's split vendor code from our own code. Take a look at this config:
+Let's split vendor code from our own code. Here's the config for Vite 8:
 
 ```ts title="vite.config.ts" showLineNumbers
-import { dependencies } from "./package.json";
+import { defineConfig } from "vite";
 
-const exclVendors = ["react", "react-router-dom", "react-dom"];
-function renderChunks(deps: Record<string, string>) {
-  let chunks = {};
-  Object.keys(deps).forEach((key) => {
-    if (exclVendors.includes(key)) return;
-    chunks[key] = [key];
-  });
-  return chunks;
-}
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   build: {
     sourcemap: false,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          ...renderChunks(dependencies),
+        codeSplitting: {
+          groups: [
+            {
+              name: "react-vendor",
+              test: /node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+              priority: 20,
+            },
+            {
+              name: "vendor",
+              test: /node_modules/,
+              priority: 10,
+            },
+          ],
         },
       },
     },
@@ -143,15 +152,13 @@ export default defineConfig({
 });
 ```
 
-In this code, the `renderChunks` function creates an object with a key for each dependency and a value that holds the dependency name. This gives you one chunk per dependency.
+Each object in `groups` describes one chunk. `test` decides which modules go into it, and `priority` decides which group wins when a module matches more than one.
 
-You may have noticed the array of excluded vendors in the code. It specifies which dependencies to leave out of the code-splitting process.
+Here, `react`, `react-dom`, and `react-router-dom` go into a `react-vendor` chunk. Your whole app likely uses them, so they get a chunk of their own that stays cached even when you upgrade other packages. Every other package from `node_modules` goes into `vendor`.
 
-Here, the array includes `react`, `react-router-dom`, and `react-dom`, the core React dependencies, so they stay out of the code-splitting process. That's because your whole application likely uses them, so splitting them into separate chunks may not help.
+Keep in mind that these chunks don't load on demand. If your first page imports a package with a regular `import`, the browser still downloads its chunk on the first visit. Splitting vendor code is about caching. Loading code only when it's needed is the job of `React.lazy` and dynamic `import()`.
 
-The rest of the dependencies go into the `rollupOptions` object, which configures the code-splitting process. They get split into separate chunks and load on demand, rather than all at once. Again, this improves performance by loading only the code needed at a given moment.
-
-Overall, by excluding certain dependencies from code-splitting and adding the rest to the `rollupOptions` object, you can set up code-splitting in your Vite.js project and improve the performance of your React.js application.
+In the 2022 version of this note, I used `build.rollupOptions.output.manualChunks`. Vite 8 removed the object form of `manualChunks`, deprecated the function form, and points to Rolldown's [`codeSplitting`](https://rolldown.rs/in-depth/manual-code-splitting) option instead.
 
 So what types of components should you use `React.lazy` with, and which ones shouldn't you lazy load?
 
@@ -161,7 +168,7 @@ Here are some types of components that are good candidates for code-splitting wi
 
 - Components that are only needed in specific routes or areas of the application. For example, if a feature is only used on one page, you can split it into a separate chunk that only loads when the user navigates to that page.
 - Components that are large or complex and may take a long time to load. Splitting them into smaller chunks helps reduce the initial load time of your application.
-- Components that are used infrequently or by a small number of users. Here, code-splitting helps reduce the overall size of your application and improves its performance for most users.
+- Components that are used infrequently or by a small number of users. Here, code-splitting keeps that code out of the main bundle, so most users never download it.
 
 On the other hand, some types of components may not be good candidates for code-splitting with `React.lazy`:
 
@@ -174,7 +181,7 @@ In general, weigh the trade-offs carefully when deciding which components to spl
 
 Memoization is a technique that speeds up your app by storing the results of expensive function calls and returning them when the same inputs come up again. It's especially useful for functions that get called a lot with the same arguments, since it saves you from recalculating the result every time.
 
-In React, you can use memoization to make functional components run more efficiently. By default, React re-renders a functional component whenever its props or state change. That becomes a problem if the component gets called a lot with the same props, since it causes unnecessary re-renders. Memoization solves this by "memoizing" the component and only re-rendering it when the props change.
+In React, you can use memoization to make functional components run more efficiently. By default, React re-renders a component when its state changes, and also every time its parent re-renders, even if its props stay the same. That becomes a problem if the parent renders a lot while the child's props don't change, since it causes unnecessary re-renders. Memoization solves this by "memoizing" the component and only re-rendering it when its props change.
 
 There are a few ways to use memoization in a React app. One option is the `React.useMemo` hook, a built-in React feature that lets you memoize a value. Then there's the `React.useCallback` hook, also built in, which memoizes a function instead of a value. Last but not least, there's `React.memo`, another built-in feature. The difference is that it isn't a hook but a _Higher-Order Component_ that lets you memoize a component.
 
@@ -243,15 +250,15 @@ In this example, the `ProductList` component filters and sorts the product list 
 
 - If the value is only used once or a few times in the component, the overhead might not pay off either. The performance boost might not be significant enough to justify the extra code.
 
-- If the value depends on props that change very frequently, `React.useMemo` might not keep up with the changes, and you could end up with stale data. Here, consider a different optimization technique, like `React.useEffect` or `React.useReducer`, to **avoid unnecessary re-computations**.
+- If the value depends on props that change on almost every render, `React.useMemo` recalculates it almost every time anyway, so the cache rarely helps. It won't give you stale data, though: it recalculates during render as soon as a dependency changes. Don't move the calculation into `React.useEffect` either. An effect runs after render, so the first render shows an outdated value, and setting state in the effect triggers an extra render. Calculate the value directly during render instead.
 
-`React.useMemo` is a good way to improve your React app's performance, but skip it if the value is super simple or cheap to compute, only used a few times in the component, or depends on frequently changing props. In most other cases, `React.useMemo` is a really useful way to optimize your functional components.
+`React.useMemo` is a good way to improve your React app's performance, but skip it if the value is super simple or cheap to compute, only used a few times in the component, or depends on props that change on almost every render. In most other cases, `React.useMemo` is a really useful way to optimize your functional components.
 
 ## Memoizing Callbacks
 
 The `useCallback` hook is a built-in React hook that lets you create a memoized version of a callback function. It takes a function and an array of dependencies, and **returns a memoized version of the function that only changes when one of the dependencies changes**.
 
-This helps optimize functional components **by avoiding unnecessary re-creations** of callback functions.
+This keeps **the same function between renders**, which matters when you pass it to a child wrapped in `React.memo` or list it as a dependency of another hook.
 
 Take a look at the basic syntax of the `useCallback` hook:
 
@@ -263,12 +270,21 @@ const callback = useCallback(() => {
 
 In this example, the callback function is created using the `useCallback` hook, and it will **only be re-created if the values of `longitude` or `latitude` change**.
 
-Another use case for `React.useCallback` is passing callbacks to deeply nested components. If you have a complex component hierarchy and want to pass a callback down to a child component, `useCallback` avoids re-creating that callback on every render. This improves your app's performance by avoiding unnecessary re-renders of the child component.
+Another use case for `React.useCallback` is passing callbacks down to child components. Without it, the parent hands the child a new function on every render. That only matters if the child is wrapped in `React.memo`: `memo` sees a new prop and re-renders anyway. With `useCallback`, the prop stays the same, so `memo` can skip the re-render.
 
-Let's say you have a parent component that renders a list of items, and each item has a delete button that calls a delete callback when clicked. You can use the `useCallback` hook to create a memoized version of the delete callback and pass it down to the child component like this:
+Let's say you have a parent component that renders a list of items, and each item has a delete button that calls a delete callback when clicked. You can use the `useCallback` hook to create a memoized version of the delete callback and pass it down to a child wrapped in `memo`, like this:
 
 ```tsx title="@/components/parent-component.tsx" showLineNumbers
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
+
+const ChildComponent = memo(({ item, onDelete }) => {
+  return (
+    <li>
+      {item.name}
+      <button onClick={() => onDelete(item.id)}>Delete</button>
+    </li>
+  );
+});
 
 const ParentComponent = ({ items, onDelete }) => {
   // Create a memoized version of the onDelete callback
@@ -289,7 +305,7 @@ const ParentComponent = ({ items, onDelete }) => {
 };
 ```
 
-In this example, the `ParentComponent` function component renders a list of `ChildComponent` components and passes each one a callback for deleting items. The `useCallback` hook creates a memoized version of that callback, which improves the performance of `ParentComponent` by **avoiding unnecessary re-creations of the function**. Each `ChildComponent` can then use the callback to delete its item when the delete button is clicked.
+In this example, `ParentComponent` renders a list of `ChildComponent` components and passes each one a callback for deleting its item. `useCallback` returns the same `handleDelete` function on every render, as long as `onDelete` doesn't change. Because `ChildComponent` is wrapped in `memo`, it sees the same props and **skips the re-render**. Without `memo`, every child re-renders with its parent anyway, and `useCallback` saves nothing.
 
 That said, there are a few situations where this hook might not be the best choice:
 
@@ -297,7 +313,7 @@ That said, there are a few situations where this hook might not be the best choi
 
 - If the callback function is only used a few times in the component, `React.useCallback` might not pay off. The performance boost might not be significant enough.
 
-- If the callback function depends on props that change very frequently, `React.useCallback` might not keep up with the changes, and you could end up with a stale function. Here, consider a different optimization technique.
+- If the callback function depends on props that change on almost every render, `React.useCallback` returns a new function almost every time anyway, so it saves nothing. It won't hand you a stale function, though, as long as every value it uses is in the dependency array.
 
 ## Memoizing Components
 
@@ -318,15 +334,15 @@ export default memo(MyComponent);
 
 In this example, `MyComponent` renders a greeting with the `name` prop. Wrapping it with `React.memo` tells React to only re-render the component when the `name` prop changes. This improves your app's performance by avoiding unnecessary re-renders of the component.
 
-You can use `React.memo` to optimize any functional component that doesn't need to re-render every time its props change. It's a simple and effective way to speed up your React app.
+You can use `React.memo` to optimize any functional component that doesn't need to re-render every time its parent does. It's a simple and effective way to speed up your React app.
 
 Basically, `React.memo` optimizes functional components by **avoiding unnecessary re-renders**. But there are a few situations where it might not be the best choice:
 
 - If the component doesn't have any expensive calculations or props _(e.g. large `objects` or `arrays`)_, `React.memo` may not bring much of a performance benefit. The overhead of `React.memo` might even cost more than just re-rendering the component.
 
-- If the component has a lot of state or props, `React.memo` might actually make it slower, since the HOC has to compare all of that state and those props on every update. Here, the `React.useMemo` or `React.useReducer` hook might be a more efficient way to optimize the component.
+- `React.memo` only compares props, one by one with `Object.is`. The component's own state isn't part of that check, so a state change still re-renders it. If the parent passes a new object, array, or function on every render, the comparison fails every time and `memo` only adds work. Keep those props stable with `React.useMemo` and `React.useCallback`, or skip `memo`.
 
-- If the component updates very frequently _(e.g. on every tick of a timer)_, `React.memo` might not be efficient, since the _HOC_ has to compare the previous and current props on every update. In that case, a class component or the `React.useReducer` hook might work better.
+- If the component's props change very often _(e.g. on every tick of a timer)_, `React.memo` compares the old and new props, finds a difference, and re-renders anyway. The comparison is wasted work here, so leave `memo` off. Switching to a class component or `React.useReducer` won't help, because the props still change.
 
 I hope this gives you a sense of when to reach for `React.memo` and when to skip it.
 
@@ -336,10 +352,10 @@ We've looked at several techniques for optimizing the performance of a React.js 
 
 Here are a few additional tips for optimizing the performance of your React.js app:
 
-- Use the [React Developer Tools](https://beta.reactjs.org/learn/react-developer-tools "react dev tools browser extension link") browser extension to profile your app and identify performance bottlenecks.
+- Use the [React Developer Tools](https://react.dev/learn/react-developer-tools "react dev tools browser extension link") browser extension to profile your app and identify performance bottlenecks.
 
 - Consider using a performance monitoring tool like [LogRocket](https://logrocket.com/ "log rocket official website") to track the performance of your app over time.
 
-- Consider using a state management library like [Jotai](https://jotai.org "Jotai official website") or [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction "Zustand official documentation website") to easily manage your app's state.
+- Consider using a state management library like [Jotai](https://jotai.org "Jotai official website") or [Zustand](https://zustand.docs.pmnd.rs/learn/getting-started/introduction "Zustand official documentation website") to easily manage your app's state.
 
 Thank you for reading this blog post! I hope you found it helpful. See you in my next post!
