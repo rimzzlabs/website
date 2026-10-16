@@ -16,7 +16,6 @@ const NOTE_LASTMOD = noteLastmod("https://rimzzlabs.com");
 // https://astro.build/config
 export default defineConfig({
 	site: "https://rimzzlabs.com",
-	trailingSlash: "always",
 	prefetch: true,
 	server: { port: 5600 },
 	env: {
