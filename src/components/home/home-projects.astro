@@ -1,8 +1,9 @@
 ---
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import { HomeProjectMenu } from "@/components/home/home-project-menu";
 import HomeSectionHeading from "@/components/home/home-section-heading.astro";
 import { PROJECT_NOTES, PROJECTS } from "@/data/projects";
-import { fill, getDictionary, type Locale, localizePath } from "@/i18n";
+import { getDictionary, type Locale, localizePath } from "@/i18n";
 
 interface Props {
   locale: Locale;
@@ -25,7 +26,7 @@ const projects = PROJECTS.map((project) => ({
 
   <ul>
     {projects.map((project) => (
-      <li class="group/project relative flex items-baseline gap-4 py-3 border-b first-of-type:border-t transition hover:bg-muted-foreground/2 active:bg-muted-foreground/5">
+      <li class="group/project relative flex items-baseline gap-4 py-3 border-b first-of-type:border-t transition hover:bg-muted-foreground/2 active:bg-muted-foreground/5 has-data-popup-open:bg-muted-foreground/2">
         <div class="min-w-0 flex-1">
           <h3 class="inline-flex items-center gap-1 text-[1.05em] font-medium font-serif">
             {project.name}
@@ -38,29 +39,17 @@ const projects = PROJECTS.map((project) => ({
             class="text-sm text-pretty text-muted-foreground"
             set:html={project.description}
           />
-          {project.note && (
-            <a
-              href={localizePath(project.note, props.locale)}
-              class="relative z-10 text-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
-            >
-              {t.home.readStory}
-            </a>
-          )}
         </div>
 
         <p class="shrink-0 text-sm text-muted-foreground">{project.role}</p>
 
-        <a
+        <HomeProjectMenu
+          client:visible
+          copy={t.home.projectMenu}
+          name={project.name}
           href={project.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="absolute inset-0 focus-visible:outline-2 focus-visible:outline-ring"
-        >
-          <span class="sr-only">
-            {fill(t.home.visitProject, { name: project.name })}
-            {t.common.opensInNewTab}
-          </span>
-        </a>
+          note={project.note && localizePath(project.note, props.locale)}
+        />
       </li>
     ))}
   </ul>

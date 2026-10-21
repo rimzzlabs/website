@@ -55,8 +55,12 @@ export const en = {
 		heroPast:
 			"Much of my past work is in fintech. At {bitwyre}, I helped build a crypto perpetual futures trading platform and a crypto card mobile app. At {skyshi}, I worked with many clients on fintech products and internal tools, and I learned a lot along the way.",
 		resume: "My résumé",
-		visitProject: "Visit {name}",
-		readStory: "Read the story",
+		projectMenu: {
+			label: "{name} links",
+			visit: "Visit {name}",
+			readStory: "Read the story",
+			opensInNewTab: ", opens in a new tab",
+		},
 		projectsTitle: "Projects",
 		projectsDescription:
 			"A mix of hobby projects and bigger products I help build.",
