@@ -1,0 +1,358 @@
+---
+title: "Introducing Mayarin, Payment Infrastructure for People, Apps, and AI Agents"
+description: "Mayarin is payment infrastructure: price in local currency, let customers pay their way, and settle in USDC or USDT to your own wallet. Live on mainnet."
+publishedAt: "10/31/2026"
+status: "published"
+featured: true
+author: rimzzlabs
+keywords:
+  - Mayarin
+  - Mayarin payments
+  - payment infrastructure
+  - stablecoin payment infrastructure
+  - stablecoin settlement
+  - local currency pricing
+  - crypto payment gateway
+  - accept USDC payments
+  - AI agent payments
+  - x402 agent payments
+  - payment links and invoices
+  - Southeast Asia payments
+  - InnovateX 2026
+  - Muhamad Rizky
+  - Rizki Citra
+relatedPosts:
+  - my-first-trip-abroad-was-a-hackathon-at-ntu
+  - introducing-lanjut
+---
+
+import NoteImage from "@/components/notes/note-image.astro";
+
+import PaymentFlow from "@/assets/notes/introducing-mayarin/mayarin-payment-flow-en.png";
+import PaymentPaths from "@/assets/notes/introducing-mayarin/mayarin-payment-paths-en.png";
+import X402Flow from "@/assets/notes/introducing-mayarin/mayarin-x402-flow-en.png";
+import AgentPayables from "@/assets/notes/introducing-mayarin/mayarin-agent-payables-en.png";
+import CheckoutPreview from "@/assets/notes/introducing-mayarin/checkout-preview.webp";
+import ModalCheckout from "@/assets/notes/introducing-mayarin/modal-checkout.webp";
+import DashboardOverview from "@/assets/notes/introducing-mayarin/dashboard-overview.webp";
+import AnalyticsOverview from "@/assets/notes/introducing-mayarin/analytics-overview.webp";
+import GrindingInB2 from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/grinding-in-b2.jpg";
+import BuilderCheque from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/builder-recognition-cheque.jpg";
+import ProfWen from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/prof-wen-yonggang.jpg";
+
+Some products start with a business plan. [Mayarin](https://mayarin.xyz) started with a hackathon entry, almost out of nowhere. My friend [Muhamad Rizky](https://rizzky.xyz/) had the idea, we built it for a competition in Singapore, and somewhere along the way it stopped being just a competition project.
+
+Now it's on mainnet, settling real payments into merchants' own wallets. Here's what Mayarin is, why we kept building it after the hackathon, how it works, and who's behind it.
+
+<Callout type="note">
+  **In short:**
+
+  - A merchant prices in their own currency (22 are supported), and the rate is locked at checkout.
+  - The payer pays with what they already have: a connected wallet, a plain transfer, or a local method like a bank transfer or QR payment.
+  - The merchant gets paid in USDC or USDT, in a wallet they control.
+  - Software can pay too. An AI agent pays through the same flow as a person.
+  - It's live on Base, Polygon, Arbitrum, and BNB Smart Chain. Try it at [mayarin.xyz](https://mayarin.xyz), and read the docs at [docs.mayarin.xyz](https://docs.mayarin.xyz).
+</Callout>
+
+## What Mayarin Is
+
+Mayarin (pronounced "My-ar-in") is payment infrastructure for the borderless economy. On the site we call it a clearing layer: one integration that covers pricing, collection, conversion, and settlement.
+
+In plain words, a merchant sets a price in the currency they already use. The customer pays with whatever they have. The merchant receives a stablecoin, USDC or USDT, in a wallet they control.
+
+It's worth saying what Mayarin is not. It isn't an exchange, a bank, or a custodial wallet. Settlements go straight to a wallet the merchant controls, and Mayarin never holds fiat. It's the layer in the middle that quotes, routes, converts, settles, and records each payment, so the merchant never has to run blockchain infrastructure themselves.
+
+<NoteImage
+  lang="en"
+  src={PaymentFlow}
+  alt="A diagram of a Mayarin payment. On the left, four kinds of payers: a connected wallet, a plain transfer, a local method, and an AI agent. In the middle, Mayarin locks the rate, swaps the asset, confirms on-chain, and posts to the ledger. On the right, the merchant receives USDC or USDT in their own wallet."
+  caption="The payer brings what they hold. The merchant receives what they priced."
+/>
+
+## Where It Started
+
+The idea was Rizky's. He brought it to [NTU CCTF × SNZ InnovateX 2026](https://ntu-cctf-snz-innovatex-2026.devpost.com/), a hackathon by NTU's Centre in Computational Technologies for Finance and SNZ Holding. We built it together and carried it all the way to the finals in Singapore. The full trip, missed flight included, is in [My First Trip Abroad Was a Hackathon at NTU](/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/).
+
+<NoteImage
+  lang="en"
+  caption="InnovateX 2026: building Mayarin in Room B2 at NTU, and the Builder Recognition Award it took home"
+  images={[
+    {
+      src: GrindingInB2,
+      alt: "Me and Rizky working on Mayarin at the round table in Room B2",
+    },
+    {
+      src: BuilderCheque,
+      alt: "The Builder Recognition Award cheque for US$ 500, dated 23 August 2026",
+    },
+  ]}
+/>
+
+Most hackathon projects end at the award ceremony. Ours didn't, because of who started asking about it.
+
+You'd expect the academics at NTU to be the ones paying attention. They weren't. The interest came from the SNZ Holding people, the industry side of the event.
+
+That changed the question Rizky and I were asking. It was no longer about winning a competition. It was about whether we could grow a hackathon prototype into a product people can actually use. At the finals, Mayarin ran on testnet. Today it runs on mainnet.
+
+## Why It Exists
+
+Cross-border payments are messy, and the mess isn't in any single piece. It's in how the pieces meet. As far as we could see, nobody was handling all of it in one place, and that's the gap Mayarin fills.
+
+A single payment touches three different lists, and they're easy to mix up:
+
+- **The price.** A merchant in Jakarta thinks in rupiah. A merchant in Bangkok thinks in baht.
+- **What the payer holds.** Maybe ETH in a wallet, maybe USDC on an exchange, maybe only a bank account.
+- **What the merchant wants to receive.** Usually a stablecoin, and one that doesn't move around between the moment of sale and the moment of payout.
+
+Each list is solvable on its own. Putting all three together means locking an exchange rate, swapping assets, watching chains, matching deposits, and keeping a ledger that agrees with all of it.
+
+Mayarin is that layer. The merchant integrates once, and Mayarin handles the collection, the conversion, and the settlement.
+
+The pain is different depending on who you are:
+
+- **Merchants** think in IDR, SGD, or USD. Accepting crypto usually means volatile assets, private keys, gas, and a lot of manual work to match who paid what.
+- **Payers** hold ETH, USDC, or USDT, often not the exact token the merchant asks for. Some can only send a plain transfer from an exchange. Some don't hold crypto at all.
+- **Developers** end up rebuilding the same payment state machine, webhook handling, and ledger for every project.
+
+Mayarin's answer is simple to say: accepting crypto shouldn't require a merchant to become a crypto infrastructure operator.
+
+## Three Ways to Pay
+
+Every payment in Mayarin opens the same payment intent and posts to the same ledger. What changes is how the payer funds it, and there are three paths:
+
+- **A connected wallet.** The payer signs one transaction, and a contract receives, swaps, and settles it all at once. If the swap would leave the merchant short, the transaction fails instead of paying them less.
+- **A plain transfer.** Some payers can only send money, from an exchange or by scanning a QR. Mayarin gives each payment its own deposit address and watches the chain for it.
+- **A program.** An AI agent or a script pays through [x402](https://docs.mayarin.xyz/guides/x402). It signs one authorization for the exact amount, and it never touches gas or sees an address.
+
+You don't usually pick the path yourself. The hosted checkout offers what fits the payer.
+
+<NoteImage
+  lang="en"
+  src={PaymentPaths}
+  alt="A diagram of the three ways to fund a Mayarin payment. A person with a wallet pays through the PaymentRouter contract. Anyone with a plain transfer pays to a per-payment deposit address. A program or AI agent pays with a signed x402 authorization. All three share one payment intent, one status model, and one ledger."
+  caption="Three ways in, one ledger behind them"
+/>
+
+There's also a fourth option for customers without crypto. At checkout, they can pick a local method like a bank transfer, an e-wallet, a QR payment, or online banking, and pay in their own currency. A licensed partner takes that payment, and the merchant still settles in a stablecoin.
+
+## The Checkout
+
+This is what a customer sees. The order is priced in rupiah, and the checkout tells the payer exactly how much USDC to send, on which network, to which address. There's a countdown, because the rate is locked only for a limited time.
+
+<NoteImage
+  lang="en"
+  src={CheckoutPreview}
+  alt="The Mayarin hosted checkout. On the left, an order from Parahyangan Supply in Bandung for two caps, totalling Rp 115.000,00, with a status tracker: waiting for payment, processing payment, success. On the right, a QR code and the exact USDC amount to send, the network, the deposit address, and a timer."
+  caption="The hosted checkout, priced in rupiah and paid in USDC (testnet screenshot)"
+/>
+
+Merchants who don't want to send customers away can use the checkout as a modal inside their own app instead. The customer picks the asset and network, and sees the total before they pay.
+
+<NoteImage
+  lang="en"
+  src={ModalCheckout}
+  alt="The Mayarin checkout modal for Parahyangan Supply. The price is Rp 65.000,00. The payer chooses USDC on Ethereum Sepolia, sees the total of 3.583567 USDC, and presses Continue with USDC."
+  caption="The in-app checkout modal (testnet screenshot)"
+  class="mx-auto max-w-sm"
+/>
+
+## Building With the SDK
+
+On the merchant side, the integration is small. Mayarin has a typed TypeScript SDK, a plain HTTP API, and React and React Native packages for the checkout. Here's a payment link priced in rupiah, using the TypeScript SDK:
+
+```bash
+npm install @mayarin/sdk@next
+```
+
+```ts
+import { createMayarin } from "@mayarin/sdk";
+
+const secretKey = process.env.MAYARIN_SECRET_KEY;
+if (secretKey === undefined) {
+  throw new Error("MAYARIN_SECRET_KEY is required");
+}
+
+const mayarin = createMayarin({
+  baseUrl: "https://api.mayarin.xyz",
+  secretKey,
+});
+
+const link = await mayarin.commerce.paymentLinks.create({
+  kind: "fixed",
+  merchant: {
+    id: "merchant_123",
+    name: "Kopi Pagi",
+    city: "Jakarta",
+    countryCode: "ID",
+  },
+  amount: { amount: "75000", asset: "IDR" },
+});
+
+console.log(link.url);
+```
+
+Send the buyer to `link.url`, and the hosted checkout does the rest: the asset choice, the wallet or deposit instructions, and the live payment status.
+
+When the money lands, Mayarin sends a signed webhook. Even then, the docs tell you to treat a webhook as a signal, not as proof. Check it, then read the payment back from the API before you mark the order as paid.
+
+The full guide is in the [TypeScript quickstart](https://docs.mayarin.xyz/quickstart).
+
+## The Dashboard
+
+Not every merchant writes code. The dashboard covers the rest: payments, orders, invoices, subscriptions, payment links, a product catalog, customers, disputes, settlement, payouts, and analytics.
+
+<NoteImage
+  lang="en"
+  caption="The merchant dashboard: an overview of balance, revenue, and recent payments, and the analytics page (testnet screenshots)"
+  images={[
+    {
+      src: DashboardOverview,
+      alt: "The Mayarin dashboard overview with balance, revenue, payment count, completion rate, volume, payouts, and a list of recent payments",
+    },
+    {
+      src: AnalyticsOverview,
+      alt: "The Mayarin analytics page with charts for revenue, net revenue, cumulative revenue, average order value, and fees over 30 days",
+    },
+  ]}
+/>
+
+A few things merchants can do from one place:
+
+- **Payment links and invoices.** Share a link, a QR code, or a numbered invoice with a due date.
+- **Subscriptions.** Charge on a schedule for SaaS and memberships.
+- **Payouts.** Send stablecoins to up to 100 sellers, affiliates, or partners in one transaction.
+- **Buyer protection.** Hold funds in escrow, and handle disputes when something goes wrong.
+- **Plugins and extras.** A WooCommerce plugin, and livestream alerts for creators.
+
+## Payments for AI Agents
+
+More and more software acts on its own, and some of it needs to pay. An AI agent can't fill a checkout form or scan a QR code.
+
+Mayarin supports [x402](https://docs.mayarin.xyz/guides/x402), an HTTP payment flow built for programs. It uses the `402 Payment Required` status code that has been sitting in HTTP for decades, mostly unused, and finally gives it a job.
+
+### Selling an Endpoint to an Agent
+
+Say you run an API, and you want agents to pay per call. The flow looks like this:
+
+<NoteImage
+  lang="en"
+  src={X402Flow}
+  alt="A sequence diagram of an x402 payment between an AI agent, the merchant's API, Mayarin, and the blockchain. 1: the agent requests GET /premium. 2: the merchant's API asks Mayarin for the price. 3: the API answers 402 with the price. 4: the agent signs once for the exact amount. 5: the agent sends GET /premium again with the signature. 6: the API asks Mayarin to settle. 7: Mayarin checks the signature and broadcasts the transfer, and the chain confirms it. 8: Mayarin credits the ledger and tells the API it is paid. 9: the API answers 200 with the content."
+  caption="An x402 payment, step by step. The content goes out only after the money settles."
+/>
+
+The agent's first call gets a `402` with the price instead of the content. The agent signs one authorization for exactly that amount and calls again with the signature attached. Your server asks Mayarin to settle it, and only when the payment is confirmed does the content go out.
+
+The order matters. A response can't be taken back once it's sent, so the server never serves first and settles later.
+
+The agent never pays gas, never holds the merchant's asset, and never sees a deposit address. It also doesn't need an account, a card, or an API key. That's the whole point: an agent that has never met Mayarin can still pay.
+
+On your side, you register the endpoint in the dashboard under "Agent endpoints", which sets the price and where you get paid. Then the SDK closes the gate with one middleware:
+
+```ts
+import { createX402Gate } from "@mayarin/sdk";
+import { x402Connect } from "@mayarin/sdk/x402/connect";
+
+const gate = createX402Gate({
+  baseUrl: "https://api.mayarin.xyz",
+  resourceId: "your-resource-id",
+});
+
+app.get("/premium", x402Connect(gate), paidHandler);
+```
+
+No secret key or chain code runs inside the gate. Mayarin rebuilds the payment terms from your registered endpoint instead of trusting the copy the agent sent, checks the signature against the chain, broadcasts the transfer, and credits you in the ledger.
+
+Two more details make it safe for real traffic:
+
+- **One signature buys one call.** If the agent's response gets lost and it retries with the same signature, the gate serves the recorded response again. There's no second charge and no second run of your handler.
+- **Smart-account wallets work.** Many agent wallets are smart contracts, not plain keys. Mayarin asks the chain to verify them, so these payments go through instead of being rejected as forged.
+
+### Paying Invoices and Links
+
+Endpoints aren't the only thing an agent can buy. The same invoices and payment links a person pays through the hosted checkout can be paid by an agent over x402, at the URL of the invoice or link itself.
+
+<NoteImage
+  lang="en"
+  src={AgentPayables}
+  alt="A diagram of how an AI agent pays an invoice or payment link. Step 1: browse the payables that merchants chose to list, with no merchant id needed. Step 2: ask for a 402, which quotes the full balance and holds the price for about 60 seconds. Step 3: sign one authorization for exactly the quoted amount. Outcomes: signed in time, the payment settles and the merchant is credited. Signed too late, a 410, and the agent asks for a new 402. Someone paid first, a 409, because the first signature to settle wins."
+  caption="How an agent finds, quotes, and pays an invoice or a payment link"
+/>
+
+An agent doesn't need to know a merchant in advance. Mayarin keeps a public list of payables across every merchant that opted in, with the title, the price, the payment URL, and the due date. Nothing is listed unless the merchant chooses to list it.
+
+When the agent asks for a `402`, it always gets the full outstanding amount. It can't pay half an invoice. The price is held for a short window, about sixty seconds by default. If the agent signs too late, it gets a `410` and asks for a fresh quote. If two agents try to pay the same invoice, the first signature to settle wins, and the second gets a `409`.
+
+Either way, the agent pays into the same ledger as every other customer, and the merchant settles the same way, in their own stablecoin.
+
+## How Mayarin Keeps Payments Safe
+
+Payments are about trust, so a few promises are built into how Mayarin works:
+
+- **Non-custodial settlement.** Funds land in a wallet the merchant controls, either a Safe or a wallet verified in the dashboard. Mayarin's fee goes to a separate treasury Safe, never into the merchant's wallet.
+- **On-chain confirmation.** Mayarin checks every payment on-chain itself instead of trusting a notification.
+- **A double-entry ledger.** Every payment moves through balanced postings, so no balance ever changes without a trail.
+- **Safe retries.** Every step is idempotent and resumable. A retry or a crash in the middle of a payment can't post it twice or lose it.
+- **Locked prices.** The rate is locked when the customer picks how to pay. If the lock runs out before the funds arrive, the payment expires and the customer starts again at the current rate.
+- **Key security.** Signing keys live in a hardware-backed key vault, and every account has authenticator-app 2FA. A fresh code is required before withdrawals, payouts, and new API keys.
+- **No chargebacks.** A confirmed on-chain payment can't be pulled back by the payer, so there's no chargeback fraud and no dispute fee.
+
+## Who It's For
+
+Mayarin is built for any business that sells across borders or to people who pay in different ways. The site lists e-commerce, travel and hospitality, gaming, professional services, freelancers and agencies, trading platforms, content creators, SaaS and memberships, fintech wallets, AI agents and APIs, retail, and trade.
+
+The common thread: the merchant wants to price in their own currency and get paid in a stable asset, while the customer pays however they already pay.
+
+## The Two of Us
+
+There's no big team behind Mayarin. It's two people, and we split the work around what each of us knows best.
+
+Rizky leads the product. He does the research, decides where Mayarin goes next, and writes a good share of the code himself. Web3 is his home ground, and he knows it better than I do.
+
+That gap is the reason the split works. My job is execution: I'm the UX person, the one who turns the plan into the app people actually see and use.
+
+<NoteImage
+  lang="en"
+  src={ProfWen}
+  alt="From left to right: me, Prof. Wen Yonggang of NTU, and Rizky"
+  caption="The two of us with Prof. Wen Yonggang of NTU at the InnovateX 2026 finals"
+/>
+
+## Where It Is Now
+
+Mayarin is live on mainnet, on Base, Polygon, Arbitrum, and BNB Smart Chain. Real payments settle to the merchant's wallet today, in USDC or USDT.
+
+A few details worth knowing:
+
+- **The fee** is 0.5% plus a small network-gas fee, which comes to about 0.6% all in on larger payments.
+- **Settlements** land in a wallet the merchant controls. When a customer pays in local currency, a licensed partner takes that payment, so Mayarin never holds fiat or identity documents.
+- **Local payment methods** still run on the partner's sandbox until the partner enables them for live use.
+- **Pricing** works in 22 local currencies, including IDR, SGD, MYR, THB, PHP, VND, USD, EUR, JPY, and AUD.
+
+## Questions People Ask
+
+**Is Mayarin a crypto exchange?**
+No. Mayarin is payment infrastructure. It converts the payer's asset as part of a payment, but it doesn't run an exchange, and settlements go straight to a wallet you control.
+
+**Do my customers need crypto?**
+No. They can pay with a supported crypto asset, or choose a local method like a bank transfer, an e-wallet, or a QR payment and pay in their own currency.
+
+**Do I need to understand blockchain?**
+No. You set the price in your own currency and share a payment link, an invoice, or a QR code. Picking the network and converting the asset happen behind the checkout.
+
+**What if the price moves while my customer pays?**
+It doesn't reach you. The rate is locked when the customer chooses how to pay, so you receive the amount you priced.
+
+**Can I cash out to my bank account?**
+Yes. Mayarin settles stablecoins to your own wallet, and you can cash them out to your bank through a third-party provider.
+
+**How much does it cost?**
+A 0.5% protocol fee plus a small network-gas fee, about 0.6% all in on larger payments.
+
+## Try Mayarin
+
+Right now, our focus is B2B. That means businesses that invoice other businesses, platforms that pay out to sellers and partners, and teams that want stablecoin settlement without running blockchain infrastructure themselves.
+
+If that sounds like your business, start at [mayarin.xyz](https://mayarin.xyz). Your engineers can read the [docs](https://docs.mayarin.xyz) and test the whole flow in the sandbox before any real money moves.
+
+For updates, follow Mayarin on [X](https://x.com/mayarin_xyz) and [LinkedIn](https://linkedin.com/company/mayarin).

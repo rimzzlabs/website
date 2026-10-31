@@ -1,0 +1,89 @@
+<svg
+	viewBox="0 0 800 420"
+	xmlns="http://www.w3.org/2000/svg"
+	role="img"
+	aria-label="Tiga cara mendanai pembayaran Mayarin. Orang dengan wallet membayar lewat kontrak PaymentRouter. Siapa pun yang hanya bisa transfer membayar ke alamat deposit khusus per pembayaran. Program atau AI agent membayar dengan otorisasi x402. Ketiganya memakai satu payment intent, satu model status, dan satu ledger."
+>
+	<defs>
+		<marker id="paths-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0 0 L10 5 L0 10 z" fill="#38BDF8" />
+		</marker>
+	</defs>
+
+	<rect width="800" height="420" rx="16" fill="#1C1917" />
+
+	<g font-family="system-ui, sans-serif" font-size="11" fill="#78716C" letter-spacing="1">
+		<text x="30" y="42">SIAPA YANG BAYAR</text>
+		<text x="270" y="42">CARA DANANYA MASUK</text>
+		<text x="590" y="42">YANG SELALU SAMA</text>
+	</g>
+
+	<!-- payer boxes -->
+	<g fill="#292524" stroke="#44403C" stroke-width="1.5">
+		<rect x="30" y="60" width="200" height="90" rx="10" />
+		<rect x="30" y="168" width="200" height="90" rx="10" />
+		<rect x="30" y="276" width="200" height="90" rx="10" />
+	</g>
+	<g font-family="system-ui, sans-serif">
+		<g font-size="14" font-weight="600" fill="#E7E5E4">
+			<text x="48" y="98">Pengguna wallet crypto</text>
+			<text x="48" y="206">Bayar lewat transfer</text>
+			<text x="48" y="314">Program atau AI agent</text>
+		</g>
+		<g font-size="12" fill="#A8A29E">
+			<text x="48" y="120">cukup tanda tangan sekali</text>
+			<text x="48" y="228">dari exchange atau scan QR</text>
+			<text x="48" y="336">bayar tiap request</text>
+		</g>
+	</g>
+
+	<!-- arrows -->
+	<g stroke="#38BDF8" stroke-width="2" marker-end="url(#paths-arrow)">
+		<line x1="232" y1="105" x2="266" y2="105" />
+		<line x1="232" y1="213" x2="266" y2="213" />
+		<line x1="232" y1="321" x2="266" y2="321" />
+	</g>
+
+	<!-- mechanism boxes -->
+	<g fill="#292524" stroke="#38BDF8" stroke-width="1.5">
+		<rect x="270" y="60" width="270" height="90" rx="10" />
+		<rect x="270" y="168" width="270" height="90" rx="10" />
+		<rect x="270" y="276" width="270" height="90" rx="10" />
+	</g>
+	<g font-family="system-ui, sans-serif">
+		<g font-size="14" font-weight="600" fill="#E7E5E4">
+			<text x="288" y="92">Kontrak PaymentRouter</text>
+			<text x="288" y="200">Alamat deposit per transaksi</text>
+			<text x="288" y="308">Otorisasi x402</text>
+		</g>
+		<g font-size="12" fill="#A8A29E">
+			<text x="288" y="114">terima, konversi, dan cairkan</text>
+			<text x="288" y="131">dalam satu transaksi</text>
+			<text x="288" y="222">Mayarin memantau blockchain</text>
+			<text x="288" y="239">dan mencocokkan dana masuk</text>
+			<text x="288" y="330">dikirim oleh facilitator,</text>
+			<text x="288" y="347">lalu dicek Mayarin di blockchain</text>
+		</g>
+	</g>
+
+	<!-- connectors to the shared box -->
+	<g stroke="#44403C" stroke-width="2" fill="none">
+		<path d="M542 105 H566 V213 H586" />
+		<path d="M542 213 H586" />
+		<path d="M542 321 H566 V213" />
+	</g>
+
+	<!-- shared box -->
+	<rect x="590" y="60" width="180" height="306" rx="12" fill="#292524" stroke="#FFDD00" stroke-width="2" />
+	<g font-family="system-ui, sans-serif">
+		<g font-size="14" font-weight="600" fill="#FFDD00">
+			<text x="608" y="160">Satu payment intent</text>
+			<text x="608" y="216">Satu alur status</text>
+			<text x="608" y="272">Satu ledger</text>
+		</g>
+	</g>
+
+	<text x="400" y="400" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#A8A29E">
+		Checkout otomatis memilih jalur yang cocok untuk tiap pelanggan.
+	</text>
+</svg>

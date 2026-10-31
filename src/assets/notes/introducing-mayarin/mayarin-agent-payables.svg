@@ -1,0 +1,84 @@
+<svg
+	viewBox="0 0 800 440"
+	xmlns="http://www.w3.org/2000/svg"
+	role="img"
+	aria-label="Cara AI agent membayar invoice atau payment link. Pertama, agent mencari tagihan yang dibuka oleh merchant. Lalu agent meminta 402, yang selalu menyebut sisa tagihan penuh dan mengunci harga sekitar enam puluh detik. Lalu agent menandatangani. Kalau tepat waktu, pembayaran settle dan merchant menerima dana. Kalau telat, agent mendapat 410 dan meminta harga baru. Kalau agent lain sudah bayar duluan, agent mendapat 409 dan ditolak."
+>
+	<defs>
+		<marker id="pay-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0 0 L10 5 L0 10 z" fill="#38BDF8" />
+		</marker>
+	</defs>
+
+	<rect width="800" height="440" rx="16" fill="#1C1917" />
+
+	<g font-family="system-ui, sans-serif" font-size="11" fill="#78716C" letter-spacing="1">
+		<text x="30" y="42">1. CARI</text>
+		<text x="290" y="42">2. MINTA HARGA</text>
+		<text x="550" y="42">3. TANDA TANGAN</text>
+	</g>
+
+	<!-- top row -->
+	<g fill="#292524" stroke="#38BDF8" stroke-width="1.5">
+		<rect x="30" y="58" width="220" height="110" rx="10" />
+		<rect x="290" y="58" width="220" height="110" rx="10" />
+		<rect x="550" y="58" width="220" height="110" rx="10" />
+	</g>
+	<g font-family="system-ui, sans-serif">
+		<g font-size="14" font-weight="600" fill="#E7E5E4">
+			<text x="48" y="90">Lihat daftar tagihan</text>
+			<text x="308" y="90">Minta 402</text>
+			<text x="568" y="90">Tanda tangan satu otorisasi</text>
+		</g>
+		<g font-size="12" fill="#A8A29E">
+			<text x="48" y="114">invoice dan payment link</text>
+			<text x="48" y="131">yang dibuka merchant,</text>
+			<text x="48" y="148">tanpa perlu ID merchant</text>
+			<text x="308" y="114">selalu sebesar sisa tagihan,</text>
+			<text x="308" y="131">harganya dikunci sekitar</text>
+			<text x="308" y="148">60 detik</text>
+			<text x="568" y="114">sesuai harga yang diberikan,</text>
+			<text x="568" y="131">tidak bisa dicicil</text>
+		</g>
+	</g>
+	<g stroke="#38BDF8" stroke-width="2" marker-end="url(#pay-blue)">
+		<line x1="252" y1="113" x2="286" y2="113" />
+		<line x1="512" y1="113" x2="546" y2="113" />
+	</g>
+
+	<!-- branches -->
+	<g stroke="#44403C" stroke-width="2" fill="none">
+		<path d="M660 170 V200 H140 V246" />
+		<path d="M400 200 V246" />
+		<path d="M660 200 V246" />
+	</g>
+
+	<!-- outcomes -->
+	<rect x="30" y="248" width="220" height="110" rx="10" fill="#292524" stroke="#FFDD00" stroke-width="2" />
+	<g fill="#292524" stroke="#44403C" stroke-width="1.5">
+		<rect x="290" y="248" width="220" height="110" rx="10" />
+		<rect x="550" y="248" width="220" height="110" rx="10" />
+	</g>
+	<g font-family="system-ui, sans-serif">
+		<text x="48" y="280" font-size="14" font-weight="600" fill="#FFDD00">Tepat waktu</text>
+		<g font-size="14" font-weight="600" fill="#E7E5E4">
+			<text x="308" y="280">Telat: 410</text>
+			<text x="568" y="280">Keduluan: 409</text>
+		</g>
+		<g font-size="12" fill="#A8A29E">
+			<text x="48" y="304">pembayaran berhasil, dan</text>
+			<text x="48" y="321">dana masuk ke merchant</text>
+			<text x="48" y="338">dalam aset pilihannya</text>
+			<text x="308" y="304">harga sudah kedaluwarsa,</text>
+			<text x="308" y="321">agent minta 402 baru</text>
+			<text x="308" y="338">di URL yang sama</text>
+			<text x="568" y="304">yang lebih dulu diproses</text>
+			<text x="568" y="321">yang menang, jadi tidak</text>
+			<text x="568" y="338">ada pembayaran ganda</text>
+		</g>
+	</g>
+
+	<text x="400" y="404" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#A8A29E">
+		Invoice dan link yang biasa dibayar lewat checkout, kini bisa dibayar AI agent lewat x402.
+	</text>
+</svg>

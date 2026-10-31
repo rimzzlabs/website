@@ -1,0 +1,93 @@
+<svg
+	viewBox="0 0 800 600"
+	xmlns="http://www.w3.org/2000/svg"
+	role="img"
+	aria-label="Alur pembayaran x402 langkah demi langkah. AI agent memanggil endpoint berbayar. Server merchant menanyakan harga ke Mayarin dan menjawab 402 beserta harganya. Agent menandatangani satu otorisasi dengan nominal yang pas, lalu memanggil lagi dengan tanda tangan itu. Server meminta Mayarin melakukan settlement. Mayarin mengecek tanda tangan, mem-broadcast transfer on-chain, dan mencatatnya di ledger. Baru setelah itu server menjawab 200 beserta kontennya."
+>
+	<defs>
+		<marker id="x402-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0 0 L10 5 L0 10 z" fill="#38BDF8" />
+		</marker>
+		<marker id="x402-yellow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0 0 L10 5 L0 10 z" fill="#FFDD00" />
+		</marker>
+		<marker id="x402-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0 0 L10 5 L0 10 z" fill="#A8A29E" />
+		</marker>
+	</defs>
+
+	<rect width="800" height="600" rx="16" fill="#1C1917" />
+
+	<!-- actors -->
+	<g fill="#292524" stroke="#44403C" stroke-width="1.5">
+		<rect x="40" y="28" width="140" height="46" rx="10" />
+		<rect x="260" y="28" width="140" height="46" rx="10" />
+		<rect x="480" y="28" width="140" height="46" rx="10" stroke="#FFDD00" stroke-width="2" />
+		<rect x="650" y="28" width="120" height="46" rx="10" />
+	</g>
+	<g font-family="system-ui, sans-serif" font-size="14" font-weight="600" text-anchor="middle">
+		<text x="110" y="56" fill="#E7E5E4">AI agent</text>
+		<text x="330" y="56" fill="#E7E5E4">API merchant</text>
+		<text x="550" y="56" fill="#FFDD00">Mayarin</text>
+		<text x="710" y="56" fill="#E7E5E4">Blockchain</text>
+	</g>
+
+	<!-- lifelines -->
+	<g stroke="#44403C" stroke-width="1.5" stroke-dasharray="4 5">
+		<line x1="110" y1="74" x2="110" y2="548" />
+		<line x1="330" y1="74" x2="330" y2="548" />
+		<line x1="550" y1="74" x2="550" y2="548" />
+		<line x1="710" y1="74" x2="710" y2="548" />
+	</g>
+
+	<g font-family="system-ui, sans-serif" font-size="12" fill="#E7E5E4" text-anchor="middle">
+		<!-- 1 -->
+		<line x1="112" y1="112" x2="326" y2="112" stroke="#38BDF8" stroke-width="2" marker-end="url(#x402-blue)" />
+		<text x="220" y="104">1. GET /premium</text>
+
+		<!-- 2 -->
+		<line x1="332" y1="156" x2="546" y2="156" stroke="#38BDF8" stroke-width="2" marker-end="url(#x402-blue)" />
+		<text x="440" y="148">2. Berapa harganya?</text>
+
+		<!-- 3 -->
+		<line x1="328" y1="200" x2="114" y2="200" stroke="#FFDD00" stroke-width="2" marker-end="url(#x402-yellow)" />
+		<text x="220" y="192">3. 402 + harganya</text>
+
+		<!-- 4: agent signs -->
+		<rect x="40" y="222" width="140" height="52" rx="8" fill="#292524" stroke="#38BDF8" stroke-width="1.5" />
+		<text x="110" y="244">4. Tanda tangan</text>
+		<text x="110" y="262">sesuai nominal</text>
+
+		<!-- 5 -->
+		<line x1="112" y1="306" x2="326" y2="306" stroke="#38BDF8" stroke-width="2" marker-end="url(#x402-blue)" />
+		<text x="220" y="298">5. GET /premium + tanda tangan</text>
+
+		<!-- 6 -->
+		<line x1="332" y1="350" x2="546" y2="350" stroke="#38BDF8" stroke-width="2" marker-end="url(#x402-blue)" />
+		<text x="440" y="342">6. Proses pembayaran</text>
+
+		<!-- 7 -->
+		<line x1="552" y1="394" x2="706" y2="394" stroke="#38BDF8" stroke-width="2" marker-end="url(#x402-blue)" />
+		<text x="630" y="386">7. Cek &amp; kirim</text>
+
+		<!-- 8 -->
+		<line x1="708" y1="430" x2="554" y2="430" stroke="#A8A29E" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#x402-grey)" />
+		<text x="630" y="422" fill="#A8A29E">terkonfirmasi</text>
+
+		<!-- 9: ledger -->
+		<rect x="480" y="448" width="140" height="40" rx="8" fill="#292524" stroke="#FFDD00" stroke-width="1.5" />
+		<text x="550" y="473" fill="#FFDD00">8. Catat transaksi</text>
+
+		<!-- 10 -->
+		<line x1="548" y1="508" x2="334" y2="508" stroke="#A8A29E" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#x402-grey)" />
+		<text x="440" y="500" fill="#A8A29E">lunas</text>
+
+		<!-- 11 -->
+		<line x1="328" y1="540" x2="114" y2="540" stroke="#FFDD00" stroke-width="2" marker-end="url(#x402-yellow)" />
+		<text x="220" y="532">9. 200 + kontennya</text>
+	</g>
+
+	<text x="400" y="582" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" fill="#A8A29E">
+		Konten baru dikirim setelah dana masuk. Agent tidak butuh gas, akun, atau alamat wallet.
+	</text>
+</svg>
