@@ -1,0 +1,388 @@
+---
+title: "Memperkenalkan Mayarin, Infrastruktur Pembayaran untuk Bisnis dan AI Agent"
+description: "Mayarin adalah infrastruktur pembayaran: pasang harga dalam rupiah, pelanggan bayar dengan caranya sendiri, dan dana cair sebagai USDC atau USDT ke wallet kamu. Sudah live di mainnet."
+publishedAt: "10/31/2026"
+status: "published"
+featured: true
+author: rimzzlabs
+keywords:
+  - Mayarin
+  - infrastruktur pembayaran
+  - payment infrastructure
+  - payment gateway crypto Indonesia
+  - terima pembayaran USDC
+  - settlement stablecoin
+  - pembayaran lintas negara
+  - pembayaran AI agent
+  - x402
+  - payment link dan invoice
+  - InnovateX 2026
+  - Muhamad Rizky
+  - Rizki Citra
+relatedPosts:
+  - my-first-trip-abroad-was-a-hackathon-at-ntu
+  - introducing-lanjut
+---
+
+import NoteImage from "@/components/notes/note-image.astro";
+
+import PaymentFlow from "@/assets/notes/introducing-mayarin/mayarin-payment-flow.png";
+import PaymentPaths from "@/assets/notes/introducing-mayarin/mayarin-payment-paths.png";
+import X402Flow from "@/assets/notes/introducing-mayarin/mayarin-x402-flow.png";
+import AgentPayables from "@/assets/notes/introducing-mayarin/mayarin-agent-payables.png";
+import CheckoutPreview from "@/assets/notes/introducing-mayarin/checkout-preview.webp";
+import ModalCheckout from "@/assets/notes/introducing-mayarin/modal-checkout.webp";
+import DashboardOverview from "@/assets/notes/introducing-mayarin/dashboard-overview.webp";
+import AnalyticsOverview from "@/assets/notes/introducing-mayarin/analytics-overview.webp";
+import GrindingInB2 from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/grinding-in-b2.jpg";
+import BuilderCheque from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/builder-recognition-cheque.jpg";
+import ProfWen from "@/assets/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/prof-wen-yonggang.jpg";
+
+Bayangkan kamu jual jasa ke klien di Singapura. Kamu maunya pasang harga dalam rupiah, klien maunya bayar pakai USDC, dan kamu sendiri maunya terima dana yang nilainya tidak naik-turun. Tiga keinginan, tiga sistem berbeda, dan biasanya kamu sendiri yang harus menyambungkan semuanya.
+
+[Mayarin](https://mayarin.xyz) dibuat supaya kamu tidak perlu repot begitu.
+
+Awalnya Mayarin bukan rencana bisnis. Dia lahir dari hackathon, nyaris tanpa rencana. Idenya datang dari teman saya, [Muhamad Rizky](https://rizzky.xyz/), kami bangun berdua untuk kompetisi di Singapura, dan pelan-pelan proyek lomba itu berubah jadi produk sungguhan.
+
+Sekarang Mayarin sudah jalan di _mainnet_ dan memproses pembayaran sungguhan yang langsung masuk ke _wallet_ milik merchant. Di catatan ini saya ceritakan apa itu Mayarin, kenapa kami lanjut membangunnya setelah hackathon, cara kerjanya, dan siapa di baliknya.
+
+<Callout type="note">
+  **Singkatnya:**
+
+  - Pasang harga dalam mata uang kamu sendiri (ada 22 pilihan), dan kursnya dikunci saat _checkout_. Kamu tidak rugi selisih kurs.
+  - Pelanggan bayar pakai yang mereka punya: _wallet_ crypto, transfer biasa, atau metode lokal seperti transfer bank dan QR.
+  - Dana masuk sebagai USDC atau USDT ke _wallet_ milikmu sendiri, bukan ditahan pihak lain.
+  - Software juga bisa bayar. AI agent membayar lewat alur yang sama dengan manusia.
+  - Sudah live di Base, Polygon, Arbitrum, dan BNB Smart Chain. Coba di [mayarin.xyz](https://mayarin.xyz), dokumentasinya ada di [docs.mayarin.xyz](https://docs.mayarin.xyz).
+</Callout>
+
+## Apa Itu Mayarin
+
+Kalau harus dirangkum dalam satu kalimat: kamu pasang harga, pelanggan bayar dengan caranya sendiri, dan kamu terima _stablecoin_.
+
+Mayarin (dibaca "Mai-yar-in") adalah infrastruktur pembayaran untuk bisnis yang jualan tanpa batas negara. Di situsnya, kami menyebut Mayarin sebagai _clearing layer_: satu integrasi yang mengurus penetapan harga, penagihan, konversi, sampai _settlement_, yaitu pencairan dana ke merchant.
+
+Buat bisnis, artinya sederhana. Harga tetap kamu pasang dalam mata uang yang biasa kamu pakai. Pelanggan bayar pakai apa pun yang mereka punya. Dananya masuk ke _wallet_ yang kamu kendalikan, dalam bentuk USDC atau USDT.
+
+Perlu juga dijelaskan Mayarin itu bukan apa. Mayarin bukan _exchange_, bukan bank, dan bukan _custodial wallet_ (dompet yang uangnya dipegang pihak lain). Dana _settlement_ langsung masuk ke _wallet_ milik merchant, dan Mayarin tidak pernah memegang uang fiat. Posisinya ada di tengah: menghitung harga, memilih jalur, menukar aset, mencairkan dana, dan mencatat setiap pembayaran. Kamu tidak perlu mengurus infrastruktur blockchain sendiri.
+
+<NoteImage
+  lang="id"
+  src={PaymentFlow}
+  alt="Diagram alur pembayaran Mayarin. Di kiri, empat cara pelanggan bayar: wallet crypto, transfer biasa, transfer bank dan e-wallet, serta AI agent. Di tengah, Mayarin mengunci kurs, mengonversi aset, mengecek di blockchain, dan mencatat transaksi. Di kanan, merchant menerima USDC atau USDT di wallet miliknya sendiri."
+  caption="Pelanggan bayar dengan yang mereka punya, kamu terima sesuai harga yang kamu pasang."
+/>
+
+## Awal Mulanya
+
+Mayarin tidak lahir di ruang rapat. Dia lahir di arena hackathon.
+
+Idenya dari Rizky. Dia membawa ide ini ke [NTU CCTF × SNZ InnovateX 2026](https://ntu-cctf-snz-innovatex-2026.devpost.com/), hackathon yang diadakan NTU Centre in Computational Technologies for Finance bersama SNZ Holding. Kami bangun berdua sampai lolos ke babak final di Singapura. Cerita perjalanannya, lengkap dengan drama ketinggalan pesawat, ada di [Pertama Kali ke Luar Negeri, Langsung Ikut Hackathon di NTU](/id/notes/my-first-trip-abroad-was-a-hackathon-at-ntu/).
+
+<NoteImage
+  lang="id"
+  caption="InnovateX 2026: ngebut membangun Mayarin di Ruang B2 NTU, dan Builder Recognition Award yang kami bawa pulang"
+  images={[
+    {
+      src: GrindingInB2,
+      alt: "Saya dan Rizky mengerjakan Mayarin di meja bundar Ruang B2",
+    },
+    {
+      src: BuilderCheque,
+      alt: "Cek Builder Recognition Award senilai US$ 500 tertanggal 23 Agustus 2026",
+    },
+  ]}
+/>
+
+Biasanya proyek hackathon selesai begitu acara penghargaan bubar. Mayarin tidak, gara-gara siapa yang mulai tertarik.
+
+Kamu mungkin mengira yang melirik adalah para akademisi NTU. Ternyata bukan. Yang tertarik justru orang-orang SNZ Holding, pihak industri di acara itu.
+
+Dari situ pertanyaan saya dan Rizky berubah. Bukan lagi soal menang lomba, tapi soal bisa tidaknya prototipe hackathon ini tumbuh jadi produk yang benar-benar dipakai orang. Waktu final, Mayarin masih jalan di _testnet_. Sekarang sudah di _mainnet_.
+
+## Kenapa Mayarin Ada
+
+Terima pembayaran dari luar negeri itu ribet. Yang bikin ribet bukan satu bagiannya, tapi sambungan antarbagiannya.
+
+Sejauh yang kami lihat, belum ada yang mengurus semuanya di satu tempat. Celah itulah yang diisi Mayarin.
+
+Satu pembayaran menyentuh tiga hal yang sering tertukar:
+
+- **Harga.** Merchant di Jakarta berpikir dalam rupiah. Merchant di Bangkok berpikir dalam baht.
+- **Yang dipegang pembayar.** Bisa ETH di _wallet_, USDC di _exchange_, atau cuma rekening bank.
+- **Yang ingin diterima merchant.** Biasanya _stablecoin_, yang nilainya tidak naik-turun antara saat transaksi dan saat dana cair.
+
+Masing-masing bisa diselesaikan sendiri-sendiri. Masalahnya, menyatukan ketiganya berarti mengunci kurs, menukar aset, memantau _chain_, mencocokkan deposit, dan menjaga pembukuan (_ledger_) supaya tetap sinkron dengan semua itu.
+
+Mayarin mengambil alih semua pekerjaan itu. Kamu cukup integrasi sekali, sisanya diurus Mayarin: penagihan, konversi, sampai pencairan.
+
+Masalahnya pun beda-beda, tergantung posisi kamu:
+
+- **Merchant** berpikir dalam IDR, SGD, atau USD. Terima crypto biasanya berarti aset yang nilainya naik-turun, urusan _private key_, biaya _gas_, dan rekonsiliasi manual untuk mencocokkan siapa bayar apa.
+- **Pembayar** pegang ETH, USDC, atau USDT, sering kali bukan token yang diminta merchant. Ada yang cuma bisa transfer dari _exchange_. Ada juga yang sama sekali tidak punya crypto.
+- **Developer** harus membangun ulang _state machine_ pembayaran, penanganan _webhook_, dan _ledger_ di setiap proyek.
+
+Jawaban Mayarin sederhana: menerima pembayaran crypto tidak seharusnya memaksa merchant jadi operator infrastruktur crypto.
+
+## Tiga Jalur Pembayaran
+
+Pelangganmu tidak semuanya sama. Ada yang pakai _wallet_, ada yang cuma bisa transfer, ada juga yang bukan manusia.
+
+Buat bisnis, artinya kamu tidak kehilangan pelanggan hanya karena cara bayarnya beda. Semua pembayaran di Mayarin membuka _payment intent_ yang sama dan tercatat di _ledger_ yang sama. Yang beda cuma cara dananya masuk:
+
+- **_Wallet_ yang terhubung.** Pembayar tanda tangan satu transaksi, lalu _smart contract_ menerima, menukar, dan mencairkan dana sekaligus. Kalau hasil penukarannya bikin merchant terima kurang, transaksinya dibatalkan. Merchant tidak pernah dibayar kurang.
+- **Transfer biasa.** Sebagian pembayar cuma bisa kirim dana, dari _exchange_ atau lewat scan QR. Mayarin memberi alamat deposit khusus untuk setiap pembayaran, lalu memantau _chain_-nya.
+- **Program.** AI agent atau skrip membayar lewat [x402](https://docs.mayarin.xyz/guides/x402). Dia cukup tanda tangan satu otorisasi dengan nominal yang pas, tanpa urusan _gas_ dan tanpa perlu melihat alamat apa pun.
+
+Biasanya kamu tidak perlu memilih jalurnya. _Hosted checkout_ akan menawarkan jalur yang cocok untuk pembayar.
+
+<NoteImage
+  lang="id"
+  src={PaymentPaths}
+  alt="Diagram tiga cara mendanai pembayaran Mayarin. Orang dengan wallet membayar lewat kontrak PaymentRouter. Siapa pun yang hanya bisa transfer membayar ke alamat deposit khusus per transaksi. Program atau AI agent membayar dengan otorisasi x402. Ketiganya memakai satu payment intent, satu alur status, dan satu ledger."
+  caption="Tiga pintu masuk, satu pembukuan di belakangnya"
+/>
+
+Ada juga opsi keempat untuk pelanggan yang tidak punya crypto. Di _checkout_, mereka bisa memilih metode lokal seperti transfer bank, _e-wallet_, QR, atau _online banking_, lalu bayar dalam mata uang mereka sendiri. Pembayaran itu diterima mitra berlisensi, dan merchant tetap menerima _stablecoin_.
+
+## Tampilan Checkout
+
+Pelanggan tidak perlu paham blockchain. Mereka cukup lihat angkanya, scan, lalu bayar.
+
+Ini yang dilihat pelanggan. Pesanannya dihargai dalam rupiah, dan _checkout_ memberi tahu persis berapa USDC yang harus dikirim, lewat jaringan apa, ke alamat mana. Ada hitung mundur karena kurs cuma dikunci untuk waktu tertentu. Buat kamu, artinya harga yang kamu pasang adalah harga yang kamu terima.
+
+<NoteImage
+  lang="id"
+  src={CheckoutPreview}
+  alt="Hosted checkout Mayarin. Di kiri, pesanan dari Parahyangan Supply di Bandung berisi dua topi dengan total Rp 115.000,00, dan pelacak status: menunggu pembayaran, memproses pembayaran, berhasil. Di kanan, kode QR, jumlah USDC yang harus dikirim, jaringannya, alamat deposit, dan penghitung waktu."
+  caption="Hosted checkout dengan harga rupiah, dibayar pakai USDC (tangkapan layar testnet)"
+/>
+
+Kalau kamu tidak mau pelanggan keluar dari aplikasimu, _checkout_-nya bisa dipasang sebagai _modal_ di dalam aplikasi. Pelanggan memilih aset dan jaringannya, lalu melihat totalnya sebelum bayar.
+
+<NoteImage
+  lang="id"
+  src={ModalCheckout}
+  alt="Modal checkout Mayarin untuk Parahyangan Supply. Harganya Rp 65.000,00. Pembayar memilih USDC di Ethereum Sepolia, melihat total 3,583567 USDC, lalu menekan Continue with USDC."
+  caption="Modal checkout di dalam aplikasi (tangkapan layar testnet)"
+  class="mx-auto max-w-sm"
+/>
+
+## Integrasi Lewat SDK
+
+Buat tim _engineering_ kamu, integrasinya cuma beberapa baris kode.
+
+Mayarin punya _SDK_ TypeScript dengan tipe lengkap, HTTP _API_ biasa, serta paket React dan React Native untuk _checkout_. Contoh di bawah membuat _payment link_ dengan harga rupiah:
+
+```bash
+npm install @mayarin/sdk@next
+```
+
+```ts
+import { createMayarin } from "@mayarin/sdk";
+
+const secretKey = process.env.MAYARIN_SECRET_KEY;
+if (secretKey === undefined) {
+  throw new Error("MAYARIN_SECRET_KEY wajib diisi");
+}
+
+const mayarin = createMayarin({
+  baseUrl: "https://api.mayarin.xyz",
+  secretKey,
+});
+
+const link = await mayarin.commerce.paymentLinks.create({
+  kind: "fixed",
+  merchant: {
+    id: "merchant_123",
+    name: "Kopi Pagi",
+    city: "Jakarta",
+    countryCode: "ID",
+  },
+  amount: { amount: "75000", asset: "IDR" },
+});
+
+console.log(link.url);
+```
+
+Arahkan pembeli ke `link.url`, dan _hosted checkout_ mengurus sisanya: pilihan aset, instruksi _wallet_ atau deposit, sampai status pembayaran secara langsung.
+
+Begitu dana masuk, Mayarin mengirim _webhook_ yang ditandatangani. Meski begitu, dokumentasinya menyarankan supaya _webhook_ dianggap sinyal, bukan bukti. Cek dulu, lalu baca ulang pembayarannya dari _API_ sebelum pesanan ditandai lunas.
+
+Panduan lengkapnya ada di [TypeScript quickstart](https://docs.mayarin.xyz/quickstart).
+
+## Dashboard
+
+Tidak semua merchant menulis kode. Untuk mereka, ada _dashboard_.
+
+Semua urusan pembayaran ada di satu tempat: pembayaran, pesanan, _invoice_, langganan, _payment link_, katalog produk, pelanggan, sengketa, _settlement_, _payout_, dan analitik.
+
+<NoteImage
+  lang="id"
+  caption="Dashboard merchant: ringkasan saldo, pendapatan, dan pembayaran terbaru, serta halaman analitik (tangkapan layar testnet)"
+  images={[
+    {
+      src: DashboardOverview,
+      alt: "Ringkasan dashboard Mayarin berisi saldo, pendapatan, jumlah pembayaran, tingkat penyelesaian, volume, payout, dan daftar pembayaran terbaru",
+    },
+    {
+      src: AnalyticsOverview,
+      alt: "Halaman analitik Mayarin berisi grafik pendapatan, pendapatan bersih, pendapatan kumulatif, rata-rata nilai pesanan, dan biaya selama 30 hari",
+    },
+  ]}
+/>
+
+Beberapa hal yang bisa kamu lakukan dari sana:
+
+- **_Payment link_ dan _invoice_.** Kirim link, kode QR, atau _invoice_ bernomor dengan tanggal jatuh tempo. Status pembayarannya terpantau otomatis, jadi tidak perlu bolak-balik minta bukti transfer.
+- **Langganan.** Tagih sesuai jadwal, cocok untuk SaaS dan _membership_.
+- **_Payout_.** Kirim _stablecoin_ ke maksimal 100 penjual, afiliasi, atau mitra dalam satu transaksi. Tidak perlu transfer satu per satu.
+- **Perlindungan pembeli.** Tahan dana di _escrow_, dan selesaikan sengketa kalau ada masalah.
+- **Plugin dan fitur tambahan.** Plugin WooCommerce, dan notifikasi _livestream_ untuk kreator.
+
+## Pembayaran untuk AI Agent
+
+Pelanggan kamu berikutnya mungkin bukan manusia.
+
+Makin banyak software yang bekerja sendiri, dan sebagian perlu membayar. Masalahnya, AI agent tidak bisa mengisi form _checkout_ atau scan QR.
+
+Mayarin mendukung [x402](https://docs.mayarin.xyz/guides/x402), alur pembayaran berbasis HTTP yang dibuat khusus untuk program. x402 memakai status code `402 Payment Required` yang sudah ada di HTTP selama puluhan tahun tapi nyaris tidak pernah dipakai. Sekarang dia akhirnya punya pekerjaan.
+
+Buat bisnis, ini sumber pendapatan baru. _API_ atau data kamu bisa dijual per panggilan ke AI agent, tanpa langganan dan tanpa akun.
+
+### Menjual Endpoint ke AI Agent
+
+Misalnya kamu punya _API_, dan kamu mau AI agent bayar setiap kali memanggilnya. Alurnya seperti ini:
+
+<NoteImage
+  lang="id"
+  src={X402Flow}
+  alt="Diagram urutan pembayaran x402 antara AI agent, API merchant, Mayarin, dan blockchain. 1: agent memanggil GET /premium. 2: API merchant menanyakan harga ke Mayarin. 3: API menjawab 402 beserta harganya. 4: agent tanda tangan sekali dengan nominal yang pas. 5: agent memanggil GET /premium lagi dengan tanda tangan. 6: API meminta Mayarin melakukan settlement. 7: Mayarin mengecek tanda tangan dan mem-broadcast transfer, lalu chain mengonfirmasinya. 8: Mayarin mencatat di ledger dan memberi tahu API bahwa pembayaran lunas. 9: API menjawab 200 beserta kontennya."
+  caption="Pembayaran x402 langkah demi langkah. Konten baru dikirim setelah uangnya masuk."
+/>
+
+Panggilan pertama dari agent dijawab `402` beserta harganya, bukan kontennya. Agent lalu tanda tangan satu otorisasi dengan nominal yang pas, dan memanggil lagi sambil membawa tanda tangan itu. Server kamu meminta Mayarin memproses _settlement_-nya, dan konten baru dikirim setelah pembayaran terkonfirmasi.
+
+Urutan ini penting. Respons yang sudah terkirim tidak bisa ditarik lagi, jadi server tidak pernah kirim konten dulu lalu menagih belakangan. Kamu tidak akan kehilangan konten tanpa dibayar.
+
+Agent tidak pernah bayar _gas_, tidak pernah memegang aset merchant, dan tidak pernah melihat alamat deposit. Dia juga tidak butuh akun, kartu, atau _API key_. Justru itu intinya: agent yang belum pernah kenal Mayarin pun tetap bisa bayar.
+
+Di sisi kamu, daftarkan _endpoint_-nya di _dashboard_ lewat menu "Agent endpoints". Di situ kamu mengatur harga dan ke mana dana dikirim. Setelah itu, _SDK_ menutup pintunya dengan satu _middleware_:
+
+```ts
+import { createX402Gate } from "@mayarin/sdk";
+import { x402Connect } from "@mayarin/sdk/x402/connect";
+
+const gate = createX402Gate({
+  baseUrl: "https://api.mayarin.xyz",
+  resourceId: "your-resource-id",
+});
+
+app.get("/premium", x402Connect(gate), paidHandler);
+```
+
+Tidak ada _secret key_ atau kode blockchain yang berjalan di dalam _gate_ itu. Mayarin menyusun ulang syarat pembayaran dari _endpoint_ yang kamu daftarkan, bukan dari salinan yang dikirim agent. Lalu Mayarin mengecek tanda tangannya ke _chain_, mem-_broadcast_ transfernya, dan mencatat dana masuk ke _ledger_ kamu.
+
+Dua detail lagi yang bikin alur ini aman untuk trafik sungguhan:
+
+- **Satu tanda tangan untuk satu panggilan.** Kalau respons ke agent hilang di tengah jalan dan agent mencoba lagi dengan tanda tangan yang sama, _gate_ mengirim ulang respons yang sudah tercatat. Tidak ada tagihan dobel, dan _handler_ kamu tidak jalan dua kali.
+- **_Wallet_ berbasis _smart account_ tetap jalan.** Banyak _wallet_ milik agent berupa _smart contract_, bukan kunci biasa. Mayarin meminta _chain_ yang memverifikasinya, jadi pembayaran dari _wallet_ seperti ini tetap masuk dan tidak ditolak sebagai palsu.
+
+### Membayar Invoice dan Link
+
+AI agent tidak cuma bisa beli akses _API_. Dia juga bisa melunasi tagihan.
+
+_Invoice_ dan _payment link_ yang biasa dibayar orang lewat _hosted checkout_ juga bisa dibayar agent lewat x402, langsung di URL _invoice_ atau link itu sendiri.
+
+<NoteImage
+  lang="id"
+  src={AgentPayables}
+  alt="Diagram cara AI agent membayar invoice atau payment link. Langkah 1: lihat daftar tagihan yang dibuka merchant, tanpa perlu ID merchant. Langkah 2: minta 402, yang selalu menyebut sisa tagihan penuh dan mengunci harga sekitar 60 detik. Langkah 3: tanda tangan satu otorisasi pas sesuai harga. Hasilnya: tepat waktu, pembayaran settle dan merchant menerima dana. Telat, dapat 410 dan agent minta 402 baru. Keduluan, dapat 409 karena tanda tangan pertama yang settle yang menang."
+  caption="Cara agent mencari, meminta harga, dan membayar invoice atau payment link"
+/>
+
+Agent tidak perlu kenal merchant-nya lebih dulu. Mayarin menyediakan daftar tagihan publik dari semua merchant yang memilih ikut, lengkap dengan judul, harga, URL pembayaran, dan tanggal jatuh tempo. Tidak ada yang muncul di daftar itu kecuali merchant sendiri yang membukanya.
+
+Saat agent minta `402`, yang disebut selalu sisa tagihan penuh. Agent tidak bisa bayar setengah _invoice_. Harganya ditahan sebentar, sekitar enam puluh detik secara bawaan. Kalau agent tanda tangan terlambat, dia dapat `410` dan harus minta harga baru. Kalau dua agent mencoba bayar _invoice_ yang sama, tanda tangan pertama yang _settle_ yang menang, dan yang kedua dapat `409`.
+
+Apa pun jalurnya, agent membayar ke _ledger_ yang sama dengan pelanggan lain, dan merchant tetap menerima dana dengan cara yang sama, dalam _stablecoin_ pilihannya.
+
+## Keamanan Pembayaran di Mayarin
+
+Urusan uang itu urusan kepercayaan. Jadi beberapa jaminan ini kami tanam langsung di cara kerja Mayarin:
+
+- **Dana tidak dititipkan (_non-custodial_).** Dana masuk ke _wallet_ yang kamu kendalikan, bisa berupa Safe atau _wallet_ yang sudah diverifikasi di _dashboard_. Biaya Mayarin masuk ke _treasury_ Safe terpisah, tidak pernah ke _wallet_ kamu.
+- **Konfirmasi on-chain.** Mayarin mengecek sendiri setiap pembayaran di _chain_, bukan cuma percaya pada notifikasi.
+- **_Ledger double-entry_.** Setiap pembayaran dicatat lewat pembukuan berpasangan yang selalu seimbang, jadi tidak ada saldo yang berubah tanpa jejak. Rekonsiliasi dan audit jadi jauh lebih gampang.
+- **Aman di-_retry_.** Setiap langkah bersifat _idempotent_ dan bisa dilanjutkan. _Retry_ atau server yang _crash_ di tengah pembayaran tidak akan membuat pembayaran tercatat dua kali atau hilang.
+- **Harga dikunci.** Kurs dikunci saat pelanggan memilih cara bayar. Kalau waktunya habis sebelum dana masuk, pembayaran kedaluwarsa dan pelanggan mulai lagi dengan kurs terbaru.
+- **Keamanan kunci.** Kunci penandatanganan disimpan di _key vault_ berbasis _hardware_, dan setiap akun memakai 2FA lewat aplikasi _authenticator_. Kode baru selalu diminta sebelum penarikan, _payout_, dan pembuatan _API key_.
+- **Tanpa _chargeback_.** Pembayaran yang sudah terkonfirmasi di _chain_ tidak bisa ditarik balik oleh pembayar. Tidak ada penipuan _chargeback_, dan tidak ada biaya sengketa.
+
+## Untuk Siapa Mayarin
+
+Kalau bisnismu jualan lintas negara, atau pelangganmu bayar dengan cara yang beda-beda, besar kemungkinan Mayarin cocok buat kamu.
+
+Di situsnya, Mayarin menyebut e-commerce, travel dan hospitality, gaming, jasa profesional, freelancer dan agensi, platform trading, kreator konten, SaaS dan _membership_, _fintech wallet_, AI agent dan _API_, retail, serta perdagangan.
+
+Benang merahnya sama. Merchant ingin pasang harga dalam mata uangnya sendiri dan menerima aset yang stabil, sementara pelanggan tetap bayar dengan cara yang biasa mereka pakai.
+
+## Kami Berdua
+
+Tidak ada tim besar di balik Mayarin. Cuma dua orang.
+
+Kami membagi kerja sesuai keahlian masing-masing.
+
+Rizky memimpin produk. Dia yang riset, menentukan arah Mayarin berikutnya, dan ikut menulis cukup banyak kodenya sendiri. Web3 itu wilayahnya, dan dia lebih paham soal itu dibanding saya.
+
+Justru karena celah itu, pembagiannya jadi pas. Tugas saya eksekusi: saya orang UX-nya, yang mengubah rencana jadi aplikasi yang benar-benar dilihat dan dipakai orang.
+
+<NoteImage
+  lang="id"
+  src={ProfWen}
+  alt="Dari kiri ke kanan: saya, Prof. Wen Yonggang dari NTU, dan Rizky"
+  caption="Kami berdua bersama Prof. Wen Yonggang dari NTU di final InnovateX 2026"
+/>
+
+## Posisi Mayarin Sekarang
+
+Bukan lagi demo. Mayarin sudah memproses pembayaran sungguhan.
+
+Mayarin sudah live di _mainnet_, di Base, Polygon, Arbitrum, dan BNB Smart Chain. Hari ini, pembayaran sungguhan langsung cair ke _wallet_ merchant dalam USDC atau USDT.
+
+Beberapa hal yang perlu kamu tahu:
+
+- **Biaya** sebesar 0,5% ditambah biaya _gas_ jaringan yang kecil, totalnya sekitar 0,6% untuk pembayaran bernilai besar.
+- **_Settlement_** masuk ke _wallet_ yang kamu kendalikan. Kalau pelanggan bayar dengan mata uang lokal, pembayaran itu diterima mitra berlisensi, jadi Mayarin tidak pernah memegang uang fiat atau dokumen identitas.
+- **Metode pembayaran lokal** masih berjalan di _sandbox_ milik mitra, sampai mitra tersebut membukanya untuk penggunaan live.
+- **Harga** bisa dipasang dalam 22 mata uang lokal, termasuk IDR, SGD, MYR, THB, PHP, VND, USD, EUR, JPY, dan AUD.
+
+## Pertanyaan yang Sering Muncul
+
+**Apakah Mayarin itu exchange crypto?**
+Bukan. Mayarin adalah infrastruktur pembayaran. Aset pembayar memang ditukar sebagai bagian dari pembayaran, tapi Mayarin tidak menjalankan _exchange_, dan _settlement_ langsung masuk ke _wallet_ milikmu.
+
+**Apakah pelanggan saya harus punya crypto?**
+Tidak. Mereka bisa bayar pakai aset crypto yang didukung, atau memilih metode lokal seperti transfer bank, _e-wallet_, atau QR, lalu bayar dalam mata uang mereka sendiri.
+
+**Apakah saya harus paham blockchain?**
+Tidak. Kamu cukup pasang harga dalam mata uangmu sendiri, lalu bagikan _payment link_, _invoice_, atau kode QR. Pemilihan jaringan dan penukaran aset terjadi di balik layar _checkout_.
+
+**Bagaimana kalau harga crypto berubah saat pelanggan sedang bayar?**
+Tidak berpengaruh ke kamu. Kurs dikunci saat pelanggan memilih cara bayar, jadi kamu menerima jumlah sesuai harga yang kamu pasang.
+
+**Apakah dananya bisa dicairkan ke rekening bank?**
+Bisa. Mayarin mencairkan _stablecoin_ ke _wallet_ milikmu, lalu kamu bisa menariknya ke rekening bank lewat penyedia pihak ketiga.
+
+**Berapa biayanya?**
+Biaya protokol 0,5% ditambah biaya _gas_ jaringan yang kecil, totalnya sekitar 0,6% untuk pembayaran bernilai besar.
+
+## Coba Mayarin
+
+Saat ini, fokus kami adalah B2B.
+
+Artinya bisnis yang menagih bisnis lain, platform yang membayar penjual dan mitranya, serta tim yang ingin _settlement_ dalam _stablecoin_ tanpa harus menjalankan infrastruktur blockchain sendiri.
+
+Kalau itu menggambarkan bisnismu, mulai dari [mayarin.xyz](https://mayarin.xyz). Tim _engineering_ kamu bisa membaca [dokumentasinya](https://docs.mayarin.xyz) dan menguji seluruh alur di _sandbox_ sebelum ada uang sungguhan yang bergerak.
+
+Untuk kabar terbaru, ikuti Mayarin di [X](https://x.com/mayarin_xyz) dan [LinkedIn](https://linkedin.com/company/mayarin).
