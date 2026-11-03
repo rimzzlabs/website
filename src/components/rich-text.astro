@@ -20,14 +20,31 @@ function toLink(part: string) {
   if (!match) return null;
   return props.links[match[1]] ?? null;
 }
+
+// The link is an inline-flex box, so the browser can wrap right before a
+// comma that follows it. Glue that punctuation to the link instead.
+const TRAILING_PUNCTUATION = /^[,.;:!?)\]]+/;
+
+function trailingPunctuation(index: number) {
+  if (!toLink(parts[index] ?? "")) return "";
+  return (parts[index + 1] ?? "").match(TRAILING_PUNCTUATION)?.[0] ?? "";
+}
+
+function withoutLeadingPunctuation(index: number) {
+  const part = parts[index] ?? "";
+  return part.slice(trailingPunctuation(index - 1).length);
+}
 ---
 
-{parts.map((part) => {
+{parts.map((part, index) => {
   const link = toLink(part);
-  if (!link) return <Fragment set:html={part} />;
+  if (!link) return <Fragment set:html={withoutLeadingPunctuation(index)} />;
   return (
-    <Link href={link.href} class={link.class}>
-      {link.label}
-    </Link>
+    <span class="whitespace-nowrap">
+      <Link href={link.href} class={link.class}>
+        {link.label}
+      </Link>
+      <Fragment set:html={trailingPunctuation(index)} />
+    </span>
   );
 })}

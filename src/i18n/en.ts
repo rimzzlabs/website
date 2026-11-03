@@ -75,10 +75,10 @@ export const en = {
 				description:
 					"A free, open source resume builder. It is local-first, ATS-friendly, and runs entirely in your browser.",
 			},
-			trymorrow: {
-				role: "Contributor",
+			ayawe: {
+				role: "Creator",
 				description:
-					"Send cash, tip anyone, and trade or gift stocks, privately and onchain.",
+					"An open source vault for your .env files. Your browser encrypts the values, so the server stores only ciphertext.",
 			},
 			absqir: {
 				role: "Creator",

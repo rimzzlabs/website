@@ -77,10 +77,10 @@ export const id = {
 				description:
 					'Aplikasi pembuat CV yang gratis dan <em lang="en">open source</em>. <em lang="en">Local-first</em>, ramah ATS, dan berjalan sepenuhnya di <em lang="en">browser</em> kamu.',
 			},
-			trymorrow: {
-				role: "Kontributor",
+			ayawe: {
+				role: "Pembuat",
 				description:
-					'Kirim uang, beri tip ke siapa saja, serta jual beli atau hadiahkan saham, secara privat dan <em lang="en">onchain</em>.',
+					'Tempat menyimpan file .env yang terenkripsi dan <em lang="en">open source</em>. Enkripsinya berjalan di <em lang="en">browser</em> kamu, jadi server tidak bisa membaca isinya.',
 			},
 			absqir: {
 				role: "Pembuat",
