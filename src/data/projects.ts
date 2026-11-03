@@ -1,11 +1,7 @@
 export const PROJECTS = [
 	{ key: "mayarin", name: "Mayarin", href: "https://mayarin.xyz" },
 	{ key: "lanjut", name: "Lanjut", href: "https://lanjut.org" },
-	{
-		key: "trymorrow",
-		name: "Trymorrow",
-		href: "https://github.com/playriglabs/trymorrow",
-	},
+	{ key: "ayawe", name: "Ayawe", href: "https://ayawe.rimzzlabs.com" },
 	{ key: "absqir", name: "Absqir", href: "https://absqir.rimzzlabs.com" },
 ] as const;
 
