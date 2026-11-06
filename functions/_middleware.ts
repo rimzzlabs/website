@@ -1,9 +1,14 @@
 import { toMarkdownPath } from "../src/lib/agent/markdown-path";
+import { type PresenceEnv, readPresence } from "./_lib/presence";
+import { rewritePresence } from "./_lib/presence-rewriter";
 
 interface MiddlewareContext {
 	request: Request;
 	next: () => Promise<Response>;
-	env: { ASSETS: { fetch: (input: string) => Promise<Response> } };
+	env: PresenceEnv & {
+		ASSETS: { fetch: (input: string) => Promise<Response> };
+	};
+	waitUntil(promise: Promise<unknown>): void;
 }
 
 const SKIPPED_PREFIXES = ["/api/", "/md/", "/_astro/", "/og/", "/.well-known/"];
@@ -72,5 +77,9 @@ export async function onRequest(context: MiddlewareContext) {
 
 	const response = await context.next();
 	if (response.status !== 200) return response;
-	return withAgentLinks(response, url);
+	const linked = withAgentLinks(response, url);
+
+	const presence = await readPresence(context).catch(() => null);
+	if (!presence) return linked;
+	return rewritePresence(linked, presence);
 }

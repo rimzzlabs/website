@@ -3,6 +3,7 @@ import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import { getDictionary, type Locale, localizePath } from "@/i18n";
 import { FooterNowPlaying } from "./footer-now-playing";
 import { getNavigationLinks } from "./navigation-links";
+import PresenceBadge from "./presence-badge.astro";
 
 interface Props {
   locale: Locale;
@@ -108,6 +109,7 @@ const GROUPS = [
           </span>{" "}
           <span class="font-mono">Rizki Citra</span>
         </p>
+        <PresenceBadge locale={props.locale} class="pt-2" />
       </div>
       <FooterNowPlaying
         client:visible

@@ -43,6 +43,11 @@ export const en = {
 		notPlayingBody: "Nothing on right now",
 		loadingTrack: "Loading the current song",
 	},
+	presence: {
+		online: "Online",
+		lastActive: "Last active {time}",
+		offline: "Offline",
+	},
 	legal: {
 		lastUpdated: "Last updated",
 	},

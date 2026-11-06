@@ -715,6 +715,36 @@
 				}
 			}
 		},
+		"/api/presence": {
+			"get": {
+				"summary": "Get the online status of Rizki",
+				"operationId": "getPresence",
+				"description": "Online means the MacBook sent a ping in the last 5 minutes. Away means the pings stopped. Offline means the status is turned off. The response is cached for 30 seconds.",
+				"responses": {
+					"200": {
+						"description": "The current status and the last active time. lastActiveAt is null when no data is available.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"required": ["status", "lastActiveAt"],
+									"properties": {
+										"status": {
+											"type": "string",
+											"enum": ["online", "away", "offline"]
+										},
+										"lastActiveAt": {
+											"type": ["string", "null"],
+											"format": "date-time"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/api/reactions/{slug}": {
 			"get": {
 				"summary": "Read the hearts on a note",

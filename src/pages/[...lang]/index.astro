@@ -8,6 +8,7 @@ import HomeProjects from "@/components/home/home-projects.astro";
 import HomeSectionHeading from "@/components/home/home-section-heading.astro";
 import Footer from "@/components/layouts/footer.astro";
 import NavigationBar from "@/components/layouts/navigation-bar.astro";
+import PresenceBadge from "@/components/layouts/presence-badge.astro";
 import Root from "@/components/layouts/root.astro";
 import Seo from "@/components/layouts/seo.astro";
 import NoteList from "@/components/notes/note-list.astro";
@@ -60,9 +61,12 @@ const images = await pipe(
 
   <main id="main">
     <header class="wrapper pt-10">
-      <h1 class="pt-6 pb-6 text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif">
-        <a href={localizePath("/", locale)}>Rizki Citra</a>
-      </h1>
+      <div class="flex flex-col gap-2 pt-6 pb-6">
+        <h1 class="text-[2em] font-semibold text-balance leading-tight tracking-tight font-serif">
+          <a href={localizePath("/", locale)}>Rizki Citra</a>
+        </h1>
+        <PresenceBadge {locale} class="self-start" />
+      </div>
 
       <div class="max-w-[65ch] space-y-4 text-pretty">
         <p>

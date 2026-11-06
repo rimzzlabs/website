@@ -45,6 +45,11 @@ export const id = {
 		notPlayingBody: "Lagi sepi, belum ada lagu",
 		loadingTrack: "Memuat lagu yang sedang diputar",
 	},
+	presence: {
+		online: "Sedang online",
+		lastActive: "Terakhir aktif {time}",
+		offline: "Offline",
+	},
 	legal: {
 		lastUpdated: "Terakhir diperbarui",
 	},
