@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import { ArrowUpRightIcon, HeartIcon } from "@phosphor-icons/react";
 import { getDictionary, type Locale, localizePath } from "@rimzzlabs/i18n";
 import { FooterNowPlaying } from "./footer-now-playing";
 import { getNavigationLinks } from "./navigation-links";
@@ -8,6 +8,8 @@ import PresenceBadge from "./presence-badge.astro";
 interface Props {
   locale: Locale;
 }
+
+const LICENSE_URL = "https://github.com/rimzzlabs/website/blob/main/LICENSE";
 
 const props = Astro.props;
 const t = getDictionary(props.locale);
@@ -102,12 +104,25 @@ const GROUPS = [
         <p class="font-mono text-sm font-medium">
           <a href={localizePath("/", props.locale)}>@rimzzlabs</a>
         </p>
-        <p class="text-xs text-muted-foreground pt-1">
-          &copy;
-          <span class="font-mono tabular-nums">
-            {new Date().getFullYear()}
+        <p class="font-mono text-xs text-muted-foreground pt-1">
+          {t.footer.madeWith}{" "}
+          <span class="whitespace-nowrap">
+            <HeartIcon
+              weight="fill"
+              aria-hidden="true"
+              className="inline size-[1em] align-[-0.125em] text-red-500"
+            />
+            <span class="sr-only">{t.footer.love}</span>,
           </span>{" "}
-          <span class="font-mono">Rizki Citra</span>
+          <a
+            href={LICENSE_URL}
+            target="_blank"
+            rel="noopener noreferrer license"
+            class="underline underline-offset-2 transition hover:text-primary"
+          >
+            {t.footer.mitLicensed}
+            <span class="sr-only">{t.common.opensInNewTab}</span>
+          </a>
         </p>
         <PresenceBadge locale={props.locale} class="pt-2" />
       </div>

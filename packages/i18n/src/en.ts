@@ -26,6 +26,9 @@ export const en = {
 		toggleTheme: "Toggle theme",
 	},
 	footer: {
+		madeWith: "Made with",
+		love: "love",
+		mitLicensed: "MIT Licensed",
 		pages: "This Site",
 		connect: "Connect",
 		resources: "Resources",

@@ -28,6 +28,9 @@ export const id = {
 		toggleTheme: "Ganti tema",
 	},
 	footer: {
+		madeWith: "Dibuat dengan",
+		love: "cinta",
+		mitLicensed: "berlisensi MIT",
 		pages: "Situs Ini",
 		connect: "Terhubung",
 		resources: "Lainnya",
