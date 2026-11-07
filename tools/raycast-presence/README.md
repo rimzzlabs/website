@@ -11,9 +11,9 @@ A Raycast menu-bar command that controls the online status on rimzzlabs.com.
 1. Make a token: `openssl rand -hex 32`.
 2. Add it to Cloudflare: `pnpm wrangler pages secret put PRESENCE_TOKEN --env-file /dev/null`.
 3. Apply the migration: `pnpm wrangler d1 migrations apply guestbook --remote --env-file /dev/null`.
-4. Install the extension: `cd tools/raycast-presence && npm install && npm run dev`.
+4. Install the extension: `pnpm install`, then `pnpm --filter rimzzlabs-presence dev`.
 5. In Raycast, paste the token into the "Presence Token" preference.
 
 The `--env-file /dev/null` flag stops Wrangler from reading `.env`. The `CLOUDFLARE_API_TOKEN` in `.env` has no Pages or D1 access, so Wrangler must use your `wrangler login` session.
 
-After `npm run dev`, the command stays in Raycast. You can stop the dev process.
+After the dev command starts, the command stays in Raycast. You can stop the dev process.

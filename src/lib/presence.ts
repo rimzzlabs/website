@@ -23,8 +23,14 @@ export const presenceSchema = z.object({
 	lastActiveAt: z.iso.datetime().nullable(),
 });
 
+// The POST /api/presence response. "enabled" is the toggle on the Mac.
+export const presenceUpdateSchema = presenceSchema.extend({
+	enabled: z.boolean(),
+});
+
 export type PresenceStatus = z.infer<typeof presenceStatusSchema>;
 export type Presence = z.infer<typeof presenceSchema>;
+export type PresenceUpdate = z.infer<typeof presenceUpdateSchema>;
 
 export interface PresenceRow {
 	enabled: number;

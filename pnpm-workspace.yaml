@@ -1,3 +1,6 @@
+packages:
+  - "tools/*"
+
 allowBuilds:
   esbuild: true
   lefthook: false

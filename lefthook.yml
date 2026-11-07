@@ -21,6 +21,9 @@ pre-push:
     - name: typecheck-ts
       run: pnpm exec tsc --noEmit
 
+    - name: typecheck-raycast
+      run: pnpm --filter rimzzlabs-presence typecheck
+
 commit-msg:
   jobs:
     - name: commitlint

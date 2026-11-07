@@ -8,23 +8,20 @@ import {
 } from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
 
+import {
+	type PresenceUpdate,
+	presenceUpdateSchema,
+} from "../../../src/lib/presence";
+
 type Action = "on" | "off" | "ping";
-
-interface PresenceState {
-	enabled: boolean;
-	status: "online" | "away" | "offline";
-	lastActiveAt: string | null;
-}
-
-interface Preferences {
-	token: string;
-	endpoint: string;
-}
 
 const SITE_URL = "https://rimzzlabs.com";
 
-async function send(action: Action): Promise<PresenceState> {
-	const preferences = getPreferenceValues<Preferences>();
+const ONLINE_ICON = { source: Icon.CircleFilled, tintColor: Color.Green };
+const OFFLINE_ICON = { source: Icon.Circle, tintColor: Color.SecondaryText };
+
+async function send(action: Action) {
+	const preferences = getPreferenceValues<Preferences.Presence>();
 	const response = await fetch(preferences.endpoint, {
 		method: "POST",
 		headers: {
@@ -34,14 +31,12 @@ async function send(action: Action): Promise<PresenceState> {
 		body: JSON.stringify({ action }),
 	});
 	if (!response.ok) throw new Error(`Presence API: ${response.status}`);
-	return (await response.json()) as PresenceState;
+	return presenceUpdateSchema.parse(await response.json());
 }
 
-function toIcon(state: PresenceState | undefined) {
-	if (state?.status === "online") {
-		return { source: Icon.CircleFilled, tintColor: Color.Green };
-	}
-	return { source: Icon.Circle, tintColor: Color.SecondaryText };
+function toIcon(state: PresenceUpdate | undefined) {
+	if (state?.status === "online") return ONLINE_ICON;
+	return OFFLINE_ICON;
 }
 
 // Raycast runs this command every 2 minutes in the background. Each run sends
@@ -50,29 +45,38 @@ export default function Command() {
 	const presence = useCachedPromise(send, ["ping"]);
 	const enabled = presence.data?.enabled ?? false;
 
-	async function toggle() {
-		const next = enabled ? "off" : "on";
-		await presence.mutate(send(next), {
-			optimisticUpdate: (state) => state && { ...state, enabled: !enabled },
-			shouldRevalidateAfter: false,
-		});
-		await showHUD(next === "on" ? "You are online" : "You are offline");
+	async function goOnline() {
+		await presence.mutate(send("on"), { shouldRevalidateAfter: false });
+		await showHUD("You are online");
+	}
+
+	async function goOffline() {
+		await presence.mutate(send("off"), { shouldRevalidateAfter: false });
+		await showHUD("You are offline");
 	}
 
 	return (
 		<MenuBarExtra
 			icon={toIcon(presence.data)}
 			isLoading={presence.isLoading}
-			tooltip={enabled ? "Online on rimzzlabs.com" : "Offline on rimzzlabs.com"}
+			tooltip={`rimzzlabs.com: ${presence.data?.status ?? "unknown"}`}
 		>
 			{presence.error && (
 				<MenuBarExtra.Item title={presence.error.message} icon={Icon.Warning} />
 			)}
-			<MenuBarExtra.Item
-				title={enabled ? "Go Offline" : "Go Online"}
-				icon={enabled ? Icon.Pause : Icon.Play}
-				onAction={toggle}
-			/>
+			{enabled ? (
+				<MenuBarExtra.Item
+					title="Go Offline"
+					icon={Icon.Pause}
+					onAction={goOffline}
+				/>
+			) : (
+				<MenuBarExtra.Item
+					title="Go Online"
+					icon={Icon.Play}
+					onAction={goOnline}
+				/>
+			)}
 			<MenuBarExtra.Item
 				title="Open rimzzlabs.com"
 				icon={Icon.Globe}

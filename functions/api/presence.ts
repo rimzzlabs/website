@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { toPresence } from "../../src/lib/presence";
+import { type PresenceUpdate, toPresence } from "../../src/lib/presence";
 import {
 	clearPresenceCache,
 	type PresenceEnv,
@@ -69,5 +69,9 @@ export async function onRequestPost(context: PresenceContext) {
 	});
 	if (body.data.action !== "ping") context.waitUntil(clearPresenceCache());
 
-	return noStore({ enabled: row?.enabled === 1, ...toPresence(row, now) });
+	const update: PresenceUpdate = {
+		enabled: row?.enabled === 1,
+		...toPresence(row, now),
+	};
+	return noStore(update);
 }

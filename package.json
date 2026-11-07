@@ -68,6 +68,7 @@
 		"@commitlint/cli": "^21.2.3",
 		"@commitlint/config-conventional": "^21.2.3",
 		"@react-email/ui": "6.11.0",
+		"@types/node": "24.13.5",
 		"@types/three": "^0.186.0",
 		"lefthook": "^2.1.14",
 		"prettier": "^3.9.8",

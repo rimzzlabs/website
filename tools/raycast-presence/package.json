@@ -37,7 +37,8 @@
 	],
 	"dependencies": {
 		"@raycast/api": "^2.11.1",
-		"@raycast/utils": "^2.3.3"
+		"@raycast/utils": "^2.3.3",
+		"zod": "^4.6.5"
 	},
 	"devDependencies": {
 		"@types/node": "26.6.5",
@@ -46,6 +47,7 @@
 	},
 	"scripts": {
 		"dev": "ray develop",
-		"build": "ray build"
+		"build": "ray build",
+		"typecheck": "tsc --noEmit"
 	}
 }
