@@ -38,7 +38,7 @@
   <line x1="840" y1="250" x2="500" y2="250" stroke="#38BDF8" stroke-width="3" stroke-dasharray="6 6"/>
   <line x1="500" y1="250" x2="500" y2="276" stroke="#38BDF8" stroke-width="3" stroke-dasharray="6 6"/>
   <path d="M492 276 L500 290 L508 276 Z" fill="#38BDF8"/>
-  <text x="680" y="242" text-anchor="middle" font-size="15" fill="#38BDF8">baca baris, cache 30 detik</text>
+  <text x="680" y="242" text-anchor="middle" font-size="15" fill="#38BDF8">baca status, cache 30 detik</text>
   
   <line x1="620" y1="336" x2="708" y2="336" stroke="#38BDF8" stroke-width="3"/>
   <path d="M706 328 L720 336 L706 344 Z" fill="#38BDF8"/>
@@ -46,7 +46,7 @@
   
   <rect x="720" y="290" width="240" height="92" rx="14" fill="#292524" stroke="#38BDF8" stroke-width="2"/>
   <text x="840" y="330" text-anchor="middle" font-size="22" font-weight="700" fill="#FAFAF9">HTML statis</text>
-  <text x="840" y="360" text-anchor="middle" font-size="17" fill="#D6D3D1">status sudah di dalamnya</text>
-  <text x="840" y="408" text-anchor="middle" font-size="15" fill="#D6D3D1">“Online” atau “Terakhir aktif 3 jam lalu”</text>
-  <text x="40" y="440" font-size="16" fill="#A8A29E">Online = toggle nyala dan ping terakhir di bawah 5 menit</text>
+  <text x="840" y="360" text-anchor="middle" font-size="17" fill="#D6D3D1">statusnya sudah tertulis</text>
+  <text x="840" y="408" text-anchor="middle" font-size="15" fill="#D6D3D1">“Online” atau “Terakhir aktif 3 jam yang lalu”</text>
+  <text x="40" y="440" font-size="16" fill="#A8A29E">Online = toggle menyala dan ping terakhir kurang dari 5 menit</text>
 </svg>
