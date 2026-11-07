@@ -1,0 +1,257 @@
+---
+title: "Status Online di Website Saya, Diatur dari MacBook"
+description: "Titik hijau di bawah nama saya yang saya nyalakan dari menu bar macOS. Raycast mengirim ping, D1 menyimpan statusnya, dan Cloudflare menyisipkannya ke HTML statis."
+publishedAt: "11/07/2026"
+status: "published"
+featured: false
+author: rimzzlabs
+keywords:
+  - Status Online
+  - Ekstensi Raycast
+  - Cloudflare Pages Functions
+  - HTMLRewriter
+  - Cloudflare D1
+  - Intl.RelativeTimeFormat
+relatedPosts:
+  - mole-cleaned-up-my-256gb-macbook
+  - lefthook-commitlint-and-biome
+---
+
+import NoteImage from "@/components/notes/note-image.astro";
+
+import FooterDark from "@/assets/notes/my-macbook-tells-my-website-when-im-online/footer-dark.png";
+import HeroLight from "@/assets/notes/my-macbook-tells-my-website-when-im-online/hero-light.png";
+import PresenceFlow from "@/assets/notes/my-macbook-tells-my-website-when-im-online/presence-flow.png";
+import RaycastOffline from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu-offline.png";
+import RaycastOnline from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu-online.png";
+
+Sekarang ada titik hijau kecil di bawah nama saya di halaman depan. Di sebelahnya cuma satu kata: **Online**.
+
+Titik itu tidak nyambung ke akun login, aplikasi chat, atau kalender. Dia nyambung ke [MacBook](https://www.apple.com/macbook-air/) saya. Klik satu lingkaran di menu bar [macOS](https://www.apple.com/macos/), beberapa detik kemudian rimzzlabs.com menampilkan saya sedang online. Begitu laptopnya _sleep_, titiknya jadi abu-abu dan tulisannya berubah jadi "Terakhir aktif 12 menit yang lalu".
+
+<NoteImage
+  lang="id"
+  caption="Status di halaman depan dan di footer, dalam mode terang dan gelap"
+  images={[
+    { src: HeroLight, alt: "Bagian atas halaman depan dalam mode terang. Di bawah nama Rizki Citra ada titik hijau dengan tulisan Online." },
+    { src: FooterDark, alt: "Footer situs dalam mode gelap. Di bawah baris hak cipta ada titik hijau dengan tulisan Online, di sebelah kartu Now playing." },
+  ]}
+/>
+
+## Pendahuluan
+
+Idenya sederhana: status online yang bisa saya nyalakan dan matikan dari MacBook, tanpa perlu buka aplikasi apa pun.
+
+Tapi ada satu syarat tambahan. Mesin pencari juga harus bisa melihatnya. Situs ini statis: semua halamannya sudah di-_build_ oleh [Astro](https://astro.build/) sebelum di-_deploy_. Kalau statusnya baru muncul setelah [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) jalan, _crawler_ tidak akan pernah melihatnya. Jadi [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) hasil _prerender_ harus sudah berisi status terbaru.
+
+Syarat inilah yang menentukan semua keputusan lain. Catatan ini menelusuri perjalanan status itu, dari menu bar saya sampai jadi HTML yang dibaca _crawler_.
+
+<NoteImage
+  lang="id"
+  src={PresenceFlow}
+  alt="Diagram dua baris. Baris atas: MacBook dengan menu bar Raycast mengirim on, off, atau ping tiap 2 menit ke POST /api/presence, sebuah Pages Function yang mengecek Bearer token lalu menulis satu baris di D1 berisi enabled dan last_seen_at. Baris bawah: pengunjung atau crawler meminta halaman, middleware membaca status itu lewat cache 30 detik dan memakai HTMLRewriter, lalu HTML statis keluar dengan status yang sudah tertulis, Online atau Terakhir aktif 3 jam yang lalu."
+  caption="Ada dua jalur: Mac yang menulis status ke database, dan setiap request halaman yang membacanya."
+/>
+
+## Tombol di Menu Bar
+
+Pilihannya ternyata cuma satu.
+
+Di Mac saya ada dua _tool_ menu bar: [Raycast](https://www.raycast.com/) dan [Vorssaint](https://github.com/vorssaint/vorssaint-utils). Vorssaint isinya banyak, tapi semuanya fitur bawaan. Tidak ada cara untuk menambah skrip sendiri, jadi dia tidak bisa memanggil [API](https://developer.mozilla.org/en-US/docs/Glossary/API).
+
+Raycast bisa. Ekstensi Raycast itu proyek [React](https://react.dev/) kecil, dan ada satu jenis _command_, `menu-bar`, yang nongkrong terus di menu bar macOS. Tambahkan `interval`, dan Raycast akan menjalankannya terus di _background_:
+
+```json
+{
+	"name": "presence",
+	"title": "Online Status",
+	"mode": "menu-bar",
+	"interval": "2m"
+}
+```
+
+Satu file, dua fungsi. Ikon dan menunya jadi tombol nyala-mati. Eksekusi otomatis tiap dua menit jadi penanda bahwa Mac saya masih menyala.
+
+<NoteImage
+  lang="id"
+  caption="Saat offline, ikonnya lingkaran kosong dengan item Go Online. Saat online, ikonnya jadi hijau dan menunya berganti jadi Go Offline."
+  images={[
+    { src: RaycastOffline, alt: "Menu bar macOS dengan ikon lingkaran kosong yang sedang dipilih. Menu yang terbuka berisi dua item: Go Online dan Open rimzzlabs.com." },
+    { src: RaycastOnline, alt: "Menu bar macOS dengan ikon lingkaran hijau penuh yang sedang dipilih. Menu yang terbuka berisi dua item: Go Offline dan Open rimzzlabs.com." },
+  ]}
+/>
+
+Kodenya pendek. Tiap kali jalan otomatis, dia mengirim `ping`. Item di menu mengirim `on` atau `off`:
+
+```tsx
+import { getPreferenceValues, MenuBarExtra } from "@raycast/api";
+import { useCachedPromise } from "@raycast/utils";
+import { presenceUpdateSchema } from "@rimzzlabs/presence";
+
+async function send(action: "on" | "off" | "ping") {
+	const preferences = getPreferenceValues<Preferences.Presence>();
+	const response = await fetch(preferences.endpoint, {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${preferences.token.trim()}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ action }),
+	});
+	if (!response.ok) throw new Error(`Presence API: ${response.status}`);
+	return presenceUpdateSchema.parse(await response.json());
+}
+
+export default function Command() {
+	const presence = useCachedPromise(send, ["ping"]);
+	// ...ikon, plus item Go Online atau Go Offline
+}
+```
+
+Selama status mati, server tidak memproses `ping`, tapi tetap membalas dengan status terkini. Jadi request yang sama sekalian berfungsi untuk mengecek status, dan ekstensinya cukup pakai satu _endpoint_.
+
+## Online, Away, Offline
+
+Kalau cuma pakai _toggle_, statusnya bisa menipu.
+
+Kalau saya nyalakan lalu tutup laptop, situsnya bakal tetap bilang "Online" semalaman. Di sinilah `ping` berguna. _Toggle_ menunjukkan apakah saya *mau* terlihat online. Ping terakhir menunjukkan apakah Mac-nya benar-benar menyala. Statusnya ditentukan dari gabungan keduanya:
+
+```ts
+export function toPresence(row: PresenceRow | null, now: number): Presence {
+	if (!row?.last_seen_at) return { status: "offline", lastActiveAt: null };
+
+	const lastActiveAt = new Date(row.last_seen_at).toISOString();
+	if (!row.enabled) return { status: "offline", lastActiveAt };
+	if (now - row.last_seen_at < ONLINE_WINDOW_MS) {
+		return { status: "online", lastActiveAt };
+	}
+	return { status: "away", lastActiveAt };
+}
+```
+
+`ONLINE_WINDOW_MS` itu lima menit. Ping datang tiap dua menit, jadi Mac boleh kelewatan satu ping dan masih dihitung online. Kalau dua ping berturut-turut tidak datang, biasanya laptopnya sedang _sleep_, internetnya putus, atau Raycast ditutup.
+
+Statusnya disimpan di [Cloudflare D1](https://developers.cloudflare.com/d1/), di tabel yang isinya pas satu baris: `enabled` dan `last_seen_at`. Alasan pilih D1 ketimbang [KV](https://developers.cloudflare.com/kv/) itu sederhana. Ping tiap dua menit berarti sekitar 720 kali _write_ per hari, sementara jatah gratis KV cuma 1.000. Batas D1 jauh lebih longgar, dan situs ini memang sudah punya database D1 untuk buku tamu.
+
+## HTML Statis, Status Terkini
+
+Bagian inilah yang bikin syarat [SEO](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) tadi terpenuhi.
+
+_Build_ ulang seluruh situs tiap kali _toggle_ ditekan butuh beberapa menit. Jadi statusnya disisipkan ke HTML di server _edge_ Cloudflare, setiap kali ada request. [Cloudflare Pages](https://developers.cloudflare.com/pages/) sudah menjalankan _middleware_ untuk setiap request halaman, dan [Workers](https://developers.cloudflare.com/workers/) punya [`HTMLRewriter`](https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/), _parser_ HTML yang bisa mengubah isi elemen saat _response_ sedang dikirim.
+
+Astro me-_render_ elemen kosong yang disembunyikan, ditandai dengan `data-presence`. _Middleware_ membaca status dari D1, lalu mengisi elemen itu:
+
+```ts
+const rewritten = new HTMLRewriter()
+	.on("[data-presence]", {
+		element(element) {
+			markup = toMarkup({ presence, element, now });
+			if (markup === null) return;
+			element.removeAttribute("hidden");
+			element.setAttribute("data-status", presence.status);
+		},
+	})
+	.on("[data-presence-text]", {
+		element(element) {
+			if (markup === null) return;
+			element.setInnerContent(markup, { html: true });
+		},
+	})
+	.transform(response);
+```
+
+Ini yang didapat _crawler_ dari `curl https://rimzzlabs.com/`, tanpa JavaScript sama sekali:
+
+```html
+<span data-presence-text>
+	<time datetime="2026-11-07T09:20:22.284Z" title="Saturday, November 7, 2026 at 4:20:22 PM GMT+7">
+		Online
+	</time>
+</span>
+```
+
+Supaya statusnya tetap akurat, ada beberapa detail kecil:
+
+- Data dari D1 di-_cache_ 30 detik. Ramai pengunjung tidak berarti ramai baca database.
+- Yang di-_cache_ itu **data mentahnya**, bukan status hasil hitungan. Jadi "Online" tetap berubah jadi "away" tepat waktu, walaupun datanya diambil dari _cache_.
+- [`ETag`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag) bawaan file statis dihapus dari _response_. Isinya sudah berubah, jadi ETag lama tidak cocok lagi, dan browser yang masih memakainya bisa dapat status basi.
+- Di browser, ada skrip kecil yang mengecek `/api/presence` tiap menit selama tab-nya sedang dibuka, lalu memperbarui tulisannya.
+
+## Waktu yang Enak Dibaca
+
+"Terakhir aktif" harus terdengar seperti ditulis orang, bukan mesin.
+
+Aturannya: kurang dari sehari pakai menit atau jam, kurang dari tiga bulan pakai hari, lebih dari itu tampilkan tanggal lengkap. [`Intl.RelativeTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat) dan [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) sudah cukup untuk semuanya, dalam bahasa Inggris dan Indonesia, tanpa _library_ tanggal:
+
+```ts
+export function formatLastActive(lastActiveAt: string, now: number, locale: Locale) {
+	const elapsed = Math.max(0, now - new Date(lastActiveAt).getTime());
+	const lang = HTML_LANG[locale];
+
+	if (elapsed >= RELATIVE_LIMIT_MS) {
+		return new Intl.DateTimeFormat(lang, {
+			dateStyle: "long",
+			timeStyle: "short",
+			timeZone: SITE_TIME_ZONE,
+		}).format(new Date(lastActiveAt));
+	}
+
+	const relative = new Intl.RelativeTimeFormat(lang, { numeric: "always" });
+	if (elapsed >= DAY_MS) return relative.format(-Math.floor(elapsed / DAY_MS), "day");
+	if (elapsed >= HOUR_MS) return relative.format(-Math.floor(elapsed / HOUR_MS), "hour");
+	return relative.format(-Math.max(1, Math.floor(elapsed / MINUTE_MS)), "minute");
+}
+```
+
+Input yang sama, dua bahasa: "3 hours ago" dan "3 jam yang lalu".
+
+Teks relatif punya satu masalah untuk SEO. Mesin pencari bisa menyimpan cuplikan halaman sampai berminggu-minggu, dan "3 jam yang lalu" sudah tidak benar lagi keesokan harinya. Makanya waktu persisnya juga ditaruh di `<time datetime="…">` dan atribut `title`, supaya mesin tetap bisa baca nilai yang benar.
+
+## Yang Sempat Bikin Bingung
+
+Dari _deploy_ pertama sampai titik hijaunya benar-benar muncul, ada beberapa masalah kecil yang sempat menghadang.
+
+**[Wrangler](https://developers.cloudflare.com/workers/wrangler/) pakai token yang salah.** `wrangler pages secret put` gagal dengan `Authentication error [code: 10000]`. Wrangler otomatis membaca `.env`, dan `.env` saya punya `CLOUDFLARE_API_TOKEN` yang aksesnya cuma untuk membaca D1. Wrangler lebih memilih token itu ketimbang login [OAuth](https://oauth.net/2/) saya. Tambahkan `--env-file /dev/null` supaya Wrangler tidak membaca file itu:
+
+```sh
+npx wrangler pages secret put PRESENCE_TOKEN --env-file /dev/null
+```
+
+<Callout type="note">
+  `--env-file` menggantikan daftar `.env` bawaan Wrangler, dan Wrangler melewati file yang tidak ada. Jadi _flag_ yang sama jalan di semua platform:
+
+  - **macOS dan Linux:** `/dev/null` selalu ada dan selalu kosong, jadi tidak ada variabel yang terbaca.
+  - **Windows (PowerShell atau Command Prompt):** `/dev/null` dibaca sebagai `\dev\null` di _drive_ yang sedang aktif. File itu tidak ada, jadi Wrangler melewatinya.
+
+  _Flag_ ini cuma melewati file. Kalau `CLOUDFLARE_API_TOKEN` sudah di-_set_ langsung di _shell_ kamu, Wrangler tetap memakainya.
+</Callout>
+
+**_Secret_ baru berlaku setelah _deploy_ ulang.** Di Pages, _secret_ yang baru ditambah atau diubah baru berlaku di _deployment_ berikutnya. _Deployment_ yang sedang jalan tetap pakai nilai lama. Jadi setelah ganti _secret_, _deploy_ ulang. Kalau tidak, API-nya bakal terus membalas 401.
+
+**Error lama nyangkut di layar.** Setelah _toggle_ berhasil, menunya masih menampilkan `Presence API: 401`. _Toggle_ memperbarui datanya, tapi tidak menjalankan request baru, jadi error dari ping sebelumnya tidak hilang. Sekarang setiap _toggle_ langsung diikuti ping, dan kalau berhasil, errornya hilang.
+
+**Satu token, dua tempat.** Token di pengaturan Pages dan di preferensi Raycast harus sama persis. Menyalin perintah bisa menimpa isi _clipboard_, dan token yang di-_paste_ bisa ikut terbawa spasi atau baris baru. Akhirnya saya bikin token baru, pasang di _dashboard_ Cloudflare, lalu _paste_ nilai yang sama ke Raycast. Sekarang ekstensi dan server sama-sama membersihkan spasi di token dengan `trim()`.
+
+**[TypeScript](https://www.typescriptlang.org/) 7 lupa `fetch`.** Editor menandai `Cannot find name 'fetch'` di ekstensi, padahal di terminal semuanya lolos. Editornya pakai TypeScript 7, yang tidak lagi memuat paket `@types/*` secara otomatis, jadi `@types/node` (tempat `fetch` dideklarasikan) tidak pernah terbaca. Solusinya, sebutkan paketnya secara eksplisit:
+
+```json
+{
+	"compilerOptions": {
+		"types": ["node", "react"]
+	}
+}
+```
+
+## Repo Ikut Naik Kelas
+
+Ekstensi dan situsnya berbagi tipe yang sama: skema _response_, aturan status, format waktu.
+
+Versi pertama ekstensinya menyalin semua itu secara manual dan pakai [npm](https://www.npmjs.com/), beda sendiri dari bagian repo yang lain. Jadi sekalian saja repo-nya diubah jadi _[pnpm](https://pnpm.io/) workspace_. Situsnya pindah ke `apps/web`, ekstensinya ke `apps/presence`, dan kode yang dipakai bersama masuk ke paket-paket kecil `@rimzzlabs/*`.
+
+Ada satu kejutan. `@raycast/api` mematok `react` ke satu versi persis, dan pnpm malah ikut memakai versi `react` yang lebih baru itu untuk situs, sementara `react-dom` tertinggal satu versi _patch_. _Build_ Astro langsung berhenti dengan "Incompatible React versions". Setelah keduanya dikunci ke versi yang sama di `package.json` situs, masalahnya beres.
+
+## Penutup
+
+Sekarang kalau titiknya hijau, saya sedang di depan laptop yang terbuka. Kalau abu-abu, tulisan di sebelahnya menunjukkan kapan terakhir saya aktif. Dan semua itu tetap tampil dari halaman statis.
+
+Kalau mau bikin versi kamu sendiri, semuanya ada di [kode sumber situs ini](https://github.com/rimzzlabs/website): ekstensi Raycast di `apps/presence`, API dan _middleware_ di `apps/web/functions`.
