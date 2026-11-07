@@ -19,7 +19,7 @@ pre-commit:
 pre-push:
   jobs:
     - name: typecheck-ts
-      run: pnpm exec tsc --noEmit
+      run: pnpm typecheck
 
 commit-msg:
   jobs:

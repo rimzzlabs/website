@@ -1,0 +1,55 @@
+---
+import "../../styles/global.css";
+import { Font } from "astro:assets";
+import { ArrowDownIcon } from "@phosphor-icons/react";
+import { getDictionary } from "@rimzzlabs/i18n";
+import { HTML_LANG, type Locale } from "@rimzzlabs/i18n/config";
+import { cn } from "cn";
+import ScrollFade from "@/components/layouts/scroll-fade.astro";
+import { buttonVariants } from "@/components/ui/button";
+import preferencesScript from "@/scripts/preferences.js?raw";
+
+interface Props {
+  locale: Locale;
+}
+
+const props = Astro.props;
+const t = getDictionary(props.locale);
+---
+
+<!doctype html>
+<html lang={HTML_LANG[props.locale]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <slot name="meta" />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-lora" preload />
+    <Font cssVariable="--font-jetbrains-mono" />
+    <script is:inline set:html={preferencesScript} />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class={cn(
+        buttonVariants(),
+        "fixed top-3 left-1/2 z-60 -translate-x-1/2 -translate-y-[calc(100%+1rem)] rounded-full shadow-lg focus-visible:translate-y-0 motion-ok:transition-transform motion-ok:duration-200 motion-ok:ease-out",
+      )}
+    >
+      {t.common.skipToContent}
+      <ArrowDownIcon aria-hidden="true" />
+    </a>
+    <slot />
+
+    <ScrollFade />
+
+    <script>
+      import { startSmoothScroll } from "@/lib/smooth-scroll";
+
+      startSmoothScroll();
+    </script>
+  </body>
+</html>

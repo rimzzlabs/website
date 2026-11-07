@@ -7,19 +7,37 @@ The site is static. Astro builds every page at build time, and React islands add
 ## Stack
 
 - [Astro](https://astro.build) 7 with React islands, MDX, and Tailwind CSS 4.
-- [Cloudflare Pages](https://pages.cloudflare.com) for hosting, with Pages Functions in `functions/`.
+- [Cloudflare Pages](https://pages.cloudflare.com) for hosting, with Pages Functions in `apps/web/functions/`.
 - [Cloudflare D1](https://developers.cloudflare.com/d1/) for the guestbook, and [better-auth](https://www.better-auth.com) for GitHub sign-in.
 - [Resend](https://resend.com) and [React Email](https://react.email) for the email notifications.
 - [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) for spam protection on the forms.
+
+## Repository layout
+
+The repository is a pnpm workspace.
+
+| Folder               | Content                                                     |
+| -------------------- | ----------------------------------------------------------- |
+| `apps/web`           | The Astro site, the Pages Functions, and the D1 migrations  |
+| `apps/presence`      | The Raycast extension that sets the online status           |
+| `packages/i18n`      | `@rimzzlabs/i18n`: locales and the text for each language   |
+| `packages/presence`  | `@rimzzlabs/presence`: the online status schema and format  |
+| `packages/guestbook` | `@rimzzlabs/guestbook`: the guestbook schema and API client |
+| `packages/reactions` | `@rimzzlabs/reactions`: the note reaction schema and client |
+| `packages/forms`     | `@rimzzlabs/forms`: the contact and feedback schemas        |
+| `packages/utils`     | `@rimzzlabs/utils`: date, layout, motion, and other helpers |
+| `packages/mailing`   | `@rimzzlabs/mailing`: the email templates                   |
+
+Run the commands below from the repository root. They run in `apps/web`.
 
 ## Fork this site
 
 You can fork this repository and use it as a base for your own site. The notes, the archive, the photos, and the portrait are personal content. Replace them before you publish.
 
-- Notes: `src/content/notes/en` and `src/content/notes/id`
-- Legal pages: `src/content/legal`
-- Archive, gallery, and /now data: `src/data`
-- Text for each language: `src/i18n/en.ts` and `src/i18n/id.ts`
+- Notes: `apps/web/src/content/notes/en` and `apps/web/src/content/notes/id`
+- Legal pages: `apps/web/src/content/legal`
+- Archive, gallery, and /now data: `apps/web/src/data`
+- Text for each language: `packages/i18n/src/en.ts` and `packages/i18n/src/id.ts`
 
 ## Requirements
 
@@ -32,10 +50,10 @@ You can fork this repository and use it as a base for your own site. The notes, 
 
 1. Clone the repository.
 2. Run `pnpm install`.
-3. Copy `.env.example` to `.env`.
+3. Copy `apps/web/.env.example` to `apps/web/.env`.
 4. Copy `.dev.vars.example` to `.dev.vars`.
 
-The site uses two files for variables:
+The site uses two files for variables, both in `apps/web`:
 
 | File        | Read by                          | Contents                                                             |
 | ----------- | -------------------------------- | -------------------------------------------------------------------- |
@@ -68,11 +86,11 @@ The guestbook stores its entries in a D1 database. Visitors can sign in with Git
 
 1. Run `pnpm wrangler login`.
 2. Run `pnpm wrangler d1 create guestbook`.
-3. Copy the `database_id` from the output into `wrangler.jsonc`.
+3. Copy the `database_id` from the output into `apps/web/wrangler.jsonc`.
 4. Run `pnpm guestbook:migrate` to create the tables in the local database.
 5. Run `pnpm guestbook:migrate:remote` to create the tables in the production database.
 
-The migrations are in `migrations/`. Run both commands again when you add a migration.
+The migrations are in `apps/web/migrations/`. Run both commands again when you add a migration.
 
 ### Create the GitHub OAuth apps
 
@@ -92,7 +110,7 @@ Make sure that you open the local site at `http://localhost:5600`. If you use `1
 The build reads the newest entries through the D1 REST API and writes them into the page. Thus, the first entries show before JavaScript loads. This step is optional. If `CLOUDFLARE_ACCOUNT_ID` or `CLOUDFLARE_API_TOKEN` is empty, the page loads the entries in the browser.
 
 1. Create an API token with the "D1 Read" permission at https://dash.cloudflare.com/profile/api-tokens.
-2. Put your account ID and the token in `.env`.
+2. Put your account ID and the token in `apps/web/.env`.
 
 ## Deploy to Cloudflare Pages
 
@@ -100,11 +118,12 @@ The build reads the newest entries through the D1 REST API and writes them into 
 
 1. In the Cloudflare dashboard, go to Workers & Pages.
 2. Create a Pages project, and connect it to your fork on GitHub.
-3. Set the build command to `pnpm build`.
-4. Set the build output directory to `dist`.
-5. Set the project name to the `name` value in `wrangler.jsonc`.
+3. Set the root directory to `apps/web`.
+4. Set the build command to `pnpm build`.
+5. Set the build output directory to `dist`.
+6. Set the project name to the `name` value in `apps/web/wrangler.jsonc`.
 
-Cloudflare reads the D1 binding and the compatibility flags from `wrangler.jsonc`. The site needs the `nodejs_compat` flag for better-auth.
+Cloudflare reads the D1 binding and the compatibility flags from `apps/web/wrangler.jsonc`. The site needs the `nodejs_compat` flag for better-auth.
 
 If the build fails on an old Node.js version, set the `NODE_VERSION` variable to `22`.
 
@@ -147,10 +166,10 @@ After a new entry, the guestbook Function calls the hook. It calls the hook one 
 | Command                         | Action                                                  |
 | ------------------------------- | ------------------------------------------------------- |
 | `pnpm dev`                      | Starts Astro and the Pages Functions                    |
-| `pnpm build`                    | Builds the site into `dist/`                            |
+| `pnpm build`                    | Builds the site into `apps/web/dist/`                   |
 | `pnpm preview:functions`        | Builds the site, then serves `dist/` with the Functions |
 | `pnpm guestbook:migrate`        | Applies the migrations to the local D1 database         |
 | `pnpm guestbook:migrate:remote` | Applies the migrations to the production D1 database    |
 | `pnpm email:dev`                | Starts the email preview on port 5601                   |
 
-Git hooks run Biome and Prettier before each commit, and commitlint on each commit message. The TypeScript check runs before each push.
+Git hooks run Biome and Prettier before each commit, and commitlint on each commit message. The TypeScript check runs on every workspace package before each push.

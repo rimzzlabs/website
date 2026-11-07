@@ -1,5 +1,7 @@
 ## Development
 
+This repo is a pnpm workspace. The site is in `apps/web`. Run Astro commands from that folder.
+
 When starting the dev server, use background mode:
 
 ```

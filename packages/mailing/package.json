@@ -1,0 +1,28 @@
+{
+	"name": "@rimzzlabs/mailing",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./theme": "./src/theme.ts",
+		"./*": "./src/*.tsx"
+	},
+	"scripts": {
+		"dev": "email dev --port 5601 --dir ./src",
+		"build": "email build --packageManager pnpm",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@rimzzlabs/i18n": "workspace:*",
+		"react-email": "^6.11.0"
+	},
+	"peerDependencies": {
+		"react": "19.3.0"
+	},
+	"devDependencies": {
+		"@react-email/ui": "6.11.0",
+		"@types/react": "^19.3.0",
+		"react": "19.3.0",
+		"react-dom": "19.3.0",
+		"typescript": "^7.0.2"
+	}
+}
