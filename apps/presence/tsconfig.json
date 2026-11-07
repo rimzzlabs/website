@@ -11,7 +11,8 @@
 		"forceConsistentCasingInFileNames": true,
 		"jsx": "react-jsx",
 		"resolveJsonModule": true,
-		"moduleResolution": "bundler"
+		"moduleResolution": "bundler",
+		"types": ["node", "react"]
 	},
 	"include": ["src/**/*", "raycast-env.d.ts"]
 }
