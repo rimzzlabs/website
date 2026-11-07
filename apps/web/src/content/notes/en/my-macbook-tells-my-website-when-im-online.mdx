@@ -27,7 +27,7 @@ import RaycastOnline from "@/assets/notes/my-macbook-tells-my-website-when-im-on
 
 There's a small green dot under my name on the home page now. Next to it, one word: **Online**.
 
-I didn't wire it to a login, a chat app, or a calendar. It's wired to my MacBook. I click a circle in the macOS menu bar, and a few seconds later rimzzlabs.com says I'm here. When the laptop goes to sleep, the dot goes grey and the text turns into "Last active 12 minutes ago."
+I didn't wire it to a login, a chat app, or a calendar. It's wired to my [MacBook](https://www.apple.com/macbook-air/). I click a circle in the [macOS](https://www.apple.com/macos/) menu bar, and a few seconds later rimzzlabs.com says I'm here. When the laptop goes to sleep, the dot goes grey and the text turns into "Last active 12 minutes ago."
 
 <NoteImage
   lang="en"
@@ -42,7 +42,7 @@ I didn't wire it to a login, a chat app, or a calendar. It's wired to my MacBook
 
 The idea was simple. I wanted a status I can toggle from my MacBook, on and off, without opening anything.
 
-There was one extra rule: search engines had to see it too. This site is static. Astro builds every page ahead of time, so a status that only appears after JavaScript runs would be invisible to a crawler. The prerendered HTML had to carry the latest state.
+There was one extra rule: search engines had to see it too. This site is static. [Astro](https://astro.build/) builds every page ahead of time, so a status that only appears after [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) runs would be invisible to a crawler. The prerendered [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) had to carry the latest state.
 
 That rule shaped everything else, so this note follows the status from my menu bar to the HTML a crawler reads.
 
@@ -55,9 +55,9 @@ That rule shaped everything else, so this note follows the status from my menu b
 
 ## A Button in the Menu Bar
 
-I had two menu bar tools installed: Raycast and Vorssaint. Vorssaint bundles a lot of utilities, but they're fixed tools. There's no way to add your own script, so it can't call an API.
+I had two menu bar tools installed: [Raycast](https://www.raycast.com/) and [Vorssaint](https://github.com/vorssaint/vorssaint-utils). Vorssaint bundles a lot of utilities, but they're fixed tools. There's no way to add your own script, so it can't call an [API](https://developer.mozilla.org/en-US/docs/Glossary/API).
 
-Raycast can. A Raycast extension is a small React project, and one kind of command, `menu-bar`, lives permanently in the macOS menu bar. Give it an `interval` and Raycast runs it in the background:
+Raycast can. A Raycast extension is a small [React](https://react.dev/) project, and one kind of command, `menu-bar`, lives permanently in the macOS menu bar. Give it an `interval` and Raycast runs it in the background:
 
 ```json
 {
@@ -129,13 +129,13 @@ export function toPresence(row: PresenceRow | null, now: number): Presence {
 
 `ONLINE_WINDOW_MS` is five minutes. A ping arrives every two, so the Mac can miss one and still count as online. Two misses in a row usually mean sleep, no network, or Raycast quit.
 
-The state lives in Cloudflare D1, in a table with exactly one row: `enabled` and `last_seen_at`. I picked D1 over KV for a boring reason. A ping every two minutes is about 720 writes a day, and the KV free plan allows 1,000. D1 allows far more, and the site already had a D1 database for the guestbook.
+The state lives in [Cloudflare D1](https://developers.cloudflare.com/d1/), in a table with exactly one row: `enabled` and `last_seen_at`. I picked D1 over [KV](https://developers.cloudflare.com/kv/) for a boring reason. A ping every two minutes is about 720 writes a day, and the KV free plan allows 1,000. D1 allows far more, and the site already had a D1 database for the guestbook.
 
 ## Static HTML, Live Status
 
 This is the part that makes the search engine rule work.
 
-Rebuilding the site on every toggle would take minutes. Instead, the status is written into the HTML at the edge, per request. Cloudflare Pages already runs a middleware in front of every page, and Workers ship with `HTMLRewriter`, a streaming HTML parser that can edit elements as the response passes through.
+Rebuilding the site on every toggle would take minutes. Instead, the status is written into the HTML at the edge, per request. [Cloudflare Pages](https://developers.cloudflare.com/pages/) already runs a middleware in front of every page, and [Workers](https://developers.cloudflare.com/workers/) ship with [`HTMLRewriter`](https://developers.cloudflare.com/workers/runtime-apis/html-rewriter/), a streaming HTML parser that can edit elements as the response passes through.
 
 Astro renders a hidden placeholder with `data-presence`. The middleware reads the row and fills it in:
 
@@ -172,14 +172,14 @@ A few details made this hold up:
 
 - The row is cached for 30 seconds, so a burst of page views doesn't turn into a burst of database reads.
 - The cache stores the **raw row**, not the computed status. "Online" still flips to "away" on time, even when the row comes from the cache.
-- The rewritten response drops its `ETag`. The static file's ETag no longer matches the body, and a browser revalidating with it could get a stale status.
+- The rewritten response drops its [`ETag`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag). The static file's ETag no longer matches the body, and a browser revalidating with it could get a stale status.
 - In the browser, a small script polls `/api/presence` every minute while the tab is visible and updates the text.
 
 ## Time That Reads Well
 
 I wanted "Last active" to read like a person wrote it. The rules: minutes or hours under a day, days under three months, and after that, the full date.
 
-`Intl.RelativeTimeFormat` and `Intl.DateTimeFormat` cover all of it, in English and Indonesian, with no date library:
+[`Intl.RelativeTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat) and [`Intl.DateTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) cover all of it, in English and Indonesian, with no date library:
 
 ```ts
 export function formatLastActive(lastActiveAt: string, now: number, locale: Locale) {
@@ -203,13 +203,26 @@ export function formatLastActive(lastActiveAt: string, now: number, locale: Loca
 
 Same input, two outputs: "3 hours ago" and "3 jam yang lalu."
 
-Relative text has one catch for SEO. A search engine can keep a snippet for weeks, and "3 hours ago" is wrong the next day. So the exact time also goes into `<time datetime="…">` and the `title` attribute, where machines can read the real value.
+Relative text has one catch for [SEO](https://developers.google.com/search/docs/fundamentals/seo-starter-guide). A search engine can keep a snippet for weeks, and "3 hours ago" is wrong the next day. So the exact time also goes into `<time datetime="…">` and the `title` attribute, where machines can read the real value.
 
 ## Things That Bit Me
 
 A few small problems showed up between the first deploy and the first green dot.
 
-**Wrangler used the wrong token.** `wrangler pages secret put` failed with `Authentication error [code: 10000]`. Wrangler reads `.env` automatically, and my `.env` has a `CLOUDFLARE_API_TOKEN` that can only read D1. Wrangler preferred it over my OAuth login. Passing `--env-file /dev/null` makes Wrangler skip the file.
+**[Wrangler](https://developers.cloudflare.com/workers/wrangler/) used the wrong token.** `wrangler pages secret put` failed with `Authentication error [code: 10000]`. Wrangler reads `.env` automatically, and my `.env` has a `CLOUDFLARE_API_TOKEN` that can only read D1. Wrangler preferred it over my [OAuth](https://oauth.net/2/) login. Passing `--env-file /dev/null` makes Wrangler skip the file:
+
+```sh
+npx wrangler pages secret put PRESENCE_TOKEN --env-file /dev/null
+```
+
+<Callout type="note">
+  `--env-file` replaces Wrangler's default `.env` list, and Wrangler skips a file that doesn't exist. So the same flag works on every platform:
+
+  - **macOS and Linux:** `/dev/null` exists and is always empty, so Wrangler reads no variables.
+  - **Windows (PowerShell or Command Prompt):** `/dev/null` resolves to `\dev\null` on the current drive. That file doesn't exist, so Wrangler skips it.
+
+  The flag only skips files. If `CLOUDFLARE_API_TOKEN` is set in your shell itself, Wrangler still uses it.
+</Callout>
 
 **Secrets belong to a deployment.** On Pages, a secret you add or change applies to the *next* deployment. The running one keeps the old value. So after changing the secret, redeploy, or the API keeps answering 401.
 
@@ -217,7 +230,7 @@ A few small problems showed up between the first deploy and the first green dot.
 
 **One token, two places.** The token has to match in the Pages settings and in the Raycast preference. A copied command can replace your clipboard, and a pasted token can carry a line break. I ended up generating a fresh token, setting it in the Cloudflare dashboard, and pasting the same value into Raycast. Both sides also `trim()` the token now.
 
-**TypeScript 7 forgot `fetch`.** The editor flagged `Cannot find name 'fetch'` in the extension, while the command line said everything was fine. The editor used TypeScript 7, which no longer loads `@types/*` packages automatically, so `@types/node` (where `fetch` is declared) never loaded. Listing them fixed it:
+**[TypeScript](https://www.typescriptlang.org/) 7 forgot `fetch`.** The editor flagged `Cannot find name 'fetch'` in the extension, while the command line said everything was fine. The editor used TypeScript 7, which no longer loads `@types/*` packages automatically, so `@types/node` (where `fetch` is declared) never loaded. Listing them fixed it:
 
 ```json
 {
@@ -229,7 +242,7 @@ A few small problems showed up between the first deploy and the first green dot.
 
 ## The Repo Grew Up a Little
 
-The extension and the site share types: the response schema, the status rules, the time format. The first version of the extension copied them by hand and used npm, unlike the rest of the repo. So the repo became a pnpm workspace along the way. The site moved to `apps/web`, the extension to `apps/presence`, and shared code into small `@rimzzlabs/*` packages.
+The extension and the site share types: the response schema, the status rules, the time format. The first version of the extension copied them by hand and used [npm](https://www.npmjs.com/), unlike the rest of the repo. So the repo became a [pnpm](https://pnpm.io/) workspace along the way. The site moved to `apps/web`, the extension to `apps/presence`, and shared code into small `@rimzzlabs/*` packages.
 
 One surprise came with it. `@raycast/api` pins `react` to an exact version, and pnpm happily gave the site that newer `react` while `react-dom` stayed one patch behind. Astro's build stopped with "Incompatible React versions." Pinning both in the site's `package.json` settled it.
 
