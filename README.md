@@ -173,3 +173,7 @@ After a new entry, the guestbook Function calls the hook. It calls the hook one 
 | `pnpm email:dev`                | Starts the email preview on port 5601                   |
 
 Git hooks run Biome and Prettier before each commit, and commitlint on each commit message. The TypeScript check runs on every workspace package before each push.
+
+## License
+
+The code is under the [MIT License](LICENSE).
