@@ -22,7 +22,8 @@ import NoteImage from "@/components/notes/note-image.astro";
 import FooterDark from "@/assets/notes/my-macbook-tells-my-website-when-im-online/footer-dark.png";
 import HeroLight from "@/assets/notes/my-macbook-tells-my-website-when-im-online/hero-light.png";
 import PresenceFlow from "@/assets/notes/my-macbook-tells-my-website-when-im-online/presence-flow-en.png";
-import RaycastMenu from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu.png";
+import RaycastOffline from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu-offline.png";
+import RaycastOnline from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu-online.png";
 
 There's a small green dot under my name on the home page now. Next to it, one word: **Online**.
 
@@ -71,9 +72,11 @@ That gives me two things from one file. The icon and the menu are the toggle. Th
 
 <NoteImage
   lang="en"
-  src={RaycastMenu}
-  alt="The macOS menu bar with an empty circle icon selected. The open menu shows two items: Go Online and Open rimzzlabs.com."
-  caption="Offline: an empty circle and a Go Online button. Online, the circle turns green."
+  caption="Offline, the icon is an empty circle with a Go Online item. Online, it turns green and offers Go Offline."
+  images={[
+    { src: RaycastOffline, alt: "The macOS menu bar with an empty circle icon selected. The open menu shows two items: Go Online and Open rimzzlabs.com." },
+    { src: RaycastOnline, alt: "The macOS menu bar with a green filled circle icon selected. The open menu shows two items: Go Offline and Open rimzzlabs.com." },
+  ]}
 />
 
 The command itself is short. Every run sends a `ping`, and the menu items send `on` or `off`:

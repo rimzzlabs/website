@@ -22,7 +22,8 @@ import NoteImage from "@/components/notes/note-image.astro";
 import FooterDark from "@/assets/notes/my-macbook-tells-my-website-when-im-online/footer-dark.png";
 import HeroLight from "@/assets/notes/my-macbook-tells-my-website-when-im-online/hero-light.png";
 import PresenceFlow from "@/assets/notes/my-macbook-tells-my-website-when-im-online/presence-flow.png";
-import RaycastMenu from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu.png";
+import RaycastOffline from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu-offline.png";
+import RaycastOnline from "@/assets/notes/my-macbook-tells-my-website-when-im-online/raycast-menu-online.png";
 
 Sekarang ada titik hijau kecil di bawah nama saya di halaman depan. Di sebelahnya cuma satu kata: **Online**.
 
@@ -73,9 +74,11 @@ Dari satu file saya dapat dua hal sekaligus. Ikon dan menunya jadi tombol _toggl
 
 <NoteImage
   lang="id"
-  src={RaycastMenu}
-  alt="Menu bar macOS dengan ikon lingkaran kosong yang sedang dipilih. Menu yang terbuka berisi dua item: Go Online dan Open rimzzlabs.com."
-  caption="Saat offline: lingkaran kosong dan tombol Go Online. Saat online, lingkarannya jadi hijau."
+  caption="Saat offline, ikonnya lingkaran kosong dengan item Go Online. Saat online, ikonnya jadi hijau dan menawarkan Go Offline."
+  images={[
+    { src: RaycastOffline, alt: "Menu bar macOS dengan ikon lingkaran kosong yang sedang dipilih. Menu yang terbuka berisi dua item: Go Online dan Open rimzzlabs.com." },
+    { src: RaycastOnline, alt: "Menu bar macOS dengan ikon lingkaran hijau penuh yang sedang dipilih. Menu yang terbuka berisi dua item: Go Offline dan Open rimzzlabs.com." },
+  ]}
 />
 
 _Command_-nya pendek. Setiap eksekusi mengirim `ping`, dan item di menu mengirim `on` atau `off`:
