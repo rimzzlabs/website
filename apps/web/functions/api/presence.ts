@@ -27,11 +27,14 @@ async function digest(value: string) {
 async function isAuthorized(request: Request, token: string | undefined) {
 	if (!token) return false;
 	const header = request.headers.get("authorization") ?? "";
-	const given = header.replace(/^Bearer\s+/i, "");
+	const given = header.replace(/^Bearer\s+/i, "").trim();
 	const subtle = crypto.subtle as SubtleCrypto & {
 		timingSafeEqual(a: ArrayBuffer, b: ArrayBuffer): boolean;
 	};
-	return subtle.timingSafeEqual(await digest(given), await digest(token));
+	return subtle.timingSafeEqual(
+		await digest(given),
+		await digest(token.trim()),
+	);
 }
 
 function noStore(body: unknown, status = 200) {
