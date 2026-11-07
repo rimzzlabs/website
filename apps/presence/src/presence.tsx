@@ -22,7 +22,7 @@ async function send(action: Action) {
 	const response = await fetch(preferences.endpoint, {
 		method: "POST",
 		headers: {
-			Authorization: `Bearer ${preferences.token}`,
+			Authorization: `Bearer ${preferences.token.trim()}`,
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({ action }),
