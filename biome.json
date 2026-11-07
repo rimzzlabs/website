@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!tools/raycast-presence/raycast-env.d.ts"]
+		"includes": ["**", "!apps/presence/raycast-env.d.ts"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -45,7 +45,7 @@
 	},
 	"overrides": [
 		{
-			"includes": ["src/components/ui/**"],
+			"includes": ["apps/web/src/components/ui/**"],
 			"linter": {
 				"enabled": false
 			}

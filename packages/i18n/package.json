@@ -1,0 +1,15 @@
+{
+	"name": "@rimzzlabs/i18n",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./*": "./src/*.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"typescript": "^7.0.2"
+	}
+}

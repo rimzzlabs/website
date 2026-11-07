@@ -1,0 +1,18 @@
+{
+	"name": "@rimzzlabs/utils",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./src/*.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@mobily/ts-belt": "4.0.0-rc.5",
+		"@rimzzlabs/i18n": "workspace:*"
+	},
+	"devDependencies": {
+		"typescript": "^7.0.2"
+	}
+}

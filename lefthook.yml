@@ -19,10 +19,7 @@ pre-commit:
 pre-push:
   jobs:
     - name: typecheck-ts
-      run: pnpm exec tsc --noEmit
-
-    - name: typecheck-raycast
-      run: pnpm --filter rimzzlabs-presence typecheck
+      run: pnpm typecheck
 
 commit-msg:
   jobs:

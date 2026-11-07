@@ -1,0 +1,14 @@
+---
+import { type Locale, localeStaticPaths } from "@rimzzlabs/i18n";
+import LegalPage from "@/components/legal/legal-page.astro";
+
+export function getStaticPaths() {
+  return localeStaticPaths();
+}
+
+interface Props {
+  locale: Locale;
+}
+---
+
+<LegalPage locale={Astro.props.locale} slug="accessibility" />

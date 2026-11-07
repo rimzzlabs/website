@@ -1,0 +1,17 @@
+{
+	"name": "@rimzzlabs/reactions",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./src/*.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"zod": "^4.6.5"
+	},
+	"devDependencies": {
+		"typescript": "^7.0.2"
+	}
+}

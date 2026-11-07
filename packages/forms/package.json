@@ -1,0 +1,19 @@
+{
+	"name": "@rimzzlabs/forms",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./src/*.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@mobily/ts-belt": "4.0.0-rc.5",
+		"@rimzzlabs/i18n": "workspace:*",
+		"zod": "^4.6.5"
+	},
+	"devDependencies": {
+		"typescript": "^7.0.2"
+	}
+}

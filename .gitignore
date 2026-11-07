@@ -28,4 +28,4 @@ pnpm-debug.log*
 .dev.vars
 
 # Design proposals, local only
-public/proposal/
+apps/web/public/proposal/
