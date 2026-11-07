@@ -43,12 +43,12 @@ export default function Command() {
 	const enabled = presence.data?.enabled ?? false;
 
 	async function goOnline() {
-		await presence.mutate(send("on"), { shouldRevalidateAfter: false });
+		await presence.mutate(send("on"));
 		await showHUD("You are online");
 	}
 
 	async function goOffline() {
-		await presence.mutate(send("off"), { shouldRevalidateAfter: false });
+		await presence.mutate(send("off"));
 		await showHUD("You are offline");
 	}
 
