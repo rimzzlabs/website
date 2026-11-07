@@ -46,7 +46,7 @@ export const id = {
 		loadingTrack: "Memuat lagu yang sedang diputar",
 	},
 	presence: {
-		online: "Sedang online",
+		online: "Online",
 		lastActive: "Terakhir aktif {time}",
 		offline: "Offline",
 	},
