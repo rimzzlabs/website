@@ -106,13 +106,14 @@ const GROUPS = [
         </p>
         <p class="font-mono text-xs text-muted-foreground pt-1">
           {t.footer.madeWith}{" "}
-          <HeartIcon
-            weight="fill"
-            aria-hidden="true"
-            className="inline size-[1em] align-[-0.125em] text-red-500"
-          />
-          <span class="sr-only">{t.footer.love}</span>{" "}
-          <span aria-hidden="true">&middot;</span>{" "}
+          <span class="whitespace-nowrap">
+            <HeartIcon
+              weight="fill"
+              aria-hidden="true"
+              className="inline size-[1em] align-[-0.125em] text-red-500"
+            />
+            <span class="sr-only">{t.footer.love}</span>,
+          </span>{" "}
           <a
             href={LICENSE_URL}
             target="_blank"

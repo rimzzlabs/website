@@ -30,7 +30,7 @@ export const id = {
 	footer: {
 		madeWith: "Dibuat dengan",
 		love: "cinta",
-		mitLicensed: "Lisensi MIT",
+		mitLicensed: "berlisensi MIT",
 		pages: "Situs Ini",
 		connect: "Terhubung",
 		resources: "Lainnya",
