@@ -26,6 +26,7 @@ The repository is a pnpm workspace.
 | `packages/reactions` | `@rimzzlabs/reactions`: the note reaction schema and client |
 | `packages/forms`     | `@rimzzlabs/forms`: the contact and feedback schemas        |
 | `packages/utils`     | `@rimzzlabs/utils`: date, layout, motion, and other helpers |
+| `packages/mailing`   | `@rimzzlabs/mailing`: the email templates                   |
 
 Run the commands below from the repository root. They run in `apps/web`.
 

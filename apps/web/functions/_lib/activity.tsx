@@ -1,6 +1,9 @@
 import { O, pipe } from "@mobily/ts-belt";
 import type { GuestbookEntry } from "@rimzzlabs/guestbook/schema";
-import { type ActivityDetail, ActivityEmail } from "../../src/emails/activity";
+import {
+	type ActivityDetail,
+	ActivityEmail,
+} from "@rimzzlabs/mailing/activity";
 import { type NotifyEnv, sendNotification } from "./notify";
 
 interface GuestbookActivity {

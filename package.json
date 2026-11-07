@@ -12,7 +12,7 @@
 		"preview:functions": "pnpm --filter @rimzzlabs/web preview:functions",
 		"guestbook:migrate": "pnpm --filter @rimzzlabs/web guestbook:migrate",
 		"guestbook:migrate:remote": "pnpm --filter @rimzzlabs/web guestbook:migrate:remote",
-		"email:dev": "pnpm --filter @rimzzlabs/web email:dev",
+		"email:dev": "pnpm --filter @rimzzlabs/mailing dev",
 		"wrangler": "pnpm --filter @rimzzlabs/web exec wrangler",
 		"typecheck": "pnpm --recursive typecheck",
 		"format:astro": "prettier --write --plugin=prettier-plugin-astro"

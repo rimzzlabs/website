@@ -9,7 +9,7 @@ import {
 	MAX_ATTACHMENTS,
 } from "@rimzzlabs/forms/feedback";
 import { en } from "@rimzzlabs/i18n/en";
-import { FeedbackEmail } from "../../src/emails/feedback";
+import { FeedbackEmail } from "@rimzzlabs/mailing/feedback";
 import { type NotifyEnv, sendNotification } from "../_lib/notify";
 import { verifyTurnstile } from "../_lib/turnstile";
 

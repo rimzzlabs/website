@@ -89,6 +89,9 @@ importers:
       "@rimzzlabs/i18n":
         specifier: workspace:*
         version: link:../../packages/i18n
+      "@rimzzlabs/mailing":
+        specifier: workspace:*
+        version: link:../../packages/mailing
       "@rimzzlabs/presence":
         specifier: workspace:*
         version: link:../../packages/presence
@@ -140,9 +143,6 @@ importers:
       react-dom:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
-      react-email:
-        specifier: ^6.11.0
-        version: 6.11.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react-hook-form:
         specifier: ^7.88.0
         version: 7.88.0(react@19.3.0)
@@ -180,9 +180,6 @@ importers:
       "@astrojs/ts-plugin":
         specifier: ^1.10.12
         version: 1.10.12
-      "@react-email/ui":
-        specifier: 6.11.0
-        version: 6.11.0(@babel/core@7.29.7)(@types/node@24.13.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       "@types/node":
         specifier: 24.13.5
         version: 24.13.5
@@ -227,6 +224,31 @@ importers:
 
   packages/i18n:
     devDependencies:
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
+  packages/mailing:
+    dependencies:
+      "@rimzzlabs/i18n":
+        specifier: workspace:*
+        version: link:../i18n
+      react-email:
+        specifier: ^6.11.0
+        version: 6.11.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+    devDependencies:
+      "@react-email/ui":
+        specifier: 6.11.0
+        version: 6.11.0(@types/node@26.6.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      "@types/react":
+        specifier: ^19.3.0
+        version: 19.3.0
+      react:
+        specifier: 19.3.0
+        version: 19.3.0
+      react-dom:
+        specifier: 19.3.0
+        version: 19.3.0(react@19.3.0)
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -10193,11 +10215,11 @@ snapshots:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
 
-  "@react-email/ui@6.11.0(@babel/core@7.29.7)(@types/node@24.13.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)":
+  "@react-email/ui@6.11.0(@types/node@26.6.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)":
     dependencies:
       esbuild: 0.28.1
       jiti: 2.6.1
-      next: 16.3.3(@babel/core@7.29.7)(@types/node@24.13.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      next: 16.3.3(@types/node@26.6.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
     transitivePeerDependencies:
       - "@babel/core"
       - "@opentelemetry/api"
@@ -12735,6 +12757,33 @@ snapshots:
       - "@babel/core"
       - "@types/node"
       - babel-plugin-macros
+    optional: true
+
+  next@16.3.3(@types/node@26.6.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
+    dependencies:
+      "@next/env": 16.3.3
+      "@swc/helpers": 0.5.23
+      baseline-browser-mapping: 2.11.25
+      caniuse-lite: 1.0.30001810
+      postcss: 8.5.23
+      react: 19.3.0
+      react-dom: 19.3.0(react@19.3.0)
+      styled-jsx: 5.1.6(@babel/core@7.29.7)(react@19.3.0)
+    optionalDependencies:
+      "@next/swc-darwin-arm64": 16.3.3
+      "@next/swc-darwin-x64": 16.3.3
+      "@next/swc-linux-arm64-gnu": 16.3.3
+      "@next/swc-linux-arm64-musl": 16.3.3
+      "@next/swc-linux-x64-gnu": 16.3.3
+      "@next/swc-linux-x64-musl": 16.3.3
+      "@next/swc-win32-arm64-msvc": 16.3.3
+      "@next/swc-win32-x64-msvc": 16.3.3
+      babel-plugin-react-compiler: 1.0.0
+      sharp: 0.35.4(@types/node@26.6.5)
+    transitivePeerDependencies:
+      - "@babel/core"
+      - "@types/node"
+      - babel-plugin-macros
 
   nlcst-to-string@4.0.0:
     dependencies:
@@ -13451,6 +13500,40 @@ snapshots:
       "@img/sharp-win32-ia32": 0.35.4
       "@img/sharp-win32-x64": 0.35.4
       "@types/node": 24.13.5
+
+  sharp@0.35.4(@types/node@26.6.5):
+    dependencies:
+      "@img/colour": 1.1.0
+      detect-libc: 2.1.2
+      semver: 7.8.5
+    optionalDependencies:
+      "@img/sharp-darwin-arm64": 0.35.4
+      "@img/sharp-darwin-x64": 0.35.4
+      "@img/sharp-freebsd-wasm32": 0.35.4
+      "@img/sharp-libvips-darwin-arm64": 1.3.3
+      "@img/sharp-libvips-darwin-x64": 1.3.3
+      "@img/sharp-libvips-linux-arm": 1.3.3
+      "@img/sharp-libvips-linux-arm64": 1.3.3
+      "@img/sharp-libvips-linux-ppc64": 1.3.3
+      "@img/sharp-libvips-linux-riscv64": 1.3.3
+      "@img/sharp-libvips-linux-s390x": 1.3.3
+      "@img/sharp-libvips-linux-x64": 1.3.3
+      "@img/sharp-libvips-linuxmusl-arm64": 1.3.3
+      "@img/sharp-libvips-linuxmusl-x64": 1.3.3
+      "@img/sharp-linux-arm": 0.35.4
+      "@img/sharp-linux-arm64": 0.35.4
+      "@img/sharp-linux-ppc64": 0.35.4
+      "@img/sharp-linux-riscv64": 0.35.4
+      "@img/sharp-linux-s390x": 0.35.4
+      "@img/sharp-linux-x64": 0.35.4
+      "@img/sharp-linuxmusl-arm64": 0.35.4
+      "@img/sharp-linuxmusl-x64": 0.35.4
+      "@img/sharp-webcontainers-wasm32": 0.35.4
+      "@img/sharp-win32-arm64": 0.35.4
+      "@img/sharp-win32-ia32": 0.35.4
+      "@img/sharp-win32-x64": 0.35.4
+      "@types/node": 26.6.5
+    optional: true
 
   shebang-command@2.0.0:
     dependencies:

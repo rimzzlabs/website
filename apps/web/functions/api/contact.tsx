@@ -5,8 +5,8 @@ import {
 } from "@rimzzlabs/forms/contact";
 import { getDictionary, HTML_LANG, toLocale } from "@rimzzlabs/i18n";
 import { en } from "@rimzzlabs/i18n/en";
-import { ContactEmail } from "../../src/emails/contact";
-import { ContactReplyEmail } from "../../src/emails/contact-reply";
+import { ContactEmail } from "@rimzzlabs/mailing/contact";
+import { ContactReplyEmail } from "@rimzzlabs/mailing/contact-reply";
 import { type NotifyEnv, sendEmail, sendNotification } from "../_lib/notify";
 import { verifyTurnstile } from "../_lib/turnstile";
 
